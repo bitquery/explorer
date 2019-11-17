@@ -1,3 +1,14 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+
+  namespace :ethereum do
+    resources :address, :tx, :token
+  end
+
+  namespace :bitcoin do
+    resources :address, :tx
+  end
+
+  root 'home#index'
+
 end

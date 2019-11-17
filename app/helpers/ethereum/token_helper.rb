@@ -1,0 +1,2 @@
+module Ethereum::TokenHelper
+end

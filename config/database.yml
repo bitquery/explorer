@@ -13,13 +13,13 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
+  username: explorer
+  password: explorer
   socket: /tmp/mysql.sock
 
 development:
   <<: *default
-  database: explorer_development
+  database: explorer
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: explorer_production
+  database: explorer
   username: explorer
   password: <%= ENV['EXPLORER_DATABASE_PASSWORD'] %>
