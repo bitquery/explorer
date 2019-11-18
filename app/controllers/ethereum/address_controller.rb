@@ -1,4 +1,4 @@
-class Ethereum::AddressController < ApplicationController
+class Ethereum::AddressController < NetworkController
 
   def show
     @address = params[:id]

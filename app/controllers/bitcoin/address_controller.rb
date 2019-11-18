@@ -1,4 +1,4 @@
-class Bitcoin::AddressController < ApplicationController
+class Bitcoin::AddressController < NetworkController
   def show
     @address = params[:id]
   end

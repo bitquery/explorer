@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
 
+  BLOCKCHAINS.select{|b| b[:family]=='bitcoin' }.each{|blockchain|
+    get "#{blockchain[:path]}/tx/:id", to: "#{blockchain[:family]}/tx#show", defaults: {network: blockchain}
+    get "#{blockchain[:path]}/address/:id", to: "#{blockchain[:family]}/address#show", defaults: {network: blockchain}
+  }
 
-  namespace :ethereum do
-    resources :address, :tx, :token
-  end
-
-  namespace :bitcoin do
-    resources :address, :tx
-  end
+  BLOCKCHAINS.select{|b| b[:family]=='ethereum' }.each{|blockchain|
+    get "#{blockchain[:path]}/tx/:id", to: "#{blockchain[:family]}/tx#show", defaults: {network: blockchain}
+    get "#{blockchain[:path]}/address/:id", to: "#{blockchain[:family]}/address#show", defaults: {network: blockchain}
+    get "#{blockchain[:path]}/token/:id", to: "#{blockchain[:family]}/token#show", defaults: {network: blockchain}
+  }
 
   root 'home#index'
 

@@ -1,4 +1,5 @@
-class Ethereum::TxController < ApplicationController
+class Ethereum::TxController < NetworkController
+
   def show
     @hash = params[:id]
   end
