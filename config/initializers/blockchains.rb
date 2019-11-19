@@ -3,7 +3,7 @@
 BLOCKCHAINS = [
 
      {
-        tag: :eth,
+        tag: 'eth',
         name: 'Ethereum',
         path: 'ethereum',
         family: 'ethereum'
