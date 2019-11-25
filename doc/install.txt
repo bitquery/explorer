@@ -4,3 +4,8 @@
 create database `explorer` default character set utf8mb4 default collate utf8mb4_bin;
 CREATE USER 'explorer'@'localhost' identified by 'explorer';
 grant ALL privileges on `explorer`.* to 'explorer'@'%' identified by 'explorer' with grant option;
+
+
+---- YARN UPDATE ----
+yarn upgrade widgets
+yarn install --check-files
