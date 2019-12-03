@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     get "#{blockchain[:path]}/token/:id", to: "#{blockchain[:family]}/token#show", defaults: {network: blockchain}
   }
 
+  match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'
+
   root 'home#index'
 
 end

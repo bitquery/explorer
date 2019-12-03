@@ -1,6 +1,5 @@
 <script>
     var from = '2018-12-01T00:00';
-
     widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3011/graphql', 'apikey', {locale: '<%= I18n.locale %>'});
 
     var  query = new widgets.query(`query($chain: Chain!, $count: Int!, $offset: Int!, $address: String!, $from: ISO8601DateTime!){
@@ -49,13 +48,13 @@
 
 <script>
     function token_address(name, address, locale){
-        return 'https://bloxy.info/'+locale+(address == '-' ? '/tokens/'+name : '/address/'+address);
+        return '/<%= params['network']['path'] %>'+(address == '-' ? '/token/'+name : '/address/'+address);
     }
     function transfer_to_address(currency_id, address, locale){
-        return 'https://bloxy.info/'+locale+'/txs/transfers_to/'+address+'?currency_id='+currency_id;
+        return '/<%= params['network']['path'] %>'+'/txs/transfers_to/'+address+'?currency_id='+currency_id;
     }
     function transfer_from_address(currency_id, address, locale){
-        return 'https://bloxy.info/'+locale+'/txs/transfers_from/'+address+'?currency_id='+currency_id;
+        return '/<%= params['network']['path'] %>'+'/txs/transfers_from/'+address+'?currency_id='+currency_id;
     }
     var tbt = new widgets.transfers_by_time('#transfers_timegraph', query, 'address.transfersByTime');
     var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query, 'address.transfersByCurrencies');
