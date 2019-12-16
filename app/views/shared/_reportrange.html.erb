@@ -1,0 +1,27 @@
+<div class="row reportrange mb-4">
+  <div class="col text-right">
+    <label><%= t 'reportrange.title' %></label>
+    <div id="reportrange" style="display: inline-block;background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc;">
+      <i class="fa fa-calendar"></i>&nbsp;
+      <span></span> <i class="fa fa-caret-down"></i>
+    </div>
+    <script>
+        rr = new reportRange('#reportrange', '<%= @date_from && @date_from.strftime('%Y-%m-%d') %>',
+            '<%= @date_till && @date_till.strftime('%Y-%m-%d') %>',
+            {
+                locale: '<%= I18n.locale %>',
+                all_time: '<%= t('reportrange.all_time') %>',
+                format: '<%= t('reportrange.format') %>',
+                apply: '<%= t('reportrange.apply') %>',
+                clear: '<%= t('reportrange.clear') %>',
+                today: '<%= t('reportrange.today') %>',
+                yesterday: '<%= t('reportrange.yesterday') %>',
+                last7: '<%= t('reportrange.last7') %>',
+                last30: '<%= t('reportrange.last30') %>',
+                this_month: '<%= t('reportrange.this_month') %>',
+                last_month: '<%= t('reportrange.last_month') %>',
+                custom_range: '<%= t('reportrange.custom_range') %>'
+            });
+    </script>
+  </div>
+</div>
