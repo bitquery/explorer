@@ -1,63 +1,95 @@
+<script src="http://localhost:63342/widgets/dist/widgets.js"></script>
 <script>
     var from = '2018-12-01T00:00';
+    var till = '2019-12-17T00:00';
     //widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3011/graphql', 'apikey', {locale: '<%= I18n.locale %>'});
-
-    var query = new widgets.query(`query($chain: Chain!, $count: Int!, $offset: Int!, $address: String!, $from: ISO8601DateTime!){
-      address(chain: $chain, string: $address){
-        transfersByCurrencies(timeRange:{from: $from}, limits: {count: $count, offset: $offset}){
-            currency{
-              symbol
-              address
-              tokenType
-              currencyId
-            }
-            inboundTx
-            inboundAmount
-           outboundTx
-           outboundAmount
-        }
-        transfersByTime(timeRange:{from: $from}){
-           inboundTransfers
-           outboundTransfers
-           timestamp
-        }
-      }
-
-    }`);
+    //
+    // var query = new widgets.query(`query($chain: Chain!, $count: Int!, $offset: Int!, $address: String!, $from: ISO8601DateTime!){
+    //   address(chain: $chain, string: $address){
+    //     transfersByCurrencies(timeRange:{from: $from}, limits: {count: $count, offset: $offset}){
+    //         currency{
+    //           symbol
+    //           address
+    //           tokenType
+    //           currencyId
+    //         }
+    //         inboundTx
+    //         inboundAmount
+    //        outboundTx
+    //        outboundAmount
+    //     }
+    //     transfersByTime(timeRange:{from: $from}){
+    //        inboundTransfers
+    //        outboundTransfers
+    //        timestamp
+    //     }
+    //   }
+    //
+    // }`);
 
     widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3012/graphql', 'apikey', {locale: '<%= I18n.locale %>'});
     var query1 = new widgets.query(`
-    query {
-transfers(chain: ethereum, from:"2018-01-01T00:00"){
-sum_in_eth: amount(calculate: sum,
-currency: {symbol: "ETH"},
-receiver: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
-)
-sum_out_eth: amount(calculate: sum,
-currency: {symbol: "ETH"},
-sender: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
-)
-count_in: count( uniq: transfers,
-receiver: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
-)
-count_out: count( uniq: transfers,
-sender: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
-)
-date(format: "YYYY-MM-DD", fillMissing:true
-){
-date
-}
-}
-calls(chain:ethereum){
-count(uniq: calls,
-caller: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
-)
-date(format: "YYYY-MM-DD", fillMissing:true
-){
-date
-}
-}
-}
+    query{
+        transfers(chain: ethereum, from:"2018-01-01T00:00"){
+            sum_in_eth: amount(calculate: sum,
+                currency: {symbol: "ETH"},
+            receiver: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
+        )
+            sum_out_eth: amount(calculate: sum,
+                currency: {symbol: "ETH"},
+            sender: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
+        )
+            count_in: count( uniq: transfers,
+                receiver: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
+        )
+            count_out: count( uniq: transfers,
+                sender: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
+        )
+            date(format: "YYYY-MM-DD", fillMissing:true
+        ){
+                date
+            }
+        }
+        calls(chain:ethereum){
+            count(uniq: calls,
+                caller: {address: "0x3f5ce5fbfe3e9af3971dd833d26ba9b5c936f0be"}
+        )
+            date(format: "YYYY-MM-DD", fillMissing:true
+        ){
+                date
+            }
+        }
+    }
+    `);
+    var query2 = new widgets.query(`
+    query($chain: Chain!, $address: String!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime! , $till: ISO8601DateTime!){
+        transfers(chain: $chain, from: $from, till: $till,
+            options: {limit: $limit, offset: $offset, order: "in_count+out_count ASC"}){
+            currency{
+                symbol
+                address
+                tokenType
+            },
+            in_count: count(uniq:transfers, receiver: {address: $address} )
+            out_count: count(uniq:transfers, sender: {address: $address} )
+            in_amount: amount(calculate:sum, receiver: {address: $address} )
+            out_amount: amount(calculate:sum, sender: {address: $address} )
+        }
+    }
+    `);
+    var query3 = new widgets.query(`
+        query($chain: Chain!, $address: String!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime! , $till: ISO8601DateTime!){
+        calls(chain: $chain, from: $from, till: $till,
+            options: {limit: $limit, offset: $offset, order: "calls ASC"}){
+            smartContract{
+                address{
+                    address
+                    annotation
+                }
+            }
+            count(uniq: calls, caller: {address: $address})
+        }
+    }
     `);
 </script>
 <%= render partial: 'shared/reportrange' %>
@@ -74,32 +106,59 @@ date
 <div class="row">
   <div class="col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header">Address</div>
+      <div class="card-header">Currencies sent/received</div>
       <div class="card-body text-dark">
         <div id="transfers_by_currencies">Loading...</div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header">Calls smart contracts</div>
+      <div class="card-body text-dark">
+        <div id="calls_smart_contracts">Loading...</div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-    //function token_address(name, address, locale){
-    //    return '/<%= params['network']['path'] %>'+(address == '-' ? '/token/'+name : '/address/'+address);
-    //}
-    //function transfer_to_address(currency_id, address, locale){
-    //    return '/<%= params['network']['path'] %>'+'/txs/transfers_to/'+address+'?currency_id='+currency_id;
-    //}
-    //function transfer_from_address(currency_id, address, locale){
-    //    return '/<%= params['network']['path'] %>'+'/txs/transfers_from/'+address+'?currency_id='+currency_id;
-    //}
-    var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'address.transfersByTime');
-    // var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query, 'address.transfersByCurrencies');
+    widgets.callbacks({
+        token_address: function(name, address, locale){
+            return '/<%= params['network']['path'] %>'+(address == '-' ? '/token/'+name : '/address/'+address);
+        },
+        transfer_to_address: function(currency_id, address, locale){
+            return '/<%= params['network']['path'] %>'+'/txs/transfers_to/'+address+'?currency_id='+currency_id;
+        },
+        transfer_from_address: function(currency_id, address, locale){
+            return '/<%= params['network']['path'] %>'+'/txs/transfers_from/'+address+'?currency_id='+currency_id;
+        },
+        smart_contract_method: function(name, address, locale){
+            return '/<%= params['network']['path'] %>'+'/functions/'+address;
+        },
+        smart_contract: function(name, address, locale){
+            return '/<%= params['network']['path'] %>'+'/smartcontract/'+address;
+        },
+        call_count: function(address, locale){
+            return '/<%= params['network']['path'] %>'+'/address/'+address;
+        }
+    });
+    // var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'address.transfersByTime');
+    //var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, '');
+    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query2, 'transfers');
+    var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query3, 'calls');
+    //query1.request({address: '<%= @query %>', chain: '<%= params['network']['tag'] %>', from: from, count: 10});
+    query2.request({address: '<%= @query %>', chain: '<%= params['network']['chain'] %>', from: from, till: till, limit: 10});
+    query3.request({address: '<%= @query %>', chain: '<%= params['network']['chain'] %>', from: from, till: till, limit: 10});
+    rr.change(function(start, end, clear){
+        query2.request({from: start, till: end, limit: 10});
+        query3.request({from: start, till: end, limit: 10});
 
-    query1.request({address: '<%= @query %>', chain: '<%= params['network']['tag'] %>', from: from, count: 10});
-    // rr.change(function(start, end, clear){
-    //     query.request({from: start, count: 10, offset: 0});
-    //     console.log(start);
-    //     console.log(end);
-    //     console.log(clear);
-    // })
+        // query.request({from: start, count: 10, offset: 0});
+        // console.log(start);
+        // console.log(end);
+        // console.log(clear);
+    })
 </script>
+
+<%= params['network'] %>

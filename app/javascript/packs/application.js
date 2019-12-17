@@ -10,11 +10,11 @@ require("channels")
 require("jquery")
 require("popper.js")
 require("bootstrap")
-require("widgets/dist/widgets")
 require('daterangepicker')
-import widgetsGraphiql from 'widgets/dist/widgetsGraphiql'
-import widgetsGraph from 'widgets/dist/widgetsGraph'
 import moment from 'moment'
+// require("widgets/dist/widgets")
+// import widgetsGraphiql from 'widgets/dist/widgetsGraphiql'
+// import widgetsGraph from 'widgets/dist/widgetsGraph'
 console.log('33');
 
 global.reportRange = function(selector, from, till, i18n){
