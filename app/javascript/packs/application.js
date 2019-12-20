@@ -12,10 +12,10 @@ require("popper.js")
 require("bootstrap")
 require('daterangepicker')
 import moment from 'moment'
-// require("widgets/dist/widgets")
-// import widgetsGraphiql from 'widgets/dist/widgetsGraphiql'
-// import widgetsGraph from 'widgets/dist/widgetsGraph'
-console.log('33');
+require("widgets/dist/widgets")
+import widgetsGraphiql from 'widgets/dist/widgetsGraphiql'
+import widgetsGraph from 'widgets/dist/widgetsGraph'
+console.log('35');
 
 global.reportRange = function(selector, from, till, i18n){
     var properties = {
