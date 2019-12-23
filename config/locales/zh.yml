@@ -1,0 +1,14 @@
+zh:
+  reportrange:
+    title: '顯示日期範圍的數據'
+    all_time: '整天'
+    format: 'YYYY MMMM D'
+    apply: '應用'
+    clear: '明確'
+    today: '今天'
+    yesterday: '昨天'
+    last7: '過去7天'
+    last30: '過去30天'
+    this_month: '這個月'
+    last_month: '上個月'
+    custom_range: '定制範圍'

@@ -1,0 +1,37 @@
+<script>
+    widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3011/graphql', 'apikey', {locale: '<%= I18n.locale %>'});
+    var query = new widgets.query(`query($query: String!){
+      search(string: $query){
+        __typename,
+        ... on Currency{
+          symbol
+          name
+       }
+        ... on Address{
+          string
+        }
+      }
+    }
+    `);
+</script>
+<div class="row">
+  <div class="col mb-4">
+    <div class="card">
+      <div class="card-header">Search</div>
+      <div class="card-body text-dark">
+        <div id="search">Loading...</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+    function search_address_address(name, address, locale){
+        return "/"+locale+(address == '-' ? '/token/'+name : '/address/'+address);
+    }
+    function search_currency_address(name, address, locale){
+        return "/"+locale+(address == '-' ? '/token/'+name : '/address/'+address);
+    }
+    var sch = new widgets.search('#search', query, 'search');
+
+    query.request({query: '<%= @query %>', count: 10})
+</script>

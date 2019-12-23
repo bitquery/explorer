@@ -1,0 +1,14 @@
+ru:
+  reportrange:
+    title: 'Смотреть данные за период'
+    all_time: 'Все время'
+    format: 'D MMMM YYYY'
+    apply: 'Применить'
+    clear: 'Очистить'
+    today: 'Сегодня'
+    yesterday: 'Вчера'
+    last7: 'Последние 7 дней'
+    last30: 'Последние 30 дней'
+    this_month: 'Этот месяц'
+    last_month: 'Прошлый месяц'
+    custom_range: 'Произвольный период'
