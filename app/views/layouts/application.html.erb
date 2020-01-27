@@ -10,7 +10,7 @@
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 
-<body>
+<body class="<%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
 <%= render partial: 'shared/navbar' %>
 <div class="container-fluid">
   <%= render partial: 'shared/search' %>

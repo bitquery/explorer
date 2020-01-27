@@ -13,3 +13,6 @@ en:
     last_month: 'Last month'
     custom_range: 'Custom range'
   find: "Find"
+  themes:
+    light: 'Light theme'
+    dark: 'Dark theme'

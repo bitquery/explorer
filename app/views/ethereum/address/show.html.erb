@@ -28,7 +28,7 @@
     //
     // }`);
 
-    widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3012/graphql', 'apikey', {locale: '<%= I18n.locale %>'});
+    widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3012/graphql', 'apikey', {locale: '<%= I18n.locale %>', theme: 'dark'});
     var query1 = new widgets.query(`
     query($chain: Chain!, $address: String!, $from: ISO8601DateTime! , $till: ISO8601DateTime!){
         transfers(chain: $chain, from: $from, till: $till){
@@ -100,17 +100,17 @@
 <%= render partial: 'shared/reportrange' %>
 <div class="row">
   <div class="col col-lg-6 mb-4">
-    <div class="card">
+    <div class="card <%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
       <div class="card-header">Transactions by Time</div>
-      <div class="card-body text-dark">
+      <div class="card-body">
         <div id="transfers_timegraph">Loading...</div>
       </div>
     </div>
   </div>
   <div class="col col-lg-6 mb-4">
-    <div class="card">
+    <div class="card <%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
       <div class="card-header">Calls by Time</div>
-      <div class="card-body text-dark">
+      <div class="card-body">
         <div id="calls_timegraph">Loading...</div>
       </div>
     </div>
@@ -118,17 +118,17 @@
 </div>
 <div class="row">
   <div class="col-lg-6 mb-4">
-    <div class="card">
+    <div class="card <%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
       <div class="card-header">Currencies sent/received</div>
-      <div class="card-body text-dark">
+      <div class="card-body">
         <div id="transfers_by_currencies">Loading...</div>
       </div>
     </div>
   </div>
   <div class="col-lg-6 mb-4">
-    <div class="card">
+    <div class="card <%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
       <div class="card-header">Calls smart contracts</div>
-      <div class="card-body text-dark">
+      <div class="card-body">
         <div id="calls_smart_contracts">Loading...</div>
       </div>
     </div>

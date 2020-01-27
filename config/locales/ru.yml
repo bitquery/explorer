@@ -13,3 +13,6 @@ ru:
     last_month: 'Прошлый месяц'
     custom_range: 'Произвольный период'
   find: "Найти"
+  themes:
+    light: 'Светлая тема'
+    dark: 'Темная тема'
