@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  before_action :set_locale, :set_theme
+  before_action :set_locale, :set_theme, :set_date
 
   def default_url_options
     {locale: I18n.locale == I18n.default_locale ? nil : I18n.locale}
@@ -22,6 +22,25 @@ class ApplicationController < ActionController::Base
     end
 
     @theme = session[:theme]
+  end
+
+  def set_date
+    if params[:from]
+      session[:from] = params[:from]
+    elsif session[:from] && !session[:from].empty?
+    else
+      session[:from] = (Date.today - 6.days).strftime("%FT00:00")
+    end
+
+    if params[:till]
+      session[:till] = params[:till]
+    elsif session[:till] && !session[:till].empty?
+    else
+      session[:till] = Date.today.strftime("%FT23:59")
+    end
+
+    @from = session[:from]
+    @till = session[:till]
   end
 
   def set_locale
