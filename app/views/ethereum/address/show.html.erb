@@ -1,7 +1,4 @@
-<link rel="stylesheet" media="all" href="http://localhost:63342/widgets/dist/assets/css/widgets.css">
-<script src="http://localhost:63342/widgets/dist/widgets.js"></script>
 <script>
-    widgets.init('https://graphql.bitquery.io', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
     var query1 = new widgets.query(`
       query($network: EthereumNetwork!, $currency: String!, $address: String!, $from: ISO8601DateTime!, $till: ISO8601DateTime!){
       ethereum(network: $network) {
@@ -88,75 +85,6 @@
       }
     }
     `);
-
-    //widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3012/graphql', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
-    // var query1 = new widgets.query(`
-    // query($chain: Chain!, $address: String!, $from: ISO8601DateTime! , $till: ISO8601DateTime!){
-    //     transfers(chain: $chain, from: $from, till: $till){
-    //         sum_in_eth: amount(calculate: sum,
-    //             currency: {symbol: "ETH"},
-    //         receiver: {address: $address}
-    //     )
-    //         sum_out_eth: amount(calculate: sum,
-    //             currency: {symbol: "ETH"},
-    //         sender: {address: $address}
-    //     )
-    //         count_in: count( uniq: transfers,
-    //             receiver: {address: $address}
-    //     )
-    //         count_out: count( uniq: transfers,
-    //             sender: {address: $address}
-    //     )
-    //         date(format: "YYYY-MM-DD", fillMissing:true
-    //     ){
-    //             date
-    //         }
-    //     }
-    //     calls(chain: $chain){
-    //         count(uniq: calls,
-    //             caller: {address: $address}
-    //     )
-    //         date(format: "YYYY-MM-DD", fillMissing:true
-    //     ){
-    //             date
-    //         }
-    //     }
-    // }
-    // `);
-    // var query2 = new widgets.query(`
-    // query($chain: Chain!, $address: String!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime! , $till: ISO8601DateTime!){
-    //     transfers(chain: $chain, from: $from, till: $till,
-    //         options: {limit: $limit, offset: $offset, order: "in_count+out_count ASC"}){
-    //         currency{
-    //             symbol
-    //             address
-    //             tokenType
-    //         },
-    //         in_count: count(uniq:transfers, receiver: {address: $address} )
-    //         out_count: count(uniq:transfers, sender: {address: $address} )
-    //         in_amount: amount(calculate:sum, receiver: {address: $address} )
-    //         out_amount: amount(calculate:sum, sender: {address: $address} )
-    //     }
-    // }
-    // `);
-    // var query3 = new widgets.query(`
-    //     query($chain: Chain!, $address: String!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime! , $till: ISO8601DateTime!){
-    //     calls(chain: $chain, from: $from, till: $till,
-    //         options: {limit: $limit, offset: $offset, order: "calls ASC"}){
-    //         smartContract{
-    //             address{
-    //                 address
-    //                 annotation
-    //             }
-    //         }
-    //         smartContractMethod{
-    //           name
-    //           signatureHash
-    //         }
-    //         count(uniq: calls, caller: {address: $address})
-    //     }
-    // }
-    // `);
 </script>
 <%= render partial: 'shared/reportrange' %>
 <div class="row">
@@ -232,10 +160,5 @@
         query2.request({from: start, till: end});
         query3.request({from: start, till: end, limit: 10});
         query4.request({from: start, till: end, limit: 10});
-
-        // query.request({from: start, count: 10, offset: 0});
-        // console.log(start);
-        // console.log(end);
-        // console.log(clear);
     })
 </script>

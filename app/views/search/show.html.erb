@@ -1,5 +1,4 @@
 <script>
-    widgets.init('http://bloxyapi1-1.ph16.leadsale.com:3011/graphql', 'apikey', {locale: '<%= I18n.locale %>'});
     var query = new widgets.query(`query($query: String!){
       search(string: $query){
         __typename,
