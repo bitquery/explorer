@@ -17,6 +17,8 @@ import moment from 'moment'
 // import widgetsGraph from 'widgets/dist/widgetsGraph'
 console.log('37');
 
+global.$ = $;
+
 global.reportRange = function(selector, from, till, i18n){
     var properties = {
         start: undefined,

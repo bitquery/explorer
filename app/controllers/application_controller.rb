@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  before_action :set_locale
+  before_action :set_locale, :set_theme, :set_date
 
   def default_url_options
     {locale: I18n.locale == I18n.default_locale ? nil : I18n.locale}
@@ -11,6 +11,36 @@ class ApplicationController < ActionController::Base
   def extract_locale_from_accept_language_header
     locale = request.env['HTTP_ACCEPT_LANGUAGE'] && request.env['HTTP_ACCEPT_LANGUAGE'].scan(/^[a-z]{2}/).first
     locale && I18n.available_locales.include?(locale.to_sym) ? locale.to_sym : nil
+  end
+
+  def set_theme
+    if params[:theme]
+      session[:theme] = params[:theme]
+    elsif session[:theme] && !session[:theme].empty?
+    else
+      session[:theme] = 'light'
+    end
+
+    @theme = session[:theme]
+  end
+
+  def set_date
+    if params[:from]
+      session[:from] = params[:from]
+    elsif session[:from] && !session[:from].empty?
+    else
+      session[:from] = (Date.today - 6.days).strftime("%FT00:00")
+    end
+
+    if params[:till]
+      session[:till] = params[:till]
+    elsif session[:till] && !session[:till].empty?
+    else
+      session[:till] = Date.today.strftime("%FT23:59")
+    end
+
+    @from = session[:from]
+    @till = session[:till]
   end
 
   def set_locale

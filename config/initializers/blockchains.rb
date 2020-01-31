@@ -4,15 +4,16 @@ BLOCKCHAINS = [
 
      {
         tag: 'eth',
-        chain: 'ethereum',
+        network: 'ethereum',
         name: 'Ethereum',
         path: 'ethereum',
-        family: 'ethereum'
+        family: 'ethereum',
+        currency: 'ETH'
     },
 
     {
         tag: 'tron',
-        chain: 'tron',
+        network: 'tron',
         name: 'Tron',
         path: 'tron',
         family: 'tron'
@@ -21,15 +22,16 @@ BLOCKCHAINS = [
 
     {
         tag: 'btc',
-        chain: 'bitcoin',
+        network: 'bitcoin',
         name: 'Bitcoin',
         path: 'bitcoin',
-        family: 'bitcoin'
+        family: 'bitcoin',
+        currency: 'BTC'
     },
 
     {
         tag: 'bch',
-        chain: 'bitcash',
+        network: 'bitcash',
         name: 'Bitcoin Cash',
         path: 'bitcash',
         family: 'bitcoin'
@@ -37,7 +39,7 @@ BLOCKCHAINS = [
 
     {
         tag: 'ltc',
-        chain: 'litecoin',
+        network: 'litecoin',
         name: 'Litecoin',
         path: 'litecoin',
         family: 'bitcoin'
@@ -46,7 +48,7 @@ BLOCKCHAINS = [
 
     {
         tag: 'dash',
-        chain: 'dash',
+        network: 'dash',
         name: 'Dash',
         path: 'dash',
         family: 'bitcoin'
@@ -55,7 +57,7 @@ BLOCKCHAINS = [
 
     {
         tag: 'doge',
-        chain: 'doge',
+        network: 'doge',
         name: 'Dogecoin',
         path: 'doge',
         family: 'bitcoin'
@@ -64,7 +66,7 @@ BLOCKCHAINS = [
 
     {
         tag: 'cardano',
-        chain: 'cardano',
+        network: 'cardano',
         name: 'Cardano',
         path: 'cardano',
         family: 'bitcoin'
@@ -73,7 +75,7 @@ BLOCKCHAINS = [
 
     {
         tag: 'eos',
-        chain: 'eos',
+        network: 'eos',
         name: 'EOS',
         path: 'eos',
         family: 'eos'
@@ -82,25 +84,27 @@ BLOCKCHAINS = [
 
     {
         tag: 'binance',
-        chain: 'binance',
+        network: 'binance',
         name: 'Binance',
         path: 'binance',
-        family: 'binance'
+        family: 'binance',
+        currency: 'BNB'
 
     },
 
     {
         tag: 'etc',
-        chain: 'ethclassic',
+        network: 'ethclassic',
         name: 'Ethereum Classic',
         path: 'ethclassic',
-        family: 'ethereum'
+        family: 'ethereum',
+        currency: 'ETC'
 
     },
 
     {
         tag: 'stellar',
-        chain: 'stellar',
+        network: 'stellar',
         name: 'Stellar',
         path: 'stellar',
         family: 'stellar'
@@ -109,7 +113,7 @@ BLOCKCHAINS = [
 
     {
         tag: 'ripple',
-        chain: 'ripple',
+        network: 'ripple',
         name: 'Ripple',
         path: 'ripple',
         family: 'ripple'
