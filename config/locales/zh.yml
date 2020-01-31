@@ -13,6 +13,7 @@ zh:
     last_month: '上個月'
     custom_range: '定制範圍'
   find: "找"
+  find_in: "在%{network}中查找"
   themes:
     light: '淺色主題'
     dark: '黑暗主題'
