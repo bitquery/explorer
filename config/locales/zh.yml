@@ -17,3 +17,4 @@ zh:
   themes:
     light: '淺色主題'
     dark: '黑暗主題'
+  loading: '載入中...'

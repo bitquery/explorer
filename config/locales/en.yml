@@ -17,3 +17,4 @@ en:
   themes:
     light: 'Light theme'
     dark: 'Dark theme'
+  loading: 'Loading...'

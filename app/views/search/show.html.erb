@@ -23,10 +23,10 @@
 </script>
 <div class="row">
   <div class="col mb-4">
-    <div class="card">
+    <div class="card <%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
       <div class="card-header">Search</div>
       <div class="card-body text-dark">
-        <div id="search">Loading...</div>
+        <div id="search"><%= t('loading') %></div>
       </div>
     </div>
   </div>
