@@ -94,3 +94,32 @@ global.reportRange = function(selector, from, till, i18n){
     return properties
 }
 
+global.search = function(){
+    let form = $('#search-form');
+    let is_find = true;
+
+    form.find('input[name="query"]').keyup(function(){
+        if ($(this).val() == '') {
+            is_find = false;
+            form.find('button').addClass('disabled');
+        } else {
+            is_find = true;
+            form.find('button').removeClass('disabled');
+        }
+    });
+
+    form.submit(function(){
+        return is_find;
+    });
+
+    form.find('.search-form-type').click(function(){
+        $('<input />').
+        attr('type', 'hidden').
+        attr('name', 'network').
+        attr('value', $(this).data('network')).
+        appendTo('#search-form');
+        form.submit();
+        return false;
+    });
+}
+

@@ -12,8 +12,8 @@ zh:
     this_month: '這個月'
     last_month: '上個月'
     custom_range: '定制範圍'
-  find: "找"
-  find_in: "在%{network}中查找"
+  find: "搜索"
+  find_in: "在%{network}中搜索"
   themes:
     light: '淺色主題'
     dark: '黑暗主題'

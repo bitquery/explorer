@@ -1,3 +1,4 @@
+<% content_for :header, "Search address #{@query}" %>
 <script>
     var query = new widgets.query(`
     query(<%= "$network: Network!, " if params[:network] && !params[:network].empty? %>$query: String!){
@@ -23,12 +24,7 @@
 </script>
 <div class="row">
   <div class="col mb-4">
-    <div class="card <%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
-      <div class="card-header">Search</div>
-      <div class="card-body text-dark">
-        <div id="search"><%= t('loading') %></div>
-      </div>
-    </div>
+    <div id="search"><%= t('loading') %></div>
   </div>
 </div>
 <script>
@@ -38,6 +34,19 @@
         },
         search_currency_address: function(name, address, locale){
             return "/"+locale+(address == '-' ? '/token/'+name : '/address/'+address);
+        },
+        search_address_snippet: function(item, locale){
+           let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_path "cryptoicons/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
+           let url = "/"+locale+"/"+item.network.network+"/address/"+item.subject.address;
+           let html = "<div class='media'>\n" +
+               "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
+               "  <div class='media-body'>\n" +
+               "    <h5 class='mt-0'><a href='"+url+"'>"+chains[item.network.network].name+" address "+item.subject.address+"</a></h5>\n" +
+               ((typeof item.subject.annotation) == String ? "<p>"+item.subject.annotation+"</p>\n" : "") +
+               "    <a href='"+url+"'>"+url+"</a>" +
+              "  </div>\n" +
+               "</div>"
+           return html;
         }
     });
     var sch = new widgets.search('#search', query, 'search');

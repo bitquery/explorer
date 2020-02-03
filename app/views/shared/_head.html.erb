@@ -1,0 +1,17 @@
+<title><% if content_for?(:header) && !content_for?(:title) %><%= yield :header %>
+  <% elsif content_for? :title %> - <%= yield :title %><% end %>
+  Explorer
+</title>
+<% if content_for?(:description) %><meta name="description" content="<%= yield :description %>"><% end %>
+<% if content_for?(:keywords) %><meta name="keywords" content="<%= yield :keywords %>"><% end %>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#428BCA">
+<meta charset="UTF-8">
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+<!--[if lt IE 9]>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script src="/js/html5shiv.js"></script>
+<script src="/js/respond.min.js"></script>
+<![endif]-->
+<!--<link rel="shortcut icon" href="<%#= image_path branding_favicon %>" type="image/x-icon">-->

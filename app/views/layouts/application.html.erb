@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Explorer</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
+  <%= render partial: 'shared/head' %>
 
   <%#= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -20,6 +18,7 @@
 <%= render partial: 'shared/navbar' %>
 <div class="container-fluid">
   <%= render partial: 'shared/search' %>
+  <h1><%= yield :h1 %></h1>
   <%= yield %>
   <%= render partial: 'shared/footer' %>
 </div>

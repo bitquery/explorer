@@ -1,8 +1,8 @@
-<% themes = {'light': {icon: "\u{1F315}", name: t('themes.light')}, 'dark': {icon: "\u{1F311}", name: t('themes.dark')}} %>
+<% themes = {'light': {icon: "\u{1F31E}", name: t('themes.light')}, 'dark': {icon: "\u{1F312}", name: t('themes.dark')}} %>
 
 <li class="nav-item dropdown active">
   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span title="<%= themes[@theme.to_sym][:name] %>"><%= themes[@theme.to_sym][:icon] %> <%= themes[@theme.to_sym][:name] %></span>
+    <span title="<%= themes[@theme.to_sym][:name] %>"><%= themes[@theme.to_sym][:icon] %></span>
   </a>
   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
     <% themes.each do |tag, theme| %>
