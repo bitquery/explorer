@@ -1,3 +1,32 @@
+@import "daterangepicker_dark";
+
 .search-form-type {
   cursor: pointer;
+}
+
+#reportrange{
+  display: inline-block;
+  background: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+}
+
+body.dark{
+  background: #57626b;
+  .btn{
+    color: #fff;
+    .btn-default{
+    }
+  }
+
+  .card{
+    color: #fff;
+    background: #343a40;
+    border: 1px solid #343a40;
+
+    .card-header{
+      background-color: #758591;
+    }
+  }
 }

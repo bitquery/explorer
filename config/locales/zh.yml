@@ -1,6 +1,6 @@
 zh:
   reportrange:
-    title: '顯示日期範圍的數據'
+    title: '日期范围'
     all_time: '整天'
     format: 'YYYY MMMM D'
     apply: '應用'
@@ -18,3 +18,6 @@ zh:
     light: '淺色主題'
     dark: '黑暗主題'
   loading: '載入中...'
+  headers:
+    search: "搜索地址\"%{query}\""
+    address: "%{network} 地址 \"%{address}\""

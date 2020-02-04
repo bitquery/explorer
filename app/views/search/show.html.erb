@@ -1,4 +1,4 @@
-<% content_for :header, "Search address #{@query}" %>
+<% content_for :header, t('headers.search', query: @query) %>
 <script>
     var query = new widgets.query(`
     query(<%= "$network: Network!, " if params[:network] && !params[:network].empty? %>$query: String!){
@@ -45,7 +45,7 @@
                ((typeof item.subject.annotation) == String ? "<p>"+item.subject.annotation+"</p>\n" : "") +
                "    <a href='"+url+"'>"+url+"</a>" +
               "  </div>\n" +
-               "</div>"
+               "</div>";
            return html;
         }
     });

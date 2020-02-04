@@ -1,3 +1,4 @@
+<% content_for :header, t('headers.address', network: params['network']['name'], address: @address).html_safe %>
 <script>
     var query1 = new widgets.query(`
       query($network: EthereumNetwork!, $currency: String!, $address: String!, $from: ISO8601DateTime!, $till: ISO8601DateTime!){
@@ -89,7 +90,7 @@
 <%= render partial: 'shared/reportrange' %>
 <div class="row">
   <div class="col col-lg-6 mb-4">
-    <div class="card <%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
+    <div class="card">
       <div class="card-header">Transactions by Time</div>
       <div class="card-body">
         <div id="transfers_timegraph"><%= t('loading') %></div>
@@ -150,12 +151,19 @@
     var cbt = new widgets.calls_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls');
     var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'ethereum.transfers');
     var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query4, 'ethereum.smartContractCalls');
-    query1.request({network: '<%= params['network']['network'] %>', currency: '<%= params['network']['currency'] %>', address: '<%= @query %>', from: '<%= @from %>', till: '<%= @till %>'});
-    query2.request({network: '<%= params['network']['network'] %>', address: '<%= @query %>', from: '<%= @from %>', till: '<%= @till %>'});
-    query3.request({network: '<%= params['network']['network'] %>', address: '<%= @query %>', from: '<%= @from %>', till: '<%= @till %>', limit: 10});
-    query4.request({network: '<%= params['network']['network'] %>', address: '<%= @query %>', from: '<%= @from %>', till: '<%= @till %>', limit: 10});
+    query1.request({network: '<%= params['network']['network'] %>', currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: '<%= @from %>', till: '<%= @till %>'});
+    query2.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: '<%= @from %>', till: '<%= @till %>'});
+    query3.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: '<%= @from %>', till: '<%= @till %>', limit: 10});
+    query4.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: '<%= @from %>', till: '<%= @till %>', limit: 10});
 
     rr.change(function(start, end, clear){
+        console.log(clear);
+        console.log(start);
+        console.log(end);
+        if (clear== 'clear'){
+            start = "2015-01-01";
+            end = "<%= Date.today.strftime("%F") %>"
+        }
         query1.request({from: start, till: end});
         query2.request({from: start, till: end});
         query3.request({from: start, till: end, limit: 10});

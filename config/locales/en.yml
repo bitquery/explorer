@@ -1,6 +1,6 @@
 en:
   reportrange:
-    title: 'Show date range'
+    title: 'Date range'
     all_time: 'All time'
     format: 'MMMM D, YYYY'
     apply: 'Apply'
@@ -18,3 +18,6 @@ en:
     light: 'Light theme'
     dark: 'Dark theme'
   loading: 'Loading...'
+  headers:
+    search: "Search address \"%{query}\""
+    address: "%{network} address \"%{address}\""

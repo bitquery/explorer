@@ -2,7 +2,7 @@
 
 <li class="nav-item dropdown active">
   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span title="<%= themes[@theme.to_sym][:name] %>"><%= themes[@theme.to_sym][:icon] %></span>
+    <i class="fa fa-sun text-success"></i><i class="fa fa-moon text-success"></i><span title="<%= themes[@theme.to_sym][:name] %>"><%= themes[@theme.to_sym][:icon] %></span>
   </a>
   <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
     <% themes.each do |tag, theme| %>

@@ -14,6 +14,13 @@ Rails.application.routes.draw do
 
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'
 
+    # error pages
+    #%w( 404 422 500 503 400 401 403 ).each do |code|
+    ##  match "/#{code}", :to => :error, controller: "utility", id: code, via: :all
+    #  match "/#{code}", :to => "utility#errors", via: :all
+    #end
+    get '*path' => "utility#errors"
+
     root 'home#index'
   end
 

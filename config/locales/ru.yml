@@ -1,6 +1,6 @@
 ru:
   reportrange:
-    title: 'Смотреть данные за период'
+    title: 'Данные за период'
     all_time: 'Все время'
     format: 'D MMMM YYYY'
     apply: 'Применить'
@@ -18,3 +18,6 @@ ru:
     light: 'Светлая тема'
     dark: 'Темная тема'
   loading: 'Загрузка...'
+  headers:
+    search: "Поиск адреса &laquo%{query}&raquo;"
+    address: "%{network} адрес &laquo%{address}&raquo;"
