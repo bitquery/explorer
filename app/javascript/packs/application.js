@@ -81,7 +81,7 @@ global.reportRange = function(selector, from, till, i18n){
 
         $(selector).on('apply.daterangepicker', function(ev, picker) {
             var start = picker.startDate.format('YYYY-MM-DD'),
-                end = picker.endDate.format('YYYY-MM-DD'),
+                end = picker.endDate.format('YYYY-MM-DDT23:59:59'),
                 clear_date = undefined;
             cb(start, end, clear_date);
         });
