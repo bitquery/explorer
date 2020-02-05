@@ -1,0 +1,2 @@
+module Binance::TxHelper
+end

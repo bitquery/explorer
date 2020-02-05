@@ -15,7 +15,6 @@ import moment from 'moment'
 // require("widgets/dist/widgets")
 // import widgetsGraphiql from 'widgets/dist/widgetsGraphiql'
 // import widgetsGraph from 'widgets/dist/widgetsGraph'
-console.log('37');
 
 global.$ = $;
 
@@ -35,10 +34,14 @@ global.reportRange = function(selector, from, till, i18n){
         moment.locale('en');
     }
 
-    if (from == '' && till == ''){
+    if (from == null && till == null){
         $(selector).find('span').html(i18n.all_time);
-    } else {
+    }
+
+    if (from !=null){
         properties.start = moment(from);
+    }
+    if (till != null){
         properties.end = moment(till);
     }
 
@@ -70,21 +73,21 @@ global.reportRange = function(selector, from, till, i18n){
         $(selector).find('span').html(i18n.all_time);
     });
 
-    if (from != '' && till != ''){
+    if (from != null && till != null){
         set_reportrange(properties.start, properties.end);
     }
 
     properties.change = function(cb){
 
         $(selector).on('apply.daterangepicker', function(ev, picker) {
-            var start = picker.startDate.format('YYYY-MM-DDT00:00'),
-                end = picker.endDate.format('YYYY-MM-DDT23:59'),
+            var start = picker.startDate.format('YYYY-MM-DD'),
+                end = picker.endDate.format('YYYY-MM-DD'),
                 clear_date = undefined;
             cb(start, end, clear_date);
         });
         $(selector).on('cancel.daterangepicker', function(ev, picker) {
-            var start = undefined,
-                end = undefined,
+            var start = null,
+                end = null,
                 clear_date = 'clear';
             cb(start, end, clear_date);
         });

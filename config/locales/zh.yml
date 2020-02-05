@@ -21,3 +21,11 @@ zh:
   headers:
     search: "搜索地址\"%{query}\""
     address: "%{network} 地址 \"%{address}\""
+  errors:
+    no_methods: "該功能尚未實現，請稍後再返回"
+  widgets:
+    headers:
+      transaction_by_time: '按月進行活動'
+      calls_by_time: '按時間調用智能合約'
+      currencies_sent_received: '貨幣已發送/已收到'
+      calls_smart_contracts: '呼叫智能合約'

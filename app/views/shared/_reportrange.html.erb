@@ -6,8 +6,8 @@
       <span></span> <i class="fa fa-caret-down"></i>
     </div>
     <script>
-        rr = new reportRange('#reportrange', '<%= @from %>',
-            '<%= @till %>',
+        rr = new reportRange('#reportrange', <%= @from.html_safe %>,
+            <%= @till.html_safe %>,
             {
                 locale: '<%= I18n.locale %>',
                 all_time: '<%= t('reportrange.all_time') %>',

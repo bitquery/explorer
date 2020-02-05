@@ -21,3 +21,11 @@ en:
   headers:
     search: "Search address \"%{query}\""
     address: "%{network} address \"%{address}\""
+  errors:
+    no_methods: "Function not yet implemented, try returning later"
+  widgets:
+    headers:
+      transaction_by_time: 'Activities by time'
+      calls_by_time: 'Calls smart contracts by time'
+      currencies_sent_received: 'Currencies sent/received'
+      calls_smart_contracts: 'Calls smart contracts'

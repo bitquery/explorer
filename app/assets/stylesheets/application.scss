@@ -14,6 +14,17 @@
 
 body.dark{
   background: #57626b;
+  color: #fff;
+
+
+  a:not(.dropdown-item){
+    color: #a1c9d7;
+    &:hover{
+      color: #afdae8;
+    }
+  }
+
+
   .btn{
     color: #fff;
     .btn-default{
@@ -22,11 +33,11 @@ body.dark{
 
   .card{
     color: #fff;
-    background: #343a40;
-    border: 1px solid #343a40;
+    background: #434e57;
+    border: 1px solid #434e57;
 
     .card-header{
-      background-color: #758591;
+      background-color: #343d46;
     }
   }
 }

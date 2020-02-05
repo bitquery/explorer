@@ -8,7 +8,7 @@
   <link rel="stylesheet" media="all" href="http://localhost:63342/widgets/dist/assets/css/widgets.css">
   <script src="http://localhost:63342/widgets/dist/widgets.js"></script>
 </head>
-<body class="<%= @theme == 'dark' ? ' dark text-light' : '' %>">
+<body class="<%= "dark" if @theme == 'dark' %>">
 <script>
     widgets.init('https://graphql.bitquery.io', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
 </script>
