@@ -20,7 +20,7 @@ zh:
     dark: '黑暗主題'
   loading: '載入中...'
   headers:
-    search: "搜索地址\"%{query}\""
+    search: "搜索\"%{query}\""
     address: "%{network} 地址 \"%{address}\""
   errors:
     no_methods: "該功能尚未實現，請稍後再返回"

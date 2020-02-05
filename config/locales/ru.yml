@@ -20,7 +20,7 @@ ru:
     dark: 'Темная тема'
   loading: 'Загрузка...'
   headers:
-    search: "Поиск адреса \"%{query}\""
+    search: "Поиск \"%{query}\""
     address: "%{network} адрес \"%{address}\""
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"

@@ -20,7 +20,7 @@ en:
     dark: 'Dark theme'
   loading: 'Loading...'
   headers:
-    search: "Search address \"%{query}\""
+    search: "Search \"%{query}\""
     address: "%{network} address \"%{address}\""
   errors:
     no_methods: "Function not yet implemented, try returning later"

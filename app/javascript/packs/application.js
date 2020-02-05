@@ -111,6 +111,11 @@ global.search = function(){
         }
     });
 
+    form.find('input[name="query"]').change(function () {
+        form.find('input[name="query"]').keyup();
+    });
+    form.find('input[name="query"]').keyup();
+
     form.submit(function(){
         return is_find;
     });
