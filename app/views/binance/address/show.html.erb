@@ -69,25 +69,36 @@
     }
     `);
 
-    // var query4 = new widgets.query(`
-    // query($network: EthereumNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
-    //   ethereum(network: $network) {
-    //     smartContractCalls(from: $from, till: $till, options: {limit: $limit, offset: $offset}) {
-    //       count(caller: {address: $address}, uniq:calls)
-    //       smartContract{
-    //         address{
-    //           address
-    //           annotation
-    //         }
-    //       }
-    //       smartContractMethod {
-    //         name
-    //         signatureHash
-    //       }
-    //     }
-    //   }
-    // }
-    // `);
+    var query4 = new widgets.query(`
+    query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
+      binance {
+
+        trades(from: $from, till: $till, options: {limit: $limit, offset: $offset}){
+
+          trades_as_buyer: count(buyer: {
+            address: $address
+          }, uniq:trades)
+
+          trades_as_seller: count(seller: {
+            address: $address
+          }, uniq:trades)
+
+          buyAmount(buyer: {
+            address: $address
+          })
+
+          sellAmount(seller: {
+            address: $address
+          })
+
+          baseCurrency{ symbol }
+          quoteCurrency{ symbol }
+
+
+        }
+      }
+    }
+    `);
 </script>
 <%= render partial: 'shared/reportrange' %>
 <div class="row">
@@ -101,7 +112,7 @@
   </div>
   <div class="col col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%#= t('widgets.headers.calls_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.trades_by_time') %></div>
       <div class="card-body">
         <div id="trades_timegraph"><%= t('loading') %></div>
       </div>
@@ -119,9 +130,9 @@
   </div>
   <div class="col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.calls_smart_contracts') %></div>
+      <div class="card-header"><%= t('widgets.headers.trades_by_currencies') %></div>
       <div class="card-body">
-        <div id="calls_smart_contracts"><%= t('loading') %></div>
+        <div id="trades_by_currencies"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -129,22 +140,22 @@
 
 <script>
     widgets.callbacks({
-        token_address: function(name, address, locale){
+        token_path: function(name, address, locale){
             return '/<%= params['network']['path'] %>'+(address == '-' ? '/token/'+name : '/address/'+address);
         },
-        transfer_to_address: function(currency_id, address, locale){
+        transfer_to_path: function(currency_id, address, locale){
             return '/<%= params['network']['path'] %>'+'/txs/transfers_to/'+address+'?currency_id='+currency_id;
         },
-        transfer_from_address: function(currency_id, address, locale){
+        transfer_from_path: function(currency_id, address, locale){
             return '/<%= params['network']['path'] %>'+'/txs/transfers_from/'+address+'?currency_id='+currency_id;
         },
-        smart_contract_method: function(name, address, locale){
+        smart_contract_method_path: function(name, address, locale){
             return '/<%= params['network']['path'] %>'+'/functions/'+address;
         },
-        smart_contract: function(name, address, locale){
+        smart_contract_path: function(name, address, locale){
             return '/<%= params['network']['path'] %>'+'/smartcontract/'+address;
         },
-        call_count: function(address, locale){
+        call_count_path: function(address, locale){
             return '/<%= params['network']['path'] %>'+'/address/'+address;
         }
     });
@@ -152,16 +163,16 @@
     var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'binance.transfers');
     var trbt = new widgets.trades_by_time('#trades_timegraph', query2, 'binance.trades');
     var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'binance.transfers');
-    // var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query4, 'ethereum.smartContractCalls');
+    var trbc = new widgets.trades_by_currencies('#trades_by_currencies', query4, 'binance.trades');
     query1.request({currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query3.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
-    // query4.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
+    query4.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
 
     rr.change(function(start, end, clear){
         query1.request({from: start, till: end});
         query2.request({from: start, till: end});
         query3.request({from: start, till: end, limit: 10});
-        // query4.request({from: start, till: end, limit: 10});
+        query4.request({from: start, till: end, limit: 10});
     })
 </script>

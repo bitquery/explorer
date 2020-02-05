@@ -12,6 +12,7 @@ ru:
     this_month: 'Этот месяц'
     last_month: 'Прошлый месяц'
     custom_range: 'Произвольный период'
+  address: "адрес"
   find: "Искать"
   find_in: "Искать в %{network}"
   themes:
@@ -19,8 +20,8 @@ ru:
     dark: 'Темная тема'
   loading: 'Загрузка...'
   headers:
-    search: "Поиск адреса &laquo%{query}&raquo;"
-    address: "%{network} адрес &laquo%{address}&raquo;"
+    search: "Поиск адреса \"%{query}\""
+    address: "%{network} адрес \"%{address}\""
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"
   widgets:
@@ -29,3 +30,5 @@ ru:
       calls_by_time: 'Вызовы смартрконтрактов по времени'
       currencies_sent_received: 'Валюта отправлено/получено'
       calls_smart_contracts: 'Вызовы смарт контрактов'
+      trades_by_time: 'Сделок по времени'
+      trades_by_currencies: 'Сделки Покупка/продажа'

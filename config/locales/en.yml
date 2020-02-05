@@ -12,6 +12,7 @@ en:
     this_month: 'This month'
     last_month: 'Last month'
     custom_range: 'Custom range'
+  address: "address"
   find: "Search"
   find_in: "Search in %{network}"
   themes:
@@ -29,3 +30,5 @@ en:
       calls_by_time: 'Calls smart contracts by time'
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'
+      trades_by_time: 'Trades by time'
+      trades_by_currencies: 'Trades Buy/Sell'
