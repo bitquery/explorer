@@ -1,25 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Explorer</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
-  <%#= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= render partial: 'shared/head' %>
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   <link rel="stylesheet" media="all" href="http://localhost:63342/widgets/dist/assets/css/widgets.css">
   <script src="http://localhost:63342/widgets/dist/widgets.js"></script>
-  <script>
-      widgets.init('https://graphql.bitquery.io', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
-  </script>
 </head>
-
-<body class="<%= @theme == 'dark' ? ' bg-dark text-light' : '' %>">
+<body class="<%= "dark" if @theme == 'dark' %>">
+<script>
+    widgets.init('https://graphql.bitquery.io', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
+</script>
 <%= render partial: 'shared/navbar' %>
 <div class="container-fluid">
   <%= render partial: 'shared/search' %>
+  <h2><%= yield :header %></h2>
   <%= yield %>
   <%= render partial: 'shared/footer' %>
 </div>

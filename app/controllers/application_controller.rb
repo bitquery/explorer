@@ -25,22 +25,17 @@ class ApplicationController < ActionController::Base
   end
 
   def set_date
-    if params[:from]
-      session[:from] = params[:from]
-    elsif session[:from] && !session[:from].empty?
+    if params[:from] && !params[:from].empty?
+      @from = "\"#{params[:from]}\""
     else
-      session[:from] = (Date.today - 6.days).strftime("%FT00:00")
+      @from = 'null'
     end
 
-    if params[:till]
-      session[:till] = params[:till]
-    elsif session[:till] && !session[:till].empty?
+    if params[:till] && !params[:till].empty?
+      @till = "\"#{params[:till]}\""
     else
-      session[:till] = Date.today.strftime("%FT23:59")
+      @till = 'null'
     end
-
-    @from = session[:from]
-    @till = session[:till]
   end
 
   def set_locale

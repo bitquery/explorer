@@ -1,6 +1,6 @@
 ru:
   reportrange:
-    title: 'Смотреть данные за период'
+    title: 'Данные за период'
     all_time: 'Все время'
     format: 'D MMMM YYYY'
     apply: 'Применить'
@@ -12,9 +12,20 @@ ru:
     this_month: 'Этот месяц'
     last_month: 'Прошлый месяц'
     custom_range: 'Произвольный период'
-  find: "Найти"
-  find_in: "Найти в %{network}"
+  find: "Искать"
+  find_in: "Искать в %{network}"
   themes:
     light: 'Светлая тема'
     dark: 'Темная тема'
   loading: 'Загрузка...'
+  headers:
+    search: "Поиск адреса &laquo%{query}&raquo;"
+    address: "%{network} адрес &laquo%{address}&raquo;"
+  errors:
+    no_methods: "Функция еще не реализована, попробуйте вернуться позже"
+  widgets:
+    headers:
+      transaction_by_time: 'Активность по времени'
+      calls_by_time: 'Вызовы смартрконтрактов по времени'
+      currencies_sent_received: 'Валюта отправлено/получено'
+      calls_smart_contracts: 'Вызовы смарт контрактов'

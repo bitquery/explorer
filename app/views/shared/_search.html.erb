@@ -1,6 +1,6 @@
 <%= form_tag search_path, id: 'search-form' do %>
   <div class="row search mb-4">
-    <div class="col"><input type="text" name="query" value="<%= @query %>" class="form-control" placeholder="Enter token symbol, keyword, address, or tx hash (0x...)"></div>
+    <div class="col"><input type="text" name="query" value="<%= @query %>" class="form-control" placeholder="Enter address (0x...)"></div>
     <div class="col-auto">
       <div class="btn-group">
         <button type="submit" class="btn btn-primary"><%= t('find') %></button>
@@ -17,13 +17,5 @@
   </div>
 <% end %>
 <script>
-    $('#search-form .search-form-type').click(function(){
-        $('<input />').
-        attr('type', 'hidden').
-        attr('name', 'network').
-        attr('value', $(this).data('network')).
-        appendTo('#search-form');
-        $('#search-form').submit();
-        return false;
-    });
+  search();
 </script>

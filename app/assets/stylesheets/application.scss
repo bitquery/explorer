@@ -1,0 +1,43 @@
+@import "daterangepicker_dark";
+
+.search-form-type {
+  cursor: pointer;
+}
+
+#reportrange{
+  display: inline-block;
+  background: #fff;
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+}
+
+body.dark{
+  background: #57626b;
+  color: #fff;
+
+
+  a:not(.dropdown-item){
+    color: #a1c9d7;
+    &:hover{
+      color: #afdae8;
+    }
+  }
+
+
+  .btn{
+    color: #fff;
+    .btn-default{
+    }
+  }
+
+  .card{
+    color: #fff;
+    background: #434e57;
+    border: 1px solid #434e57;
+
+    .card-header{
+      background-color: #343d46;
+    }
+  }
+}

@@ -1,7 +1,7 @@
 class Ethereum::AddressController < NetworkController
 
   def show
-    @query = params[:id]
+    @address = params[:id]
   end
 
 end

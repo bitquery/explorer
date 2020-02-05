@@ -12,7 +12,20 @@ Rails.application.routes.draw do
       get "#{blockchain[:path]}/token/:id", to: "#{blockchain[:family]}/token#show", defaults: {network: blockchain}
     }
 
+    BLOCKCHAINS.select{|b| b[:family]=='binance' }.each{|blockchain|
+      get "#{blockchain[:path]}/tx/:id", to: "#{blockchain[:family]}/tx#show", defaults: {network: blockchain}
+      get "#{blockchain[:path]}/address/:id", to: "#{blockchain[:family]}/address#show", defaults: {network: blockchain}
+      get "#{blockchain[:path]}/token/:id", to: "#{blockchain[:family]}/token#show", defaults: {network: blockchain}
+    }
+
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'
+
+    # error pages
+    #%w( 404 422 500 503 400 401 403 ).each do |code|
+    ##  match "/#{code}", :to => :error, controller: "utility", id: code, via: :all
+    #  match "/#{code}", :to => "utility#errors", via: :all
+    #end
+    get '*path' => "utility#errors"
 
     root 'home#index'
   end

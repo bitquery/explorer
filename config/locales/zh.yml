@@ -1,6 +1,6 @@
 zh:
   reportrange:
-    title: '顯示日期範圍的數據'
+    title: '日期范围'
     all_time: '整天'
     format: 'YYYY MMMM D'
     apply: '應用'
@@ -12,9 +12,20 @@ zh:
     this_month: '這個月'
     last_month: '上個月'
     custom_range: '定制範圍'
-  find: "找"
-  find_in: "在%{network}中查找"
+  find: "搜索"
+  find_in: "在%{network}中搜索"
   themes:
     light: '淺色主題'
     dark: '黑暗主題'
   loading: '載入中...'
+  headers:
+    search: "搜索地址\"%{query}\""
+    address: "%{network} 地址 \"%{address}\""
+  errors:
+    no_methods: "該功能尚未實現，請稍後再返回"
+  widgets:
+    headers:
+      transaction_by_time: '按月進行活動'
+      calls_by_time: '按時間調用智能合約'
+      currencies_sent_received: '貨幣已發送/已收到'
+      calls_smart_contracts: '呼叫智能合約'
