@@ -1,0 +1,9 @@
+<% content_for(:title, header) if local_assigns[:header] %>
+<div class="row search mb-2">
+  <div class="col"><% if local_assigns[:header] %><h5 class="header-title"><%= header %></h5><% end %></div>
+  <% if local_assigns[:reportrange] %>
+    <div class="col-auto">
+      <%= render partial: 'shared/reportrange' %>
+    </div>
+  <% end %>
+</div>

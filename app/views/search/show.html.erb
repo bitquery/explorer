@@ -1,8 +1,8 @@
-<% content_for :header, t('headers.search', query: @query) %>
+<%= render partial: 'shared/title', locals: {header: t('headers.search', query: @query)} %>
 <script>
     var query = new widgets.query(`
-    query(<%= "$network: Network!, " if params[:network] && !params[:network].empty? %>$query: String!){
-      search(<%= "network: $network, " if params[:network] && !params[:network].empty? %>string: $query){
+    query(<%= "$network: Network!, " if @network && !@network.empty? %>$query: String!){
+      search(<%= "network: $network, " if @network && !@network.empty? %>string: $query){
           subject{
             __typename
             ... on Address {
@@ -30,14 +30,14 @@
 <script>
     widgets.callbacks({
         search_address_path: function(network, address, locale){
-            return "/"+locale+"/"+network+"/address/"+address;
+            return (locale == 'en' ? '' : '/'+locale) +"/"+network+"/address/"+address;
         },
         // search_currency_address: function(name, address, locale){
         //     return "/"+locale+(address == '-' ? '/token/'+name : '/address/'+address);
         // },
         search_address_snippet: function(item, locale){
            let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_path "cryptoicons/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
-           let url = "/"+locale+"/"+item.network.network+"/address/"+item.subject.address;
+           let url = (locale == 'en' ? '' : '/'+locale) +"/"+item.network.network+"/address/"+item.subject.address;
            let html = "<div class='media'>\n" +
                "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
                "  <div class='media-body'>\n" +
@@ -50,5 +50,5 @@
         }
     });
     var sch = new widgets.search('#search', query, 'search');
-    query.request({<%= "network: '#{params[:network]}', ".html_safe if params[:network] && !params[:network].empty? %>query: '<%= @query %>', count: 10});
+    query.request({<%= "network: '#{@network}', ".html_safe if @network && !@network.empty? %>query: '<%= @query %>', count: 10});
 </script>

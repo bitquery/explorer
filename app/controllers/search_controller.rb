@@ -4,5 +4,6 @@ class SearchController < ApplicationController
       redirect_to search_path(params[:query], network: params[:network])
     end
     @query = params[:query]
+    @network = params[:network]
   end
 end

@@ -1,4 +1,4 @@
-<% content_for :header, t('headers.address', network: params['network']['name'], address: @address).html_safe %>
+<%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: @address).html_safe, reportrange: true} %>
 <script>
     var query1 = new widgets.query(`
       query($currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
@@ -70,7 +70,7 @@
     `);
 
     var query4 = new widgets.query(`
-    query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
+      query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       binance {
 
         trades(from: $from, till: $till, options: {limit: $limit, offset: $offset}){
@@ -83,11 +83,19 @@
             address: $address
           }, uniq:trades)
 
-          buyAmount(buyer: {
+          buyQuoteAmount: quoteAmount(buyer: {
             address: $address
           })
 
-          sellAmount(seller: {
+          sellQuoteAmount: quoteAmount(seller: {
+            address: $address
+          })
+
+          buyBaseAmount: baseAmount(buyer: {
+            address: $address
+          })
+
+          sellBaseAmount:baseAmount(seller: {
             address: $address
           })
 
@@ -100,7 +108,6 @@
     }
     `);
 </script>
-<%= render partial: 'shared/reportrange' %>
 <div class="row">
   <div class="col col-lg-6 mb-4">
     <div class="card">
@@ -141,22 +148,25 @@
 <script>
     widgets.callbacks({
         token_path: function(name, address, locale){
-            return '/<%= params['network']['path'] %>'+(address == '-' ? '/token/'+name : '/address/'+address);
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
         },
         transfer_to_path: function(currency_id, address, locale){
-            return '/<%= params['network']['path'] %>'+'/txs/transfers_to/'+address+'?currency_id='+currency_id;
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/txs/transfers_to/'+address;
         },
         transfer_from_path: function(currency_id, address, locale){
-            return '/<%= params['network']['path'] %>'+'/txs/transfers_from/'+address+'?currency_id='+currency_id;
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/txs/transfers_from/'+address;
         },
         smart_contract_method_path: function(name, address, locale){
-            return '/<%= params['network']['path'] %>'+'/functions/'+address;
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/functions/'+address;
         },
         smart_contract_path: function(name, address, locale){
-            return '/<%= params['network']['path'] %>'+'/smartcontract/'+address;
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/smartcontract/'+address;
         },
         call_count_path: function(address, locale){
-            return '/<%= params['network']['path'] %>'+'/address/'+address;
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
+        },
+        trades_count_path: function(address, locale){
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/trades/'+address;
         }
     });
 

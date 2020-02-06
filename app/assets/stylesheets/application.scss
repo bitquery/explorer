@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+.search{
+  margin-top: 2rem;
+}
+
 #reportrange{
   display: inline-block;
   background: #fff;
@@ -13,8 +17,8 @@
   border-radius: 0.25rem;
 }
 
-.page-title{
-  margin-bottom: 2rem;
+.header-title{
+  line-height: 2rem;
 }
 
 body.dark{
@@ -28,13 +32,19 @@ body.dark{
     color: #d6d6d6;
   }
 
-  a:not(.dropdown-item, .badge), .more-text a:not([href]):not([tabindex]).more-link{
+  a:not(.dropdown-item), .more-text a:not([href]):not([tabindex]).more-link{
     color: #a1c9d7;
     &:hover{
       color: #afdae8;
     }
   }
+  a.badge{
+    color: #fff;
 
+    &:hover{
+      color: #fff;
+    }
+  }
 
 
   .btn{

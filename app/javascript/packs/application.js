@@ -121,11 +121,13 @@ global.search = function(){
     });
 
     form.find('.search-form-type').click(function(){
-        $('<input />').
-        attr('type', 'hidden').
-        attr('name', 'network').
-        attr('value', $(this).data('network')).
-        appendTo('#search-form');
+        if($(this).data('network') != ''){
+            $('<input />').
+            attr('type', 'hidden').
+            attr('name', 'network').
+            attr('value', $(this).data('network')).
+            appendTo('#search-form');
+        }
         form.submit();
         return false;
     });

@@ -15,6 +15,7 @@ ru:
   address: "адрес"
   find: "Искать"
   find_in: "Искать в %{network}"
+  find_all: "Искать во всех сетях"
   themes:
     light: 'Светлая тема'
     dark: 'Темная тема'
@@ -32,3 +33,4 @@ ru:
       calls_smart_contracts: 'Вызовы смарт контрактов'
       trades_by_time: 'Сделок по времени'
       trades_by_currencies: 'Сделки Покупка/продажа'
+      transactions_in_network: "Переводы в %{network}"

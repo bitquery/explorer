@@ -15,6 +15,7 @@ zh:
   address: "地址"
   find: "搜索"
   find_in: "在%{network}中搜索"
+  find_add: "在所有區塊鏈中搜索"
   themes:
     light: '淺色主題'
     dark: '黑暗主題'
@@ -32,3 +33,4 @@ zh:
       calls_smart_contracts: '呼叫智能合約'
       trades_by_time: '按時間交易'
       trades_by_currencies: '交易買/賣'
+      transactions_in_network: "%{network}中的交易"

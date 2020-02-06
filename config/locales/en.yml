@@ -15,6 +15,7 @@ en:
   address: "address"
   find: "Search"
   find_in: "Search in %{network}"
+  find_all: "Search in all blockchains"
   themes:
     light: 'Light theme'
     dark: 'Dark theme'
@@ -32,3 +33,4 @@ en:
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
       trades_by_currencies: 'Trades Buy/Sell'
+      transactions_in_network: "Transactions in %{network}"
