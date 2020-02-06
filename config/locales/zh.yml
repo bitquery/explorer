@@ -32,3 +32,4 @@ zh:
       calls_smart_contracts: '呼叫智能合約'
       trades_by_time: '按時間交易'
       trades_by_currencies: '交易買/賣'
+      transactions_in_network: "%{network}中的交易"

@@ -1,0 +1,79 @@
+<script>
+    var query1 = new widgets.query(`
+    query {
+      binance {
+        transfers{
+          count
+          date{
+            month: date(format: "%Y-%m")
+          }
+        }
+      }
+    }
+    `);
+
+    var query2 = new widgets.query(`
+    query {
+      ethereum(network: ethereum){
+        transfers{
+          count
+          date{
+            month: date(format: "%Y-%m")
+          }
+        }
+      }
+    }
+    `);
+
+    var query3 = new widgets.query(`
+    query {
+      ethereum(network: ethclassic){
+        transfers{
+          count
+          date{
+            month: date(format: "%Y-%m")
+          }
+        }
+      }
+    }
+    `);
+</script>
+
+<div class="row">
+  <div class="col col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %></div>
+      <div class="card-body">
+        <div id="binance"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %></div>
+      <div class="card-body">
+        <div id="ethereum"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'etc'}) && chain[:name]) %></div>
+      <div class="card-body">
+        <div id="ethclassic"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 mb-4">
+  </div>
+</div>
+<script>
+    var tbtbnb = new widgets.transaction_by_time('#binance', query1, 'binance.transfers');
+    var tbteth = new widgets.transaction_by_time('#ethereum', query2, 'ethereum.transfers');
+    var tbtetc = new widgets.transaction_by_time('#ethclassic', query3, 'ethereum.transfers');
+    query1.request();
+    query2.request();
+    query3.request();
+</script>

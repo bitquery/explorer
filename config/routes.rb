@@ -25,9 +25,9 @@ Rails.application.routes.draw do
     ##  match "/#{code}", :to => :error, controller: "utility", id: code, via: :all
     #  match "/#{code}", :to => "utility#errors", via: :all
     #end
-    get '*path' => "utility#errors"
 
     root 'home#index'
+    get '*path' => "utility#errors"
   end
 
 end
