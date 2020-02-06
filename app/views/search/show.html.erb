@@ -41,7 +41,7 @@
            let html = "<div class='media'>\n" +
                "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
                "  <div class='media-body'>\n" +
-               "    <h5 class='mt-0'><a href='"+url+"'>"+chains[item.network.network].name+" <%= t('address') %> "+item.subject.address+"</a></h5>\n" +
+               "    <h6 class='mt-0'><a href='"+url+"'>"+chains[item.network.network].name+" <%= t('address') %> "+item.subject.address+"</a></h6>\n" +
                ((typeof item.subject.annotation) == String ? "<p>"+item.subject.annotation+"</p>\n" : "") +
                "    <a href='"+url+"'>"+url+"</a>" +
               "  </div>\n" +

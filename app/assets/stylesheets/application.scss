@@ -10,6 +10,7 @@
   cursor: pointer;
   padding: 5px 10px;
   border: 1px solid #ccc;
+  border-radius: 0.25rem;
 }
 
 .page-title{
@@ -17,16 +18,23 @@
 }
 
 body.dark{
-  background: #57626b;
-  color: #fff;
+  background-color: #57626b;
+  color: #d6d6d6;
 
 
-  a:not(.dropdown-item){
+  input, input:focus, select, select:focus{
+    background-color: #434e57;
+    border-color: #758591;
+    color: #d6d6d6;
+  }
+
+  a:not(.dropdown-item, .badge), .more-text a:not([href]):not([tabindex]).more-link{
     color: #a1c9d7;
     &:hover{
       color: #afdae8;
     }
   }
+
 
 
   .btn{
@@ -36,7 +44,7 @@ body.dark{
   }
 
   .card{
-    color: #fff;
+    color: #d6d6d6;
     background: #434e57;
     border: 1px solid #434e57;
 
