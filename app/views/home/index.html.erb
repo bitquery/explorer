@@ -2,7 +2,9 @@
     var query1 = new widgets.query(`
     query {
       binance {
-        transfers{
+        transfers(
+                  transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]
+        ){
           count
           date{
             month: date(format: "%Y-%m")

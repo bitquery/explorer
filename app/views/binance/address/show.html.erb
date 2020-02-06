@@ -3,7 +3,8 @@
     var query1 = new widgets.query(`
       query($currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
       binance {
-        transfers(from: $from, till: $till){
+        transfers(from: $from, till: $till,
+                  transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]){
             sum_in: amount(calculate: sum,
                         currency: {symbol: $currency},
                         receiver: {address: $address}
@@ -47,7 +48,9 @@
     var query3 = new widgets.query(`
     query($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       binance{
-        transfers(from: $from, till: $till, options: {limit: $limit, offset: $offset}){
+        transfers(from: $from, till: $till, options: {limit: $limit, offset: $offset},
+                  transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]
+        ){
             sum_in: amount(calculate: sum,
               receiver: {address: $address}
             )
