@@ -70,7 +70,7 @@
     `);
 
     var query4 = new widgets.query(`
-    query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
+      query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       binance {
 
         trades(from: $from, till: $till, options: {limit: $limit, offset: $offset}){
@@ -83,11 +83,19 @@
             address: $address
           }, uniq:trades)
 
-          buyAmount(buyer: {
+          buyQuoteAmount: quoteAmount(buyer: {
             address: $address
           })
 
-          sellAmount(seller: {
+          sellQuoteAmount: quoteAmount(seller: {
+            address: $address
+          })
+
+          buyBaseAmount: baseAmount(buyer: {
+            address: $address
+          })
+
+          sellBaseAmount:baseAmount(seller: {
             address: $address
           })
 
@@ -157,6 +165,9 @@
         },
         call_count_path: function(address, locale){
             return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
+        },
+        trades_count_path: function(address, locale){
+            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/trades/'+address;
         }
     });
 
