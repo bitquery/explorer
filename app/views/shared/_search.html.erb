@@ -1,10 +1,10 @@
 <%= form_tag search_path, id: 'search-form' do %>
-  <%= hidden_field_tag :network, @network if @network %>
+  <%#= hidden_field_tag :network, @network if @network %>
   <div class="row search mb-4">
     <div class="col"><input type="text" name="query" value="<%= @query %>" class="form-control" placeholder="Enter address (0x...)"></div>
     <div class="col-auto">
       <div class="btn-group">
-        <button type="submit" class="btn btn-primary"><%= @network ? t('find_in', network: (chain = BLOCKCHAINS.detect{|chain| chain[:network] == @network}) && chain[:name]) : t('find') %></button>
+        <button type="submit" class="btn btn-primary search-form-type" data-network="<%= @network %>"><%= @network ? t('find_in', network: (chain = BLOCKCHAINS.detect{|chain| chain[:network] == @network}) && chain[:name]) : t('find') %></button>
         <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <span class="sr-only">Toggle Dropdown</span>
         </button>

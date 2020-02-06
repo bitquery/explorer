@@ -33,4 +33,4 @@ en:
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
       trades_by_currencies: 'Trades Buy/Sell'
-      transactions_in_network: "Transactions in %{network}"
+      transactions_in_network: "Transfers in %{network}"
