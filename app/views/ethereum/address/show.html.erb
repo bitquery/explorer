@@ -127,22 +127,22 @@
 
 <script>
     widgets.callbacks({
-        token_address: function(name, address, locale){
+        token_path: function(name, address, locale){
             return '/<%= params['network']['path'] %>'+(address == '-' ? '/token/'+name : '/address/'+address);
         },
-        transfer_to_address: function(currency_id, address, locale){
+        transfer_to_path: function(currency_id, address, locale){
             return '/<%= params['network']['path'] %>'+'/txs/transfers_to/'+address+'?currency_id='+currency_id;
         },
-        transfer_from_address: function(currency_id, address, locale){
+        transfer_from_path: function(currency_id, address, locale){
             return '/<%= params['network']['path'] %>'+'/txs/transfers_from/'+address+'?currency_id='+currency_id;
         },
-        smart_contract_method: function(name, address, locale){
+        smart_contract_method_path: function(name, address, locale){
             return '/<%= params['network']['path'] %>'+'/functions/'+address;
         },
-        smart_contract: function(name, address, locale){
+        smart_contract_path: function(name, address, locale){
             return '/<%= params['network']['path'] %>'+'/smartcontract/'+address;
         },
-        call_count: function(address, locale){
+        call_count_path: function(address, locale){
             return '/<%= params['network']['path'] %>'+'/address/'+address;
         }
     });
