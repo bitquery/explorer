@@ -4,6 +4,10 @@
   cursor: pointer;
 }
 
+.search{
+  margin-top: 2rem;
+}
+
 #reportrange{
   display: inline-block;
   background: #fff;
@@ -13,8 +17,8 @@
   border-radius: 0.25rem;
 }
 
-.page-title{
-  margin-bottom: 2rem;
+.header-title{
+  line-height: 2rem;
 }
 
 body.dark{

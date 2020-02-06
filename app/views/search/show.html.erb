@@ -1,8 +1,8 @@
-<% content_for :header, t('headers.search', query: @query) %>
+<%= render partial: 'shared/title', locals: {header: t('headers.search', query: @query)} %>
 <script>
     var query = new widgets.query(`
-    query(<%= "$network: Network!, " if params[:network] && !params[:network].empty? %>$query: String!){
-      search(<%= "network: $network, " if params[:network] && !params[:network].empty? %>string: $query){
+    query(<%= "$network: Network!, " if @network && !@network.empty? %>$query: String!){
+      search(<%= "network: $network, " if @network && !@network.empty? %>string: $query){
           subject{
             __typename
             ... on Address {
@@ -30,7 +30,7 @@
 <script>
     widgets.callbacks({
         search_address_path: function(network, address, locale){
-            return (locale == 'en' || '/'+locale) +"/"+network+"/address/"+address;
+            return (locale == 'en' ? '' : '/'+locale) +"/"+network+"/address/"+address;
         },
         // search_currency_address: function(name, address, locale){
         //     return "/"+locale+(address == '-' ? '/token/'+name : '/address/'+address);
@@ -50,5 +50,5 @@
         }
     });
     var sch = new widgets.search('#search', query, 'search');
-    query.request({<%= "network: '#{params[:network]}', ".html_safe if params[:network] && !params[:network].empty? %>query: '<%= @query %>', count: 10});
+    query.request({<%= "network: '#{@network}', ".html_safe if @network && !@network.empty? %>query: '<%= @query %>', count: 10});
 </script>

@@ -1,4 +1,4 @@
-<% content_for :header, t('headers.address', network: params['network']['name'], address: @address).html_safe %>
+<%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: @address).html_safe, reportrange: true} %>
 <script>
     var query1 = new widgets.query(`
       query($network: EthereumNetwork!, $currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
@@ -87,7 +87,6 @@
     }
     `);
 </script>
-<%= render partial: 'shared/reportrange' %>
 <div class="row">
   <div class="col col-lg-6 mb-4">
     <div class="card">
