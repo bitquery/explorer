@@ -7,6 +7,8 @@
 
   <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">
   <script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgets.js"></script>
+  <%= favicon_link_tag asset_path('favicon.png') %>
+
 </head>
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
