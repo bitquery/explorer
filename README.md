@@ -1,24 +1,97 @@
-# README
+BitQuery - Blockchain Unified Explorer
+============
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Bitquery Explorer is built using 
+[Bitquery Widgets](https://github.com/bitquery/widgets) as user interface
+components.
 
-Things you may want to cover:
+The backend is supplied by the GraphQL interface.
 
-* Ruby version
 
-* System dependencies
+## Installation
 
-* Configuration
+Explorer is a typical [Ruby on Rails](https://rubyonrails.org/) project.
 
-* Database creation
+Requirements are:
 
-* Database initialization
+- Ruby v.2.6.3
+- Rails v.6.0.1
 
-* How to run the test suite
+Refer to the [Rails Installation Guide](https://guides.rubyonrails.org/) how to setup environment and run the project.
 
-* Services (job queues, cache servers, search engines, etc.)
+No database or backend is required, this is pure set of front-end UI.
 
-* Deployment instructions
 
-* ...
+## Deployment
+
+For server deployment we use [Capistrano](https://github.com/capistrano/capistrano).
+
+To pre-configure the server, the following may be needed:
+
+####  Ruby installation
+
+```
+sudo apt-get install ruby-all-dev git gcc zlib1g-dev make mysql-client default-libmysqlclient-dev g++ puma libssl1.0-dev
+
+
+see https://github.com/postmodern/ruby-install#readme
+
+wget -O ruby-install-0.7.0.tar.gz https://github.com/postmodern/ruby-install/archive/v0.7.0.tar.gz
+tar -xzvf ruby-install-0.7.0.tar.gz
+cd ruby-install-0.7.0/
+
+sudo make install
+sudo ruby-install --system ruby 2.6.3
+sudo gem install bundler
+```
+
+re-login:
+```
+> ruby --version
+ruby 2.6.3p62 (2019-04-16 revision 67580) [x86_64-linux]
+```
+
+####  Capistrano installation
+
+```
+sudo adduser deploy
+sudo passwd -l deploy
+
+sudo mkdir /var/www
+sudo mkdir /var/www/explorer
+sudo chown -R deploy:deploy /var/www/explorer
+```
+
+### Nodejs installation
+
+```
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+sudo apt-get update && sudo apt-get install yarn
+```
+
+### Run capistrano
+
+Setup local name bitquery in your /etc/hosts file before running:
+
+```
+cap production deploy
+```
+
+### Puma run as service
+
+Look [scripts/explorer.service](explorer.service) for details
+
+```
+sudo vim /etc/systemd/system/explorer.service
+sudo systemctl enable explorer
+```
+
+## License
+>You can check out the full license [here](https://github.com/bitquery/explorer/blob/master/LICENSE)
+
+This project is licensed under the terms of the **MIT** license.
