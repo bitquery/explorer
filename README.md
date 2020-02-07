@@ -74,6 +74,13 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/source
 sudo apt-get update && sudo apt-get install yarn
 ```
 
+### Build widgets
+
+```
+yarn upgrade widgets
+yarn install --check-files
+```
+
 ### Run capistrano
 
 Setup local name bitquery in your /etc/hosts file before running:
