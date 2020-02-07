@@ -11,8 +11,7 @@
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "popper.js": "^1.16.0",
-    "turbolinks": "^5.2.0",
-    "widgets": "file:../widgets"
+    "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
