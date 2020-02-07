@@ -93,6 +93,8 @@ cap production deploy
 
 Look [scripts/explorer.service](explorer.service) for details
 
+Replace <PUT YOUR SECRET HERE> with the secret for service.
+
 ```
 sudo vim /etc/systemd/system/explorer.service
 sudo systemctl enable explorer
