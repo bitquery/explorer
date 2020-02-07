@@ -5,8 +5,8 @@
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
-  <link rel="stylesheet" media="all" href="http://localhost:63342/widgets/dist/assets/css/widgets.css">
-  <script src="http://localhost:63342/widgets/dist/widgets.js"></script>
+  <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">
+  <script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgets.js"></script>
 </head>
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
