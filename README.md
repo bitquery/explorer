@@ -9,7 +9,7 @@ components. The backend is supplied by the GraphQL interface.
 
 ## Features
 
-- Supports multiple blockchains. The full list available on the Search button and counting
+- Supports multiple blockchains. The full list available on the Search button, and counting
 - Unified extensible user interface. You can use [Bitquery Widgets](https://github.com/bitquery/widgets) 
 with arbitrary queries to data, thus making custom interfaces and explorers
 - Analytical view of data. Shows many types of data aggregations, slices and relations, which 
