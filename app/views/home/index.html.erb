@@ -42,7 +42,7 @@
 </script>
 
 <div class="row">
-  <div class="col col-lg-6 mb-4">
+  <div class="col-lg-4 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %></div>
       <div class="card-body">
@@ -50,7 +50,7 @@
       </div>
     </div>
   </div>
-  <div class="col col-lg-6 mb-4">
+  <div class="col-lg-4 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %></div>
       <div class="card-body">
@@ -58,9 +58,7 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-lg-6 mb-4">
+  <div class="col-lg-4 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'etc'}) && chain[:name]) %></div>
       <div class="card-body">

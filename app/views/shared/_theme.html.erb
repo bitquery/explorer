@@ -1,15 +1,7 @@
-<%# themes = {'light': {icon: "\u{1F31E}", name: t('themes.light')}, 'dark': {icon: "\u{1F312}", name: t('themes.dark')}} %>
-<% themes = {'light': {icon: "fa-sun", name: t('themes.light')}, 'dark': {icon: "fa-moon", name: t('themes.dark')}} %>
-
-<li class="nav-item dropdown active">
-  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="fa <%= themes[@theme.to_sym][:icon] %> text-default"></i>
-  </a>
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-    <% themes.each do |tag, theme| %>
-      <%= link_to request.query_parameters.merge(theme: tag), class: 'dropdown-item' do %>
-        <i class="fa <%= theme[:icon] %>"></i> <%= theme[:name] %>
-      <% end %>
-    <% end %>
-  </div>
+<li class="nav-item">
+  <% if @theme.to_sym == :light %>
+    <%= link_to request.query_parameters.merge(theme: :dark), class: 'nav-link' do %><i class="fa fa-moon text-default"></i><% end %>
+  <% else %>
+    <%= link_to request.query_parameters.merge(theme: :light), class: 'nav-link' do %><i class="fa fa-sun text-default"></i><% end %>
+  <% end %>
 </li>

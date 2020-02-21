@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <%= render partial: 'shared/head' %>
-  <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-
-  <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">
-  <script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgets.js"></script>
-
-</head>
+<%= render partial: 'shared/head' %>
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
     widgets.init('https://graphql.bitquery.io', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
 </script>
 <%= render partial: 'shared/navbar' %>
 <div class="container-fluid">
-  <%= render partial: 'shared/search' %>
+  <div class="row mb-4 d-lg-none">
+    <div class="col">
+      <%= render partial: 'shared/search' %>
+    </div>
+  </div>
   <%= yield %>
   <%= render partial: 'shared/footer' %>
 </div>

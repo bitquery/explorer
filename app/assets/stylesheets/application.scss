@@ -1,5 +1,10 @@
 @import "daterangepicker_dark";
 
+.logotype{
+  width: 147px;
+  height: 40px;
+}
+
 .search-form-type {
   cursor: pointer;
 }
@@ -19,6 +24,25 @@
 
 .header-title{
   line-height: 2rem;
+}
+//
+//.dropdown-toggle{
+//  &::after{
+//    margin-left: 0;
+//  }
+//}
+
+.navbar-nav-search{
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  width: 100%;
+}
+
+.search-form{
+  width: 100%;
+  .input-group{
+    width: 100%;
+  }
 }
 
 body.dark{

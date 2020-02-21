@@ -98,7 +98,7 @@ global.reportRange = function(selector, from, till, i18n){
 }
 
 global.search = function(){
-    let form = $('#search-form');
+    let form = $('.search-form');
     let is_find = true;
 
     form.find('input[name="query"]').keyup(function(){
@@ -126,9 +126,11 @@ global.search = function(){
             attr('type', 'hidden').
             attr('name', 'network').
             attr('value', $(this).data('network')).
-            appendTo('#search-form');
+            appendTo('.search-form');
         }
-        form.submit();
+        console.log($(this));
+        $(this).parents('form').first().submit();
+        // form.submit();
         return false;
     });
 }
