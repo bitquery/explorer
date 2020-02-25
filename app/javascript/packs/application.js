@@ -97,41 +97,55 @@ global.reportRange = function(selector, from, till, i18n){
     return properties
 }
 
-global.search = function(){
-    let form = $('.search-form');
+global.search = function(selector){
+    let form = $(selector);
     let is_find = true;
 
     form.find('input[name="query"]').keyup(function(){
-        if ($(this).val() == '') {
+        let it = $(this);
+        let f = it.parents('form').first();
+        // form.find('input').not(this).val($(this).val());
+        if (it.val() == '') {
             is_find = false;
-            form.find('button').addClass('disabled');
+            f.find('button').addClass('disabled');
         } else {
             is_find = true;
-            form.find('button').removeClass('disabled');
+            f.find('button').removeClass('disabled');
         }
     });
 
-    form.find('input[name="query"]').change(function () {
-        form.find('input[name="query"]').keyup();
+    form.find('input[name="query"]').change(function(){
+        $(this).keyup();
     });
     form.find('input[name="query"]').keyup();
 
     form.submit(function(){
+        let it = $(this);
+        let net = it.find('input[type="hidden"][name="network"]');
+        let btn = it.find('button').first();
+
+        if (!net[0] && btn.data('network')!=''){
+            append_network(btn.data('network'));
+        }
         return is_find;
     });
 
     form.find('.search-form-type').click(function(){
-        if($(this).data('network') != ''){
-            $('<input />').
-            attr('type', 'hidden').
-            attr('name', 'network').
-            attr('value', $(this).data('network')).
-            appendTo('.search-form');
+        let it = $(this);
+
+        if(it.data('network') != ''){
+            append_network(it.data('network'));
         }
-        console.log($(this));
-        $(this).parents('form').first().submit();
-        // form.submit();
+        it.parents('form').first().submit();
         return false;
     });
+
+    function append_network(network){
+        $('<input />').
+        attr('type', 'hidden').
+        attr('name', 'network').
+        attr('value', network).
+        appendTo(selector);
+    };
 }
 

@@ -1,4 +1,5 @@
-<%= render partial: 'shared/title', locals: {header: t('headers.search', query: @query)} %>
+<% chain = BLOCKCHAINS.detect{|chain| chain[:network] == @network} if @network && !@network.empty? %>
+<%= render partial: 'shared/title', locals: {header: (chain ? t('headers.search_in',network: chain[:name], query: @query) : t('headers.search', query: @query))} %>
 <script>
     var query = new widgets.query(`
     query(<%= "$network: Network!, " if @network && !@network.empty? %>$query: String!){
@@ -40,7 +41,7 @@
            let url = (locale == 'en' ? '' : '/'+locale) +"/"+item.network.network+"/address/"+item.subject.address;
            let html = "<div class='media'>\n" +
                "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
-               "  <div class='media-body'>\n" +
+               "  <div class='media-body word-wrap' style='min-width: 40%;'>\n" +
                "    <h6 class='mt-0'><a href='"+url+"'>"+chains[item.network.network].name+" <%= t('address') %> "+item.subject.address+"</a></h6>\n" +
                ((typeof item.subject.annotation) == String ? "<p>"+item.subject.annotation+"</p>\n" : "") +
                "    <a href='"+url+"'>"+url+"</a>" +

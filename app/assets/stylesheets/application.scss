@@ -1,4 +1,19 @@
 @import "daterangepicker_dark";
+@import url(https://fonts.googleapis.com/css?family=Nunito:300,400,600,700);
+:root{
+  --font-family-sans-serif:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+  --font-family-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace
+}
+html{
+  font-family:sans-serif;
+}
+body{
+  font-family:Nunito,sans-serif;
+}
+
+.word-wrap{
+  word-wrap: break-word;
+}
 
 .logotype{
   width: 147px;
@@ -49,6 +64,11 @@ body.dark{
   background-color: #57626b;
   color: #d6d6d6;
 
+  header{
+    &.border-bottom {
+      border-bottom: none !important;
+    }
+  }
 
   input, input:focus, select, select:focus{
     background-color: #434e57;

@@ -22,6 +22,7 @@ ru:
   loading: 'Загрузка...'
   headers:
     search: "Поиск \"%{query}\""
+    search_in: "Поиск в %{network} \"%{query}\""
     address: "%{network} адрес \"%{address}\""
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"

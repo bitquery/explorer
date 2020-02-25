@@ -22,6 +22,7 @@ zh:
   loading: '載入中...'
   headers:
     search: "搜索\"%{query}\""
+    search_in: "在%{network}中搜索 \"%{query}\""
     address: "%{network} 地址 \"%{address}\""
   errors:
     no_methods: "該功能尚未實現，請稍後再返回"
