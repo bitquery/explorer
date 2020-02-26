@@ -1,7 +1,8 @@
 <li class="nav-item">
+  <%#= url_for('?'+request.query_parameters.merge(theme: :dark)).to_s %>
   <% if @theme.to_sym == :light %>
-    <%= link_to request.query_parameters.merge(theme: :dark), class: 'nav-link' do %><i class="fa fa-moon text-default"></i><% end %>
+    <%= link_to request.query_parameters.merge(path: params[:network][:path], theme: :dark), class: 'nav-link' do %><i class="fa fa-moon text-default"></i><% end %>
   <% else %>
-    <%= link_to request.query_parameters.merge(theme: :light), class: 'nav-link' do %><i class="fa fa-sun text-default"></i><% end %>
+    <%= link_to request.query_parameters.merge(path: params[:network][:path], theme: :light), class: 'nav-link' do %><i class="fa fa-sun text-default"></i><% end %>
   <% end %>
 </li>
