@@ -1,22 +1,32 @@
 Rails.application.routes.draw do
 
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
-    BLOCKCHAINS.select{|b| b[:family]=='bitcoin' }.each{|blockchain|
-      get "#{blockchain[:path]}/tx/:id", to: "#{blockchain[:family]}/tx#show", defaults: {network: blockchain}
-      get "#{blockchain[:path]}/address/:id", to: "#{blockchain[:family]}/address#show", defaults: {network: blockchain}
-    }
 
-    BLOCKCHAINS.select{|b| b[:family]=='ethereum' }.each{|blockchain|
-      get "#{blockchain[:path]}/tx/:id", to: "#{blockchain[:family]}/tx#show", defaults: {network: blockchain}
-      get "#{blockchain[:path]}/address/:id", to: "#{blockchain[:family]}/address#show", defaults: {network: blockchain}
-      get "#{blockchain[:path]}/token/:id", to: "#{blockchain[:family]}/token#show", defaults: {network: blockchain}
+    BLOCKCHAINS.select{|b| b[:family]=='ethereum'}.each{|blockchain|
+      get ":blockchain/address/:id", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/tx/:id", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/token/:id", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
     }
 
     BLOCKCHAINS.select{|b| b[:family]=='binance' }.each{|blockchain|
-      get "#{blockchain[:path]}/tx/:id", to: "#{blockchain[:family]}/tx#show", defaults: {network: blockchain}
-      get "#{blockchain[:path]}/address/:id", to: "#{blockchain[:family]}/address#show", defaults: {network: blockchain}
-      get "#{blockchain[:path]}/token/:id", to: "#{blockchain[:family]}/token#show", defaults: {network: blockchain}
+      get ":blockchain/address/:id", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/tx/:id", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/token/:id", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
     }
+
+    BLOCKCHAINS.select{|b| b[:family]=='bitcoin' }.each{|blockchain|
+      get ":blockchain/address/:id", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/tx/:id", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+    }
+
+
+
+    #get ":blockchain/address/:id", controller: 'ethereum/address', action: 'show', constraints: { blockchain: /ethereum/ },
+    #    defaults: {network: BLOCKCHAINS[0]}
+
+    #get ":blockchain/address/:id", controller: 'ethereum/address', action: 'show', constraints: { blockchain: /ethclassic/ },
+    #    defaults: {network: BLOCKCHAINS[1]}
+
 
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'
 
