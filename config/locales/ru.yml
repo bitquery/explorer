@@ -16,6 +16,7 @@ ru:
   find: "Искать"
   find_in: "Искать в %{network}"
   find_all: "Искать во всех сетях"
+  find_placeholder: "Введите адрес..."
   themes:
     light: 'Светлая тема'
     dark: 'Темная тема'

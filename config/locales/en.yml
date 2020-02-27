@@ -16,6 +16,7 @@ en:
   find: "Search"
   find_in: "Search in %{network}"
   find_all: "Search in all blockchains"
+  find_placeholder: "Enter address..."
   themes:
     light: 'Light theme'
     dark: 'Dark theme'
