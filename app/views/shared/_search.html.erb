@@ -1,4 +1,4 @@
-<%= form_tag search_path, class: 'search-form' do %>
+<%= form_tag search_path(), class: 'search-form' do %>
   <div class="input-group">
     <%= text_field_tag :query, @query, id: nil, class: "form-control form-control-sm", placeholder: t('find_placeholder') %>
     <div class="input-group-append">

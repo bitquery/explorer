@@ -129,10 +129,7 @@ global.search = function(selector){
 
     form.find('.search-form-type').click(function(){
         let it = $(this);
-
-        if(it.data('network') != ''){
-            append_network(it.data('network'));
-        }
+        append_network(it.data('network'));
         it.parents('form').first().submit();
         return false;
     });
