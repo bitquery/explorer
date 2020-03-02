@@ -20,8 +20,24 @@ body{
   height: 40px;
 }
 
-.search-form-type {
-  cursor: pointer;
+.search-form{
+  .search-form-type {
+    cursor: pointer;
+  }
+
+  img.search-icon{
+    height: 26px;
+    width: auto;
+    top:1px;
+    left:2px;
+    position:absolute;
+  }
+
+  .fa.search-icon{
+    position: relative;
+    top: 8px;
+    left: 8px
+  }
 }
 
 .search{
