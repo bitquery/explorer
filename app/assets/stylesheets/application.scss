@@ -28,15 +28,16 @@ body{
   img.search-icon{
     height: 26px;
     width: auto;
-    top:1px;
+    top:2px;
     left:2px;
     position:absolute;
   }
 
   .fa.search-icon{
     position: relative;
-    top: 8px;
-    left: 8px
+    top: 6px;
+    left: 6px;
+    text-shadow: 1px 1px 2px black, 0 0 1em;
   }
 }
 

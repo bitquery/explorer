@@ -2,17 +2,18 @@
   "name": "explorer",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
     "@rails/webpacker": "^4.2.0",
     "bootstrap": "^4.3.1",
+    "cryptocurrency-icons": "^0.16.1",
     "daterangepicker": "^3.0.5",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "popper.js": "^1.16.0",
-    "turbolinks": "^5.2.0",
-    "@fortawesome/fontawesome-free": "^5.11.2"
+    "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",
   "devDependencies": {
