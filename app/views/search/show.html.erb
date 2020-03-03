@@ -37,7 +37,7 @@
         //     return "/"+locale+(address == '-' ? '/token/'+name : '/address/'+address);
         // },
         search_address_snippet: function(item, locale){
-           let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_path "cryptoicons/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
+           let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_pack_path "media/icon/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
            let url = (locale == 'en' ? '' : '/'+locale) +"/"+item.network.network+"/address/"+item.subject.address;
            let html = "<div class='media'>\n" +
                "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +

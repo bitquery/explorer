@@ -2025,6 +2025,11 @@ crypto-browserify@^3.11.0:
     randombytes "^2.0.0"
     randomfill "^1.0.3"
 
+cryptocurrency-icons@^0.16.1:
+  version "0.16.1"
+  resolved "https://registry.yarnpkg.com/cryptocurrency-icons/-/cryptocurrency-icons-0.16.1.tgz#33ec0b828c666f773b53866b4b803b2a06c28efc"
+  integrity sha512-C6y+r56g0ZJzZ9kCbeKa/WXb/oz1elilsaSGjv86T93P0oZWr4v5pxnbtZrEnvHn63qbTxo/Pz3NvzLbKrnQVQ==
+
 css-blank-pseudo@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/css-blank-pseudo/-/css-blank-pseudo-0.1.4.tgz#dfdefd3254bf8a82027993674ccf35483bfcb3c5"

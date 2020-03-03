@@ -8,4 +8,8 @@ module ApplicationHelper
     "#{BITQUERY_PROJECT_URL}/images/#{name}"
   end
 
+  def image_pack_path path
+    resolve_path_to_image path
+  end
+
 end
