@@ -3,21 +3,21 @@
     var query1 = new widgets.query(`
       query($currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
       binance {
-        transfers(from: $from, till: $till,
+        transfers(date: {since: $from, till: $till},
                   transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]){
             sum_in: amount(calculate: sum,
-                        currency: {symbol: $currency},
-                        receiver: {address: $address}
+                        currency: {is: $currency},
+                        receiver: {is: $address}
             )
             sum_out: amount(calculate: sum,
-              currency: {symbol: $currency},
-              sender: {address: $address}
+              currency: {is: $currency},
+              sender: {is: $address}
             )
             count_in: count( uniq: transfers,
-                receiver: {address: $address}
+                receiver: {is: $address}
             )
             count_out: count( uniq: transfers,
-                sender: {address: $address}
+                sender: {is: $address}
             )
             date{
               month: date(format: "%Y-%m")
@@ -30,12 +30,12 @@
     var query2 = new widgets.query(`
     query($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
       binance {
-        trades(from: $from, till: $till){
+        trades(date: {since: $from, till: $till}){
           trades_as_buyer: count(buyer: {
-            address: $address
+            is: $address
           }, uniq:trades)
           trades_as_seller: count(seller: {
-            address: $address
+            is: $address
           }, uniq:trades)
           date{
               month: date(format: "%Y-%m")
@@ -48,20 +48,20 @@
     var query3 = new widgets.query(`
     query($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       binance{
-        transfers(from: $from, till: $till, options: {limit: $limit, offset: $offset},
+        transfers(date: {since: $from, till: $till}, options: {limit: $limit, offset: $offset},
                   transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]
         ){
             sum_in: amount(calculate: sum,
-              receiver: {address: $address}
+              receiver: {is: $address}
             )
             sum_out: amount(calculate: sum,
-              sender: {address: $address}
+              sender: {is: $address}
             )
             count_in: count( uniq: transfers,
-              receiver: {address: $address}
+              receiver: {is: $address}
             )
             count_out: count( uniq: transfers,
-              sender: {address: $address}
+              sender: {is: $address}
             )
             currency {
               address
@@ -76,30 +76,30 @@
       query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       binance {
 
-        trades(from: $from, till: $till, options: {limit: $limit, offset: $offset}){
+        trades(date: {since: $from, till: $till}, options: {limit: $limit, offset: $offset}){
 
           trades_as_buyer: count(buyer: {
-            address: $address
+            is: $address
           }, uniq:trades)
 
           trades_as_seller: count(seller: {
-            address: $address
+            is: $address
           }, uniq:trades)
 
           buyQuoteAmount: quoteAmount(buyer: {
-            address: $address
+            is: $address
           })
 
           sellQuoteAmount: quoteAmount(seller: {
-            address: $address
+            is: $address
           })
 
           buyBaseAmount: baseAmount(buyer: {
-            address: $address
+            is: $address
           })
 
           sellBaseAmount:baseAmount(seller: {
-            address: $address
+            is: $address
           })
 
           baseCurrency{ symbol }

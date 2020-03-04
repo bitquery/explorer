@@ -3,20 +3,20 @@
     var query1 = new widgets.query(`
       query($network: EthereumNetwork!, $currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
       ethereum(network: $network) {
-        transfers(from: $from, till: $till){
+        transfers(date: {since: $from, till: $till}){
             sum_in: amount(calculate: sum,
-                        currency: {symbol: $currency},
-                        receiver: {address: $address}
+                        currency: {is: $currency},
+                        receiver: {is: $address}
             )
             sum_out: amount(calculate: sum,
-              currency: {symbol: $currency},
-              sender: {address: $address}
+              currency: {is: $currency},
+              sender: {is: $address}
             )
             count_in: count( uniq: transfers,
-                receiver: {address: $address}
+                receiver: {is: $address}
             )
             count_out: count( uniq: transfers,
-                sender: {address: $address}
+                sender: {is: $address}
             )
             date{
               month: date(format: "%Y-%m")
@@ -29,10 +29,10 @@
     var query2 = new widgets.query(`
     query($network: EthereumNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
       ethereum(network: $network) {
-        smartContractCalls(from: $from, till: $till){
+        smartContractCalls(date: {since: $from, till: $till}){
               count(
                 uniq: calls,
-                caller: {address: $address}
+                caller: {is: $address}
               )
               date {
                 month: date(format: "%Y-%m")
@@ -45,18 +45,18 @@
     var query3 = new widgets.query(`
     query($network: EthereumNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       ethereum(network: $network) {
-        transfers(from: $from, till: $till, options: {limit: $limit, offset: $offset}){
+        transfers(date: {since: $from, till: $till}, options: {limit: $limit, offset: $offset}){
             sum_in: amount(calculate: sum,
-              receiver: {address: $address}
+              receiver: {is: $address}
             )
             sum_out: amount(calculate: sum,
-              sender: {address: $address}
+              sender: {is: $address}
             )
             count_in: count( uniq: transfers,
-              receiver: {address: $address}
+              receiver: {is: $address}
             )
             count_out: count( uniq: transfers,
-              sender: {address: $address}
+              sender: {is: $address}
             )
             currency {
               address
@@ -70,8 +70,8 @@
     var query4 = new widgets.query(`
     query($network: EthereumNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       ethereum(network: $network) {
-        smartContractCalls(from: $from, till: $till, options: {limit: $limit, offset: $offset}) {
-          count(caller: {address: $address}, uniq:calls)
+        smartContractCalls(date: {since: $from, till: $till}, options: {limit: $limit, offset: $offset}) {
+          count(caller: {is: $address}, uniq:calls)
           smartContract{
             address{
               address
