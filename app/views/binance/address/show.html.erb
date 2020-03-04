@@ -185,7 +185,7 @@
     rr.change(function(start, end, clear){
         query1.request({from: start, till: end});
         query2.request({from: start, till: end});
-        query3.request({from: start, till: end, limit: 10});
-        query4.request({from: start, till: end, limit: 10});
+        query3.request({from: start, till: end, limit: 10, offset: 0});
+        query4.request({from: start, till: end, limit: 10, offset: 0});
     })
 </script>
