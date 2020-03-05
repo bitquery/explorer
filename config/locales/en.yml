@@ -24,7 +24,7 @@ en:
   headers:
     search: "Search \"%{query}\""
     search_in: "Search in %{network} \"%{query}\""
-    address: "%{network} address \"%{address}\""
+    address: "%{network} address %{address}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:

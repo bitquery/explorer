@@ -70,9 +70,9 @@
   </div>
 </div>
 <script>
-    var tbtbnb = new widgets.transaction_by_time('#binance', query1, 'binance.transfers');
-    var tbteth = new widgets.transaction_by_time('#ethereum', query2, 'ethereum.transfers');
-    var tbtetc = new widgets.transaction_by_time('#ethclassic', query3, 'ethereum.transfers');
+    var tbtbnb = new widgets.transaction_by_time('#binance', query1, 'binance.transfers', {title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %>'});
+    var tbteth = new widgets.transaction_by_time('#ethereum', query2, 'ethereum.transfers', {title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %>'});
+    var tbtetc = new widgets.transaction_by_time('#ethclassic', query3, 'ethereum.transfers', {title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'etc'}) && chain[:name]) %>'});
     query1.request();
     query2.request();
     query3.request();

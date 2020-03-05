@@ -1,4 +1,4 @@
-<%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: @address).html_safe, reportrange: true} %>
+<%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: copy_text(@address, 'text-info')).html_safe, reportrange: true} %>
 <script>
     var query1 = new widgets.query(`
       query($currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
@@ -173,10 +173,10 @@
         }
     });
 
-    var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'binance.transfers');
-    var trbt = new widgets.trades_by_time('#trades_timegraph', query2, 'binance.trades');
-    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'binance.transfers');
-    var trbc = new widgets.trades_by_currencies('#trades_by_currencies', query4, 'binance.trades');
+    var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'binance.transfers', {title: '<%= t('widgets.headers.transaction_by_time') %>'});
+    var trbt = new widgets.trades_by_time('#trades_timegraph', query2, 'binance.trades', {title: '<%= t('widgets.headers.trades_by_time') %>'});
+    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'binance.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
+    var trbc = new widgets.trades_by_currencies('#trades_by_currencies', query4, 'binance.trades', {title: '<%= t('widgets.headers.trades_by_currencies') %>'});
     query1.request({currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query3.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
