@@ -146,19 +146,45 @@
         }
     });
 
-    var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'ethereum.transfers', {title: '<%= t('widgets.headers.transaction_by_time') %>'});
-    var cbt = new widgets.calls_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_by_time') %>'});
-    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'ethereum.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
-    var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query4, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_smart_contracts') %>'});
-    query1.request({network: '<%= params['network']['network'] %>', currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
+    //var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'ethereum.transfers', {title: '<%= t('widgets.headers.transaction_by_time') %>'});
+<!--    var cbt = new widgets.calls_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_by_time') %>'});-->
+
+    var cbt = new widgets.chart_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls', {
+        title: '<%= t('widgets.headers.calls_by_time') %>',
+        chartOptions: {
+            vAxes: {
+                '0': {
+                    title: 'CALS'
+                }
+            },
+            hAxis: {
+                title: 'Mon'
+            }
+        },
+        dataOptions:[
+            {
+                title: 'Date',
+                path: 'date.month'
+            },
+            {
+                title: 'Calls',
+                path: 'count'
+            }
+        ]
+    });
+
+
+    //var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'ethereum.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
+    //var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query4, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_smart_contracts') %>'});
+    //query1.request({network: '<%= params['network']['network'] %>', currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
-    query3.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
-    query4.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
+    //query3.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
+    //query4.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
 
     rr.change(function(start, end, clear){
-        query1.request({from: start, till: end});
+        // query1.request({from: start, till: end});
         query2.request({from: start, till: end});
-        query3.request({from: start, till: end, limit: 10, offset: 0});
-        query4.request({from: start, till: end, limit: 10, offset: 0});
+        // query3.request({from: start, till: end, limit: 10, offset: 0});
+        // query4.request({from: start, till: end, limit: 10, offset: 0});
     })
 </script>
