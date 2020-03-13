@@ -173,10 +173,92 @@
         }
     });
 
-    var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'binance.transfers', {title: '<%= t('widgets.headers.transaction_by_time') %>'});
-    var trbt = new widgets.trades_by_time('#trades_timegraph', query2, 'binance.trades', {title: '<%= t('widgets.headers.trades_by_time') %>'});
+    var tt = new widgets.chart_by_time('#transfers_timegraph', query1, 'binance.transfers', {
+        title: '<%= t('widgets.headers.transaction_by_time') %>',
+        chartOptions: {
+            vAxes: {
+                '0': {
+                    title: 'TX count',
+                },
+                '1': {
+                    title: "volume currency",
+                }
+            },
+            hAxis: {
+                title: 'Mon',
+            },
+            seriesType: 'bars',
+            series: {
+                '0': { color: 'orange' },
+                '1': { color: 'lightgreen' },
+                '2': { color: 'green', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12},
+                '3': { color: 'red', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12}
+            }
+        },
+        dataOptions: [
+            {
+                title: 'Date',
+                path: 'date.month'
+            },
+            {
+                title: 'Receive count',
+                path: 'count_in'
+            },
+            {
+                title: 'Send count',
+                path: 'count_out'
+            },
+            {
+                title: 'Volume in',
+                path: 'sum_in'
+            },
+            {
+                title: 'Volume out',
+                path: 'sum_out'
+            },
+        ]
+    });
+
+    var trt = new widgets.chart_by_time('#trades_timegraph', query2, 'binance.trades', {
+        title: '<%= t('widgets.headers.trades_by_time') %>',
+        chartOptions: {
+            isStacked: true,
+            vAxes: {
+                '0': {
+                    title: 'Trades',
+                },
+                '1': {
+                    title: "Trades",
+                }
+            },
+            hAxis: {
+                title: 'Mon',
+            },
+            seriesType: 'bars',
+            series: {
+                '0': { color: '#9bc2cf' },
+                '1': { color: 'lightgreen' },
+            }
+        },
+        dataOptions: [
+            {
+                title: 'Date',
+                path: 'date.month'
+            },
+            {
+                title: 'trades_as_buyer',
+                path: 'trades_as_buyer'
+            },
+            {
+                title: 'trades_as_seller',
+                path: 'trades_as_seller'
+            },
+        ]
+    });
+
     var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'binance.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
     var trbc = new widgets.trades_by_currencies('#trades_by_currencies', query4, 'binance.trades', {title: '<%= t('widgets.headers.trades_by_currencies') %>'});
+
     query1.request({currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query3.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});

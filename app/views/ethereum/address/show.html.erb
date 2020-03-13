@@ -146,10 +146,53 @@
         }
     });
 
-    //var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'ethereum.transfers', {title: '<%= t('widgets.headers.transaction_by_time') %>'});
-<!--    var cbt = new widgets.calls_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_by_time') %>'});-->
+    var tt = new widgets.chart_by_time('#transfers_timegraph', query1, 'ethereum.transfers', {
+        title: '<%= t('widgets.headers.transaction_by_time') %>',
+        chartOptions: {
+            vAxes: {
+                '0': {
+                    title: 'TX count',
+                },
+                '1': {
+                    title: "volume currency",
+                }
+            },
+            hAxis: {
+                title: 'Mon',
+            },
+            seriesType: 'bars',
+            series: {
+                '0': { color: 'orange' },
+                '1': { color: 'lightgreen' },
+                '2': { color: 'green', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12},
+                '3': { color: 'red', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12}
+            }
+        },
+        dataOptions: [
+            {
+                title: 'Date',
+                path: 'date.month'
+            },
+            {
+                title: 'Receive count',
+                path: 'count_in'
+            },
+            {
+                title: 'Send count',
+                path: 'count_out'
+            },
+            {
+                title: 'Volume in',
+                path: 'sum_in'
+            },
+            {
+                title: 'Volume out',
+                path: 'sum_out'
+            },
+        ]
+    });
 
-    var cbt = new widgets.chart_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls', {
+    var ct = new widgets.chart_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls', {
         title: '<%= t('widgets.headers.calls_by_time') %>',
         chartOptions: {
             vAxes: {
@@ -161,7 +204,7 @@
                 title: 'Mon'
             }
         },
-        dataOptions:[
+        dataOptions: [
             {
                 title: 'Date',
                 path: 'date.month'
@@ -173,18 +216,18 @@
         ]
     });
 
+    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'ethereum.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
+    var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query4, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_smart_contracts') %>'});
 
-    //var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'ethereum.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
-    //var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query4, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_smart_contracts') %>'});
-    //query1.request({network: '<%= params['network']['network'] %>', currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
+    query1.request({network: '<%= params['network']['network'] %>', currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
-    //query3.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
-    //query4.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
+    query3.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
+    query4.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
 
     rr.change(function(start, end, clear){
-        // query1.request({from: start, till: end});
+        query1.request({from: start, till: end});
         query2.request({from: start, till: end});
-        // query3.request({from: start, till: end, limit: 10, offset: 0});
-        // query4.request({from: start, till: end, limit: 10, offset: 0});
+        query3.request({from: start, till: end, limit: 10, offset: 0});
+        query4.request({from: start, till: end, limit: 10, offset: 0});
     })
 </script>
