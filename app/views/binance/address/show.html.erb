@@ -167,6 +167,7 @@
     var tt = new widgets.chart('#transfers_timegraph', query1, 'binance.transfers', {
         title: '<%= t('widgets.headers.transaction_by_time') %>',
         chartOptions: {
+            isStacked: true,
             vAxes: {
                 '0': {
                     title: '<%= t('widgets.titles.tx_count') %>',
