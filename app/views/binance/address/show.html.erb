@@ -216,10 +216,10 @@
             isStacked: true,
             vAxes: {
                 '0': {
-                    title: 'Trades',
+                    title: '<%= t('widgets.titles.trades') %>',
                 },
                 '1': {
-                    title: "Trades",
+                    title: '<%= t('widgets.titles.trades') %>',
                 }
             },
             hAxis: {
@@ -237,11 +237,11 @@
                 path: 'date.month'
             },
             {
-                title: 'trades_as_buyer',
+                title: '<%= t('widgets.titles.trades_as_buyer') %>',
                 path: 'trades_as_buyer'
             },
             {
-                title: 'trades_as_seller',
+                title: '<%= t('widgets.titles.trades_as_seller') %>',
                 path: 'trades_as_seller'
             },
         ]
@@ -251,7 +251,7 @@
         title: '<%= t('widgets.headers.currencies_sent_received') %>',
         tableOptions: {
             title: [
-                'Валюта', '', 'Получено', 'Транзакции', 'Отправлено', '', 'Транзакции'
+                '<%= t('widgets.titles.currency') %>', '', '<%= t('widgets.titles.receive') %>', '<%= t('widgets.titles.txs') %>', '<%= t('widgets.titles.send') %>', '', '<%= t('widgets.titles.txs') %>'
             ],
             data: [
                 {
@@ -297,7 +297,7 @@
         title: '<%= t('widgets.headers.trades_by_currencies') %>',
         tableOptions: {
             title: [
-                'Пара', '', '', 'Покупка', '', 'Продажа', '', '', 'Сделки'
+                '<%= t('widgets.titles.pair') %>', '', '', '<%= t('widgets.titles.buy') %>', '', '<%= t('widgets.titles.sell') %>', '', '', '<%= t('widgets.titles.trade') %>'
             ],
             data: [
                 {
