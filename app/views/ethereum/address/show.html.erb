@@ -151,14 +151,14 @@
         chartOptions: {
             vAxes: {
                 '0': {
-                    title: 'TX count',
+                    title: '<%= t('widgets.titles.tx_count') %>',
                 },
                 '1': {
-                    title: "volume currency",
+                    title: '<%= t('widgets.titles.volume', currency: params['network']['currency']) %>',
                 }
             },
             hAxis: {
-                title: 'Mon',
+                title: '<%= t('widgets.titles.month') %>',
             },
             seriesType: 'bars',
             series: {
@@ -170,23 +170,23 @@
         },
         dataOptions: [
             {
-                title: 'Date',
+                title: '<%= t('widgets.titles.date') %>',
                 path: 'date.month'
             },
             {
-                title: 'Receive count',
+                title: '<%= t('widgets.titles.receive_count') %>',
                 path: 'count_in'
             },
             {
-                title: 'Send count',
+                title: '<%= t('widgets.titles.send_count') %>',
                 path: 'count_out'
             },
             {
-                title: 'Volume in',
+                title: '<%= t('widgets.titles.volume_in', currency: params['network']['currency']) %>',
                 path: 'sum_in'
             },
             {
-                title: 'Volume out',
+                title: '<%= t('widgets.titles.volume_out', currency: params['network']['currency']) %>',
                 path: 'sum_out'
             },
         ]
@@ -220,7 +220,7 @@
         title: '<%= t('widgets.headers.currencies_sent_received') %>',
         tableOptions: {
             title: [
-                'Валюта', '', 'Получено', 'Транзакции', 'Отправлено', '', 'Транзакции'
+                '<%= t('widgets.titles.currency') %>', '', '<%= t('widgets.titles.receive') %>', '<%= t('widgets.titles.txs') %>', '<%= t('widgets.titles.send') %>', '', '<%= t('widgets.titles.txs') %>'
             ],
             data: [
                 {
@@ -267,7 +267,7 @@
         title: '<%= t('widgets.headers.calls_smart_contracts') %>',
         tableOptions: {
             title: [
-                'Смарт контракт', 'Метод', 'Количество транзакций'
+                '<%= t('widgets.titles.smart_contract') %>', '<%= t('widgets.titles.method') %>', '<%= t('widgets.titles.tx_count') %>'
             ],
             data: [
                 {
