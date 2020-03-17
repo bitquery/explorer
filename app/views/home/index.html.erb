@@ -70,73 +70,73 @@
   </div>
 </div>
 <script>
-    var tbtbnb = new widgets.chart_by_time('#binance', query1, 'binance.transfers', {
+    var tbtbnb = new widgets.chart('#binance', query1, 'binance.transfers', {
         title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %>',
         chartOptions: {
             vAxes: {
                 '0': {
-                    title: 'count'
+                    title: '<%= t('widgets.titles.tx_count') %>'
                 }
             },
             hAxis: {
-                title: 'Mon'
+                title: '<%= t('widgets.titles.month') %>'
             }
         },
         dataOptions: [
             {
-                title: 'Date',
+                title: '<%= t('widgets.titles.date') %>',
                 path: 'date.month'
             },
             {
-                title: 'Transactions',
+                title: '<%= t('widgets.titles.tx_count') %>',
                 path: 'count'
             }
         ]
     });
 
-    var tbteth = new widgets.chart_by_time('#ethereum', query2, 'ethereum.transfers', {
+    var tbteth = new widgets.chart('#ethereum', query2, 'ethereum.transfers', {
         title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %>',
         chartOptions: {
             vAxes: {
                 '0': {
-                    title: 'count'
+                    title: '<%= t('widgets.titles.tx_count') %>'
                 }
             },
             hAxis: {
-                title: 'Mon'
+                title: '<%= t('widgets.titles.month') %>'
             }
         },
         dataOptions: [
             {
-                title: 'Date',
+                title: '<%= t('widgets.titles.date') %>',
                 path: 'date.month'
             },
             {
-                title: 'Transactions',
+                title: '<%= t('widgets.titles.tx_count') %>',
                 path: 'count'
             }
         ]
     });
 
-    var tbtetc = new widgets.chart_by_time('#ethclassic', query3, 'ethereum.transfers', {
+    var tbtetc = new widgets.chart('#ethclassic', query3, 'ethereum.transfers', {
         title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'etc'}) && chain[:name]) %>',
         chartOptions: {
             vAxes: {
                 '0': {
-                    title: 'count'
+                    title: '<%= t('widgets.titles.tx_count') %>'
                 }
             },
             hAxis: {
-                title: 'Mon'
+                title: '<%= t('widgets.titles.month') %>'
             }
         },
         dataOptions: [
             {
-                title: 'Date',
+                title: '<%= t('widgets.titles.date') %>',
                 path: 'date.month'
             },
             {
-                title: 'Transactions',
+                title: '<%= t('widgets.titles.tx_count') %>',
                 path: 'count'
             }
         ]

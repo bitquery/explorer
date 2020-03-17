@@ -150,42 +150,33 @@
 
 <script>
     widgets.callbacks({
-        token_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
+        token_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/address/'+item.currency.address;
         },
-        transfer_to_path: function(currency_id, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/txs/transfers_to/'+address;
+        transfer_to_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/txs/transfers_to/'+item.currency.address;
         },
-        transfer_from_path: function(currency_id, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/txs/transfers_from/'+address;
+        transfer_from_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/txs/transfers_from/'+item.currency.address;
         },
-        smart_contract_method_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/functions/'+address;
-        },
-        smart_contract_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/smartcontract/'+address;
-        },
-        call_count_path: function(address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
-        },
-        trades_count_path: function(address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/trades/'+address;
-        }
+        //trades_count_path: function(item){
+        //    return '<%#= params[:locale] %>/<%#= params['network']['path'] %>/trades/'+item;
+       // }
     });
 
-    var tt = new widgets.chart_by_time('#transfers_timegraph', query1, 'binance.transfers', {
+    var tt = new widgets.chart('#transfers_timegraph', query1, 'binance.transfers', {
         title: '<%= t('widgets.headers.transaction_by_time') %>',
         chartOptions: {
             vAxes: {
                 '0': {
-                    title: 'TX count',
+                    title: '<%= t('widgets.titles.tx_count') %>',
                 },
                 '1': {
-                    title: "volume currency",
+                    title: '<%= t('widgets.titles.volume', currency: params['network']['currency']) %>',
                 }
             },
             hAxis: {
-                title: 'Mon',
+                title: '<%= t('widgets.titles.month') %>',
             },
             seriesType: 'bars',
             series: {
@@ -197,29 +188,29 @@
         },
         dataOptions: [
             {
-                title: 'Date',
+                title: '<%= t('widgets.titles.date') %>',
                 path: 'date.month'
             },
             {
-                title: 'Receive count',
+                title: '<%= t('widgets.titles.receive_count') %>',
                 path: 'count_in'
             },
             {
-                title: 'Send count',
+                title: '<%= t('widgets.titles.send_count') %>',
                 path: 'count_out'
             },
             {
-                title: 'Volume in',
+                title: '<%= t('widgets.titles.volume_in', currency: params['network']['currency']) %>',
                 path: 'sum_in'
             },
             {
-                title: 'Volume out',
+                title: '<%= t('widgets.titles.volume_out', currency: params['network']['currency']) %>',
                 path: 'sum_out'
             },
         ]
     });
 
-    var trt = new widgets.chart_by_time('#trades_timegraph', query2, 'binance.trades', {
+    var trt = new widgets.chart('#trades_timegraph', query2, 'binance.trades', {
         title: '<%= t('widgets.headers.trades_by_time') %>',
         chartOptions: {
             isStacked: true,
@@ -232,7 +223,7 @@
                 }
             },
             hAxis: {
-                title: 'Mon',
+                title: '<%= t('widgets.titles.month') %>',
             },
             seriesType: 'bars',
             series: {
@@ -242,7 +233,7 @@
         },
         dataOptions: [
             {
-                title: 'Date',
+                title: '<%= t('widgets.titles.date') %>',
                 path: 'date.month'
             },
             {
@@ -256,8 +247,95 @@
         ]
     });
 
-    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'binance.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
-    var trbc = new widgets.trades_by_currencies('#trades_by_currencies', query4, 'binance.trades', {title: '<%= t('widgets.headers.trades_by_currencies') %>'});
+    var tbc = new widgets.table('#transfers_by_currencies', query3, 'binance.transfers', {
+        title: '<%= t('widgets.headers.currencies_sent_received') %>',
+        tableOptions: {
+            title: [
+                'Валюта', '', 'Получено', 'Транзакции', 'Отправлено', '', 'Транзакции'
+            ],
+            data: [
+                {
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                },
+                {
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    type: 'amount',
+                    path: 'sum_in'
+                },
+                {
+                    type: 'count',
+                    path: 'count_in',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_to_path'
+                },
+                {
+                    type: 'amount',
+                    path: 'sum_out'
+                },
+                {
+                    type: 'string',
+                    path: '',
+                    data: '<i class="fa fa-sign-out text-warning"></i>',
+                },
+                {
+                    type: 'count',
+                    path: 'count_out',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'trades_count_path'
+                },
+            ]
+        }
+    });
+
+    var tbc = new widgets.table_trades('#trades_by_currencies', query4, 'binance.trades', {
+        title: '<%= t('widgets.headers.trades_by_currencies') %>',
+        tableOptions: {
+            title: [
+                'Пара', '', '', 'Покупка', '', 'Продажа', '', '', 'Сделки'
+            ],
+            data: [
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    type: 'amount'
+                },
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'amount'
+                },
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-warning"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    type: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    // urlCallbackName: 'trades_count_path'
+                }
+            ]
+        }
+    });
 
     query1.request({currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});

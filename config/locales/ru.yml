@@ -36,3 +36,12 @@ ru:
       trades_by_time: 'Сделок по времени'
       trades_by_currencies: 'Сделки Покупка/продажа'
       transactions_in_network: "Переводы в %{network}"
+    titles:
+      date: 'Дата'
+      month: 'Месяц'
+      tx_count: "Количество транзакций"
+      volume: "Объем, %{currency}"
+      receive_count: "Вызовы контрактов"
+      send_count: "Количество получателей"
+      volume_in: "Объем входящих, %{currency}"
+      volume_out: "Объем исходящих, %{currency}"

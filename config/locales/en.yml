@@ -36,3 +36,12 @@ en:
       trades_by_time: 'Trades by time'
       trades_by_currencies: 'Trades Buy/Sell'
       transactions_in_network: "Transfers in %{network}"
+    titles:
+      date: 'Date'
+      month: 'Month'
+      tx_count: "Tx Count"
+      volume: "Volume, %{currency}"
+      receive_count: "Receive Count"
+      send_count: "Send Count"
+      volume_in: "Volume In, %{currency}"
+      volume_out: "Volume Out, %{currency}"

@@ -126,27 +126,27 @@
 
 <script>
     widgets.callbacks({
-        token_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
+        token_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/address/'+item.currency.address;
         },
-        transfer_to_path: function(currency_id, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>'+'/txs/transfers_to/'+address;
+        transfer_to_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/txs/transfers_to/'+item.currency.address;
         },
-        transfer_from_path: function(currency_id, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/txs/transfers_from/'+address;
+        transfer_from_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/txs/transfers_from/'+item.currency.address;
         },
-        smart_contract_method_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>'+'/functions/'+address;
+        smart_contract_method_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/functions/'+item.smartContract.address.address;
         },
-        smart_contract_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>'+'/smartcontract/'+address;
+        smart_contract_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/smartcontract/'+item.smartContract.address.address;
         },
-        call_count_path: function(address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>'+'/address/'+address;
+        call_count_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/address/'+item.smartContract.address.address;
         }
     });
 
-    var tt = new widgets.chart_by_time('#transfers_timegraph', query1, 'ethereum.transfers', {
+    var tt = new widgets.chart('#transfers_timegraph', query1, 'ethereum.transfers', {
         title: '<%= t('widgets.headers.transaction_by_time') %>',
         chartOptions: {
             vAxes: {
@@ -192,7 +192,7 @@
         ]
     });
 
-    var ct = new widgets.chart_by_time('#calls_timegraph', query2, 'ethereum.smartContractCalls', {
+    var ct = new widgets.chart('#calls_timegraph', query2, 'ethereum.smartContractCalls', {
         title: '<%= t('widgets.headers.calls_by_time') %>',
         chartOptions: {
             vAxes: {
@@ -216,8 +216,79 @@
         ]
     });
 
-    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'ethereum.transfers', {title: '<%= t('widgets.headers.currencies_sent_received') %>'});
-    var csc = new widgets.calls_smart_contracts('#calls_smart_contracts', query4, 'ethereum.smartContractCalls', {title: '<%= t('widgets.headers.calls_smart_contracts') %>'});
+    var tbc = new widgets.table('#transfers_by_currencies', query3, 'ethereum.transfers', {
+        title: '<%= t('widgets.headers.currencies_sent_received') %>',
+        tableOptions: {
+            title: [
+                'Валюта', '', 'Получено', 'Транзакции', 'Отправлено', '', 'Транзакции'
+            ],
+            data: [
+                {
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                },
+                {
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    type: 'amount',
+                    path: 'sum_in'
+                },
+                {
+                    type: 'count',
+                    path: 'count_in',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_to_path'
+                },
+                {
+                    type: 'amount',
+                    path: 'sum_out'
+                },
+                {
+                    type: 'string',
+                    path: '',
+                    data: '<i class="fa fa-sign-out text-warning"></i>',
+                    callbackName: ''
+                },
+                {
+                    type: 'count',
+                    path: 'count_out',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_from_path'
+                },
+            ]
+        }
+    });
+
+    var cbc = new widgets.table('#calls_smart_contracts', query4, 'ethereum.smartContractCalls', {
+        title: '<%= t('widgets.headers.calls_smart_contracts') %>',
+        tableOptions: {
+            title: [
+                'Смарт контракт', 'Метод', 'Количество транзакций'
+            ],
+            data: [
+                {
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    type: 'string-ellipsis',
+                    path: 'smartContractMethod.name',
+                    urlCallbackName: 'smart_contract_method_path'
+                },
+                {
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'call_count_path'
+                }
+            ]
+        }
+    });
 
     query1.request({network: '<%= params['network']['network'] %>', currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({network: '<%= params['network']['network'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});

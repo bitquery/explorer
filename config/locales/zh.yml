@@ -36,3 +36,12 @@ zh:
       trades_by_time: '按時間交易'
       trades_by_currencies: '交易買/賣'
       transactions_in_network: "以%{network}轉移"
+    titles:
+      date: '日期'
+      month: '月'
+      tx_count: "交易計數"
+      volume: "卷, %{currency}"
+      receive_count: "呼叫合同"
+      send_count: "接收計數"
+      volume_in: "音量輸入, %{currency}"
+      volume_out: "傳入數量, %{currency}"
