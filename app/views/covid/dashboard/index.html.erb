@@ -1,0 +1,59 @@
+<div class="row">
+  <div class="col-lg-12 mb-12">
+    <div class="card">
+      <div class="card-header">Covid</div>
+      <div class="card-body">
+        <div id="daily"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    var daily_query = new widgets.query(`
+    query {
+       covid {
+          facts(options: {asc: "date.date"}){
+
+            date {
+              date
+            }
+
+            confirmed
+            recovered
+            deaths
+       }
+
+    }
+
+  }`);
+
+    var tbtbnb = new widgets.chart('#daily', daily_query, 'binance.transfers', {
+        title: 'Daily stats',
+        chartOptions: {
+            vAxes: {
+                '0': {
+                    title: ''
+                }
+            },
+            hAxis: {
+                title: '<%= t('widgets.titles.date') %>'
+            }
+        },
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.date') %>',
+                path: 'date.date'
+            },
+            {
+                title: '<%= t('widgets.titles.tx_count') %>',
+                path: 'confirmed'
+            }
+        ]
+    });
+
+    daily_query.request();
+
+</script>
