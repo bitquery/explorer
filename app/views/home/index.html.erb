@@ -3,7 +3,7 @@
     query {
       binance {
         transfers(
-                  transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]
+                  transferType: { in: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]}
         ){
           count
           date{
