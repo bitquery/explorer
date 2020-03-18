@@ -58,10 +58,10 @@ new widgets.chart('#countrymap', countrymap_query, 'covid.facts', {
             title: 'Confirmed cases',
             path: 'confirmed'
         },
-        //{
-        //    title: {role: 'tooltip', p:{html:true}},
-        //    path: 'location.name'
-        //},
+        {
+            title: {role: 'tooltip', p:{html:true}},
+            callbackName: 'country_path'
+        },
     ]
 });
 
