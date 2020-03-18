@@ -10,18 +10,7 @@
 
 <script>
 
-    var text_<%= field %>_query = new widgets.query(`
-    query($from: ISO8601DateTime, $till: ISO8601DateTime) {
-       covid {
-              facts(date: {since: $from, till: $till}, options: {desc: "<%= field %>"} ){
-            <%= field %>
-       }
-
-    }
-
-  }`);
-
-    new widgets.text('#text_<%= field %>', text_<%= field %>_query, 'covid.facts', {
+    new widgets.text('#text_<%= field %>', text_total_query, 'covid.facts', {
         textOptions:
             {
                 type: 'string',
@@ -31,10 +20,5 @@
 
     });
 
-    text_<%= field %>_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
-
-    rr.change(function(start, end, clear){
-        pie_<%= field %>_query.request({from: start, till: end});
-    })
 
 </script>
