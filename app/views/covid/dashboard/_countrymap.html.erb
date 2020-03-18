@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-12 mb-12">
+  <div class="col-lg-12 mb-4">
     <div class="card">
       <div class="card-header">Cases on Map</div>
       <div class="card-body">
@@ -65,6 +65,7 @@ new widgets.chart('#countrymap', countrymap_query, 'covid.facts', {
         },
         {
             title: {role: 'tooltip', p:{html:true}},
+            data: 'test',
             renderCallbackName: 'mapToolTip'
         },
     ]
