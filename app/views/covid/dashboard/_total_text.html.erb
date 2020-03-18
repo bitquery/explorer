@@ -1,0 +1,40 @@
+
+<div class="col-lg-4 mb-4">
+  <div class="card <%= card_class %>">
+    <div class="card-header"><%= name %></div>
+    <div class="card-body">
+      <div id="text_<%= field %>"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    var text_<%= field %>_query = new widgets.query(`
+    query($from: ISO8601DateTime, $till: ISO8601DateTime) {
+       covid {
+              facts(date: {since: $from, till: $till}, options: {desc: "<%= field %>"} ){
+            <%= field %>
+       }
+
+    }
+
+  }`);
+
+    new widgets.text('#text_<%= field %>', text_<%= field %>_query, 'covid.facts', {
+        textOptions:
+            {
+                type: 'string',
+                path: '<%= field %>',
+                html_class: 'fontsize35rem text-center <%= html_class %>'
+            }
+
+    });
+
+    text_<%= field %>_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
+
+    rr.change(function(start, end, clear){
+        pie_<%= field %>_query.request({from: start, till: end});
+    })
+
+</script>

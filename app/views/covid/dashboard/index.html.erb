@@ -17,6 +17,26 @@
 
 </div>
 
+<div class="row">
+  <%= render partial: 'total_text', locals: {field: 'confirmed',
+                                             name: 'Confirmed',
+                                             card_class: 'border-warning',
+                                             html_class: 'text-warning'
+  } %>
+
+  <%= render partial: 'total_text', locals: {field: 'recovered',
+                                             name: 'Recovered',
+                                             card_class: 'border-success',
+                                             html_class: 'text-success'}
+  %>
+
+  <%= render partial: 'total_text', locals: {field: 'deaths',
+                                             name: 'Deaths',
+                                             card_class: 'border-danger',
+                                             html_class: 'text-danger'
+  } %>
+</div>
+
 <%= render partial: 'timegraph' %>
 <%= render partial: 'countrymap' %>
 <%= render partial: 'countrytable' %>

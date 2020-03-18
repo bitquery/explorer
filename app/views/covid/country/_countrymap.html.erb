@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-lg-12 mb-12">
+  <div class="col-lg-12 mb-4">
     <div class="card">
       <div class="card-header"><%= @name %> Cases on Map</div>
       <div class="card-body">
@@ -12,6 +12,16 @@
 
 
 <script>
+    widgets.callbacks({
+        mapToolTip: function(item){
+            html = '<div  style="min-width: 200px">' +
+                'Location: <b>' + item.location.name + (item.location.name != item.location.province && item.location.province != ''  ? ', '+item.location.province : '') +' </b><br>' +
+                'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
+                'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
+                'Deaths: <b class="text-danger">' + item.deaths +'</b>';
+            return html;
+        }
+    });
 var countrymap_query = new widgets.query(`
     query($country: CountryCode, $from: ISO8601DateTime, $till: ISO8601DateTime) {
 
@@ -39,6 +49,7 @@ new widgets.chart('#countrymap', countrymap_query, 'covid.facts', {
     title: 'Country map',
     chartType: 'GeoChart',
     chartOptions: {
+        tooltip: {isHtml: true},
         colorAxis: {minValue: 0,  colors: ['#FFFF00', '#FF0000']},
         displayMode: 'markers',
         sizeAxis: {minValue: 0,  maxSize: 20},
@@ -60,7 +71,7 @@ new widgets.chart('#countrymap', countrymap_query, 'covid.facts', {
         },
         {
             title: {role: 'tooltip', p:{html:true}},
-            callbackName: 'country_path'
+            renderCallbackName: 'mapToolTip'
         },
     ]
 });
