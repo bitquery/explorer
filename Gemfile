@@ -45,6 +45,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # Use Capistrano for deployment
 group :development, :test do
+  gem 'capistrano', '3.11.1'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   # gem 'capistrano-rvm'
