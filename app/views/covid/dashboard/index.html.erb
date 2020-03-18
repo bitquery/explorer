@@ -1,0 +1,38 @@
+
+<% content_for :title, @header %>
+
+<div class="row search mb-2">
+  <div class="col-12 col-lg">
+    <!--    <%# if local_assigns[:header] %><h6 class="header-title word-wrap"><%#= header %></h6><%# end %>-->
+    <h1 class="mt-2 word-wrap"><%= @header %></h1>
+    <p>
+      Use date range control to see data by different time period.
+      Click country from table below to see country-level.
+    </p>
+  </div>
+
+    <div class="col-12 col-lg-auto">
+      <%= render partial: 'shared/reportrange' %>
+    </div>
+
+</div>
+
+<%= render partial: 'timegraph' %>
+<%= render partial: 'countrymap' %>
+<%= render partial: 'countrytable' %>
+
+
+<div class="row">
+
+  <%= render partial: 'countries_pie', locals: {field: 'confirmed',
+                                                name: 'Top countries by Confirmed Cases'} %>
+
+  <%= render partial: 'countries_pie', locals: {field: 'recovered',
+                                                name: 'Top countries by Recovered Cases'} %>
+
+  <%= render partial: 'countries_pie', locals: {field: 'deaths',
+                                                name: 'Top countries by Death Cases'} %>
+
+</div>
+
+<%= render partial: 'sources' %>

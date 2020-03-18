@@ -12,9 +12,15 @@ require("jquery")
 require("popper.js")
 require("bootstrap")
 require('daterangepicker')
+// require('clipboard')
+import ClipboardJS from 'clipboard'
 import moment from 'moment'
 
 global.$ = $;
+
+$('document').ready(function(){
+    new ClipboardJS('.to-clipboard');
+});
 
 global.reportRange = function(selector, from, till, i18n){
     var properties = {

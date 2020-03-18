@@ -1,23 +1,23 @@
-<%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: @address).html_safe, reportrange: true} %>
+<%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: copy_text(@address, 'text-info')).html_safe, reportrange: true} %>
 <script>
     var query1 = new widgets.query(`
       query($currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
       binance {
-        transfers(from: $from, till: $till,
+        transfers(date: {since: $from, till: $till},
                   transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]){
             sum_in: amount(calculate: sum,
-                        currency: {symbol: $currency},
-                        receiver: {address: $address}
+                        currency: {is: $currency},
+                        receiver: {is: $address}
             )
             sum_out: amount(calculate: sum,
-              currency: {symbol: $currency},
-              sender: {address: $address}
+              currency: {is: $currency},
+              sender: {is: $address}
             )
             count_in: count( uniq: transfers,
-                receiver: {address: $address}
+                receiver: {is: $address}
             )
             count_out: count( uniq: transfers,
-                sender: {address: $address}
+                sender: {is: $address}
             )
             date{
               month: date(format: "%Y-%m")
@@ -30,12 +30,12 @@
     var query2 = new widgets.query(`
     query($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
       binance {
-        trades(from: $from, till: $till){
+        trades(date: {since: $from, till: $till}){
           trades_as_buyer: count(buyer: {
-            address: $address
+            is: $address
           }, uniq:trades)
           trades_as_seller: count(seller: {
-            address: $address
+            is: $address
           }, uniq:trades)
           date{
               month: date(format: "%Y-%m")
@@ -48,20 +48,20 @@
     var query3 = new widgets.query(`
     query($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       binance{
-        transfers(from: $from, till: $till, options: {limit: $limit, offset: $offset},
+        transfers(date: {since: $from, till: $till}, options: {limit: $limit, offset: $offset},
                   transferType: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]
         ){
             sum_in: amount(calculate: sum,
-              receiver: {address: $address}
+              receiver: {is: $address}
             )
             sum_out: amount(calculate: sum,
-              sender: {address: $address}
+              sender: {is: $address}
             )
             count_in: count( uniq: transfers,
-              receiver: {address: $address}
+              receiver: {is: $address}
             )
             count_out: count( uniq: transfers,
-              sender: {address: $address}
+              sender: {is: $address}
             )
             currency {
               address
@@ -76,30 +76,30 @@
       query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
       binance {
 
-        trades(from: $from, till: $till, options: {limit: $limit, offset: $offset}){
+        trades(date: {since: $from, till: $till}, options: {limit: $limit, offset: $offset}){
 
           trades_as_buyer: count(buyer: {
-            address: $address
+            is: $address
           }, uniq:trades)
 
           trades_as_seller: count(seller: {
-            address: $address
+            is: $address
           }, uniq:trades)
 
           buyQuoteAmount: quoteAmount(buyer: {
-            address: $address
+            is: $address
           })
 
           sellQuoteAmount: quoteAmount(seller: {
-            address: $address
+            is: $address
           })
 
           buyBaseAmount: baseAmount(buyer: {
-            address: $address
+            is: $address
           })
 
           sellBaseAmount:baseAmount(seller: {
-            address: $address
+            is: $address
           })
 
           baseCurrency{ symbol }
@@ -150,33 +150,194 @@
 
 <script>
     widgets.callbacks({
-        token_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
+        token_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/address/'+item.currency.address;
         },
-        transfer_to_path: function(currency_id, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/txs/transfers_to/'+address;
+        transfer_to_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/txs/transfers_to/'+item.currency.address;
         },
-        transfer_from_path: function(currency_id, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/txs/transfers_from/'+address;
+        transfer_from_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/txs/transfers_from/'+item.currency.address;
         },
-        smart_contract_method_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/functions/'+address;
+        //trades_count_path: function(item){
+        //    return '<%#= params[:locale] %>/<%#= params['network']['path'] %>/trades/'+item;
+       // }
+    });
+
+    var tt = new widgets.chart('#transfers_timegraph', query1, 'binance.transfers', {
+        title: '<%= t('widgets.headers.transaction_by_time') %>',
+        chartOptions: {
+            isStacked: true,
+            vAxes: {
+                '0': {
+                    title: '<%= t('widgets.titles.tx_count') %>',
+                },
+                '1': {
+                    title: '<%= t('widgets.titles.volume', currency: params['network']['currency']) %>',
+                }
+            },
+            hAxis: {
+                title: '<%= t('widgets.titles.month') %>',
+            },
+            seriesType: 'bars',
+            series: {
+                '0': { color: 'orange' },
+                '1': { color: 'lightgreen' },
+                '2': { color: 'green', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12},
+                '3': { color: 'red', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12}
+            }
         },
-        smart_contract_path: function(name, address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/smartcontract/'+address;
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.date') %>',
+                path: 'date.month'
+            },
+            {
+                title: '<%= t('widgets.titles.receive_count') %>',
+                path: 'count_in'
+            },
+            {
+                title: '<%= t('widgets.titles.send_count') %>',
+                path: 'count_out'
+            },
+            {
+                title: '<%= t('widgets.titles.volume_in', currency: params['network']['currency']) %>',
+                path: 'sum_in'
+            },
+            {
+                title: '<%= t('widgets.titles.volume_out', currency: params['network']['currency']) %>',
+                path: 'sum_out'
+            },
+        ]
+    });
+
+    var trt = new widgets.chart('#trades_timegraph', query2, 'binance.trades', {
+        title: '<%= t('widgets.headers.trades_by_time') %>',
+        chartOptions: {
+            isStacked: true,
+            vAxes: {
+                '0': {
+                    title: '<%= t('widgets.titles.trades') %>',
+                },
+                '1': {
+                    title: '<%= t('widgets.titles.trades') %>',
+                }
+            },
+            hAxis: {
+                title: '<%= t('widgets.titles.month') %>',
+            },
+            seriesType: 'bars',
+            series: {
+                '0': { color: '#9bc2cf' },
+                '1': { color: 'lightgreen' },
+            }
         },
-        call_count_path: function(address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/address/'+address;
-        },
-        trades_count_path: function(address, locale){
-            return (locale == 'en' || '/'+locale) +'/<%= params['network']['path'] %>/trades/'+address;
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.date') %>',
+                path: 'date.month'
+            },
+            {
+                title: '<%= t('widgets.titles.trades_as_buyer') %>',
+                path: 'trades_as_buyer'
+            },
+            {
+                title: '<%= t('widgets.titles.trades_as_seller') %>',
+                path: 'trades_as_seller'
+            },
+        ]
+    });
+
+    var tbc = new widgets.table('#transfers_by_currencies', query3, 'binance.transfers', {
+        title: '<%= t('widgets.headers.currencies_sent_received') %>',
+        tableOptions: {
+            title: [
+                '<%= t('widgets.titles.currency') %>', '', '<%= t('widgets.titles.receive') %>', '<%= t('widgets.titles.txs') %>', '<%= t('widgets.titles.send') %>', '', '<%= t('widgets.titles.txs') %>'
+            ],
+            data: [
+                {
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                },
+                {
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    type: 'amount',
+                    path: 'sum_in'
+                },
+                {
+                    type: 'count',
+                    path: 'count_in',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_to_path'
+                },
+                {
+                    type: 'amount',
+                    path: 'sum_out'
+                },
+                {
+                    type: 'string',
+                    path: '',
+                    data: '<i class="fa fa-sign-out text-warning"></i>',
+                },
+                {
+                    type: 'count',
+                    path: 'count_out',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'trades_count_path'
+                },
+            ]
         }
     });
 
-    var tbt = new widgets.transfers_by_time('#transfers_timegraph', query1, 'binance.transfers');
-    var trbt = new widgets.trades_by_time('#trades_timegraph', query2, 'binance.trades');
-    var tbc = new widgets.transfers_by_currencies('#transfers_by_currencies', query3, 'binance.transfers');
-    var trbc = new widgets.trades_by_currencies('#trades_by_currencies', query4, 'binance.trades');
+    var tbc = new widgets.table_trades('#trades_by_currencies', query4, 'binance.trades', {
+        title: '<%= t('widgets.headers.trades_by_currencies') %>',
+        tableOptions: {
+            title: [
+                '<%= t('widgets.titles.pair') %>', '', '', '<%= t('widgets.titles.buy') %>', '', '<%= t('widgets.titles.sell') %>', '', '', '<%= t('widgets.titles.trade') %>'
+            ],
+            data: [
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    type: 'amount'
+                },
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'amount'
+                },
+                {
+                    type: 'string',
+                },
+                {
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-warning"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    type: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    // urlCallbackName: 'trades_count_path'
+                }
+            ]
+        }
+    });
+
     query1.request({currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query2.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
     query3.request({address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
@@ -185,7 +346,7 @@
     rr.change(function(start, end, clear){
         query1.request({from: start, till: end});
         query2.request({from: start, till: end});
-        query3.request({from: start, till: end, limit: 10});
-        query4.request({from: start, till: end, limit: 10});
+        query3.request({from: start, till: end, limit: 10, offset: 0});
+        query4.request({from: start, till: end, limit: 10, offset: 0});
     })
 </script>

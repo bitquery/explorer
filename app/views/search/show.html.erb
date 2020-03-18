@@ -50,6 +50,6 @@
            return html;
         }
     });
-    var sch = new widgets.search('#search', query, 'search');
-    query.request({<%= "network: '#{@network}', ".html_safe if @network && !@network.empty? %>query: '<%= @query %>', count: 10});
+    var sch = new widgets.search('#search', query, 'search', {title: 'Search'});
+    query.request({<%= "network: '#{@network}', ".html_safe if @network && !@network.empty? %>query: '<%= @query %>'});
 </script>

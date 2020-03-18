@@ -24,7 +24,7 @@ ru:
   headers:
     search: "Поиск \"%{query}\""
     search_in: "Поиск в %{network} \"%{query}\""
-    address: "%{network} адрес \"%{address}\""
+    address: "%{network} адрес %{address}"
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"
   widgets:
@@ -36,3 +36,26 @@ ru:
       trades_by_time: 'Сделок по времени'
       trades_by_currencies: 'Сделки Покупка/продажа'
       transactions_in_network: "Переводы в %{network}"
+    titles:
+      date: 'Дата'
+      month: 'Месяц'
+      tx_count: "Количество транзакций"
+      volume: "Объем, %{currency}"
+      receive_count: "Вызовы контрактов"
+      send_count: "Количество получателей"
+      volume_in: "Объем входящих, %{currency}"
+      volume_out: "Объем исходящих, %{currency}"
+      trades: "Количество сделок"
+      trades_as_buyer: "Сделок от покупателей"
+      trades_as_seller: "Сделок от продавцов"
+      currency: "Валюта"
+      receive: "Получено"
+      txs: "Транзакции"
+      send: "Отправлено"
+      pair: "Пара"
+      buy: "Покупка"
+      sell: "Продажа"
+      trade: "Сделки"
+      smart_contract: "Смарт контракт"
+      method: "Метод"
+      calls_count: "Количество вызовов"
