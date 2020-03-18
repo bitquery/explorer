@@ -11,7 +11,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= favicon_link_tag external_image('favicon.png') %>
-
+  <meta property="og:image" content="<%= external_image('favicon.png') %>" />
   <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">
