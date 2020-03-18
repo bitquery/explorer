@@ -22,7 +22,7 @@
               name
               populationTotal
               areaKm2
-              iso3
+              iso2
             }
 
             confirmed
@@ -36,7 +36,7 @@
 
     widgets.callbacks({
         country_path: function(item){
-            return 'covid/country/'+item.country.iso3 + '/' + item.country.name;
+            return 'covid/country/'+item.country.iso2 + '/' + item.country.name;
         },
     });
 
