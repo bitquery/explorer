@@ -1,0 +1,148 @@
+<script>
+    var query1 = new widgets.query(`
+    query {
+      binance {
+        transfers(
+                  transferType: { in: [BLOCK_REWARD,BURN,CLAIM_HTL,DEPOSIT_HTL,HTL_TRANSFER,ISSUE,MINT,TRADE_BUY,TRADE_SELL,TRANSFER]}
+        ){
+          count
+          date{
+            month: date(format: "%Y-%m")
+          }
+        }
+      }
+    }
+    `);
+
+    var query2 = new widgets.query(`
+    query {
+      ethereum(network: ethereum){
+        transfers{
+          count
+          date{
+            month: date(format: "%Y-%m")
+          }
+        }
+      }
+    }
+    `);
+
+    var query3 = new widgets.query(`
+    query {
+      ethereum(network: ethclassic){
+        transfers{
+          count
+          date{
+            month: date(format: "%Y-%m")
+          }
+        }
+      }
+    }
+    `);
+</script>
+
+<div class="row">
+  <div class="col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %></div>
+      <div class="card-body">
+        <div id="binance"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %></div>
+      <div class="card-body">
+        <div id="ethereum"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'etc'}) && chain[:name]) %></div>
+      <div class="card-body">
+        <div id="ethclassic"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 mb-4">
+  </div>
+</div>
+<script>
+    var tbtbnb = new widgets.chart('#binance', query1, 'binance.transfers', {
+        title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %>',
+        chartOptions: {
+            vAxes: {
+                '0': {
+                    title: '<%= t('widgets.titles.tx_count') %>'
+                }
+            },
+            hAxis: {
+                title: '<%= t('widgets.titles.month') %>'
+            }
+        },
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.date') %>',
+                path: 'date.month'
+            },
+            {
+                title: '<%= t('widgets.titles.tx_count') %>',
+                path: 'count'
+            }
+        ]
+    });
+
+    var tbteth = new widgets.chart('#ethereum', query2, 'ethereum.transfers', {
+        title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %>',
+        chartOptions: {
+            vAxes: {
+                '0': {
+                    title: '<%= t('widgets.titles.tx_count') %>'
+                }
+            },
+            hAxis: {
+                title: '<%= t('widgets.titles.month') %>'
+            }
+        },
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.date') %>',
+                path: 'date.month'
+            },
+            {
+                title: '<%= t('widgets.titles.tx_count') %>',
+                path: 'count'
+            }
+        ]
+    });
+
+    var tbtetc = new widgets.chart('#ethclassic', query3, 'ethereum.transfers', {
+        title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'etc'}) && chain[:name]) %>',
+        chartOptions: {
+            vAxes: {
+                '0': {
+                    title: '<%= t('widgets.titles.tx_count') %>'
+                }
+            },
+            hAxis: {
+                title: '<%= t('widgets.titles.month') %>'
+            }
+        },
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.date') %>',
+                path: 'date.month'
+            },
+            {
+                title: '<%= t('widgets.titles.tx_count') %>',
+                path: 'count'
+            }
+        ]
+    });
+
+    query1.request();
+    query2.request();
+    query3.request();
+</script>
