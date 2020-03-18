@@ -38,13 +38,16 @@
         country_path: function(item){
             return 'covid/country/'+item.country.iso2 + '/' + item.country.name;
         },
+        renderPopulation: function(item){
+            return item.country.populationTotal;
+        },
     });
 
     new widgets.table('#countries', country_query, 'covid.facts', {
         title: 'Country stats',
         tableOptions: {
             title: [
-                'Country', 'Confirmed Cases', 'Recovered', 'Deaths', 'Total Population', 'Area, sq.km.'
+                'Country', 'Confirmed Cases', 'Recovered', 'Deaths', 'Total Population<br> ( in 000 )', 'Area, sq.km.'
             ],
             data: [
                 {
@@ -66,7 +69,7 @@
                 },
                 {
                     type: 'count',
-                    path: 'country.populationTotal'
+                    renderCallbackName: 'renderPopulation'
                 },
                 {
                     type: 'count',
