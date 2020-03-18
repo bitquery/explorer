@@ -12,6 +12,12 @@
 
 
 <script>
+    widgets.callbacks({
+        mapToolTip: function(item){
+            return 'Location ' + item.location.name;
+        },
+    });
+
 var countrymap_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
 
@@ -57,10 +63,10 @@ new widgets.chart('#countrymap', countrymap_query, 'covid.facts', {
             title: 'Confirmed cases',
             path: 'confirmed'
         },
-        //{
-        //    title: {role: 'tooltip', p:{html:true}},
-        //    path: 'location.name'
-        //},
+        {
+            title: {role: 'tooltip', p:{html:true}},
+            renderCallbackName: 'mapToolTip'
+        },
     ]
 });
 
