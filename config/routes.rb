@@ -20,7 +20,8 @@ Rails.application.routes.draw do
     }
 
 
-    get "covid", controller: 'covid/dashboard', action: 'index'
+    get "covid", controller: 'covid/dashboard', action: 'index', as: 'covid_index'
+    get "covid/country/:code/:name", controller: 'covid/country', action: 'index'
 
     #get ":blockchain/address/:id", controller: 'ethereum/address', action: 'show', constraints: { blockchain: /ethereum/ },
     #    defaults: {network: BLOCKCHAINS[0]}

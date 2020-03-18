@@ -22,6 +22,7 @@
               name
               populationTotal
               areaKm2
+              iso3
             }
 
             confirmed
@@ -32,6 +33,12 @@
       }
 
     }`);
+
+    widgets.callbacks({
+        country_path: function(item){
+            return 'covid/country/'+item.country.iso3 + '/' + item.country.name;
+        },
+    });
 
     new widgets.table('#countries', country_query, 'covid.facts', {
         title: 'Country stats',
