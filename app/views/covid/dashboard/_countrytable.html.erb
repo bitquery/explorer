@@ -39,7 +39,12 @@
             return 'covid/country/'+item.country.iso2 + '/' + item.country.name;
         },
         renderPopulation: function(item){
-            return item.country.populationTotal;
+            var x = Math.round(item.country.populationTotal);
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+        renderArea: function(item){
+            var x = Math.round(item.country.areaKm2);
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         },
     });
 
@@ -47,7 +52,8 @@
         title: 'Country stats',
         tableOptions: {
             title: [
-                'Country', 'Confirmed Cases', 'Recovered', 'Deaths', 'Total Population<br> ( in 000 )', 'Area, sq.km.'
+                'Country', 'Confirmed Cases', 'Recovered', 'Deaths',
+                'Total Population,<br>in thousands', 'Area,<br> sq.km.'
             ],
             data: [
                 {
@@ -73,7 +79,7 @@
                 },
                 {
                     type: 'count',
-                    path: 'country.areaKm2'
+                    renderCallbackName: 'renderArea'
                 },
             ]
         }
