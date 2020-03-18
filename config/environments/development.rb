@@ -62,4 +62,5 @@ Rails.application.configure do
 
   BITQUERY_WIDGETS_URL = "http://localhost:63342/widgets"
   BITQUERY_PROJECT_URL = "http://localhost:3010"
+  ANALYTICS = false
 end

@@ -1,4 +1,5 @@
 <head>
+  <%= render(partial: 'shared/google_analytics') if ANALYTICS %>
   <title>
     <% if content_for? :title %><%= yield :title %><% end %>
     BitQuery

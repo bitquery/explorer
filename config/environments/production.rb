@@ -113,4 +113,5 @@ Rails.application.configure do
 
   BITQUERY_WIDGETS_URL = "https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.1.0"
   BITQUERY_PROJECT_URL = "https://bitquery.io"
+  ANALYTICS = true
 end
