@@ -198,20 +198,20 @@
         chartOptions: {
             vAxes: {
                 '0': {
-                    title: 'CALS'
+                    title: '<%= t('widgets.titles.smart_contract') %>'
                 }
             },
             hAxis: {
-                title: 'Mon'
+                title: '<%= t('widgets.titles.month') %>'
             }
         },
         dataOptions: [
             {
-                title: 'Date',
+                title: '<%= t('widgets.titles.date') %>',
                 path: 'date.month'
             },
             {
-                title: 'Calls',
+                title: '<%= t('widgets.titles.calls_count') %>',
                 path: 'count'
             }
         ]

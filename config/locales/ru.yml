@@ -58,3 +58,4 @@ ru:
       trade: "Сделки"
       smart_contract: "Смарт контракт"
       method: "Метод"
+      calls_count: "Количество вызовов"
