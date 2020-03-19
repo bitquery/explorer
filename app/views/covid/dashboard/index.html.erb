@@ -8,7 +8,17 @@
     <p>
       Use date range control to see data by different time period.
       Data is loaded on <%= Date.today %> 00:00 UTC.<br>
-      Click country from table below to see country-level.
+      Click country from table below to see country-level. Short links to some countries:
+
+      <%= link_to 'China', covid_country_path(code: 'CN', name: 'China'), {class: 'btn btn-info btn-sm active'} %>
+      <%= link_to 'Italy', covid_country_path(code: 'IT', name: 'Italy'), {class: 'btn btn-info btn-sm active'} %>
+      <%= link_to 'Iran', covid_country_path(code: 'IR', name: 'Iran'), {class: 'btn btn-info btn-sm active'} %>
+      <%= link_to 'Spain', covid_country_path(code: 'ES', name: 'Spain'), {class: 'btn btn-info btn-sm active'} %>
+      <%= link_to 'Germany', covid_country_path(code: 'DE', name: 'Germany'), {class: 'btn btn-info btn-sm active'} %>
+      <%= link_to 'France', covid_country_path(code: 'FR', name: 'France'), {class: 'btn btn-info btn-sm active'} %>
+      <%= link_to 'South Korea', covid_country_path(code: 'KR', name: 'South Korea'), {class: 'btn btn-info btn-sm active'} %>
+      <%= link_to 'United States', covid_country_path(code: 'US', name: 'United States'), {class: 'btn btn-info btn-sm active'} %>
+
     </p>
   </div>
 
