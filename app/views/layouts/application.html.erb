@@ -15,6 +15,7 @@
   <%= yield %>
   <%= render partial: 'shared/checkout_please' %>
   <%= render partial: 'shared/footer' %>
+  <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
 </div>
 </body>
 </html>
