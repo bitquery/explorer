@@ -9,6 +9,7 @@
       Selected from <%= link_to 'World COVID Data', covid_index_path %>.
       Data is loaded on <%= Date.today %> 00:00 UTC.<br>
       Use date range control to see data by different time period.
+      <%= render partial: 'covid/dashboard/short_countries' %>
     </p>
 
   </div>
