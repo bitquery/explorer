@@ -72,8 +72,8 @@
         renderMortailityRate: function(item){
             var data = bubbles_days_data_process_item(item);
 
-            if (data.confirmed_cumulative && data.confirmed_cumulative>0 && data.deaths_cumulative>0){
-                return (100.0 * data.deaths_cumulative / data.confirmed_cumulative);
+            if (data.confirmed_cumulative && data.confirmed_cumulative>0 && data.deaths_cumulative>2){
+                return ( data.deaths_cumulative / data.confirmed_cumulative);
             }else{
                 return 0;
             }
@@ -88,7 +88,8 @@
             height: 900,
             vAxes: {
                 '0': {
-                    title: 'Deaths / Confirmed, % ( Cumulative )'
+                    title: 'Deaths / Confirmed, Cumulative',
+                    format: 'percent'
                 }
             },
             sizeAxis: {minSize: 2,  maxSize: 30},
@@ -98,7 +99,8 @@
                     fontSize: 10
                 }
             },
-            title: "Graph shows the cumulative mortality rate ( total number of deaths / total number of confirmed cases) versus the day from the first death.",
+            title: "Graph shows the cumulative mortality rate ( total number of deaths / total number of confirmed cases) versus the day from the first death." +
+                "Shown country data with 3 or more death cases.",
             titleTextStyle: {
                 color: 'lightblue'
             }
@@ -114,7 +116,7 @@
                 renderCallbackName: 'renderDaysFirstDeath'
             },
             {
-                title: 'Death / Confirmed, % Cumulative',
+                title: 'Death / Confirmed, Cumulative',
                 renderCallbackName: 'renderMortailityRate'
             },
             {
