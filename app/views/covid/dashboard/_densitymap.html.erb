@@ -55,10 +55,6 @@ var countrydensitymap_query = new widgets.query(`
 new widgets.chart('#countrydensitymap', countrydensitymap_query, 'covid.facts', {
     title: 'Country map',
     chartType: 'GeoChart',
-    chartSettings: {
-        'packages':['geochart'],
-        'mapsApiKey': 'AIzaSyBvDkfl9PMIUbNCkPH1GgSFnZL6z5jnInU'
-    },
     chartOptions: {
         height: '600',
         tooltip: {isHtml: true},
