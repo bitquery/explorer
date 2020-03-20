@@ -14,10 +14,11 @@
     var stacked_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
        covid {
-              facts(date: {since: $from, till: $till}, options: {asc: "date.date"} ){
+              facts(date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
 
               date {
-                date
+                date(format: "%d/%m")
+                fulldate: date
               }
 
               china: confirmed(country:{is: CN})
