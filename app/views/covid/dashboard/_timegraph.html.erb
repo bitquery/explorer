@@ -13,6 +13,7 @@
 
     var daily_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
+      offchain {
        covid {
               facts(date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
 
@@ -25,12 +26,12 @@
             recovered
             deaths
        }
-
+      }
     }
 
   }`);
 
-    new widgets.chart('#daily', daily_query, 'covid.facts', {
+    new widgets.chart('#daily', daily_query, 'offchain.covid.facts', {
         title: 'Daily stats',
         chartOptions: {
             vAxes: {

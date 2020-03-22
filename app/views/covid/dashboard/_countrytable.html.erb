@@ -14,7 +14,7 @@
 
     var country_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!) {
-
+      offchain {
        covid {
           facts(date: {since: $from, till: $till}, options: {desc: "confirmed", limit: $limit, offset: $offset}){
 
@@ -29,7 +29,7 @@
             recovered
             deaths
         }
-
+       }
       }
 
     }`);
@@ -48,7 +48,7 @@
         },
     });
 
-    new widgets.table('#countries', country_query, 'covid.facts', {
+    new widgets.table('#countries', country_query, 'offchain.covid.facts', {
         title: 'Country stats',
         tableOptions: {
             title: [

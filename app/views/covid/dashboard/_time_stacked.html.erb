@@ -13,6 +13,7 @@
 
     var stacked_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
+     offchain {
        covid {
               facts(date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
 
@@ -32,12 +33,12 @@
               others: confirmed(country:{notIn: [FR,CN,IT,DE,US,IR,ES,KR]})
 
        }
-
+     }
     }
 
   }`);
 
-    new widgets.chart('#stacked', stacked_query, 'covid.facts', {
+    new widgets.chart('#stacked', stacked_query, 'offchain.covid.facts', {
         title: 'Daily stats by selected countries',
         chartOptions: {
             vAxes: {

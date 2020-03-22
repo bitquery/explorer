@@ -14,7 +14,7 @@
 
     var bubbles_days_query = new widgets.query(`
     query($country: CountryCode, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-
+      offchain {
        covid {
           facts(country: {is: $country}, date: {since: $from, till: $till}, options: {asc: "date.date"} ){
 
@@ -33,7 +33,7 @@
        }
 
       }
-
+    }
     }`);
 
     var bubbles_days_data = {};
@@ -80,7 +80,7 @@
         }
     });
 
-    new widgets.chart('#bubbles_days', bubbles_days_query, 'covid.facts', {
+    new widgets.chart('#bubbles_days', bubbles_days_query, 'offchain.covid.facts', {
 
         chartType: 'BubbleChart',
         chartOptions: {

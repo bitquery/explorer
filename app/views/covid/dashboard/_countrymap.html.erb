@@ -25,7 +25,7 @@
 
 var countrymap_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
-
+      offchain {
        covid {
           facts(date: {since: $from, till: $till}){
 
@@ -40,13 +40,13 @@ var countrymap_query = new widgets.query(`
               deaths
               recovered
         }
-
       }
+     }
 
     }`);
 
 
-new widgets.chart('#countrymap', countrymap_query, 'covid.facts', {
+new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
     title: 'Country map',
     chartType: 'GeoChart',
     chartOptions: {

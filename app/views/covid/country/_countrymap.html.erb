@@ -24,7 +24,7 @@
     });
 var countrymap_query = new widgets.query(`
     query($country: CountryCode, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-
+      offchain {
        covid {
           facts(country: {is: $country}, date: {since: $from, till: $till}){
 
@@ -38,14 +38,14 @@ var countrymap_query = new widgets.query(`
               confirmed
               deaths
               recovered
-        }
+       }
 
+       }
       }
-
     }`);
 
 
-new widgets.chart('#countrymap', countrymap_query, 'covid.facts', {
+new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
     title: 'Country map',
     chartType: 'GeoChart',
     chartOptions: {

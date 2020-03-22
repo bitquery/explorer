@@ -12,6 +12,7 @@
 
     var pie_<%= field %>_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
+      offchain {
        covid {
               facts(date: {since: $from, till: $till}, options: {desc: "<%= field %>", limit: 7} ){
 
@@ -22,12 +23,12 @@
 
             <%= field %>
        }
-
+      }
     }
 
   }`);
 
-    new widgets.chart('#pie_<%= field %>', pie_<%= field %>_query, 'covid.facts', {
+    new widgets.chart('#pie_<%= field %>', pie_<%= field %>_query, 'offchain.covid.facts', {
         title: '<%= name %>',
         chartType: 'PieChart',
         chartOptions: {

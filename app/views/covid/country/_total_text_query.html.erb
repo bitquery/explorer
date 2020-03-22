@@ -1,15 +1,15 @@
 <script>
 var text_total_query = new widgets.query(`
 query($country: CountryCode, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-covid {
-facts(country: {is: $country}, date: {since: $from, till: $till} ){
-  confirmed
-  recovered
-  deaths
+    offchain {
+      covid {
+      facts(country: {is: $country}, date: {since: $from, till: $till} ){
+        confirmed
+        recovered
+        deaths
+      }
+    }
 }
-
-}
-
 }`);
 text_total_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, country: '<%= @code %>'});
 

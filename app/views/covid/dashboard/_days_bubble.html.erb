@@ -14,7 +14,7 @@
 
     var bubbles_days_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
-
+      offchain {
        covid {
           facts(date: {since: $from, till: $till}, options: {asc: "date.date"} ){
 
@@ -31,8 +31,8 @@
         recovered
         deaths
        }
-
       }
+     }
 
     }`);
 
@@ -80,7 +80,7 @@
         }
     });
 
-    new widgets.chart('#bubbles_days', bubbles_days_query, 'covid.facts', {
+    new widgets.chart('#bubbles_days', bubbles_days_query, 'offchain.covid.facts', {
 
         chartType: 'BubbleChart',
         chartOptions: {
