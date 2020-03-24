@@ -36,7 +36,7 @@
 
     widgets.callbacks({
         country_path: function(item){
-            return 'covid/country/'+item.country.iso2 + '/' + item.country.name;
+            return '/covid/country/'+item.country.iso2 + '/' + item.country.name;
         },
         renderPopulation: function(item){
             var x = Math.round(item.country.populationTotal);
