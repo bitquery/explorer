@@ -1,0 +1,67 @@
+
+<div class="col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header">Accumulated data by continent, sorted by confirmed cases</div>
+    <div class="card-body">
+      <div id="continents"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    var continent_query = new widgets.query(`
+    query($from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!) {
+      offchain {
+       covid {
+          facts(date: {since: $from, till: $till}, options: {desc: "confirmed", limit: $limit, offset: $offset}){
+
+            country {
+              continent
+            }
+
+            confirmed
+            recovered
+            deaths
+        }
+       }
+      }
+
+    }`);
+    
+
+    new widgets.table('#continents', continent_query, 'offchain.covid.facts', {
+        title: 'Country stats',
+        tableOptions: {
+            title: [
+                'Continent', 'Confirmed Cases', 'Recovered', 'Deaths'
+            ],
+            data: [
+                {
+                    type: 'string',
+                    path: 'country.continent'
+                },
+                {
+                    type: 'count',
+                    path: 'confirmed'
+                },
+                {
+                    type: 'count',
+                    path: 'recovered'
+                },
+                {
+                    type: 'count',
+                    path: 'deaths'
+                }
+            ]
+        }
+    });
+
+    continent_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
+
+    rr.change(function(start, end, clear){
+        continent_query.request({from: start, till: end, limit: 10, offset: 0});
+    })
+
+</script>
