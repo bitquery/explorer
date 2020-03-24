@@ -7,7 +7,7 @@
     <h1 class="mt-2 word-wrap"><%= @header %></h1>
     <p>
       Use date range control to see data by different time period.
-      Data is loaded on <%= Date.today-1 %> 00:00 UTC.
+      Data is loaded on <%= Date.today %> 00:00 UTC.
       Click country from table below to see country-level.
       <br><strong style="color: red; ">Note that not all countries report recovered cases.</strong><br>
       <%= render partial: 'covid/dashboard/short_countries' %>
