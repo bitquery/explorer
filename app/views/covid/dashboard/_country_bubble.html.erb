@@ -68,10 +68,17 @@
                 title: 'Death / Confirmed, %',
                 renderCallbackName: 'renderDeaths'
             },
+            <% if defined? @continent_region %>
+            {
+                title: 'Country',
+                path: 'country.name'
+            },
+            <% else %>
             {
                 title: 'Continent',
                 path: 'country.continent'
             },
+            <% end %>
             {
                 title: 'Confirmed Cases',
                 path: 'confirmed'
