@@ -3,7 +3,7 @@
 <%= render partial: 'shared/head' %>
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
-    widgets.init('https://graphql.bitquery.io', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
+    widgets.init('http://localhost:3000/graphql', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
 </script>
 <%= render partial: 'shared/navbar' %>
 <div class="container-fluid">

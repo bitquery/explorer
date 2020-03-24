@@ -15,7 +15,7 @@
     widgets.callbacks({
         mapToolTip: function(item){
             html = '<div  style="min-width: 200px">' +
-                'Location: <b>' + item.location.name + (item.location.name != item.location.province && item.location.province != ''  ? ', '+item.location.province : '') +' </b><br>' +
+                'Country: <b>' +item.country.name +'</b><br>' +
                 'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
                 'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
                 'Deaths: <b class="text-danger">' + item.deaths +'</b>';
@@ -29,10 +29,9 @@ var countrymap_query = new widgets.query(`
        covid {
           facts(date: {since: $from, till: $till}){
 
-              location {
+              country {
                 name
-                province
-                lattitude
+                latitude
                 longitude
               }
 
@@ -59,12 +58,12 @@ new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
     },
     dataOptions: [
         {
-            title: 'lattitude',
-            path: 'location.lattitude'
+            title: 'latitude',
+            path: 'country.latitude'
         },
         {
             title: 'longitude',
-            path: 'location.longitude'
+            path: 'country.longitude'
         },
         {
             title: 'Confirmed cases',
