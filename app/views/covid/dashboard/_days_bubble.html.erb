@@ -16,7 +16,7 @@
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
        covid {
-          facts(date: {since: $from, till: $till}, options: {asc: "date.date"} ){
+          facts(<%= render partial: 'covid/continent/continent_filter' %> date: {since: $from, till: $till}, options: {asc: "date.date"} ){
 
         date {
           date

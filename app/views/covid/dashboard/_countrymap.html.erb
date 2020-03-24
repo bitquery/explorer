@@ -27,7 +27,7 @@ var countrymap_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
        covid {
-          facts(date: {since: $from, till: $till}){
+          facts(<%= render partial: 'covid/continent/continent_filter' %> date: {since: $from, till: $till}){
 
               country {
                 name
@@ -54,7 +54,8 @@ new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
         colorAxis: {minValue: 0,  colors: ['#FFFF00', '#FF0000']},
         displayMode: 'markers',
         sizeAxis: {minValue: 0,  maxSize: 20},
-        markerOpacity: 0.8
+        markerOpacity: 0.8,
+        <% if defined? @continent_region %>region: '<%= @continent_region %>',<% end  %>
     },
     dataOptions: [
         {

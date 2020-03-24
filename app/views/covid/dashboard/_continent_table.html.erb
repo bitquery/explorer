@@ -11,6 +11,12 @@
 
 <script>
 
+    widgets.callbacks({
+        continent_path: function(item){
+            return 'covid/continent/'+item.country.continent;
+        }
+    });
+
     var continent_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!) {
       offchain {
@@ -40,6 +46,7 @@
             data: [
                 {
                     type: 'string',
+                    urlCallbackName: 'continent_path',
                     path: 'country.continent'
                 },
                 {
