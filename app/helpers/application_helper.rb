@@ -16,4 +16,19 @@ module ApplicationHelper
     "<span class=\"copy-text #{html_class}\">#{addr} <a href=\"javascript:void()\" class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\"></a></span>".html_safe
   end
 
+  def extend_layout(layout, &block)
+    layout = layout.to_s
+    # If there's no directory component, presume a plain layout name
+    layout = "layouts/#{layout}" unless layout.include?('/')
+    # Capture the content to be placed inside the extended layout
+    @view_flow.get(:layout).replace capture(&block)
+    render file: layout
+  end
+
+  def tab_link name, address = nil, active = false
+    content_tag :li, class: 'nav-item' do
+      link_to name, "?#{address && "#{address}&"}#{request.query_parameters.to_query}", class: "nav-link #{active &&'active'}"
+    end
+  end
+
 end

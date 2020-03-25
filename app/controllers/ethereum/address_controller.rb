@@ -1,5 +1,7 @@
 class Ethereum::AddressController < NetworkController
 
+  layout 'tabs/address'
+
   def show
     @address = params[:id]
     @query = @address

@@ -1,4 +1,3 @@
-<%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: copy_text(@address, 'text-info')).html_safe, reportrange: true} %>
 <script>
     var query1 = new widgets.query(`
       query($network: EthereumNetwork!, $currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
