@@ -30,7 +30,9 @@
               spain: confirmed(country:{is: ES})
               korea: confirmed(country:{is: KR})
               france: confirmed(country:{is: FR})
-              others: confirmed(country:{notIn: [FR,CN,IT,DE,US,IR,ES,KR]})
+              swiss: confirmed(country:{is: CH})
+              gb: confirmed(country:{is: GB})
+              others: confirmed(country:{notIn: [FR,CN,IT,DE,US,IR,ES,KR,CH,GB]})
 
        }
      }
@@ -82,12 +84,20 @@
                 path: 'spain'
             },
             {
-                title: 'South Korea',
+                title: 'Korea',
                 path: 'korea'
             },
             {
                 title: 'France',
                 path: 'france'
+            },
+            {
+                title: 'GB',
+                path: 'gb'
+            },
+            {
+                title: 'Swiss',
+                path: 'swiss'
             },
             {
                 title: 'Other Countries',
