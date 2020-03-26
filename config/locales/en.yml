@@ -25,6 +25,11 @@ en:
     search: "Search \"%{query}\""
     search_in: "Search in %{network} \"%{query}\""
     address: "%{network} address %{address}"
+  tabs:
+    address: 'Address'
+    inflow: 'Inflow'
+    outflow: 'Outflow'
+    calls_contracts: 'Calls Contracts'
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:

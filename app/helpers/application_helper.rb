@@ -25,9 +25,9 @@ module ApplicationHelper
     render file: layout
   end
 
-  def tab_link name, address = nil, active = false
+  def tab_link name, action
     content_tag :li, class: 'nav-item' do
-      link_to name, "?#{address && "#{address}&"}#{request.query_parameters.to_query}", class: "nav-link #{active &&'active'}"
+      link_to name, request.query_parameters.merge(action: action), class: "nav-link #{params[:action] == action && 'active'}"
     end
   end
 

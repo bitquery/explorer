@@ -1,10 +1,10 @@
 <%= extend_layout :application do %>
   <%= render partial: 'shared/title', locals: {header: t('headers.address', network: params['network']['name'], address: copy_text(@address, 'text-info')).html_safe, reportrange: true} %>
   <ul class="nav nav-tabs mb-4">
-    <%= tab_link 'Address', nil, true %>
-    <%= tab_link 'Inflow', 'inflow', false %>
-    <%= tab_link 'Outflow', 'outflow', false %>
-    <%= tab_link 'Calls Contacts', 'calls_contacts', false %>
+    <%= tab_link t('tabs.address'), 'show' %>
+    <%= tab_link t('tabs.inflow'), 'inflow' %>
+    <%= tab_link t('tabs.outflow'), 'outflow' %>
+    <%= tab_link t('tabs.calls_contracts'), 'calls_contracts' %>
   </ul>
   <div><%= yield %></div>
 <% end %>

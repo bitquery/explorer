@@ -25,6 +25,11 @@ zh:
     search: "搜索\"%{query}\""
     search_in: "在%{network}中搜索 \"%{query}\""
     address: "%{network} 地址 %{address}"
+  tabs:
+    address: '地址'
+    inflow: '流入'
+    outflow: '流出'
+    calls_contacts: '呼叫聯繫人'
   errors:
     no_methods: "該功能尚未實現，請稍後再返回"
   widgets:

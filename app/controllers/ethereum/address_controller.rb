@@ -1,11 +1,25 @@
 class Ethereum::AddressController < NetworkController
 
-  layout 'tabs/address'
+  layout 'tabs/ethereum/address'
 
-  def show
+  before_action :net
+
+  def net
     @address = params[:id]
     @query = @address
     @network = params[:network][:network]
+  end
+
+  def show
+  end
+
+  def inflow
+  end
+
+  def outflow
+  end
+
+  def calls_contracts
   end
 
 end
