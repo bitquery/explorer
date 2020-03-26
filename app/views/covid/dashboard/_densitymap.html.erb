@@ -21,9 +21,9 @@
                 'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
                 '= <b class="text-warning">' + Math.round(item.confirmed*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>' +
                 'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
-                '= <b class="text-warning">' + Math.round(item.recovered*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>' +
+                '= <b class="text-success">' + Math.round(item.recovered*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>' +
                 'Deaths: <b class="text-danger">' + item.deaths +'</b><br>'+
-                '= <b class="text-warning">' + Math.round(item.deaths*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>';
+                '= <b class="text-danger">' + Math.round(item.deaths*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>';
             return html;
         },
         confirmedPerMillion: function(item){
