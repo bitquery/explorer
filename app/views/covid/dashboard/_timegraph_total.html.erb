@@ -11,27 +11,27 @@
 </div>
 
 <script>
-    var totalConf = 0;
-    var totalRec = 0;
-    var totalDet = 0;
-    widgets.callbacks({
-        totalConfirmed: function(item){
-            totalConf += item.confirmed;
-            return totalConf;
-        },
-        totalRecovered: function(item){
-            totalRec += item.recovered;
-            return totalRec;
-        },
-        totalDeath: function(item){
-            totalDet += item.deaths;
-            return totalDet;
-        },
-    });
-
     new widgets.chart('#total', daily_query, 'offchain.covid.facts', {
-        title: 'Daily stats',
+        title: 'Cumulative case count, by day',
+        renderData: function(data){
+            let totalConf = 0, totalRec = 0, totalDet = 0, new_data = [];
+
+            _.each(data, function(item){
+                totalConf += item.confirmed;
+                totalRec += item.recovered;
+                totalDet += item.deaths;
+
+                new_data.push({
+                    data: item.data,
+                    confirmed: totalConf,
+                    recovered: totalRec,
+                    deaths: totalDet
+                });
+            });
+            return new_data;
+        },
         chartOptions: {
+            test:1,
             pointSize: 2,
             vAxes: {
                 '0': {
@@ -51,27 +51,18 @@
             },
             {
                 title: 'Cumulative Confirmed cases',
-                path: 'confirmed',
-                renderCallbackName: 'totalConfirmed'
+                path: 'confirmed'
             },
             {
                 title: 'Cumulative Recovered cases',
-                path: 'recovered',
-                renderCallbackName: 'totalRecovered'
+                path: 'recovered'
             },
             {
                 title: 'Cumulative Death cases',
-                path: 'deaths',
-                renderCallbackName: 'totalDeath'
+                path: 'deaths'
             }
         ]
     });
 
     daily_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
-
-    rr.change(function(start, end, clear){
-        totalConf = 0;
-        totalRec = 0;
-        totalDet = 0;
-    })
 </script>
