@@ -37,19 +37,29 @@
     widgets.callbacks({
         country_path: function(item){
             return '/covid/country/'+item.country.iso2 + '/' + item.country.name;
-        },
-        renderPopulation: function(item){
-            var x = Math.round(item.country.populationTotal);
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        },
-        renderArea: function(item){
-            var x = Math.round(item.country.areaKm2);
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        },
+        }
     });
 
     new widgets.table('#countries', country_query, 'offchain.covid.facts', {
         title: 'Country stats',
+        renderData: function(data){
+            let new_data = [];
+            let renderPopulation = function(item){
+                var x = Math.round(item.country.populationTotal);
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            };
+            let renderArea = function(item){
+                var x = Math.round(item.country.areaKm2);
+                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            };
+            widgets.__.each(data, function(item){
+                new_data.push(widgets.__.merge(item, {
+                    population: renderPopulation(item),
+                    area: renderArea(item)
+                }));
+            });
+            return new_data;
+        },
         tableOptions: {
             title: [
                 'Country', 'Confirmed Cases', 'Recovered', 'Deaths',
@@ -75,11 +85,11 @@
                 },
                 {
                     type: 'count',
-                    renderCallbackName: 'renderPopulation'
+                    path: 'population'
                 },
                 {
                     type: 'count',
-                    renderCallbackName: 'renderArea'
+                    path: 'area'
                 },
             ]
         }

@@ -33,18 +33,25 @@
 
     }`);
 
-    widgets.callbacks({
-        renderRecovered: function(item){
-            return 100.0 * item.recovered / item.confirmed;
-        },
-        renderDeaths: function(item){
-            return 100.0 * item.deaths / item.confirmed;
-        },
-    });
-
     new widgets.chart('#bubbles', bubbles_query, 'offchain.covid.facts', {
-
         chartType: 'BubbleChart',
+        renderData: function(data){
+            let new_data = [];
+            let renderRecovered = function(item){
+                return 100.0 * item.recovered / item.confirmed;
+            };
+            let renderDeaths = function(item){
+                return 100.0 * item.deaths / item.confirmed;
+            };
+
+            widgets.__.each(data, function(item){
+                new_data.push(widgets.__.merge(item, {
+                    render_recovered: renderRecovered(item),
+                    render_deaths: renderDeaths(item)
+                }));
+            });
+            return new_data;
+        },
         chartOptions: {
             hAxis: {title: 'Recovered / Confirmed, %'},
             height: 800,
@@ -62,11 +69,11 @@
             },
             {
                 title: 'Recovered / Confirmed, %',
-                renderCallbackName: 'renderRecovered'
+                path: 'render_recovered'
             },
             {
                 title: 'Death / Confirmed, %',
-                renderCallbackName: 'renderDeaths'
+                path: 'render_deaths'
             },
             <% if defined? @continent_region %>
             {

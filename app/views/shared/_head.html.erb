@@ -1,8 +1,8 @@
 <head>
   <%= render(partial: 'shared/google_analytics') if ANALYTICS %>
   <title>
-    <% if content_for? :title %><%= yield :title %><% end %>
-    BitQuery
+    <% if content_for? :title %><%= yield :title %> - <% end %>
+    Bitquery Explorer
   </title>
   <% if content_for?(:description) %><meta name="description" content="<%= yield :description %>"><% end %>
   <% if content_for?(:keywords) %><meta name="keywords" content="<%= yield :keywords %>"><% end %>
@@ -11,7 +11,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= favicon_link_tag external_image('favicon.png') %>
-  <meta property="og:image" content="<%= external_image('logo_147x40_black_1.svg') %>" />
+  <meta property="og:image" content="<%= external_image('bitquery_logo.png') %>" />
   <%= stylesheet_pack_tag 'application', media: 'all'%>
   <%= javascript_pack_tag 'application' %>
   <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">

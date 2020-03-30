@@ -51,6 +51,20 @@ var countrymap_query = new widgets.query(`
 
 new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
     title: 'Country map',
+    renderData: function(data){
+        let new_data = [];
+        widgets.__.each(data, function(item){
+            new_data.push(widgets.__.merge(item, {
+                tooltip: '<div  style="min-width: 200px">' +
+                    'Location: <b>' +item.country.name + ' ' + item.location.province+'</b><br>' +
+                    (item.location.adminCenter=='' ? '' : 'City: <b>' + item.location.adminCenter+'</b><br>') +
+                    'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
+                    'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
+                    'Deaths: <b class="text-danger">' + item.deaths +'</b>'
+            }));
+        });
+        return new_data;
+    },
     chartType: 'GeoChart',
     chartOptions: {
         tooltip: {isHtml: true},
@@ -75,7 +89,7 @@ new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
         },
         {
             title: {role: 'tooltip', p:{html:true}},
-            renderCallbackName: 'mapToolTip'
+            path: 'tooltip'
         },
     ]
 });

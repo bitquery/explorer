@@ -12,17 +12,6 @@
 
 
 <script>
-    widgets.callbacks({
-        mapToolTip: function(item){
-            html = '<div  style="min-width: 200px">' +
-                'Country: <b>' +item.country.name +'</b><br>' +
-                'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
-                'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
-                'Deaths: <b class="text-danger">' + item.deaths +'</b>';
-            return html;
-        }
-    });
-
 var countrymap_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
@@ -47,6 +36,17 @@ var countrymap_query = new widgets.query(`
 
 new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
     title: 'Country map',
+    renderData: function(data){
+        let new_data = [];
+        widgets.__.each(data, function(item){
+            new_data.push(widgets.__.merge(item, {tooltip: '<div  style="min-width: 200px">' +
+                    'Country: <b>' +item.country.name +'</b><br>' +
+                    'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
+                    'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
+                    'Deaths: <b class="text-danger">' + item.deaths +'</b>'}));
+        });
+      return new_data;
+    },
     chartType: 'GeoChart',
     chartOptions: {
         height: 'auto',
@@ -72,7 +72,7 @@ new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
         },
         {
             title: {role: 'tooltip', p:{html:true}},
-            renderCallbackName: 'mapToolTip'
+            path: 'tooltip'
         },
     ]
 });
