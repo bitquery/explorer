@@ -40,6 +40,8 @@ Rails.application.routes.draw do
     #  match "/#{code}", :to => "utility#errors", via: :all
     #end
 
+    get 'sitemap.xml' => "sitemaps#index"
+    get 'robots.txt' => "sitemaps#robots"
     root 'home#index'
     get '*path' => "utility#errors"
   end
