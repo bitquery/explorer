@@ -35,23 +35,6 @@
 
     new widgets.chart('#bubbles', bubbles_query, 'offchain.covid.facts', {
         chartType: 'BubbleChart',
-        renderData: function(data){
-            let new_data = [];
-            let renderRecovered = function(item){
-                return 100.0 * item.recovered / item.confirmed;
-            };
-            let renderDeaths = function(item){
-                return 100.0 * item.deaths / item.confirmed;
-            };
-
-            widgets.__.each(data, function(item){
-                new_data.push(widgets.__.merge(item, {
-                    render_recovered: renderRecovered(item),
-                    render_deaths: renderDeaths(item)
-                }));
-            });
-            return new_data;
-        },
         chartOptions: {
             hAxis: {title: 'Recovered / Confirmed, %'},
             height: 800,
@@ -69,11 +52,15 @@
             },
             {
                 title: 'Recovered / Confirmed, %',
-                path: 'render_recovered'
+                renderCallback: function(item){
+                    return 100.0 * item.recovered / item.confirmed;
+                }
             },
             {
                 title: 'Death / Confirmed, %',
-                path: 'render_deaths'
+                renderCallback: function(item){
+                    return 100.0 * item.deaths / item.confirmed;
+                }
             },
             <% if defined? @continent_region %>
             {

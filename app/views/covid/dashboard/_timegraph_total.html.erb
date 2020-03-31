@@ -16,7 +16,7 @@
         renderData: function(data){
             let totalConf = 0, totalRec = 0, totalDet = 0, new_data = [];
 
-            widgets.__.each(data, function(item){
+            widgets.lodash.each(data, function(item){
                 totalConf += item.confirmed;
                 totalRec += item.recovered;
                 totalDet += item.deaths;

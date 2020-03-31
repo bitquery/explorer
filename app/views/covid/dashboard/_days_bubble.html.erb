@@ -80,8 +80,8 @@
             };
 
 
-            widgets.__.each(data, function(item){
-                new_data.push(widgets.__.merge(item, {
+            widgets.lodash.each(data, function(item){
+                new_data.push(widgets.lodash.merge(item, {
                     render_days: renderDaysFirstDeath(item),
                     render_mortaility: renderMortailityRate(item)
                 }));

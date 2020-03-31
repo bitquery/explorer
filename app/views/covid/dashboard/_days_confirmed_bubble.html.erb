@@ -35,55 +35,62 @@
 
     }`);
 
-    var bubbles_confirmed_days_data = {};
-
-    function bubbles_confirmed_days_data_process_item(item){
-
-        if (!bubbles_confirmed_days_data[item.country.name]){
-            bubbles_confirmed_days_data[item.country.name] = {};
-        }
-        var data = bubbles_confirmed_days_data[item.country.name];
-
-        if (data.last_processed == item.date.date){
-            return data;
-        }
-        data.last_processed = item.date.date;
-
-
-        data.confirmed_cumulative = item.confirmed + (data.confirmed_cumulative || 0);
-
-        if( data.confirmed_cumulative>1000 && !data.first_100_confirmed ){
-            data.first_100_confirmed = new Date(item.date.date);
-        }
-
-        return data;
-    }
-
-    widgets.callbacks({
-        renderFirstDaysConfirmed: function(item){
-
-            var data = bubbles_confirmed_days_data_process_item(item);
-            if (data.first_100_confirmed){
-                return ((new Date(item.date.date).getTime()) - data.first_100_confirmed) / (1000 * 3600 * 24) + 1;
-            }else{
-                return 0;
-            }
-        },
-        renderCumulativeCasesConfirmed: function(item){
-
-            var data = bubbles_confirmed_days_data_process_item(item);
-
-            if (data.first_100_confirmed){
-                return data.confirmed_cumulative;
-            }else{
-                return 0;
-            }
-        }
-    });
-
     new widgets.chart('#bubbles_confirmed_days', bubbles_confirmed_days_query, 'offchain.covid.facts', {
-
         chartType: 'BubbleChart',
+        renderData: function(data){
+            let new_data = [];
+            let bubbles_confirmed_days_data = {};
+
+            let bubbles_confirmed_days_data_process_item = function(item){
+
+                if (!bubbles_confirmed_days_data[item.country.name]){
+                    bubbles_confirmed_days_data[item.country.name] = {};
+                }
+                var data = bubbles_confirmed_days_data[item.country.name];
+
+                if (data.last_processed == item.date.date){
+                    return data;
+                }
+                data.last_processed = item.date.date;
+
+
+                data.confirmed_cumulative = item.confirmed + (data.confirmed_cumulative || 0);
+
+                if( data.confirmed_cumulative>1000 && !data.first_100_confirmed ){
+                    data.first_100_confirmed = new Date(item.date.date);
+                }
+
+                return data;
+            };
+            let renderFirstDaysConfirmed = function(item){
+
+                var data = bubbles_confirmed_days_data_process_item(item);
+                if (data.first_100_confirmed){
+                    return ((new Date(item.date.date).getTime()) - data.first_100_confirmed) / (1000 * 3600 * 24) + 1;
+                }else{
+                    return 0;
+                }
+            };
+            let renderCumulativeCasesConfirmed = function(item){
+
+                var data = bubbles_confirmed_days_data_process_item(item);
+
+                if (data.first_100_confirmed){
+                    return data.confirmed_cumulative;
+                }else{
+                    return 0;
+                }
+            };
+
+            widgets.lodash.each(data, function(item){
+                new_data.push(widgets.lodash.merge(item, {
+                    render_first_days: renderFirstDaysConfirmed(item),
+                    render_cumulative: renderCumulativeCasesConfirmed(item)
+                }));
+            });
+
+            return new_data;
+        },
         chartOptions: {
             hAxis: {title: 'Days from 1000 confirmed cases in country'},
             height: 800,
@@ -115,11 +122,11 @@
             },
             {
                 title: 'Days from 1000 confirmed cases',
-                renderCallbackName: 'renderFirstDaysConfirmed'
+                path: 'render_first_days'
             },
             {
                 title: 'Death / Confirmed, Cumulative',
-                renderCallbackName: 'renderCumulativeCasesConfirmed'
+                path: 'render_cumulative'
             },
             {
                 title: 'Country',
