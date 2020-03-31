@@ -24,6 +24,17 @@ BLOCKCHAINS = [
      },
 
      {
+         tag: 'alfajores',
+         network: 'alfajores',
+         name: 'Celo Alfajores Testnet',
+         path: 'alfajores',
+         family: 'ethereum',
+         currency: 'cGLD',
+         icon: 'generic.svg'
+
+     },
+
+     {
          tag: 'binance',
          network: 'binance',
          name: 'Binance DEX',
