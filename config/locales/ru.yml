@@ -24,12 +24,28 @@ ru:
   headers:
     search: "Поиск \"%{query}\""
     search_in: "Поиск в %{network} \"%{query}\""
-    address: "%{network} адрес %{address}"
   tabs:
-    address: 'Адрес'
-    inflow: 'Входящие'
-    outflow: 'Исходящие'
-    calls_contracts: 'Вызовы контрактов'
+    address:
+      show:
+        name: 'Адрес'
+        header: "%{network} адрес %{address}"
+        title: "%{network} %{address}"
+        description: "Обзор адреса %{address} активность в сети %{network}: переводы, транзакции, действия с криптовалютой"
+      inflow:
+        name: 'Пополнения'
+        header: "Переводы на %{network} адрес %{address}"
+        title: "Пополнения %{network} %{address}"
+        description: "Пополнения криптовалютой адреса %{address} в сети %{network}, статистика входящих переводов, разбивка по криптовалютам"
+      outflow:
+        name: 'Снятия'
+        header: "Переводы с %{network} адреса %{address}"
+        title: "Снятия %{network} %{address}"
+        description: "Снятия криптовалюты с адреса %{address} в сети %{network}, статистика исходящий переводов, разбивка по криптовалютам"
+      calls_contracts:
+        name: 'Вызовы самрт контрактов'
+        header: "Вызовы с адреса %{network}  %{address}"
+        title: "Вызовы с %{network} %{address}"
+        description: "Вызовы методов смарт контрактов с %{address} в сети %{network}, статистика вызовов, используемые методы"
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"
   widgets:

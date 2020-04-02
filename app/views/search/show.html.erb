@@ -1,5 +1,6 @@
 <% chain = BLOCKCHAINS.detect{|chain| chain[:network] == @network} if @network && !@network.empty? %>
-<%= render partial: 'shared/title', locals: {header: (chain ? t('headers.search_in',network: chain[:name], query: @query) : t('headers.search', query: @query))} %>
+<%= render partial: 'shared/title',
+           locals: {header: (chain ? t('headers.search_in',network: chain[:name], query: @query) : t('headers.search', query: @query))} %>
 <script>
     var query = new widgets.query(`
     query(<%= "$network: Network!, " if @network && !@network.empty? %>$query: String!){

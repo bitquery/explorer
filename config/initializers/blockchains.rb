@@ -135,3 +135,5 @@ BLOCKCHAINS = [
     #},
 
 ]
+
+BLOCKCHAIN_BY_NAME = BLOCKCHAINS.group_by{|b| b[:network]}

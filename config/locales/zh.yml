@@ -24,12 +24,28 @@ zh:
   headers:
     search: "搜索\"%{query}\""
     search_in: "在%{network}中搜索 \"%{query}\""
-    address: "%{network} 地址 %{address}"
   tabs:
-    address: '地址'
-    inflow: '流入'
-    outflow: '流出'
-    calls_contacts: '呼叫聯繫人'
+    address:
+      show:
+        name: 'Address'
+        header: "%{network} address %{address}"
+        title: "%{network}:%{address}"
+        description: "Overview of address %{address} activity in %{network}: transfers, transactions, tokens, operations"
+      inflow:
+        name: 'Inflow'
+        header: "Inflow to %{network} address %{address}"
+        title: "In %{network}:%{address}"
+        description: "Inflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        header: "Outflow from %{network} address %{address}"
+        title: "Out %{network}:%{address}"
+        description: "Outflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        header: "Calls from %{network} address %{address}"
+        title: "Calls %{network}:%{address}"
+        description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
   errors:
     no_methods: "該功能尚未實現，請稍後再返回"
   widgets:

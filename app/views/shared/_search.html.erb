@@ -1,17 +1,21 @@
-<% chain = BLOCKCHAINS.detect{|chain| chain[:network] == @network} %>
 <%= form_tag search_path(), class: 'search-form' do %>
   <div class="input-group">
     <%= text_field_tag :query, @query, id: nil, class: "form-control form-control-sm", placeholder: t('find_placeholder') %>
     <div class="input-group-append">
-      <button type="button" class="btn btn-primary btn-sm search-form-type d-none d-lg-inline-block" data-network="<%= @network %>"><%= @network && !@network.empty? ? t('find_in', network: chain && chain[:name]) : t('find') %></button>
-      <button type="button" class="btn btn-primary btn-sm search-form-type d-lg-none" data-network="<%= @network %>"><% if @network && !@network.empty? %><%= image_pack_tag "media/icon/#{chain[:icon]}", class: 'search-icon' %><i class="fa fa-search search-icon"></i><% else %><i class="fa fa-search"></i><% end %></button>
+      <% if @network %>
+        <button type="button" class="btn btn-primary btn-sm search-form-type d-none d-lg-inline-block" data-network="<%= @network[:network] %>"><%= t('find_in', network: @network[:name]) %></button>
+        <button type="button" class="btn btn-primary btn-sm search-form-type d-lg-none" data-network="<%= @network[:network] %>"><%= image_pack_tag "media/icon/#{@network[:icon]}", class: 'search-icon' %><i class="fa fa-search search-icon"></i></button>
+    <% else  %>
+        <button type="button" class="btn btn-primary btn-sm search-form-type d-none d-lg-inline-block"><%= t('find') %></button>
+        <button type="button" class="btn btn-primary btn-sm search-form-type d-lg-none"><i class="fa fa-search"></i></button>
+    <% end %>
       <button type="button" class="btn btn-primary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
       <div class="dropdown-menu dropdown-menu-right">
         <% if @network %>
           <a class="dropdown-item search-form-type" data-network=""><%= t('find_all') %></a>
         <% end %>
         <% BLOCKCHAINS.each do |blockchain| %>
-          <% next if blockchain[:network] == @network %>
+          <% next if blockchain[:network] == @network[:network] %>
           <a class="dropdown-item search-form-type" data-network="<%= blockchain[:network] %>"><%= t('find_in', network: blockchain[:name]) %></a>
         <% end %>
       </div>
