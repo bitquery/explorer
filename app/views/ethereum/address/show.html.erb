@@ -1,4 +1,10 @@
 <%= render partial: 'ethereum/address/description' %>
+
+<div class="row">
+  <%= render partial: 'ethereum/address/in_out_transfers_by_time' %>
+  <%= render partial: 'ethereum/address/calls_by_time' %>
+</div>
+
 <script>
     var query1 = new widgets.query(`
       query($network: EthereumNetwork!, $currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){

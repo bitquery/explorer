@@ -50,7 +50,8 @@ en:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
-      transaction_by_time: 'Activities by time'
+      transaction_by_time: 'Activities by date'
+      in_out_transfers_by_time: 'In/Outbound transfer count by date'
       calls_by_time: 'Calls smart contracts by time'
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'

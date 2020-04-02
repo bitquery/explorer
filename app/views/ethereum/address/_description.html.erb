@@ -11,6 +11,7 @@
 </div>
 
 <script>
+    $( document ).ready(function() {
 
         var query = new widgets.query(`
             query($network: EthereumNetwork!, $address: String!) {
@@ -31,7 +32,7 @@
             }`);
 
         query.request({ network: '<%= @network[:network] %>',
-                        address: '<%= @address %>'});
+            address: '<%= @address %>'});
 
         new widgets.text('#ethereum_address_description', query, 'ethereum.address', {
             textOptions:
@@ -39,16 +40,18 @@
                     type: 'string',
                     renderCallback: function(item){
                         return '<%= t 'pages.address.description.part1', {address: @address} %> ' +
-                                (item.address.annotation ?
-                                    '<strong class="text-info">'+item.address.annotation+'</strong>' :
-                                    '<%= t 'pages.address.description.part3' %> ')+
-                                ' <%= t 'pages.address.description.part2', {network: @network[:name]} %><hr>' +
-                                ' <%= t 'pages.address.description.balance' %> ' +
-                                '<strong class="text-success">'+item.balance + ' <%= @network[:currency] %>'+ '</strong>';
+                            (item.address.annotation ?
+                                '<strong class="text-info">'+item.address.annotation+'</strong>' :
+                                '<%= t 'pages.address.description.part3' %> ')+
+                            ' <%= t 'pages.address.description.part2', {network: @network[:name]} %><hr>' +
+                            ' <%= t 'pages.address.description.balance' %> ' +
+                            '<strong class="text-success">'+item.balance + ' <%= @network[:currency] %>'+ '</strong>';
 
                     }
                 }
 
         });
+    });
+
 
 </script>
