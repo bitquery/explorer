@@ -80,3 +80,10 @@ en:
       smart_contract: "Smart Contract"
       method: "Method"
       calls_count: "Calls Count"
+  pages:
+    address:
+      description:
+        part1: "Address %{address} is"
+        part2: "address in %{network}"
+        part3: "a regular wallet"
+        balance: "Balance is"
