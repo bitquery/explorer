@@ -11,11 +11,10 @@
 <script>
 
     new widgets.text('#text_<%= field %>', text_total_query, 'offchain.covid.facts', {
-        textOptions:
-            {
+        html_class: 'fontsize35rem text-center <%= html_class %>',
+        dataOptions: {
                 type: 'string',
-                path: '<%= field %>',
-                html_class: 'fontsize35rem text-center <%= html_class %>'
+                path: '<%= field %>'
             }
 
     });

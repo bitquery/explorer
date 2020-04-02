@@ -22,7 +22,18 @@
           }
         }
       }
-    `);
+    `, {
+        types: [
+            {
+                kind: 'UNION',
+                name: 'SearchResultItem',
+                possibleTypes: [
+                    { name: 'Address' },
+                    { name: 'Currency' }
+                ],
+            },
+        ],
+    });
 </script>
 <div class="row">
   <div class="col mb-4">
@@ -30,27 +41,32 @@
   </div>
 </div>
 <script>
-    widgets.callbacks({
-        search_address_path: function(network, address, locale){
-            return (locale == 'en' ? '' : '/'+locale) +"/"+network+"/address/"+address;
+    var sch = new widgets.list('#search', query, 'search', {
+        excludeButtons: ['csv', 'js'],
+        renderData: function(data){
+            if(Array.isArray(data) && data.length == 1){
+                location.href = '<%= params[:locale] %>/'+data[0].network.network+'/address/'+data[0].subject.address;
+            }
+          return data;
         },
-        // search_currency_address: function(name, address, locale){
-        //     return "/"+locale+(address == '-' ? '/token/'+name : '/address/'+address);
-        // },
-        search_address_snippet: function(item, locale){
-           let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_pack_path "media/icon/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
-           let url = (locale == 'en' ? '' : '/'+locale) +"/"+item.network.network+"/address/"+item.subject.address;
-           let html = "<div class='media'>\n" +
-               "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
-               "  <div class='media-body word-wrap' style='min-width: 40%;'>\n" +
-               "    <h6 class='mt-0'><a href='"+url+"'>"+chains[item.network.network].name+" <%= t('address') %> "+item.subject.address+"</a></h6>\n" +
-               ((typeof item.subject.annotation) == String ? "<p>"+item.subject.annotation+"</p>\n" : "") +
-               "    <a href='"+url+"'>"+url+"</a>" +
-              "  </div>\n" +
-               "</div>";
-           return html;
+        title: 'Search',
+        dataOptions:{
+            type: 'string',
+            renderCallback: function(item){
+                let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_pack_path "media/icon/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
+                let url = '<%= params[:locale] %>/'+item.network.network+'/address/'+item.subject.address;
+                let html = "<div class='media'>\n" +
+                    "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
+                    "  <div class='media-body word-wrap' style='min-width: 40%;'>\n" +
+                    "    <h6 class='mt-0'><a href='"+url+"'>"+chains[item.network.network].name+" <%= t('address') %> "+item.subject.address+"</a></h6>\n" +
+                    ((typeof item.subject.annotation) == String ? "<p>"+item.subject.annotation+"</p>\n" : "") +
+                    "    <a href='"+url+"'>"+url+"</a>" +
+                    "  </div>\n" +
+                    "</div>";
+                return html;
+                return item.subject.address
+            }
         }
     });
-    var sch = new widgets.search('#search', query, 'search', {title: 'Search'});
     query.request({<%= "network: '#{@network[:network]}', ".html_safe if @network %>query: '<%= @query %>'});
 </script>

@@ -47,29 +47,29 @@
 
 <%= render partial: 'countrymap' %>
 <%= render partial: 'countrytable' %>
-<%= render partial: 'densitymap' %>
+<%#= render partial: 'densitymap' %>
 
 <div class="row">
 
-  <%= render partial: 'countries_pie', locals: {field: 'confirmed',
+  <%#= render partial: 'countries_pie', locals: {field: 'confirmed',
                                                 name: 'Top countries by Confirmed Cases'} %>
 
-  <%= render partial: 'countries_pie', locals: {field: 'recovered',
+  <%#= render partial: 'countries_pie', locals: {field: 'recovered',
                                                 name: 'Top countries by Recovered Cases'} %>
 
-  <%= render partial: 'countries_pie', locals: {field: 'deaths',
+  <%#= render partial: 'countries_pie', locals: {field: 'deaths',
                                                 name: 'Top countries by Death Cases'} %>
 
 </div>
 
-<%= render partial: 'time_stacked' %>
-<%= render partial: 'country_bubble' %>
-<%= render partial: 'days_confirmed_bubble' %>
-<%= render partial: 'days_bubble' %>
+<%#= render partial: 'time_stacked' %>
+<%#= render partial: 'country_bubble' %>
+<%#= render partial: 'days_confirmed_bubble' %>
+<%#= render partial: 'days_bubble' %>
 
 <div class="row">
-  <%= render partial: 'continent_table' %>
-  <%= render partial: 'continents_stacked' %>
+  <%#= render partial: 'continent_table' %>
+  <%#= render partial: 'continents_stacked' %>
 </div>
 
 <%= render partial: 'sources' %>
