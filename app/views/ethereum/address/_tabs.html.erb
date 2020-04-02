@@ -1,6 +1,5 @@
 <ul class="nav nav-tabs mb-4">
-  <%= tab_link t('tabs.address.show.name'), 'show' %>
-  <%= tab_link t('tabs.address.inflow.name'), 'inflow' %>
-  <%= tab_link t('tabs.address.outflow.name'), 'outflow' %>
-  <%= tab_link t('tabs.address.calls_contracts.name'), 'calls_contracts' %>
+<% for tab in ['show','inflow','outflow','calls_contracts']  %>
+    <%= tab_link t("tabs.address.#{tab}.name"), tab %>
+<% end %>
 </ul>

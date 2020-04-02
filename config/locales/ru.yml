@@ -80,3 +80,10 @@ ru:
       smart_contract: "Смарт контракт"
       method: "Метод"
       calls_count: "Количество вызовов"
+  pages:
+    address:
+      description:
+        part1: "Адрес %{address} - это "
+        part2: "адрес в %{network}"
+        part3: "обычный"
+        balance: "Баланс"
