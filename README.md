@@ -24,7 +24,7 @@ We use multi-dimensional (OLAP) analytical database to display most of the infor
 to aggregate data by dimensions as time, block, address, token, and others. Aggregation helps to build graphs,
 diagrams and present data in the way, that allows to see the bigger picture rather than just numbers.
 
-Explorer does not  show the data just in the form of 'database records', or 'tables''. There are more powerfull
+Explorer does not  show the data just in the form of 'database records', or 'tables'. There are more powerfull
 ways of presenting information, as graphs, diagrams, plots, maps, histograms. The way how we have to present information
 depends on typical ways of working with this kind of information, and very dependent on the problem we want to solve.
 For example, transfers of the address can be presented as the list, table, graph by time period, graph, tree, and in many other
