@@ -6,3 +6,78 @@
     </div>
   </div>
 </div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                        $dateFormat: String!,
+                        $dateSort: String!,
+                        $address: String!,
+                        $from: ISO8601DateTime,
+                        $till: ISO8601DateTime){
+                    ethereum(network: $network ){
+                      transfers(options:{asc: "date.sortdate", desc: "(in_count+out_count)"}, date: {
+                        since: $from
+                        till: $till}) {
+                        date: date{
+                          sortdate: date(format: $dateSort)
+                          date(format: $dateFormat)
+                        }
+                        in_count: count(receiver: {is: $address})
+                        out_count: count(sender: {is: $address})
+                      }
+                    }
+                  }`);
+
+
+        new widgets.chart('#in_out_transfers_by_time', query, 'ethereum.transfers', {
+            title: '<%= t('widgets.headers.transaction_by_time') %>',
+            chartOptions: {
+                isStacked: true,
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.tx_count') %>',
+                    }
+                },
+                hAxis: {
+                    title: '<%= t('widgets.titles.date') %>',
+                },
+                seriesType: 'bars'
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.date') %>',
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.receive_count') %>',
+                    path: 'in_count'
+                },
+                {
+                    title: '<%= t('widgets.titles.send_count') %>',
+                    path: 'out_count'
+                },
+            ]
+        });
+
+
+        function draw(start,end){
+            var dateFormat = dateRangeReportFormat(start,end);
+            query.request({ network: '<%= params['network']['network'] %>',
+                address: '<%= @address %>',
+                from: start,
+                till: end,
+                dateFormat: dateFormat,
+                dateSort: dateSortReportFormat(dateFormat)
+            });
+        }
+
+        draw(<%= @from.html_safe %>,<%= @till.html_safe %>);
+        rr.change(draw)
+
+    });
+
+</script>

@@ -148,3 +148,27 @@ global.search = function(selector){
     };
 }
 
+
+global.dateRangeReportFormat = function(from, till){
+    console.log(from);
+    console.log(till);
+    if (from){
+        var tillp = till ? Date.parse(till) : Date.now();
+        if ((tillp - Date.parse(from) ) / (24*3600*1000) > 100 ){
+            return '%m/%Y';
+        }else{
+            return '%d/%m';
+        }
+    }else{
+        return '%m/%Y';
+    }
+};
+
+global.dateSortReportFormat = function(dateFormat){
+    if(dateFormat.indexOf('%d')>=0){
+        return '%Y%m%d';
+    }else{
+        return '%Y%m';
+    }
+}
+

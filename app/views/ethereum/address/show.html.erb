@@ -2,9 +2,9 @@
 
 <div class="row">
   <%= render partial: 'ethereum/address/in_out_transfers_by_time' %>
-  <%= render partial: 'ethereum/address/calls_by_time' %>
+  <%#= render partial: 'ethereum/address/calls_by_time' %>
 </div>
-
+<!--
 <script>
     var query1 = new widgets.query(`
       query($network: EthereumNetwork!, $currency: String!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
@@ -96,17 +96,17 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transaction_by_time') %></div>
+      <div class="card-header"><%#= t('widgets.headers.transaction_by_time') %></div>
       <div class="card-body">
-        <div id="transfers_timegraph"><%= t('loading') %></div>
+        <div id="transfers_timegraph"><%#= t('loading') %></div>
       </div>
     </div>
   </div>
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.calls_by_time') %></div>
+      <div class="card-header"><%#= t('widgets.headers.calls_by_time') %></div>
       <div class="card-body">
-        <div id="calls_timegraph"><%= t('loading') %></div>
+        <div id="calls_timegraph"><%#= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -114,17 +114,17 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.currencies_sent_received') %></div>
+      <div class="card-header"><%#= t('widgets.headers.currencies_sent_received') %></div>
       <div class="card-body">
-        <div id="transfers_by_currencies"><%= t('loading') %></div>
+        <div id="transfers_by_currencies"><%#= t('loading') %></div>
       </div>
     </div>
   </div>
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.calls_smart_contracts') %></div>
+      <div class="card-header"><%#= t('widgets.headers.calls_smart_contracts') %></div>
       <div class="card-body">
-        <div id="calls_smart_contracts"><%= t('loading') %></div>
+        <div id="calls_smart_contracts"><%#= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -204,11 +204,11 @@
         chartOptions: {
             vAxes: {
                 '0': {
-                    title: '<%= t('widgets.titles.smart_contract') %>'
+                    title: '<%#= t('widgets.titles.smart_contract') %>'
                 }
             },
             hAxis: {
-                title: '<%= t('widgets.titles.month') %>'
+                title: '<%#= t('widgets.titles.month') %>'
             }
         },
         dataOptions: [
@@ -227,7 +227,7 @@
         title: '<%= t('widgets.headers.currencies_sent_received') %>',
         tableOptions: {
             title: [
-                '<%= t('widgets.titles.currency') %>', '', '<%= t('widgets.titles.receive') %>', '<%= t('widgets.titles.txs') %>', '<%= t('widgets.titles.send') %>', '', '<%= t('widgets.titles.txs') %>'
+                '<%= t('widgets.titles.currency') %>', '', '<%= t('widgets.titles.receive') %>', '<%= t('widgets.titles.txs') %>', '<%= t('widgets.titles.send') %>', '', '<%#= t('widgets.titles.txs') %>'
             ],
             dataOptions: [
                 {
@@ -273,7 +273,7 @@
         title: '<%= t('widgets.headers.calls_smart_contracts') %>',
         tableOptions: {
             title: [
-                '<%= t('widgets.titles.smart_contract') %>', '<%= t('widgets.titles.method') %>', '<%= t('widgets.titles.tx_count') %>'
+                '<%= t('widgets.titles.smart_contract') %>', '<%= t('widgets.titles.method') %>', '<%#= t('widgets.titles.tx_count') %>'
             ],
             dataOptions: [
                 {
@@ -307,4 +307,4 @@
         query3.request({from: start, till: end, limit: 10, offset: 0});
         query4.request({from: start, till: end, limit: 10, offset: 0});
     })
-</script>
+</script>-->
