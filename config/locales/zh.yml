@@ -80,3 +80,10 @@ zh:
       smart_contract: "智能合約"
       method: "方法"
       calls_count: "通話次數"
+  pages:
+    address:
+      description:
+        part1: "Address %{address} is"
+        part2: "address in %{network}"
+        part3: "a regular wallet"
+        balance: "Balance is"
