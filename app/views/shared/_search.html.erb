@@ -15,7 +15,7 @@
           <a class="dropdown-item search-form-type" data-network=""><%= t('find_all') %></a>
         <% end %>
         <% BLOCKCHAINS.each do |blockchain| %>
-          <% next if blockchain[:network] == @network[:network] %>
+          <% next if @network && (blockchain[:network] == @network[:network]) %>
           <a class="dropdown-item search-form-type" data-network="<%= blockchain[:network] %>"><%= t('find_in', network: blockchain[:name]) %></a>
         <% end %>
       </div>
