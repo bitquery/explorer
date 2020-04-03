@@ -78,20 +78,11 @@
             ]
         });
 
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
 
-        function draw(start,end){
-            var dateFormat = dateRangeReportFormat(start,end);
-            query.request({ network: '<%= params['network']['network'] %>',
-                address: '<%= @address %>',
-                from: start,
-                till: end,
-                dateFormat: dateFormat,
-                dateSort: dateSortReportFormat(dateFormat)
-            });
-        }
-
-        draw(<%= @from.html_safe %>,<%= @till.html_safe %>);
-        rr.change(draw)
 
     });
 

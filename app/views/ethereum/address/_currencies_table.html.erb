@@ -1,0 +1,98 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.currencies_sent_received') %></div>
+    <div class="card-body">
+      <div id="currencies_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query($network: EthereumNetwork!,
+                  $address: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime,
+                  $limit: Int!,
+                  $offset: Int!){
+              ethereum(network: $network) {
+                transfers(date: {since: $from, till: $till},
+                options: {limit: $limit, offset: $offset, desc: "(count_in+count_out)"}){
+                    sum_in: amount(calculate: sum,
+                      receiver: {is: $address}
+                    )
+                    sum_out: amount(calculate: sum,
+                      sender: {is: $address}
+                    )
+                    count_in: count(
+                      receiver: {is: $address}
+                    )
+                    count_out: count(
+                      sender: {is: $address}
+                    )
+                    currency {
+                      address
+                      symbol
+                      tokenType
+                    }
+                  }
+              }
+            }`);
+
+        new widgets.table('#currencies_table', query, 'ethereum.transfers', {
+            title: '<%= t('widgets.headers.currencies_sent_received') %>',
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.currency') %>', '', '<%= t('widgets.titles.receive') %>', '<%= t('widgets.titles.txs') %>', '<%= t('widgets.titles.send') %>', '', '<%#= t('widgets.titles.txs') %>'
+                ],
+                dataOptions: [
+                    {
+                        type: 'string-ellipsis',
+                        path: 'currency.symbol',
+                        urlCallbackName: 'token_path'
+                    },
+                    {
+                        type: 'string',
+                        data: '<i class="fa fa-sign-in text-success"></i>',
+                        html_class: 'text-center'
+                    },
+                    {
+                        type: 'count',
+                        path: 'sum_in'
+                    },
+                    {
+                        type: 'count',
+                        path: 'count_in',
+                        data: '%{DATA} <span class="fa fa-list"></span>',
+                        urlCallbackName: 'transfer_to_path'
+                    },
+                    {
+                        type: 'count',
+                        path: 'sum_out'
+                    },
+                    {
+                        type: 'string',
+                        data: '<i class="fa fa-sign-out text-warning"></i>',
+                    },
+                    {
+                        type: 'count',
+                        path: 'count_out',
+                        data: '%{DATA} <span class="fa fa-list"></span>',
+                        urlCallbackName: 'transfer_from_path'
+                    },
+                ]
+            }
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

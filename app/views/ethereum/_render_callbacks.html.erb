@@ -1,0 +1,23 @@
+<script>
+    widgets.callbacks({
+        token_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/token/'+item.currency.address;
+        },
+        transfer_to_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/txs/transfers_to/'+item.currency.address;
+        },
+        transfer_from_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>/txs/transfers_from/'+item.currency.address;
+        },
+        smart_contract_method_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/functions/'+item.smartContract.address.address;
+        },
+        smart_contract_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/smart_contract/'+item.smartContract.address.address;
+        },
+        call_count_path: function(item){
+            return '<%= params[:locale] %>/<%= params['network']['path'] %>'+'/address/'+item.smartContract.address.address;
+        }
+    });
+
+</script>

@@ -168,5 +168,23 @@ global.dateSortReportFormat = function(dateFormat){
     }else{
         return '%Y%m';
     }
-}
+};
+
+global.queryWithTimeRange = function(rr, query, from, till, params){
+
+    function draw(start,end){
+        var dateFormat = dateRangeReportFormat(start,end);
+        var data = Object.assign({}, params, {
+            from: start,
+            till: end,
+            dateFormat: dateFormat,
+            dateSort: dateSortReportFormat(dateFormat)
+        });
+        query.request(data);
+    }
+
+    draw(from,till);
+    rr.change(draw);
+
+};
 

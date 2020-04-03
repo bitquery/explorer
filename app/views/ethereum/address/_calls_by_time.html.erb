@@ -7,3 +7,59 @@
   </div>
 </div>
 
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query($network: EthereumNetwork!,
+                  $dateFormat: String!,
+                  $dateSort: String!,
+                  $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+              ethereum(network: $network) {
+                smartContractCalls(date: {since: $from, till: $till}){
+                      count(
+                        uniq: calls,
+                        caller: {is: $address}
+                      )
+                        date: date{
+                          sortdate: date(format: $dateSort)
+                          date(format: $dateFormat)
+                        }
+                    }
+
+              }
+            }`);
+
+        new widgets.chart('#calls_by_time', query, 'ethereum.smartContractCalls', {
+            title: '<%= t('widgets.headers.calls_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.calls_count') %>'
+                    }
+                },
+                hAxis: {
+                    title: '<%= t('widgets.titles.date') %>'
+                }
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.date') %>',
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    path: 'count'
+                }
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+</script>

@@ -1,9 +1,18 @@
+<%= render partial: 'ethereum/render_callbacks' %>
+
 <%= render partial: 'ethereum/address/description' %>
 
 <div class="row">
   <%= render partial: 'ethereum/address/in_out_transfers_by_time' %>
-  <%#= render partial: 'ethereum/address/calls_by_time' %>
+  <%= render partial: 'ethereum/address/calls_by_time' %>
 </div>
+
+
+<div class="row">
+  <%= render partial: 'ethereum/address/currencies_table' %>
+  <%= render partial: 'ethereum/address/calls_table' %>
+</div>
+
 <!--
 <script>
     var query1 = new widgets.query(`
