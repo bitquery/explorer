@@ -51,6 +51,7 @@ ru:
   widgets:
     headers:
       transaction_by_time: 'Активность по времени'
+      in_out_transfers_by_time: 'Количество пополнений и снятий по дате'
       calls_by_time: 'Вызовы смартрконтрактов по времени'
       currencies_sent_received: 'Валюта отправлено/получено'
       calls_smart_contracts: 'Вызовы смарт контрактов'
@@ -61,9 +62,10 @@ ru:
       date: 'Дата'
       month: 'Месяц'
       tx_count: "Количество транзакций"
+      transfer_count: "Количество переводов"
       volume: "Объем, %{currency}"
-      receive_count: "Вызовы контрактов"
-      send_count: "Количество получателей"
+      receive_count: "Пополнения"
+      send_count: "Снятия"
       volume_in: "Объем входящих, %{currency}"
       volume_out: "Объем исходящих, %{currency}"
       trades: "Количество сделок"
@@ -81,6 +83,8 @@ ru:
       method: "Метод"
       calls_count: "Количество вызовов"
   pages:
+    footer:
+      built: "Сделано на основе"
     address:
       description:
         part1: "Адрес %{address} - это "

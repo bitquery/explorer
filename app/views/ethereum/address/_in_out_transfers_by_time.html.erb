@@ -34,18 +34,34 @@
 
 
         new widgets.chart('#in_out_transfers_by_time', query, 'ethereum.transfers', {
-            title: '<%= t('widgets.headers.transaction_by_time') %>',
+            title: '<%= t('widgets.headers.in_out_transfers_by_time') %>',
             chartOptions: {
                 isStacked: true,
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.tx_count') %>',
+                        title: '<%= t('widgets.titles.transfer_count') %>',
+                        format: 'decimal',
+                        viewWindow: {
+                            min: 'auto'
+                        }
                     }
                 },
                 hAxis: {
-                    title: '<%= t('widgets.titles.date') %>',
+                    title: '<%= t('widgets.titles.date') %>'
                 },
                 seriesType: 'bars'
+            },
+            renderData: function(data){
+                let new_data = [];
+                widgets.lodash.each(data, function(item){
+                    new_data.push({
+                        date: item.date,
+                        in_count: item.in_count,
+                        out_count: item.out_count==0 ? 0 : -item.out_count
+                    });
+                });
+                console.log(new_data);
+                return new_data;
             },
             dataOptions: [
                 {

@@ -150,8 +150,6 @@ global.search = function(selector){
 
 
 global.dateRangeReportFormat = function(from, till){
-    console.log(from);
-    console.log(till);
     if (from){
         var tillp = till ? Date.parse(till) : Date.now();
         if ((tillp - Date.parse(from) ) / (24*3600*1000) > 100 ){
