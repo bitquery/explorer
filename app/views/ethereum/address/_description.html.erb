@@ -39,6 +39,13 @@
                 {
                     type: 'string',
                     renderCallback: function(item){
+                        if (item.smartContract){
+                            if (item.smartContract.currency){
+                                window.location.replace('/token/'+'<%= @address %>');
+                            }else{
+                                window.location.replace('/smart_contract/'+'<%= @address %>');
+                            }
+                        }
                         return '<%= t 'pages.address.description.part1', {address: @address} %> ' +
                             (item.address.annotation ?
                                 '<strong class="text-info">'+item.address.annotation+'</strong>' :
