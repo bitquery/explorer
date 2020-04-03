@@ -13,6 +13,8 @@ ru:
     last_month: 'Прошлый месяц'
     custom_range: 'Произвольный период'
   address: "адрес"
+  token: "токен"
+  smart_contract: "смарт контракт"
   find: "Искать"
   find_in: "Искать в %{network}"
   find_all: "Искать во всех сетях"

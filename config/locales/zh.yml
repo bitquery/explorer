@@ -13,6 +13,8 @@ zh:
     last_month: '上個月'
     custom_range: '定制範圍'
   address: "地址"
+  token: "代币"
+  smart_contract: "智能合约"
   find: "搜索"
   find_in: "在%{network}中搜索"
   find_add: "在所有區塊鏈中搜索"
