@@ -65,6 +65,11 @@ en:
       inbound_tokens_by_time: "Inbound transfers in tokens"
       inbound_eth_table: "Top Senders in %{currency} currency"
       inbound_tokens_table: "Top Senders in tokens"
+      outbound_transfers: "Latest Outbound Transfers"
+      outbound_eth_by_time: "Outbound transfers in %{currency} currency"
+      outbound_tokens_by_time: "Outbound transfers in tokens"
+      outbound_eth_table: "Top Receivers in %{currency} currency"
+      outbound_tokens_table: "Top Receivers in tokens"
     titles:
       date: 'Date'
       month: 'Month'
@@ -91,6 +96,7 @@ en:
       calls_count: "Calls Count"
       timestamp: 'Timestamp'
       sender: 'Sender'
+      receiver: 'Receiver'
       amount: 'Amount'
       transaction: 'Transaction'
       block: 'Block'

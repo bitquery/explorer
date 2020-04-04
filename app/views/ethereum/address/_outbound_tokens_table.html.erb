@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.inbound_tokens_table') %></div>
+    <div class="card-header"><%= t('widgets.headers.outbound_tokens_table') %></div>
     <div class="card-body">
-      <div id="inbound_tokens_table"><%= t('loading') %></div>
+      <div id="outbound_tokens_table"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -22,10 +22,10 @@
                         ethereum(network: $network){
                           transfers(options:{limit: $limit, offset: $offset, desc: "count"},
                             date: {since: $from till: $till },
-                            receiver: {is: $address},
+                            sender: {is: $address},
                             currency: {not: $nativeCurrency }) {
 
-                            address: sender{
+                            address: receiver{
                               address
                               annotation
                             }
@@ -45,11 +45,11 @@
                         }
                       }`);
 
-        new widgets.table('#inbound_tokens_table', query, 'ethereum.transfers', {
-            title: '<%= t('widgets.headers.inbound_tokens_table') %>',
+        new widgets.table('#outbound_tokens_table', query, 'ethereum.transfers', {
+            title: '<%= t('widgets.headers.outbound_tokens_table') %>',
             tableOptions: {
                 title: [
-                    '<%= t('widgets.titles.sender') %>',
+                    '<%= t('widgets.titles.receiver') %>',
                     '<%= t('widgets.titles.amount') %>',
                     '<%= t('widgets.titles.currency') %>',
                     '<%= t('widgets.titles.max_date') %>',
@@ -79,7 +79,7 @@
                         type: 'count',
                         path: 'count',
                         data: '%{DATA} <span class="fa fa-list"></span>',
-                        urlCallbackName: 'transfer_to_path'
+                        urlCallbackName: 'transfer_from_path'
                     },
 
                 ]
