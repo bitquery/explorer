@@ -153,20 +153,12 @@ global.dateRangeReportFormat = function(from, till){
     if (from){
         var tillp = till ? Date.parse(till) : Date.now();
         if ((tillp - Date.parse(from) ) / (24*3600*1000) > 100 ){
-            return '%m/%Y';
+            return '%Y-%m';
         }else{
-            return '%d/%m';
+            return '%Y-%m-%d';
         }
     }else{
-        return '%m/%Y';
-    }
-};
-
-global.dateSortReportFormat = function(dateFormat){
-    if(dateFormat.indexOf('%d')>=0){
-        return '%Y%m%d';
-    }else{
-        return '%Y%m';
+        return '%Y-%m';
     }
 };
 
@@ -177,8 +169,7 @@ global.queryWithTimeRange = function(rr, query, from, till, params){
         var data = Object.assign({}, params, {
             from: start,
             till: end,
-            dateFormat: dateFormat,
-            dateSort: dateSortReportFormat(dateFormat)
+            dateFormat: dateFormat
         });
         query.request(data);
     }

@@ -14,16 +14,14 @@
         var query = new widgets.query(`
                         query ($network: EthereumNetwork!,
                         $dateFormat: String!,
-                        $dateSort: String!,
                         $address: String!,
                         $from: ISO8601DateTime,
                         $till: ISO8601DateTime){
                     ethereum(network: $network ){
-                      transfers(options:{asc: "date.sortdate", desc: "(in_count+out_count)"}, date: {
+                      transfers(date: {
                         since: $from
                         till: $till}) {
-                        date: date{
-                          sortdate: date(format: $dateSort)
+                        date{
                           date(format: $dateFormat)
                         }
                         in_count: count(receiver: {is: $address})
@@ -46,9 +44,7 @@
                         }
                     }
                 },
-                hAxis: {
-                    title: '<%= t('widgets.titles.date') %>'
-                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars'
             },
             renderData: function(data){
@@ -64,7 +60,7 @@
             },
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.date') %>',
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
                     path: 'date.date'
                 },
                 {
