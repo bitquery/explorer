@@ -2,9 +2,9 @@
     widgets.callbacks({
         token_path: function(item){
             if(item.currency.address=='-'){
-                return '<%= locale_path_prefix %><%= params['network']['path'] %>/token/'+  item.currency.symbol;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.symbol;
             }else{
-                return '<%= locale_path_prefix %><%= params['network']['path'] %>/token/'+  item.currency.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.address;
             }
 
         },
@@ -12,24 +12,24 @@
             if(item.count_in==0) {
                 return null;
             }else{
-                return '<%= locale_path_prefix %><%= params['network']['path'] %>'+'/txs/transfers_to/'+item.currency.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/'+'<%= @address %>'+'/in_token/'+item.currency.address;
             }
         },
         transfer_from_path: function(item){
             if(item.count_out==0) {
                 return null;
             }else {
-                return '<%= locale_path_prefix %><%= params['network']['path'] %>/txs/transfers_from/' + item.currency.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/out_token/' + item.currency.address;
             }
         },
         smart_contract_method_path: function(item){
-            return '<%= locale_path_prefix %><%= params['network']['path'] %>'+'/functions/'+item.smartContract.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/functions/'+item.smartContract.address.address;
         },
         smart_contract_path: function(item){
-            return '<%= locale_path_prefix %><%= params['network']['path'] %>'+'/smart_contract/'+item.smartContract.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/smart_contract/'+item.smartContract.address.address;
         },
         call_count_path: function(item){
-            return '<%= locale_path_prefix %><%= params['network']['path'] %>'+'/address/'+item.smartContract.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/' + item.smartContract.address.address;
         }
     });
 
