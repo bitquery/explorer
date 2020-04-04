@@ -57,7 +57,7 @@
             if(Array.isArray(data) && data.length == 1){
                 let item = data[0];
                 let item_type = (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'));
-                window.location.replace('<%= locale_path_prefix %>/'+item.network.network+'/'+item_type+'/'+
+                window.location.replace('<%= locale_path_prefix %>'+item.network.network+'/'+item_type+'/'+
                     (item.subject.address || item.subject.tokenId || item.subject.symbol ));
             }
           return data;
