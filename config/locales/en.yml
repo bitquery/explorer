@@ -63,6 +63,8 @@ en:
       inbound_transfers: "Latest Inbound Transfers"
       inbound_eth_by_time: "Inbound transfers in %{currency} currency"
       inbound_tokens_by_time: "Inbound transfers in tokens"
+      inbound_eth_table: "Top Senders in %{currency} currency"
+      inbound_tokens_table: "Top Senders in tokens"
     titles:
       date: 'Date'
       month: 'Month'
@@ -92,6 +94,7 @@ en:
       amount: 'Amount'
       transaction: 'Transaction'
       block: 'Block'
+      max_date: 'Latest Date'
   pages:
     footer:
       built: "Build with"

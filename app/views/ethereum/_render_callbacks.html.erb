@@ -12,14 +12,16 @@
             if(item.count_in==0) {
                 return null;
             }else{
-                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/'+'<%= @address %>'+'/in_token/'+item.currency.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/'+'<%= @address %>'+'/in_token/'+
+                    (item.currency.address=='-' ? item.currency.symbol : item.currency.address );
             }
         },
         transfer_from_path: function(item){
             if(item.count_out==0) {
                 return null;
             }else {
-                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/out_token/' + item.currency.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/out_token/' +
+                    (item.currency.address=='-' ? item.currency.symbol : item.currency.address );
             }
         },
         smart_contract_method_path: function(item){
