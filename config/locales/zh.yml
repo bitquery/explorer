@@ -28,6 +28,7 @@ zh:
     search_in: "在%{network}中搜索 \"%{query}\""
   tabs:
     address:
+      icon: 'fas fa-user'
       show:
         name: '地址'
         header: "%{network} 地址 %{address}"

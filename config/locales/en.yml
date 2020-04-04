@@ -28,6 +28,7 @@ en:
     search_in: "Search in %{network} \"%{query}\""
   tabs:
     address:
+      icon: 'fas fa-user'
       show:
         name: 'Address'
         header: "%{network} address %{address}"
@@ -48,6 +49,30 @@ en:
         header: "Calls from %{network} address %{address}"
         title: "Calls from %{network} %{address}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+    smart_contract:
+      icon: 'fas fa-cogs text-info'
+      show:
+        name: 'Address'
+        header: "%{network} smart contract %{address}"
+        title: "%{network} %{address}"
+        description: "Overview of smart contract %{address} activity in %{network}: transfers, transactions, tokens, operations"
+      inflow:
+        name: 'Inflow'
+        header: "Inflow to %{network} smart contract %{address}"
+        title: "In %{network} %{address}"
+        description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        header: "Outflow from %{network} smart contract %{address}"
+        title: "Out %{network} %{address}"
+        description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        header: "Calls from %{network} smart contract %{address}"
+        title: "Calls from %{network} %{address}"
+        description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+    token:
+      icon: 'fas fa-coins text-warning'
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:

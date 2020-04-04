@@ -71,15 +71,15 @@
                 switch (item_type) {
                   case 'address':
                       item_name="<%= t('address') %> "+( item.subject.annotation || item.subject.address );
-                      item_icon = '<span class="fas fa-user"></span>';
+                      item_icon = '<span class="<%= t 'tabs.address.icon.addr' %>"></span>';
                       break;
                   case 'smart_contract':
                       item_name="<%= t('smart_contract') %> "+( item.subject.annotation || item.subject.address );
-                      item_icon = '<span class="fas fa-cogs text-info"></span>';
+                      item_icon = '<span class="<%= t 'tabs.smart_contract.icon' %>"></span>';
                       break;
                   case 'token':
                       item_name="<%= t('token') %> "+ item.subject.symbol + ', '+item.subject.name + ' '+ (item.subject.annotation || '') ;
-                      item_icon = '<span class="fas fa-coins text-warning"></span>';
+                      item_icon = '<span class="<%= t 'tabs.token.icon' %>"></span>';
                       break;
                 };
 

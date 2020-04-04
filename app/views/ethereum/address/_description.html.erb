@@ -41,9 +41,9 @@
                     renderCallback: function(item){
                         if (item.smartContract){
                             if (item.smartContract.currency){
-                                window.location.replace('<%= locale_path_prefix %>token/'+'<%= @address %>');
+                                window.location.replace('<%= locale_path_prefix %><%= @network[:network] %>/token/'+'<%= @address %>');
                             }else{
-                                window.location.replace('<%= locale_path_prefix %>smart_contract/'+'<%= @address %>');
+                                window.location.replace('<%= locale_path_prefix %><%= @network[:network] %>/smart_contract/'+'<%= @address %>');
                             }
                         }
                         return '<%= t 'pages.address.description.part1', {address: @address} %> ' +

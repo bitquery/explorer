@@ -28,6 +28,7 @@ ru:
     search_in: "Поиск в %{network} \"%{query}\""
   tabs:
     address:
+      icon: 'fas fa-user'
       show:
         name: 'Адрес'
         header: "%{network} адрес %{address}"
