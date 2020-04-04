@@ -136,7 +136,8 @@ en:
       uniq_contracts: "Uniq Contracts"
   pages:
     footer:
-      built: "Build with"
+      built: "Built with"
+      feel_free: "Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphiQL button!"
     address:
       description:
         part1: "Address %{address} is"
