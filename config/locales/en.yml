@@ -73,6 +73,7 @@ en:
       calls_table: "Latest Smart Contract Calls"
       smart_contracts_table: "Smart Contracts Called"
       smart_contract_methods_table: "Smart Contract Methods Called"
+      top_gas_calls_table: "Top Gas Cost Calls"
     titles:
       date: 'Date'
       month: 'Month'
