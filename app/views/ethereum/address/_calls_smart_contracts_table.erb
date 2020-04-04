@@ -1,0 +1,75 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.calls_smart_contracts') %></div>
+    <div class="card-body">
+      <div id="calls_smart_contracts_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                        $address: String!,
+                        $from: ISO8601DateTime,
+                        $till: ISO8601DateTime,
+                        $limit: Int!, $offset: Int!){
+                    ethereum(network: $network ){
+                        smartContractCalls(options:{limit: $limit, offset: $offset, desc: "count"}, date: {
+                          since: $from
+                          till: $till
+                        }, caller: {is: $address}) {
+                        smartContract{
+                          address{
+                            address
+                            annotation
+                          }
+                        }
+                        smartContractMethod {
+                          name
+                          signatureHash
+                        }
+                        count
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#calls_smart_contracts_table', query, 'ethereum.smartContractCalls', {
+            title: '<%= t('widgets.headers.calls_smart_contracts') %>',
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.smart_contract') %>', '<%= t('widgets.titles.method') %>', '<%#= t('widgets.titles.tx_count') %>'
+                ],
+                dataOptions: [
+                    {
+                        type: 'string-ellipsis',
+                        path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                        urlCallbackName: 'smart_contract_path'
+                    },
+                    {
+                        type: 'string-ellipsis',
+                        path: 'smartContractMethod.name',
+                        urlCallbackName: 'smart_contract_method_path'
+                    },
+                    {
+                        type: 'count',
+                        path: 'count',
+                        data: '%{DATA} <span class="fa fa-list"></span>',
+                        urlCallbackName: 'call_count_path'
+                    }
+                ]
+            }
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

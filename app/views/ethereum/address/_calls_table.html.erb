@@ -1,8 +1,10 @@
-<div class="col-12 col-lg-6 mb-4">
-  <div class="card">
-    <div class="card-header"><%= t('widgets.headers.calls_smart_contracts') %></div>
-    <div class="card-body">
-      <div id="calls_table"><%= t('loading') %></div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.calls_table') %></div>
+      <div class="card-body">
+        <div id="calls_table"><%= t('loading') %></div>
+      </div>
     </div>
   </div>
 </div>
@@ -11,39 +13,67 @@
 
     $( document ).ready(function() {
 
-        var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
-                        $address: String!,
-                        $from: ISO8601DateTime,
-                        $till: ISO8601DateTime,
-                        $limit: Int!, $offset: Int!){
-                    ethereum(network: $network ){
-                        smartContractCalls(options:{limit: $limit, offset: $offset, desc: "count"}, date: {
-                          since: $from
-                          till: $till
-                        }, caller: {is: $address}) {
-                        smartContract{
-                          address{
-                            address
-                            annotation
-                          }
-                        }
-                        smartContractMethod {
-                          name
-                          signatureHash
-                        }
-                        count
-                      }
-                    }
-                  }`);
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                                        $address: String!,
+                                        $limit: Int!,
+                                        $offset: Int!
+                                        $from: ISO8601DateTime,
+                                        $till: ISO8601DateTime){
+                                    ethereum(network: $network){
+                                      smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                                        date: {since: $from till: $till },
+                                        caller: {is: $address}) {
+
+                                        block {
+                                          timestamp {
+                                            time (format: "%Y-%m-%d %H:%M:%S")
+                                          }
+                                          height
+                                        }
+                                        smartContractMethod {
+                                          name
+                                          signatureHash
+                                        }
+                                        smartContract {
+                                          address {
+                                            address
+                                            annotation
+                                          }
+                                        }
+                                        transaction {
+                                          hash
+                                        }
+                                        external
+                                        gasValue
+                                            }
+                                          }
+                                        }`);
 
         new widgets.table('#calls_table', query, 'ethereum.smartContractCalls', {
-            title: '<%= t('widgets.headers.calls_smart_contracts') %>',
+            title: '<%= t('widgets.headers.calls_table') %>',
             tableOptions: {
                 title: [
-                    '<%= t('widgets.titles.smart_contract') %>', '<%= t('widgets.titles.method') %>', '<%#= t('widgets.titles.tx_count') %>'
+                    '<%= t('widgets.titles.timestamp') %>',
+                    '<%= t('widgets.titles.block') %>',
+
+                    '<%= t('widgets.titles.smart_contract') %>',
+                    '<%= t('widgets.titles.method') %>',
+
+                    '<%= t('widgets.titles.gas_value') %>',
+                    '<%= t('widgets.titles.transaction') %>'
                 ],
                 dataOptions: [
+                    {
+                        type: 'string',
+                        path: 'block.timestamp.time'
+                    },
+                    {
+                        type: 'string',
+                        path: 'block.height',
+                        urlCallbackName: 'block_path'
+                    },
+
                     {
                         type: 'string-ellipsis',
                         path: ['smartContract.address.annotation', 'smartContract.address.address'],
@@ -54,12 +84,16 @@
                         path: 'smartContractMethod.name',
                         urlCallbackName: 'smart_contract_method_path'
                     },
+
                     {
-                        type: 'count',
-                        path: 'count',
-                        data: '%{DATA} <span class="fa fa-list"></span>',
-                        urlCallbackName: 'call_count_path'
-                    }
+                        type: 'amount',
+                        path: 'gas_value'
+                    },
+                    {
+                        type: 'string-ellipsis',
+                        path: 'transaction.hash',
+                        urlCallbackName: 'transaction_path'
+                    },
                 ]
             }
         });

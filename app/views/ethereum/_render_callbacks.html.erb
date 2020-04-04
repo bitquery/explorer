@@ -31,7 +31,7 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
         },
         block_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
         },
         transaction_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+item.transaction.hash;
