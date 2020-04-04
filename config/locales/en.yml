@@ -16,7 +16,7 @@ en:
   token: "token"
   smart_contract: "smart contract"
   find: "Search"
-  find_in: "Search in %{network}"
+  find_in: "%{network}"
   find_all: "Search in all blockchains"
   find_placeholder: "Enter blockchain address..."
   themes:
@@ -60,6 +60,9 @@ en:
       trades_by_time: 'Trades by time'
       trades_by_currencies: 'Trades Buy/Sell'
       transactions_in_network: "Transfers in %{network}"
+      inbound_transfers: "Latest Inbound Transfers"
+      inbound_eth_by_time: "Inbound transfers in %{currency} currency"
+      inbound_tokens_by_time: "Inbound transfers in tokens"
     titles:
       date: 'Date'
       month: 'Month'
@@ -84,6 +87,11 @@ en:
       smart_contract: "Smart Contract"
       method: "Method"
       calls_count: "Calls Count"
+      timestamp: 'Timestamp'
+      sender: 'Sender'
+      amount: 'Amount'
+      transaction: 'Transaction'
+      block: 'Block'
   pages:
     footer:
       built: "Build with"

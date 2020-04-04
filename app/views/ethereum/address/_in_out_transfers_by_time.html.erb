@@ -45,7 +45,11 @@
                     }
                 },
                 hAxis: <%= render partial: 'shared/date_axis.json' %>,
-                seriesType: 'bars'
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' },
+                    '1': { color: '#ffc107' },
+                }
             },
             renderData: function(data){
                 let new_data = [];

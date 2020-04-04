@@ -38,7 +38,10 @@
                     }
                 },
                 hAxis: <%= render partial: 'shared/date_axis.json' %>,
-                seriesType: 'bars'
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#007bff' },
+                }
             },
             dataOptions: [
                 {

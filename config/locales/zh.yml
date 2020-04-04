@@ -16,7 +16,7 @@ zh:
   token: "代币"
   smart_contract: "智能合约"
   find: "搜索"
-  find_in: "在%{network}中搜索"
+  find_in: "%{network}"
   find_add: "在所有區塊鏈中搜索"
   find_placeholder: "輸入地址..."
   themes:
