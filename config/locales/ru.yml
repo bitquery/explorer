@@ -44,7 +44,7 @@ ru:
         title: "Снятия %{network} %{address}"
         description: "Снятия криптовалюты с адреса %{address} в сети %{network}, статистика исходящий переводов, разбивка по криптовалютам"
       calls_contracts:
-        name: 'Вызовы самрт контрактов'
+        name: 'Вызовы смарт контрактов'
         header: "Вызовы с адреса %{network}  %{address}"
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов с %{address} в сети %{network}, статистика вызовов, используемые методы"
@@ -60,6 +60,20 @@ ru:
       trades_by_time: 'Сделок по времени'
       trades_by_currencies: 'Сделки Покупка/продажа'
       transactions_in_network: "Переводы в %{network}"
+      inbound_transfers: "Свежие входящие переводы"
+      inbound_eth_by_time: "Входящие переводы в %{currency}"
+      inbound_tokens_by_time: "Входящие переводы в токенах"
+      inbound_eth_table: "Топовые отправители в %{currency}"
+      inbound_tokens_table: "Топовые отправители в токенах"
+      outbound_transfers: "Свежие исходящие переводы"
+      outbound_eth_by_time: "Исходящие переводы в %{currency}"
+      outbound_tokens_by_time: "Исходящие переводы в токенах"
+      outbound_eth_table: "Топовые получатели в %{currency}"
+      outbound_tokens_table: "Топовые получатели в токенах"
+      calls_table: "Свежие вызовы смарт контрактов"
+      smart_contracts_table: "Вызываемые смарт контракты"
+      smart_contract_methods_table: "Вызываемые методы смарт контрактов"
+      top_gas_calls_table: "Вызовы с наибольшей комиссией"
     titles:
       date: 'Дата'
       month: 'Месяц'
@@ -84,6 +98,17 @@ ru:
       smart_contract: "Смарт контракт"
       method: "Метод"
       calls_count: "Количество вызовов"
+      timestamp: 'Время'
+      sender: 'Отправитель'
+      receiver: 'Получатель'
+      amount: 'Сумма'
+      transaction: 'Транзакция'
+      block: 'Блок'
+      max_date: 'Последняя дата'
+      gas_value: 'Комиссия'
+      avg_gas_value: 'Комиссия на вызов'
+      uniq_methods: "Уник методов"
+      uniq_contracts: "Уник контрактов"
   pages:
     footer:
       built: "Сделано на основе"
