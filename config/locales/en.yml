@@ -71,6 +71,8 @@ en:
       outbound_eth_table: "Top Receivers in %{currency} currency"
       outbound_tokens_table: "Top Receivers in tokens"
       calls_table: "Latest Smart Contract Calls"
+      smart_contracts_table: "Smart Contracts Called"
+      smart_contract_methods_table: "Smart Contract Methods Called"
     titles:
       date: 'Date'
       month: 'Month'
@@ -102,7 +104,10 @@ en:
       transaction: 'Transaction'
       block: 'Block'
       max_date: 'Latest Date'
-      gas_value: 'Gas Value'
+      gas_value: 'Gas Cost'
+      avg_gas_value: 'Gas Cost/Call'
+      uniq_methods: "Uniq Methods"
+      uniq_contracts: "Uniq Contracts"
   pages:
     footer:
       built: "Build with"

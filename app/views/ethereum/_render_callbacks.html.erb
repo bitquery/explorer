@@ -25,7 +25,7 @@
             }
         },
         smart_contract_method_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/functions/'+item.smartContract.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/functions/'+item.smartContractMethod.signatureHash;
         },
         address_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
@@ -40,8 +40,13 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/smart_contract/'+item.smartContract.address.address;
         },
         call_count_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/' + item.smartContract.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/contract/' + item.smartContract.address.address;
+        },
+        call_method_count_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash;
         }
+
+
     });
 
 </script>
