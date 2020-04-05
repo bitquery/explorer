@@ -118,6 +118,8 @@ en:
       smart_contract_calls_by_time: "Calls Count By Date"
       smart_contract_callers_by_time: "Unique Callers By Date"
       smart_contract_transactions: "Latest Transactions"
+      smart_contract_top_callers: "Top Callers"
+      smart_contract_top_gas_burners: "Top Gas Burners"
     titles:
       date: 'Date'
       month: 'Month'
@@ -162,6 +164,7 @@ en:
       senders: "TX Senders"
       uniq_callers: "Uniq Addresses"
       caller: "Caller"
+      smart_contract_top_callers: "Top Callers"
   pages:
     footer:
       built: "Built with"
