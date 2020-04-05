@@ -1,7 +1,6 @@
 class Ethereum::SmartContractController < NetworkController
   layout 'tabs'
 
-
   def inflow
     render 'ethereum/address/inflow'
   end

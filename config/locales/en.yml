@@ -33,7 +33,7 @@ en:
         name: 'Address'
         header: "%{network} address %{address}"
         title: "%{network} %{address}"
-        description: "Overview of address %{address} activity in %{network}: transfers, transactions, tokens, operations"
+        description: "Overview of address %{address} activity in %{network}"
       inflow:
         name: 'Inflow'
         header: "Inflow to %{network} address %{address}"
@@ -55,7 +55,22 @@ en:
         name: 'Smart Contract'
         header: "%{network} smart contract %{address}"
         title: "%{network} %{address}"
-        description: "Overview of smart contract %{address} activity in %{network}: transfers, transactions, tokens, operations"
+        description: "Overview of smart contract %{address} activity in %{network}"
+      transactions:
+        name: 'Transactions'
+        header: "Transactions with %{network} smart contract %{address}"
+        title: "Txs %{network} %{address}"
+        description: "Transactions with smart contract %{address} in %{network}"
+      methods:
+        name: 'Methods'
+        header: "Method calls for %{network} smart contract %{address}"
+        title: "Methods %{network} %{address}"
+        description: "Method calls for smart contract %{address} in %{network}"
+      events:
+        name: 'Events'
+        header: "Event logs for %{network} smart contract %{address}"
+        title: "Events %{network} %{address}"
+        description: "Events logged by smart contract %{address} in %{network}"
       inflow:
         name: 'Inflow'
         header: "Inflow to %{network} smart contract %{address}"
