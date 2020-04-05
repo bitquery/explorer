@@ -73,7 +73,7 @@ ru:
       outbound_tokens_table: "Топовые получатели в токенах"
       calls_table: "Свежие вызовы смарт контрактов"
       smart_contracts_table: "Вызываемые смарт контракты"
-      smart_contract_methods_table: "Вызываемые методы смарт контрактов"
+      smart_contract_methods_called_table: "Вызываемые методы смарт контрактов"
       top_gas_calls_table: "Вызовы с наибольшей комиссией"
     titles:
       date: 'Дата'

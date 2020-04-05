@@ -112,7 +112,7 @@ en:
       outbound_tokens_table: "Top Receivers in tokens"
       calls_table: "Latest Smart Contract Calls"
       smart_contracts_table: "Smart Contracts Called"
-      smart_contract_methods_table: "Smart Contract Methods Called"
+      smart_contract_methods_called_table: "Smart Contract Methods Called"
       top_gas_calls_table: "Top Gas Cost Calls"
       smart_contract_attributes: "Smart Contract Readonly Properties"
       smart_contract_calls_by_time: "Calls Count By Date"
@@ -120,6 +120,8 @@ en:
       smart_contract_transactions: "Latest Transactions"
       smart_contract_top_callers: "Top Callers"
       smart_contract_top_gas_burners: "Top Gas Burners"
+      smart_contract_methods_table: "Smart Contract Methods"
+      smart_contract_methods_diagram: "Distribution of Calls Count by Methods"
     titles:
       date: 'Date'
       month: 'Month'
@@ -165,6 +167,9 @@ en:
       uniq_callers: "Uniq Addresses"
       caller: "Caller"
       smart_contract_top_callers: "Top Callers"
+      method_signature: "Method signature"
+      internal_calls_count: "Internal calls"
+      external_calls_count: "External calls"
   pages:
     footer:
       built: "Built with"

@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.smart_contract_methods_table') %></div>
+    <div class="card-header"><%= t('widgets.headers.smart_contract_methods_called_table') %></div>
     <div class="card-body">
-      <div id="smart_contract_methods_table"><%= t('loading') %></div>
+      <div id="smart_contract_methods_called_table"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -38,8 +38,8 @@
                             }
                           }`);
 
-        new widgets.table('#smart_contract_methods_table', query, 'ethereum.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contracts_table') %>',
+        new widgets.table('#smart_contract_methods_called_table', query, 'ethereum.smartContractCalls', {
+            title: '<%= t('widgets.headers.smart_contract_methods_called_table') %>',
             tableOptions: {
                 title: [
                     '<%= t('widgets.titles.method') %>',

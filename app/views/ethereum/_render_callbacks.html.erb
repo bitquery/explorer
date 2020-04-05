@@ -45,6 +45,12 @@
         call_method_count_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash;
         },
+        internal_call_method_count_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash+'?internal=true';
+        },
+        external_call_method_count_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash+'?internal=false';
+        },
         call_by_caller_count_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+item.address.address+'/calls/contract/' + '<%= @address %>';
         },

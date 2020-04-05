@@ -73,7 +73,7 @@ zh:
       outbound_tokens_table: "代币中的最佳接收者"
       calls_table: "最新的智能合约通话"
       smart_contracts_table: "调用智能合约"
-      smart_contract_methods_table: "调用智能合约方法"
+      smart_contract_methods_called_table: "调用智能合约方法"
       top_gas_calls_table: "最高燃气费用电话"
     titles:
       date: '日期'
