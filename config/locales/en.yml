@@ -122,6 +122,7 @@ en:
       smart_contract_top_gas_burners: "Top Gas Burners"
       smart_contract_methods_table: "Smart Contract Methods"
       smart_contract_methods_diagram: "Distribution of Calls Count by Methods"
+      method_references_table: "Addresses used in Method Parameters"
     titles:
       date: 'Date'
       month: 'Month'
@@ -170,6 +171,8 @@ en:
       method_signature: "Method signature"
       internal_calls_count: "Internal calls"
       external_calls_count: "External calls"
+      address: "Address"
+      argument: "Argument"
   pages:
     footer:
       built: "Built with"
