@@ -117,6 +117,7 @@ en:
       smart_contract_attributes: "Smart Contract Readonly Properties"
       smart_contract_calls_by_time: "Calls Count By Date"
       smart_contract_callers_by_time: "Unique Callers By Date"
+      smart_contract_transactions: "Latest Transactions"
     titles:
       date: 'Date'
       month: 'Month'
@@ -160,6 +161,7 @@ en:
       internal_callers: "Internal Uniq Callers"
       senders: "TX Senders"
       uniq_callers: "Uniq Addresses"
+      caller: "Caller"
   pages:
     footer:
       built: "Built with"
