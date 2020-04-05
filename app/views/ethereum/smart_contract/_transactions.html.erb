@@ -90,8 +90,8 @@
                     },
                     {
                         type: 'string-ellipsis',
-                        path: 'transaction.hash',
-                        urlCallbackName: 'transaction_path'
+                        urlCallbackName: 'transaction_path',
+                        renderCallback: <%= render partial: 'ethereum/tx_external_display.text' %>
                     },
                 ]
             }
