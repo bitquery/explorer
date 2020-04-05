@@ -123,6 +123,9 @@ en:
       smart_contract_methods_table: "Smart Contract Methods"
       smart_contract_methods_diagram: "Distribution of Calls Count by Methods"
       method_references_table: "Addresses used in Method Parameters"
+      smart_contract_events_table: "Smart Contract Events"
+      smart_contract_events_diagram: "Distribution of Log Count by Events"
+      event_references_table: "Addresses used in Event Parameters"
     titles:
       date: 'Date'
       month: 'Month'
@@ -169,10 +172,13 @@ en:
       caller: "Caller"
       smart_contract_top_callers: "Top Callers"
       method_signature: "Method signature"
+      event_signature: "Event signature"
       internal_calls_count: "Internal calls"
       external_calls_count: "External calls"
       address: "Address"
       argument: "Argument"
+      event: "Event"
+      events_count: "Event Count"
   pages:
     footer:
       built: "Built with"
