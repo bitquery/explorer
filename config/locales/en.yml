@@ -99,7 +99,9 @@ en:
       smart_contracts_table: "Smart Contracts Called"
       smart_contract_methods_table: "Smart Contract Methods Called"
       top_gas_calls_table: "Top Gas Cost Calls"
-      smart_contract_attributes: "Smart Contract Read-only properties"
+      smart_contract_attributes: "Smart Contract Readonly Properties"
+      smart_contract_calls_by_time: "Calls Count By Date"
+      smart_contract_callers_by_time: "Unique Callers By Date"
     titles:
       date: 'Date'
       month: 'Month'
@@ -137,6 +139,12 @@ en:
       uniq_contracts: "Uniq Contracts"
       property: "Property"
       property_value: "Value"
+      external_calls: "External Calls ( TXs )"
+      internal_calls: "Internal Calls"
+      external_callers: "External Uniq Callers"
+      internal_callers: "Internal Uniq Callers"
+      senders: "TX Senders"
+      uniq_callers: "Uniq Addresses"
   pages:
     footer:
       built: "Built with"
