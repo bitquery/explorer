@@ -52,7 +52,7 @@ en:
     smart_contract:
       icon: 'fas fa-cogs text-info'
       show:
-        name: 'Address'
+        name: 'Smart Contract'
         header: "%{network} smart contract %{address}"
         title: "%{network} %{address}"
         description: "Overview of smart contract %{address} activity in %{network}: transfers, transactions, tokens, operations"
