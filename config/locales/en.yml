@@ -99,6 +99,7 @@ en:
       smart_contracts_table: "Smart Contracts Called"
       smart_contract_methods_table: "Smart Contract Methods Called"
       top_gas_calls_table: "Top Gas Cost Calls"
+      smart_contract_attributes: "Smart Contract Read-only properties"
     titles:
       date: 'Date'
       month: 'Month'
@@ -134,6 +135,8 @@ en:
       avg_gas_value: 'Gas Cost/Call'
       uniq_methods: "Uniq Methods"
       uniq_contracts: "Uniq Contracts"
+      property: "Property"
+      property_value: "Value"
   pages:
     footer:
       built: "Built with"
@@ -144,3 +147,7 @@ en:
         part2: "address in %{network}"
         part3: "a regular wallet"
         balance: "Balance is"
+    smart_contract:
+      description:
+        part2: "smart contract in %{network}"
+        part3: "a smart contract"

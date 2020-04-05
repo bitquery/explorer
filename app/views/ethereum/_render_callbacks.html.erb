@@ -44,8 +44,15 @@
         },
         call_method_count_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash;
-        }
+        },
+        property_value_path: function(item){
+            if (item.address){
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
+            }else{
+                return null;
+            }
 
+        },
 
     });
 
