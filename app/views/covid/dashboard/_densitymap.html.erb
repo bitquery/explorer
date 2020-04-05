@@ -58,7 +58,7 @@ new widgets.chart('#countrydensitymap', countrydensitymap_query, 'offchain.covid
     chartOptions: {
         height: '600',
         tooltip: {isHtml: true},
-        colorAxis: {minValue: 0, maxValue: 1000, colors: ['#FFFFFF', '#FF0000']},
+        colorAxis: {minValue: 0, maxValue: 2000, colors: ['#FFFFFF', '#FF0000']},
         <% if defined? @continent_region %>region: '<%= @continent_region %>',<% end  %>
     },
     dataOptions: [
