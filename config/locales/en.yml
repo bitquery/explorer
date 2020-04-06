@@ -198,6 +198,7 @@ en:
       token_receivers_diagram: "Distribution of Token Receivers By Volume"
       token_receivers_by_time: "Unique Receivers By Time"
       token_median_receiver_amount_by_time: "Median Received Amount"
+      token_statistics: "Token statistics"
     titles:
       date: 'Date'
       month: 'Month'
@@ -255,6 +256,12 @@ en:
       uniq_receivers: "Uniq Receivers"
       uniq_senders: "Uniq Senders"
       median_amount: "Median Amount"
+      average_amount: "Average Amount"
+      metric: "Metric"
+      total_amount: "Total transfer amount"
+      first_transfer_date: "First transfer date"
+      last_transfer_date: "Last transfer date"
+      transfer_days: "Days token transfered"
   pages:
     footer:
       built: "Built with"
