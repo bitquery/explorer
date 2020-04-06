@@ -1,0 +1,5 @@
+<ul class="nav nav-tabs mb-4">
+<% for tab in ['show','transfers','smart_contract','transactions','methods','events','inflow','outflow','calls_contracts']  %>
+    <%= tab_link t("tabs.token.#{tab}.name"), tab %>
+<% end %>
+</ul>

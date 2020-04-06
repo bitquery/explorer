@@ -4,8 +4,19 @@
                header: (chain ? t('headers.search_in',network: chain[:name], query: @query) : t('headers.search', query: @query)),
                icon: 'fas fa-search text-default'
            } %>
+
+<div class="row">
+  <div class="col mb-4">
+    <div id="search"><%= t('loading') %></div>
+  </div>
+</div>
+
+
 <script>
-    var query = new widgets.query(`
+
+$( document ).ready(function() {
+
+        var query = new widgets.query(`
     query(<%= "$network: Network!, " if @network %>$query: String!){
       search(<%= "network: $network, " if @network %>string: $query){
           subject{
@@ -19,7 +30,7 @@
               name
               address
               tokenId
-
+              tokenType
             }
             ... on SmartContract {
               address
@@ -35,34 +46,30 @@
         }
       }
     `, {
-        types: [
-            {
-                kind: 'UNION',
-                name: 'SearchResultItem',
-                possibleTypes: [
-                    { name: 'Address' },
-                    { name: 'Currency' },
-                    { name: 'SmartContract' }
-                ],
-            },
-        ],
-    });
-</script>
-<div class="row">
-  <div class="col mb-4">
-    <div id="search"><%= t('loading') %></div>
-  </div>
-</div>
-<script>
-    var sch = new widgets.list('#search', query, 'search', {
+            types: [
+                {
+                    kind: 'UNION',
+                    name: 'SearchResultItem',
+                    possibleTypes: [
+                        { name: 'Address' },
+                        { name: 'Currency' },
+                        { name: 'SmartContract' }
+                    ],
+                },
+            ],
+        });
+
+    function item_url(item) {
+        let item_type = (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'));
+        return '<%= locale_path_prefix %>'+item.network.network+'/'+item_type+'/'+ item.subject.address;
+    }
+
+    new widgets.list('#search', query, 'search', {
         excludeButtons: ['csv', 'js'],
         renderData: function(data){
-            if(Array.isArray(data) && data.length == 1){
-                let item = data[0];
-                let item_type = (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'));
-                window.location.replace('<%= locale_path_prefix %>'+item.network.network+'/'+item_type+'/'+
-                    (item.subject.address || item.subject.tokenId || item.subject.symbol ));
-            }
+          if(Array.isArray(data) && data.length == 1){
+              window.location.replace(item_url(data[0]));
+          }
           return data;
         },
         title: 'Search',
@@ -87,7 +94,7 @@
                 };
 
                 let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_pack_path "media/icon/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
-                let url = '/'+item.network.network+'/'+item_type+'/'+(item.subject.address || item.subject.tokenId || item.subject.symbol );
+                let url = item_url(item);
 
                 let html = "<div class='media'>\n" +
                     "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
@@ -103,4 +110,6 @@
         }
     });
     query.request({<%= "network: '#{@network[:network]}', ".html_safe if @network %>query: '<%= @query %>'});
+
+});
 </script>

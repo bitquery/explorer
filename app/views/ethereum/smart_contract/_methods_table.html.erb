@@ -1,5 +1,16 @@
 
 <div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.smart_contract_methods_diagram') %></div>
+      <div class="card-body">
+        <div id="smart_contract_methods_diagram"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
     <div class="col-12 col-lg-12 mb-4">
       <div class="card">
       <div class="card-header"><%= t('widgets.headers.smart_contract_methods_table') %></div>
@@ -10,16 +21,7 @@
       </div>
 </div>
 
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card">
-      <div class="card-header"><%= t('widgets.headers.smart_contract_methods_diagram') %></div>
-      <div class="card-body">
-        <div id="smart_contract_methods_diagram"><%= t('loading') %></div>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <script>
 
@@ -121,6 +123,7 @@ new widgets.table('#smart_contract_methods_table', query, 'ethereum.smartContrac
 
 
 new widgets.chart('#smart_contract_methods_diagram', query, 'ethereum.smartContractCalls', {
+    chartType: 'BarChart',
     title: '<%= t('widgets.headers.smart_contract_methods_diagram') %>',
     chartOptions: {
         hAxis: {
@@ -136,24 +139,27 @@ new widgets.chart('#smart_contract_methods_diagram', query, 'ethereum.smartContr
         series: {
             '0': { color: '#28a745' },
             '1': { color: '#ffc107' },
-        }
+        },
+        chartArea:{left: '25%', right: '10%'}
     },
     dataOptions: [
         {
-            type: 'string-ellipsis',
+            type: 'string',
             path: 'smartContractMethod.name',
             title: '<%= t('widgets.titles.method') %>'
         },
         {
             type: 'count',
             path: 'external_count',
-            title: '<%= t('widgets.titles.external_calls_count') %>'
+            title:'<%= t('widgets.titles.external_calls_count') %>'
         },
         {
             type: 'count',
             path: 'internal_count',
             title: '<%= t('widgets.titles.internal_calls_count') %>'
         },
+
+
     ]
 });
 

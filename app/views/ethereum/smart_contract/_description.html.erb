@@ -38,17 +38,19 @@
                     type: 'string',
                     renderCallback: function(item){
                         if (item.smartContract){
+                            <% if controller_name!='token' %>
                             if (item.smartContract.currency){
-                                window.location.replace('<%= locale_path_prefix %><%= @network[:network] %>/token/'+'<%= @address %>');
-                            }else{
-                                return '<%= t 'pages.address.description.part1', {address: @address} %> ' +
+                                return window.location.replace('<%= locale_path_prefix %><%= @network[:network] %>/token/'+'<%= @address %>');
+                            }
+                            <% end  %>
+                            return '<%= t 'pages.address.description.part1', {address: @address} %> ' +
                                     (item.address.annotation ?
                                         '<strong class="text-info">'+item.address.annotation+'</strong>' :
                                         '<%= t 'pages.smart_contract.description.part3' %> ')+
                                     ' <%= t 'pages.smart_contract.description.part2', {network: @network[:name]} %><hr>' +
                                     ' <%= t 'pages.address.description.balance' %> ' +
                                     '<strong class="text-success">'+item.balance + ' <%= @network[:currency] %>'+ '</strong>';
-                            }
+
                         }else{
                             window.location.replace('<%= locale_path_prefix %><%= @network[:network] %>/address/'+'<%= @address %>');
                         }
