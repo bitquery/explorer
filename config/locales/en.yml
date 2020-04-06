@@ -192,6 +192,8 @@ en:
       max_token_transfers_by_time: "Top Token Transfer Amounts By Date"
       token_senders_table: "Token Senders By Volume"
       token_senders_diagram: "Distribution of Token Senders By Volume"
+      token_senders_by_time: "Unique Senders By Time"
+      token_median_sender_amount_by_time: "Median Sent Amount"
     titles:
       date: 'Date'
       month: 'Month'
@@ -248,6 +250,7 @@ en:
       max_amount: "Max Transfer Amount"
       uniq_receivers: "Uniq Receivers"
       uniq_senders: "Uniq Senders"
+      median_amount: "Median Amount"
   pages:
     footer:
       built: "Built with"
