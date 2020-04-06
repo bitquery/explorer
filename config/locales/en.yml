@@ -13,8 +13,10 @@ en:
     last_month: 'Last month'
     custom_range: 'Custom range'
   address: "address"
+  token: "token"
+  smart_contract: "smart contract"
   find: "Search"
-  find_in: "Search in %{network}"
+  find_in: "%{network}"
   find_all: "Search in all blockchains"
   find_placeholder: "Enter blockchain address..."
   themes:
@@ -26,11 +28,12 @@ en:
     search_in: "Search in %{network} \"%{query}\""
   tabs:
     address:
+      icon: 'fas fa-user'
       show:
         name: 'Address'
         header: "%{network} address %{address}"
         title: "%{network} %{address}"
-        description: "Overview of address %{address} activity in %{network}: transfers, transactions, tokens, operations"
+        description: "Overview of address %{address} activity in %{network}"
       inflow:
         name: 'Inflow'
         header: "Inflow to %{network} address %{address}"
@@ -46,21 +49,88 @@ en:
         header: "Calls from %{network} address %{address}"
         title: "Calls from %{network} %{address}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+    smart_contract:
+      icon: 'fas fa-cogs text-info'
+      show:
+        name: 'Smart Contract'
+        header: "%{network} smart contract %{address}"
+        title: "%{network} %{address}"
+        description: "Overview of smart contract %{address} activity in %{network}"
+      transactions:
+        name: 'Transactions'
+        header: "Transactions with %{network} smart contract %{address}"
+        title: "Txs %{network} %{address}"
+        description: "Transactions with smart contract %{address} in %{network}"
+      methods:
+        name: 'Methods'
+        header: "Method calls for %{network} smart contract %{address}"
+        title: "Methods %{network} %{address}"
+        description: "Method calls for smart contract %{address} in %{network}"
+      events:
+        name: 'Events'
+        header: "Event logs for %{network} smart contract %{address}"
+        title: "Events %{network} %{address}"
+        description: "Events logged by smart contract %{address} in %{network}"
+      inflow:
+        name: 'Inflow'
+        header: "Inflow to %{network} smart contract %{address}"
+        title: "In %{network} %{address}"
+        description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        header: "Outflow from %{network} smart contract %{address}"
+        title: "Out %{network} %{address}"
+        description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        header: "Calls from %{network} smart contract %{address}"
+        title: "Calls from %{network} %{address}"
+        description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+    token:
+      icon: 'fas fa-coins text-warning'
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
-      transaction_by_time: 'Activities by time'
-      calls_by_time: 'Calls smart contracts by time'
+      transaction_by_time: 'Activities by date'
+      in_out_transfers_by_time: 'In/Outbound transfer count by date'
+      calls_by_time: 'Calls smart contracts by date'
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
       trades_by_currencies: 'Trades Buy/Sell'
       transactions_in_network: "Transfers in %{network}"
+      inbound_transfers: "Latest Inbound Transfers"
+      inbound_eth_by_time: "Inbound transfers in %{currency} currency"
+      inbound_tokens_by_time: "Inbound transfers in tokens"
+      inbound_eth_table: "Top Senders in %{currency} currency"
+      inbound_tokens_table: "Top Senders in tokens"
+      outbound_transfers: "Latest Outbound Transfers"
+      outbound_eth_by_time: "Outbound transfers in %{currency} currency"
+      outbound_tokens_by_time: "Outbound transfers in tokens"
+      outbound_eth_table: "Top Receivers in %{currency} currency"
+      outbound_tokens_table: "Top Receivers in tokens"
+      calls_table: "Latest Smart Contract Calls"
+      smart_contracts_table: "Smart Contracts Called"
+      smart_contract_methods_called_table: "Smart Contract Methods Called"
+      top_gas_calls_table: "Top Gas Cost Calls"
+      smart_contract_attributes: "Smart Contract Readonly Properties"
+      smart_contract_calls_by_time: "Calls Count By Date"
+      smart_contract_callers_by_time: "Unique Callers By Date"
+      smart_contract_transactions: "Latest Transactions"
+      smart_contract_top_callers: "Top Callers"
+      smart_contract_top_gas_burners: "Top Gas Burners"
+      smart_contract_methods_table: "Smart Contract Methods"
+      smart_contract_methods_diagram: "Distribution of Calls Count by Methods"
+      method_references_table: "Addresses used in Method Parameters"
+      smart_contract_events_table: "Smart Contract Events"
+      smart_contract_events_diagram: "Distribution of Log Count by Events"
+      event_references_table: "Addresses used in Event Parameters"
     titles:
       date: 'Date'
       month: 'Month'
       tx_count: "Tx Count"
+      transfer_count: "Transfer Count"
       volume: "Volume, %{currency}"
       receive_count: "Receive Count"
       send_count: "Send Count"
@@ -80,10 +150,46 @@ en:
       smart_contract: "Smart Contract"
       method: "Method"
       calls_count: "Calls Count"
+      timestamp: 'Timestamp'
+      sender: 'Sender'
+      receiver: 'Receiver'
+      amount: 'Amount'
+      transaction: 'Transaction'
+      block: 'Block'
+      max_date: 'Latest Date'
+      gas_value: 'Gas Cost'
+      avg_gas_value: 'Gas Cost/Call'
+      uniq_methods: "Uniq Methods"
+      uniq_contracts: "Uniq Contracts"
+      property: "Property"
+      property_value: "Value"
+      external_calls: "External Calls ( TXs )"
+      internal_calls: "Internal Calls"
+      external_callers: "External Uniq Callers"
+      internal_callers: "Internal Uniq Callers"
+      senders: "TX Senders"
+      uniq_callers: "Uniq Addresses"
+      caller: "Caller"
+      smart_contract_top_callers: "Top Callers"
+      method_signature: "Method signature"
+      event_signature: "Event signature"
+      internal_calls_count: "Internal calls"
+      external_calls_count: "External calls"
+      address: "Address"
+      argument: "Argument"
+      event: "Event"
+      events_count: "Event Count"
   pages:
+    footer:
+      built: "Built with"
+      feel_free: "Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphiQL button!"
     address:
       description:
         part1: "Address %{address} is"
         part2: "address in %{network}"
         part3: "a regular wallet"
         balance: "Balance is"
+    smart_contract:
+      description:
+        part2: "smart contract in %{network}"
+        part3: "a smart contract"

@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.smart_contract_attributes') %></div>
+      <div class="card-body">
+        <div id="smart_contract_attributes"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                        $address: String!
+                  ){
+                  ethereum(network: $network){
+                      address(address: {is: $address }){
+                      smartContract {
+                          attributes{
+                            name
+                            type
+                            address {
+                              address
+                              annotation
+                            }
+                            value
+                          }
+                        }
+                      }
+                    }
+
+                  }`);
+
+        new widgets.table('#smart_contract_attributes', query, 'ethereum.address', {
+            title: '<%= t('widgets.headers.smart_contract_attributes') %>',
+            renderData: function(data){
+                return data[0].smartContract.attributes;
+            },
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.property') %>',
+                    '<%= t('widgets.titles.property_value') %>',
+                ],
+
+                dataOptions: [
+                    {
+                        type: 'string-ellipsis',
+                        path: 'name',
+                        html_class: 'text-info font-weight-bold'
+                    },
+                    {
+                        type: 'string-ellipsis',
+                        path: 'value',
+                        urlCallbackName: 'property_value_path'
+                    },
+
+                ]
+            }
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

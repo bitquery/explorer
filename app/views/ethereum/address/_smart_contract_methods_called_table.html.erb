@@ -1,0 +1,88 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.smart_contract_methods_called_table') %></div>
+    <div class="card-body">
+      <div id="smart_contract_methods_called_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                                $address: String!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                            ethereum(network: $network){
+                              smartContractCalls(options:{desc: "count", limit: $limit, offset: $offset},
+                                date: {since: $from till: $till },
+                                caller: {is: $address} ) {
+
+                                smartContractMethod {
+                                  name
+                                  signatureHash
+                                }
+
+                                max_date: maximum(of: date)
+
+                                count
+                                uniq_contracts: count(uniq: smart_contracts)
+                                gasValue(calculate: average)
+
+                              }
+                            }
+                          }`);
+
+        new widgets.table('#smart_contract_methods_called_table', query, 'ethereum.smartContractCalls', {
+            title: '<%= t('widgets.headers.smart_contract_methods_called_table') %>',
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.method') %>',
+                    '<%= t('widgets.titles.max_date') %>',
+                    '<%= t('widgets.titles.avg_gas_value') %>',
+                    '<%= t('widgets.titles.uniq_contracts') %>',
+                    '<%= t('widgets.titles.calls_count') %>',
+
+                ],
+                dataOptions: [
+                    {
+                        type: 'string-ellipsis',
+                        path: 'smartContractMethod.name',
+                        urlCallbackName: 'smart_contract_method_path'
+                    },
+                    {
+                        type: 'string',
+                        path: 'max_date'
+                    },
+                    {
+                        type: 'amount',
+                        path: 'gasValue'
+                    },
+                    {
+                        type: 'count',
+                        path: 'uniq_contracts'
+                    },
+                    {
+                        type: 'count',
+                        path: 'count',
+                        data: '%{DATA} <span class="fa fa-list"></span>',
+                        urlCallbackName: 'call_method_count_path'
+                    },
+                ]
+            }
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

@@ -208,3 +208,34 @@ function compactDataArray(arr){
     return data;
 };
 
+
+global.dateRangeReportFormat = function(from, till){
+    if (from){
+        var tillp = till ? Date.parse(till) : Date.now();
+        if ((tillp - Date.parse(from) ) / (24*3600*1000) > 100 ){
+            return '%Y-%m';
+        }else{
+            return '%Y-%m-%d';
+        }
+    }else{
+        return '%Y-%m';
+    }
+};
+
+global.queryWithTimeRange = function(rr, query, from, till, params){
+
+    function draw(start,end){
+        var dateFormat = dateRangeReportFormat(start,end);
+        var data = Object.assign({}, params, {
+            from: start,
+            till: end,
+            dateFormat: dateFormat
+        });
+        query.request(data);
+    }
+
+    draw(from,till);
+    rr.change(draw);
+
+};
+

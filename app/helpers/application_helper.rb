@@ -31,4 +31,13 @@ module ApplicationHelper
     end
   end
 
+
+  def locale_path_prefix
+    if params[:locale]
+      "/#{params[:locale]}/"
+    else
+      '/'
+    end
+  end
+
 end

@@ -1,0 +1,83 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.smart_contract_top_gas_burners') %></div>
+    <div class="card-body">
+      <div id="smart_contract_top_gas_burners"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                                      $address: String!,
+                                      $limit: Int!,
+                                      $offset: Int!
+                                      $from: ISO8601DateTime,
+                                      $till: ISO8601DateTime){
+                                  ethereum(network: $network){
+                                    smartContractCalls(options:{desc: "gasValue", limit: $limit, offset: $offset},
+                                      date: {since: $from till: $till },
+                                      smartContractAddress: {is: $address}) {
+
+                                      address: caller {
+                                        address
+                                        annotation
+                                      }
+
+                                      max_date: maximum(of: date)
+
+                                      gasValue(calculate: sum)
+                                      count
+                                    }
+                                  }
+                                }`);
+
+        new widgets.table('#smart_contract_top_gas_burners', query, 'ethereum.smartContractCalls', {
+            title: '<%= t('widgets.headers.smart_contract_top_gas_burners') %>',
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.caller') %>',
+
+                    '<%= t('widgets.titles.max_date') %>',
+                    '<%= t('widgets.titles.gas_value') %>',
+                    '<%= t('widgets.titles.calls_count') %>',
+                ],
+                dataOptions: [
+                    {
+                        type: 'string-ellipsis',
+                        path: ['address.annotation','address.address'],
+                        urlCallbackName: 'address_path'
+                    },
+                    {
+                        type: 'string',
+                        path: 'max_date'
+                    },
+                    {
+                        type: 'amount',
+                        path: 'gasValue'
+                    },
+                    {
+                        type: 'count',
+                        path: 'count',
+                        data: '%{DATA} <span class="fa fa-list"></span>',
+                        urlCallbackName: 'call_by_caller_count_path'
+                    },
+
+                ]
+            }
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>',
+            nativeCurrency: '<%= @network[:currency] %>'
+        });
+
+
+    });
+
+</script>

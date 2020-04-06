@@ -1,0 +1,136 @@
+
+<div class="row">
+    <div class="col-12 col-lg-12 mb-4">
+      <div class="card">
+      <div class="card-header"><%= t('widgets.headers.smart_contract_events_table') %></div>
+      <div class="card-body">
+      <div id="smart_contract_events_table"><%= t('loading') %></div>
+            </div>
+          </div>
+      </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.smart_contract_events_diagram') %></div>
+      <div class="card-body">
+        <div id="smart_contract_events_diagram"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                        $address: String!,
+                        $limit:Int,
+                        $offset:Int,
+                        $from: ISO8601DateTime,
+                        $till: ISO8601DateTime){
+                    ethereum(network: $network){
+                      smartContractEvents(options:{
+                        desc: "count",
+                        limit:$limit, offset: $offset},
+                        date: {since: $from till: $till },
+                        smartContractAddress: {is: $address}) {
+
+                        smartContractEvent {
+                          name
+                          signature
+                          signatureHash
+                        }
+
+                        count
+
+                        max_date:maximum(of: date)
+                      }
+                    }
+                  }`);
+
+new widgets.table('#smart_contract_events_table', query, 'ethereum.smartContractEvents', {
+    title: '<%= t('widgets.headers.smart_contract_events_table') %>',
+    tableOptions: {
+        title: [
+            '<%= t('widgets.titles.event') %>',
+            '<%= t('widgets.titles.event_signature') %>',
+
+
+            '<%= t('widgets.titles.max_date') %>',
+
+            '<%= t('widgets.titles.senders') %>',
+
+            '<%= t('widgets.titles.events_count') %>',
+    ],
+    dataOptions: [
+        {
+            type: 'string-ellipsis',
+            path: 'smartContractEvent.name',
+            urlCallbackName: 'smart_contract_event_path'
+        },
+        {
+            type: 'string-ellipsis',
+            path: 'smartContractEvent.signature'
+        },
+        {
+            type: 'string',
+            path: 'max_date'
+        },
+
+        {
+            type: 'count',
+            path: 'senders'
+        },
+
+        {
+            type: 'count',
+            path: 'count',
+            data: '%{DATA} <span class="fa fa-list"></span>',
+            urlCallbackName: 'event_count_path'
+        },
+        ]
+    }
+});
+
+
+new widgets.chart('#smart_contract_events_diagram', query, 'ethereum.smartContractEvents', {
+    title: '<%= t('widgets.headers.smart_contract_events_diagram') %>',
+    chartOptions: {
+        hAxis: {
+            title: '<%= t('widgets.titles.events_count') %>',
+            minValue: 0,
+        },
+
+        vAxis: {
+           title: '<%= t('widgets.titles.event') %>'
+        },
+        seriesType: 'bars',
+        series: {
+            '0': { color: '#28a745' }
+        }
+    },
+    dataOptions: [
+        {
+            type: 'string-ellipsis',
+            path: 'smartContractEvent.name',
+            title: '<%= t('widgets.titles.event') %>'
+        },
+        {
+            type: 'count',
+            path: 'count',
+            title: '<%= t('widgets.titles.events_count') %>'
+        },
+    ]
+});
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+                network: '<%= params['network']['network'] %>',
+                address: '<%= @address %>'
+            });
+
+
+});
+
+</script>

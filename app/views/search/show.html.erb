@@ -1,6 +1,9 @@
 <% chain = BLOCKCHAINS.detect{|chain| chain[:network] == @network} if @network && !@network.empty? %>
 <%= render partial: 'shared/title',
-           locals: {header: (chain ? t('headers.search_in',network: chain[:name], query: @query) : t('headers.search', query: @query))} %>
+           locals: {
+               header: (chain ? t('headers.search_in',network: chain[:name], query: @query) : t('headers.search', query: @query)),
+               icon: 'fas fa-search text-default'
+           } %>
 <script>
     var query = new widgets.query(`
     query(<%= "$network: Network!, " if @network %>$query: String!){
@@ -14,6 +17,15 @@
             ... on Currency {
               symbol
               name
+              address
+              tokenId
+
+            }
+            ... on SmartContract {
+              address
+              annotation
+              contractType
+              protocol
             }
           }
           network{
@@ -29,7 +41,8 @@
                 name: 'SearchResultItem',
                 possibleTypes: [
                     { name: 'Address' },
-                    { name: 'Currency' }
+                    { name: 'Currency' },
+                    { name: 'SmartContract' }
                 ],
             },
         ],
@@ -45,7 +58,10 @@
         excludeButtons: ['csv', 'js'],
         renderData: function(data){
             if(Array.isArray(data) && data.length == 1){
-                location.href = '<%= params[:locale] %>/'+data[0].network.network+'/address/'+data[0].subject.address;
+                let item = data[0];
+                let item_type = (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'));
+                window.location.replace('<%= locale_path_prefix %>'+item.network.network+'/'+item_type+'/'+
+                    (item.subject.address || item.subject.tokenId || item.subject.symbol ));
             }
           return data;
         },
@@ -53,18 +69,36 @@
         dataOptions:{
             type: 'string',
             renderCallback: function(item){
+                let item_type = (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'));
+                var item_name, item_icon = '';
+                switch (item_type) {
+                  case 'address':
+                      item_name="<%= t('address') %> "+( item.subject.annotation || item.subject.address );
+                      item_icon = '<span class="<%= t 'tabs.address.icon' %>"></span>';
+                      break;
+                  case 'smart_contract':
+                      item_name="<%= t('smart_contract') %> "+( item.subject.annotation || item.subject.address );
+                      item_icon = '<span class="<%= t 'tabs.smart_contract.icon' %>"></span>';
+                      break;
+                  case 'token':
+                      item_name="<%= t('token') %> "+ item.subject.symbol + ', '+item.subject.name + ' '+ (item.subject.annotation || '') ;
+                      item_icon = '<span class="<%= t 'tabs.token.icon' %>"></span>';
+                      break;
+                };
+
                 let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_pack_path "media/icon/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
-                let url = '<%= params[:locale] %>/'+item.network.network+'/address/'+item.subject.address;
+                let url = '/'+item.network.network+'/'+item_type+'/'+(item.subject.address || item.subject.tokenId || item.subject.symbol );
+
                 let html = "<div class='media'>\n" +
                     "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
                     "  <div class='media-body word-wrap' style='min-width: 40%;'>\n" +
-                    "    <h6 class='mt-0'><a href='"+url+"'>"+chains[item.network.network].name+" <%= t('address') %> "+item.subject.address+"</a></h6>\n" +
-                    ((typeof item.subject.annotation) == String ? "<p>"+item.subject.annotation+"</p>\n" : "") +
+                    "    <h6 class='mt-0'>"+item_icon+" <a href='"+url+"'>"+chains[item.network.network].name +
+                    ' <strong class="text-success">' + item_name + ' '+ '</strong>'+
+                    "</a></h6>\n" +
                     "    <a href='"+url+"'>"+url+"</a>" +
                     "  </div>\n" +
                     "</div>";
                 return html;
-                return item.subject.address
             }
         }
     });
