@@ -199,6 +199,7 @@ en:
       token_receivers_by_time: "Unique Receivers By Time"
       token_median_receiver_amount_by_time: "Median Received Amount"
       token_statistics: "Token statistics"
+      smart_contract_statitics: "Smart Contract Statistics"
     titles:
       date: 'Date'
       month: 'Month'
@@ -241,7 +242,7 @@ en:
       external_callers: "External Uniq Callers"
       internal_callers: "Internal Uniq Callers"
       senders: "TX Senders"
-      uniq_callers: "Uniq Addresses"
+      uniq_callers: "Uniq Callers"
       caller: "Caller"
       smart_contract_top_callers: "Top Callers"
       method_signature: "Method signature"
@@ -262,6 +263,12 @@ en:
       first_transfer_date: "First transfer date"
       last_transfer_date: "Last transfer date"
       transfer_days: "Days token transfered"
+      call_days: "Days contract called"
+      creator: "Creator"
+      created: "Created"
+      create_tx: "Create TX"
+      transactions_count: "Transactions count"
+      last_transaction_time: "Last transaction time"
   pages:
     footer:
       built: "Built with"
@@ -277,6 +284,9 @@ en:
       description:
         part2: "smart contract in %{network}"
         part3: "a smart contract"
+      statistics:
+        in_block: "in block"
+        in_tx: "in tx"
     token:
       description:
         part1: "Address %{address} is token"

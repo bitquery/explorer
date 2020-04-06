@@ -61,7 +61,6 @@ new widgets.table('#smart_contract_events_table', query, 'ethereum.smartContract
 
             '<%= t('widgets.titles.max_date') %>',
 
-            '<%= t('widgets.titles.senders') %>',
 
             '<%= t('widgets.titles.events_count') %>',
     ],
@@ -78,11 +77,6 @@ new widgets.table('#smart_contract_events_table', query, 'ethereum.smartContract
         {
             type: 'string',
             path: 'max_date'
-        },
-
-        {
-            type: 'count',
-            path: 'senders'
         },
 
         {
