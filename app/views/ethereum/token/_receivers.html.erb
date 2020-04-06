@@ -2,9 +2,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.token_senders_diagram') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_receivers_diagram') %></div>
       <div class="card-body">
-        <div id="token_senders_diagram"><%= t('loading') %></div>
+        <div id="token_receivers_diagram"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -13,9 +13,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.token_senders_table') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_receivers_table') %></div>
       <div class="card-body">
-        <div id="token_senders_table"><%= t('loading') %></div>
+        <div id="token_receivers_table"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
                             options: {desc: "amount", limit:$limit, offset: $offset}
                             ){
 
-                              sender {
+                              receiver {
                                 address
                                 annotation
                               }
@@ -47,18 +47,18 @@
                               }
                               amount
                               count
-                              receiver_count: count(uniq: receivers)
+                              sender_count: count(uniq: senders)
                               max_amount: maximum(of: amount, get: amount)
                               max_date:maximum(of: date)
                             }
                           }
                         }`);
 
-        new widgets.table('#token_senders_table', query, 'ethereum.transfers', {
-            title: '<%= t('widgets.headers.token_senders_table') %>',
+        new widgets.table('#token_receivers_table', query, 'ethereum.transfers', {
+            title: '<%= t('widgets.headers.token_receivers_table') %>',
             tableOptions: {
                 title: [
-                    '<%= t('widgets.titles.sender') %>',
+                    '<%= t('widgets.titles.receiver') %>',
                     '<%= t('widgets.titles.amount') %>',
                     '',
                     '<%= t('widgets.titles.max_amount') %>',
@@ -74,8 +74,8 @@
                 dataOptions: [
                     {
                         type: 'string-ellipsis',
-                        path: ['sender.annotation','sender.address'],
-                        urlCallbackName: 'sender_address_path'
+                        path: ['receiver.annotation','receiver.address'],
+                        urlCallbackName: 'receiver_address_path'
                     },
                     {
                         type: 'amount',
@@ -95,7 +95,7 @@
                     },
                     {
                         type: 'count',
-                        path: 'receiver_count'
+                        path: 'sender_count'
                     },
                     {
                         type: 'string',
@@ -105,16 +105,16 @@
                         type: 'count',
                         path: 'count',
                         data: '%{DATA} <span class="fa fa-list"></span>',
-                        urlCallbackName: 'transfer_token_sender_path'
+                        urlCallbackName: 'transfer_token_receiver_path'
                     },
                 ]
             }
         });
 
 
-        new widgets.chart('#token_senders_diagram', query, 'ethereum.transfers', {
+        new widgets.chart('#token_receivers_diagram', query, 'ethereum.transfers', {
             chartType: 'BarChart',
-            title: '<%= t('widgets.headers.token_senders_diagram') %>',
+            title: '<%= t('widgets.headers.token_receivers_diagram') %>',
             chartOptions: {
                 hAxis: {
                     title: '<%= t('widgets.titles.amount') %>',
@@ -122,7 +122,7 @@
                 },
 
                 vAxis: {
-                    title: '<%= t('widgets.titles.sender') %>'
+                    title: '<%= t('widgets.titles.receiver') %>'
                 },
                 seriesType: 'bars',
                 series: {
@@ -134,8 +134,8 @@
             dataOptions: [
                 {
                     type: 'string',
-                    path: ['sender.annotation','sender.address'],
-                    title: '<%= t('widgets.titles.sender') %>'
+                    path: ['receiver.annotation','receiver.address'],
+                    title: '<%= t('widgets.titles.receiver') %>'
                 },
                 {
                     type: 'amount',

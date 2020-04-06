@@ -194,6 +194,10 @@ en:
       token_senders_diagram: "Distribution of Token Senders By Volume"
       token_senders_by_time: "Unique Senders By Time"
       token_median_sender_amount_by_time: "Median Sent Amount"
+      token_receivers_table: "Token Receivers By Volume"
+      token_receivers_diagram: "Distribution of Token Receivers By Volume"
+      token_receivers_by_time: "Unique Receivers By Time"
+      token_median_receiver_amount_by_time: "Median Received Amount"
     titles:
       date: 'Date'
       month: 'Month'
