@@ -90,49 +90,59 @@ en:
       icon: 'fas fa-coins text-warning'
       show:
         name: 'Token'
-        header: "%{network} smart contract %{address}"
+        header: "Token in %{network} with address %{address}"
         title: "%{network} %{address}"
-        description: "Overview of smart contract %{address} activity in %{network}"
+        description: "Overview of token smart contract %{address} activity in %{network}"
       transfers:
         name: 'Transfers'
-        header: "%{network} smart contract %{address}"
+        header: "Token in %{network} with address %{address}"
         title: "%{network} %{address}"
-        description: "Overview of smart contract %{address} activity in %{network}"
+        description: "Transfers of token smart contract %{address} activity in %{network}"
+      senders:
+        name: 'Senders'
+        header: "Token in %{network} with address %{address}"
+        title: "%{network} %{address}"
+        description: "Senders of token smart contract %{address} activity in %{network}"
+      receivers:
+        name: 'Receivers'
+        header: "Token in %{network} with address %{address}"
+        title: "%{network} %{address}"
+        description: "Receivers of token smart contract %{address} activity in %{network}"
       smart_contract:
         name: 'Smart Contract'
-        header: "%{network} smart contract %{address}"
+        header: "Token in %{network} with address %{address}"
         title: "%{network} %{address}"
-        description: "Overview of smart contract %{address} activity in %{network}"
+        description: "Overview of token smart contract %{address} activity in %{network}"
       transactions:
         name: 'Transactions'
-        header: "Transactions with %{network} smart contract %{address}"
+        header: "Transactions with %{network} token smart contract %{address}"
         title: "Txs %{network} %{address}"
-        description: "Transactions with smart contract %{address} in %{network}"
+        description: "Transactions with token smart contract %{address} in %{network}"
       methods:
         name: 'Methods'
-        header: "Method calls for %{network} smart contract %{address}"
+        header: "Method calls for %{network} token smart contract %{address}"
         title: "Methods %{network} %{address}"
-        description: "Method calls for smart contract %{address} in %{network}"
+        description: "Method calls for token smart contract %{address} in %{network}"
       events:
         name: 'Events'
-        header: "Event logs for %{network} smart contract %{address}"
+        header: "Event logs for %{network} token smart contract %{address}"
         title: "Events %{network} %{address}"
-        description: "Events logged by smart contract %{address} in %{network}"
+        description: "Events logged by token smart contract %{address} in %{network}"
       inflow:
         name: 'Inflow'
-        header: "Inflow to %{network} smart contract %{address}"
+        header: "Inflow to %{network} token smart contract %{address}"
         title: "In %{network} %{address}"
-        description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+        description: "Inflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
       outflow:
         name: 'Outflow'
-        header: "Outflow from %{network} smart contract %{address}"
+        header: "Outflow from %{network} token smart contract %{address}"
         title: "Out %{network} %{address}"
-        description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+        description: "Outflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
       calls_contracts:
         name: 'Calls Contracts'
-        header: "Calls from %{network} smart contract %{address}"
+        header: "Calls from %{network} token smart contract %{address}"
         title: "Calls from %{network} %{address}"
-        description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+        description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:

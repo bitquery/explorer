@@ -1,9 +1,16 @@
 class Ethereum::TokenController < NetworkController
   layout 'tabs'
 
-  
   def smart_contract
     render 'ethereum/smart_contract/show'
+  end
+
+  def methods
+    render 'ethereum/smart_contract/methods'
+  end
+
+  def events
+    render 'ethereum/smart_contract/events'
   end
 
   def inflow
