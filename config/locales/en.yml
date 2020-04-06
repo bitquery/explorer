@@ -190,6 +190,8 @@ en:
       latest_token_transfers: "Latest Token Transfers"
       token_transfers_by_time: "Token Transfers By Date"
       max_token_transfers_by_time: "Top Token Transfer Amounts By Date"
+      token_senders_table: "Token Senders By Volume"
+      token_senders_diagram: "Distribution of Token Senders By Volume"
     titles:
       date: 'Date'
       month: 'Month'
@@ -244,6 +246,8 @@ en:
       event: "Event"
       events_count: "Event Count"
       max_amount: "Max Transfer Amount"
+      uniq_receivers: "Uniq Receivers"
+      uniq_senders: "Uniq Senders"
   pages:
     footer:
       built: "Built with"

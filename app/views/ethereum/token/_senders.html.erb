@@ -1,0 +1,155 @@
+
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.token_senders_diagram') %></div>
+      <div class="card-body">
+        <div id="token_senders_diagram"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.token_senders_table') %></div>
+      <div class="card-body">
+        <div id="token_senders_table"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+    $( document ).ready(function() {
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                              $token: String!,
+                              $limit:Int,
+                              $offset:Int,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                          ethereum(network: $network){
+                            transfers(currency: {is: $token}
+                            date: {since: $from till: $till}
+                            options: {desc: "amount", limit:$limit, offset: $offset}
+                            ){
+
+                              sender {
+                                address
+                                annotation
+                              }
+                              currency {
+                                symbol
+                              }
+                              amount
+                              count
+                              receiver_count: count(uniq: receivers)
+                              max_amount: maximum(of: amount, get: amount)
+                              max_date:maximum(of: date)
+                            }
+                          }
+                        }`);
+
+        new widgets.table('#token_senders_table', query, 'ethereum.transfers', {
+            title: '<%= t('widgets.headers.token_senders_table') %>',
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.sender') %>',
+                    '<%= t('widgets.titles.amount') %>',
+                    '',
+                    '<%= t('widgets.titles.max_amount') %>',
+                    '<%= t('widgets.titles.currency') %>',
+
+
+                    '<%= t('widgets.titles.uniq_receivers') %>',
+                    '<%= t('widgets.titles.max_date') %>',
+
+                    '<%= t('widgets.titles.transfer_count') %>',
+
+                ],
+                dataOptions: [
+                    {
+                        type: 'string-ellipsis',
+                        path: ['sender.annotation','sender.address'],
+                        urlCallbackName: 'sender_address_path'
+                    },
+                    {
+                        type: 'amount',
+                        path: 'amount'
+                    },
+                    {
+                        type: 'string',
+                        path: 'currency.symbol'
+                    },
+                    {
+                        type: 'amount',
+                        path: 'max_amount'
+                    },
+                    {
+                        type: 'string',
+                        path: 'currency.symbol'
+                    },
+                    {
+                        type: 'count',
+                        path: 'receiver_count'
+                    },
+                    {
+                        type: 'string',
+                        path: 'max_date'
+                    },
+                    {
+                        type: 'count',
+                        path: 'count',
+                        data: '%{DATA} <span class="fa fa-list"></span>',
+                        urlCallbackName: 'transfer_token_sender_path'
+                    },
+                ]
+            }
+        });
+
+
+        new widgets.chart('#token_senders_diagram', query, 'ethereum.transfers', {
+            chartType: 'BarChart',
+            title: '<%= t('widgets.headers.token_senders_diagram') %>',
+            chartOptions: {
+                hAxis: {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    minValue: 0,
+                },
+
+                vAxis: {
+                    title: '<%= t('widgets.titles.sender') %>'
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' },
+                },
+                chartArea:{left: '25%', right: '10%'}
+            },
+            dataOptions: [
+                {
+                    type: 'string',
+                    path: ['sender.annotation','sender.address'],
+                    title: '<%= t('widgets.titles.sender') %>'
+                },
+                {
+                    type: 'amount',
+                    path: 'amount',
+                    title:'<%= t('widgets.titles.amount') %>'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            token: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

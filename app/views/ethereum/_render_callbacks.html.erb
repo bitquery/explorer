@@ -24,6 +24,12 @@
                     (item.currency.address=='-' ? item.currency.symbol : item.currency.address );
             }
         },
+        transfer_token_sender_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+item.sender.address+'/out_token/' + '<%= @address %>';
+        },
+        transfer_token_receiver_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+item.receiver.address+'/in_token/' + '<%= @address %>';
+        },
         smart_contract_method_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/functions/'+item.smartContractMethod.signatureHash;
         },

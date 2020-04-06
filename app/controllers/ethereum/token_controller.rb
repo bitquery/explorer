@@ -13,6 +13,10 @@ class Ethereum::TokenController < NetworkController
     render 'ethereum/smart_contract/events'
   end
 
+  def transactions
+    render 'ethereum/smart_contract/transactions'
+  end
+
   def inflow
     render 'ethereum/address/inflow'
   end
