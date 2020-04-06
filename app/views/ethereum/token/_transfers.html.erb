@@ -46,6 +46,10 @@
 
                                   amount
 
+                                  currency {
+                                    symbol
+                                  }
+
                                   external
                                 }
                               }
@@ -61,6 +65,7 @@
                     '',
                     '<%= t('widgets.titles.receiver') %>',
                     '<%= t('widgets.titles.amount') %>',
+                    '<%= t('widgets.titles.currency') %>',
                     '<%= t('widgets.titles.transaction') %>'
                 ],
                 dataOptions: [
@@ -91,6 +96,10 @@
                     {
                         type: 'amount',
                         path: 'amount'
+                    },
+                    {
+                        type: 'string',
+                        path: 'currency.symbol'
                     },
                     {
                         type: 'string-ellipsis',

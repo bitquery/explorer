@@ -188,6 +188,8 @@ en:
       token_decimals: "Number of Decimals"
       annotation: "Annotation"
       latest_token_transfers: "Latest Token Transfers"
+      token_transfers_by_time: "Token Transfers By Date"
+      max_token_transfers_by_time: "Top Token Transfer Amounts By Date"
     titles:
       date: 'Date'
       month: 'Month'
@@ -241,6 +243,7 @@ en:
       argument: "Argument"
       event: "Event"
       events_count: "Event Count"
+      max_amount: "Max Transfer Amount"
   pages:
     footer:
       built: "Built with"
