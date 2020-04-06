@@ -187,7 +187,7 @@ en:
       token_symbol: "Symbol"
       token_decimals: "Number of Decimals"
       annotation: "Annotation"
-
+      latest_token_transfers: "Latest Token Transfers"
     titles:
       date: 'Date'
       month: 'Month'
