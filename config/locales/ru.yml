@@ -49,6 +49,43 @@ ru:
         header: "Вызовы с адреса %{network}  %{address}"
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов с %{address} в сети %{network}, статистика вызовов, используемые методы"
+    smart_contract:
+      icon: 'fas fa-cogs text-info'
+      show:
+        name: 'Смарт контракт'
+        header: "Смарт контракт в %{network}  %{address}"
+        title: "%{network} %{address}"
+        description: "Активность смарт контракта %{address} в %{network}"
+      transactions:
+        name: 'Транзакции'
+        header: "Транзакции со смарт контрактом %{network}  %{address}"
+        title: "Транзакции %{network} %{address}"
+        description: "Транзакции со смарт контрактом %{address} в %{network}"
+      methods:
+        name: 'Методы'
+        header: "Вызовы методов смарт контракта в %{network} %{address}"
+        title: "Методы %{network} %{address}"
+        description: "Вызовы методов смарт контракта %{address} в %{network}"
+      events:
+        name: 'События'
+        header: "События смарт контракта в сети  %{network} %{address}"
+        title: "События %{network} %{address}"
+        description: "События смарт контракта %{address} в %{network}"
+      inflow:
+        name: 'Пополнения'
+        header: "Переводы на %{network} смарт контракт %{address}"
+        title: "Пополнения %{network} %{address}"
+        description: "Пополнения криптовалютой смарт контракта %{address} в сети %{network}, статистика входящих переводов, разбивка по криптовалютам"
+      outflow:
+        name: 'Снятия'
+        header: "Переводы с %{network} адреса %{address}"
+        title: "Снятия %{network} %{address}"
+        description: "Снятия криптовалюты со смарт контракта %{address} в сети %{network}, статистика исходящий переводов, разбивка по криптовалютам"
+      calls_contracts:
+        name: 'Вызовы смарт контрактов'
+        header: "Вызовы со смарт контракта %{network}  %{address}"
+        title: "Вызовы с %{network} %{address}"
+        description: "Вызовы методов смарт контрактов со смарт контракта %{address} в сети %{network}, статистика вызовов, используемые методы"
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"
   widgets:
@@ -75,6 +112,18 @@ ru:
       smart_contracts_table: "Вызываемые смарт контракты"
       smart_contract_methods_called_table: "Вызываемые методы смарт контрактов"
       top_gas_calls_table: "Вызовы с наибольшей комиссией"
+      smart_contract_attributes: "Свойства для чтения смарт контракта"
+      smart_contract_calls_by_time: "Количество вызовов по дате"
+      smart_contract_callers_by_time: "Уникальные вызывающие адреса по дате"
+      smart_contract_transactions: "Свежие транзакции"
+      smart_contract_top_callers: "Основные вызывающие"
+      smart_contract_top_gas_burners: "Основные затратчики комиссии"
+      smart_contract_methods_table: "Методы смарт контракта"
+      smart_contract_methods_diagram: "Распреление методов по количеству вызовов"
+      method_references_table: "Адреса в параметрах методов"
+      smart_contract_events_table: "События смарт контракта"
+      smart_contract_events_diagram: "Распреление событий по количеству"
+      event_references_table: "Адреса в параметрах событий"
     titles:
       date: 'Дата'
       month: 'Месяц'
@@ -109,7 +158,25 @@ ru:
       gas_value: 'Комиссия'
       avg_gas_value: 'Комиссия на вызов'
       uniq_methods: "Уник методов"
-      uniq_contracts: "Уник контрактов"
+      uniq_contracts: "Уникальные контракты"
+      property: "Свойство"
+      property_value: "Значения"
+      external_calls: "Внешние вызовы ( TXs )"
+      internal_calls: "Внутренние вызовы"
+      external_callers: "Уникальные внешние вызываюшие"
+      internal_callers: "Уникальные внутренние вызываюшие"
+      senders: "Отправители транзакций"
+      uniq_callers: "Уникальные адреса"
+      caller: "Вызывающий"
+      smart_contract_top_callers: "Основные вызывающие"
+      method_signature: "Сигнатура метода"
+      event_signature: "Сигнатура события"
+      internal_calls_count: "Внутренние вызовы"
+      external_calls_count: "Внешние вызовы"
+      address: "Адрес"
+      argument: "Аргумент"
+      event: "Событие"
+      events_count: "Количество событий"
   pages:
     footer:
       built: "Сделано на основе"
@@ -120,3 +187,7 @@ ru:
         part2: "адрес в %{network}"
         part3: "обычный"
         balance: "Баланс"
+    smart_contract:
+      description:
+        part2: "смарт контракт в %{network}"
+        part3: "смарт контракт"
