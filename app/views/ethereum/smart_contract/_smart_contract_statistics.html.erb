@@ -52,10 +52,13 @@
 
                     {name: '<%= t('widgets.titles.created') %>', value: item.created +
                               ' <%= t('pages.smart_contract.statistics.in_block') %> '+
-                              item.created_block
+                            '<a href="/<%= @network[:network] %>/block/'+item.created_block+'">'+item.created_block+'</a>'
+
                     },
-                    {name: '<%= t('widgets.titles.create_tx') %>', value: item.created_tx},
-                    {name: '<%= t('widgets.titles.creator') %>', value: item.created_by}
+                    {name: '<%= t('widgets.titles.create_tx') %>',
+                          value: '<a href="/<%= @network[:network] %>/tx/'+item.created_tx+'">'+item.created_tx+'</a>'},
+                    {name: '<%= t('widgets.titles.creator') %>',
+                        value: '<a href="/<%= @network[:network] %>/address/'+item.created_by+'">'+item.created_by+'</a>'}
                 ];
             },
             tableOptions: {
