@@ -181,6 +181,13 @@ en:
       smart_contract_events_table: "Smart Contract Events"
       smart_contract_events_diagram: "Distribution of Log Count by Events"
       event_references_table: "Addresses used in Event Parameters"
+      token_attributes: "Token attributes"
+      token_name: "Name"
+      token_type: "Token Type"
+      token_symbol: "Symbol"
+      token_decimals: "Number of Decimals"
+      annotation: "Annotation"
+
     titles:
       date: 'Date'
       month: 'Month'
@@ -237,6 +244,7 @@ en:
   pages:
     footer:
       built: "Built with"
+      widgets: "Bitquery Widgets"
       feel_free: "Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphiQL button!"
     address:
       description:
@@ -248,3 +256,8 @@ en:
       description:
         part2: "smart contract in %{network}"
         part3: "a smart contract"
+    token:
+      description:
+        part1: "Address %{address} is token"
+        part2: "token in %{network}"
+        part3: "a token"

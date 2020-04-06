@@ -180,6 +180,7 @@ zh:
   pages:
     footer:
       built: "建立"
+      widgets: "Bitquery Widgets"
       feel_free: "随意使用此页面上的任何小部件，按JS按钮并复制/粘贴代码。 使用GraphiQL按钮检查API！"
     address:
       description:
