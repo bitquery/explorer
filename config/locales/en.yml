@@ -322,6 +322,8 @@ en:
         part1: "Address %{address} is token"
         part2: "token in %{network}"
         part3: "a token"
+      native:
+        header: "Token %{currency} is the native token in %{network}"
     tx_list:
       icon: "fas fa-bolt text-warning"
       filters:

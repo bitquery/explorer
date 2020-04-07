@@ -106,7 +106,7 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        queryWithTimeRange(rr, query, <%= native_token_range_limit(@from, @till).join(',').html_safe %>,{
             network: '<%= params['network']['network'] %>',
             token: '<%= @address %>'
         });
