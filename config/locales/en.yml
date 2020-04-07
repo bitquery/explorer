@@ -296,6 +296,7 @@ en:
       last_transaction_time: "Last transaction time"
       call_depth: "Call Depth"
       smart_contract_type: "Contract Type"
+      smart_contract_protocol_type: "Protocol"
       success: "Success?"
   pages:
     footer:

@@ -31,6 +31,7 @@
                         annotation
                       }
                       contractType
+                      protocolType
                     }
 
                     smartContractMethod {
@@ -44,7 +45,7 @@
                     }
 
                     success
-
+                    amount
                     gasValue
 
                     callDepth
@@ -62,9 +63,10 @@
                     '<%= t('widgets.titles.method') %>',
                     '<%= t('widgets.titles.smart_contract') %>',
                     '<%= t('widgets.titles.smart_contract_type') %>',
-
+                    '<%= t('widgets.titles.smart_contract_protocol_type') %>',
                     '<%= t('widgets.titles.caller') %>',
 
+                    '<%= t('widgets.titles.amount') %>',
                     '<%= t('widgets.titles.success') %>',
                     '<%= t('widgets.titles.gas_value') %>',
                 ],
@@ -88,9 +90,17 @@
                         path: 'smartContract.contractType'
                     },
                     {
+                        type: 'string',
+                        path: 'smartContract.protocolType'
+                    },
+                    {
                         type: 'string-ellipsis',
                         path: ['address.annotation','address.address'],
                         urlCallbackName: 'address_path'
+                    },
+                    {
+                        type: 'amount',
+                        path: 'amount'
                     },
                     {
                         type: 'string',
