@@ -15,7 +15,6 @@
   <%= render(partial: "#{@network[:family]}/render_callbacks") if @network %>
   <%= yield %>
   <%= render partial: 'shared/footer' %>
-  <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
 </div>
 </body>
 </html>

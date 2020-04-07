@@ -1,5 +1,4 @@
 <head>
-  <%= render(partial: 'shared/google_analytics') if ANALYTICS %>
   <title>
     <% if content_for? :title %><%= yield :title %> - <% end %>
     Bitquery Explorer
@@ -16,5 +15,7 @@
   <%= javascript_pack_tag 'application' %>
   <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">
   <script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgets.js"></script>
+  <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
+  <%= render(partial: 'shared/google_analytics') if ANALYTICS %>
 </head>
 
