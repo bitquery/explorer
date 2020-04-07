@@ -60,7 +60,7 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?caller=<%= @address %>&contract=' + item.smartContract.address.address;
         },
         call_method_count_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?caller=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
         },
         event_count_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/events?contract=<%= @address %>&event=' + item.smartContractEvent.signatureHash;
