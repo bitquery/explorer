@@ -89,60 +89,60 @@ zh:
     token:
       icon: 'fas fa-coins text-warning'
       show:
-        name: 'Token'
-        header: "Token in %{network} with address %{address}"
+        name: '代币'
+        header: "地址为%{address}的%{network}中的令牌"
         title: "%{network} %{address}"
-        description: "Overview of token smart contract %{address} activity in %{network}"
+        description: "%{network}中的令牌智能合约%{address}活动概述"
       transfers:
-        name: 'Transfers'
-        header: "Token in %{network} with address %{address}"
+        name: '转账'
+        header: "地址为%{address}的%{network}中的令牌"
         title: "%{network} %{address}"
-        description: "Transfers of token smart contract %{address} activity in %{network}"
+        description: "令牌智能合约%{address}活动在%{network}中的转移"
       senders:
-        name: 'Senders'
-        header: "Token in %{network} with address %{address}"
+        name: '发件人'
+        header: "地址为%{address}的%{network}中的令牌"
         title: "%{network} %{address}"
-        description: "Senders of token smart contract %{address} activity in %{network}"
+        description: "%{network}中的令牌智能合约%{address}活动的发送者"
       receivers:
-        name: 'Receivers'
-        header: "Token in %{network} with address %{address}"
+        name: '接收者'
+        header: "地址为%{address}的%{network}中的令牌"
         title: "%{network} %{address}"
-        description: "Receivers of token smart contract %{address} activity in %{network}"
+        description: "%{network}中的令牌智能合约%{address}活动的接收者"
       smart_contract:
-        name: 'Smart Contract'
-        header: "Token in %{network} with address %{address}"
+        name: '智能合约'
+        header: "地址为%{address}的%{network}中的令牌"
         title: "%{network} %{address}"
-        description: "Overview of token smart contract %{address} activity in %{network}"
+        description: "智能合约概述 %{address} 在活动 %{network}"
       transactions:
-        name: 'Transactions'
-        header: "Transactions with %{network} token smart contract %{address}"
-        title: "Txs %{network} %{address}"
-        description: "Transactions with token smart contract %{address} in %{network}"
+        name: '交易次数'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "交易次数 %{network} %{address}"
+        description: "智能合约交易 %{address} 在 %{network}"
       methods:
-        name: 'Methods'
-        header: "Method calls for %{network} token smart contract %{address}"
-        title: "Methods %{network} %{address}"
-        description: "Method calls for token smart contract %{address} in %{network}"
+        name: '方法'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "方法 %{network} %{address}"
+        description: "方法要求智能合约 %{address} 在 %{network}"
       events:
-        name: 'Events'
-        header: "Event logs for %{network} token smart contract %{address}"
-        title: "Events %{network} %{address}"
-        description: "Events logged by token smart contract %{address} in %{network}"
+        name: '大事记'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "大事记 %{network} %{address}"
+        description: "智能合约记录的事件%{address} 在 %{network}"
       inflow:
-        name: 'Inflow'
-        header: "Inflow to %{network} token smart contract %{address}"
-        title: "In %{network} %{address}"
-        description: "Inflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+        name: '流入量'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "在 %{network}:%{address}"
+        description: "不同的加密代币和硬币的流入以解决%{network}中的%{address}活动，入站转账的统计信息，转账来源"
       outflow:
-        name: 'Outflow'
-        header: "Outflow from %{network} token smart contract %{address}"
-        title: "Out %{network} %{address}"
-        description: "Outflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+        name: '外流'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "出 %{network}:%{address}"
+        description: "不同的加密代币和硬币流出，以解决%{network}中的%{address}活动，出站转账的统计信息，转账目的地"
       calls_contracts:
-        name: 'Calls Contracts'
-        header: "Calls from %{network} token smart contract %{address}"
-        title: "Calls from %{network} %{address}"
-        description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
+        name: '通话合约'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "来电 %{network}:%{address}"
+        description: "来自%{network}中地址%{address}活动的智能合约调用，智能合约调用的统计信息，使用情况和使用的方法"
   errors:
     no_methods: "該功能尚未實現，請稍後再返回"
   widgets:
@@ -181,25 +181,25 @@ zh:
       smart_contract_events_table: "智能合约事件"
       smart_contract_events_diagram: "按事件分配日志计数"
       event_references_table: "事件参数中使用的地址"
-      token_attributes: "Token attributes"
-      token_name: "Name"
-      token_type: "Token Type"
-      token_symbol: "Symbol"
-      token_decimals: "Number of Decimals"
-      annotation: "Annotation"
-      latest_token_transfers: "Latest Token Transfers"
-      token_transfers_by_time: "Token Transfers By Date"
-      max_token_transfers_by_time: "Top Token Transfer Amounts By Date"
-      token_senders_table: "Token Senders By Volume"
-      token_senders_diagram: "Distribution of Token Senders By Volume"
-      token_senders_by_time: "Unique Senders By Time"
-      token_median_sender_amount_by_time: "Median Sent Amount"
-      token_receivers_table: "Token Receivers By Volume"
-      token_receivers_diagram: "Distribution of Token Receivers By Volume"
-      token_receivers_by_time: "Unique Receivers By Time"
-      token_median_receiver_amount_by_time: "Median Received Amount"
-      token_statistics: "Token statistics"
-      smart_contract_statitics: "Smart Contract Statistics"
+      token_attributes: "令牌属性"
+      token_name: "名称"
+      token_type: "代币类型"
+      token_symbol: "符号"
+      token_decimals: "小数位数"
+      annotation: "注解"
+      latest_token_transfers: "最新代币转移"
+      token_transfers_by_time: "按日期进行令牌转移"
+      max_token_transfers_by_time: "按日期列出的最高代币转移金额"
+      token_senders_table: "令牌发送者数量"
+      token_senders_diagram: "代币发送者的数量分布"
+      token_senders_by_time: "时间的唯一发件人"
+      token_median_sender_amount_by_time: "中位数发送量"
+      token_receivers_table: "令牌接收者数量"
+      token_receivers_diagram: "代币接收者的数量分布"
+      token_receivers_by_time: "时间的唯一接收者"
+      token_median_receiver_amount_by_time: "收款中位数"
+      token_statistics: "代币统计"
+      smart_contract_statitics: "智能合约统计"
     titles:
       date: '日期'
       month: '月'
@@ -253,22 +253,22 @@ zh:
       argument: "争论"
       event: "事件"
       events_count: "事件计数"
-      max_amount: "Max Transfer Amount"
-      uniq_receivers: "Uniq Receivers"
-      uniq_senders: "Uniq Senders"
-      median_amount: "Median Amount"
-      average_amount: "Average Amount"
-      metric: "Metric"
-      total_amount: "Total transfer amount"
-      first_transfer_date: "First transfer date"
-      last_transfer_date: "Last transfer date"
-      transfer_days: "Days token transfered"
-      call_days: "Days contract called"
-      creator: "Creator"
-      created: "Created"
-      create_tx: "Create TX"
-      transactions_count: "Transactions count"
-      last_transaction_time: "Last transaction time"
+      max_amount: "最大转账金额"
+      uniq_receivers: "优衣库接收器"
+      uniq_senders: "独特发件人"
+      median_amount: "中位数"
+      average_amount: "平均金额"
+      metric: "公制"
+      total_amount: "总转账金额"
+      first_transfer_date: "首次转帐日期"
+      last_transfer_date: "最后转让日期"
+      transfer_days: "天数令牌转移"
+      call_days: "天合同称为"
+      creator: "创作者"
+      created: "已建立"
+      create_tx: "创建交易"
+      transactions_count: "交易计数"
+      last_transaction_time: "最后交易时间"
   pages:
     footer:
       built: "建立"
@@ -285,10 +285,10 @@ zh:
         part2: "智能合约%{network}"
         part3: "智能合约"
       statistics:
-        in_block: "in block"
-        in_tx: "in tx"
+        in_block: "块状"
+        in_tx: "在交易中"
     token:
       description:
-        part1: "Address %{address} is token"
-        part2: "token in %{network}"
-        part3: "a token"
+        part1: "地址%{address}是令牌"
+        part2: "令牌入 %{network}"
+        part3: "令牌"

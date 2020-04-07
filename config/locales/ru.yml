@@ -89,60 +89,60 @@ ru:
     token:
       icon: 'fas fa-coins text-warning'
       show:
-        name: 'Token'
-        header: "Token in %{network} with address %{address}"
+        name: 'Токен'
+        header: "Токен в сети %{network} с адресом смарт контракта %{address}"
         title: "%{network} %{address}"
-        description: "Overview of token smart contract %{address} activity in %{network}"
+        description: "Токен %{address} данные в %{network}"
       transfers:
-        name: 'Transfers'
-        header: "Token in %{network} with address %{address}"
+        name: 'Переводы'
+        header: "Токен в сети %{network} с адресом смарт контракта %{address}"
         title: "%{network} %{address}"
-        description: "Transfers of token smart contract %{address} activity in %{network}"
+        description: "Переводы токена с адресом %{address} в %{network}"
       senders:
-        name: 'Senders'
-        header: "Token in %{network} with address %{address}"
+        name: 'Отправители'
+        header: "Токен в сети %{network} с адресом смарт контракта %{address}"
         title: "%{network} %{address}"
-        description: "Senders of token smart contract %{address} activity in %{network}"
+        description: "Отправители токена с адресом %{address} в %{network}"
       receivers:
-        name: 'Receivers'
-        header: "Token in %{network} with address %{address}"
+        name: 'Получатели'
+        header: "Токен в сети %{network} с адресом смарт контракта %{address}"
         title: "%{network} %{address}"
-        description: "Receivers of token smart contract %{address} activity in %{network}"
+        description: "Получатели токена с адресом %{address} в %{network}"
       smart_contract:
-        name: 'Smart Contract'
-        header: "Token in %{network} with address %{address}"
+        name: 'Смарт контракт'
+        header: "Смарт контракт токена в %{network}  %{address}"
         title: "%{network} %{address}"
-        description: "Overview of token smart contract %{address} activity in %{network}"
+        description: "Активность смарт контракта токена %{address} в %{network}"
       transactions:
-        name: 'Transactions'
-        header: "Transactions with %{network} token smart contract %{address}"
-        title: "Txs %{network} %{address}"
-        description: "Transactions with token smart contract %{address} in %{network}"
+        name: 'Транзакции'
+        header: "Транзакции со смарт контрактом токена %{network}  %{address}"
+        title: "Транзакции %{network} %{address}"
+        description: "Транзакции со смарт контрактом токена %{address} в %{network}"
       methods:
-        name: 'Methods'
-        header: "Method calls for %{network} token smart contract %{address}"
-        title: "Methods %{network} %{address}"
-        description: "Method calls for token smart contract %{address} in %{network}"
+        name: 'Методы'
+        header: "Вызовы методов смарт контракта токена в %{network} %{address}"
+        title: "Методы %{network} %{address}"
+        description: "Вызовы методов смарт контракта токена %{address} в %{network}"
       events:
-        name: 'Events'
-        header: "Event logs for %{network} token smart contract %{address}"
-        title: "Events %{network} %{address}"
-        description: "Events logged by token smart contract %{address} in %{network}"
+        name: 'События'
+        header: "События смарт контракта токена в сети  %{network} %{address}"
+        title: "События %{network} %{address}"
+        description: "События смарт контракта токена %{address} в %{network}"
       inflow:
-        name: 'Inflow'
-        header: "Inflow to %{network} token smart contract %{address}"
-        title: "In %{network} %{address}"
-        description: "Inflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+        name: 'Пополнения'
+        header: "Переводы на %{network} смарт контракт токена %{address}"
+        title: "Пополнения %{network} %{address}"
+        description: "Пополнения криптовалютой смарт контракта токена %{address} в сети %{network}, статистика входящих переводов, разбивка по криптовалютам"
       outflow:
-        name: 'Outflow'
-        header: "Outflow from %{network} token smart contract %{address}"
-        title: "Out %{network} %{address}"
-        description: "Outflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+        name: 'Снятия'
+        header: "Переводы с %{network} адреса токена %{address}"
+        title: "Снятия %{network} %{address}"
+        description: "Снятия криптовалюты со смарт контракта токена %{address} в сети %{network}, статистика исходящий переводов, разбивка по криптовалютам"
       calls_contracts:
-        name: 'Calls Contracts'
-        header: "Calls from %{network} token smart contract %{address}"
-        title: "Calls from %{network} %{address}"
-        description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
+        name: 'Вызовы смарт контрактов'
+        header: "Вызовы со смарт контракта токена %{network}  %{address}"
+        title: "Вызовы с %{network} %{address}"
+        description: "Вызовы методов смарт контрактов со смарт контракта токена %{address} в сети %{network}, статистика вызовов, используемые методы"
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"
   widgets:
@@ -181,25 +181,25 @@ ru:
       smart_contract_events_table: "События смарт контракта"
       smart_contract_events_diagram: "Распреление событий по количеству"
       event_references_table: "Адреса в параметрах событий"
-      token_attributes: "Token attributes"
-      token_name: "Name"
-      token_type: "Token Type"
-      token_symbol: "Symbol"
-      token_decimals: "Number of Decimals"
-      annotation: "Annotation"
-      latest_token_transfers: "Latest Token Transfers"
-      token_transfers_by_time: "Token Transfers By Date"
-      max_token_transfers_by_time: "Top Token Transfer Amounts By Date"
-      token_senders_table: "Token Senders By Volume"
-      token_senders_diagram: "Distribution of Token Senders By Volume"
-      token_senders_by_time: "Unique Senders By Time"
-      token_median_sender_amount_by_time: "Median Sent Amount"
-      token_receivers_table: "Token Receivers By Volume"
-      token_receivers_diagram: "Distribution of Token Receivers By Volume"
-      token_receivers_by_time: "Unique Receivers By Time"
-      token_median_receiver_amount_by_time: "Median Received Amount"
-      token_statistics: "Token statistics"
-      smart_contract_statitics: "Smart Contract Statistics"
+      token_attributes: "Аттрибуты токена"
+      token_name: "Название"
+      token_type: "Тип токена"
+      token_symbol: "Символ"
+      token_decimals: "Десятичных знаков"
+      annotation: "Аннотация"
+      latest_token_transfers: "Свежие переводы токена"
+      token_transfers_by_time: "Переводы токена по дням"
+      max_token_transfers_by_time: "Самые крупные переводы токена по датам"
+      token_senders_table: "Отправители токена по объему"
+      token_senders_diagram: "Распределение отправителей токена по объему"
+      token_senders_by_time: "Уникальные отправители по датам"
+      token_median_sender_amount_by_time: "Медианная сумма отправленного перевода"
+      token_receivers_table: "Получатели токена"
+      token_receivers_diagram: "Распределение получателей токена по объему"
+      token_receivers_by_time: "Уникальные получатели токена по дате"
+      token_median_receiver_amount_by_time: "Медианная сумма полученного перевода"
+      token_statistics: "Статистика токена"
+      smart_contract_statitics: "Статистика смарт контракта"
     titles:
       date: 'Дата'
       month: 'Месяц'
@@ -253,22 +253,22 @@ ru:
       argument: "Аргумент"
       event: "Событие"
       events_count: "Количество событий"
-      max_amount: "Max Transfer Amount"
-      uniq_receivers: "Uniq Receivers"
-      uniq_senders: "Uniq Senders"
-      median_amount: "Median Amount"
-      average_amount: "Average Amount"
-      metric: "Metric"
-      total_amount: "Total transfer amount"
-      first_transfer_date: "First transfer date"
-      last_transfer_date: "Last transfer date"
-      transfer_days: "Days token transfered"
-      call_days: "Days contract called"
-      creator: "Creator"
-      created: "Created"
-      create_tx: "Create TX"
-      transactions_count: "Transactions count"
-      last_transaction_time: "Last transaction time"
+      max_amount: "Максимальная сумма перевода"
+      uniq_receivers: "Уникальные получатели"
+      uniq_senders: "Уникальные отправители"
+      median_amount: "Медиана суммы"
+      average_amount: "Средняя сумма"
+      metric: "Метрика"
+      total_amount: "Полная сумма перевода"
+      first_transfer_date: "Дата первого перевода"
+      last_transfer_date: "Дата последнего перевода"
+      transfer_days: "Количество дней с переводами"
+      call_days: "Количество дней с транзакциями"
+      creator: "Создатель"
+      created: "Создан"
+      create_tx: "Транзакция создания"
+      transactions_count: "Количество транзакций"
+      last_transaction_time: "Время последней транзакции"
   pages:
     footer:
       built: "Сделано на основе"
@@ -285,10 +285,10 @@ ru:
         part2: "смарт контракт в %{network}"
         part3: "смарт контракт"
       statistics:
-        in_block: "in block"
-        in_tx: "in tx"
+        in_block: "в блоке"
+        in_tx: "в транзакции"
     token:
       description:
-        part1: "Address %{address} is token"
-        part2: "token in %{network}"
-        part3: "a token"
+        part1: "Адрес %{address} - это токен"
+        part2: "токен в %{network}"
+        part3: "токен"
