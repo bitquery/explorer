@@ -12,7 +12,7 @@
             if(item.count_in==0) {
                 return null;
             }else{
-                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/'+'<%= @address %>'+'/in_token/'+
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?to=<%= @address %>&currency='+
                     (item.currency.address=='-' ? item.currency.symbol : item.currency.address );
             }
         },
@@ -20,15 +20,15 @@
             if(item.count_out==0) {
                 return null;
             }else {
-                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/out_token/' +
+                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?from=<%= @address %>&currency=' +
                     (item.currency.address=='-' ? item.currency.symbol : item.currency.address );
             }
         },
         transfer_token_sender_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+item.sender.address+'/out_token/' + '<%= @address %>';
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&from='+item.sender.address;
         },
         transfer_token_receiver_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+item.receiver.address+'/in_token/' + '<%= @address %>';
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&to='+item.receiver.address;
         },
         smart_contract_method_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/functions/'+item.smartContractMethod.signatureHash;
@@ -55,19 +55,19 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/smart_contract/'+item.smartContract.address.address;
         },
         call_count_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/contract/' + item.smartContract.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?caller=<%= @address %>&contract=' + item.smartContract.address.address;
         },
         call_method_count_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?caller=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
         },
         event_count_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/events/' + item.smartContractEvent.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/events?contract=<%= @address %>&event=' + item.smartContractEvent.signatureHash;
         },
         internal_call_method_count_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash+'?internal=true';
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?internal=true&contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
         },
         external_call_method_count_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+'<%= @address %>'+'/calls/method/' + item.smartContractMethod.signatureHash+'?internal=false';
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?internal=false&contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
         },
         call_by_caller_count_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/'+item.address.address+'/calls/contract/' + '<%= @address %>';
