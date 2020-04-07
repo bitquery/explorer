@@ -143,6 +143,28 @@ en:
         header: "Calls from %{network} token smart contract %{address}"
         title: "Calls from %{network} %{address}"
         description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
+    tx:
+      icon: 'fas fa-user'
+      show:
+        name: 'Transaction'
+        header: "%{network} transaction %{hash}"
+        title: "%{network} %{hash}"
+        description: "Transaction attributes %{hash} in %{network}"
+      transfers:
+        name: 'Transfers'
+        header: "%{network} transaction %{hash}"
+        title: "Transfers %{network} %{hash}"
+        description: "Transfers in transaction %{hash} in %{network}"
+      calls:
+        name: 'Calls'
+        header: "%{network} transaction %{hash}"
+        title: "Calls %{network} %{hash}"
+        description: "Smart Contract Calls in transaction %{hash} in %{network}"
+      events:
+        name: 'Events'
+        header: "%{network} transaction %{hash}"
+        title: "Events %{network} %{hash}"
+        description: "Smart Contract Events in transaction %{hash} in %{network}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
@@ -200,6 +222,9 @@ en:
       token_median_receiver_amount_by_time: "Median Received Amount"
       token_statistics: "Token statistics"
       smart_contract_statitics: "Smart Contract Statistics"
+      tx_transfers: "Token Transfers in Transaction"
+      tx_calls: "Smart Contract Calls in Transaction"
+      tx_events: "Smart Contract Events logged in Transaction"
     titles:
       date: 'Date'
       month: 'Month'
@@ -269,6 +294,9 @@ en:
       create_tx: "Create TX"
       transactions_count: "Transactions count"
       last_transaction_time: "Last transaction time"
+      call_depth: "Call Depth"
+      smart_contract_type: "Contract Type"
+      success: "Success?"
   pages:
     footer:
       built: "Built with"

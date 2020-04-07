@@ -176,7 +176,7 @@ ru:
       smart_contract_top_callers: "Основные вызывающие"
       smart_contract_top_gas_burners: "Основные затратчики комиссии"
       smart_contract_methods_table: "Методы смарт контракта"
-      smart_contract_methods_diagram: "Распреление методов по количеству вызовов"
+      smart_contract_methods_diagram: "Распределение методов по количеству вызовов"
       method_references_table: "Адреса в параметрах методов"
       smart_contract_events_table: "События смарт контракта"
       smart_contract_events_diagram: "Распреление событий по количеству"
