@@ -147,25 +147,25 @@ zh:
     tx:
       icon: 'fas fa-user'
       show:
-        name: 'Transaction'
-        header: "%{network} transaction %{hash}"
+        name: '交易'
+        header: "%{network} 交易 %{hash}"
         title: "%{network} %{hash}"
-        description: "Transaction attributes %{hash} in %{network}"
+        description: "交易属性 %{hash} 在 %{network}"
       transfers:
-        name: 'Transfers'
-        header: "%{network} transaction %{hash}"
-        title: "Transfers %{network} %{hash}"
-        description: "Transfers in transaction %{hash} in %{network}"
+        name: '转账'
+        header: "%{network} 交易 %{hash}"
+        title: "转账 %{network} %{hash}"
+        description: "Transfers in transaction %{hash} 在 %{network}"
       calls:
-        name: 'Calls'
-        header: "%{network} transaction %{hash}"
-        title: "Calls %{network} %{hash}"
-        description: "Smart Contract Calls in transaction %{hash} in %{network}"
+        name: '来电'
+        header: "%{network} 交易 %{hash}"
+        title: "来电 %{network} %{hash}"
+        description: "交易中的智能合约通话 %{hash} 在network}"
       events:
-        name: 'Events'
-        header: "%{network} transaction %{hash}"
-        title: "Events %{network} %{hash}"
-        description: "Smart Contract Events in transaction %{hash} in %{network}"
+        name: '大事记'
+        header: "%{network} 交易 %{hash}"
+        title: "大事记 %{network} %{hash}"
+        description: "交易中的智能合约事件 %{hash} 在 %{network}"
   errors:
     no_methods: "該功能尚未實現，請稍後再返回"
   widgets:
@@ -223,10 +223,10 @@ zh:
       token_median_receiver_amount_by_time: "收款中位数"
       token_statistics: "代币统计"
       smart_contract_statitics: "智能合约统计"
-      tx_transfers: "Token Transfers in Transaction"
-      tx_calls: "Smart Contract Calls in Transaction"
-      tx_events: "Smart Contract Events logged in Transaction"
-      events_table: "Smart Contract Events"
+      tx_transfers: "交易中的代币转移"
+      tx_calls: "交易中的智能合约通话"
+      tx_events: "交易中记录的智能合约事件"
+      events_table: “智能合约活动"
     titles:
       date: '日期'
       month: '月'
@@ -296,10 +296,10 @@ zh:
       create_tx: "创建交易"
       transactions_count: "交易计数"
       last_transaction_time: "最后交易时间"
-      call_depth: "Call Depth"
-      smart_contract_type: "Contract Type"
-      smart_contract_protocol_type: "Protocol"
-      success: "Success?"
+      call_depth: "通话深度"
+      smart_contract_type: "合同类型"
+      smart_contract_protocol_type: "协议"
+      success: "成功？"
   pages:
     footer:
       built: "建立"
@@ -324,21 +324,21 @@ zh:
         part2: "令牌入 %{network}"
         part3: "令牌"
       native:
-        header: "Token %{currency} is the native token in %{network}"
+        header: "代币 %{currency} 是中的本地令牌 %{network}"
     tx_list:
       icon: "fas fa-bolt text-warning"
       filters:
-        filter: "Filter"
-        value: "Value"
+        filter: "过滤"
+        value: "值"
       transfers:
-        title: "Transfers in %{network}"
-        header: "Transfer Transactions in %{network}"
-        description: "List of transactions in %{network} with transfers, filtered by parameters"
+        title: "汇入 %{network}"
+        header: "转移交易 %{network}"
+        description: "交易清单%{network} 带传输，按参数过滤"
       calls:
-        title: "Calls in %{network}"
-        header: "Call Transactions in %{network}"
-        description: "List of transactions in %{network} with smart contract calls, filtered by parameters"
+        title: "呼入%{network}"
+        header: "致电交易%{network}"
+        description: "交易清单%{network} 智能合约调用，按参数过滤"
       events:
-        title: "Events in %{network}"
-        header: "Event Transactions in %{network}"
-        description: "List of transactions in %{network} with smart contract events, filtered by parameters"
+        title: "中的活动%{network}"
+        header: "中的事件交易%{network}"
+        description: "交易清单%{network} 通过参数过滤的智能合约事件"
