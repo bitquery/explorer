@@ -14,6 +14,7 @@ en:
     custom_range: 'Custom range'
   address: "address"
   token: "token"
+  tx: "transaction"
   smart_contract: "smart contract"
   find: "Search"
   find_in: "%{network}"

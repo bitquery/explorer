@@ -38,6 +38,9 @@ $( document ).ready(function() {
               contractType
               protocol
             }
+            ... on TransactionHash {
+              hash
+            }
           }
           network{
             network
@@ -53,15 +56,21 @@ $( document ).ready(function() {
                     possibleTypes: [
                         { name: 'Address' },
                         { name: 'Currency' },
-                        { name: 'SmartContract' }
+                        { name: 'SmartContract' },
+                        { name: 'TransactionHash' }
                     ],
                 },
             ],
         });
 
+    function item_type(item){
+        return (item.subject.hash ? 'tx' :
+                (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'))
+        );
+    }
     function item_url(item) {
-        let item_type = (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'));
-        return '<%= locale_path_prefix %>'+item.network.network+'/'+item_type+'/'+ item.subject.address;
+        return '<%= locale_path_prefix %>'+item.network.network+'/'+item_type(item)+'/'+
+            (item.subject.address || item.subject.hash);
     }
 
     new widgets.list('#search', query, 'search', {
@@ -76,9 +85,9 @@ $( document ).ready(function() {
         dataOptions:{
             type: 'string',
             renderCallback: function(item){
-                let item_type = (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'));
+                let a_type = item_type(item);
                 var item_name, item_icon = '';
-                switch (item_type) {
+                switch (a_type) {
                   case 'address':
                       item_name="<%= t('address') %> "+( item.subject.annotation || item.subject.address );
                       item_icon = '<span class="<%= t 'tabs.address.icon' %>"></span>';
@@ -90,6 +99,10 @@ $( document ).ready(function() {
                   case 'token':
                       item_name="<%= t('token') %> "+ item.subject.symbol + ', '+item.subject.name + ' '+ (item.subject.annotation || '') ;
                       item_icon = '<span class="<%= t 'tabs.token.icon' %>"></span>';
+                      break;
+                  case 'tx':
+                      item_name="<%= t('tx') %> "+( item.subject.hash );
+                      item_icon = '<span class="<%= t 'tabs.tx.icon' %>"></span>';
                       break;
                 };
 
