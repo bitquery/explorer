@@ -1,5 +1,14 @@
 Rails.application.routes.draw do
 
+  namespace :ethereum do
+    get 'event/show'
+  end
+  namespace :ethereum do
+    get 'method/show'
+  end
+  namespace :ethereum do
+    get 'block/show'
+  end
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
 
     BLOCKCHAINS.select{|b| b[:family]=='ethereum'}.each{|blockchain|
@@ -17,6 +26,15 @@ Rails.application.routes.draw do
       get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
 
       get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+      get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+      get ":blockchain/method/:signature/:action", controller: "#{blockchain[:family]}/method", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/method/:signature", controller: "#{blockchain[:family]}/method", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+      get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
 
     }
 
