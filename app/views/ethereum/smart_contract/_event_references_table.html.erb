@@ -49,33 +49,29 @@
 
         new widgets.table('#event_references_table', query, 'ethereum.arguments', {
             title: '<%= t('widgets.headers.event_references_table') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.address') %>',
-                    '<%= t('widgets.titles.argument') %>',
-                    '<%= t('widgets.titles.event') %>',
-                    '<%= t('widgets.titles.calls_count') %>'
-                ],
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: ['address.annotation','address.address'],
-                        urlCallbackName: 'address_path'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'argument.name'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'smartContractSignature.name'
-                    },
-                    {
-                        type: 'count',
-                        path: 'count'
-                    },
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.argument') %>',
+                    type: 'string-ellipsis',
+                    path: 'argument.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.event') %>',
+                    type: 'string-ellipsis',
+                    path: 'smartContractSignature.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    type: 'count',
+                    path: 'count'
+                },
+            ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{

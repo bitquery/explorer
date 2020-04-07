@@ -47,43 +47,38 @@
 
         new widgets.table('#tx_transfers', query, 'ethereum.transfers', {
             title: '<%= t('widgets.headers.tx_transfers') %>',
-            tableOptions: {
-                title: [
+            dataOptions: [
 
-                    '<%= t('widgets.titles.sender') %>',
-                    '',
-                    '<%= t('widgets.titles.receiver') %>',
-                    '<%= t('widgets.titles.amount') %>',
-                    '<%= t('widgets.titles.currency') %>'
-                ],
-                dataOptions: [
-
-                    {
-                        type: 'string-ellipsis',
-                        path: ['sender.annotation','sender.address'],
-                        urlCallbackName: 'sender_address_path'
-                    },
-                    {
-                        type: 'string',
-                        data: '<i class="fa fa-sign-in text-success"></i>',
-                        html_class: 'text-center'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: ['receiver.annotation','receiver.address'],
-                        urlCallbackName: 'receiver_address_path'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'amount'
-                    },
-                    {
-                        type: 'string',
-                        path: 'currency.symbol',
-                        urlCallbackName: 'token_path'
-                    }
-                ]
-            }
+                {
+                    title: '<%= t('widgets.titles.sender') %>',
+                    type: 'string-ellipsis',
+                    path: ['sender.annotation','sender.address'],
+                    urlCallbackName: 'sender_address_path'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['receiver.annotation','receiver.address'],
+                    urlCallbackName: 'receiver_address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                }
+            ]
         });
 
         query.request({

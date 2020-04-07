@@ -61,26 +61,20 @@
                         value: '<a href="/<%= @network[:network] %>/address/'+item.created_by+'">'+item.created_by+'</a>'}
                 ];
             },
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.metric') %>',
-                    '<%= t('widgets.titles.property_value') %>',
-                ],
-
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: 'name',
-                        html_class: 'text-info font-weight-bold'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'value',
-                        urlCallbackName: 'property_value_path'
-                    },
-
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.metric') %>',
+                    type: 'string-ellipsis',
+                    path: 'name',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{

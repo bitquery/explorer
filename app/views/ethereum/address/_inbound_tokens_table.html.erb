@@ -47,43 +47,37 @@
 
         new widgets.table('#inbound_tokens_table', query, 'ethereum.transfers', {
             title: '<%= t('widgets.headers.inbound_tokens_table') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.sender') %>',
-                    '<%= t('widgets.titles.amount') %>',
-                    '<%= t('widgets.titles.currency') %>',
-                    '<%= t('widgets.titles.max_date') %>',
-                    '<%= t('widgets.titles.transfer_count') %>',
-
-                ],
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: ['address.annotation','address.address'],
-                        urlCallbackName: 'address_path'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'amount'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'currency.symbol',
-                        urlCallbackName: 'token_path'
-                    },
-                    {
-                        type: 'string',
-                        path: 'max_date'
-                    },
-                    {
-                        type: 'count',
-                        path: 'count',
-                        data: '%{DATA} <span class="fa fa-list"></span>',
-                        urlCallbackName: 'transfer_to_path'
-                    },
-
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.sender') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_to_path'
+                },
+            ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{

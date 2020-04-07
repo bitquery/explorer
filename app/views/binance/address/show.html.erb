@@ -250,92 +250,98 @@
 
     var tbc = new widgets.table('#transfers_by_currencies', query3, 'binance.transfers', {
         title: '<%= t('widgets.headers.currencies_sent_received') %>',
-        tableOptions: {
-            title: [
-                '<%= t('widgets.titles.currency') %>', '', '<%= t('widgets.titles.receive') %>', '<%= t('widgets.titles.txs') %>', '<%= t('widgets.titles.send') %>', '', '<%= t('widgets.titles.txs') %>'
-            ],
-            dataOptions: [
-                {
-                    type: 'string-ellipsis',
-                    path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
-                },
-                {
-                    type: 'string',
-                    data: '<i class="fa fa-sign-in text-success"></i>',
-                    html_class: 'text-center'
-                },
-                {
-                    type: 'amount',
-                    path: 'sum_in'
-                },
-                {
-                    type: 'count',
-                    path: 'count_in',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'transfer_to_path'
-                },
-                {
-                    type: 'amount',
-                    path: 'sum_out'
-                },
-                {
-                    type: 'string',
-                    path: '',
-                    data: '<i class="fa fa-sign-out text-warning"></i>',
-                },
-                {
-                    type: 'count',
-                    path: 'count_out',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'trades_count_path'
-                },
-            ]
-        }
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.currency') %>',
+                type: 'string-ellipsis',
+                path: 'currency.symbol',
+                urlCallbackName: 'token_path'
+            },
+            {
+                title: '',
+                type: 'string',
+                data: '<i class="fa fa-sign-in text-success"></i>',
+                html_class: 'text-center'
+            },
+            {
+                title: '<%= t('widgets.titles.receive') %>',
+                type: 'amount',
+                path: 'sum_in'
+            },
+            {
+                title: '<%= t('widgets.titles.txs') %>',
+                type: 'count',
+                path: 'count_in',
+                data: '%{DATA} <span class="fa fa-list"></span>',
+                urlCallbackName: 'transfer_to_path'
+            },
+            {
+                title: '<%= t('widgets.titles.send') %>',
+                type: 'amount',
+                path: 'sum_out'
+            },
+            {
+                title: '',
+                type: 'string',
+                path: '',
+                data: '<i class="fa fa-sign-out text-warning"></i>',
+            },
+            {
+                title: '<%= t('widgets.titles.txs') %>',
+                type: 'count',
+                path: 'count_out',
+                data: '%{DATA} <span class="fa fa-list"></span>',
+                urlCallbackName: 'trades_count_path'
+            },
+        ]
     });
 
     var tbc = new widgets.table_trades('#trades_by_currencies', query4, 'binance.trades', {
         title: '<%= t('widgets.headers.trades_by_currencies') %>',
-        tableOptions: {
-            title: [
-                '<%= t('widgets.titles.pair') %>', '', '', '<%= t('widgets.titles.buy') %>', '', '<%= t('widgets.titles.sell') %>', '', '', '<%= t('widgets.titles.trade') %>'
-            ],
-            dataOptions: [
-                {
-                    type: 'string',
-                },
-                {
-                    type: 'string',
-                },
-                {
-                    type: 'string',
-                    data: '<i class="fa fa-sign-in text-success"></i>',
-                    html_class: 'text-center'
-                },
-                {
-                    type: 'amount'
-                },
-                {
-                    type: 'string',
-                },
-                {
-                    type: 'amount'
-                },
-                {
-                    type: 'string',
-                },
-                {
-                    type: 'string',
-                    data: '<i class="fa fa-sign-in text-warning"></i>',
-                    html_class: 'text-center'
-                },
-                {
-                    type: 'count',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    // urlCallbackName: 'trades_count_path'
-                }
-            ]
-        }
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.pair') %>',
+                type: 'string',
+            },
+            {
+                title: '',
+                type: 'string',
+            },
+            {
+                title: '',
+                type: 'string',
+                data: '<i class="fa fa-sign-in text-success"></i>',
+                html_class: 'text-center'
+            },
+            {
+                title: '<%= t('widgets.titles.buy') %>',
+                type: 'amount'
+            },
+            {
+                title: '',
+                type: 'string',
+            },
+            {
+                title: '<%= t('widgets.titles.sell') %>',
+                type: 'amount'
+            },
+            {
+                title: '',
+                type: 'string',
+            },
+            {
+                title: '',
+                type: 'string',
+                data: '<i class="fa fa-sign-in text-warning"></i>',
+                html_class: 'text-center'
+            },
+            {
+                title: '<%= t('widgets.titles.trade') %>',
+                type: 'count',
+                data: '%{DATA} <span class="fa fa-list"></span>',
+                // urlCallbackName: 'trades_count_path'
+            }
+        ]
     });
 
     query1.request({currency: '<%= params['network']['currency'] %>', address: '<%= @address %>', from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});

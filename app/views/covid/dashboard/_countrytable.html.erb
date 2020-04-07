@@ -42,39 +42,39 @@
 
     new widgets.table('#countries', country_query, 'offchain.covid.facts', {
         title: 'Country stats',
-        tableOptions: {
-            title: [
-                'Country', 'Confirmed Cases', 'Recovered', 'Deaths',
-                'Total Population,<br>in thousands', 'Area,<br> sq.km.'
-            ],
-            dataOptions: [
-                {
-                    type: 'string-ellipsis',
-                    path: 'country.name',
-                    urlCallbackName: 'country_path'
-                },
-                {
-                    type: 'count',
-                    path: 'confirmed'
-                },
-                {
-                    type: 'count',
-                    path: 'recovered'
-                },
-                {
-                    type: 'count',
-                    path: 'deaths'
-                },
-                {
-                    type: 'count',
-                    renderCallback:  <%= render partial: 'covid/dashboard/country_render_callback', locals: {item: 'item.country.populationTotal'} %>
-                },
-                {
-                    type: 'count',
-                    renderCallback: <%= render partial: 'covid/dashboard/country_render_callback', locals: {item: 'item.country.areaKm2'} %>
-                },
-            ]
-        }
+        dataOptions: [
+            {
+                title: 'Country',
+                type: 'string-ellipsis',
+                path: 'country.name',
+                urlCallbackName: 'country_path'
+            },
+            {
+                title: 'Confirmed Cases',
+                type: 'count',
+                path: 'confirmed'
+            },
+            {
+                title: 'Recovered',
+                type: 'count',
+                path: 'recovered'
+            },
+            {
+                title: 'Deaths',
+                type: 'count',
+                path: 'deaths'
+            },
+            {
+                title: 'Total Population,<br>in thousands',
+                type: 'count',
+                renderCallback:  <%= render partial: 'covid/dashboard/country_render_callback', locals: {item: 'item.country.populationTotal'} %>
+            },
+            {
+                title: 'Area,<br> sq.km.',
+                type: 'count',
+                renderCallback: <%= render partial: 'covid/dashboard/country_render_callback', locals: {item: 'item.country.areaKm2'} %>
+            },
+        ]
     });
 
     country_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});

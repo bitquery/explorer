@@ -56,64 +56,57 @@
 
         new widgets.table('#tx_calls', query, 'ethereum.smartContractCalls', {
             title: '<%= t('widgets.headers.tx_calls') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.call_depth') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.call_depth') %>',
+                    type: 'string',
+                    path: 'callDepth'
+                },
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    type: 'string-ellipsis',
+                    path: 'smartContractMethod.name',
+                    urlCallbackName: 'smart_contract_method_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_type') %>',
+                    type: 'string',
+                    path: 'smartContract.contractType'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_protocol_type') %>',
+                    type: 'string',
+                    path: 'smartContract.protocolType'
+                },
+                {
+                    title: '<%= t('widgets.titles.caller') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.success') %>',
+                    type: 'string',
+                    path: 'success'
+                },
 
-                    '<%= t('widgets.titles.method') %>',
-                    '<%= t('widgets.titles.smart_contract') %>',
-                    '<%= t('widgets.titles.smart_contract_type') %>',
-                    '<%= t('widgets.titles.smart_contract_protocol_type') %>',
-                    '<%= t('widgets.titles.caller') %>',
-
-                    '<%= t('widgets.titles.amount') %>',
-                    '<%= t('widgets.titles.success') %>',
-                    '<%= t('widgets.titles.gas_value') %>',
-                ],
-                dataOptions: [
-                    {
-                        type: 'string',
-                        path: 'callDepth'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'smartContractMethod.name',
-                        urlCallbackName: 'smart_contract_method_path'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: ['smartContract.address.annotation', 'smartContract.address.address'],
-                        urlCallbackName: 'smart_contract_path'
-                    },
-                    {
-                        type: 'string',
-                        path: 'smartContract.contractType'
-                    },
-                    {
-                        type: 'string',
-                        path: 'smartContract.protocolType'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: ['address.annotation','address.address'],
-                        urlCallbackName: 'address_path'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'amount'
-                    },
-                    {
-                        type: 'string',
-                        path: 'success'
-                    },
-
-                    {
-                        type: 'amount',
-                        path: 'gasValue'
-                    },
-
-                ]
-            }
+                {
+                    title: '<%= t('widgets.titles.gas_value') %>',
+                    type: 'amount',
+                    path: 'gasValue'
+                },
+            ]
         });
 
 

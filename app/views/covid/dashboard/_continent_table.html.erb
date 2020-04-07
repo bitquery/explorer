@@ -39,30 +39,29 @@
 
     new widgets.table('#continents', continent_query, 'offchain.covid.facts', {
         title: 'Country stats',
-        tableOptions: {
-            title: [
-                'Continent', 'Confirmed Cases', 'Recovered', 'Deaths'
-            ],
-            dataOptions: [
-                {
-                    type: 'string',
-                    urlCallbackName: 'continent_path',
-                    path: 'country.continent'
-                },
-                {
-                    type: 'count',
-                    path: 'confirmed'
-                },
-                {
-                    type: 'count',
-                    path: 'recovered'
-                },
-                {
-                    type: 'count',
-                    path: 'deaths'
-                }
-            ]
-        }
+        dataOptions: [
+            {
+                title: 'Continent',
+                type: 'string',
+                urlCallbackName: 'continent_path',
+                path: 'country.continent'
+            },
+            {
+                title: 'Confirmed Cases',
+                type: 'count',
+                path: 'confirmed'
+            },
+            {
+                title: 'Recovered',
+                type: 'count',
+                path: 'recovered'
+            },
+            {
+                title: 'Deaths',
+                type: 'count',
+                path: 'deaths'
+            }
+        ]
     });
 
     continent_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});

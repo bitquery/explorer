@@ -37,26 +37,20 @@
             renderData: function(data){
                 return data[0].smartContract.attributes;
             },
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.property') %>',
-                    '<%= t('widgets.titles.property_value') %>',
-                ],
-
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: 'name',
-                        html_class: 'text-info font-weight-bold'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'value',
-                        urlCallbackName: 'property_value_path'
-                    },
-
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.property') %>',
+                    type: 'string-ellipsis',
+                    path: 'name',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title:  '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{

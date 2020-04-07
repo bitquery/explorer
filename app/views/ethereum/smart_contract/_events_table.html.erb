@@ -53,40 +53,32 @@
 
 new widgets.table('#smart_contract_events_table', query, 'ethereum.smartContractEvents', {
     title: '<%= t('widgets.headers.smart_contract_events_table') %>',
-    tableOptions: {
-        title: [
-            '<%= t('widgets.titles.event') %>',
-            '<%= t('widgets.titles.event_signature') %>',
-
-
-            '<%= t('widgets.titles.max_date') %>',
-
-
-            '<%= t('widgets.titles.events_count') %>',
-    ],
     dataOptions: [
         {
+            title: '<%= t('widgets.titles.event') %>',
             type: 'string-ellipsis',
             path: 'smartContractEvent.name',
             urlCallbackName: 'smart_contract_event_path'
         },
         {
+            title: '<%= t('widgets.titles.event_signature') %>',
             type: 'string-ellipsis',
             path: 'smartContractEvent.signature'
         },
         {
+            title: '<%= t('widgets.titles.max_date') %>',
             type: 'string',
             path: 'max_date'
         },
 
         {
+            title: '<%= t('widgets.titles.events_count') %>',
             type: 'count',
             path: 'count',
             data: '%{DATA} <span class="fa fa-list"></span>',
             urlCallbackName: 'event_count_path'
         },
-        ]
-    }
+    ]
 });
 
 
