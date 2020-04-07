@@ -61,8 +61,8 @@ new widgets.table('#smart_contract_methods_table', query, 'ethereum.smartContrac
     dataOptions: [
         {
             title: '<%= t('widgets.titles.method') %>',
-            type: 'string-ellipsis',
-            path: 'smartContractMethod.name',
+            type: 'string',
+            path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
             urlCallbackName: 'smart_contract_method_path'
         },
         {
@@ -137,7 +137,7 @@ new widgets.chart('#smart_contract_methods_diagram', query, 'ethereum.smartContr
     dataOptions: [
         {
             type: 'string',
-            path: 'smartContractMethod.name',
+            path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
             title: '<%= t('widgets.titles.method') %>'
         },
         {

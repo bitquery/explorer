@@ -33,10 +33,10 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&receiver='+item.receiver.address;
         },
         smart_contract_method_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/functions/'+item.smartContractMethod.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/method/'+item.smartContractMethod.signatureHash;
         },
         smart_contract_event_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/events/'+item.smartContractEvent.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/event/'+item.smartContractEvent.signatureHash;
         },
         address_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;

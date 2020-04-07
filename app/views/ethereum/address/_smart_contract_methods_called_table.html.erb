@@ -43,8 +43,8 @@
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.method') %>',
-                    type: 'string-ellipsis',
-                    path: 'smartContractMethod.name',
+                    type: 'string',
+                    path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
                     urlCallbackName: 'smart_contract_method_path'
                 },
                 {

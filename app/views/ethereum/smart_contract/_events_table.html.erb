@@ -56,8 +56,8 @@ new widgets.table('#smart_contract_events_table', query, 'ethereum.smartContract
     dataOptions: [
         {
             title: '<%= t('widgets.titles.event') %>',
-            type: 'string-ellipsis',
-            path: 'smartContractEvent.name',
+            type: 'string',
+            path: ['smartContractEvent.name','smartContractEvent.signatureHash'],
             urlCallbackName: 'smart_contract_event_path'
         },
         {
@@ -103,7 +103,7 @@ new widgets.chart('#smart_contract_events_diagram', query, 'ethereum.smartContra
     dataOptions: [
         {
             type: 'string',
-            path: 'smartContractEvent.name',
+            path: ['smartContractEvent.name','smartContractEvent.signatureHash'],
             title: '<%= t('widgets.titles.event') %>'
         },
         {

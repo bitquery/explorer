@@ -47,8 +47,8 @@
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.event') %>',
-                    type: 'string-ellipsis',
-                    path: 'smartContractEvent.name',
+                    type: 'string',
+                    path: ['smartContractEvent.name','smartContractEvent.signatureHash'],
                     urlCallbackName: 'smart_contract_event_path'
                 },
                 {
