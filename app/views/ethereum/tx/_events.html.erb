@@ -44,39 +44,30 @@
 
         new widgets.table('#tx_events', query, 'ethereum.smartContractEvents', {
             title: '<%= t('widgets.headers.tx_events') %>',
-            tableOptions: {
-                title: [
-
-                    '<%= t('widgets.titles.event') %>',
-                    '<%= t('widgets.titles.smart_contract') %>',
-                    '<%= t('widgets.titles.smart_contract_type') %>',
-                    '<%= t('widgets.titles.smart_contract_protocol_type') %>',
-
-                ],
-                dataOptions: [
-
-                    {
-                        type: 'string-ellipsis',
-                        path: 'smartContractEvent.name',
-                        urlCallbackName: 'smart_contract_event_path'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: ['smartContract.address.annotation', 'smartContract.address.address'],
-                        urlCallbackName: 'smart_contract_path'
-                    },
-                    {
-                        type: 'string',
-                        path: 'smartContract.contractType'
-                    },
-                    {
-                        type: 'string',
-                        path: 'smartContract.protocolType'
-                    },
-
-
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.event') %>',
+                    type: 'string-ellipsis',
+                    path: 'smartContractEvent.name',
+                    urlCallbackName: 'smart_contract_event_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_type') %>',
+                    type: 'string',
+                    path: 'smartContract.contractType'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_protocol_type') %>',
+                    type: 'string',
+                    path: 'smartContract.protocolType'
+                },
+            ]
         });
 
 

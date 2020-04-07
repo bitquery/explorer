@@ -46,42 +46,36 @@
 
         new widgets.table('#outbound_eth_table', query, 'ethereum.transfers', {
             title: '<%= t('widgets.headers.outbound_eth_table', currency: @network[:currency]) %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.receiver') %>',
-                    '<%= t('widgets.titles.amount') %>',
-                    '',
-                    '<%= t('widgets.titles.max_date') %>',
-                    '<%= t('widgets.titles.transfer_count') %>',
-
-                ],
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: ['address.annotation','address.address'],
-                        urlCallbackName: 'address_path'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'amount'
-                    },
-                    {
-                        type: 'string',
-                        data: '<%= @network[:currency] %>',
-                    },
-                    {
-                        type: 'string',
-                        path: 'max_date'
-                    },
-                    {
-                        type: 'count',
-                        path: 'count',
-                        data: '%{DATA} <span class="fa fa-list"></span>',
-                        urlCallbackName: 'transfer_from_path'
-                    },
-
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    data: '<%= @network[:currency] %>',
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_from_path'
+                },
+            ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{

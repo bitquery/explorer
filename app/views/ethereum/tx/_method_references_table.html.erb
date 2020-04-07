@@ -51,40 +51,35 @@
 
         new widgets.table('#method_references_table', query, 'ethereum.arguments', {
             title: '<%= t('widgets.headers.method_references_table') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.address') %>',
-                    '<%= t('widgets.titles.argument') %>',
-                    '<%= t('widgets.titles.method') %>',
-                    '<%= t('widgets.titles.smart_contract') %>',
-                    '<%= t('widgets.titles.call_depth') %>'
-
-                ],
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: ['address.annotation','address.address'],
-                        urlCallbackName: 'address_path'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'argument.name'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'smartContractSignature.name'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: ['smartContract.address.annotation', 'smartContract.address.address'],
-                        urlCallbackName: 'smart_contract_path'
-                    },
-                    {
-                        type: 'string',
-                        path: 'callDepth'
-                    },
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.argument') %>',
+                    type: 'string-ellipsis',
+                    path: 'argument.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    type: 'string-ellipsis',
+                    path: 'smartContractSignature.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.call_depth') %>',
+                    type: 'string',
+                    path: 'callDepth'
+                },
+            ]
         });
 
         query.request({

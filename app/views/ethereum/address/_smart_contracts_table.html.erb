@@ -43,40 +43,36 @@
 
         new widgets.table('#smart_contracts_table', query, 'ethereum.smartContractCalls', {
             title: '<%= t('widgets.headers.smart_contracts_table') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.smart_contract') %>',
-                    '<%= t('widgets.titles.max_date') %>',
-                    '<%= t('widgets.titles.avg_gas_value') %>',
-                    '<%= t('widgets.titles.uniq_methods') %>',
-                    '<%= t('widgets.titles.calls_count') %>',
-                ],
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: ['smartContract.address.annotation', 'smartContract.address.address'],
-                        urlCallbackName: 'smart_contract_path'
-                    },
-                    {
-                        type: 'string',
-                        path: 'max_date'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'gasValue'
-                    },
-                    {
-                        type: 'count',
-                        path: 'uniq_methods'
-                    },
-                    {
-                        type: 'count',
-                        path: 'count',
-                        data: '%{DATA} <span class="fa fa-list"></span>',
-                        urlCallbackName: 'call_count_path'
-                    },
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.avg_gas_value') %>',
+                    type: 'amount',
+                    path: 'gasValue'
+                },
+                {
+                    title: '<%= t('widgets.titles.uniq_methods') %>',
+                    type: 'count',
+                    path: 'uniq_methods'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'call_count_path'
+                },
+            ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{

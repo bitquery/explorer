@@ -56,59 +56,51 @@
 
         new widgets.table('#token_receivers_table', query, 'ethereum.transfers', {
             title: '<%= t('widgets.headers.token_receivers_table') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.receiver') %>',
-                    '<%= t('widgets.titles.amount') %>',
-                    '',
-                    '<%= t('widgets.titles.max_amount') %>',
-                    '<%= t('widgets.titles.currency') %>',
-
-
-                    '<%= t('widgets.titles.uniq_receivers') %>',
-                    '<%= t('widgets.titles.max_date') %>',
-
-                    '<%= t('widgets.titles.transfer_count') %>',
-
-                ],
-                dataOptions: [
-                    {
-                        type: 'string-ellipsis',
-                        path: ['receiver.annotation','receiver.address'],
-                        urlCallbackName: 'receiver_address_path'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'amount'
-                    },
-                    {
-                        type: 'string',
-                        path: 'currency.symbol'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'max_amount'
-                    },
-                    {
-                        type: 'string',
-                        path: 'currency.symbol'
-                    },
-                    {
-                        type: 'count',
-                        path: 'sender_count'
-                    },
-                    {
-                        type: 'string',
-                        path: 'max_date'
-                    },
-                    {
-                        type: 'count',
-                        path: 'count',
-                        data: '%{DATA} <span class="fa fa-list"></span>',
-                        urlCallbackName: 'transfer_token_receiver_path'
-                    },
-                ]
-            }
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['receiver.annotation','receiver.address'],
+                    urlCallbackName: 'receiver_address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_amount') %>',
+                    type: 'amount',
+                    path: 'max_amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.uniq_receivers') %>',
+                    type: 'count',
+                    path: 'sender_count'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_token_receiver_path'
+                },
+            ]
         });
 
 
