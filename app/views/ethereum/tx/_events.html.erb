@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.tx_events') %></div>
+      <div class="card-body">
+        <div id="tx_events"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                    $hash: String!,
+                    $limit: Int!,
+                    $offset: Int!){
+                ethereum(network: $network){
+                  smartContractEvents(
+                    options:{limit: $limit, offset: $offset},
+                    txHash: {is: $hash }) {
+
+
+                    smartContract {
+                      address {
+                        address
+                        annotation
+                      }
+                      contractType
+                      protocolType
+                    }
+
+                    smartContractEvent {
+                      name
+                      signatureHash
+                    }
+
+                  }
+                }
+              }`);
+
+        new widgets.table('#tx_events', query, 'ethereum.smartContractEvents', {
+            title: '<%= t('widgets.headers.tx_events') %>',
+            tableOptions: {
+                title: [
+
+                    '<%= t('widgets.titles.event') %>',
+                    '<%= t('widgets.titles.smart_contract') %>',
+                    '<%= t('widgets.titles.smart_contract_type') %>',
+                    '<%= t('widgets.titles.smart_contract_protocol_type') %>',
+
+                ],
+                dataOptions: [
+
+                    {
+                        type: 'string-ellipsis',
+                        path: 'smartContractEvent.name',
+                        urlCallbackName: 'smart_contract_event_path'
+                    },
+                    {
+                        type: 'string-ellipsis',
+                        path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                        urlCallbackName: 'smart_contract_path'
+                    },
+                    {
+                        type: 'string',
+                        path: 'smartContract.contractType'
+                    },
+                    {
+                        type: 'string',
+                        path: 'smartContract.protocolType'
+                    },
+
+
+                ]
+            }
+        });
+
+
+        query.request({
+            network: '<%= params['network']['network'] %>',
+            hash: '<%= @hash %>'
+        });
+
+
+
+    });
+
+</script>
