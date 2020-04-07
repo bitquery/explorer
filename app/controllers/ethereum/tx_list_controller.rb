@@ -14,7 +14,7 @@ class Ethereum::TxListController < NetworkController
 
   def events
     @contract = params[:contract]
-    @method = params[:method]
+    @event = params[:event]
   end
 
 end

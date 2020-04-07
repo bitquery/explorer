@@ -179,7 +179,7 @@ ru:
       smart_contract_methods_diagram: "Распределение методов по количеству вызовов"
       method_references_table: "Адреса в параметрах методов"
       smart_contract_events_table: "События смарт контракта"
-      smart_contract_events_diagram: "Распреление событий по количеству"
+      smart_contract_events_diagram: "Распределение событий по количеству"
       event_references_table: "Адреса в параметрах событий"
       token_attributes: "Аттрибуты токена"
       token_name: "Название"

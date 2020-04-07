@@ -225,6 +225,7 @@ en:
       tx_transfers: "Token Transfers in Transaction"
       tx_calls: "Smart Contract Calls in Transaction"
       tx_events: "Smart Contract Events logged in Transaction"
+      events_table: "Smart Contract Events"
     titles:
       date: 'Date'
       month: 'Month'
