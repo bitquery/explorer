@@ -12,7 +12,7 @@
             if(item.count_in==0) {
                 return null;
             }else{
-                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?to=<%= @address %>&currency='+
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
                     (item.currency.address=='-' ? item.currency.symbol : item.currency.address );
             }
         },
@@ -20,15 +20,15 @@
             if(item.count_out==0) {
                 return null;
             }else {
-                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?from=<%= @address %>&currency=' +
+                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
                     (item.currency.address=='-' ? item.currency.symbol : item.currency.address );
             }
         },
         transfer_token_sender_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&from='+item.sender.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&sender='+item.sender.address;
         },
         transfer_token_receiver_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&to='+item.receiver.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&receiver='+item.receiver.address;
         },
         smart_contract_method_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/functions/'+item.smartContractMethod.signatureHash;

@@ -321,3 +321,20 @@ en:
         part1: "Address %{address} is token"
         part2: "token in %{network}"
         part3: "a token"
+    tx_list:
+      icon: "fas fa-bolt text-warning"
+      filters:
+        filter: "Filter"
+        value: "Value"
+      transfers:
+        title: "Transfers in %{network}"
+        header: "Transfer Transactions in %{network}"
+        description: "List of transactions in %{network} with transfers, filtered by parameters"
+      calls:
+        title: "Calls in %{network}"
+        header: "Call Transactions in %{network}"
+        description: "List of transactions in %{network} with smart contract calls, filtered by parameters"
+      events:
+        title: "Events in %{network}"
+        header: "Event Transactions in %{network}"
+        description: "List of transactions in %{network} with smart contract events, filtered by parameters"

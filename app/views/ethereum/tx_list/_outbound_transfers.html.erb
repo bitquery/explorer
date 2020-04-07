@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.outbound_transfers') %></div>
+      <div class="card-body">
+        <div id="outbound_transfers"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                                $address: String!,
+                                $limit: Int!,
+                                $offset: Int!,
+                                <% if @currency  %>$currency: String!,<% end %>
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    ethereum(network: $network){
+                      transfers(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till },
+                        <% if @currency  %>currency: {is: $currency},<% end %>
+                        sender: {is: $address}
+
+                        ) {
+
+                        block {
+                          timestamp {
+                            time (format: "%Y-%m-%d %H:%M:%S")
+                          }
+                          height
+                        }
+                        address: receiver {
+                          address
+                          annotation
+                        }
+                        currency {
+                          address
+                          symbol
+                        }
+                        amount
+                        transaction {
+                          hash
+                        }
+                        external
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#outbound_transfers', query, 'ethereum.transfers', {
+            title: '<%= t('widgets.headers.outbound_transfers') %>',
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.timestamp') %>',
+                    '<%= t('widgets.titles.block') %>',
+
+
+                    '<%= t('widgets.titles.amount') %>',
+                    '<%= t('widgets.titles.currency') %>',
+                    '',
+                    '<%= t('widgets.titles.receiver') %>',
+                    '<%= t('widgets.titles.transaction') %>'
+                ],
+                dataOptions: [
+                    {
+                        type: 'string',
+                        path: 'block.timestamp.time'
+                    },
+                    {
+                        type: 'string',
+                        path: 'block.height',
+                        urlCallbackName: 'block_path'
+                    },
+                    {
+                        type: 'amount',
+                        path: 'amount'
+                    },
+                    {
+                        type: 'string-ellipsis',
+                        path: 'currency.symbol',
+                        urlCallbackName: 'token_path'
+                    },
+                    {
+                        type: 'string',
+                        data: '<i class="fa fa-sign-in text-warning"></i>',
+                        html_class: 'text-center'
+                    },
+                    {
+                        type: 'string-ellipsis',
+                        path: ['address.annotation','address.address'],
+                        urlCallbackName: 'address_path'
+                    },
+                    {
+                        type: 'string-ellipsis',
+                        urlCallbackName: 'transaction_path',
+                        renderCallback: <%= render partial: 'ethereum/tx_external_display.text' %>
+                    },
+                ]
+            }
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @sender %>',
+            currency: '<%= @currency %>'
+        });
+
+
+    });
+
+</script>

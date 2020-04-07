@@ -1,0 +1,7 @@
+<%= render partial: 'header' %>
+
+<% if @sender %>
+  <%= render partial: 'ethereum/tx_list/outbound_transfers' %>
+<% elsif @receiver %>
+  <%= render partial: 'ethereum/tx_list/inbound_transfers' %>
+<% end %>

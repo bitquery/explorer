@@ -1,0 +1,9 @@
+<% content_for :title, t( "pages.tx_list.#{params[:action]}.title", network: @network[:tag]) %>
+<% content_for :description,t( "pages.tx_list.#{params[:action]}.description", network: @network[:name]) %>
+
+<%= render partial: 'shared/title', locals: {
+        icon: t("pages.tx_list.icon"),
+        header: t( "pages.tx_list.#{params[:action]}.header", network: @network[:name]),
+        reportrange: true} %>
+
+<%= render partial: 'shared/filters' %>

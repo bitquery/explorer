@@ -1,8 +1,5 @@
 <%= extend_layout :application do %>
-
   <%= render partial: 'header' %>
-  <%= render(partial: "#{@network[:network]}/render_callbacks") if @network %>
-
   <%= render partial: 'tabs' %>
   <div><%= yield %></div>
 <% end %>

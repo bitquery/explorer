@@ -12,6 +12,7 @@
       <%= render partial: 'shared/search' %>
     </div>
   </div>
+  <%= render(partial: "#{@network[:network]}/render_callbacks") if @network %>
   <%= yield %>
   <%= render partial: 'shared/footer' %>
   <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
