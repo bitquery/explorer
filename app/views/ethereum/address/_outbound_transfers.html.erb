@@ -97,7 +97,9 @@
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
+            address: '<%= @address %>',
+            currency: '<%= @currency %>',
+
         });
 
 

@@ -1,0 +1,6 @@
+function(data){
+    if(Array.isArray(data) && data.length == 1){
+        window.location.replace('/<%= @network[:network] %>/tx/'+data[0].transaction.hash);
+    }
+    return data;
+}

@@ -12,20 +12,20 @@
 <script>
 
     $( document ).ready(function() {
-
-
         var query = new widgets.query(`
                         query ($network: EthereumNetwork!,
                                 $address: String!,
                                 $limit: Int!,
                                 $offset: Int!
                                  <% if @currency  %>$currency: String!,<% end %>
+                                 <% if @sender  %>$sender: String!,<% end %>
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     ethereum(network: $network){
                       transfers(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         <% if @currency  %>currency: {is: $currency},<% end %>
+                        <% if @sender  %>sender: {is: $sender},<% end %>
                         receiver: {is: $address}) {
 
                         block {
@@ -53,57 +53,56 @@
 
         new widgets.table('#inbound_transfers', query, 'ethereum.transfers', {
             title: '<%= t('widgets.headers.inbound_transfers') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.timestamp') %>',
-                    '<%= t('widgets.titles.block') %>',
-                    '<%= t('widgets.titles.sender') %>',
-                    '',
-                    '<%= t('widgets.titles.amount') %>',
-                    '<%= t('widgets.titles.currency') %>',
-                    '<%= t('widgets.titles.transaction') %>'
-                ],
-                dataOptions: [
-                    {
-                        type: 'string',
-                        path: 'block.timestamp.time'
-                    },
-                    {
-                        type: 'string',
-                        path: 'block.height',
-                        urlCallbackName: 'block_path'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: ['address.annotation','address.address'],
-                        urlCallbackName: 'address_path'
-                    },
-                    {
-                        type: 'string',
-                        data: '<i class="fa fa-sign-in text-success"></i>',
-                        html_class: 'text-center'
-                    },
-                    {
-                        type: 'amount',
-                        path: 'amount'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        path: 'currency.symbol',
-                        urlCallbackName: 'token_path'
-                    },
-                    {
-                        type: 'string-ellipsis',
-                        urlCallbackName: 'transaction_path',
-                        renderCallback: <%= render partial: 'ethereum/tx_external_display.text' %>
-                    },
-                ]
-            }
+            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.timestamp') %>',
+                    type: 'string',
+                    path: 'block.timestamp.time'
+                },
+                {
+                    title: '<%= t('widgets.titles.block') %>',
+                    type: 'string',
+                    path: 'block.height',
+                    urlCallbackName: 'block_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.sender') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction') %>',
+                    type: 'string-ellipsis',
+                    urlCallbackName: 'transaction_path',
+                    renderCallback: <%= render partial: 'ethereum/tx_external_display.text' %>
+                },
+            ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>',
-            address: '<%= @receiver %>'
+            address: '<%= @receiver %>',
+            currency: '<%= @currency %>',
+            sender: '<%= @sender %>'
         });
 
 
