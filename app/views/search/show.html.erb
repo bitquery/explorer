@@ -75,6 +75,7 @@ $( document ).ready(function() {
 
     new widgets.list('#search', query, 'search', {
         excludeButtons: ['csv', 'js'],
+        noData: '<%= t('search_no_data', query: @query) %>',
         renderData: function(data){
           if(Array.isArray(data) && data.length == 1){
               window.location.replace(item_url(data[0]));

@@ -27,6 +27,7 @@ en:
   headers:
     search: "Search \"%{query}\""
     search_in: "Search in %{network} \"%{query}\""
+  search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
     address:
       icon: 'fas fa-user'

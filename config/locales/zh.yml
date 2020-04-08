@@ -27,6 +27,7 @@ zh:
   headers:
     search: "搜索\"%{query}\""
     search_in: "在%{network}中搜索 \"%{query}\""
+  search_no_data: '應要求“%{query}”未返回任何結果。请澄清请求，然后重试。'
   tabs:
     address:
       icon: 'fas fa-user'

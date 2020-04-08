@@ -27,6 +27,7 @@ ru:
   headers:
     search: "Поиск \"%{query}\""
     search_in: "Поиск в %{network} \"%{query}\""
+  search_no_data: 'По запросу "%{query}" ничего не найдено. Пожалуйста, уточните запрос и повторите попытку.'
   tabs:
     address:
       icon: 'fas fa-user'
