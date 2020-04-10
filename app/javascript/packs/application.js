@@ -80,6 +80,21 @@ global.reportRange = function(selector, from, till, i18n){
         set_reportrange(properties.start, properties.end);
     }
 
+    function changeUrl(from, till){
+        $('a[data-changeurl="true"]').each(function(){
+            let href = $(this).prop('href').split('?');
+            let up = href[1] ? $.urlParams(href[1].split('&')) : {};
+            if (from && till){
+                up['from'] = from;
+                up['till'] = till;
+            }else{
+                delete up.from;
+                delete up.till;
+            }
+            $(this).prop('href', (href[0] + ($.param(up) ? '?'+$.param(up) : '')));
+        });
+    }
+
     $(window).on("popstate",function(e){
         var up = $.urlParams(window.location.search.substr(1).split('&'));
         if (up.from && up.till){
@@ -89,10 +104,12 @@ global.reportRange = function(selector, from, till, i18n){
             $.each(properties.cbs, function(){
                 this(moment(up.from).format('YYYY-MM-DD'), moment(up.till).format('YYYY-MM-DD'), undefined);
             });
+            changeUrl(up.from, up.till);
         } else {
             $(selector).find('span').html(i18n.all_time);
             $.each(properties.cbs, function(){
                 this(null, null, 'clear');
+                changeUrl(null, null);
             });
         }
     });
@@ -106,7 +123,10 @@ global.reportRange = function(selector, from, till, i18n){
                 clear_date = undefined;
             cb(start, end, clear_date);
             let url = location.origin + location.pathname;
-            history.pushState({data: {}, url: url}, document.title, url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam})))
+            if (location.href != url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam}))){
+                history.pushState({data: {}, url: url}, document.title, url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam})));
+                changeUrl(start, endToParam);
+            }
         });
         $(selector).on('cancel.daterangepicker', function(ev, picker) {
             var start = null,
@@ -117,7 +137,10 @@ global.reportRange = function(selector, from, till, i18n){
             let params = $.urlParams;
             delete params.from;
             delete params.till;
-            history.pushState({data: {}, url: url}, document.title, url+($.param(params) ? '?'+$.param(params) : ''))
+            if (location.href != url+($.param(params) ? '?'+$.param(params) : '')) {
+                history.pushState({data: {}, url: url}, document.title, url+($.param(params) ? '?'+$.param(params) : ''));
+                changeUrl(start, end);
+            }
         });
 
     };

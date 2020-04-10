@@ -25,12 +25,11 @@ module ApplicationHelper
     render file: layout
   end
 
-  def tab_link name, action
+  def tab_link name, action, data = {changeurl: true}
     content_tag :li, class: 'nav-item' do
-      link_to name, request.query_parameters.merge(action: action), class: "nav-link #{params[:action] == action && 'active'}"
+      link_to name, request.query_parameters.merge(action: action), class: "nav-link #{params[:action] == action && 'active'}", data: data
     end
   end
-
 
   def locale_path_prefix
     if params[:locale]
