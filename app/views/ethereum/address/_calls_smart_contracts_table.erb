@@ -50,14 +50,16 @@
                     title: '<%= t('widgets.titles.method') %>',
                     type: 'string',
                     path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
-                    urlCallbackName: 'smart_contract_method_path'
+                    urlCallbackName: 'smart_contract_method_path',
+                    style: 'width: 130px'
                 },
                 {
                     title: '<%#= t('widgets.titles.tx_count') %>',
                     type: 'count',
                     path: 'count',
                     data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'call_count_path'
+                    urlCallbackName: 'call_count_path',
+                    style: 'width: 130px'
                 }
             ]
         });

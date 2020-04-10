@@ -56,24 +56,28 @@
                 {
                     title: '<%= t('widgets.titles.amount') %>',
                     type: 'amount',
-                    path: 'amount'
+                    path: 'amount',
+                    style: 'width: 100px'
                 },
                 {
                     title: '',
                     type: 'string',
                     data: '<%= @network[:currency] %>',
+                    style: 'width: 80px'
                 },
                 {
                     title: '<%= t('widgets.titles.max_date') %>',
                     type: 'string',
-                    path: 'max_date'
+                    path: 'max_date',
+                    style: 'width: 100px'
                 },
                 {
                     title: '<%= t('widgets.titles.transfer_count') %>',
                     type: 'count',
                     path: 'count',
                     data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'transfer_from_path'
+                    urlCallbackName: 'transfer_from_path',
+                    style: 'width: 130px'
                 },
             ]
         });
