@@ -1,0 +1,10 @@
+<%= render partial: 'home/chains',locals: {family: 'cosmos', query: 'query {
+      chain: binance {
+        transactions(options:{asc: "date.month"}) {
+          date{
+            month: date(format: "%Y-%m")
+          }
+          count
+        }
+      }
+    }'} %>
