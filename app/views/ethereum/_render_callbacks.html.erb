@@ -51,7 +51,7 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
         },
         transaction_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+item.transaction.hash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
         },
         smart_contract_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/smart_contract/'+item.smartContract.address.address;

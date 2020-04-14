@@ -36,6 +36,11 @@ en:
         header: "%{network} address %{address}"
         title: "%{network} %{address}"
         description: "Overview of address %{address} activity in %{network}"
+      transactions:
+        name: 'Transactions'
+        header: "Transactions sent by %{network} address %{address}"
+        title: "TXs %{network} %{address}"
+        description: "Transactions sent by address %{address} activity in %{network}"
       inflow:
         name: 'Inflow'
         header: "Inflow to %{network} address %{address}"
@@ -243,6 +248,9 @@ en:
       tx_info: "Transaction Attributes"
       references_table: "Addresses used in Events / Methods Parameters (may take time to load )"
       block_info: "Block Attributes"
+      transactions: "Transactions"
+      transactions_by_time: "Transactions By Date"
+      transaction_gas_by_time: "Gas Spent By Date"
     titles:
       date: 'Date'
       month: 'Month'
