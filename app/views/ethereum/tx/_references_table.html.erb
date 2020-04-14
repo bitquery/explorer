@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.event_references_table') %></div>
+      <div class="card-header"><%= t('widgets.headers.references_table') %></div>
       <div class="card-body">
-        <div id="event_references_table"><%= t('loading') %></div>
+        <div id="references_table"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -19,8 +19,7 @@
                                 $offset:Int){
                             ethereum(network: $network){
                               arguments(options:{limit: $limit, offset: $offset, asc: "callDepth"}
-                                txHash: {is: $hash },
-                              signatureType: Event) {
+                                txHash: {is: $hash }) {
                                 address: reference {
                                   address
                                   annotation
@@ -42,15 +41,18 @@
                                   ... on Event {
                                     name
                                   }
+                                  ... on Method {
+                                    name
                                 }
                               }
 
 
                             }
+                          }
                           }`);
 
-        new widgets.table('#event_references_table', query, 'ethereum.arguments', {
-            title: '<%= t('widgets.headers.event_references_table') %>',
+        new widgets.table('#references_table', query, 'ethereum.arguments', {
+            title: '<%= t('widgets.headers.references_table') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.address') %>',
@@ -61,11 +63,19 @@
                 {
                     title: '<%= t('widgets.titles.argument') %>',
                     type: 'string-ellipsis',
+                    style: 'width: 150px;',
                     path: 'argument.name'
                 },
                 {
-                    title: '<%= t('widgets.titles.event') %>',
+                    title: '<%= t('widgets.titles.event_or_method') %>',
+                    type: 'string',
+                    style: 'width: 80px;',
+                    path: 'smartContractSignature.__typename'
+                },
+                {
+                    title: '<%= t('widgets.titles.name') %>',
                     type: 'string-ellipsis',
+                    style: 'width: 130px;',
                     path: 'smartContractSignature.name'
                 },
                 {

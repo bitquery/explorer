@@ -167,6 +167,11 @@ en:
         header: "%{network} transaction %{hash}"
         title: "Events %{network} %{hash}"
         description: "Smart Contract Events in transaction %{hash} in %{network}"
+      references:
+        name: 'References'
+        header: "%{network} transaction %{hash}"
+        title: "References from %{network} %{hash}"
+        description: "References from Smart Contract Events and Methods in transaction %{hash} in %{network}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
@@ -229,6 +234,7 @@ en:
       tx_events: "Smart Contract Events logged in Transaction"
       events_table: "Smart Contract Events"
       tx_info: "Transaction Attributes"
+      references_table: "Addresses used in Events / Methods Parameters (may take time to load )"
     titles:
       date: 'Date'
       month: 'Month'
@@ -308,6 +314,8 @@ en:
       tx_creates: "Created"
       gas_price: "Gas Price"
       gas_used: "Gas Used"
+      event_or_method: "Event / Method"
+      name: "Name"
   pages:
     footer:
       built: "Built with"
