@@ -205,12 +205,37 @@ en:
         header: "Transfers on %{network}"
         title: "%{network} Explorer by Bitquery"
         description: "Transfer list for %{network}"
-
       miners:
         name: "Miners"
         header: "Miners on %{network}"
         title: "%{network} Explorer by Bitquery"
         description: "Miner list for %{network}"
+    home:
+      index:
+        name: "All"
+        header: "All Bitquery Datasets"
+        title: "Datasets at Bitquery"
+        description: "Explorers by Bitquery"
+      ethereum:
+        name: "Ethereum Platform"
+        header: "Ethereum at Bitquery"
+        title: "Ethereum Blockchains at Bitquery"
+        description: "Explorers for Ethereum-like Blockchains by Bitquery"
+      bitcoin:
+        name: "Bitcoin Platform"
+        header: "Bitcoin at Bitquery"
+        title: "Bitcoin at Bitquery"
+        description: "Explorers for Bitcoin-like Blockchains by Bitquery"
+      cosmos:
+        name: "Cosmos Platform"
+        header: "Cosmos at Bitquery"
+        title: "Cosmos at Bitquery"
+        description: "Explorers for Cosmos-like Blockchains by Bitquery"
+      offchain:
+        name: "Offchain Data"
+        header: "Offchain Data at Bitquery"
+        title: "Offchain Data at Bitquery"
+        description: "Explorers for Offchain Data by Bitquery"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
@@ -379,6 +404,9 @@ en:
       unique_miners: "Unique Miners"
       median_difficulty: "Median Difficulty"
   pages:
+    home:
+      family: "%{family} Platform Explorers"
+      offchain: "%{family} Dataset Explorers"
     footer:
       built: "Built with"
       widgets: "Bitquery Widgets"

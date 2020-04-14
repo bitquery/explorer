@@ -1,6 +1,3 @@
 class HomeController < ApplicationController
-
-  def index
-
-  end
+  layout 'tabs'
 end

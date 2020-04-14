@@ -4,8 +4,7 @@
 <div class="row search mb-2">
   <div class="col-12 col-lg">
     <h6 class="mt-2 word-wrap">
-      <%= image_tag image_pack_path("media/icon/#{@network[:icon]}"), {class: 'mr-3', alt: @network[:name]} %>
-
+      <%= network_icon @network %>
       <%= t( "tabs.#{controller_name}.#{params[:action]}.header", network: @network[:name]) %></h6>
   </div>
 

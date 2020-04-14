@@ -1,14 +1,27 @@
 
-<h1>COVID-2019 World Data Stats</h1>
+<% for group in BLOCKCHAINS.group_by{|bc| bc[:family]} %>
 
-<p>
-  <strong>
-    Look more data on <%= link_to 'World COVID Data', covid_index_path %> page.
-  </strong>
-</p>
+  <h4><%= t "pages.home.family", family: group.first.capitalize %></h4>
+  <ul class="list-unstyled">
+    <% for chain in group.second %>
+    <li><%= network_icon chain %>
+      <%= link_to chain[:name], "/#{chain[:path]}" %>
+    </li>
+    <% end %>
+  </ul>
 
-<%= render partial: 'covid' %>
+<% end %>
 
+<% for group in DATASETS.group_by{|bc| bc[:family]} %>
 
-<h1>Blockchain Networks Stats</h1>
-<%= render partial: 'networks' %>
+  <h4><%= t "pages.home.offchain", family: group.first.capitalize %></h4>
+  <ul class="list-unstyled">
+    <% for dataset in group.second %>
+      <li>
+        <%= dataset_icon dataset %>
+        <%= link_to dataset[:name], "/#{dataset[:path]}" %>
+      </li>
+    <% end %>
+  </ul>
+
+<% end %>
