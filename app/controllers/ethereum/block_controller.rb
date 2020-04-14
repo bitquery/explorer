@@ -1,8 +1,8 @@
 class Ethereum::BlockController < NetworkController
   before_action :set_block
-
+  layout 'tabs'
   private
   def set_block
-    @block = params[:block]
+    @height = params[:block]
   end
 end

@@ -172,6 +172,13 @@ en:
         header: "%{network} transaction %{hash}"
         title: "References from %{network} %{hash}"
         description: "References from Smart Contract Events and Methods in transaction %{hash} in %{network}"
+    block:
+      icon: 'fas fa-cube'
+      show:
+        name: 'Block'
+        header: "%{network} Block %{height}"
+        title: "%{network} block %{height}"
+        description: "Overview of block %{height}  in %{network}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
@@ -235,6 +242,7 @@ en:
       events_table: "Smart Contract Events"
       tx_info: "Transaction Attributes"
       references_table: "Addresses used in Events / Methods Parameters (may take time to load )"
+      block_info: "Block Attributes"
     titles:
       date: 'Date'
       month: 'Month'
@@ -316,6 +324,14 @@ en:
       gas_used: "Gas Used"
       event_or_method: "Event / Method"
       name: "Name"
+      miner: "Miner"
+      uncle_count: "Uncles"
+      size: "Size"
+      block_reward: "Block Reward"
+      difficulty: "Difficulty"
+      total_difficulty: "Total Difficulty"
+      hash: "Hash"
+      parent_hash: "Parent Hash"
   pages:
     footer:
       built: "Built with"
