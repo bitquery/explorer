@@ -228,6 +228,7 @@ en:
       tx_calls: "Smart Contract Calls in Transaction"
       tx_events: "Smart Contract Events logged in Transaction"
       events_table: "Smart Contract Events"
+      tx_info: "Transaction Attributes"
     titles:
       date: 'Date'
       month: 'Month'
@@ -301,6 +302,12 @@ en:
       smart_contract_type: "Contract Type"
       smart_contract_protocol_type: "Protocol"
       success: "Success?"
+      attribute: "Attribute"
+      tx_sender: "Sender"
+      tx_to: "Receiver"
+      tx_creates: "Created"
+      gas_price: "Gas Price"
+      gas_used: "Gas Used"
   pages:
     footer:
       built: "Built with"
