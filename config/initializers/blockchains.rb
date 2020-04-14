@@ -8,6 +8,7 @@ BLOCKCHAINS = [
         name: 'Ethereum Mainnet',
         path: 'ethereum',
         family: 'ethereum',
+        platform: 'Ethereum',
         currency: 'ETH',
         icon: 'eth.svg'
     },
@@ -18,6 +19,7 @@ BLOCKCHAINS = [
          name: 'Ethereum Classic',
          path: 'ethclassic',
          family: 'ethereum',
+         platform: 'Ethereum',
          currency: 'ETC',
          icon: 'etc.svg'
 
@@ -39,7 +41,8 @@ BLOCKCHAINS = [
          network: 'binance',
          name: 'Binance DEX',
          path: 'binance',
-         family: 'cosmos',
+         family: 'binance',
+         platform: 'Cosmos',
          currency: 'BNB',
          icon: 'bnb.svg'
 

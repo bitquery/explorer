@@ -1,5 +1,5 @@
 <div class="row">
-  <% for chain in BLOCKCHAINS.select{|bc| bc[:family]==family} %>
+  <% for chain in BLOCKCHAINS.select{|bc| bc[:platform]==platform} %>
     <%= render partial: 'home/chain', locals: {chain: chain, query: query} %>
   <% end %>
 </div>

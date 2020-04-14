@@ -33,6 +33,11 @@ Rails.application.routes.draw do
     }
 
     BLOCKCHAINS.select{|b| b[:family]=='binance' }.each{|blockchain|
+
+      get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
       get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
@@ -51,7 +56,7 @@ Rails.application.routes.draw do
 
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'
 
-    get "family/:action", controller: "home"
+    get "platform/:action", controller: "home"
     root 'home#index'
 
 

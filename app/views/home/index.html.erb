@@ -1,7 +1,7 @@
 
-<% for group in BLOCKCHAINS.group_by{|bc| bc[:family]} %>
+<% for group in BLOCKCHAINS.group_by{|bc| bc[:platform]} %>
 
-  <h4><%= t "pages.home.family", family: group.first.capitalize %></h4>
+  <h4><%= t "pages.home.family", family: group.first %></h4>
   <ul class="list-unstyled">
     <% for chain in group.second %>
     <li><%= network_icon chain %>

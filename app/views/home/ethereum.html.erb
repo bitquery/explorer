@@ -1,4 +1,4 @@
-<%= render partial: 'home/chains',locals: {family: 'ethereum', query: '
+<%= render partial: 'home/chains',locals: {platform: 'Ethereum', query: '
             query ($network: EthereumNetwork){
                     chain: ethereum(network: $network ){
                       transactions(options:{asc: "date.month"}
