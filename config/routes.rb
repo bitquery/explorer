@@ -13,6 +13,9 @@ Rails.application.routes.draw do
 
     BLOCKCHAINS.select{|b| b[:family]=='ethereum'}.each{|blockchain|
 
+      get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
 

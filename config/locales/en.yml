@@ -184,6 +184,33 @@ en:
         header: "%{network} Block %{height}"
         title: "%{network} block %{height}"
         description: "Overview of block %{height}  in %{network}"
+    network:
+      blocks:
+        name: "Blocks"
+        header: "%{network} Blockchain"
+        title: "%{network} Explorer by Bitquery"
+        description: "Explore %{network} blockchain addresses, transactions, blocks. Analytical reports, trends, plots and diagrams for %{network} based on on-chain data."
+      transactions:
+        name: "Transactions"
+        header: "Transactions on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Transaction list for %{network}"
+      calls:
+        name: "Smart Contract Calls"
+        header: "Smart Contract Calls on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Smart Contract Calls on %{network}"
+      transfers:
+        name: "Transfers"
+        header: "Transfers on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Transfer list for %{network}"
+
+      miners:
+        name: "Miners"
+        header: "Miners on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Miner list for %{network}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
@@ -251,6 +278,14 @@ en:
       transactions: "Transactions"
       transactions_by_time: "Transactions By Date"
       transaction_gas_by_time: "Gas Spent By Date"
+      latest_blocks: "Latest Blocks"
+      latest_transactions: "Latest Transactions"
+      latest_transfers: "Latest Transfers"
+      latest_calls: "Latest Smart Contract Calls"
+      contracts_by_time: "Unique Smart Contracts"
+      miners: "Miners"
+      miners_by_time: "Active Miners By Time"
+      difficulty_by_time: "Difficulty By Time"
     titles:
       date: 'Date'
       month: 'Month'
@@ -340,6 +375,9 @@ en:
       total_difficulty: "Total Difficulty"
       hash: "Hash"
       parent_hash: "Parent Hash"
+      block_count: "Block Count"
+      unique_miners: "Unique Miners"
+      median_difficulty: "Median Difficulty"
   pages:
     footer:
       built: "Built with"
