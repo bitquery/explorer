@@ -67,7 +67,7 @@
             renderData: function (data) {
                 item = data[0];
                 return [
-                    {name: '<%= t('widgets.titles.block') %>', value: item.block.height},
+                    {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.iso8601},
                     {name: '<%= t('widgets.titles.tx_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
                     {name: '<%= t('widgets.titles.tx_to') %>', value: (item.to.annotation || item.to.address), address: item.to },
