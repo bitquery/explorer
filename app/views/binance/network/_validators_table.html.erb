@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.miners') %></div>
+      <div class="card-header"><%= t('widgets.headers.validators') %></div>
       <div class="card-body">
-        <div id="miners"><%= t('loading') %></div>
+        <div id="validators"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -50,8 +50,8 @@
                     }
                   }`);
 
-        new widgets.table('#miners', query, 'binance.blocks', {
-            title: '<%= t('widgets.headers.miners') %>',
+        new widgets.table('#validators', query, 'binance.blocks', {
+            title: '<%= t('widgets.headers.validators') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.validator') %>',

@@ -345,6 +345,7 @@ en:
       latest_trades: "Latest Trades"
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
+      validators: "Validators"
     titles:
       date: 'Date'
       month: 'Month'
