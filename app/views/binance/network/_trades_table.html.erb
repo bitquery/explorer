@@ -59,6 +59,10 @@
                           baseAmount
 
                           tradeId
+
+                          transaction {
+                            hash
+                          }
                       }
                     }
                   }`);
@@ -80,10 +84,16 @@
                     style: 'width: 80px;'
                 },
                 {
-                    title: '<%= t('widgets.titles.maker') %>',
+                    title: '<%= t('widgets.titles.seller') %>',
                     type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
+                    path: ['seller.annotation','seller.address'],
+                    urlCallbackName: 'seller_address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.sell_order') %>',
+                    type: 'string-ellipsis',
+                    path: 'sellOrderId',
+                    urlCallbackName: 'sell_order_path'
                 },
 
                 {
@@ -99,14 +109,7 @@
                 },
                 {
                     title: '',
-                    type: 'string',
-                    renderCallback: function(item){
-                        if(item.orderSide=='sell'){
-                            return '<i class="fas fa-arrow-alt-circle-right text-success"></i> '+item.orderSide;
-                        }else{
-                            return '<i class="fas fa-arrow-alt-circle-left text-warning"></i> '+item.orderSide;
-                        }
-                    },
+                    data: '<i class="fas fa-arrow-alt-circle-right text-success"></i>',
                     html_class: 'text-center'
                 },
 
@@ -122,16 +125,25 @@
                     urlCallbackName: 'base_token_path'
                 },
 
+
                 {
-                    title: '<%= t('widgets.titles.order_status') %>',
-                    type: 'string',
-                    path: 'orderStatus'
+                    title: '<%= t('widgets.titles.buyer') %>',
+                    type: 'string-ellipsis',
+                    path: ['buyer.annotation','buyer.address'],
+                    urlCallbackName: 'buyer_address_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.order_id') %>',
+                    title: '<%= t('widgets.titles.buy_order') %>',
                     type: 'string-ellipsis',
-                    path: 'orderId',
-                    urlCallbackName: 'order_path'
+                    path: 'buyOrderId',
+                    urlCallbackName: 'buy_order_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.trade_id') %>',
+                    type: 'string-ellipsis',
+                    path: 'tradeId',
+                    urlCallbackName: 'trade_path'
                 },
 
 

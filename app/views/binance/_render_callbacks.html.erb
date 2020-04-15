@@ -42,6 +42,12 @@
         receiver_address_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.receiver.address;
         },
+        seller_address_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.seller.address;
+        },
+        buyer_address_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.buyer.address;
+        },
         block_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.height || item.block.height);
         },
@@ -51,7 +57,15 @@
         order_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/order/'+ item.orderId;
         },
-
+        sell_order_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/order/'+ item.sellOrderId;
+        },
+        buy_order_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/order/'+ item.buyOrderId;
+        },
+        trade_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ item.transaction.hash + '/trades';
+        },
     });
 
 </script>

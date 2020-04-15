@@ -188,52 +188,52 @@ en:
       blocks:
         name: "Blocks"
         header: "%{network} Blockchain"
-        title: "%{network} Explorer by Bitquery"
+        title: "Blocks on %{network} Explorer"
         description: "Explore %{network} blockchain addresses, transactions, blocks. Analytical reports, trends, plots and diagrams for %{network} based on on-chain data."
       transactions:
         name: "Transactions"
         header: "Transactions on %{network}"
-        title: "%{network} Explorer by Bitquery"
+        title: "Transactions on %{network} Explorer"
         description: "Transaction list for %{network}"
       calls:
         name: "Smart Contract Calls"
         header: "Smart Contract Calls on %{network}"
-        title: "%{network} Explorer by Bitquery"
+        title: "Smart Contract Calls on %{network} Explorer"
         description: "Smart Contract Calls on %{network}"
       transfers:
         name: "Transfers"
         header: "Transfers on %{network}"
-        title: "%{network} Explorer by Bitquery"
+        title: "Transfers on %{network} Explorer"
         description: "Transfer list for %{network}"
       tokens:
         name: "Tokens"
         header: "Tokens on %{network}"
-        title: "%{network} Explorer"
+        title: "Tokens on %{network} Explorer"
         description: "Token list for %{network}"
       miners:
         name: "Miners"
         header: "Miners on %{network}"
-        title: "%{network} Explorer"
+        title: "Miners on %{network} Explorer"
         description: "Miner list for %{network}"
       trades:
         name: "Trades"
         header: "Trades of currencies on %{network}"
-        title: "%{network} Explorer"
+        title: "Trades on %{network} Explorer"
         description: "Trade list for %{network}"
       orders:
         name: "Orders"
         header: "Orders on %{network}"
-        title: "%{network} Explorer"
+        title: "Orders on %{network} Explorer"
         description: "Order list for %{network}"
       validators:
         name: "Validators"
         header: "Validators on %{network}"
-        title: "%{network} Explorer"
+        title: "Validators on %{network} Explorer"
         description: "Validator list for %{network}"
       clients:
         name: "Client Types"
         header: "Client Types on %{network}"
-        title: "%{network} Explorer"
+        title: "Client Types on %{network} Explorer"
         description: "Client Type list for %{network}"
     home:
       index:
@@ -451,7 +451,7 @@ en:
       transactions_transfer: "Transfer transactions"
       total: "Total"
       maker: 'Maker'
-      order_id: 'OrderID'
+      order_id: 'Order ID'
       base_currency: 'Base currency'
       quote_currency: 'Quote currency'
       base_amount: 'Base amount'
@@ -460,6 +460,11 @@ en:
       price: 'Price'
       unique_orders: 'Unique Orders'
       trade_pair: "Trade Pair"
+      buyer: "Buyer"
+      seller: "Seller"
+      buy_order: "Buy Order"
+      sell_order: "Sell Order"
+      trade_id: "Trade ID"
   pages:
     home:
       family: "%{family} Platform Explorers"
