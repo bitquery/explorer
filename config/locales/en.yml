@@ -230,6 +230,11 @@ en:
         header: "Validators on %{network}"
         title: "%{network} Explorer"
         description: "Validator list for %{network}"
+      clients:
+        name: "Client Types"
+        header: "Client Types on %{network}"
+        title: "%{network} Explorer"
+        description: "Client Type list for %{network}"
     home:
       index:
         name: "All"
@@ -334,6 +339,7 @@ en:
       transactions_by_type: "Transactions By Type"
       transfers_by_time: "Transfers By Date"
       transfers_by_currencies: "Transfers By Currencies"
+      transactions_by_clients: "Transactions By Client types"
     titles:
       date: 'Date'
       month: 'Month'
@@ -432,6 +438,10 @@ en:
       transaction_source: "Sender Client"
       transfer_type: "Type"
       transfer_amount: "Transfered Amount"
+      id: "ID"
+      first_transaction_date: "First transaction date"
+      last_transaction_date: "Last transaction date"
+      transaction_days: "Days with transactions"
   pages:
     home:
       family: "%{family} Platform Explorers"

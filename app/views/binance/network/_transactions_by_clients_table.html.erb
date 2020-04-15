@@ -1,0 +1,107 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.transactions_by_clients') %></div>
+    <div class="card-body">
+      <div id="transactions_by_clients"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query (
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    binance {
+                      transactions(
+                      options:{desc: "all"},
+                      date: {
+                        since: $from
+                        till: $till}
+                      ) {
+
+                          transactionSource {
+                            code
+                            name
+                          }
+
+                          all: count
+                          trades: count(transactionType: {in: [NEW_ORDER, CANCEL_ORDER]})
+                          transfers: count(transactionType: {in: [TRANSFER,HTL_TRANSFER,CLAIM_HTL,DEPOSIT_HTL]})
+
+
+                          days: count(uniq:dates)
+
+                          from_date: minimum(of: date)
+                          till_date: maximum(of: date)
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#transactions_by_clients', query, 'binance.transactions', {
+            title: '<%= t('widgets.headers.transactions_by_clients') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.transaction_source') %>',
+                    type: 'string-ellipsis',
+                    path: 'transactionSource.name',
+                    renderCallback: function(item){
+                            return decodeURIComponent(item.transactionSource.name);
+                    }
+                },
+
+                {
+                    title: '<%= t('widgets.titles.id') %>',
+                    type: 'string-ellipsis',
+                    path: 'transactionSource.code',
+                    style: 'width: 120px;'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.first_transaction_date') %>',
+                    path: 'from_date',
+                    style: 'width: 110px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.last_transaction_date') %>',
+                    path: 'till_date',
+                    style: 'width: 110px;'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.transaction_days') %>',
+                    path: 'days',
+                    style: 'width: 50px;'
+                },
+
+
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    path: 'transfers',
+                    style: 'width: 50px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'trades',
+                    style: 'width: 50px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.transactions_count') %>',
+                    path: 'all',
+                    style: 'width: 50px;'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>);
+
+
+    });
+</script>
