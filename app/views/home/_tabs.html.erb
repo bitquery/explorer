@@ -1,5 +1,4 @@
-<ul class="nav nav-tabs mb-4">
-  <% for tab in ['index', 'ethereum','bitcoin','cosmos','offchain']  %>
-    <%= tab_link t("tabs.home.#{tab}.name"), tab %>
-  <% end %>
-</ul>
+<%= render partial: 'shared/tabs', locals: {
+    tabs: ['index', 'ethereum','bitcoin','cosmos','offchain'],
+    trans: 'home'
+} %>

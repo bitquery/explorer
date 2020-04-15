@@ -1,18 +1,4 @@
-<% tabs = ['show','transactions','inflow','outflow','calls_contracts'] %>
-
-<ul class="nav nav-tabs mb-4">
-  <li class="nav-item dropdown d-block d-md-none">
-    <% for tab in tabs %>
-      <% next if params[:action] != tab %>
-      <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= t("tabs.address.#{tab}.name") %></a>
-      <div class="dropdown-menu">
-        <% for tab in tabs  %>
-          <%= tab_a t("tabs.address.#{tab}.name"), tab, 'dropdown-item' %>
-        <% end %>
-      </div>
-    <% end %>
-  </li>
-  <% for tab in tabs  %>
-    <%= tab_link t("tabs.address.#{tab}.name"), tab, 'nav-item d-none d-md-block' %>
-  <% end %>
-</ul>
+<%= render partial: 'shared/tabs', locals: {
+    tabs: ['show','transactions','inflow','outflow','calls_contracts'],
+    trans: 'address'
+} %>
