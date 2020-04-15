@@ -442,6 +442,9 @@ en:
       first_transaction_date: "First transaction date"
       last_transaction_date: "Last transaction date"
       transaction_days: "Days with transactions"
+      transactions_order: "Order transactions"
+      transactions_transfer: "Transfer transactions"
+      total: "Total"
   pages:
     home:
       family: "%{family} Platform Explorers"
