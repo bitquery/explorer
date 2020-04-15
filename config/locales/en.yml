@@ -216,7 +216,7 @@ en:
         title: "%{network} Explorer by Bitquery"
         description: "Trade list for %{network}"
       orders:
-        name: "Order"
+        name: "Orders"
         header: "Orders on %{network}"
         title: "%{network} Explorer by Bitquery"
         description: "Order list for %{network}"
@@ -326,6 +326,7 @@ en:
       miners: "Miners"
       miners_by_time: "Active Miners By Time"
       difficulty_by_time: "Difficulty By Time"
+      transactions_by_type: "Transactions By Type"
     titles:
       date: 'Date'
       month: 'Month'
@@ -420,6 +421,8 @@ en:
       median_difficulty: "Median Difficulty"
       validator: "Validator"
       fee_address: "Fee Address"
+      transaction_type: "Type"
+      transaction_source: "Sender Client"
   pages:
     home:
       family: "%{family} Platform Explorers"
