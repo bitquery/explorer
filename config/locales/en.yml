@@ -418,6 +418,8 @@ en:
       block_count: "Block Count"
       unique_miners: "Unique Miners"
       median_difficulty: "Median Difficulty"
+      validator: "Validator"
+      fee_address: "Fee Address"
   pages:
     home:
       family: "%{family} Platform Explorers"
