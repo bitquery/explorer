@@ -1,0 +1,5 @@
+<div class="row">
+  <% for dataset in DATASETS %>
+    <%= render partial: 'home/'+ dataset[:path] , locals: {dataset: dataset} %>
+  <% end %>
+</div>

@@ -304,7 +304,10 @@ ru:
   pages:
     footer:
       built: "Сделано на основе"
-      widgets: "Bitquery Widgets"
+      widgets: "Widgets"
+      explorer: "%{network} Explorer"
+      by: "от"
+      created: "Bitquery.io"
       feel_free: "Не стесняйтесь использовать любой виджет с этой страницы, нажмите кнопку JS и скопируйте / вставьте код. Попробуйте API с помощью кнопки GraphiQL!"
     address:
       description:

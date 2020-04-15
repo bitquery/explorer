@@ -1,0 +1,86 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+    <div class="card-body">
+      <div id="block_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                              $height: Int!){
+                          ethereum(network: $network) {
+
+                              blocks(height: {is: $height}){
+                                timestamp {
+                                  iso8601
+                                }
+                                difficulty
+                                hash
+                                miner {
+                                  address
+                                  annotation
+                                }
+                                totalDifficulty
+                                transactionCount
+                                uncleCount
+                                size
+                                reward
+                                parentHash
+
+                                rewardCurrency {
+                                  symbol
+                                }
+
+                              }
+                            }
+                        }`);
+
+
+
+        new widgets.table('#block_info', query, 'ethereum.blocks', {
+            title: '<%= t('widgets.headers.block_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return [
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.iso8601},
+                    {name: '<%= t('widgets.titles.miner') %>', value: (item.miner.annotation || item.miner.address), address: item.miner},
+                    {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' '+ item.rewardCurrency.symbol },
+                    {name: '<%= t('widgets.titles.transactions_count') %>', value: item.transactionCount},
+                    {name: '<%= t('widgets.titles.uncle_count') %>', value: item.uncleCount},
+                    {name: '<%= t('widgets.titles.size') %>', value: item.size},
+                    {name: '<%= t('widgets.titles.difficulty') %>', value: item.difficulty},
+                    {name: '<%= t('widgets.titles.total_difficulty') %>', value: item.totalDifficulty},
+                    {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
+                    {name: '<%= t('widgets.titles.parent_hash') %>', value: item.parentHash},
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 110px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            height: <%= @height %>
+        });
+
+    });
+</script>

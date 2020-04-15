@@ -48,10 +48,10 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.receiver.address;
         },
         block_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.height || item.block.height);
         },
         transaction_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+item.transaction.hash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
         },
         smart_contract_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/smart_contract/'+item.smartContract.address.address;
@@ -75,8 +75,10 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?contract=<%= @address %>&caller='+item.address.address;
         },
         property_value_path: function(item){
-            if (item.address){
-                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
+            if (item.address ) {
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
+            } else if (item.block ){
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
             }else{
                 return null;
             }

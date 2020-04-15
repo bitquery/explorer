@@ -1,0 +1,51 @@
+<div class="col-lg-4 mb-4">
+  <div class="card">
+    <div class="card-header">
+      <%= network_icon chain %>
+      <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:path]}" %>
+    </div>
+    <div class="card-body">
+      <div id="<%= chain[:tag] %>"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`<%= query.html_safe %>`);
+
+        new widgets.chart('#<%= chain[:tag] %>', query, 'chain.transactions', {
+            title: '<%= t('widgets.headers.transactions_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.transactions_count') %>'
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+                height: 300,
+                chartArea:{left: '20%', right: 0, top: '5%', bottom: '15%'}
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.month') %>', type: 'date' },
+                    path: 'date.month'
+                },
+                {
+                    title: '<%= t('widgets.titles.transactions_count') %>',
+                    path: 'count'
+                },
+
+            ]
+        });
+        query.request({network: '<%= chain[:network] %>', dateFormat: dateRangeReportFormat() });
+
+    });
+</script>

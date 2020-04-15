@@ -8,6 +8,7 @@ BLOCKCHAINS = [
         name: 'Ethereum Mainnet',
         path: 'ethereum',
         family: 'ethereum',
+        platform: 'Ethereum',
         currency: 'ETH',
         icon: 'eth.svg'
     },
@@ -18,21 +19,22 @@ BLOCKCHAINS = [
          name: 'Ethereum Classic',
          path: 'ethclassic',
          family: 'ethereum',
+         platform: 'Ethereum',
          currency: 'ETC',
          icon: 'etc.svg'
 
      },
 
-     {
-         tag: 'alfajores',
-         network: 'alfajores',
-         name: 'Celo Alfajores Testnet',
-         path: 'alfajores',
-         family: 'ethereum',
-         currency: 'cGLD',
-         icon: 'generic.svg'
+     #{
+     #    tag: 'alfajores',
+     #    network: 'alfajores',
+     #    name: 'Celo Alfajores Testnet',
+     #    path: 'alfajores',
+     #    family: 'ethereum',
+     #    currency: 'cGLD',
+     #    icon: 'generic.svg'
 
-     },
+     #},
 
      {
          tag: 'binance',
@@ -40,6 +42,7 @@ BLOCKCHAINS = [
          name: 'Binance DEX',
          path: 'binance',
          family: 'binance',
+         platform: 'Cosmos',
          currency: 'BNB',
          icon: 'bnb.svg'
 

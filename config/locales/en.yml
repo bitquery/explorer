@@ -36,6 +36,11 @@ en:
         header: "%{network} address %{address}"
         title: "%{network} %{address}"
         description: "Overview of address %{address} activity in %{network}"
+      transactions:
+        name: 'Transactions'
+        header: "Transactions sent by %{network} address %{address}"
+        title: "TXs %{network} %{address}"
+        description: "Transactions sent by address %{address} activity in %{network}"
       inflow:
         name: 'Inflow'
         header: "Inflow to %{network} address %{address}"
@@ -167,6 +172,95 @@ en:
         header: "%{network} transaction %{hash}"
         title: "Events %{network} %{hash}"
         description: "Smart Contract Events in transaction %{hash} in %{network}"
+      references:
+        name: 'References'
+        header: "%{network} transaction %{hash}"
+        title: "References from %{network} %{hash}"
+        description: "References from Smart Contract Events and Methods in transaction %{hash} in %{network}"
+    block:
+      icon: 'fas fa-cube'
+      show:
+        name: 'Block'
+        header: "%{network} Block %{height}"
+        title: "%{network} block %{height}"
+        description: "Overview of block %{height}  in %{network}"
+    network:
+      blocks:
+        name: "Blocks"
+        header: "%{network} Blockchain"
+        title: "%{network} Explorer by Bitquery"
+        description: "Explore %{network} blockchain addresses, transactions, blocks. Analytical reports, trends, plots and diagrams for %{network} based on on-chain data."
+      transactions:
+        name: "Transactions"
+        header: "Transactions on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Transaction list for %{network}"
+      calls:
+        name: "Smart Contract Calls"
+        header: "Smart Contract Calls on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Smart Contract Calls on %{network}"
+      transfers:
+        name: "Transfers"
+        header: "Transfers on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Transfer list for %{network}"
+      tokens:
+        name: "Tokens"
+        header: "Tokens on %{network}"
+        title: "%{network} Explorer"
+        description: "Token list for %{network}"
+      miners:
+        name: "Miners"
+        header: "Miners on %{network}"
+        title: "%{network} Explorer"
+        description: "Miner list for %{network}"
+      trades:
+        name: "Trades"
+        header: "Trades of currencies on %{network}"
+        title: "%{network} Explorer"
+        description: "Trade list for %{network}"
+      orders:
+        name: "Orders"
+        header: "Orders on %{network}"
+        title: "%{network} Explorer"
+        description: "Order list for %{network}"
+      validators:
+        name: "Validators"
+        header: "Validators on %{network}"
+        title: "%{network} Explorer"
+        description: "Validator list for %{network}"
+      clients:
+        name: "Client Types"
+        header: "Client Types on %{network}"
+        title: "%{network} Explorer"
+        description: "Client Type list for %{network}"
+    home:
+      index:
+        name: "All"
+        header: "All Bitquery Datasets"
+        title: "Datasets"
+        description: "Explorers by Bitquery"
+      ethereum:
+        name: "Ethereum Platform"
+        header: "Ethereum Blockchains at Bitquery"
+        title: "Ethereum Blockchains"
+        description: "Explorers for Ethereum-like Blockchains by Bitquery"
+      bitcoin:
+        name: "Bitcoin Platform"
+        header: "Bitcoin Blockchains at Bitquery"
+        title: "Bitcoin Blockchains"
+        description: "Explorers for Bitcoin-like Blockchains by Bitquery"
+      cosmos:
+        name: "Cosmos Platform"
+        header: "Cosmos Blockchains at Bitquery"
+        title: "Cosmos Blockchains"
+        description: "Explorers for Cosmos-like Blockchains by Bitquery"
+      offchain:
+        name: "Offchain Data"
+        header: "Offchain Data at Bitquery"
+        title: "Offchain Data at Bitquery"
+        description: "Explorers for Offchain Data by Bitquery"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
@@ -178,7 +272,7 @@ en:
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
       trades_by_currencies: 'Trades Buy/Sell'
-      transactions_in_network: "Transfers in %{network}"
+      transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
       inbound_eth_by_time: "Inbound transfers in %{currency} currency"
       inbound_tokens_by_time: "Inbound transfers in tokens"
@@ -228,6 +322,24 @@ en:
       tx_calls: "Smart Contract Calls in Transaction"
       tx_events: "Smart Contract Events logged in Transaction"
       events_table: "Smart Contract Events"
+      tx_info: "Transaction Attributes"
+      references_table: "Addresses used in Events / Methods Parameters (may take time to load )"
+      block_info: "Block Attributes"
+      transactions: "Transactions"
+      transactions_by_time: "Transactions By Date"
+      transaction_gas_by_time: "Gas Spent By Date"
+      latest_blocks: "Latest Blocks"
+      latest_transactions: "Latest Transactions"
+      latest_transfers: "Latest Transfers"
+      latest_calls: "Latest Smart Contract Calls"
+      contracts_by_time: "Unique Smart Contracts"
+      miners: "Miners"
+      miners_by_time: "Active Miners By Time"
+      difficulty_by_time: "Difficulty By Time"
+      transactions_by_type: "Transactions By Type"
+      transfers_by_time: "Transfers By Date"
+      transfers_by_currencies: "Transfers By Currencies"
+      transactions_by_clients: "Transactions By Client types"
     titles:
       date: 'Date'
       month: 'Month'
@@ -301,10 +413,49 @@ en:
       smart_contract_type: "Contract Type"
       smart_contract_protocol_type: "Protocol"
       success: "Success?"
+      attribute: "Attribute"
+      tx_sender: "Sender"
+      tx_to: "Receiver"
+      tx_creates: "Created"
+      gas_price: "Gas Price"
+      gas_used: "Gas Used"
+      event_or_method: "Event / Method"
+      name: "Name"
+      miner: "Miner"
+      uncle_count: "Uncles"
+      size: "Size"
+      block_reward: "Block Reward"
+      difficulty: "Difficulty"
+      total_difficulty: "Total Difficulty"
+      hash: "Hash"
+      parent_hash: "Parent Hash"
+      block_count: "Block Count"
+      unique_miners: "Unique Miners"
+      median_difficulty: "Median Difficulty"
+      validator: "Validator"
+      fee_address: "Fee Address"
+      transaction_type: "Type"
+      transaction_source: "Sender Client"
+      transfer_type: "Type"
+      transfer_amount: "Transfered Amount"
+      id: "ID"
+      first_transaction_date: "First transaction date"
+      last_transaction_date: "Last transaction date"
+      transaction_days: "Days with transactions"
+      transactions_order: "Order transactions"
+      transactions_transfer: "Transfer transactions"
+      total: "Total"
   pages:
+    home:
+      family: "%{family} Platform Explorers"
+      offchain: "%{family} Dataset Explorers"
+      blockchain: "%{network} Explorer"
     footer:
+      explorer: "%{network} Explorer"
+      created: "Bitquery.io"
+      by: "by"
       built: "Built with"
-      widgets: "Bitquery Widgets"
+      widgets: "Widgets"
       feel_free: "Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphiQL button!"
     address:
       description:
