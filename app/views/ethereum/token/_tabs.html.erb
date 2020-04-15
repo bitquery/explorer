@@ -1,12 +1,18 @@
+<% tabs = @native_token ? ['show','transfers','senders','receivers'] : ['show','transfers','senders','receivers','smart_contract','transactions','methods','events','inflow','outflow','calls_contracts'] %>
 
 <ul class="nav nav-tabs mb-4">
-<% if @native_token %>
-    <% for tab in ['show','transfers','senders','receivers']  %>
-      <%= tab_link t("tabs.token.#{tab}.name"), tab %>
+  <li class="nav-item dropdown d-block d-md-none">
+    <% for tab in tabs %>
+      <% next if params[:action] != tab %>
+      <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= t("tabs.token.#{tab}.name") %></a>
+      <div class="dropdown-menu">
+        <% for tab in tabs  %>
+          <%= tab_a t("tabs.token.#{tab}.name"), tab, 'dropdown-item' %>
+        <% end %>
+      </div>
     <% end %>
-<% else %>
-  <% for tab in ['show','transfers','senders','receivers','smart_contract','transactions','methods','events','inflow','outflow','calls_contracts']  %>
-      <%= tab_link t("tabs.token.#{tab}.name"), tab %>
+  </li>
+  <% for tab in tabs  %>
+    <%= tab_link t("tabs.token.#{tab}.name"), tab, 'nav-item d-none d-md-block' %>
   <% end %>
-<% end  %>
 </ul>
