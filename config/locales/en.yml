@@ -271,7 +271,6 @@ en:
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
-      trades_by_currencies: 'Trades Buy/Sell'
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
       inbound_eth_by_time: "Inbound transfers in %{currency} currency"
@@ -343,6 +342,9 @@ en:
       latest_orders: "Latest Orders"
       order_transactions_by_time: "Orders By Date"
       orders_by_currencies: "Orders By Currencies"
+      latest_trades: "Latest Trades"
+      trade_transactions_by_time: "Trades By Date"
+      trades_by_currencies: "Trades By Currencies"
     titles:
       date: 'Date'
       month: 'Month'
