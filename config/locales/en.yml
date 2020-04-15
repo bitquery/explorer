@@ -327,6 +327,8 @@ en:
       miners_by_time: "Active Miners By Time"
       difficulty_by_time: "Difficulty By Time"
       transactions_by_type: "Transactions By Type"
+      transfers_by_time: "Transfers By Date"
+      transfers_by_currencies: "Transfers By Currencies"
     titles:
       date: 'Date'
       month: 'Month'
@@ -423,6 +425,7 @@ en:
       fee_address: "Fee Address"
       transaction_type: "Type"
       transaction_source: "Sender Client"
+      transfer_type: "Type"
   pages:
     home:
       family: "%{family} Platform Explorers"
