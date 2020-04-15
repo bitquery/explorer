@@ -210,6 +210,21 @@ en:
         header: "Miners on %{network}"
         title: "%{network} Explorer by Bitquery"
         description: "Miner list for %{network}"
+      trades:
+        name: "Trades"
+        header: "Trades of currencies on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Trade list for %{network}"
+      orders:
+        name: "Order"
+        header: "Orders on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Order list for %{network}"
+      validators:
+        name: "Validators"
+        header: "Validators on %{network}"
+        title: "%{network} Explorer by Bitquery"
+        description: "Validator list for %{network}"
     home:
       index:
         name: "All"
@@ -409,8 +424,11 @@ en:
       offchain: "%{family} Dataset Explorers"
       blockchain: "%{network} Explorer"
     footer:
+      explorer: "%{network} Explorer"
+      created: "Bitquery.io"
+      by: "by"
       built: "Built with"
-      widgets: "Bitquery Widgets"
+      widgets: "Widgets"
       feel_free: "Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphiQL button!"
     address:
       description:

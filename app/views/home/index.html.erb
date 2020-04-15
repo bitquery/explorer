@@ -4,7 +4,7 @@
   <h4><%= t "pages.home.family", family: group.first %></h4>
   <ul class="list-unstyled">
     <% for chain in group.second %>
-    <li><%= network_icon chain %>
+    <li><%= network_icon chain %>&nbsp;
       <%= link_to chain[:name], "/#{chain[:path]}" %>
     </li>
     <% end %>
@@ -18,7 +18,7 @@
   <ul class="list-unstyled">
     <% for dataset in group.second %>
       <li>
-        <%= dataset_icon dataset %>
+        <%= dataset_icon dataset %>&nbsp;
         <%= link_to dataset[:name], "/#{dataset[:path]}" %>
       </li>
     <% end %>
