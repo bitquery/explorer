@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_orders') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_trades') %></div>
       <div class="card-body">
-        <div id="latest_orders"><%= t('loading') %></div>
+        <div id="latest_trades"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     binance{
-                      orders(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      trades(options:{desc: "block.height", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 
@@ -32,34 +32,39 @@
                             height
                           }
 
-                          orderId
-                        
-                          address: orderOwner {
+
+                          sellOrderId
+                          buyOrderId
+
+                          seller{
                             address
                             annotation
                           }
-                        
+
+                          buyer{
+                            address
+                            annotation
+                          }
+
+
                           quoteCurrency {
                             symbol
                           }
-                        
+
                           baseCurrency {
                             symbol
                           }
-                        
+
                           quoteAmount
                           baseAmount
 
-                        
-                          orderSide
-
-                          orderStatus
+                          tradeId
                       }
                     }
                   }`);
 
-        new widgets.table('#latest_orders', query, 'binance.orders', {
-            title: '<%= t('widgets.headers.latest_orders') %>',
+        new widgets.table('#latest_trades', query, 'binance.trades', {
+            title: '<%= t('widgets.headers.latest_trades') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',
@@ -80,8 +85,6 @@
                     path: ['address.annotation','address.address'],
                     urlCallbackName: 'address_path'
                 },
-
-
 
                 {
                     title: '<%= t('widgets.titles.quote_amount') %>',
