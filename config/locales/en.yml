@@ -340,6 +340,9 @@ en:
       transfers_by_time: "Transfers By Date"
       transfers_by_currencies: "Transfers By Currencies"
       transactions_by_clients: "Transactions By Client types"
+      latest_orders: "Latest Orders"
+      order_transactions_by_time: "Orders By Date"
+      orders_by_currencies: "Orders By Currencies"
     titles:
       date: 'Date'
       month: 'Month'
@@ -445,6 +448,16 @@ en:
       transactions_order: "Order transactions"
       transactions_transfer: "Transfer transactions"
       total: "Total"
+      maker: 'Maker'
+      order_id: 'OrderID'
+      base_currency: 'Base currency'
+      quote_currency: 'Quote currency'
+      base_amount: 'Base amount'
+      quote_amount: 'Quote amount'
+      order_status: 'Order Status'
+      price: 'Price'
+      unique_orders: 'Unique Orders'
+      trade_pair: "Trade Pair"
   pages:
     home:
       family: "%{family} Platform Explorers"

@@ -3,6 +3,12 @@
         token_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.symbol;
         },
+        quote_token_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.quoteCurrency.symbol;
+        },
+        base_token_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.baseCurrency.symbol;
+        },
         transfer_to_path: function(item){
             if(item.count_in==0) {
                 return null;
@@ -41,6 +47,9 @@
         },
         transaction_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
+        },
+        order_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/order/'+ item.orderId;
         },
 
     });

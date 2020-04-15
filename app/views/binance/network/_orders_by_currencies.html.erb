@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.transfers_by_currencies') %></div>
+    <div class="card-header"><%= t('widgets.headers.orders_by_currencies') %></div>
     <div class="card-body">
-      <div id="transfers_by_currencies"><%= t('loading') %></div>
+      <div id="orders_by_currencies"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -17,35 +17,44 @@
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
                     binance {
-                      transfers(
+                      orders(
                       options:{desc: "count", limit: 20},
                       date: {
                         since: $from
                         till: $till}
-                        transferType:{notIn: [DEX_FEE,TX_FEE,BLOCK_REWARD,TRADE_BUY,TRADE_SELL]}
+
                       ) {
-                          currency {
+                          quoteCurrency {
                             symbol
                           }
-                          count
+
+                          baseCurrency {
+                            symbol
+                          }
+                          count(uniq:orders)
                       }
                     }
                   }`);
 
-        new widgets.chart('#transfers_by_currencies', query, 'binance.transfers', {
-            title: '<%= t('widgets.headers.transfers_by_currencies') %>',
+        new widgets.chart('#orders_by_currencies', query, 'binance.orders', {
+            title: '<%= t('widgets.headers.orders_by_currencies') %>',
             chartType: 'PieChart',
             chartOptions: {
                 pieSliceText: 'label',
                 pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
             },
+
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.currency') %>',
-                    path: 'currency.symbol'
+                    title: '<%= t('widgets.titles.trade_pair') %>',
+                    renderCallback: function(item){
+                        return item.quoteCurrency.symbol + ':' + item.baseCurrency.symbol;
+                    },
                 },
                 {
-                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    title: '<%= t('widgets.titles.unique_orders') %>',
                     path: 'count'
                 },
 
