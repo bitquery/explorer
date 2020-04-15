@@ -36,6 +36,9 @@
         address_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
         },
+        opera_hr_address_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.validatorOperaHrAddress.address;
+        },
         sender_address_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.sender.address;
         },

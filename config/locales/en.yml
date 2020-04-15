@@ -465,6 +465,10 @@ en:
       buy_order: "Buy Order"
       sell_order: "Sell Order"
       trade_id: "Trade ID"
+      first_block_date: "First block date"
+      last_block_date: "Last block date"
+      operator_address: "Operator"
+      operator_hr_address: "Operator HR"
   pages:
     home:
       family: "%{family} Platform Explorers"

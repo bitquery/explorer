@@ -33,6 +33,9 @@
                           count
                           reward
 
+                          min_date: minimum(of: date)
+                          max_date: maximum(of: date)
+
                       }
                     }
                   }`);
@@ -51,6 +54,18 @@
                     type: 'string',
                     path: 'count'
                 },
+
+
+                {
+                    title: '<%= t('widgets.titles.first_block_date') %>',
+                    path: 'min_date'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.last_block_date') %>',
+                    path: 'max_date'
+                },
+
                 {
                     title: '<%= t('widgets.titles.block_reward') %>, <%= @network[:currency] %>',
                     type: 'amount',
