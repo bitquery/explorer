@@ -205,25 +205,30 @@ en:
         header: "Transfers on %{network}"
         title: "%{network} Explorer by Bitquery"
         description: "Transfer list for %{network}"
+      tokens:
+        name: "Tokens"
+        header: "Tokens on %{network}"
+        title: "%{network} Explorer"
+        description: "Token list for %{network}"
       miners:
         name: "Miners"
         header: "Miners on %{network}"
-        title: "%{network} Explorer by Bitquery"
+        title: "%{network} Explorer"
         description: "Miner list for %{network}"
       trades:
         name: "Trades"
         header: "Trades of currencies on %{network}"
-        title: "%{network} Explorer by Bitquery"
+        title: "%{network} Explorer"
         description: "Trade list for %{network}"
       orders:
         name: "Orders"
         header: "Orders on %{network}"
-        title: "%{network} Explorer by Bitquery"
+        title: "%{network} Explorer"
         description: "Order list for %{network}"
       validators:
         name: "Validators"
         header: "Validators on %{network}"
-        title: "%{network} Explorer by Bitquery"
+        title: "%{network} Explorer"
         description: "Validator list for %{network}"
     home:
       index:
@@ -426,6 +431,7 @@ en:
       transaction_type: "Type"
       transaction_source: "Sender Client"
       transfer_type: "Type"
+      transfer_amount: "Transfered Amount"
   pages:
     home:
       family: "%{family} Platform Explorers"
