@@ -30,7 +30,7 @@ en:
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
     address:
-      icon: 'fas fa-user'
+      icon: 'far fa-address-card'
       show:
         name: 'Address'
         header: "%{network} address %{address}"
@@ -161,7 +161,7 @@ en:
         title: "Calls from %{network} %{address}"
         description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
     tx:
-      icon: 'fas fa-user'
+      icon: 'fas fa-bolt'
       show:
         name: 'Transaction'
         header: "%{network} transaction %{hash}"
@@ -283,14 +283,14 @@ en:
       trades_by_time: 'Trades by time'
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
-      inbound_eth_by_time: "Inbound transfers in %{currency} currency"
+      inbound_native_by_time: "Inbound transfers in %{currency} currency"
       inbound_tokens_by_time: "Inbound transfers in tokens"
-      inbound_eth_table: "Top Senders in %{currency} currency"
+      inbound_native_table: "Top Senders in %{currency} currency"
       inbound_tokens_table: "Top Senders in tokens"
       outbound_transfers: "Latest Outbound Transfers"
-      outbound_eth_by_time: "Outbound transfers in %{currency} currency"
+      outbound_native_by_time: "Outbound transfers in %{currency} currency"
       outbound_tokens_by_time: "Outbound transfers in tokens"
-      outbound_eth_table: "Top Receivers in %{currency} currency"
+      outbound_native_table: "Top Receivers in %{currency} currency"
       outbound_tokens_table: "Top Receivers in tokens"
       calls_table: "Latest Smart Contract Calls"
       smart_contracts_table: "Smart Contracts Called"

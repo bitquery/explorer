@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.inbound_eth_table', currency: @network[:currency]) %></div>
+      <div class="card-header"><%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %></div>
       <div class="card-body">
-        <div id="inbound_eth_table"><%= t('loading') %></div>
+        <div id="outbound_native_table"><%= t('loading') %></div>
       </div>
     </div>
 </div>
@@ -22,10 +22,10 @@
                   ethereum(network: $network){
                     transfers(options:{limit: $limit, offset: $offset, desc: "amount"},
                       date: {since: $from till: $till },
-                      receiver: {is: $address},
+                      sender: {is: $address},
                       currency: {is: $nativeCurrency }) {
 
-                      address: sender{
+                      address: receiver{
                         address
                         annotation
                       }
@@ -44,11 +44,11 @@
                   }
                 }`);
 
-        new widgets.table('#inbound_eth_table', query, 'ethereum.transfers', {
-            title: '<%= t('widgets.headers.inbound_eth_table', currency: @network[:currency]) %>',
+        new widgets.table('#outbound_native_table', query, 'ethereum.transfers', {
+            title: '<%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %>',
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.sender') %>',
+                    title: '<%= t('widgets.titles.receiver') %>',
                     type: 'string-ellipsis',
                     path: ['address.annotation','address.address'],
                     urlCallbackName: 'address_path'
@@ -69,14 +69,14 @@
                     title: '<%= t('widgets.titles.max_date') %>',
                     type: 'string',
                     path: 'max_date',
-                    style: 'width: 110px'
+                    style: 'width: 100px'
                 },
                 {
                     title: '<%= t('widgets.titles.transfer_count') %>',
                     type: 'count',
                     path: 'count',
                     data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'transfer_to_path',
+                    urlCallbackName: 'transfer_from_path',
                     style: 'width: 130px'
                 },
             ]

@@ -30,7 +30,7 @@ zh:
   search_no_data: '應要求“%{query}”未返回任何結果。请澄清请求，然后重试。'
   tabs:
     address:
-      icon: 'fas fa-user'
+      icon: 'far fa-address-card'
       show:
         name: '地址'
         header: "%{network} 地址 %{address}"
@@ -146,7 +146,7 @@ zh:
         title: "来电 %{network}:%{address}"
         description: "来自%{network}中地址%{address}活动的智能合约调用，智能合约调用的统计信息，使用情况和使用的方法"
     tx:
-      icon: 'fas fa-user'
+      icon: 'fas fa-bolt'
       show:
         name: '交易'
         header: "%{network} 交易 %{hash}"
@@ -180,14 +180,14 @@ zh:
       trades_by_currencies: '交易買/賣'
       transactions_in_network: "以%{network}轉移"
       inbound_transfers: "最新入站转账"
-      inbound_eth_by_time: "以%{currency}货币入站转帐"
+      inbound_native_by_time: "以%{currency}货币入站转帐"
       inbound_tokens_by_time: "令牌中的入站转移"
-      inbound_eth_table: "使用%{currency}货币的排名最高的发件人"
+      inbound_native_table: "使用%{currency}货币的排名最高的发件人"
       inbound_tokens_table: "代币中排名最高的发件人"
       outbound_transfers: "最新出站转账"
-      outbound_eth_by_time: "以%{currency}货币出金"
+      outbound_native_by_time: "以%{currency}货币出金"
       outbound_tokens_by_time: "代币的出站转账"
-      outbound_eth_table: "以%{currency}货币表示的最受欢迎的接收者"
+      outbound_native_table: "以%{currency}货币表示的最受欢迎的接收者"
       outbound_tokens_table: "代币中的最佳接收者"
       calls_table: "最新的智能合约通话"
       smart_contracts_table: "调用智能合约"

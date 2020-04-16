@@ -30,7 +30,7 @@ ru:
   search_no_data: 'По запросу "%{query}" ничего не найдено. Пожалуйста, уточните запрос и повторите попытку.'
   tabs:
     address:
-      icon: 'fas fa-user'
+      icon: 'far fa-address-card'
       show:
         name: 'Адрес'
         header: "%{network} адрес %{address}"
@@ -146,7 +146,7 @@ ru:
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов со смарт контракта токена %{address} в сети %{network}, статистика вызовов, используемые методы"
     tx:
-      icon: 'fas fa-user'
+      icon: 'fas fa-bolt'
       show:
         name: 'Транзакция'
         header: "Транзакция в %{network} %{hash}"
@@ -180,14 +180,14 @@ ru:
       trades_by_currencies: 'Сделки Покупка/продажа'
       transactions_in_network: "Переводы в %{network}"
       inbound_transfers: "Свежие входящие переводы"
-      inbound_eth_by_time: "Входящие переводы в %{currency}"
+      inbound_native_by_time: "Входящие переводы в %{currency}"
       inbound_tokens_by_time: "Входящие переводы в токенах"
-      inbound_eth_table: "Топовые отправители в %{currency}"
+      inbound_native_table: "Топовые отправители в %{currency}"
       inbound_tokens_table: "Топовые отправители в токенах"
       outbound_transfers: "Свежие исходящие переводы"
-      outbound_eth_by_time: "Исходящие переводы в %{currency}"
+      outbound_native_by_time: "Исходящие переводы в %{currency}"
       outbound_tokens_by_time: "Исходящие переводы в токенах"
-      outbound_eth_table: "Топовые получатели в %{currency}"
+      outbound_native_table: "Топовые получатели в %{currency}"
       outbound_tokens_table: "Топовые получатели в токенах"
       calls_table: "Свежие вызовы смарт контрактов"
       smart_contracts_table: "Вызываемые смарт контракты"

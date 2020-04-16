@@ -1,6 +1,8 @@
 <div class="row search mb-2">
   <div class="col-12 col-lg">
     <h6 class="mt-2 word-wrap">
+
+      <% if @network %><%= network_icon @network %><% end %>
       <span class="<%= icon %>" style="font-size: 30px;"></span>&nbsp;
       <%= header %></h6>
   </div>

@@ -1,1 +1,12 @@
-qq
+
+<%= render partial: "binance/address/inbound_transfers" %>
+
+<div class="row">
+  <%= render partial: "binance/address/inbound_native_by_time" %>
+  <%= render partial: "binance/address/inbound_tokens_by_time" %>
+</div>
+
+<div class="row">
+  <%= render partial: "binance/address/inbound_native_table" %>
+  <%= render partial: "binance/address/inbound_tokens_table" %>
+</div>
