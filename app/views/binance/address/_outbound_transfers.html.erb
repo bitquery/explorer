@@ -15,8 +15,7 @@
 
 
         var query = new widgets.query(`
-                        query (
-                                $address: String!,
+                        query ( $address: String!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
@@ -109,9 +108,7 @@
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            address: '<%= @address %>',
-            currency: '<%= @currency %>',
-
+            address: '<%= @address %>'
         });
 
 
