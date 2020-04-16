@@ -56,6 +56,16 @@ en:
         header: "Calls from %{network} address %{address}"
         title: "Calls from %{network} %{address}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+      orders:
+        name: 'Orders'
+        header: "Orders in %{network} address %{address}"
+        title: "Orders %{network} %{address}"
+        description: "Orders for trading crypto currencies by address %{address} activity in %{network}, statistics of token exchange orders"
+      trades:
+        name: 'Trades'
+        header: "Trades by %{network} address %{address}"
+        title: "Trades %{network} %{address}"
+        description: "Trades by address %{address} activity in %{network}, statistics of token exchanges"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       show:

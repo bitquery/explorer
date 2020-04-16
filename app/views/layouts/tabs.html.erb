@@ -1,5 +1,5 @@
 <%= extend_layout :application do %>
-  <%= render partial: 'header' %>
+  <%= render partial: "shared/header/#{controller_name}" %>
   <%= render partial: 'tabs' %>
   <div><%= yield %></div>
 <% end %>
