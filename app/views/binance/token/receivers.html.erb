@@ -1,0 +1,7 @@
+<% unless @native_token %>
+  <%= render partial: 'binance/token/receivers' %>
+<% end %>
+
+<div class="row">
+  <%= render partial: 'binance/token/receivers_by_time' %>
+</div>

@@ -1,0 +1,102 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_receivers_by_time') %></div>
+    <div class="card-body">
+      <div id="token_receivers_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_median_receiver_amount_by_time') %></div>
+    <div class="card-body">
+      <div id="token_median_receiver_amount_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query (
+                              $token: String!,
+                              $dateFormat: String!,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                          binance {
+                            transfers(currency: {is: $token}
+                            date: {since: $from till: $till}){
+                              date{
+                                date(format: $dateFormat)
+                              }
+                              count(uniq: receivers)
+                              median: amount(calculate: median)
+                            }
+                          }
+                        }`);
+
+        new widgets.chart('#token_receivers_by_time', query, 'binance.transfers', {
+            title: '<%= t('widgets.headers.token_receivers_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.uniq_receivers') %>'
+                    },
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.uniq_receivers') %>',
+                    path: 'count'
+                },
+
+
+            ]
+        });
+
+        new widgets.chart('#token_median_receiver_amount_by_time', query, 'binance.transfers', {
+            title: '<%= t('widgets.headers.token_median_receiver_amount_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.median_amount') %>'
+                    },
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.median_amount') %>',
+                    path: 'median'
+                },
+
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            token: '<%= @token %>'
+        });
+
+
+    });
+</script>
