@@ -61,6 +61,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   BITQUERY_WIDGETS_URL = "http://localhost:63342/widgets"
-  BITQUERY_PROJECT_URL = "http://localhost:3010"
+  BITQUERY_PROJECT_URL = "https://bitquery.io"
+  BITQUERY_GRAPHQL = 'http://localhost:3000/graphql' # 'https://graphql.bitquery.io'
   ANALYTICS = false
 end

@@ -1,0 +1,9 @@
+<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:tag], token: @token, address: @address) %>
+<% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], token: @token, address: @address) %>
+
+<%= render partial: 'shared/title', locals: {
+          icon: t("tabs.#{controller_name}.icon"),
+          header: t( "tabs.#{controller_name}.#{params[:action]}.header", network: @network[:name],
+                     token: @token,
+                     address: copy_text(@address, 'text-info')).html_safe,
+          reportrange: true} %>

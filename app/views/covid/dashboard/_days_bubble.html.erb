@@ -36,53 +36,58 @@
 
     }`);
 
-    var bubbles_days_data = {};
-
-    function bubbles_days_data_process_item(item){
-
-        if (!bubbles_days_data[item.country.name]){
-            bubbles_days_data[item.country.name] = {};
-        }
-        var data = bubbles_days_data[item.country.name];
-
-        if (data.last_processed == item.date.date){
-            return data;
-        }
-        data.last_processed = item.date.date;
-
-        if( item.deaths>0 && !data.first_death ){
-            data.first_death = new Date(item.date.date);
-        }
-
-        data.confirmed_cumulative = item.confirmed + (data.confirmed_cumulative || 0);
-        data.deaths_cumulative = item.deaths + (data.deaths_cumulative || 0);
-
-        return data;
-    }
-
-    widgets.callbacks({
-        renderDaysFirstDeath: function(item){
-            var data = bubbles_days_data_process_item(item);
-            if (data.first_death){
-                return ((new Date(item.date.date).getTime()) - data.first_death) / (1000 * 3600 * 24) + 1;
-            }else{
-                return 0;
-            }
-        },
-        renderMortailityRate: function(item){
-            var data = bubbles_days_data_process_item(item);
-
-            if (data.confirmed_cumulative && data.confirmed_cumulative>0 && data.deaths_cumulative>9){
-                return (data.deaths_cumulative / data.confirmed_cumulative);
-            }else{
-                return 0;
-            }
-        }
-    });
-
     new widgets.chart('#bubbles_days', bubbles_days_query, 'offchain.covid.facts', {
-
         chartType: 'BubbleChart',
+        renderData: function(data){
+            let new_data = [];
+            let bubbles_days_data = {};
+            let bubbles_days_data_process_item = function(item){
+                if (!bubbles_days_data[item.country.name]){
+                    bubbles_days_data[item.country.name] = {};
+                }
+                var data = bubbles_days_data[item.country.name];
+
+                if (data.last_processed == item.date.date){
+                    return data;
+                }
+                data.last_processed = item.date.date;
+
+                if( item.deaths>0 && !data.first_death ){
+                    data.first_death = new Date(item.date.date);
+                }
+
+                data.confirmed_cumulative = item.confirmed + (data.confirmed_cumulative || 0);
+                data.deaths_cumulative = item.deaths + (data.deaths_cumulative || 0);
+
+                return data;
+            };
+            let renderDaysFirstDeath = function(item){
+                var data = bubbles_days_data_process_item(item);
+                if (data.first_death){
+                    return ((new Date(item.date.date).getTime()) - data.first_death) / (1000 * 3600 * 24) + 1;
+                }else{
+                    return 0;
+                }
+            };
+            let renderMortailityRate = function(item){
+                var data = bubbles_days_data_process_item(item);
+
+                if (data.confirmed_cumulative && data.confirmed_cumulative>0 && data.deaths_cumulative>9){
+                    return (data.deaths_cumulative / data.confirmed_cumulative);
+                }else{
+                    return 0;
+                }
+            };
+
+
+            widgets.lodash.each(data, function(item){
+                new_data.push(widgets.lodash.merge(item, {
+                    render_days: renderDaysFirstDeath(item),
+                    render_mortaility: renderMortailityRate(item)
+                }));
+            });
+            return new_data;
+        },
         chartOptions: {
             hAxis: {title: 'Days from the first death in country'},
             height: 800,
@@ -113,11 +118,11 @@
             },
             {
                 title: 'Days from the first death',
-                renderCallbackName: 'renderDaysFirstDeath'
+                path: 'render_days'
             },
             {
                 title: 'Death / Confirmed, Cumulative',
-                renderCallbackName: 'renderMortailityRate'
+                path: 'render_mortaility'
             },
             {
                 title: 'Country',

@@ -3,7 +3,7 @@
 <%= render partial: 'shared/head' %>
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
-    widgets.init('https://graphql.bitquery.io', 'apikey', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
+    widgets.init('<%= BITQUERY_GRAPHQL %>', '', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
 </script>
 <%= render partial: 'shared/navbar' %>
 <div class="container-fluid">
@@ -12,10 +12,9 @@
       <%= render partial: 'shared/search' %>
     </div>
   </div>
+  <%= render(partial: "#{@network[:family]}/render_callbacks") if @network %>
   <%= yield %>
-  <%= render partial: 'shared/checkout_please' %>
   <%= render partial: 'shared/footer' %>
-  <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
 </div>
 </body>
 </html>

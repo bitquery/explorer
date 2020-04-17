@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.method_references_table') %></div>
+      <div class="card-body">
+        <div id="method_references_table"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                                $address: String!,
+                                $limit:Int,
+                                $offset:Int,
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                            ethereum(network: $network){
+                              arguments(options:{
+                                desc: "count",
+                                limit:$limit, offset: $offset},
+                                date: {since: $from till: $till },
+                                smartContractAddress: {is: $address},
+                              signatureType: Function) {
+                                address: reference {
+                                  address
+                                  annotation
+                                }
+                                count
+                                argument {
+                                  name
+                                }
+                                smartContractSignature {
+                                  __typename
+                                  ... on Method {
+                                    name
+                                    signatureHash
+                                  }
+                                }
+                              }
+
+                            }
+                          }`);
+
+        new widgets.table('#method_references_table', query, 'ethereum.arguments', {
+            title: '<%= t('widgets.headers.method_references_table') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.argument') %>',
+                    type: 'string-ellipsis',
+                    path: 'argument.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    type: 'string-ellipsis',
+                    path: 'smartContractSignature.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    type: 'count',
+                    path: 'count'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

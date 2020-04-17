@@ -12,17 +12,6 @@
 
 
 <script>
-    widgets.callbacks({
-        mapToolTip: function(item){
-            html = '<div  style="min-width: 200px">' +
-                'Country: <b>' +item.country.name +'</b><br>' +
-                'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
-                'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
-                'Deaths: <b class="text-danger">' + item.deaths +'</b>';
-            return html;
-        }
-    });
-
 var countrymap_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
@@ -72,7 +61,13 @@ new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
         },
         {
             title: {role: 'tooltip', p:{html:true}},
-            renderCallbackName: 'mapToolTip'
+            renderCallback: function(item){
+                return '<div  style="min-width: 200px">' +
+                    'Country: <b>' +item.country.name +'</b><br>' +
+                    'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
+                    'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
+                    'Deaths: <b class="text-danger">' + item.deaths +'</b>'
+            }
         },
     ]
 });

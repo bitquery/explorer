@@ -1,0 +1,64 @@
+
+<table class="table table-striped table-hover table-sm">
+
+  <thead>
+    <tr>
+      <th><%= t 'pages.tx_list.filters.filter' %></th>
+      <th><%= t 'pages.tx_list.filters.value' %></th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% if @sender %>
+      <tr>
+        <td><%= t 'widgets.titles.sender' %></td>
+        <td><%= link_to @sender, "/#{@network[:network]}/address/#{@sender}" %></td>
+      </tr>
+    <% end %>
+
+    <% if @receiver %>
+      <tr>
+        <td><%= t 'widgets.titles.receiver' %></td>
+        <td><%= link_to @receiver, "/#{@network[:network]}/address/#{@receiver}" %></td>
+      </tr>
+    <% end %>
+
+    <% if @currency %>
+      <tr>
+        <td><%= t 'widgets.titles.currency' %></td>
+        <td><%= link_to @currency, "/#{@network[:network]}/token/#{@currency}" %></td>
+      </tr>
+    <% end %>
+
+    <% if @caller %>
+    <tr>
+      <td><%= t 'widgets.titles.caller' %></td>
+      <td><%= link_to @caller, "/#{@network[:network]}/address/#{@caller}" %></td>
+    </tr>
+    <% end %>
+
+    <% if @contract %>
+    <tr>
+      <td><%= t 'widgets.titles.smart_contract' %></td>
+      <td><%= link_to @contract, "/#{@network[:network]}/address/#{@contract}" %></td>
+    </tr>
+  <% end %>
+
+    <% if @method %>
+    <tr>
+      <td><%= t 'widgets.titles.method' %></td>
+      <td><%= link_to @method, "/#{@network[:network]}/method/#{@method}" %></td>
+    </tr>
+  <% end %>
+
+  <% if @event %>
+    <tr>
+      <td><%= t 'widgets.titles.event' %></td>
+      <td><%= link_to @event, "/#{@network[:network]}/event/#{@event}" %></td>
+    </tr>
+  <% end %>
+
+  </tbody>
+
+</table>

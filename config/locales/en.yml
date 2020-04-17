@@ -13,8 +13,11 @@ en:
     last_month: 'Last month'
     custom_range: 'Custom range'
   address: "address"
+  token: "token"
+  tx: "transaction"
+  smart_contract: "smart contract"
   find: "Search"
-  find_in: "Search in %{network}"
+  find_in: "%{network}"
   find_all: "Search in all blockchains"
   find_placeholder: "Enter blockchain address..."
   themes:
@@ -24,22 +27,362 @@ en:
   headers:
     search: "Search \"%{query}\""
     search_in: "Search in %{network} \"%{query}\""
-    address: "%{network} address %{address}"
+  search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
+  tabs:
+    address:
+      icon: 'far fa-address-card'
+      show:
+        name: 'Address'
+        header: "%{network} address %{address}"
+        title: "%{network} %{address}"
+        description: "Overview of address %{address} activity in %{network}"
+      transactions:
+        name: 'Transactions'
+        header: "Transactions sent by %{network} address %{address}"
+        title: "TXs %{network} %{address}"
+        description: "Transactions sent by address %{address} activity in %{network}"
+      inflow:
+        name: 'Inflow'
+        header: "Inflow to %{network} address %{address}"
+        title: "In %{network} %{address}"
+        description: "Inflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        header: "Outflow from %{network} address %{address}"
+        title: "Out %{network} %{address}"
+        description: "Outflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        header: "Calls from %{network} address %{address}"
+        title: "Calls from %{network} %{address}"
+        description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+      orders:
+        name: 'Orders'
+        header: "Orders in %{network} address %{address}"
+        title: "Orders %{network} %{address}"
+        description: "Orders for trading crypto currencies by address %{address} activity in %{network}, statistics of token exchange orders"
+      trades:
+        name: 'Trades'
+        header: "Trades by %{network} address %{address}"
+        title: "Trades %{network} %{address}"
+        description: "Trades by address %{address} activity in %{network}, statistics of token exchanges"
+    smart_contract:
+      icon: 'fas fa-cogs text-info'
+      show:
+        name: 'Smart Contract'
+        header: "%{network} smart contract %{address}"
+        title: "%{network} %{address}"
+        description: "Overview of smart contract %{address} activity in %{network}"
+      transactions:
+        name: 'Transactions'
+        header: "Transactions with %{network} smart contract %{address}"
+        title: "Txs %{network} %{address}"
+        description: "Transactions with smart contract %{address} in %{network}"
+      methods:
+        name: 'Methods'
+        header: "Method calls for %{network} smart contract %{address}"
+        title: "Methods %{network} %{address}"
+        description: "Method calls for smart contract %{address} in %{network}"
+      events:
+        name: 'Events'
+        header: "Event logs for %{network} smart contract %{address}"
+        title: "Events %{network} %{address}"
+        description: "Events logged by smart contract %{address} in %{network}"
+      inflow:
+        name: 'Inflow'
+        header: "Inflow to %{network} smart contract %{address}"
+        title: "In %{network} %{address}"
+        description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        header: "Outflow from %{network} smart contract %{address}"
+        title: "Out %{network} %{address}"
+        description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        header: "Calls from %{network} smart contract %{address}"
+        title: "Calls from %{network} %{address}"
+        description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+    token:
+      icon: 'fas fa-coins text-warning'
+      show:
+        name: 'Token'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Overview of token %{token} activity in %{network}"
+      transfers:
+        name: 'Transfers'
+        header: "Token %{token} in %{network} "
+        title: "%{network} %{token}"
+        description: "Transfers of token %{token} activity in %{network}"
+      senders:
+        name: 'Senders'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Senders of token %{token} activity in %{network}"
+      receivers:
+        name: 'Receivers'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{address}"
+        description: "Receivers of token %{token} activity in %{network}"
+      smart_contract:
+        name: 'Smart Contract'
+        header: "Token in %{network} with address %{address}"
+        title: "%{network} %{address}"
+        description: "Overview of token smart contract %{address} activity in %{network}"
+      transactions:
+        name: 'Transactions'
+        header: "Transactions with %{network} token smart contract %{address}"
+        title: "Txs %{network} %{address}"
+        description: "Transactions with token smart contract %{address} in %{network}"
+      methods:
+        name: 'Methods'
+        header: "Method calls for %{network} token smart contract %{address}"
+        title: "Methods %{network} %{address}"
+        description: "Method calls for token smart contract %{address} in %{network}"
+      events:
+        name: 'Events'
+        header: "Event logs for %{network} token smart contract %{address}"
+        title: "Events %{network} %{address}"
+        description: "Events logged by token smart contract %{address} in %{network}"
+      inflow:
+        name: 'Inflow'
+        header: "Inflow to %{network} token smart contract %{address}"
+        title: "In %{network} %{address}"
+        description: "Inflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        header: "Outflow from %{network} token smart contract %{address}"
+        title: "Out %{network} %{address}"
+        description: "Outflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        header: "Calls from %{network} token smart contract %{address}"
+        title: "Calls from %{network} %{address}"
+        description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
+      orders:
+        name: 'Orders'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Orders for token %{token} trading in %{network}"
+      trades:
+        name: 'Trades'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Trades for token %{token} in %{network}"
+    tx:
+      icon: 'fas fa-bolt'
+      show:
+        name: 'Transaction'
+        header: "%{network} transaction %{hash}"
+        title: "%{network} %{hash}"
+        description: "Transaction attributes %{hash} in %{network}"
+      transfers:
+        name: 'Transfers'
+        header: "%{network} transaction %{hash}"
+        title: "Transfers %{network} %{hash}"
+        description: "Transfers in transaction %{hash} in %{network}"
+      calls:
+        name: 'Calls'
+        header: "%{network} transaction %{hash}"
+        title: "Calls %{network} %{hash}"
+        description: "Smart Contract Calls in transaction %{hash} in %{network}"
+      events:
+        name: 'Events'
+        header: "%{network} transaction %{hash}"
+        title: "Events %{network} %{hash}"
+        description: "Smart Contract Events in transaction %{hash} in %{network}"
+      references:
+        name: 'References'
+        header: "%{network} transaction %{hash}"
+        title: "References from %{network} %{hash}"
+        description: "References from Smart Contract Events and Methods in transaction %{hash} in %{network}"
+      orders:
+        name: 'Orders'
+        header: "Orders in %{network} transaction %{hash}"
+        title: "Orders %{network} %{hash}"
+        description: "Orders for trading crypto currencies in transaction %{hash} of %{network}, statistics of token exchange orders"
+      trades:
+        name: 'Trades'
+        header: "Trades by %{network} address %{hash}"
+        title: "Trades %{network} %{hash}"
+        description: "Trades in transaction %{hash} of %{network}, statistics of token exchanges"
+    block:
+      icon: 'fas fa-cube'
+      show:
+        name: 'Block'
+        header: "%{network} Block %{height}"
+        title: "%{network} block %{height}"
+        description: "Overview of block %{height}  in %{network}"
+    network:
+      blocks:
+        name: "Blocks"
+        header: "%{network} Blockchain"
+        title: "Blocks on %{network} Explorer"
+        description: "Explore %{network} blockchain addresses, transactions, blocks. Analytical reports, trends, plots and diagrams for %{network} based on on-chain data."
+      transactions:
+        name: "Transactions"
+        header: "Transactions on %{network}"
+        title: "Transactions on %{network} Explorer"
+        description: "Transaction list for %{network}"
+      calls:
+        name: "Smart Contract Calls"
+        header: "Smart Contract Calls on %{network}"
+        title: "Smart Contract Calls on %{network} Explorer"
+        description: "Smart Contract Calls on %{network}"
+      transfers:
+        name: "Transfers"
+        header: "Transfers on %{network}"
+        title: "Transfers on %{network} Explorer"
+        description: "Transfer list for %{network}"
+      tokens:
+        name: "Tokens"
+        header: "Tokens on %{network}"
+        title: "Tokens on %{network} Explorer"
+        description: "Token list for %{network}"
+      miners:
+        name: "Miners"
+        header: "Miners on %{network}"
+        title: "Miners on %{network} Explorer"
+        description: "Miner list for %{network}"
+      trades:
+        name: "Trades"
+        header: "Trades of currencies on %{network}"
+        title: "Trades on %{network} Explorer"
+        description: "Trade list for %{network}"
+      orders:
+        name: "Orders"
+        header: "Orders on %{network}"
+        title: "Orders on %{network} Explorer"
+        description: "Order list for %{network}"
+      validators:
+        name: "Validators"
+        header: "Validators on %{network}"
+        title: "Validators on %{network} Explorer"
+        description: "Validator list for %{network}"
+      clients:
+        name: "Client Types"
+        header: "Client Types on %{network}"
+        title: "Client Types on %{network} Explorer"
+        description: "Client Type list for %{network}"
+    home:
+      index:
+        name: "All"
+        header: "All Bitquery Datasets"
+        title: "Datasets"
+        description: "Explorers by Bitquery"
+      ethereum:
+        name: "Ethereum Platform"
+        header: "Ethereum Blockchains at Bitquery"
+        title: "Ethereum Blockchains"
+        description: "Explorers for Ethereum-like Blockchains by Bitquery"
+      bitcoin:
+        name: "Bitcoin Platform"
+        header: "Bitcoin Blockchains at Bitquery"
+        title: "Bitcoin Blockchains"
+        description: "Explorers for Bitcoin-like Blockchains by Bitquery"
+      cosmos:
+        name: "Cosmos Platform"
+        header: "Cosmos Blockchains at Bitquery"
+        title: "Cosmos Blockchains"
+        description: "Explorers for Cosmos-like Blockchains by Bitquery"
+      offchain:
+        name: "Offchain Data"
+        header: "Offchain Data at Bitquery"
+        title: "Offchain Data at Bitquery"
+        description: "Explorers for Offchain Data by Bitquery"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
-      transaction_by_time: 'Activities by time'
-      calls_by_time: 'Calls smart contracts by time'
+      transaction_by_time: 'Activities by date'
+      in_out_transfers_by_time: 'In/Outbound transfer count by date'
+      calls_by_time: 'Calls smart contracts by date'
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
-      trades_by_currencies: 'Trades Buy/Sell'
-      transactions_in_network: "Transfers in %{network}"
+      transactions_in_network: "Transactions in %{network}"
+      inbound_transfers: "Latest Inbound Transfers"
+      inbound_native_by_time: "Inbound transfers in %{currency} currency"
+      inbound_tokens_by_time: "Inbound transfers in tokens"
+      inbound_native_table: "Top Senders in %{currency} currency"
+      inbound_tokens_table: "Top Senders in tokens"
+      outbound_transfers: "Latest Outbound Transfers"
+      outbound_native_by_time: "Outbound transfers in %{currency} currency"
+      outbound_tokens_by_time: "Outbound transfers in tokens"
+      outbound_native_table: "Top Receivers in %{currency} currency"
+      outbound_tokens_table: "Top Receivers in tokens"
+      calls_table: "Latest Smart Contract Calls"
+      smart_contracts_table: "Smart Contracts Called"
+      smart_contract_methods_called_table: "Smart Contract Methods Called"
+      top_gas_calls_table: "Top Gas Cost Calls"
+      smart_contract_attributes: "Smart Contract Readonly Properties"
+      smart_contract_calls_by_time: "Calls Count By Date"
+      smart_contract_callers_by_time: "Unique Callers By Date"
+      smart_contract_transactions: "Latest Transactions"
+      smart_contract_top_callers: "Top Callers"
+      smart_contract_top_gas_burners: "Top Gas Burners"
+      smart_contract_methods_table: "Smart Contract Methods"
+      smart_contract_methods_diagram: "Distribution of Calls Count by Methods"
+      method_references_table: "Addresses used in Method Parameters"
+      smart_contract_events_table: "Smart Contract Events"
+      smart_contract_events_diagram: "Distribution of Log Count by Events"
+      event_references_table: "Addresses used in Event Parameters"
+      token_attributes: "Token attributes"
+      token_name: "Name"
+      token_type: "Token Type"
+      token_symbol: "Symbol"
+      token_decimals: "Number of Decimals"
+      annotation: "Annotation"
+      latest_token_transfers: "Latest Token Transfers"
+      token_transfers_by_time: "Token Transfers By Date"
+      max_token_transfers_by_time: "Top Token Transfer Amounts By Date"
+      token_senders_table: "Token Senders By Volume"
+      token_senders_diagram: "Distribution of Token Senders By Volume"
+      token_senders_by_time: "Unique Senders By Time"
+      token_median_sender_amount_by_time: "Median Sent Amount"
+      token_receivers_table: "Token Receivers By Volume"
+      token_receivers_diagram: "Distribution of Token Receivers By Volume"
+      token_receivers_by_time: "Unique Receivers By Time"
+      token_median_receiver_amount_by_time: "Median Received Amount"
+      token_statistics: "Token transfer statistics"
+      smart_contract_statitics: "Smart Contract Statistics"
+      tx_transfers: "Token Transfers in Transaction"
+      tx_calls: "Smart Contract Calls in Transaction"
+      tx_events: "Smart Contract Events logged in Transaction"
+      events_table: "Smart Contract Events"
+      tx_info: "Transaction Attributes"
+      references_table: "Addresses used in Events / Methods Parameters (may take time to load )"
+      block_info: "Block Attributes"
+      transactions: "Transactions"
+      transactions_by_time: "Transactions By Date"
+      transaction_gas_by_time: "Gas Spent By Date"
+      latest_blocks: "Latest Blocks"
+      latest_transactions: "Latest Transactions"
+      latest_transfers: "Latest Transfers"
+      latest_calls: "Latest Smart Contract Calls"
+      contracts_by_time: "Unique Smart Contracts"
+      miners: "Miners"
+      miners_by_time: "Active Miners By Time"
+      difficulty_by_time: "Difficulty By Time"
+      transactions_by_type: "Transactions By Type"
+      transfers_by_time: "Transfers By Date"
+      transfers_by_currencies: "Transfers By Currencies"
+      transactions_by_clients: "Transactions By Client types"
+      latest_orders: "Latest Orders"
+      order_transactions_by_time: "Orders By Date"
+      orders_by_currencies: "Orders By Currencies"
+      latest_trades: "Latest Trades"
+      trade_transactions_by_time: "Trades By Date"
+      trades_by_currencies: "Trades By Currencies"
+      validators: "Validators"
+      latest_token_orders: "Latest Token Orders"
+      latest_token_trades: "Latest Token Trades"
     titles:
       date: 'Date'
       month: 'Month'
       tx_count: "Tx Count"
+      transfer_count: "Transfer Count"
       volume: "Volume, %{currency}"
       receive_count: "Receive Count"
       send_count: "Send Count"
@@ -59,3 +402,154 @@ en:
       smart_contract: "Smart Contract"
       method: "Method"
       calls_count: "Calls Count"
+      timestamp: 'Timestamp'
+      sender: 'Sender'
+      receiver: 'Receiver'
+      amount: 'Amount'
+      transaction: 'Transaction'
+      block: 'Block'
+      max_date: 'Latest Date'
+      gas_value: 'Gas Cost'
+      avg_gas_value: 'Gas Cost/Call'
+      uniq_methods: "Uniq Methods"
+      uniq_contracts: "Uniq Contracts"
+      property: "Property"
+      property_value: "Value"
+      external_calls: "External Calls ( TXs )"
+      internal_calls: "Internal Calls"
+      external_callers: "External Uniq Callers"
+      internal_callers: "Internal Uniq Callers"
+      senders: "TX Senders"
+      uniq_callers: "Uniq Callers"
+      caller: "Caller"
+      smart_contract_top_callers: "Top Callers"
+      method_signature: "Method signature"
+      event_signature: "Event signature"
+      internal_calls_count: "Internal calls"
+      external_calls_count: "External calls"
+      address: "Address"
+      argument: "Argument"
+      event: "Event"
+      events_count: "Event Count"
+      max_amount: "Max Transfer Amount"
+      uniq_receivers: "Uniq Receivers"
+      uniq_senders: "Uniq Senders"
+      median_amount: "Median Transfer Amount"
+      average_amount: "Average Transfer Amount"
+      metric: "Metric"
+      total_amount: "Total transfer amount"
+      first_transfer_date: "First transfer date"
+      last_transfer_date: "Last transfer date"
+      transfer_days: "Days token transfered"
+      call_days: "Days contract called"
+      creator: "Creator"
+      created: "Created"
+      create_tx: "Create TX"
+      transactions_count: "Transactions count"
+      last_transaction_time: "Last transaction time"
+      call_depth: "Call Depth"
+      smart_contract_type: "Contract Type"
+      smart_contract_protocol_type: "Protocol"
+      success: "Success?"
+      attribute: "Attribute"
+      tx_sender: "Sender"
+      tx_to: "Receiver"
+      tx_creates: "Created"
+      gas_price: "Gas Price"
+      gas_used: "Gas Used"
+      event_or_method: "Event / Method"
+      name: "Name"
+      miner: "Miner"
+      uncle_count: "Uncles"
+      size: "Size"
+      block_reward: "Block Reward"
+      difficulty: "Difficulty"
+      total_difficulty: "Total Difficulty"
+      hash: "Hash"
+      parent_hash: "Parent Hash"
+      block_count: "Block Count"
+      unique_miners: "Unique Miners"
+      median_difficulty: "Median Difficulty"
+      validator: "Validator"
+      fee_address: "Fee Address"
+      transaction_type: "Type"
+      transaction_source: "Sender Client"
+      transfer_type: "Type"
+      transfer_amount: "Transfered Amount"
+      id: "ID"
+      first_transaction_date: "First transaction date"
+      last_transaction_date: "Last transaction date"
+      transaction_days: "Days with transactions"
+      transactions_order: "Order transactions"
+      transactions_transfer: "Transfer transactions"
+      total: "Total"
+      maker: 'Maker'
+      order_id: 'Order ID'
+      base_currency: 'Base currency'
+      quote_currency: 'Quote currency'
+      base_amount: 'Base amount'
+      quote_amount: 'Quote amount'
+      order_status: 'Order Status'
+      price: 'Price'
+      unique_orders: 'Unique Orders'
+      trade_pair: "Trade Pair"
+      buyer: "Buyer"
+      seller: "Seller"
+      buy_order: "Buy Order"
+      sell_order: "Sell Order"
+      trade_id: "Trade ID"
+      first_block_date: "First block date"
+      last_block_date: "Last block date"
+      operator_address: "Operator"
+      operator_hr_address: "Operator HR"
+      transaction_index: "Index in Block"
+      transaction_code: "Result Code"
+  pages:
+    home:
+      family: "%{family} Platform Explorers"
+      offchain: "%{family} Dataset Explorers"
+      blockchain: "%{network} Explorer"
+    footer:
+      explorer: "%{network} Explorer"
+      created: "Bitquery.io"
+      by: "by"
+      built: "Built with"
+      widgets: "Widgets"
+      feel_free: "Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphiQL button!"
+    address:
+      description:
+        part1: "Address %{address} is"
+        part2: "address in %{network}"
+        part3: "a regular wallet"
+        balance: "Balance is"
+    smart_contract:
+      description:
+        part2: "smart contract in %{network}"
+        part3: "a smart contract"
+      statistics:
+        in_block: "in block"
+        in_tx: "in tx"
+    token:
+      description:
+        part1: "Address %{address} is token"
+        part2: "token in %{network}"
+        part3: "a token"
+      native:
+        header: "Token %{currency} is the native token in %{network}"
+    tx_list:
+      icon: "fas fa-bolt text-warning"
+      filters:
+        filter: "Filter"
+        value: "Value"
+      transfers:
+        title: "Transfers in %{network}"
+        header: "Transfer Transactions in %{network}"
+        description: "List of transactions in %{network} with transfers, filtered by parameters"
+      calls:
+        title: "Calls in %{network}"
+        header: "Call Transactions in %{network}"
+        description: "List of transactions in %{network} with smart contract calls, filtered by parameters"
+      events:
+        title: "Events in %{network}"
+        header: "Event Transactions in %{network}"
+        description: "List of transactions in %{network} with smart contract events, filtered by parameters"

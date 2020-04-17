@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-body">
+        <div id="ethereum_address_description"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query($network: EthereumNetwork!, $address: String!) {
+              ethereum(network: $network) {
+                address(address: {is: $address}){
+                  address {
+                    annotation
+                  }
+                  smartContract {
+                    contractType
+                    currency{
+                      symbol
+                    }
+                  }
+                  balance
+                }
+              }
+            }`);
+
+        query.request({ network: '<%= @network[:network] %>',
+            address: '<%= @address %>'});
+
+        new widgets.text('#ethereum_address_description', query, 'ethereum.address', {
+            dataOptions:
+                {
+                    type: 'string',
+                    renderCallback: function(item){
+                        if (item.smartContract){
+                            <% if controller_name!='token' %>
+                            if (item.smartContract.currency){
+                                return window.location.replace('<%= locale_path_prefix %><%= @network[:network] %>/token/'+'<%= @address %>');
+                            }
+                            <% end  %>
+                            return '<%= t 'pages.address.description.part1', {address: @address} %> ' +
+                                    (item.address.annotation ?
+                                        '<strong class="text-info">'+item.address.annotation+'</strong>' :
+                                        '<%= t 'pages.smart_contract.description.part3' %> ')+
+                                    ' <%= t 'pages.smart_contract.description.part2', {network: @network[:name]} %><hr>' +
+                                    ' <%= t 'pages.address.description.balance' %> ' +
+                                    '<strong class="text-success">'+item.balance + ' <%= @network[:currency] %>'+ '</strong>';
+
+                        }else{
+                            window.location.replace('<%= locale_path_prefix %><%= @network[:network] %>/address/'+'<%= @address %>');
+                        }
+
+                    }
+                }
+
+        });
+    });
+
+
+</script>

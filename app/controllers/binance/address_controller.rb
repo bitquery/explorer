@@ -1,9 +1,3 @@
 class Binance::AddressController < NetworkController
-
-  def show
-    @address = params[:id]
-    @query = @address
-    @network = params[:network][:network]
-  end
-
+  layout 'tabs'
 end

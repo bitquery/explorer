@@ -13,8 +13,11 @@ zh:
     last_month: '上個月'
     custom_range: '定制範圍'
   address: "地址"
+  token: "代币"
+  tx: "交易"
+  smart_contract: "智能合约"
   find: "搜索"
-  find_in: "在%{network}中搜索"
+  find_in: "%{network}"
   find_add: "在所有區塊鏈中搜索"
   find_placeholder: "輸入地址..."
   themes:
@@ -24,25 +27,215 @@ zh:
   headers:
     search: "搜索\"%{query}\""
     search_in: "在%{network}中搜索 \"%{query}\""
-    address: "%{network} 地址 %{address}"
+  search_no_data: '應要求“%{query}”未返回任何結果。请澄清请求，然后重试。'
+  tabs:
+    address:
+      icon: 'far fa-address-card'
+      show:
+        name: '地址'
+        header: "%{network} 地址 %{address}"
+        title: "%{network}:%{address}"
+        description: "地址概述 %{address} %{network}中的活动：转移，交易，令牌，操作"
+      inflow:
+        name: '流入量'
+        header: "流入%{network}地址%{address}"
+        title: "在 %{network}:%{address}"
+        description: "不同的加密代币和硬币的流入以解决%{network}中的%{address}活动，入站转账的统计信息，转账来源"
+      outflow:
+        name: '外流'
+        header: "来自%{network}地址%{address}的流出"
+        title: "出 %{network}:%{address}"
+        description: "不同的加密代币和硬币流出，以解决%{network}中的%{address}活动，出站转账的统计信息，转账目的地"
+      calls_contracts:
+        name: '通话合约'
+        header: "来自%{network}地址%{address}的呼叫"
+        title: "来电 %{network}:%{address}"
+        description: "来自%{network}中地址%{address}活动的智能合约调用，智能合约调用的统计信息，使用情况和使用的方法"
+    smart_contract:
+      icon: 'fas fa-cogs text-info'
+      show:
+        name: '智能合约'
+        header: "%{network} 智能合约 %{address}"
+        title: "%{network} %{address}"
+        description: "智能合约概述 %{address} 在活动 %{network}"
+      transactions:
+        name: '交易次数'
+        header: "交易次数 %{network} 智能合约 %{address}"
+        title: "交易次数 %{network} %{address}"
+        description: "智能合约交易 %{address} 在 %{network}"
+      methods:
+        name: '方法'
+        header: "方法要求 %{network} 智能合约 %{address}"
+        title: "方法 %{network} %{address}"
+        description: "方法要求智能合约 %{address} 在 %{network}"
+      events:
+        name: '大事记'
+        header: "的事件日志%{network} 智能合约 %{address}"
+        title: "大事记 %{network} %{address}"
+        description: "智能合约记录的事件%{address} 在 %{network}"
+      inflow:
+        name: '流入量'
+        header: "流入%{network}地址%{address}"
+        title: "在 %{network}:%{address}"
+        description: "不同的加密代币和硬币的流入以解决%{network}中的%{address}活动，入站转账的统计信息，转账来源"
+      outflow:
+        name: '外流'
+        header: "来自%{network}地址%{address}的流出"
+        title: "出 %{network}:%{address}"
+        description: "不同的加密代币和硬币流出，以解决%{network}中的%{address}活动，出站转账的统计信息，转账目的地"
+      calls_contracts:
+        name: '通话合约'
+        header: "来自%{network}地址%{address}的呼叫"
+        title: "来电 %{network}:%{address}"
+        description: "来自%{network}中地址%{address}活动的智能合约调用，智能合约调用的统计信息，使用情况和使用的方法"
+    token:
+      icon: 'fas fa-coins text-warning'
+      show:
+        name: 'Token'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Overview of token %{token} activity in %{network}"
+      transfers:
+        name: 'Transfers'
+        header: "Token %{token} in %{network} "
+        title: "%{network} %{token}"
+        description: "Transfers of token %{token} activity in %{network}"
+      senders:
+        name: 'Senders'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Senders of token %{token} activity in %{network}"
+      receivers:
+        name: 'Receivers'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{address}"
+        description: "Receivers of token %{token} activity in %{network}"
+      smart_contract:
+        name: '智能合约'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "%{network} %{address}"
+        description: "智能合约概述 %{address} 在活动 %{network}"
+      transactions:
+        name: '交易次数'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "交易次数 %{network} %{address}"
+        description: "智能合约交易 %{address} 在 %{network}"
+      methods:
+        name: '方法'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "方法 %{network} %{address}"
+        description: "方法要求智能合约 %{address} 在 %{network}"
+      events:
+        name: '大事记'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "大事记 %{network} %{address}"
+        description: "智能合约记录的事件%{address} 在 %{network}"
+      inflow:
+        name: '流入量'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "在 %{network}:%{address}"
+        description: "不同的加密代币和硬币的流入以解决%{network}中的%{address}活动，入站转账的统计信息，转账来源"
+      outflow:
+        name: '外流'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "出 %{network}:%{address}"
+        description: "不同的加密代币和硬币流出，以解决%{network}中的%{address}活动，出站转账的统计信息，转账目的地"
+      calls_contracts:
+        name: '通话合约'
+        header: "地址为%{address}的%{network}中的令牌"
+        title: "来电 %{network}:%{address}"
+        description: "来自%{network}中地址%{address}活动的智能合约调用，智能合约调用的统计信息，使用情况和使用的方法"
+    tx:
+      icon: 'fas fa-bolt'
+      show:
+        name: '交易'
+        header: "%{network} 交易 %{hash}"
+        title: "%{network} %{hash}"
+        description: "交易属性 %{hash} 在 %{network}"
+      transfers:
+        name: '转账'
+        header: "%{network} 交易 %{hash}"
+        title: "转账 %{network} %{hash}"
+        description: "Transfers in transaction %{hash} 在 %{network}"
+      calls:
+        name: '来电'
+        header: "%{network} 交易 %{hash}"
+        title: "来电 %{network} %{hash}"
+        description: "交易中的智能合约通话 %{hash} 在network}"
+      events:
+        name: '大事记'
+        header: "%{network} 交易 %{hash}"
+        title: "大事记 %{network} %{hash}"
+        description: "交易中的智能合约事件 %{hash} 在 %{network}"
   errors:
     no_methods: "該功能尚未實現，請稍後再返回"
   widgets:
     headers:
       transaction_by_time: '按月進行活動'
+      in_out_transfers_by_time: '按日期进行的入/出库转移计数'
       calls_by_time: '按時間調用智能合約'
       currencies_sent_received: '貨幣已發送/已收到'
       calls_smart_contracts: '呼叫智能合約'
       trades_by_time: '按時間交易'
       trades_by_currencies: '交易買/賣'
       transactions_in_network: "以%{network}轉移"
+      inbound_transfers: "最新入站转账"
+      inbound_native_by_time: "以%{currency}货币入站转帐"
+      inbound_tokens_by_time: "令牌中的入站转移"
+      inbound_native_table: "使用%{currency}货币的排名最高的发件人"
+      inbound_tokens_table: "代币中排名最高的发件人"
+      outbound_transfers: "最新出站转账"
+      outbound_native_by_time: "以%{currency}货币出金"
+      outbound_tokens_by_time: "代币的出站转账"
+      outbound_native_table: "以%{currency}货币表示的最受欢迎的接收者"
+      outbound_tokens_table: "代币中的最佳接收者"
+      calls_table: "最新的智能合约通话"
+      smart_contracts_table: "调用智能合约"
+      smart_contract_methods_called_table: "调用智能合约方法"
+      top_gas_calls_table: "最高燃气费用电话"
+      smart_contract_attributes: "智能合约只读属性"
+      smart_contract_calls_by_time: "通话按日期计数"
+      smart_contract_callers_by_time: "按日期显示的唯一来电者"
+      smart_contract_transactions: "最新交易"
+      smart_contract_top_callers: "热门来电者"
+      smart_contract_top_gas_burners: "顶级燃气燃烧器"
+      smart_contract_methods_table: "智能合约方法"
+      smart_contract_methods_diagram: "按方法分配呼叫计数"
+      method_references_table: "方法参数中使用的地址"
+      smart_contract_events_table: "智能合约事件"
+      smart_contract_events_diagram: "按事件分配日志计数"
+      event_references_table: "事件参数中使用的地址"
+      token_attributes: "令牌属性"
+      token_name: "名称"
+      token_type: "代币类型"
+      token_symbol: "符号"
+      token_decimals: "小数位数"
+      annotation: "注解"
+      latest_token_transfers: "最新代币转移"
+      token_transfers_by_time: "按日期进行令牌转移"
+      max_token_transfers_by_time: "按日期列出的最高代币转移金额"
+      token_senders_table: "令牌发送者数量"
+      token_senders_diagram: "代币发送者的数量分布"
+      token_senders_by_time: "时间的唯一发件人"
+      token_median_sender_amount_by_time: "中位数发送量"
+      token_receivers_table: "令牌接收者数量"
+      token_receivers_diagram: "代币接收者的数量分布"
+      token_receivers_by_time: "时间的唯一接收者"
+      token_median_receiver_amount_by_time: "收款中位数"
+      token_statistics: "代币统计"
+      smart_contract_statitics: "智能合约统计"
+      tx_transfers: "交易中的代币转移"
+      tx_calls: "交易中的智能合约通话"
+      tx_events: "交易中记录的智能合约事件"
+      events_table: “智能合约活动"
     titles:
       date: '日期'
       month: '月'
       tx_count: "交易計數"
+      transfer_count: "转移计数"
       volume: "卷, %{currency}"
-      receive_count: "呼叫合同"
-      send_count: "接收計數"
+      receive_count: "接收计数"
+      send_count: "发送计数"
       volume_in: "音量輸入, %{currency}"
       volume_out: "傳入數量, %{currency}"
       trades: "交易計數"
@@ -59,3 +252,96 @@ zh:
       smart_contract: "智能合約"
       method: "方法"
       calls_count: "通話次數"
+      timestamp: '时间戳记'
+      sender: '发件人'
+      receiver: '接收者'
+      amount: '量'
+      transaction: '交易'
+      block: '块'
+      max_date: '最新日期'
+      gas_value: '煤气费'
+      avg_gas_value: '汽油费用/通话'
+      uniq_methods: "独特的方法"
+      uniq_contracts: "独特合同"
+      property: "属性"
+      property_value: "值"
+      external_calls: "外部通话（TX）"
+      internal_calls: "内部通话"
+      external_callers: "外部唯一呼叫者"
+      internal_callers: "内部唯一呼叫者"
+      senders: "交易发送者"
+      uniq_callers: "唯一地址"
+      caller: "呼叫者"
+      smart_contract_top_callers: "热门来电者"
+      method_signature: "方法签名"
+      event_signature: "活动签名"
+      internal_calls_count: "内部通话"
+      external_calls_count: "外部通话"
+      address: "地址"
+      argument: "争论"
+      event: "事件"
+      events_count: "事件计数"
+      max_amount: "最大转账金额"
+      uniq_receivers: "优衣库接收器"
+      uniq_senders: "独特发件人"
+      median_amount: "中位数"
+      average_amount: "平均金额"
+      metric: "公制"
+      total_amount: "总转账金额"
+      first_transfer_date: "首次转帐日期"
+      last_transfer_date: "最后转让日期"
+      transfer_days: "天数令牌转移"
+      call_days: "天合同称为"
+      creator: "创作者"
+      created: "已建立"
+      create_tx: "创建交易"
+      transactions_count: "交易计数"
+      last_transaction_time: "最后交易时间"
+      call_depth: "通话深度"
+      smart_contract_type: "合同类型"
+      smart_contract_protocol_type: "协议"
+      success: "成功？"
+  pages:
+    footer:
+      built: "建立"
+      explorer: "%{network} 探险者"
+      created: "Bitquery.io"
+      widgets: "Widgets"
+      feel_free: "随意使用此页面上的任何小部件，按JS按钮并复制/粘贴代码。 使用GraphiQL按钮检查API！"
+    address:
+      description:
+        part1: "地址 %{address} 是"
+        part2: "地址在 %{network}"
+        part3: "普通钱包"
+        balance: "余额为"
+    smart_contract:
+      description:
+        part2: "智能合约%{network}"
+        part3: "智能合约"
+      statistics:
+        in_block: "块状"
+        in_tx: "在交易中"
+    token:
+      description:
+        part1: "地址%{address}是令牌"
+        part2: "令牌入 %{network}"
+        part3: "令牌"
+      native:
+        header: "代币 %{currency} 是中的本地令牌 %{network}"
+    tx_list:
+      icon: "fas fa-bolt text-warning"
+      filters:
+        filter: "过滤"
+        value: "值"
+      transfers:
+        title: "汇入 %{network}"
+        header: "转移交易 %{network}"
+        description: "交易清单%{network} 带传输，按参数过滤"
+      calls:
+        title: "呼入%{network}"
+        header: "致电交易%{network}"
+        description: "交易清单%{network} 智能合约调用，按参数过滤"
+      events:
+        title: "中的活动%{network}"
+        header: "中的事件交易%{network}"
+        description: "交易清单%{network} 通过参数过滤的智能合约事件"

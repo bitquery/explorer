@@ -75,7 +75,14 @@ new widgets.chart('#countrymap', countrymap_query, 'offchain.covid.facts', {
         },
         {
             title: {role: 'tooltip', p:{html:true}},
-            renderCallbackName: 'mapToolTip'
+            renderCallback: function(item){
+                return '<div  style="min-width: 200px">' +
+                    'Location: <b>' +item.country.name + ' ' + item.location.province+'</b><br>' +
+                    (item.location.adminCenter=='' ? '' : 'City: <b>' + item.location.adminCenter+'</b><br>') +
+                    'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
+                    'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
+                    'Deaths: <b class="text-danger">' + item.deaths +'</b>'
+            }
         },
     ]
 });

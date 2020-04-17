@@ -13,8 +13,11 @@ ru:
     last_month: 'Прошлый месяц'
     custom_range: 'Произвольный период'
   address: "адрес"
+  token: "токен"
+  tx: "транзакция"
+  smart_contract: "смарт контракт"
   find: "Искать"
-  find_in: "Искать в %{network}"
+  find_in: "%{network}"
   find_all: "Искать во всех сетях"
   find_placeholder: "Введите адрес..."
   themes:
@@ -24,25 +27,215 @@ ru:
   headers:
     search: "Поиск \"%{query}\""
     search_in: "Поиск в %{network} \"%{query}\""
-    address: "%{network} адрес %{address}"
+  search_no_data: 'По запросу "%{query}" ничего не найдено. Пожалуйста, уточните запрос и повторите попытку.'
+  tabs:
+    address:
+      icon: 'far fa-address-card'
+      show:
+        name: 'Адрес'
+        header: "%{network} адрес %{address}"
+        title: "%{network} %{address}"
+        description: "Обзор адреса %{address} активность в сети %{network}: переводы, транзакции, действия с криптовалютой"
+      inflow:
+        name: 'Пополнения'
+        header: "Переводы на %{network} адрес %{address}"
+        title: "Пополнения %{network} %{address}"
+        description: "Пополнения криптовалютой адреса %{address} в сети %{network}, статистика входящих переводов, разбивка по криптовалютам"
+      outflow:
+        name: 'Снятия'
+        header: "Переводы с %{network} адреса %{address}"
+        title: "Снятия %{network} %{address}"
+        description: "Снятия криптовалюты с адреса %{address} в сети %{network}, статистика исходящий переводов, разбивка по криптовалютам"
+      calls_contracts:
+        name: 'Вызовы смарт контрактов'
+        header: "Вызовы с адреса %{network}  %{address}"
+        title: "Вызовы с %{network} %{address}"
+        description: "Вызовы методов смарт контрактов с %{address} в сети %{network}, статистика вызовов, используемые методы"
+    smart_contract:
+      icon: 'fas fa-cogs text-info'
+      show:
+        name: 'Смарт контракт'
+        header: "Смарт контракт в %{network}  %{address}"
+        title: "%{network} %{address}"
+        description: "Активность смарт контракта %{address} в %{network}"
+      transactions:
+        name: 'Транзакции'
+        header: "Транзакции со смарт контрактом %{network}  %{address}"
+        title: "Транзакции %{network} %{address}"
+        description: "Транзакции со смарт контрактом %{address} в %{network}"
+      methods:
+        name: 'Методы'
+        header: "Вызовы методов смарт контракта в %{network} %{address}"
+        title: "Методы %{network} %{address}"
+        description: "Вызовы методов смарт контракта %{address} в %{network}"
+      events:
+        name: 'События'
+        header: "События смарт контракта в сети  %{network} %{address}"
+        title: "События %{network} %{address}"
+        description: "События смарт контракта %{address} в %{network}"
+      inflow:
+        name: 'Пополнения'
+        header: "Переводы на %{network} смарт контракт %{address}"
+        title: "Пополнения %{network} %{address}"
+        description: "Пополнения криптовалютой смарт контракта %{address} в сети %{network}, статистика входящих переводов, разбивка по криптовалютам"
+      outflow:
+        name: 'Снятия'
+        header: "Переводы с %{network} адреса %{address}"
+        title: "Снятия %{network} %{address}"
+        description: "Снятия криптовалюты со смарт контракта %{address} в сети %{network}, статистика исходящий переводов, разбивка по криптовалютам"
+      calls_contracts:
+        name: 'Вызовы смарт контрактов'
+        header: "Вызовы со смарт контракта %{network}  %{address}"
+        title: "Вызовы с %{network} %{address}"
+        description: "Вызовы методов смарт контрактов со смарт контракта %{address} в сети %{network}, статистика вызовов, используемые методы"
+    token:
+      icon: 'fas fa-coins text-warning'
+      show:
+        name: 'Token'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Overview of token %{token} activity in %{network}"
+      transfers:
+        name: 'Transfers'
+        header: "Token %{token} in %{network} "
+        title: "%{network} %{token}"
+        description: "Transfers of token %{token} activity in %{network}"
+      senders:
+        name: 'Senders'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Senders of token %{token} activity in %{network}"
+      receivers:
+        name: 'Receivers'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{address}"
+        description: "Receivers of token %{token} activity in %{network}"
+      smart_contract:
+        name: 'Смарт контракт'
+        header: "Смарт контракт токена в %{network}  %{address}"
+        title: "%{network} %{address}"
+        description: "Активность смарт контракта токена %{address} в %{network}"
+      transactions:
+        name: 'Транзакции'
+        header: "Транзакции со смарт контрактом токена %{network}  %{address}"
+        title: "Транзакции %{network} %{address}"
+        description: "Транзакции со смарт контрактом токена %{address} в %{network}"
+      methods:
+        name: 'Методы'
+        header: "Вызовы методов смарт контракта токена в %{network} %{address}"
+        title: "Методы %{network} %{address}"
+        description: "Вызовы методов смарт контракта токена %{address} в %{network}"
+      events:
+        name: 'События'
+        header: "События смарт контракта токена в сети  %{network} %{address}"
+        title: "События %{network} %{address}"
+        description: "События смарт контракта токена %{address} в %{network}"
+      inflow:
+        name: 'Пополнения'
+        header: "Переводы на %{network} смарт контракт токена %{address}"
+        title: "Пополнения %{network} %{address}"
+        description: "Пополнения криптовалютой смарт контракта токена %{address} в сети %{network}, статистика входящих переводов, разбивка по криптовалютам"
+      outflow:
+        name: 'Снятия'
+        header: "Переводы с %{network} адреса токена %{address}"
+        title: "Снятия %{network} %{address}"
+        description: "Снятия криптовалюты со смарт контракта токена %{address} в сети %{network}, статистика исходящий переводов, разбивка по криптовалютам"
+      calls_contracts:
+        name: 'Вызовы смарт контрактов'
+        header: "Вызовы со смарт контракта токена %{network}  %{address}"
+        title: "Вызовы с %{network} %{address}"
+        description: "Вызовы методов смарт контрактов со смарт контракта токена %{address} в сети %{network}, статистика вызовов, используемые методы"
+    tx:
+      icon: 'fas fa-bolt'
+      show:
+        name: 'Транзакция'
+        header: "Транзакция в %{network} %{hash}"
+        title: "%{network} %{hash}"
+        description: "Transaction attributes %{hash}  в сети %{network}"
+      transfers:
+        name: 'Переводы'
+        header: "Транзакция в %{network} %{hash}"
+        title: "Переводы %{network} %{hash}"
+        description: "Переводы в транзакции %{hash} в сети %{network}"
+      calls:
+        name: 'Вызовы'
+        header: "Транзакция в %{network} %{hash}"
+        title: "Вызовы %{network} %{hash}"
+        description: "Вызовы смарт контрактов в транзакции  %{hash}  в сети %{network}"
+      events:
+        name: 'События'
+        header: "Транзакция в %{network} %{hash}"
+        title: "События %{network} %{hash}"
+        description: "События смарт контрактов в транзакции  %{hash} i в сетиn %{network}"
   errors:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"
   widgets:
     headers:
       transaction_by_time: 'Активность по времени'
+      in_out_transfers_by_time: 'Количество пополнений и снятий по дате'
       calls_by_time: 'Вызовы смартрконтрактов по времени'
       currencies_sent_received: 'Валюта отправлено/получено'
       calls_smart_contracts: 'Вызовы смарт контрактов'
       trades_by_time: 'Сделок по времени'
       trades_by_currencies: 'Сделки Покупка/продажа'
       transactions_in_network: "Переводы в %{network}"
+      inbound_transfers: "Свежие входящие переводы"
+      inbound_native_by_time: "Входящие переводы в %{currency}"
+      inbound_tokens_by_time: "Входящие переводы в токенах"
+      inbound_native_table: "Топовые отправители в %{currency}"
+      inbound_tokens_table: "Топовые отправители в токенах"
+      outbound_transfers: "Свежие исходящие переводы"
+      outbound_native_by_time: "Исходящие переводы в %{currency}"
+      outbound_tokens_by_time: "Исходящие переводы в токенах"
+      outbound_native_table: "Топовые получатели в %{currency}"
+      outbound_tokens_table: "Топовые получатели в токенах"
+      calls_table: "Свежие вызовы смарт контрактов"
+      smart_contracts_table: "Вызываемые смарт контракты"
+      smart_contract_methods_called_table: "Вызываемые методы смарт контрактов"
+      top_gas_calls_table: "Вызовы с наибольшей комиссией"
+      smart_contract_attributes: "Свойства для чтения смарт контракта"
+      smart_contract_calls_by_time: "Количество вызовов по дате"
+      smart_contract_callers_by_time: "Уникальные вызывающие адреса по дате"
+      smart_contract_transactions: "Свежие транзакции"
+      smart_contract_top_callers: "Основные вызывающие"
+      smart_contract_top_gas_burners: "Основные затратчики комиссии"
+      smart_contract_methods_table: "Методы смарт контракта"
+      smart_contract_methods_diagram: "Распределение методов по количеству вызовов"
+      method_references_table: "Адреса в параметрах методов"
+      smart_contract_events_table: "События смарт контракта"
+      smart_contract_events_diagram: "Распределение событий по количеству"
+      event_references_table: "Адреса в параметрах событий"
+      token_attributes: "Аттрибуты токена"
+      token_name: "Название"
+      token_type: "Тип токена"
+      token_symbol: "Символ"
+      token_decimals: "Десятичных знаков"
+      annotation: "Аннотация"
+      latest_token_transfers: "Свежие переводы токена"
+      token_transfers_by_time: "Переводы токена по дням"
+      max_token_transfers_by_time: "Самые крупные переводы токена по датам"
+      token_senders_table: "Отправители токена по объему"
+      token_senders_diagram: "Распределение отправителей токена по объему"
+      token_senders_by_time: "Уникальные отправители по датам"
+      token_median_sender_amount_by_time: "Медианная сумма отправленного перевода"
+      token_receivers_table: "Получатели токена"
+      token_receivers_diagram: "Распределение получателей токена по объему"
+      token_receivers_by_time: "Уникальные получатели токена по дате"
+      token_median_receiver_amount_by_time: "Медианная сумма полученного перевода"
+      token_statistics: "Статистика токена"
+      smart_contract_statitics: "Статистика смарт контракта"
+      tx_transfers: "Переводы токенов в транзакции"
+      tx_calls: "Вызовы смарт контрактов в транзакции"
+      tx_events: "События смарт контрактов в транзакции"
+      events_table: "События смарт контрактов"
     titles:
       date: 'Дата'
       month: 'Месяц'
       tx_count: "Количество транзакций"
+      transfer_count: "Количество переводов"
       volume: "Объем, %{currency}"
-      receive_count: "Вызовы контрактов"
-      send_count: "Количество получателей"
+      receive_count: "Пополнения"
+      send_count: "Снятия"
       volume_in: "Объем входящих, %{currency}"
       volume_out: "Объем исходящих, %{currency}"
       trades: "Количество сделок"
@@ -59,3 +252,97 @@ ru:
       smart_contract: "Смарт контракт"
       method: "Метод"
       calls_count: "Количество вызовов"
+      timestamp: 'Время'
+      sender: 'Отправитель'
+      receiver: 'Получатель'
+      amount: 'Сумма'
+      transaction: 'Транзакция'
+      block: 'Блок'
+      max_date: 'Последняя дата'
+      gas_value: 'Комиссия'
+      avg_gas_value: 'Комиссия на вызов'
+      uniq_methods: "Уник методов"
+      uniq_contracts: "Уникальные контракты"
+      property: "Свойство"
+      property_value: "Значения"
+      external_calls: "Внешние вызовы ( TXs )"
+      internal_calls: "Внутренние вызовы"
+      external_callers: "Уникальные внешние вызываюшие"
+      internal_callers: "Уникальные внутренние вызываюшие"
+      senders: "Отправители транзакций"
+      uniq_callers: "Уникальные адреса"
+      caller: "Вызывающий"
+      smart_contract_top_callers: "Основные вызывающие"
+      method_signature: "Сигнатура метода"
+      event_signature: "Сигнатура события"
+      internal_calls_count: "Внутренние вызовы"
+      external_calls_count: "Внешние вызовы"
+      address: "Адрес"
+      argument: "Аргумент"
+      event: "Событие"
+      events_count: "Количество событий"
+      max_amount: "Максимальная сумма перевода"
+      uniq_receivers: "Уникальные получатели"
+      uniq_senders: "Уникальные отправители"
+      median_amount: "Медиана суммы"
+      average_amount: "Средняя сумма"
+      metric: "Метрика"
+      total_amount: "Полная сумма перевода"
+      first_transfer_date: "Дата первого перевода"
+      last_transfer_date: "Дата последнего перевода"
+      transfer_days: "Количество дней с переводами"
+      call_days: "Количество дней с транзакциями"
+      creator: "Создатель"
+      created: "Создан"
+      create_tx: "Транзакция создания"
+      transactions_count: "Количество транзакций"
+      last_transaction_time: "Время последней транзакции"
+      call_depth: "Уровен вызова"
+      smart_contract_type: "Тип контракта"
+      smart_contract_protocol_type: "Протокол"
+      success: "Успех?"
+  pages:
+    footer:
+      built: "Сделано на основе"
+      widgets: "Widgets"
+      explorer: "%{network} Explorer"
+      by: "от"
+      created: "Bitquery.io"
+      feel_free: "Не стесняйтесь использовать любой виджет с этой страницы, нажмите кнопку JS и скопируйте / вставьте код. Попробуйте API с помощью кнопки GraphiQL!"
+    address:
+      description:
+        part1: "Адрес %{address} - это "
+        part2: "адрес в %{network}"
+        part3: "обычный"
+        balance: "Баланс"
+    smart_contract:
+      description:
+        part2: "смарт контракт в %{network}"
+        part3: "смарт контракт"
+      statistics:
+        in_block: "в блоке"
+        in_tx: "в транзакции"
+    token:
+      description:
+        part1: "Адрес %{address} - это токен"
+        part2: "токен в %{network}"
+        part3: "токен"
+      native:
+        header: "Token %{currency} is the native token in %{network}"
+    tx_list:
+      icon: "fas fa-bolt text-warning"
+      filters:
+        filter: "Критерий"
+        value: "Значение"
+      transfers:
+        title: "Переводы в %{network}"
+        header: "Транзакции переводов в %{network}"
+        description: "Список транзакций в %{network} с переводами по критериям"
+      calls:
+        title: "Вызовы в %{network}"
+        header: "Транзакции с вызовами смарт контрактов %{network}"
+        description: "Список транзакций в %{network} с вызовами смарт контрактов по критериям"
+      events:
+        title: "События в %{network}"
+        header: "Транзакции с событиями смарт контрактов %{network}"
+        description: "Список транзакций в %{network} с событиями смарт контрактов по критериям"

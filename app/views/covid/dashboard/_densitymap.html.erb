@@ -12,25 +12,6 @@
 
 
 <script>
-    widgets.callbacks({
-        mapToolTip: function(item){
-            html = '<div  style="min-width: 200px">' +
-                'Country: <b>' + item.country.name  +' </b><br>' +
-                'Population: <b class="text-info">' + Math.round(item.country.populationTotal*1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'</b><br>' +
-
-                'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
-                '= <b class="text-warning">' + Math.round(item.confirmed*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>' +
-                'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
-                '= <b class="text-success">' + Math.round(item.recovered*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>' +
-                'Deaths: <b class="text-danger">' + item.deaths +'</b><br>'+
-                '= <b class="text-danger">' + Math.round(item.deaths*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>';
-            return html;
-        },
-        confirmedPerMillion: function(item){
-            return item.confirmed*1000 / item.country.populationTotal;
-        }
-    });
-
 var countrydensitymap_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
@@ -68,11 +49,24 @@ new widgets.chart('#countrydensitymap', countrydensitymap_query, 'offchain.covid
         },
         {
             title: 'Confirmed per 1 million',
-            renderCallbackName: 'confirmedPerMillion'
+            renderCallback: function(item){
+                return item.confirmed*1000 / item.country.populationTotal;
+            }
         },
         {
             title: {role: 'tooltip', p:{html:true}},
-            renderCallbackName: 'mapToolTip'
+            renderCallback: function(item){
+                return '<div  style="min-width: 200px">' +
+                    'Country: <b>' + item.country.name  +' </b><br>' +
+                    'Population: <b class="text-info">' + Math.round(item.country.populationTotal*1000).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") +'</b><br>' +
+
+                    'Confirmed: <b class="text-warning">' + item.confirmed +'</b><br>' +
+                    '= <b class="text-warning">' + Math.round(item.confirmed*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>' +
+                    'Recovered: <b class="text-success">' + item.recovered +'</b><br>' +
+                    '= <b class="text-warning">' + Math.round(item.recovered*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>' +
+                    'Deaths: <b class="text-danger">' + item.deaths +'</b><br>'+
+                    '= <b class="text-warning">' + Math.round(item.deaths*100000 / item.country.populationTotal)/100.0 +'</b> / 1 Million<br>'
+            }
         },
     ]
 });

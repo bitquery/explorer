@@ -131,4 +131,15 @@ body.dark{
       background-color: #343d46;
     }
   }
+
+  .table{
+    color: #fff;
+    &.table-hover{
+      tbody{
+        tr:hover{
+          color: #e5e5e5;
+        }
+      }
+    }
+  }
 }

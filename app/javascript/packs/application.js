@@ -25,7 +25,8 @@ global.reportRange = function(selector, from, till, i18n){
         start: undefined,
         end: undefined,
         i18n: i18n,
-        ranges: {}
+        ranges: {},
+        cbs: []
     };
 
     if (i18n.locale == 'ru'){
@@ -79,25 +80,73 @@ global.reportRange = function(selector, from, till, i18n){
         set_reportrange(properties.start, properties.end);
     }
 
-    properties.change = function(cb){
+    function changeUrl(from, till){
+        $('a[data-changeurl="true"]').each(function(){
+            let href = $(this).prop('href').split('?');
+            let up = href[1] ? $.urlParams(href[1].split('&')) : {};
+            if (from && till){
+                up['from'] = from;
+                up['till'] = till;
+            }else{
+                delete up.from;
+                delete up.till;
+            }
+            $(this).prop('href', (href[0] + ($.param(up) ? '?'+$.param(up) : '')));
+        });
+    }
 
+    $(window).on("popstate",function(e){
+        var up = $.urlParams(window.location.search.substr(1).split('&'));
+        if (up.from && up.till){
+            $(selector).data('daterangepicker').setStartDate(moment(up.from));
+            $(selector).data('daterangepicker').setEndDate(moment(up.till));
+            set_reportrange(moment(up.from), moment(up.till));
+            $.each(properties.cbs, function(){
+                this(moment(up.from).format('YYYY-MM-DD'), moment(up.till).format('YYYY-MM-DD'), undefined);
+            });
+            changeUrl(up.from, up.till);
+        } else {
+            $(selector).find('span').html(i18n.all_time);
+            $.each(properties.cbs, function(){
+                this(null, null, 'clear');
+                changeUrl(null, null);
+            });
+        }
+    });
+
+    properties.change = function(cb){
+        properties.cbs.push(cb);
         $(selector).on('apply.daterangepicker', function(ev, picker) {
             var start = picker.startDate.format('YYYY-MM-DD'),
                 end = picker.endDate.format('YYYY-MM-DDT23:59:59'),
+                endToParam = picker.endDate.format('YYYY-MM-DD'),
                 clear_date = undefined;
             cb(start, end, clear_date);
+            let url = location.origin + location.pathname;
+            if (location.href != url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam}))){
+                history.pushState({data: {}, url: url}, document.title, url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam})));
+                changeUrl(start, endToParam);
+            }
         });
         $(selector).on('cancel.daterangepicker', function(ev, picker) {
             var start = null,
                 end = null,
                 clear_date = 'clear';
             cb(start, end, clear_date);
+            let url = location.origin + location.pathname;
+            let params = $.urlParams;
+            delete params.from;
+            delete params.till;
+            if (location.href != url+($.param(params) ? '?'+$.param(params) : '')) {
+                history.pushState({data: {}, url: url}, document.title, url+($.param(params) ? '?'+$.param(params) : ''));
+                changeUrl(start, end);
+            }
         });
 
     };
 
     return properties
-}
+};
 
 global.search = function(selector){
     let form = $(selector);
@@ -146,5 +195,71 @@ global.search = function(selector){
         attr('value', network).
         appendTo(selector);
     };
-}
+};
+
+(function($) {
+    $.urlParams = function(paramsArray = window.location.search.substr(1).split('&')) {
+        var params = {};
+
+        for (var i = 0; i < paramsArray.length; ++i)
+        {
+            var param = paramsArray[i]
+                .split('=', 2);
+
+            if (param.length !== 2)
+                continue;
+
+            params[param[0]] = decodeURIComponent(param[1].replace(/\+/g, " "));
+        }
+
+        return params;
+    };
+    $.urlParamsToArray = (function(obj){
+        var p = [];
+        $.each(obj, function(k,v){
+            p.push({name: k, value: v})
+        });
+        return p;
+    })($.urlParams);
+})($);
+
+function compactDataArray(arr){
+    var data = [];
+    $.each(arr, function(){
+        this.value != '' ? data.push(this) : '';
+    });
+    return data;
+};
+
+
+global.dateRangeReportFormat = function(from, till){
+    if (from){
+        var tillp = till ? Date.parse(till) : Date.now();
+        if ((tillp - Date.parse(from) ) / (24*3600*1000) > 100 ){
+            return '%Y-%m';
+        }else{
+            return '%Y-%m-%d';
+        }
+    }else{
+        return '%Y-%m';
+    }
+};
+
+
+global.queryWithTimeRange = function(rr, query, from, till, params){
+
+    function draw(start,end){
+        var dateFormat = dateRangeReportFormat(start,end);
+        var data = Object.assign({}, params, {
+            from: start,
+            till: end,
+            dateFormat: dateFormat
+        });
+        query.request(data);
+    }
+
+    draw(from,till);
+    rr.change(draw);
+
+};
 

@@ -1,8 +1,10 @@
-<% content_for(:title, header) if local_assigns[:header] %>
 <div class="row search mb-2">
   <div class="col-12 col-lg">
-<!--    <%# if local_assigns[:header] %><h6 class="header-title word-wrap"><%#= header %></h6><%# end %>-->
-    <h6 class="mt-2 word-wrap"><%= header %></h6>
+    <h6 class="mt-2 word-wrap">
+
+      <% if @network %><%= network_icon @network %><% end %>
+      <span class="<%= icon %>" style="font-size: 30px;"></span>&nbsp;
+      <%= header %></h6>
   </div>
   <% if local_assigns[:reportrange] %>
     <div class="col-12 col-lg-auto">
