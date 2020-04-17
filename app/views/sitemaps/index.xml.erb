@@ -14,5 +14,9 @@
     <%= render partial: 'url', locals: {url: covid_country_url(c)} %>
   <% end  %>
 
+  <% for bc in BLOCKCHAINS %>
+    <%= render partial: 'url', locals: {url: url_for controller: "#{bc[:family]}/network", action: 'blocks',
+                                                     blockchain: bc[:path]} %>
+  <% end %>
 
 </urlset>

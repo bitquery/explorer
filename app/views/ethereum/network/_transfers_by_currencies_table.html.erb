@@ -51,8 +51,8 @@
 
                 {
                     title: '<%= t('widgets.titles.currency') %>',
-                    type: 'string',
-                    path: 'currency.symbol',
+                    type: 'string-ellipsis',
+                    path: ['currency.symbol','currency.name','currency.address'],
                     urlCallbackName: 'token_path'
                 },
 
