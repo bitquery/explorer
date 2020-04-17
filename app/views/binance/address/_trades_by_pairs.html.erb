@@ -53,45 +53,49 @@
 
         new widgets.table_trades('#trades_by_currencies', query, 'binance.trades', {
             title: '<%= t('widgets.headers.trades_by_currencies') %>',
-            tableOptions: {
-                title: [
-                    '<%= t('widgets.titles.pair') %>', '', '', '<%= t('widgets.titles.buy') %>', '', '<%= t('widgets.titles.sell') %>', '', '', '<%= t('widgets.titles.trade') %>'
-                ],
-                data: [
+            dataOptions: [
                     {
+                        title: '<%= t('widgets.titles.pair') %>',
                         type: 'string',
                     },
                     {
+                        title: '',
                         type: 'string',
                     },
                     {
+                        title: '',
                         type: 'string',
                         data: '<i class="fa fa-sign-in text-success"></i>',
                         html_class: 'text-center'
                     },
                     {
+                        title: '<%= t('widgets.titles.buy') %>',
                         type: 'amount'
                     },
                     {
+                        title: '',
                         type: 'string',
                     },
                     {
+                        title: '<%= t('widgets.titles.sell') %>',
                         type: 'amount'
                     },
                     {
+                        title: '',
                         type: 'string',
                     },
                     {
+                        title: '',
                         type: 'string',
                         data: '<i class="fa fa-sign-in text-warning"></i>',
                         html_class: 'text-center'
                     },
                     {
+                        title: '<%= t('widgets.titles.trade') %>',
                         type: 'count',
                         data: '%{DATA} <span class="fa fa-list"></span>',
                     }
                 ]
-            }
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
