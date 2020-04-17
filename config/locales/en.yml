@@ -376,6 +376,8 @@ en:
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
       validators: "Validators"
+      latest_token_orders: "Latest Token Orders"
+      latest_token_trades: "Latest Token Trades"
     titles:
       date: 'Date'
       month: 'Month'
