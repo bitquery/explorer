@@ -194,7 +194,7 @@ en:
         description: "Orders for trading crypto currencies in transaction %{hash} of %{network}, statistics of token exchange orders"
       trades:
         name: 'Trades'
-        header: "Trades by %{network} address %{address}"
+        header: "Trades by %{network} address %{hash}"
         title: "Trades %{network} %{hash}"
         description: "Trades in transaction %{hash} of %{network}, statistics of token exchanges"
     block:
