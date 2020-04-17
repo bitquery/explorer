@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.inbound_transfers') %></div>
+      <div class="card-header"><%= t('widgets.headers.outbound_transfers') %></div>
       <div class="card-body">
-        <div id="inbound_transfers"><%= t('loading') %></div>
+        <div id="outbound_transfers"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -18,13 +18,19 @@
                         query (
                                 $address: String!,
                                 $limit: Int!,
-                                $offset: Int!
+                                $offset: Int!,
+                                <% if @currency  %>$currency: String!,<% end %>
+                                <% if @receiver  %>$receiver: String!,<% end %>
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    binance {
+                    binance{
                       transfers(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
-                        receiver: {is: $address}) {
+                        <% if @currency  %>currency: {is: $currency},<% end %>
+                        <% if @receiver  %>receiver: {is: $receiver},<% end %>
+                        sender: {is: $address}
+
+                        ) {
 
                         block {
                           timestamp {
@@ -32,66 +38,61 @@
                           }
                           height
                         }
-                        address: sender {
+                        address: receiver {
                           address
                           annotation
                         }
                         currency {
-                          address
                           symbol
                         }
                         amount
                         transaction {
                           hash
                         }
-                        tradeId
+
                         transferType
 
                       }
                     }
                   }`);
 
-        new widgets.table('#inbound_transfers', query, 'binance.transfers', {
-            title: '<%= t('widgets.headers.inbound_transfers') %>',
+        new widgets.table('#outbound_transfers', query, 'binance.transfers', {
+            title: '<%= t('widgets.headers.outbound_transfers') %>',
+            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',
                     type: 'string',
-                    path: 'block.timestamp.time',
-                    style: 'width: 180px'
+                    path: 'block.timestamp.time'
                 },
                 {
                     title: '<%= t('widgets.titles.block') %>',
                     type: 'string',
                     path: 'block.height',
-                    urlCallbackName: 'block_path',
-                    style: 'width: 90px'
-                },
-                {
-                    title: '<%= t('widgets.titles.sender') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '',
-                    type: 'string',
-                    data: '<i class="fa fa-sign-in text-success"></i>',
-                    html_class: 'text-center',
-                    style: 'width: 30px'
+                    urlCallbackName: 'block_path'
                 },
                 {
                     title: '<%= t('widgets.titles.amount') %>',
                     type: 'amount',
-                    path: 'amount',
-                    style: 'width: 100px'
+                    path: 'amount'
                 },
                 {
                     title: '<%= t('widgets.titles.currency') %>',
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
-                    urlCallbackName: 'token_path',
-                    style: 'width: 80px'
+                    urlCallbackName: 'token_path'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-warning"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
                 },
                 {
                     title: '<%= t('widgets.titles.transfer_type') %>',
@@ -109,13 +110,15 @@
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
                     path: 'transaction.hash',
-                    urlCallbackName: 'transaction_path'
+                    urlCallbackName: 'transaction_path',
                 },
             ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            address: '<%= @address %>'
+            address: '<%= @sender %>',
+            currency: '<%= @currency %>',
+            receiver: '<%= @receiver %>'
         });
 
 

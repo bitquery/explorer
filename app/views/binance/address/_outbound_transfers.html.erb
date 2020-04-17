@@ -43,7 +43,7 @@
                         transaction {
                           hash
                         }
-
+                        tradeId
                         transferType
 
                       }
@@ -97,6 +97,12 @@
                     type: 'string',
                     path: 'transferType',
                     style: 'width: 80px'
+                },
+                {
+                    title: '<%= t('widgets.titles.trade_id') %>',
+                    type: 'string-ellipsis',
+                    path: 'tradeId',
+                    urlCallbackName: 'trade_path'
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',
