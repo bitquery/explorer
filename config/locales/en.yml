@@ -187,6 +187,16 @@ en:
         header: "%{network} transaction %{hash}"
         title: "References from %{network} %{hash}"
         description: "References from Smart Contract Events and Methods in transaction %{hash} in %{network}"
+      orders:
+        name: 'Orders'
+        header: "Orders in %{network} transaction %{hash}"
+        title: "Orders %{network} %{hash}"
+        description: "Orders for trading crypto currencies in transaction %{hash} of %{network}, statistics of token exchange orders"
+      trades:
+        name: 'Trades'
+        header: "Trades by %{network} address %{address}"
+        title: "Trades %{network} %{hash}"
+        description: "Trades in transaction %{hash} of %{network}, statistics of token exchanges"
     block:
       icon: 'fas fa-cube'
       show:
@@ -480,6 +490,8 @@ en:
       last_block_date: "Last block date"
       operator_address: "Operator"
       operator_hr_address: "Operator HR"
+      transaction_index: "Index in Block"
+      transaction_code: "Result Code"
   pages:
     home:
       family: "%{family} Platform Explorers"

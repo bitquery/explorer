@@ -69,6 +69,16 @@
         trade_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ item.transaction.hash + '/trades';
         },
+        property_value_path: function(item){
+            if (item.address ) {
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
+            } else if (item.block ){
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
+            }else{
+                return null;
+            }
+
+        },
     });
 
 </script>
