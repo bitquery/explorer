@@ -53,7 +53,7 @@
             title: '<%= t('widgets.headers.token_attributes') %>',
             renderData: function(data){
                 item = data[0];
-                return [
+                return !item ? [] : [
                     {name: '<%= t('widgets.headers.token_symbol') %>', value: item.smartContract.currency.symbol},
                     {name: '<%= t('widgets.headers.token_type') %>', value: item.smartContract.currency.tokenType},
                     {name: '<%= t('widgets.headers.token_name') %>', value: item.smartContract.currency.name},

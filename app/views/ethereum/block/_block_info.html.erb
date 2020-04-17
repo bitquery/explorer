@@ -47,7 +47,7 @@
             title: '<%= t('widgets.headers.block_info') %>',
             renderData: function (data) {
                 item = data[0];
-                return [
+                return !item ? [] : [
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.iso8601},
                     {name: '<%= t('widgets.titles.miner') %>', value: (item.miner.annotation || item.miner.address), address: item.miner},
                     {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' '+ item.rewardCurrency.symbol },

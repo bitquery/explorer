@@ -48,7 +48,7 @@ $( document ).ready(function() {
         title: '<%= t('widgets.headers.token_statistics') %>',
         renderData: function (data) {
             item = data[0];
-            return [
+            return !item ? [] : [
                 {name: '<%= t('widgets.titles.transfer_count') %>', value: item.count},
 
                 {name: '<%= t('widgets.titles.uniq_senders') %>', value: item.sender_count},

@@ -40,7 +40,7 @@
             title: '<%= t('widgets.headers.smart_contract_statitics') %>',
             renderData: function (data) {
                 item = data[0];
-                return [
+                return !item ? [] : [
                     {name: '<%= t('widgets.titles.calls_count') %>', value: item.count},
                     {name: '<%= t('widgets.titles.external_calls_count') %>', value: item.external_calls},
                     {name: '<%= t('widgets.titles.internal_calls_count') %>', value: item.internal_calls},
