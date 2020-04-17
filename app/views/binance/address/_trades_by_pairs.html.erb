@@ -1,0 +1,103 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.trades_by_currencies') %></div>
+    <div class="card-body">
+      <div id="trades_by_currencies"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!){
+      binance {
+
+        trades(date: {since: $from, till: $till}, options: {limit: $limit, offset: $offset}){
+
+          trades_as_buyer: count(buyer: {
+            is: $address
+          }, uniq:trades)
+
+          trades_as_seller: count(seller: {
+            is: $address
+          }, uniq:trades)
+
+          buyQuoteAmount: quoteAmount(buyer: {
+            is: $address
+          })
+
+          sellQuoteAmount: quoteAmount(seller: {
+            is: $address
+          })
+
+          buyBaseAmount: baseAmount(buyer: {
+            is: $address
+          })
+
+          sellBaseAmount:baseAmount(seller: {
+            is: $address
+          })
+
+          baseCurrency{ symbol }
+          quoteCurrency{ symbol }
+
+
+        }
+      }
+    }`);
+
+
+        new widgets.table_trades('#trades_by_currencies', query, 'binance.trades', {
+            title: '<%= t('widgets.headers.trades_by_currencies') %>',
+            tableOptions: {
+                title: [
+                    '<%= t('widgets.titles.pair') %>', '', '', '<%= t('widgets.titles.buy') %>', '', '<%= t('widgets.titles.sell') %>', '', '', '<%= t('widgets.titles.trade') %>'
+                ],
+                data: [
+                    {
+                        type: 'string',
+                    },
+                    {
+                        type: 'string',
+                    },
+                    {
+                        type: 'string',
+                        data: '<i class="fa fa-sign-in text-success"></i>',
+                        html_class: 'text-center'
+                    },
+                    {
+                        type: 'amount'
+                    },
+                    {
+                        type: 'string',
+                    },
+                    {
+                        type: 'amount'
+                    },
+                    {
+                        type: 'string',
+                    },
+                    {
+                        type: 'string',
+                        data: '<i class="fa fa-sign-in text-warning"></i>',
+                        html_class: 'text-center'
+                    },
+                    {
+                        type: 'count',
+                        data: '%{DATA} <span class="fa fa-list"></span>',
+                    }
+                ]
+            }
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            address: '<%= @address %>'
+        });
+
+    });
+</script>
+

@@ -245,6 +245,7 @@ global.dateRangeReportFormat = function(from, till){
     }
 };
 
+
 global.queryWithTimeRange = function(rr, query, from, till, params){
 
     function draw(start,end){
