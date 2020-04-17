@@ -15,8 +15,8 @@
   <% end  %>
 
   <% for bc in BLOCKCHAINS %>
-    <%= render partial: 'url', locals: {url: url_for controller: "#{bc[:family]}/network", action: 'blocks',
-                                                     blockchain: bc[:path]} %>
+    <%= render partial: 'url', locals: {url: url_for(controller: "#{bc[:family]}/network", action: 'blocks',
+                                                     blockchain: bc[:path], network: bc, only_path: false) } %>
   <% end %>
 
 </urlset>
