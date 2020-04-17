@@ -107,24 +107,24 @@ en:
       icon: 'fas fa-coins text-warning'
       show:
         name: 'Token'
-        header: "Token in %{network} with address %{address}"
-        title: "%{network} %{address}"
-        description: "Overview of token smart contract %{address} activity in %{network}"
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Overview of token %{token} activity in %{network}"
       transfers:
         name: 'Transfers'
-        header: "Token in %{network} with address %{address}"
-        title: "%{network} %{address}"
-        description: "Transfers of token smart contract %{address} activity in %{network}"
+        header: "Token %{token} in %{network} "
+        title: "%{network} %{token}"
+        description: "Transfers of token %{token} activity in %{network}"
       senders:
         name: 'Senders'
-        header: "Token in %{network} with address %{address}"
-        title: "%{network} %{address}"
-        description: "Senders of token smart contract %{address} activity in %{network}"
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Senders of token %{token} activity in %{network}"
       receivers:
         name: 'Receivers'
-        header: "Token in %{network} with address %{address}"
+        header: "Token %{token} in %{network}"
         title: "%{network} %{address}"
-        description: "Receivers of token smart contract %{address} activity in %{network}"
+        description: "Receivers of token %{token} activity in %{network}"
       smart_contract:
         name: 'Smart Contract'
         header: "Token in %{network} with address %{address}"
@@ -160,6 +160,16 @@ en:
         header: "Calls from %{network} token smart contract %{address}"
         title: "Calls from %{network} %{address}"
         description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
+      orders:
+        name: 'Orders'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Orders for token %{token} trading in %{network}"
+      trades:
+        name: 'Trades'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Trades for token %{token} in %{network}"
     tx:
       icon: 'fas fa-bolt'
       show:
@@ -335,7 +345,7 @@ en:
       token_receivers_diagram: "Distribution of Token Receivers By Volume"
       token_receivers_by_time: "Unique Receivers By Time"
       token_median_receiver_amount_by_time: "Median Received Amount"
-      token_statistics: "Token statistics"
+      token_statistics: "Token transfer statistics"
       smart_contract_statitics: "Smart Contract Statistics"
       tx_transfers: "Token Transfers in Transaction"
       tx_calls: "Smart Contract Calls in Transaction"

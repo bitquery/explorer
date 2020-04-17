@@ -34,7 +34,9 @@ class Ethereum::TokenController < NetworkController
   private
 
   def is_native
-    @native_token = params[:address]==@network[:currency]
+    @token = params[:address]
+    @address = params[:address]
+    @native_token = @token==@network[:currency]
   end
 
 end

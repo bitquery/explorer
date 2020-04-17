@@ -91,25 +91,25 @@ zh:
     token:
       icon: 'fas fa-coins text-warning'
       show:
-        name: '代币'
-        header: "地址为%{address}的%{network}中的令牌"
-        title: "%{network} %{address}"
-        description: "%{network}中的令牌智能合约%{address}活动概述"
+        name: 'Token'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Overview of token %{token} activity in %{network}"
       transfers:
-        name: '转账'
-        header: "地址为%{address}的%{network}中的令牌"
-        title: "%{network} %{address}"
-        description: "令牌智能合约%{address}活动在%{network}中的转移"
+        name: 'Transfers'
+        header: "Token %{token} in %{network} "
+        title: "%{network} %{token}"
+        description: "Transfers of token %{token} activity in %{network}"
       senders:
-        name: '发件人'
-        header: "地址为%{address}的%{network}中的令牌"
-        title: "%{network} %{address}"
-        description: "%{network}中的令牌智能合约%{address}活动的发送者"
+        name: 'Senders'
+        header: "Token %{token} in %{network}"
+        title: "%{network} %{token}"
+        description: "Senders of token %{token} activity in %{network}"
       receivers:
-        name: '接收者'
-        header: "地址为%{address}的%{network}中的令牌"
+        name: 'Receivers'
+        header: "Token %{token} in %{network}"
         title: "%{network} %{address}"
-        description: "%{network}中的令牌智能合约%{address}活动的接收者"
+        description: "Receivers of token %{token} activity in %{network}"
       smart_contract:
         name: '智能合约'
         header: "地址为%{address}的%{network}中的令牌"
