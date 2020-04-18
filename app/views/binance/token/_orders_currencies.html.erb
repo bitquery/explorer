@@ -1,0 +1,88 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_currencies') %></div>
+    <div class="card-body">
+      <div id="token_currencies"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query (
+        $token: String!,
+        $limit: Int!,
+        $offset: Int!
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime){
+    binance {
+      orders(
+
+      any: [{baseCurrency: {is: $token}},{quoteCurrency: {is: $token}}]
+      date: {since: $from till: $till}
+        options: {desc: "count", limit: $limit, offset: $offset}
+      ){
+
+        baseCurrency {
+          symbol
+        }
+        quoteCurrency {
+          symbol
+        }
+
+        count
+
+        baseAmount
+        quoteAmount
+
+      }
+    }
+  }`);
+
+        new widgets.table('#token_currencies', query, 'binance.orders', {
+            title: '<%= t('widgets.headers.token_currencies') %>',
+            dataOptions: [
+
+
+
+
+                {
+                    title: '<%= t('widgets.titles.trade_base_currency_amount') %>',
+                    type: 'amount',
+                    path: 'baseAmount'
+                },
+                {
+                    title: '<%= t('widgets.titles.base_currency') %>',
+                    type: 'string',
+                    path: 'baseCurrency.symbol',
+                    urlCallbackName: 'base_token_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.trade_quote_currency_amount') %>',
+                    type: 'amount',
+                    path: 'quoteAmount'
+                },
+                {
+                    title: '<%= t('widgets.titles.quote_currency') %>',
+                    type: 'string',
+                    path: 'quoteCurrency.symbol',
+                    urlCallbackName: 'quote_token_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'count'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+            token: '<%= @token %>'
+        });
+
+    });
+
+</script>
