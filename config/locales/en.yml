@@ -383,6 +383,8 @@ en:
       token_currencies: "Token Order Pairs"
       token_trades_currencies: "Token Trade Pairs"
       orders_by_time: "Orders by time"
+      trade_quote_buyers: "%{token} Top Buyers as Quote Currency"
+      trade_quote_sellers: "%{token} Top Sellers as Quote Currency"
     titles:
       date: 'Date'
       month: 'Month'
@@ -517,7 +519,7 @@ en:
       traders_sell_quote_count: "Traders Selling Quote Currency"
       first_trade_date: "First trade date"
       last_trade_date: "Last trade date"
-      trades_days: "Days token traded"
+      trades_days: "Days traded"
       trade_base_currency_amount: 'Base Amount'
       trade_quote_currency_amount: 'Quote Amount'
       average_price: 'Avg Price'
