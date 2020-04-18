@@ -15,35 +15,38 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
-                                $limit: Int!,
-                                $offset: Int!
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum(network: $network){
-                      transactions(options:{desc: "block.height", limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
-                        ) {
+              query ($network: BitcoinNetwork!,
+                      $limit: Int!,
+                      $offset: Int!
+                      $from: ISO8601DateTime,
+                      $till: ISO8601DateTime){
+          bitcoin(network: $network){
+            transactions(options:{desc: ["block.height","index"], limit: $limit, offset: $offset},
+              date: {since: $from till: $till }
+              ) {
 
-                          block {
-                            timestamp {
-                              time (format: "%Y-%m-%d %H:%M:%S")
-                            }
-                            height
-                          }
+                block {
+                  timestamp {
+                    time (format: "%Y-%m-%d %H:%M:%S")
+                  }
+                  height
+                }
 
-                          address: sender {
-                            address
-                            annotation
-                          }
-                          hash
-                          gasValue
 
-                      }
-                    }
-                  }`);
+                inputValue
+                outputCount
+                inputCount
 
-        new widgets.table('#latest_transactions', query, 'ethereum.transactions', {
+                index
+
+                hash
+                feeValue
+
+            }
+          }
+          }`);
+
+        new widgets.table('#latest_transactions', query, 'bitcoin.transactions', {
             title: '<%= t('widgets.headers.latest_transactions') %>',
             dataOptions: [
                 {
@@ -59,12 +62,10 @@
                     urlCallbackName: 'block_path',
                     style: 'width: 80px;'
                 },
-
                 {
-                    title: '<%= t('widgets.titles.tx_sender') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
+                    title: '<%= t('widgets.titles.transaction_index') %>',
+                    path: 'index',
+                    style: 'width: 80px;'
                 },
                 {
                     title: '<%= t('widgets.titles.hash') %>',
@@ -72,13 +73,31 @@
                     path: 'hash',
                     urlCallbackName: 'transaction_path'
                 },
-
                 {
-                    title: '<%= t('widgets.titles.gas_value') %>, <%= @network[:currency] %>',
+                    title: '<%= t('widgets.titles.input_count') %>',
+                    path: 'inputCount',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.output_count') %>',
+                    path: 'outputCount',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
                     type: 'amount',
-                    path: 'gasValue',
+                    path: 'feeValue',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.input_value') %>, <%= @network[:currency] %>',
+                    type: 'amount',
+                    path: 'inputValue',
                     style: 'width: 110px;'
                 },
+
+
+
             ]
         });
 

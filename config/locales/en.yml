@@ -398,6 +398,7 @@ en:
       trade_quote_buyers: "%{token} Top Buyers as Quote Currency"
       trade_quote_sellers: "%{token} Top Sellers as Quote Currency"
       order_statuses: "Order Statuses"
+      transaction_fee_by_time: "Fee Spent By Date"
     titles:
       date: 'Date'
       month: 'Month'
@@ -539,6 +540,10 @@ en:
       orders_as_base_count: "Orders As Base Currency"
       orders_as_quote_count: "Orders As Quote Currency"
       validator_cons_pub_key: "Validator Consensus Public Key"
+      fee: "Fee"
+      input_value: "Input Value"
+      input_count: "Inputs"
+      output_count: "Outputs"
   pages:
     home:
       family: "%{family} Platform Explorers"
