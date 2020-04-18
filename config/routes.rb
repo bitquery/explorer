@@ -1,15 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :binance do
-    get 'block/show'
-  end
-  namespace :binance do
-    get 'order/statuses'
-    get 'order/trades'
-  end
-  namespace :binance do
-    get 'tx_list/transfers'
-  end
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
 
     BLOCKCHAINS.select{|b| b[:family]=='ethereum'}.each{|blockchain|
@@ -67,8 +57,21 @@ Rails.application.routes.draw do
     }
 
     BLOCKCHAINS.select{|b| b[:family]=='bitcoin' }.each{|blockchain|
+
+      get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+      get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
-      get ":blockchain/tx/:address", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+      get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+      get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
+      get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+
     }
 
 

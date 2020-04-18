@@ -5,12 +5,45 @@ BLOCKCHAINS = [
     {
         tag: 'btc',
         network: 'bitcoin',
-        name: 'Bitcoin',
+        name: 'Bitcoin Mainnet',
         path: 'bitcoin',
         family: 'bitcoin',
         platform: 'Bitcoin',
         currency: 'BTC',
         icon: 'btc.svg'
+    },
+
+    {
+        tag: 'ltc',
+        network: 'litecoin',
+        name: 'Litecoin',
+        path: 'litecoin',
+        family: 'bitcoin',
+        platform: 'Bitcoin',
+        currency: 'LTC',
+        icon: 'ltc.svg'
+    },
+
+    {
+        tag: 'doge',
+        network: 'dogecoin',
+        name: 'Dogecoin',
+        path: 'doge',
+        family: 'bitcoin',
+        platform: 'Bitcoin',
+        currency: 'DOGE',
+        icon: 'doge.svg'
+    },
+
+    {
+        tag: 'dash',
+        network: 'dash',
+        name: 'Dash',
+        path: 'dash',
+        family: 'bitcoin',
+        platform: 'Bitcoin',
+        currency: 'DASH',
+        icon: 'dash.svg'
     },
 
     {
@@ -25,26 +58,26 @@ BLOCKCHAINS = [
     },
 
     {
-        tag: 'binance',
-        network: 'binance',
-        name: 'Binance DEX',
-        path: 'binance',
-        family: 'binance',
-        platform: 'Cosmos',
-        currency: 'BNB',
-        icon: 'bnb.svg'
+        tag: 'etc',
+        network: 'ethclassic',
+        name: 'Ethereum Classic',
+        path: 'ethclassic',
+        family: 'ethereum',
+        platform: 'Smart Contract',
+        currency: 'ETC',
+        icon: 'etc.svg'
 
     },
 
     {
-        tag: 'ltc',
-        network: 'litecoin',
-        name: 'Litecoin',
-        path: 'litecoin',
+        tag: 'zcash',
+        network: 'zcash',
+        name: 'ZCash',
+        path: 'zcash',
         family: 'bitcoin',
         platform: 'Bitcoin',
-        currency: 'LTC',
-        icon: 'ltc.svg'
+        currency: 'ZEC',
+        icon: 'zec.svg'
     },
 
     {
@@ -70,28 +103,6 @@ BLOCKCHAINS = [
     },
 
     {
-        tag: 'dash',
-        network: 'dash',
-        name: 'Dash',
-        path: 'dash',
-        family: 'bitcoin',
-        platform: 'Bitcoin',
-        currency: 'DASH',
-        icon: 'dash.svg'
-    },
-
-    {
-        tag: 'doge',
-        network: 'dogecoin',
-        name: 'Dogecoin',
-        path: 'doge',
-        family: 'bitcoin',
-        platform: 'Bitcoin',
-        currency: 'DOGE',
-        icon: 'doge.svg'
-    },
-
-    {
         tag: 'cardano',
         network: 'cardano',
         name: 'Cardano',
@@ -103,29 +114,23 @@ BLOCKCHAINS = [
     },
 
     {
-        tag: 'zcash',
-        network: 'zcash',
-        name: 'ZCash',
-        path: 'zcash',
-        family: 'bitcoin',
-        platform: 'Bitcoin',
-        currency: 'ZEC',
-        icon: 'zec.svg'
+        tag: 'binance',
+        network: 'binance',
+        name: 'Binance DEX',
+        path: 'binance',
+        family: 'binance',
+        platform: 'Cosmos',
+        currency: 'BNB',
+        icon: 'bnb.svg'
+
     },
 
 
 
-     {
-         tag: 'etc',
-         network: 'ethclassic',
-         name: 'Ethereum Classic',
-         path: 'ethclassic',
-         family: 'ethereum',
-         platform: 'Smart Contract',
-         currency: 'ETC',
-         icon: 'etc.svg'
 
-     },
+
+
+
 
      #{
      #    tag: 'alfajores',
