@@ -4,12 +4,13 @@
 <% for group in BLOCKCHAINS.group_by{|bc| bc[:platform]} %>
   <div class="col-lg-3 mb-4">
   <div class="card">
-    <div class="card-header"><%= t "pages.home.family", family: group.first %></div>
+    <div class="card-header"><%= link_to t("pages.home.family", family: group.first),
+                                          action: group.first.gsub(' ','').underscore %></div>
     <div class="card-body">
       <ul class="list-group list-group-flush">
         <% for chain in group.second %>
           <li class="list-group-item"><%= network_icon chain %>&nbsp;
-            <%= link_to chain[:name], "/#{chain[:path]}" %>
+            <%= link_to chain[:name], "/#{chain[:path]}", class: 'text-default' %>
           </li>
         <% end %>
       </ul>
@@ -21,13 +22,14 @@
 <% for group in DATASETS.group_by{|bc| bc[:family]} %>
   <div class="col-lg-3 mb-4">
   <div class="card">
-    <div class="card-header"><%= t "pages.home.offchain", family: group.first.capitalize %></div>
+    <div class="card-header"><%= link_to t("pages.home.offchain", family: group.first.capitalize),
+                                         action: group.first.gsub(' ','').underscore %></div>
     <div class="card-body">
       <ul class="list-group list-group-flush">
         <% for dataset in group.second %>
           <li class="list-group-item">
             <%= dataset_icon dataset %>&nbsp;
-            <%= link_to dataset[:name], "/#{dataset[:path]}" %>
+            <%= link_to dataset[:name], "/#{dataset[:path]}", class: 'text-default' %>
           </li>
         <% end %>
       </ul>
