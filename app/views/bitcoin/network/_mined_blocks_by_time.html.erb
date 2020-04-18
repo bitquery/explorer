@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.miners_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.mined_blocks') %></div>
       <div class="card-body">
-        <div id="miners_by_time"><%= t('loading') %></div>
+        <div id="mined_blocks"><%= t('loading') %></div>
       </div>
     </div>
   </div>
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.mined_value_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.average_mined_by_block') %></div>
       <div class="card-body">
-        <div id="mined_value_by_time"><%= t('loading') %></div>
+        <div id="average_mined_by_block"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -31,33 +31,30 @@
               $from: ISO8601DateTime,
               $till: ISO8601DateTime){
                 bitcoin(network: $network ){
-                  outputs(options:{asc: "date.date"}, date: {
+                  transactions(options:{asc: "date.date"}, date: {
                     since: $from
                     till: $till}
 
-                    txIndex: {is: 0}
-                    outputDirection: {is: mining}
-                    outputScriptType: {notIn: [nulldata, nonstandard]}
 
                   ) {
                     date: date{
                       date(format: $dateFormat)
                     }
 
-                    count(uniq: addresses)
+                    count(uniq: blocks)
 
-                    value
+                    minedValue
 
                   }
                 }
               }`);
 
-        new widgets.chart('#miners_by_time', query, 'bitcoin.outputs', {
-            title: '<%= t('widgets.headers.miners_by_time') %>',
+        new widgets.chart('#mined_blocks', query, 'bitcoin.transactions', {
+            title: '<%= t('widgets.headers.mined_blocks') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.unique_miners') %>'
+                        title: '<%= t('widgets.titles.block_count') %>'
                     }
                 },
                 hAxis: <%= render partial: 'shared/date_axis.json' %>,
@@ -72,15 +69,15 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.unique_miners') %>',
+                    title: '<%= t('widgets.titles.block_count') %>',
                     path: 'count'
                 },
 
             ]
         });
 
-        new widgets.chart('#mined_value_by_time', query, 'bitcoin.outputs', {
-            title: '<%= t('widgets.headers.mined_value_by_time') %>',
+        new widgets.chart('#average_mined_by_block', query, 'bitcoin.transactions', {
+            title: '<%= t('widgets.headers.average_mined_by_block') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
@@ -100,7 +97,9 @@
                 },
                 {
                     title: '<%= t('widgets.titles.mined_value') %>',
-                    path: 'value'
+                    renderCallback: function(item){
+                        return item.minedValue / item.count;
+                    }
                 },
 
             ]

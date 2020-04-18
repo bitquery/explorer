@@ -400,6 +400,8 @@ en:
       order_statuses: "Order Statuses"
       transaction_fee_by_time: "Fee Spent By Date"
       mined_value_by_time: "Mined Value By Time"
+      mined_blocks: "Mined blocks"
+      average_mined_by_block: "Average Mined Value By Block"
     titles:
       date: 'Date'
       month: 'Month'
