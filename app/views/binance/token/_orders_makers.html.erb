@@ -33,18 +33,11 @@
           annotation
         }
 
-
-        amount_as_base: baseAmount(baseCurrency: {is: $token})
-        amount_as_quote: quoteAmount(quoteCurrency: {is: $token})
-
-
-        count
+        count(uniq: orders)
         days: count(uniq: dates)
 
-
-
         min_date:minimum(of: date)
-        max_date:maximum(of: date)
+
       }
     }
   }`);
@@ -59,26 +52,24 @@
                     urlCallbackName: 'address_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.trades') %>',
+                    title: '<%= t('widgets.titles.unique_orders') %>',
                     style: 'width: 60px;',
                     path: 'count'
                 },
                 {
-                    title: '<%= t('widgets.titles.trade_base_currency_amount') %>, <%= @token %>',
-                    type: 'amount',
-                    style: 'width: 90px;',
-                    path: 'amount_as_base'
+                    title: '<%= t('widgets.titles.first_trade_date') %>',
+                    style: 'width: 120px;',
+                    path: 'min_date'
                 },
                 {
-                    title: '<%= t('widgets.titles.trade_quote_currency_amount') %>, <%= @token %>',
-                    type: 'amount',
-                    style: 'width: 90px;',
-                    path: 'amount_as_quote'
+                    title: '<%= t('widgets.titles.trades_days') %>',
+                    style: 'width: 100px;',
+                    path: 'days'
                 },
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             token: '<%= @token %>'
         });
 

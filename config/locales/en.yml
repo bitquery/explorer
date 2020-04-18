@@ -381,6 +381,8 @@ en:
       token_trading_statistics: "Token trading statistics"
       token_makers: "Token Order Makers"
       token_currencies: "Token Order Pairs"
+      token_trades_currencies: "Token Trade Pairs"
+      orders_by_time: "Orders by time"
     titles:
       date: 'Date'
       month: 'Month'
@@ -507,8 +509,8 @@ en:
       operator_hr_address: "Operator HR"
       transaction_index: "Index in Block"
       transaction_code: "Result Code"
-      trades_as_base_count: "Trades Count As Base Currency"
-      trades_as_quote_count: "Trades Count As Quote Currency"
+      trades_as_base_count: "Trades As Base Currency"
+      trades_as_quote_count: "Trades As Quote Currency"
       traders_buy_base_count: "Traders Buying Base Currency"
       traders_buy_quote_count: "Traders Buying Quote Currency"
       traders_sell_base_count: "Traders Selling Base Currency"
@@ -519,6 +521,8 @@ en:
       trade_base_currency_amount: 'Base Amount'
       trade_quote_currency_amount: 'Quote Amount'
       average_price: 'Avg Price'
+      orders_as_base_count: "Orders As Base Currency"
+      orders_as_quote_count: "Orders As Quote Currency"
   pages:
     home:
       family: "%{family} Platform Explorers"
