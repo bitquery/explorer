@@ -16,11 +16,14 @@
 
         var query = new widgets.query(`
                         query ( $token: String!,
+                    $from: ISO8601DateTime,
+                    $till: ISO8601DateTime,
                     $limit: Int!,
                     $offset: Int! ){
                     binance{
                       trades(options:{desc: "block.height", limit: $limit, offset: $offset},
                         any: [{baseCurrency: {is: $token}},{quoteCurrency: {is: $token}}]
+                        date: {since: $from till: $till },
                         ) {
 
                           block {

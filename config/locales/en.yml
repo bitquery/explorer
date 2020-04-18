@@ -518,6 +518,7 @@ en:
       trades_days: "Days token traded"
       trade_base_currency_amount: 'Base Amount'
       trade_quote_currency_amount: 'Quote Amount'
+      average_price: 'Avg Price'
   pages:
     home:
       family: "%{family} Platform Explorers"

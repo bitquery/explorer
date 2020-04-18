@@ -45,10 +45,13 @@
 
         new widgets.table('#token_currencies', query, 'binance.orders', {
             title: '<%= t('widgets.headers.token_currencies') %>',
+            renderData: function(data){
+                widgets.lodash.each(data, function(item){
+                    item.price = item.baseAmount/item.quoteAmount;
+                });
+                return data;
+            },
             dataOptions: [
-
-
-
 
                 {
                     title: '<%= t('widgets.titles.trade_base_currency_amount') %>',
@@ -75,6 +78,11 @@
                 {
                     title: '<%= t('widgets.titles.trades') %>',
                     path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.average_price') %>',
+                    type: 'amount',
+                    path: 'price'
                 },
             ]
         });
