@@ -271,11 +271,11 @@ en:
         header: "All Bitquery Datasets"
         title: "Datasets"
         description: "Explorers by Bitquery"
-      ethereum:
-        name: "Ethereum Platform"
-        header: "Ethereum Blockchains at Bitquery"
-        title: "Ethereum Blockchains"
-        description: "Explorers for Ethereum-like Blockchains by Bitquery"
+      smart_contract:
+        name: "Smart Contract Platform"
+        header: "Smart Contract Blockchains at Bitquery"
+        title: "Smart Contract Blockchains"
+        description: "Explorers for Smart Contract Blockchains by Bitquery"
       bitcoin:
         name: "Bitcoin Platform"
         header: "Bitcoin Blockchains at Bitquery"

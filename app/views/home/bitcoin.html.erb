@@ -1,5 +1,5 @@
-<%= render partial: 'home/chains',locals: {platform: 'Bitcoin', query: 'query {
-      chain: bitcoin {
+<%= render partial: 'home/chains',locals: {platform: 'Bitcoin', query: 'query ($network: BitcoinNetwork){
+      chain: bitcoin (network: $network ) {
         transactions(options:{asc: "date.month"}) {
           date{
             month: date(format: "%Y-%m")

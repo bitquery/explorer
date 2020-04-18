@@ -8,7 +8,7 @@ BLOCKCHAINS = [
         name: 'Ethereum Mainnet',
         path: 'ethereum',
         family: 'ethereum',
-        platform: 'Ethereum',
+        platform: 'Smart Contract',
         currency: 'ETH',
         icon: 'eth.svg'
     },
@@ -19,7 +19,7 @@ BLOCKCHAINS = [
          name: 'Ethereum Classic',
          path: 'ethclassic',
          family: 'ethereum',
-         platform: 'Ethereum',
+         platform: 'Smart Contract',
          currency: 'ETC',
          icon: 'etc.svg'
 
@@ -33,7 +33,6 @@ BLOCKCHAINS = [
      #    family: 'ethereum',
      #    currency: 'cGLD',
      #    icon: 'generic.svg'
-
      #},
 
      {
@@ -48,94 +47,93 @@ BLOCKCHAINS = [
 
      },
 
-    #{
-    #    tag: 'tron',
-    #    network: 'tron',
-    #    name: 'Tron',
-    #    path: 'tron',
-    #    family: 'tron'
-    #
-    #},
+      {
+          tag: 'btc',
+          network: 'bitcoin',
+          name: 'Bitcoin',
+          path: 'bitcoin',
+          family: 'bitcoin',
+          platform: 'Bitcoin',
+          currency: 'BTC',
+          icon: 'btc.svg'
+      },
 
-    #{
-    #    tag: 'btc',
-    #    network: 'bitcoin',
-    #    name: 'Bitcoin',
-    #    path: 'bitcoin',
-    #    family: 'bitcoin',
-    #    currency: 'BTC'
-    #},
-    #
-    #{
-    #    tag: 'bch',
-    #    network: 'bitcash',
-    #    name: 'Bitcoin Cash',
-    #    path: 'bitcash',
-    #    family: 'bitcoin'
-    #},
+     {
+         tag: 'ltc',
+         network: 'litecoin',
+         name: 'Litecoin',
+         path: 'litecoin',
+         family: 'bitcoin',
+         platform: 'Bitcoin',
+         currency: 'LTC',
+         icon: 'ltc.svg'
+     },
 
-    #{
-    #    tag: 'ltc',
-    #    network: 'litecoin',
-    #    name: 'Litecoin',
-    #    path: 'litecoin',
-    #    family: 'bitcoin'
-    #
-    #},
+     {
+         tag: 'bch',
+         network: 'bitcash',
+         name: 'Bitcoin Cash',
+         path: 'bitcash',
+         family: 'bitcoin',
+         platform: 'Bitcoin',
+         currency: 'BCH',
+         icon: 'bch.svg'
+     },
 
-    #{
-    #    tag: 'dash',
-    #    network: 'dash',
-    #    name: 'Dash',
-    #    path: 'dash',
-    #    family: 'bitcoin'
-    #
-    #},
+     {
+         tag: 'bsv',
+         network: 'bitcoinsv',
+         name: 'Bitcoin SV',
+         path: 'bitcoinsv',
+         family: 'bitcoin',
+         platform: 'Bitcoin',
+         currency: 'BSV',
+         icon: 'bsv.svg'
+     },
 
-    #{
-    #    tag: 'doge',
-    #    network: 'doge',
-    #    name: 'Dogecoin',
-    #    path: 'doge',
-    #    family: 'bitcoin'
-    #
-    #},
+     {
+         tag: 'dash',
+         network: 'dash',
+         name: 'Dash',
+         path: 'dash',
+         family: 'bitcoin',
+         platform: 'Bitcoin',
+         currency: 'DASH',
+         icon: 'dash.svg'
+     },
 
-    #{
-    #    tag: 'cardano',
-    #    network: 'cardano',
-    #    name: 'Cardano',
-    #    path: 'cardano',
-    #    family: 'bitcoin'
-    #
-    #},
+     {
+         tag: 'doge',
+         network: 'dogecoin',
+         name: 'Dogecoin',
+         path: 'doge',
+         family: 'bitcoin',
+         platform: 'Bitcoin',
+         currency: 'DOGE',
+         icon: 'doge.svg'
+     },
 
-    #{
-    #    tag: 'eos',
-    #    network: 'eos',
-    #    name: 'EOS',
-    #    path: 'eos',
-    #    family: 'eos'
-    #
-    #},
-     #
+     {
+         tag: 'cardano',
+         network: 'cardano',
+         name: 'Cardano',
+         path: 'cardano',
+         family: 'bitcoin',
+         platform: 'Bitcoin',
+         currency: 'ADA',
+         icon: 'ada.svg'
+     },
 
-    #{
-    #    tag: 'stellar',
-    #    network: 'stellar',
-    #    name: 'Stellar',
-    #    path: 'stellar',
-    #    family: 'stellar'
-    #
-    #},
-
-    #{
-    #    tag: 'ripple',
-    #    network: 'ripple',
-    #    name: 'Ripple',
-    #    path: 'ripple',
-    #    family: 'ripple'
-    #},
+     {
+         tag: 'zcash',
+         network: 'zcash',
+         name: 'ZCash',
+         path: 'zcash',
+         family: 'bitcoin',
+         platform: 'Bitcoin',
+         currency: 'ZEC',
+         icon: 'zec.svg'
+     },
 
 ]
 
