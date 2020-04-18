@@ -15,32 +15,39 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
-                                $limit: Int!,
-                                $offset: Int!
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum(network: $network){
-                      blocks(options:{desc: "count", limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
-                        ) {
+                query ($network: BitcoinNetwork!,
+                        $limit: Int!,
+                        $offset: Int!
+                        $from: ISO8601DateTime,
+                        $till: ISO8601DateTime){
+                  bitcoin(network: $network ){
+                    outputs(options:{desc: "reward", limit: $limit, offset: $offset},
+                      date: { since: $from till: $till}
 
-                          address: miner {
-                            address
-                            annotation
-                          }
+                      txIndex: {is: 0}
+                      outputDirection: {is: mining}
+                      outputScriptType: {notIn: [nulldata,nonstandard]}
 
-                          count
-                          reward
+                    ) {
 
-                          min_date: minimum(of: date)
-                          max_date: maximum(of: date)
 
+                      address: outputAddress{
+                        address
+                        annotation
                       }
-                    }
-                  }`);
 
-        new widgets.table('#miners', query, 'ethereum.blocks', {
+
+                      reward: value
+                      count(uniq: blocks)
+
+                      min_date: minimum(of: date)
+                      max_date: maximum(of: date)
+
+                    }
+                  }
+                }`);
+
+        new widgets.table('#miners', query, 'bitcoin.outputs', {
             title: '<%= t('widgets.headers.miners') %>',
             dataOptions: [
                 {

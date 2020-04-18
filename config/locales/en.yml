@@ -399,6 +399,7 @@ en:
       trade_quote_sellers: "%{token} Top Sellers as Quote Currency"
       order_statuses: "Order Statuses"
       transaction_fee_by_time: "Fee Spent By Date"
+      mined_value_by_time: "Mined Value By Time"
     titles:
       date: 'Date'
       month: 'Month'
@@ -544,6 +545,7 @@ en:
       input_value: "Input Value"
       input_count: "Inputs"
       output_count: "Outputs"
+      mined_value: "Mined Value"
   pages:
     home:
       family: "%{family} Platform Explorers"

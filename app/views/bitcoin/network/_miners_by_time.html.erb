@@ -10,9 +10,9 @@
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.difficulty_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.mined_value_by_time') %></div>
       <div class="card-body">
-        <div id="difficulty_by_time"><%= t('loading') %></div>
+        <div id="mined_value_by_time"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -25,27 +25,34 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
-                  $dateFormat: String!,
+            query ($network: BitcoinNetwork!,
+              $dateFormat: String!,
 
-                  $from: ISO8601DateTime,
-                  $till: ISO8601DateTime){
-                    ethereum(network: $network ){
-                      blocks(options:{asc: "date.date"}, date: {
-                        since: $from
-                        till: $till}
-                        height:{gt: 0}
-                      ) {
-                        date: date{
-                          date(format: $dateFormat)
-                        }
-                        count(uniq: miners)
-                        difficulty(calculate: median)
-                      }
+              $from: ISO8601DateTime,
+              $till: ISO8601DateTime){
+                bitcoin(network: $network ){
+                  outputs(options:{asc: "date.date"}, date: {
+                    since: $from
+                    till: $till}
+
+                    txIndex: {is: 0}
+                    outputDirection: {is: mining}
+
+
+                  ) {
+                    date: date{
+                      date(format: $dateFormat)
                     }
-                  }`);
 
-        new widgets.chart('#miners_by_time', query, 'ethereum.blocks', {
+                    count(uniq: addresses)
+
+                    value
+
+                  }
+                }
+              }`);
+
+        new widgets.chart('#miners_by_time', query, 'bitcoin.outputs', {
             title: '<%= t('widgets.headers.miners_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -72,12 +79,12 @@
             ]
         });
 
-        new widgets.chart('#difficulty_by_time', query, 'ethereum.blocks', {
-            title: '<%= t('widgets.headers.difficulty_by_time') %>',
+        new widgets.chart('#mined_value_by_time', query, 'bitcoin.outputs', {
+            title: '<%= t('widgets.headers.mined_value_by_time') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.median_difficulty') %>'
+                        title: '<%= t('widgets.titles.mined_value') %>'
                     }
                 },
                 hAxis: <%= render partial: 'shared/date_axis.json' %>,
@@ -92,8 +99,8 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.median_difficulty') %>',
-                    path: 'difficulty'
+                    title: '<%= t('widgets.titles.mined_value') %>',
+                    path: 'value'
                 },
 
             ]
