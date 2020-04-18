@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
   namespace :binance do
+    get 'block/show'
+  end
+  namespace :binance do
     get 'order/statuses'
     get 'order/trades'
   end

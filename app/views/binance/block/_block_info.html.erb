@@ -1,0 +1,89 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+    <div class="card-body">
+      <div id="block_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query (
+      $height: Int!){
+  binance {
+
+      blocks(height: {is: $height}){
+        timestamp {
+          iso8601
+        }
+
+        blockId
+        validatorConsensusPubkey
+
+        validatorMoniker
+        validatorOperaHrAddress {
+          address
+          annotation
+        }
+
+        validatorOperatorAddress {
+          address
+          annotation
+        }
+
+        validatorFeeAddr {
+          address
+          annotation
+        }
+
+      }
+    }
+}`);
+
+
+
+        new widgets.table('#block_info', query, 'binance.blocks', {
+            title: '<%= t('widgets.headers.block_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.iso8601},
+                    {name: '<%= t('widgets.titles.validator') %>', value: item.validatorMoniker },
+
+
+                    {name: '<%= t('widgets.titles.operator_hr_address') %>', value: (item.validatorOperaHrAddress.annotation || item.validatorOperaHrAddress.address), address: item.validatorOperaHrAddress},
+                    {name: '<%= t('widgets.titles.fee_address') %>', value: (item.validatorFeeAddr.annotation || item.validatorFeeAddr.address), address: item.validatorFeeAddr},
+                    {name: '<%= t('widgets.titles.operator_address') %>', value: (item.validatorOperatorAddress.annotation || item.validatorOperatorAddress.address)},
+
+
+                    {name: '<%= t('widgets.titles.validator_cons_pub_key') %>', value: item.validatorConsensusPubkey }
+
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 250px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            height: <%= @height %>
+        });
+
+    });
+</script>

@@ -538,6 +538,7 @@ en:
       average_price: 'Avg Price'
       orders_as_base_count: "Orders As Base Currency"
       orders_as_quote_count: "Orders As Quote Currency"
+      validator_cons_pub_key: "Validator Consensus Public Key"
   pages:
     home:
       family: "%{family} Platform Explorers"
