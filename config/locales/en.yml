@@ -291,6 +291,18 @@ en:
         header: "Offchain Data at Bitquery"
         title: "Offchain Data at Bitquery"
         description: "Explorers for Offchain Data by Bitquery"
+    order:
+      icon: 'fas fa-file-invoice-dollar'
+      statuses:
+        name: 'Order Statuses'
+        header: "%{network} Order %{order}"
+        title: "%{network} order %{order}"
+        description: "Status history of order %{order}  in %{network}"
+      trades:
+        name: 'Trades'
+        header: "%{network} Order %{order} trades"
+        title: "%{network} order %{order} trades"
+        description: "Trade history of order %{order}  in %{network}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
@@ -385,6 +397,7 @@ en:
       orders_by_time: "Orders by time"
       trade_quote_buyers: "%{token} Top Buyers as Quote Currency"
       trade_quote_sellers: "%{token} Top Sellers as Quote Currency"
+      order_statuses: "Order Statuses"
     titles:
       date: 'Date'
       month: 'Month'

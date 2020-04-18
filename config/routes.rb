@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
   namespace :binance do
+    get 'order/statuses'
+    get 'order/trades'
+  end
+  namespace :binance do
     get 'tx_list/transfers'
   end
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
@@ -43,8 +47,8 @@ Rails.application.routes.draw do
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
 
-      get ":blockchain/order/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
-      get ":blockchain/order/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/order/:order/:action", controller: "#{blockchain[:family]}/order", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
+      get ":blockchain/order/:order", controller: "#{blockchain[:family]}/order", action: 'statuses', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
 
       get ":blockchain/token/:symbol/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
       get ":blockchain/token/:symbol", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:path] }, defaults: {network: blockchain}
