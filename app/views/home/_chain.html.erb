@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <%= network_icon chain %>
-      <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:path]}" %>
+      <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}" %>
     </div>
     <div class="card-body">
       <div id="<%= chain[:tag] %>"><%= t('loading') %></div>

@@ -10,7 +10,7 @@
       <ul class="list-group list-group-flush">
         <% for chain in group.second %>
           <li class="list-group-item"><%= network_icon chain %>&nbsp;
-            <%= link_to chain[:name], "/#{chain[:path]}", class: 'text-default' %>
+            <%= link_to chain[:name], "/#{chain[:network]}", class: 'text-default' %>
           </li>
         <% end %>
       </ul>

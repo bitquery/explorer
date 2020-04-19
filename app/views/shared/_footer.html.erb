@@ -4,7 +4,7 @@
 
     <div style="margin-bottom: 5px;">
         <% for chain in BLOCKCHAINS %>
-          <%= link_to network_icon(chain), "/#{chain[:path]}", {title: t("pages.footer.explorer", network:chain[:name])}%>
+          <%= link_to network_icon(chain), "/#{chain[:network]}", {title: t("pages.footer.explorer", network:chain[:name])}%>
         <% end %>
     </div>
 
