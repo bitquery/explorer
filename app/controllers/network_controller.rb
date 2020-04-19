@@ -12,6 +12,8 @@ class NetworkController < ApplicationController
 
     if params[:address]
       @address = @query = params[:address]
+    elsif params[:block]
+      @height = params[:block]
     elsif params[:hash]
       @hash = @query = params[:hash]
     end

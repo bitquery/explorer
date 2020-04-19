@@ -583,6 +583,11 @@ en:
       input_script_type: 'Input Script Type'
       script_pattern: 'Script Pattern'
       input_script: 'Input Script'
+      median_timestamp: 'Median Timestamp'
+      stripped_size: "Stripped Size"
+      version: "Version"
+      weight: "Weight"
+      chainwork: "Chainwork"
   pages:
     home:
       family: "%{family} Platform Explorers"

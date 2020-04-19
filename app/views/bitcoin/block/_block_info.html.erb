@@ -13,32 +13,27 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`query (
-      $height: Int!){
-  binance {
-
+          $network: BitcoinNetwork!
+          $height: Int!){
+  bitcoin(network: $network ){
       blocks(height: {is: $height}){
+
         timestamp {
           time (format: "%Y-%m-%d %H:%M:%S")
         }
 
-        blockId
-        validatorConsensusPubkey
-
-        validatorMoniker
-        validatorOperaHrAddress {
-          address
-          annotation
+        medianTime {
+          time (format: "%Y-%m-%d %H:%M:%S")
         }
 
-        validatorOperatorAddress {
-          address
-          annotation
-        }
-
-        validatorFeeAddr {
-          address
-          annotation
-        }
+        blockHash
+        blockSize
+        blockStrippedSize
+        blockVersion
+        blockWeight
+        chainwork
+        difficulty
+        transactionCount
 
       }
     }
@@ -46,22 +41,22 @@
 
 
 
-        new widgets.table('#block_info', query, 'binance.blocks', {
+        new widgets.table('#block_info', query, 'bitcoin.blocks', {
             title: '<%= t('widgets.headers.block_info') %>',
             renderData: function (data) {
                 item = data[0];
                 return !item ? [] : [
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
-                    {name: '<%= t('widgets.titles.validator') %>', value: item.validatorMoniker },
+                    {name: '<%= t('widgets.titles.hash') %>', value: item.blockHash},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+                    {name: '<%= t('widgets.titles.size') %>', value: item.blockSize},
+                    {name: '<%= t('widgets.titles.stripped_size') %>', value: item.blockStrippedSize},
 
-
-                    {name: '<%= t('widgets.titles.operator_hr_address') %>', value: (item.validatorOperaHrAddress.annotation || item.validatorOperaHrAddress.address), address: item.validatorOperaHrAddress},
-                    {name: '<%= t('widgets.titles.fee_address') %>', value: (item.validatorFeeAddr.annotation || item.validatorFeeAddr.address), address: item.validatorFeeAddr},
-                    {name: '<%= t('widgets.titles.operator_address') %>', value: (item.validatorOperatorAddress.annotation || item.validatorOperatorAddress.address)},
-
-
-                    {name: '<%= t('widgets.titles.validator_cons_pub_key') %>', value: item.validatorConsensusPubkey }
-
+                    {name: '<%= t('widgets.titles.version') %>', value: item.blockVersion},
+                    {name: '<%= t('widgets.titles.weight') %>', value: item.blockWeight},
+                    {name: '<%= t('widgets.titles.chainwork') %>', value: item.chainwork},
+                    {name: '<%= t('widgets.titles.difficulty') %>', value: item.difficulty},
+                    {name: '<%= t('widgets.titles.transactions_count') %>', value: item.transactionCount},
                 ];
             },
             dataOptions: [
@@ -82,7 +77,8 @@
         });
 
         query.request({
-            height: <%= @height %>
+            height: <%= @height %>,
+            network: '<%= @network[:network] %>'
         });
 
     });
