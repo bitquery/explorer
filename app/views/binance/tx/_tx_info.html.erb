@@ -22,7 +22,7 @@
                                 block {
                                         height
                                         timestamp {
-                                          iso8601
+                                          time (format: "%Y-%m-%d %H:%M:%S")
                                         }
                                       }
 
@@ -50,7 +50,7 @@
                 item = data[0];
                 return !item ? [] : [
                     {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
-                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.iso8601},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
                     {name: '<%= t('widgets.titles.transaction_index') %>', value: item.index},
                     {name: '<%= t('widgets.titles.transaction_type') %>', value: item.transactionType},
 

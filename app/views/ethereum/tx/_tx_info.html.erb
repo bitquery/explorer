@@ -22,7 +22,7 @@
                                 block {
                                         height
                                         timestamp {
-                                          iso8601
+                                          time (format: "%Y-%m-%d %H:%M:%S")
                                         }
                                       }
 
@@ -68,7 +68,7 @@
                 item = data[0];
                 return !item ? [] : [
                     {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
-                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.iso8601},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
                     {name: '<%= t('widgets.titles.tx_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
                     {name: '<%= t('widgets.titles.tx_to') %>', value: (item.to.annotation || item.to.address), address: item.to },
                     {name: '<%= t('widgets.titles.tx_creates') %>', value: (item.creates.annotation || item.creates.address ||

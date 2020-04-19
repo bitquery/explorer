@@ -374,6 +374,7 @@ en:
       tx_events: "Smart Contract Events logged in Transaction"
       events_table: "Smart Contract Events"
       tx_info: "Transaction Attributes"
+      tx_info_2: "Transaction Attributes Cont'd"
       references_table: "Addresses used in Events / Methods Parameters (may take time to load )"
       block_info: "Block Attributes"
       transactions: "Transactions"
@@ -419,6 +420,8 @@ en:
       inbound_top_transfers: "Top Inbound Transfers from Transaction Outputs"
       outbound_top_transfers: "Top Oubound Transfers from Transaction Inputs"
       inbound_types: "Inbound Volumes By Output Type"
+      inputs: "Transaction Inputs"
+      outputs: "Transaction Outputs"
     titles:
       date: 'Date'
       month: 'Month'
@@ -573,7 +576,7 @@ en:
       amount_token: 'Amount, %{token}'
       output_index: "Output Index in TX"
       input_index: "Input Index in TX"
-      output_transaction: 'Source Output Transaction'
+      output_transaction: 'Source TX'
   pages:
     home:
       family: "%{family} Platform Explorers"
