@@ -1,1 +1,8 @@
-Address <%= @address %>
+<%= render partial: "bitcoin/address/outbound_transfers" %>
+
+<div class="row">
+  <%= render partial: "bitcoin/address/outbound_by_time" %>
+</div>
+
+
+<%= render partial: "bitcoin/address/outbound_top" %>

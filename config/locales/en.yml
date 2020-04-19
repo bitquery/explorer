@@ -563,6 +563,7 @@ en:
       amount_token: 'Amount, %{token}'
       output_index: "Output Index in TX"
       input_index: "Input Index in TX"
+      output_transaction: 'Source Output Transaction'
   pages:
     home:
       family: "%{family} Platform Explorers"

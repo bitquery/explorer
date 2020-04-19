@@ -42,6 +42,9 @@
         transaction_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:path] %>'+'/tx/'+ (item.hash || item.transaction.hash);
         },
+        output_transaction_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:path] %>'+'/tx/'+ item.outputTransaction.hash;
+        },
         property_value_path: function(item){
             if (item.address ) {
                 return '<%= locale_path_prefix %><%= @network[:path] %>' + '/address/' + item.address.address;
