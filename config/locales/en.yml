@@ -577,6 +577,11 @@ en:
       output_index: "Output Index in TX"
       input_index: "Input Index in TX"
       output_transaction: 'Source TX'
+      output_script_type: 'Output Script Type'
+      output_script: 'Output Script'
+      input_script_type: 'Input Script Type'
+      script_pattern: 'Script Pattern'
+      input_script: 'Input Script'
   pages:
     home:
       family: "%{family} Platform Explorers"
