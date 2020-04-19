@@ -207,6 +207,16 @@ en:
         header: "Trades by %{network} address %{hash}"
         title: "Trades %{network} %{hash}"
         description: "Trades in transaction %{hash} of %{network}, statistics of token exchanges"
+      input_scripts:
+        name: 'Input Scripts'
+        header: "%{network} transaction %{hash} input scripts"
+        title: "Scripts for inputs %{hash} in %{network}"
+        description: "Input scripts in transaction %{hash} in %{network}"
+      output_scripts:
+        name: 'Output Scripts'
+        header: "%{network} transaction %{hash} output scripts"
+        title: "Scripts for output %{hash} in %{network}"
+        description: "Output scripts in transaction %{hash} in %{network}"
     block:
       icon: 'fas fa-cube'
       show:
