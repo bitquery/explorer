@@ -1,5 +1,5 @@
 
-<div class="col-12 col-lg-6 mb-4">
+<div class="col-12 col-lg-12 mb-4">
   <div class="card">
     <div class="card-header"><%= t('widgets.headers.inbound_top_transfers') %></div>
     <div class="card-body">
@@ -59,6 +59,13 @@
                     style: 'width: 180px'
                 },
                 {
+                    title: '<%= t('widgets.titles.block') %>',
+                    type: 'string',
+                    path: 'block.height',
+                    urlCallbackName: 'block_path',
+                    style: 'width: 90px'
+                },
+                {
                     title: '<%= t('widgets.titles.amount') %>',
                     type: 'amount',
                     path: 'value',
@@ -74,7 +81,11 @@
                     path: 'outputDirection',
                     style: 'width: 80px'
                 },
-
+                {
+                    title: '<%= t('widgets.titles.output_index') %>',
+                    style: 'width: 80px',
+                    path: 'outputIndex'
+                },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',

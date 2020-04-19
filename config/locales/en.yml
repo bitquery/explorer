@@ -408,6 +408,7 @@ en:
       outbound_transfers_inputs: "Latest Oubound Transfers from Transaction Inputs"
       inbound_top_transfers: "Top Inbound Transfers from Transaction Outputs"
       outbound_top_transfers: "Top Oubound Transfers from Transaction Inputs"
+      inbound_types: "Inbound Volumes By Output Type"
     titles:
       date: 'Date'
       month: 'Month'
