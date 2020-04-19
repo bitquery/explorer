@@ -422,6 +422,7 @@ en:
       inbound_types: "Inbound Volumes By Output Type"
       inputs: "Transaction Inputs"
       outputs: "Transaction Outputs"
+      outbound_by_script_type: "Outbound Volumes By Output Script Type"
     titles:
       date: 'Date'
       month: 'Month'
