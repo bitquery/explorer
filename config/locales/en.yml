@@ -404,6 +404,10 @@ en:
       average_mined_by_block: "Average Mined Value By Block"
       address_statistics: "Address Statistics"
       in_out_transfers_value_by_time: 'In/Outbound %{token} by time'
+      inbound_transfers_outputs: "Latest Inbound Transfers from Transaction Outputs"
+      outbound_transfers_inputs: "Latest Oubound Transfers from Transaction Inputs"
+      inbound_top_transfers: "Top Inbound Transfers from Transaction Outputs"
+      outbound_top_transfers: "Top Oubound Transfers from Transaction Inputs"
     titles:
       date: 'Date'
       month: 'Month'
@@ -555,6 +559,9 @@ en:
       value_to_address: "Received in Outputs"
       value_from_address: "Spent to Inputs"
       unspent_value: "Balance ( unspent outputs )"
+      amount_token: 'Amount, %{token}'
+      output_index: "Output Index in TX"
+      input_index: "Input Index in TX"
   pages:
     home:
       family: "%{family} Platform Explorers"

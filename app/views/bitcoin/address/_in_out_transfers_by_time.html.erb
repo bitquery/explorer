@@ -56,7 +56,7 @@
                 isStacked: true,
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.amount') %>',
+                        title: '<%= t('widgets.titles.amount_token', token: @network[:currency]) %>',
                         format: 'decimal',
                         viewWindow: {
                             min: 'auto'
