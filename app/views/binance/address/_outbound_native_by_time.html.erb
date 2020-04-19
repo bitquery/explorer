@@ -23,6 +23,7 @@
                         since: $from
                         till: $till}
                         sender: {is: $address}
+                        transferType:{notIn: [DEX_FEE,TX_FEE]}
                         currency: {is: $nativeCurrency }
                       ) {
                         date: date{

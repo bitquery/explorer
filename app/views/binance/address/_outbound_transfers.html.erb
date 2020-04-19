@@ -23,6 +23,7 @@
                     binance {
                       transfers(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
+                        transferType:{notIn: [DEX_FEE,TX_FEE]}
                         sender: {is: $address}) {
 
                         block {

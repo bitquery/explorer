@@ -23,6 +23,7 @@
                     transfers(options:{limit: $limit, offset: $offset, desc: "amount"},
                       date: {since: $from till: $till },
                       sender: {is: $address},
+                      transferType:{notIn: [DEX_FEE,TX_FEE]}
                       currency: {is: $nativeCurrency }) {
 
                       address: receiver{
