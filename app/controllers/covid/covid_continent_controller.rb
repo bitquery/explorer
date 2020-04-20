@@ -1,4 +1,7 @@
-class Covid::ContinentController < ApplicationController
+class Covid::CovidContinentController < ApplicationController
+
+  layout 'tabs'
+  before_action :set_codes
 
   REGIONS = {
       'Africa' => '002',
@@ -9,10 +12,12 @@ class Covid::ContinentController < ApplicationController
       'Oceania' => '009'
   }
 
-  def index
+
+  private
+
+  def set_codes
     @continent_code = params[:code]
     @continent_region = REGIONS[@continent_code]
     @name = @continent_code.sub '_',' '
-    @header = "#{@name} Continent COVID-2019 Data"
   end
 end

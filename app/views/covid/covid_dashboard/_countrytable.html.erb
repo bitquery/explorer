@@ -16,7 +16,7 @@
     query($from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!) {
       offchain {
        covid {
-          facts(<%= render partial: 'covid/continent/continent_filter' %> date: {since: $from, till: $till}, options: {desc: "confirmed", limit: $limit, offset: $offset}){
+          facts(<%= render partial: 'covid/covid_continent/continent_filter' %> date: {since: $from, till: $till}, options: {desc: "confirmed", limit: $limit, offset: $offset}){
 
             country {
               name
@@ -67,12 +67,12 @@
             {
                 title: 'Total Population,<br>in thousands',
                 type: 'count',
-                renderCallback:  <%= render partial: 'covid/dashboard/country_render_callback', locals: {item: 'item.country.populationTotal'} %>
+                renderCallback:  <%= render partial: 'covid/covid_dashboard/country_render_callback', locals: {item: 'item.country.populationTotal'} %>
             },
             {
                 title: 'Area,<br> sq.km.',
                 type: 'count',
-                renderCallback: <%= render partial: 'covid/dashboard/country_render_callback', locals: {item: 'item.country.areaKm2'} %>
+                renderCallback: <%= render partial: 'covid/covid_dashboard/country_render_callback', locals: {item: 'item.country.areaKm2'} %>
             },
         ]
     });

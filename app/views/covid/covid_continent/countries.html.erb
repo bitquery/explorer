@@ -1,0 +1,15 @@
+<%= render partial: 'covid/covid_dashboard/countrytable' %>
+
+
+<div class="row">
+
+  <%= render partial: 'covid/covid_dashboard/countries_pie', locals: {field: 'confirmed',
+                                                                      name: 'Top countries by Confirmed Cases'} %>
+
+  <%= render partial: 'covid/covid_dashboard/countries_pie', locals: {field: 'recovered',
+                                                                      name: 'Top countries by Recovered Cases'} %>
+
+  <%= render partial: 'covid/covid_dashboard/countries_pie', locals: {field: 'deaths',
+                                                                      name: 'Top countries by Death Cases'} %>
+
+</div>

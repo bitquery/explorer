@@ -78,9 +78,12 @@ Rails.application.routes.draw do
     }
 
 
-    get "covid", controller: 'covid/dashboard', action: 'index', as: 'covid_index'
-    get "covid/country/:code/:name", controller: 'covid/country', action: 'index', as: 'covid_country'
-    get "covid/continent/:code", controller: 'covid/continent', action: 'index', as: 'covid_continent'
+    get "covid", controller: 'covid/covid_dashboard', action: 'index', as: 'covid_index'
+    get "covid/:action", controller: 'covid/covid_dashboard'
+    get "covid/country/:code/:name", controller: 'covid/covid_country', action: 'index', as: 'covid_country'
+    get "covid/country/:code/:name/:action", controller: 'covid/covid_country'
+    get "covid/continent/:code", controller: 'covid/covid_continent', action: 'index', as: 'covid_continent'
+    get "covid/continent/:code/:action", controller: 'covid/covid_continent'
 
 
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'

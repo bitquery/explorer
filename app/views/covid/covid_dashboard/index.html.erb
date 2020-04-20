@@ -1,25 +1,4 @@
-<% content_for :title, @header %>
 
-<div class="row search mb-2">
-  <div class="col-12 col-lg">
-    <!--    <%# if local_assigns[:header] %><h6 class="header-title word-wrap"><%#= header %></h6><%# end %>-->
-
-    <h1 class="mt-2 word-wrap"><%= @header %></h1>
-    <p>
-      Selected from <%= link_to 'World COVID Data', covid_index_path %>.
-      Data is loaded on <%= Date.today-1 %> 00:00 UTC.
-      Use date range control to see data by different time period.
-      <br><strong style="color: red; ">Note that not all countries report recovered cases.</strong><br>
-      <%= render partial: 'covid/dashboard/short_countries' %>
-    </p>
-
-  </div>
-
-  <div class="col-12 col-lg-auto">
-    <%= render partial: 'shared/reportrange' %>
-  </div>
-
-</div>
 
 <div class="row">
   <%= render partial: 'total_text_query' %>
@@ -43,12 +22,6 @@
 </div>
 
 <%= render partial: 'timegraph' %>
-
 <%= render partial: 'timegraph_total' %>
 
-<%= render partial: 'countrymap' %>
-
-<%= render partial: 'days_bubble' %>
-
-<br>
-<%= render partial: 'covid/dashboard/sources' %>
+<%= render partial: 'sources' %>
