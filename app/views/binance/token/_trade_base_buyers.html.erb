@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.trade_quote_sellers', token: @token) %></div>
+    <div class="card-header"><%= t('widgets.headers.trade_base_buyers', token: @token) %></div>
     <div class="card-body">
-      <div id="trade_quote_sellers"><%= t('loading') %></div>
+      <div id="trade_base_buyers"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -23,18 +23,18 @@
     binance {
       trades(
 
-      quoteCurrency: {is: $token}
+      baseCurrency: {is: $token}
       date: {since: $from till: $till}
-        options: {desc: "quoteAmount", limit: $limit, offset: $offset}
+        options: {desc: "baseAmount", limit: $limit, offset: $offset}
       ){
 
-        address: seller {
+        address: buyer {
           address
           annotation
         }
 
         count
-        quoteAmount
+        baseAmount
         days: count(uniq: dates)
 
         min_date:minimum(of: date)
@@ -43,11 +43,11 @@
     }
   }`);
 
-        new widgets.table('#trade_quote_sellers', query, 'binance.trades', {
-            title: '<%= t('widgets.headers.trade_quote_sellers') %>',
+        new widgets.table('#trade_base_buyers', query, 'binance.trades', {
+            title: '<%= t('widgets.headers.trade_base_buyers') %>',
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.seller') %>',
+                    title: '<%= t('widgets.titles.buyer') %>',
                     type: 'string-ellipsis',
                     path: ['address.annotation','address.address'],
                     urlCallbackName: 'address_path'
