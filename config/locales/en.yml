@@ -421,7 +421,7 @@ en:
       annotation: "Annotation"
       latest_token_transfers: "Latest Token Transfers"
       token_transfers_by_time: "Token Transfers By Date"
-      max_token_transfers_by_time: "Top Token Transfer Amounts By Date"
+      max_token_transfers_by_time: "The Largest Transaction Amount in Time Period"
       token_senders_table: "Token Senders By Volume"
       token_senders_diagram: "Distribution of Token Senders By Volume"
       token_senders_by_time: "Unique Senders By Time"
