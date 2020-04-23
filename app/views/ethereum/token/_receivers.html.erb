@@ -35,6 +35,7 @@
                           ethereum(network: $network){
                             transfers(currency: {is: $token}
                             date: {since: $from till: $till}
+                            height:{gt: 1}
                             options: {desc: "amount", limit:$limit, offset: $offset}
                             ){
 

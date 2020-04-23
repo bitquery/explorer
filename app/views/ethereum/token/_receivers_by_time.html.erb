@@ -27,6 +27,7 @@
                               $till: ISO8601DateTime){
                           ethereum(network: $network){
                             transfers(currency: {is: $token}
+                            height:{gt: 0}
                             date: {since: $from till: $till}){
                               date{
                                 date(format: $dateFormat)
