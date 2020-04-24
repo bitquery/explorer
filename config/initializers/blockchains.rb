@@ -121,7 +121,8 @@ BLOCKCHAINS = [
         family: 'ethereum',
         platform: 'Testnet',
         currency: 'cGLD',
-        icon: 'generic.svg'
+        icon: 'generic.svg',
+        start: Date.parse('2020-04-10')
     },
 
     {
@@ -131,7 +132,8 @@ BLOCKCHAINS = [
         family: 'ethereum',
         platform: 'Testnet',
         currency: 'cGLD',
-        icon: 'generic.svg'
+        icon: 'generic.svg',
+        start: Date.parse('2020-04-07')
     },
 
     {
@@ -141,18 +143,9 @@ BLOCKCHAINS = [
         family: 'ethereum',
         platform: 'Testnet',
         currency: 'cGLD',
-        icon: 'generic.svg'
+        icon: 'generic.svg',
+        start: Date.parse('2020-04-22')
     },
-
-     #{
-     #    tag: 'alfajores',
-     #    network: 'alfajores',
-     #    name: 'Celo Alfajores Testnet',
-     #    path: 'alfajores',
-     #    family: 'ethereum',
-     #    currency: 'cGLD',
-     #    icon: 'generic.svg'
-     #},
 
 
 
