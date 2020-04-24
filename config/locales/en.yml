@@ -301,6 +301,11 @@ en:
         header: "Offchain Data at Bitquery"
         title: "Offchain Data Explorer at Bitquery"
         description: "Explorers for Offchain Data by Bitquery"
+      testnet:
+        name: "Testnet Platforms"
+        header: "Testnet Blockchains at Bitquery"
+        title: "Testnet Blockchains"
+        description: "Explorers for Testnet Blockchains by Bitquery"
     order:
       icon: 'fas fa-file-invoice-dollar'
       statuses:
