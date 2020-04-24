@@ -114,12 +114,35 @@ BLOCKCHAINS = [
 
     },
 
+    {
+        tag: 'alfajores',
+        network: 'celo_alfajores',
+        name: 'Celo Alfajores Testnet',
+        family: 'ethereum',
+        platform: 'Testnet',
+        currency: 'cGLD',
+        icon: 'generic.svg'
+    },
 
+    {
+        tag: 'baklava',
+        network: 'celo_baklava',
+        name: 'Celo Baklava Testnet',
+        family: 'ethereum',
+        platform: 'Testnet',
+        currency: 'cGLD',
+        icon: 'generic.svg'
+    },
 
-
-
-
-
+    {
+        tag: 'celo',
+        network: 'celo_rc1',
+        name: 'Celo RC1',
+        family: 'ethereum',
+        platform: 'Testnet',
+        currency: 'cGLD',
+        icon: 'generic.svg'
+    },
 
      #{
      #    tag: 'alfajores',
