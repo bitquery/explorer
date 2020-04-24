@@ -651,6 +651,9 @@ en:
       version: "Version"
       weight: "Weight"
       chainwork: "Chainwork"
+      log: "Log"
+      description: "Descrition"
+      memo: "Memo"
   pages:
     home:
       family: "%{family} Platform Explorers"
