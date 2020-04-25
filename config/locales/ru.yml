@@ -25,8 +25,8 @@ ru:
     dark: 'Темная тема'
   loading: 'Загрузка...'
   headers:
-    search: "Поиск \"%{query}\""
-    search_in: "Поиск в %{network} \"%{query}\""
+    search: "Поиск \"%{query}\" в блокчейне"
+    search_in: "Поиск %{query} в %{network}"
   search_no_data: 'По запросу "%{query}" ничего не найдено. Пожалуйста, уточните запрос и повторите попытку.'
   tabs:
     address:

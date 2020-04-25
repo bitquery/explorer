@@ -25,8 +25,8 @@ en:
     dark: 'Dark theme'
   loading: 'Loading...'
   headers:
-    search: "Search \"%{query}\""
-    search_in: "Search in %{network} \"%{query}\""
+    search: "Search \"%{query}\" in all blockchains"
+    search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
     address:
