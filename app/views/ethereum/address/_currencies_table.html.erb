@@ -20,6 +20,7 @@
                   $offset: Int!){
               ethereum(network: $network) {
                 transfers(date: {since: $from, till: $till},
+                amount: {gt: 0}
                 options: {limit: $limit, offset: $offset, desc: "count_in"}){
                     sum_in: amount(calculate: sum,
                       receiver: {is: $address}

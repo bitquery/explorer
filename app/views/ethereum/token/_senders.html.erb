@@ -36,6 +36,7 @@
                             transfers(currency: {is: $token}
                             date: {since: $from till: $till}
                             height:{gt: 0}
+                            amount: {gt: 0}
                             options: {desc: "amount", limit:$limit, offset: $offset}
                             ){
 

@@ -22,6 +22,7 @@
                    ethereum(network: $network){
                       transfers(
                       options:{desc: "count", limit: $limit, offset: $offset},
+                      amount: {gt: 0},
                       date: {
                         since: $from
                         till: $till}
