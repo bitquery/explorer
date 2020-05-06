@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
 
     BLOCKCHAINS.select{|b| b[:family]=='ethereum'}.each{|blockchain|
