@@ -31,248 +31,207 @@ en:
   tabs:
     address:
       icon: 'far fa-address-card'
+      header: "%{network} address %{address}"
       show:
         name: 'Address'
-        header: "%{network} address %{address}"
         title: "%{network} %{address}"
         description: "Overview of address %{address} activity in %{network}"
       transactions:
         name: 'Transactions'
-        header: "Transactions sent by %{network} address %{address}"
         title: "TXs %{network} %{address}"
         description: "Transactions sent by address %{address} activity in %{network}"
       inflow:
         name: 'Inflow'
-        header: "Inflow to %{network} address %{address}"
         title: "In %{network} %{address}"
         description: "Inflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
       outflow:
         name: 'Outflow'
-        header: "Outflow from %{network} address %{address}"
         title: "Out %{network} %{address}"
         description: "Outflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
       calls_contracts:
         name: 'Calls Contracts'
-        header: "Calls from %{network} address %{address}"
         title: "Calls from %{network} %{address}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
       orders:
         name: 'Orders'
-        header: "Orders in %{network} address %{address}"
         title: "Orders %{network} %{address}"
         description: "Orders for trading crypto currencies by address %{address} activity in %{network}, statistics of token exchange orders"
       trades:
         name: 'Trades'
-        header: "Trades by %{network} address %{address}"
         title: "Trades %{network} %{address}"
         description: "Trades by address %{address} activity in %{network}, statistics of token exchanges"
     smart_contract:
       icon: 'fas fa-cogs text-info'
+      header: "%{network} smart contract %{address}"
       show:
         name: 'Smart Contract'
-        header: "%{network} smart contract %{address}"
         title: "%{network} %{address}"
         description: "Overview of smart contract %{address} activity in %{network}"
       transactions:
         name: 'Transactions'
-        header: "Transactions with %{network} smart contract %{address}"
         title: "Txs %{network} %{address}"
         description: "Transactions with smart contract %{address} in %{network}"
       methods:
         name: 'Methods'
-        header: "Method calls for %{network} smart contract %{address}"
         title: "Methods %{network} %{address}"
         description: "Method calls for smart contract %{address} in %{network}"
       events:
         name: 'Events'
-        header: "Event logs for %{network} smart contract %{address}"
         title: "Events %{network} %{address}"
         description: "Events logged by smart contract %{address} in %{network}"
       inflow:
         name: 'Inflow'
-        header: "Inflow to %{network} smart contract %{address}"
         title: "In %{network} %{address}"
         description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
       outflow:
         name: 'Outflow'
-        header: "Outflow from %{network} smart contract %{address}"
         title: "Out %{network} %{address}"
         description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
       calls_contracts:
         name: 'Calls Contracts'
-        header: "Calls from %{network} smart contract %{address}"
         title: "Calls from %{network} %{address}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
     token:
       icon: 'fas fa-coins text-warning'
+      header: "%{token} in %{network}"
       show:
         name: 'Token'
-        header: "Token %{token} in %{network}"
-        title: "%{network} %{token}"
-        description: "Overview of token %{token} activity in %{network}"
+        title: "%{token} in %{network}"
+        description: "Token %{token} attributes in %{network}"
       transfers:
         name: 'Transfers'
-        header: "Token %{token} in %{network} "
-        title: "%{network} %{token}"
-        description: "Transfers of token %{token} activity in %{network}"
+        title: "%{token} Transfers in %{network}"
+        description: "Transfers of token %{token} in %{network}"
       senders:
         name: 'Senders'
-        header: "Token %{token} in %{network}"
-        title: "%{network} %{token}"
-        description: "Senders of token %{token} activity in %{network}"
+        title: "%{token} Senders in %{network}"
+        description: "Senders of token %{token} in %{network}"
       receivers:
         name: 'Receivers'
-        header: "Token %{token} in %{network}"
-        title: "%{network} %{address}"
-        description: "Receivers of token %{token} activity in %{network}"
+        title: "%{token} Receivers in %{network}"
+        description: "Receivers of token %{token} in %{network}"
       smart_contract:
         name: 'Smart Contract'
-        header: "Token in %{network} with address %{address}"
-        title: "%{network} %{address}"
-        description: "Overview of token smart contract %{address} activity in %{network}"
+        title: "%{token} Smart Contract in %{network}"
+        description: "Overview of token smart contract %{address} in %{network}"
       transactions:
         name: 'Transactions'
-        header: "Transactions with %{network} token smart contract %{address}"
-        title: "Txs %{network} %{address}"
+        title: "%{token} Transactions in %{network}"
         description: "Transactions with token smart contract %{address} in %{network}"
       methods:
         name: 'Methods'
-        header: "Method calls for %{network} token smart contract %{address}"
-        title: "Methods %{network} %{address}"
+        title: "%{token} Methods in %{network}"
         description: "Method calls for token smart contract %{address} in %{network}"
       events:
         name: 'Events'
-        header: "Event logs for %{network} token smart contract %{address}"
-        title: "Events %{network} %{address}"
+        title: "%{token} Events in %{network}"
         description: "Events logged by token smart contract %{address} in %{network}"
       inflow:
         name: 'Inflow'
-        header: "Inflow to %{network} token smart contract %{address}"
-        title: "In %{network} %{address}"
+        title: "%{token} Inflow to Smart Contract in %{network}"
         description: "Inflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
       outflow:
         name: 'Outflow'
-        header: "Outflow from %{network} token smart contract %{address}"
-        title: "Out %{network} %{address}"
+        title: "%{token} Outflow from Smart Contract in %{network}"
         description: "Outflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
       calls_contracts:
         name: 'Calls Contracts'
-        header: "Calls from %{network} token smart contract %{address}"
-        title: "Calls from %{network} %{address}"
+        title: "%{token} Calls Smart Contracts in %{network}"
         description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
       orders:
         name: 'Orders'
-        header: "Token %{token} in %{network}"
-        title: "%{network} %{token}"
+        title: "%{token} Orders in %{network}"
         description: "Orders for token %{token} trading in %{network}"
       trades:
         name: 'Trades'
-        header: "Token %{token} in %{network}"
-        title: "%{network} %{token}"
+        title: "%{token} Trades in %{network}"
         description: "Trades for token %{token} in %{network}"
     tx:
       icon: 'fas fa-bolt'
+      header: "%{network} transaction %{hash}"
       show:
         name: 'Transaction'
-        header: "%{network} transaction %{hash}"
         title: "%{network} %{hash}"
         description: "Transaction attributes %{hash} in %{network}"
       transfers:
         name: 'Transfers'
-        header: "%{network} transaction %{hash}"
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
       calls:
         name: 'Calls'
-        header: "%{network} transaction %{hash}"
         title: "Calls %{network} %{hash}"
         description: "Smart Contract Calls in transaction %{hash} in %{network}"
       events:
         name: 'Events'
-        header: "%{network} transaction %{hash}"
         title: "Events %{network} %{hash}"
         description: "Smart Contract Events in transaction %{hash} in %{network}"
       references:
         name: 'References'
-        header: "%{network} transaction %{hash}"
         title: "References from %{network} %{hash}"
         description: "References from Smart Contract Events and Methods in transaction %{hash} in %{network}"
       orders:
         name: 'Orders'
-        header: "Orders in %{network} transaction %{hash}"
         title: "Orders %{network} %{hash}"
         description: "Orders for trading crypto currencies in transaction %{hash} of %{network}, statistics of token exchange orders"
       trades:
         name: 'Trades'
-        header: "Trades by %{network} address %{hash}"
         title: "Trades %{network} %{hash}"
         description: "Trades in transaction %{hash} of %{network}, statistics of token exchanges"
       input_scripts:
         name: 'Input Scripts'
-        header: "%{network} transaction %{hash} input scripts"
         title: "Scripts for inputs %{hash} in %{network}"
         description: "Input scripts in transaction %{hash} in %{network}"
       output_scripts:
         name: 'Output Scripts'
-        header: "%{network} transaction %{hash} output scripts"
         title: "Scripts for output %{hash} in %{network}"
         description: "Output scripts in transaction %{hash} in %{network}"
     block:
       icon: 'fas fa-cube'
+      header: "%{network} Block %{height}"
       show:
         name: 'Block'
-        header: "%{network} Block %{height}"
         title: "%{network} block %{height}"
         description: "Overview of block %{height}  in %{network}"
     network:
+      header: "%{network} Blockchain"
       blocks:
         name: "Blocks"
-        header: "%{network} Blockchain"
         title: "Blocks on %{network} Explorer"
         description: "Explore %{network} blockchain addresses, transactions, blocks. Analytical reports, trends, plots and diagrams for %{network} based on on-chain data."
       transactions:
         name: "Transactions"
-        header: "Transactions on %{network}"
         title: "Transactions on %{network} Explorer"
         description: "Transaction list for %{network}"
       calls:
         name: "Smart Contract Calls"
-        header: "Smart Contract Calls on %{network}"
         title: "Smart Contract Calls on %{network} Explorer"
         description: "Smart Contract Calls on %{network}"
       transfers:
         name: "Transfers"
-        header: "Transfers on %{network}"
         title: "Transfers on %{network} Explorer"
         description: "Transfer list for %{network}"
       tokens:
         name: "Tokens"
-        header: "Tokens on %{network}"
         title: "Tokens on %{network} Explorer"
         description: "Token list for %{network}"
       miners:
         name: "Miners"
-        header: "Miners on %{network}"
         title: "Miners on %{network} Explorer"
         description: "Miner list for %{network}"
       trades:
         name: "Trades"
-        header: "Trades of currencies on %{network}"
         title: "Trades on %{network} Explorer"
         description: "Trade list for %{network}"
       orders:
         name: "Orders"
-        header: "Orders on %{network}"
         title: "Orders on %{network} Explorer"
         description: "Order list for %{network}"
       validators:
         name: "Validators"
-        header: "Validators on %{network}"
         title: "Validators on %{network} Explorer"
         description: "Validator list for %{network}"
       clients:
         name: "Client Types"
-        header: "Client Types on %{network}"
         title: "Client Types on %{network} Explorer"
         description: "Client Type list for %{network}"
     home:
@@ -677,6 +636,7 @@ en:
         part2: "address in %{network}"
         part3: "a regular wallet"
         balance: "Balance is"
+        annotation: "Address annotated as"
     smart_contract:
       description:
         part2: "smart contract in %{network}"
@@ -691,6 +651,7 @@ en:
         part3: "a token"
       native:
         header: "Token %{currency} is the native token in %{network}"
+      unnamed: "Unnamed"
     tx_list:
       icon: "fas fa-bolt text-warning"
       filters:
@@ -708,3 +669,8 @@ en:
         title: "Events in %{network}"
         header: "Event Transactions in %{network}"
         description: "List of transactions in %{network} with smart contract events, filtered by parameters"
+  network:
+    ethereum:
+      token:
+        name: "%{name} (%{symbol}) %{token_type} Token"
+        smart_contract: "Token is implemented as %{token_type} smart contract with address"

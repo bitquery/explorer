@@ -3,6 +3,6 @@
 
 <%= render partial: 'shared/title', locals: {
           icon: t("tabs.#{controller_name}.icon"),
-          header: t( "tabs.#{controller_name}.#{params[:action]}.header",
+          header: t( "tabs.#{controller_name}.header",
                      network: @network[:name], order: copy_text(@order, 'text-info')).html_safe,
           reportrange: false} %>
