@@ -20,17 +20,16 @@ class Ethereum::SitemapController < NetworkController
 
                    senders: ethereum(network: $network){
                         transfers(options:{
-                          desc: "amount", 
+                          desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          currency:{is: "ETH"}
                           ) {
                   
                             sender(sender: {not: "0x0000000000000000000000000000000000000000"}) {
                               address
                             }
                   
-                            amount
+                            count
                   
                         }
                      
@@ -38,17 +37,16 @@ class Ethereum::SitemapController < NetworkController
 
                   receivers: ethereum(network: $network){
                         transfers(options:{
-                          desc: "amount", 
+                          desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          currency:{is: "ETH"}
                           ) {
                   
                             receiver(receiver: {not: "0x0000000000000000000000000000000000000000"}) {
                               address
                             }
                   
-                            amount
+                            count
                   
                         }
                       
@@ -59,7 +57,6 @@ class Ethereum::SitemapController < NetworkController
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          currency:{not: "ETH"}
                           ) {
                   
                             currency {
