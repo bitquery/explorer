@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions') %></div>
+      <div class="card-body">
+        <div id="latest_transactions"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+              query ($network: BitcoinNetwork!,
+                      $limit: Int!,
+                      $offset: Int!
+                      $date: ISO8601DateTime,
+                      $height: Int){
+          bitcoin(network: $network){
+            transactions(options:{asc: ["index"], limit: $limit, offset: $offset},
+              date: {is: $date } height: {is: $height}
+              ) {
+
+
+
+                inputValue
+                outputCount
+                inputCount
+
+                index
+
+                hash
+                feeValue
+
+            }
+          }
+          }`);
+
+        new widgets.table('#latest_transactions', query, 'bitcoin.transactions', {
+            title: '<%= t('widgets.headers.latest_transactions') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.transaction_index') %>',
+                    path: 'index',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.hash') %>',
+                    type: 'string-ellipsis',
+                    path: 'hash',
+                    urlCallbackName: 'transaction_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.input_count') %>',
+                    path: 'inputCount',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.output_count') %>',
+                    path: 'outputCount',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
+                    type: 'amount',
+                    path: 'feeValue',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.input_value') %>, <%= @network[:currency] %>',
+                    type: 'amount',
+                    path: 'inputValue',
+                    style: 'width: 110px;'
+                },
+
+
+
+            ]
+        });
+
+        query.request({
+            height: <%= @height %>, date: '<%= @block_date %>', network: '<%= params['network']['network'] %>'
+        });
+
+
+
+    });
+
+</script>
