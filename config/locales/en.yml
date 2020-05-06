@@ -267,14 +267,13 @@ en:
         description: "Explorers for Testnet Blockchains by Bitquery"
     order:
       icon: 'fas fa-file-invoice-dollar'
+      header: "%{order} Order in %{network}"
       statuses:
         name: 'Order Statuses'
-        header: "%{network} Order %{order}"
         title: "%{network} order %{order}"
         description: "Status history of order %{order}  in %{network}"
       trades:
         name: 'Trades'
-        header: "%{network} Order %{order} trades"
         title: "%{network} order %{order} trades"
         description: "Trade history of order %{order}  in %{network}"
     covid_dashboard:
