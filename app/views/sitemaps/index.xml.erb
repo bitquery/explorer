@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<sitemapindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <%= render partial: 'url', locals: {url: covid_index_url} %>
-
-  <% for c in ['Europe','Asia','North_America','South_America','Africa','Oceania'] %>
-    <%= render partial: 'url', locals: {url: covid_continent_url(code: c)} %>
-  <% end  %>
-
-
-  <% for c in [{code: 'CN', name: 'China'},{code: 'IT', name: 'Italy'},{code: 'IR', name: 'Iran'},
-               {code: 'ES', name: 'Spain'},{code: 'DE', name: 'Germany'},{code: 'FR', name: 'France'},
-               {code: 'KR', name: 'South Korea'},{code: 'US', name: 'United States'}] %>
-    <%= render partial: 'url', locals: {url: covid_country_url(c)} %>
-  <% end  %>
+  <sitemap>
+    <loc><%= covid_sitemap_url %></loc>
+    <lastmod><%= (Time.now - 1.day).iso8601 %></lastmod>
+  </sitemap>
 
   <% for bc in BLOCKCHAINS %>
-    <%= render partial: 'url', locals: {url: url_for(controller: "#{bc[:family]}/network", action: 'blocks',
-                                                     blockchain: bc[:network], network: bc, only_path: false) } %>
+    <sitemap>
+      <loc><%= url_for controller: "#{bc[:family]}/sitemap", action: 'index',
+                       blockchain: bc[:network] , network:bc, only_path: false%></loc>
+      <lastmod><%= (Time.now - 1.day).iso8601 %></lastmod>
+    </sitemap>
   <% end %>
 
-</urlset>
+
+</sitemapindex>

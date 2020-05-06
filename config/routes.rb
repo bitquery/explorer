@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
 
-  namespace :bitcoin do
-    get 'block/show'
-  end
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
 
     BLOCKCHAINS.select{|b| b[:family]=='ethereum'}.each{|blockchain|
@@ -33,6 +30,8 @@ Rails.application.routes.draw do
       get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
     }
 
     BLOCKCHAINS.select{|b| b[:family]=='binance' }.each{|blockchain|
@@ -57,6 +56,8 @@ Rails.application.routes.draw do
       get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
     }
 
     BLOCKCHAINS.select{|b| b[:family]=='bitcoin' }.each{|blockchain|
@@ -75,6 +76,8 @@ Rails.application.routes.draw do
       get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
     }
 
 
@@ -84,6 +87,7 @@ Rails.application.routes.draw do
     get "covid/country/:code/:name/:action", controller: 'covid/covid_country'
     get "covid/continent/:code", controller: 'covid/covid_continent', action: 'index', as: 'covid_continent'
     get "covid/continent/:code/:action", controller: 'covid/covid_continent'
+    get "covid_sitemap.xml", controller: 'covid/sitemap', action: 'index', as: 'covid_sitemap'
 
 
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'
