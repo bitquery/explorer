@@ -190,8 +190,28 @@ en:
       header: "%{network} Block %{height}"
       show:
         name: 'Block'
-        title: "%{network} block %{height}"
+        title: "Block %{height} in %{network}"
         description: "Overview of block %{height}  in %{network}"
+      transactions:
+        name: "Transactions"
+        title: "Block %{height} Transactions on %{network} Explorer"
+        description: "Transaction list in block %{height} for %{network}"
+      calls:
+        name: "Smart Contract Calls"
+        title: "Block %{height} Smart Contract Calls on %{network} Explorer"
+        description: "Smart Contract Calls in block %{height} on %{network}"
+      transfers:
+        name: "Transfers"
+        title: "Block %{height} Transfers on %{network} Explorer"
+        description: "Transfer list in block %{height} for %{network}"
+      trades:
+        name: "Trades"
+        title: "Block %{height} Trades on %{network} Explorer"
+        description: "Trade list in block %{height} for %{network}"
+      orders:
+        name: "Orders"
+        title: "Block %{height} Orders on %{network} Explorer"
+        description: "Order list in block %{height} for %{network}"
     network:
       header: "%{network} Blockchain"
       blocks:
@@ -349,6 +369,7 @@ en:
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
+      trades: "Trades"
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
       inbound_native_by_time: "Inbound transfers in %{currency} currency"
@@ -416,10 +437,12 @@ en:
       difficulty_by_time: "Difficulty By Time"
       transactions_by_type: "Transactions By Type"
       transfers_by_time: "Transfers By Date"
+      transfers: "Transfers"
       transfers_by_currencies: "Transfers By Currencies"
       transactions_by_clients: "Transactions By Client types"
       latest_orders: "Latest Orders"
       order_transactions_by_time: "Orders By Date"
+      orders: "Orders"
       orders_by_currencies: "Orders By Currencies"
       latest_trades: "Latest Trades"
       trade_transactions_by_time: "Trades By Date"
