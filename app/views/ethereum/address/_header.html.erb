@@ -1,0 +1,17 @@
+
+<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name],
+                          address: (@info.address.annotation=='' ? @address : @info.address.annotation )) %>
+<% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description",
+                                network: @network[:name], address: @address) %>
+
+<% content_for :header do %>
+
+  <%= copy_text(@address, 'text-info').html_safe %>.
+  <%= render partial: 'shared/address_annotation', locals: {annotation:  @info.address.annotation } %>
+
+<% end %>
+
+<%= render partial: 'shared/title', locals: {
+    icon: t("tabs.#{controller_name}.icon"),
+    header: content_for(:header),
+    reportrange: true} %>
