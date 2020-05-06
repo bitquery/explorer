@@ -1,4 +1,4 @@
-<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:tag], order: @order) %>
+<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], order: @order) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], order: @order) %>
 
 <%= render partial: 'shared/title', locals: {
