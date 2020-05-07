@@ -32,7 +32,7 @@
                             symbol
                             tokenId
                           }
-                          count
+                          count(transferType: {in: [send,close]})
 
                           senders: count(uniq: senders)
                           receivers: count(uniq: receivers)
@@ -42,6 +42,7 @@
                           till_date: maximum(of: date)
 
                           amount
+                          created_amount: amount(transferType: {in: [create, genesis]})
                       }
                     }
                   }`);
@@ -83,6 +84,11 @@
                 {
                     title: '<%= t('widgets.titles.transfer_amount') %>',
                     path: 'amount',
+                    type: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.issued_amount') %>',
+                    path: 'created_amount',
                     type: 'amount'
                 },
                 {

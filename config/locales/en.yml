@@ -588,6 +588,7 @@ en:
       transaction_source: "Sender Client"
       transfer_type: "Type"
       transfer_amount: "Transfered Amount"
+      issued_amount: "Issued Amount"
       id: "ID"
       first_transaction_date: "First transaction date"
       last_transaction_date: "Last transaction date"
