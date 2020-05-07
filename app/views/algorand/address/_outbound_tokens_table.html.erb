@@ -1,0 +1,94 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.outbound_tokens_table') %></div>
+    <div class="card-body">
+      <div id="outbound_tokens_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: AlgorandNetwork!,
+                            $address: String!,
+                            $limit: Int!,
+                            $offset: Int!
+                            $from: ISO8601DateTime,
+                            $till: ISO8601DateTime){
+                        algorand(network: $network){
+                          transfers(options:{limit: $limit, offset: $offset, desc: "count"},
+                            date: {since: $from till: $till },
+                            sender: {is: $address},
+                            amount: {gt: 0},
+                            currency: {not: 0 }) {
+
+                            address: receiver{
+                              address
+                              annotation
+                            }
+
+                            max_date: maximum(of: date)
+
+                            count
+                            amount
+
+                            currency {
+                              tokenId
+                              symbol
+                            }
+
+                          }
+                        }
+                      }`);
+
+        new widgets.table('#outbound_tokens_table', query, 'algorand.transfers', {
+            title: '<%= t('widgets.headers.outbound_tokens_table') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount',
+                    style: 'width: 100px'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path',
+                    style: 'width: 80px'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date',
+                    style: 'width: 100px'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_from_path',
+                    style: 'width: 130px'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>
