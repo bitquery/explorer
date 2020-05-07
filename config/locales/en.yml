@@ -87,10 +87,6 @@ en:
         name: 'Outflow'
         title: "%{address} Smart Contract Outflow in %{network}"
         description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
-      calls:
-        name: 'Calls'
-        title: "%{address} Calls in %{network}"
-        description: "Smart contract  %{address} calls in %{network}"
       calls_contracts:
         name: 'Calls Contracts'
         title: "%{address} Calls Smart Contracts in %{network}"
@@ -398,6 +394,9 @@ en:
       smart_contract_methods_called_table: "Smart Contract Methods Called"
       top_gas_calls_table: "Top Gas Cost Calls"
       smart_contract_attributes: "Smart Contract Readonly Properties"
+      smart_contract_code: "Smart Contract Code"
+      smart_contract_source: "Smart Contract Source (disassembled)"
+      smart_contract_bytecode: "Smart Contract Bytecode"
       smart_contract_calls_by_time: "Calls Count By Date"
       smart_contract_callers_by_time: "Unique Callers By Date"
       smart_contract_transactions: "Latest Transactions"

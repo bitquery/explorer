@@ -10,8 +10,4 @@ class Algorand::SmartContractController < NetworkController
     render 'algorand/address/outflow'
   end
 
-  def transactions
-    render 'algorand/address/transactions'
-  end
-
 end

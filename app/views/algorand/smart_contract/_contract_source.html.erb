@@ -1,0 +1,67 @@
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.smart_contract_code') %></div>
+    <div class="card-body">
+
+      <h4><%= t 'widgets.headers.smart_contract_source' %></h4>
+      <pre class="text-success" style="width: 100%; overflow: auto">
+        <div id="smart_contract_source"><%= t('loading') %></div>
+      </pre>
+
+      <h4><%= t 'widgets.headers.smart_contract_bytecode' %></h4>
+      <pre class="text-success" style="width: 100%; overflow: auto">
+        <div id="smart_contract_bytecode"><%= t('loading') %></div>
+      </pre>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: AlgorandNetwork!,
+                   $address: String!){
+
+                    algorand(network: $network){
+                      address(address: {is: $address}){
+                        smartContract {
+                          bytecode
+                          source
+                        }
+                      }
+                    }
+
+            }`);
+
+
+        new widgets.text('#smart_contract_source', query, 'algorand.address', {
+            dataOptions:
+                {
+                    type: 'string',
+                    renderCallback: function(item){
+                        return item.smartContract.source;
+                    }
+                }
+
+        });
+
+        new widgets.text('#smart_contract_bytecode', query, 'algorand.address', {
+            dataOptions:
+                {
+                    type: 'string',
+                    renderCallback: function(item){
+                        return item.smartContract.bytecode;
+                    }
+                }
+
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            address: '<%= @address %>'
+        });
+
+    });
+</script>
