@@ -104,6 +104,39 @@ BLOCKCHAINS = [
     },
 
     {
+        tag: 'algorand',
+        network: 'algorand',
+        name: 'Algorand Mainnet',
+        family: 'algorand',
+        platform: 'Smart Contract',
+        currency: 'ALGO',
+        icon: 'currency/algo.png',
+
+    },
+
+    {
+        tag: 'algorand_testnet',
+        network: 'algorand_testnet',
+        name: 'Algorand Testnet',
+        family: 'algorand',
+        platform: 'Testnet',
+        currency: 'ALGO',
+        icon: 'currency/algo.png',
+
+    },
+
+    {
+        tag: 'algorand_betanet',
+        network: 'algorand_betanet',
+        name: 'Algorand Betanet',
+        family: 'algorand',
+        platform: 'Testnet',
+        currency: 'ALGO',
+        icon: 'currency/algo.png',
+
+    },
+
+    {
         tag: 'binance',
         network: 'binance',
         name: 'Binance DEX',
@@ -121,7 +154,7 @@ BLOCKCHAINS = [
         family: 'ethereum',
         platform: 'Testnet',
         currency: 'cGLD',
-        icon: 'generic.svg',
+        icon: 'currency/celo.png',
         start: Date.parse('2020-04-10')
     },
 
@@ -132,7 +165,7 @@ BLOCKCHAINS = [
         family: 'ethereum',
         platform: 'Testnet',
         currency: 'cGLD',
-        icon: 'generic.svg',
+        icon: 'currency/celo.png',
         start: Date.parse('2020-04-07')
     },
 
@@ -143,7 +176,7 @@ BLOCKCHAINS = [
         family: 'ethereum',
         platform: 'Testnet',
         currency: 'cGLD',
-        icon: 'generic.svg',
+        icon: 'currency/celo.png',
         start: Date.parse('2020-04-22')
     },
 

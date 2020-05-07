@@ -1,7 +1,8 @@
 module NetworkHelper
 
   def network_icon network
-    image_tag image_pack_path("media/icon/#{network[:icon]}"), { alt: network[:name]}
+    path = network[:icon].starts_with?('currency') ? network[:icon] : image_pack_path("media/icon/#{network[:icon]}")
+    image_tag path, { alt: network[:name], width: '32px', height: '32px', background_color: 'white'}
   end
 
   def dataset_icon dataset, size = 30
