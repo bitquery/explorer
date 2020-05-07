@@ -41,7 +41,7 @@
                           from_date: minimum(of: date)
                           till_date: maximum(of: date)
 
-                          amount
+                          amount(transferType: {notIn: [create, genesis]})
                           created_amount: amount(transferType: {in: [create, genesis]})
                       }
                     }
