@@ -1,0 +1,7 @@
+<%= render partial: "shared/header/#{controller_name}" %>
+
+<% if @sender %>
+  <%= render partial: 'algorand/tx_list/outbound_transfers' %>
+<% elsif @receiver %>
+  <%= render partial: 'algorand/tx_list/inbound_transfers' %>
+<% end %>
