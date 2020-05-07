@@ -4,7 +4,7 @@
     <div class="input-group-append">
       <% if @network %>
         <button type="button" class="btn btn-primary btn-sm search-form-type d-none d-lg-inline-block" data-network="<%= @network[:network] %>"><%= t('find_in', network: @network[:name]) %></button>
-        <button type="button" class="btn btn-primary btn-sm search-form-type d-lg-none" data-network="<%= @network[:network] %>"><%= image_pack_tag "media/icon/#{@network[:icon]}", class: 'search-icon' %><i class="fa fa-search search-icon"></i></button>
+        <button type="button" class="btn btn-primary btn-sm search-form-type d-lg-none" data-network="<%= @network[:network] %>"><%= network_icon @network, {class: 'search-icon'} %><i class="fa fa-search search-icon"></i></button>
     <% else  %>
         <button type="button" class="btn btn-primary btn-sm search-form-type d-none d-lg-inline-block"><%= t('find') %></button>
         <button type="button" class="btn btn-primary btn-sm search-form-type d-lg-none"><i class="fa fa-search"></i></button>
