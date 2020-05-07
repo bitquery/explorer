@@ -585,6 +585,7 @@ en:
       validator: "Validator"
       fee_address: "Fee Address"
       transaction_type: "Type"
+      transaction_subtype: "Subtype"
       transaction_source: "Sender Client"
       transfer_type: "Type"
       transfer_amount: "Transfered Amount"

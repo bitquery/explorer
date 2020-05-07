@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_transactions') %></div>
+      <div class="card-header"><%= t('widgets.headers.transactions') %></div>
       <div class="card-body">
-        <div id="latest_transactions"><%= t('loading') %></div>
+        <div id="transactions"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -16,14 +16,15 @@
 
         var query = new widgets.query(`
                         query ($network: AlgorandNetwork!,
+                                $address: String!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     algorand(network: $network){
-                      transactions(options:{desc: "block.height", limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
-                        ) {
+                      transactions(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till },
+                        txSender: {is: $address}) {
 
                           block {
                             timestamp {
@@ -32,16 +33,13 @@
                             height
                           }
 
-                          address: sender {
-                            address
-                            annotation
-                          }
                           hash
                           type
                           subtype
+
                           fee
 
-                           currency {
+                          currency {
                             tokenId
                             symbol
                           }
@@ -50,28 +48,23 @@
                     }
                   }`);
 
-        new widgets.table('#latest_transactions', query, 'algorand.transactions', {
-            title: '<%= t('widgets.headers.latest_transactions') %>',
+        new widgets.table('#transactions', query, 'algorand.transactions', {
+            title: '<%= t('widgets.headers.transactions') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',
                     type: 'string',
                     path: 'block.timestamp.time',
-                    style: 'width: 170px;'
+                    style: 'width: 180px'
                 },
                 {
                     title: '<%= t('widgets.titles.block') %>',
                     type: 'string',
                     path: 'block.height',
                     urlCallbackName: 'block_path',
-                    style: 'width: 80px;'
+                    style: 'width: 90px'
                 },
-                {
-                    title: '<%= t('widgets.titles.tx_sender') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
+
 
                 {
                     title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
@@ -93,18 +86,21 @@
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path'
                 },
+
                 {
                     title: '<%= t('widgets.titles.hash') %>',
                     type: 'string-ellipsis',
-                    path: 'hash',
-                    urlCallbackName: 'transaction_path'
+                    urlCallbackName: 'transaction_path',
+                    path: 'hash'
                 },
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
         });
+
 
     });
 
