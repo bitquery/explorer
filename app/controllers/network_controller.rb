@@ -10,6 +10,8 @@ class NetworkController < ApplicationController
                    params[:network].permit(:network, :tag, :name, :family, :currency, :icon).to_h :
                    BLOCKCHAIN_BY_NAME[params[:network]]
 
+    @id = params[:id]
+
     if params[:address]
       @address = @query = params[:address]
     elsif params[:block]
