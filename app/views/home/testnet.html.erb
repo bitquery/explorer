@@ -1,12 +1,1 @@
-<%= render partial: 'home/chains',locals: {platform: 'Testnet', query: '
-            query ($network: EthereumNetwork){
-                    chain: ethereum(network: $network ){
-                      transactions(options:{asc: "date.month"}
-                      ) {
-                        date{
-                          month: date(format: "%Y-%m-%d")
-                        }
-                        count
-                      }
-                    }
-                  }'} %>
+<%= render partial: 'home/chains',locals: {platform: 'Testnet'} %>

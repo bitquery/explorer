@@ -1,5 +1,5 @@
 {
-    title: '<%= t('widgets.titles.date') %>',
+    title: '<%= local_assigns[:title] || t('widgets.titles.date') %>',
         format: 'dd/M/yy',
     gridlines: {
     units: {
