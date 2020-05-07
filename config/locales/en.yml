@@ -499,6 +499,8 @@ en:
       trades_as_buyer: "Trades as buyer"
       trades_as_seller: "Trades as seller"
       currency: "Currency"
+      symbol: "Symbol"
+      asset_id: "Asset ID"
       receive: "Receive"
       txs: "Tx's"
       send: "Send"
@@ -590,6 +592,9 @@ en:
       transfer_type: "Type"
       transfer_amount: "Transfered Amount"
       issued_amount: "Issued Amount"
+      issued_at: "Issued At"
+      issue_hash: "Issue Hash"
+      issue_sender: "Issuer"
       id: "ID"
       first_transaction_date: "First transaction date"
       last_transaction_date: "Last transaction date"
@@ -712,6 +717,9 @@ en:
         header: "Event Transactions in %{network}"
         description: "List of transactions in %{network} with smart contract events, filtered by parameters"
   network:
+    algorand:
+      token:
+        name: "%{name} (%{symbol}) Asset"
     ethereum:
       smart_contract:
         generic: "Smart contract in %{network}"
