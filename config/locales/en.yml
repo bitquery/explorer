@@ -87,6 +87,10 @@ en:
         name: 'Outflow'
         title: "%{address} Smart Contract Outflow in %{network}"
         description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls:
+        name: 'Calls'
+        title: "%{address} Calls in %{network}"
+        description: "Smart contract  %{address} calls in %{network}"
       calls_contracts:
         name: 'Calls Contracts'
         title: "%{address} Calls Smart Contracts in %{network}"
