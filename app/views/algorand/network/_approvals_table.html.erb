@@ -1,0 +1,79 @@
+
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.approvals_by_time') %></div>
+      <div class="card-body">
+        <div id="approvals_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: AlgorandNetwork!,
+                  $limit: Int!,
+                  $offset: Int!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+
+                  algorand(network: $network ){
+
+                      blocks(options:{ desc: "max_date" limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+                        nextProtocol:{not: ""}
+                        ) {
+
+
+                        min_date: minimum(of: date, get: date)
+                        max_date: maximum(of:date, get: date)
+
+                        protocol: nextProtocol
+
+                        count
+
+                        approvals: maximum(of: next_protocol_approvals)
+
+                       }
+                  }
+                  }`);
+
+        new widgets.table('#approvals_by_time', query, 'algorand.blocks', {
+            title: '<%= t('widgets.headers.approvals_by_time') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.next_protocol') %>',
+                    path: 'protocol',
+                    urlCallbackName: 'protocol_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.first_block_date') %>',
+                    path: 'min_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.last_block_date') %>',
+                    path: 'max_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.block_count') %>',
+                    path: 'count'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.approvals') %>',
+                    path: 'approvals'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+    });
+</script>

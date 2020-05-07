@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.approvals_by_time') %></div>
+      <div class="card-body">
+        <div id="approvals_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: AlgorandNetwork!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    algorand(network: $network ){
+                      blocks(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+                        nextProtocol:{not: ""}
+
+                      ) {
+                        date{
+                          date(format: "%Y-%m-%d")
+                        }
+
+                        approvals: maximum(of: next_protocol_approvals)
+                      }
+                    }
+                  }`);
+
+        new widgets.chart('#approvals_by_time', query, 'algorand.blocks', {
+            title: '<%= t('widgets.headers.approvals_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.approvals') %>'
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.approvals') %>',
+                    path: 'approvals',
+                    renderCallback: function(item){
+                        return parseInt(item.approvals,10);
+                    },
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+
+    });
+</script>

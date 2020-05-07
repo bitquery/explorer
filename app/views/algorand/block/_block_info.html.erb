@@ -1,0 +1,94 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+    <div class="card-body">
+      <div id="block_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query ($network: AlgorandNetwork!,
+                              $height: Int!){
+                          algorand(network: $network) {
+
+                              blocks(height: {is: $height}){
+                                timestamp {
+                                  time (format: "%Y-%m-%d %H:%M:%S")
+                                }
+
+                                hash
+                                proposer {
+                                  address
+                                  annotation
+                                }
+
+                                reward
+
+                                seed
+                                nextProtocol
+                                currentProtocol
+                                txnRoot
+
+                                upgradeApprove
+                                upgradePropose
+                                nextProtocolApprovals
+                                nextProtocolSwitchOn
+                                nextProtocolVoteBefore
+                              }
+                            }
+                        }`);
+
+
+
+        new widgets.table('#block_info', query, 'algorand.blocks', {
+            title: '<%= t('widgets.headers.block_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+                    {name: '<%= t('widgets.titles.proposer') %>', value: (item.proposer.annotation || item.proposer.address), address: item.proposer},
+                    {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' <%= @network[:currency] %>' },
+                    {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
+                    {name: 'seed', value: item.seed},
+                    {name: 'currentProtocol', value: item.currentProtocol, url: item.currentProtocol},
+                    {name: 'nextProtocol', value: item.nextProtocol, url: item.nextProtocol},
+                    {name: 'txnRoot', value: item.txnRoot},
+
+                    {name: 'upgradeApprove', value: item.upgradeApprove},
+                    {name: 'upgradePropose', value: item.upgradePropose},
+                    {name: 'nextProtocolApprovals', value: item.nextProtocolApprovals},
+                    {name: 'nextProtocolSwitchOn', value: item.nextProtocolSwitchOn},
+                    {name: 'nextProtocolVoteBefore', value: item.nextProtocolVoteBefore},
+
+
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 110px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            height: <%= @height %>
+        });
+
+    });
+</script>

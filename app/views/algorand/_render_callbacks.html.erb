@@ -63,11 +63,15 @@
                 return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
             } else if (item.block ){
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
+            } else if (item.url ){
+                return item.url;
             }else{
                 return null;
             }
         },
-
+        protocol_path: function(item){
+            return item.protocol;
+        },
     });
 
 </script>
