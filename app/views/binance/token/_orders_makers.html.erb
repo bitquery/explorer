@@ -1,0 +1,78 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_makers') %></div>
+    <div class="card-body">
+      <div id="token_makers"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query (
+        $token: String!,
+        $limit: Int!,
+        $offset: Int!
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime){
+    binance {
+      orders(
+
+      any: [{baseCurrency: {is: $token}},{quoteCurrency: {is: $token}}]
+      date: {since: $from till: $till}
+        options: {desc: "count", limit: $limit, offset: $offset}
+      ){
+
+        address: orderOwner{
+          address
+          annotation
+        }
+
+        count(uniq: orders)
+        days: count(uniq: dates)
+
+        min_date:minimum(of: date)
+
+      }
+    }
+  }`);
+
+        new widgets.table('#token_makers', query, 'binance.orders', {
+            title: '<%= t('widgets.headers.token_makers') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.maker') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.unique_orders') %>',
+                    style: 'width: 60px;',
+                    path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.first_trade_date') %>',
+                    style: 'width: 120px;',
+                    path: 'min_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades_days') %>',
+                    style: 'width: 100px;',
+                    path: 'days'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            token: '<%= @token %>'
+        });
+
+    });
+
+</script>

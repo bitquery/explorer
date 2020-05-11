@@ -1,0 +1,26 @@
+<!-- Meta -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="og:site_name" content="Bitquery Explorer" />
+<meta property="vk:image" content="<%= external_image('bitquery_logo_w.png') %>" />
+<meta property="twitter:image" content="<%= external_image('bitquery_logo_w.png') %>" />
+<meta property="og:image" content="<%= external_image('bitquery_logo_w.png') %>" />
+<meta property="og:image:width" content="314" />
+<meta property="og:image:height" content="384" />
+<meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Bitquery Blockchain Explorer' %>" />
+<meta property="og:type" content="article" />
+<meta property="og:description" content="<%= content_for?(:description) ? yield(:description) : 'Bitquery is analytical engine for blockchains' %>" />
+<meta property="og:url" content="<%= request.original_url %>" />
+
+<link rel="image_src" href="<%= external_image('bitquery_logo_w.png') %>">
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="apple-touch-icon" href="<%= external_image('favicon_180x180.png') %>">
+<meta name="msapplication-tile-image" content="<%= external_image('favicon_150x150.png') %>">
+
+<!-- Chrome, Firefox OS and Opera -->
+<meta name="theme-color" content="#12263f">
+<!-- Windows Phone -->
+<meta name="msapplication-navbutton-color" content="#12263f">
+<!-- iOS Safari -->
+<meta name="apple-mobile-web-app-status-bar-style" content="#12263f">
+

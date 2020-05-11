@@ -9,7 +9,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= favicon_link_tag external_image('favicon.png') %>
-  <meta property="og:image" content="<%= external_image('bitquery_logo.png') %>" />
+  <%= render partial: 'shared/image_links_meta' %>
   <%= stylesheet_pack_tag 'application', media: 'all'%>
   <%= javascript_pack_tag 'application' %>
   <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">

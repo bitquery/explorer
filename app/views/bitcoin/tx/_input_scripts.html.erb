@@ -1,0 +1,116 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.inputs') %></div>
+      <div class="card-body">
+        <div id="inputs"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: BitcoinNetwork!,
+                      $hash:String!
+                      $limit: Int!
+                      $offset: Int!
+                        ){
+                        bitcoin(network: $network ){
+                          inputs(txHash: {is: $hash}
+                          options:{asc: "inputIndex", limit: $limit, offset: $offset}
+                          ) {
+
+                            inputIndex
+                            address: inputAddress{
+                              address
+                              annotation
+                            }
+                            value
+
+                            outputTransaction {
+                              hash
+                              index
+                            }
+
+                            inputScriptType {
+                              pattern
+                              annotation
+                              type
+                            }
+
+                            inputScript
+
+
+                        }
+                      }
+                }`);
+
+
+
+        new widgets.table('#inputs', query, 'bitcoin.inputs', {
+            title: '<%= t('widgets.headers.inputs') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.input_index') %>',
+                    path: 'inputIndex',
+                    style: 'width: 80px'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'value',
+                    style: 'width: 80px',
+                    type: 'amount'
+                },
+                {
+                    data: '<%= @network[:currency] %>',
+                    style: 'width: 20px',
+                },
+
+                {
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.output_index') %>',
+                    style: 'width: 80px',
+                    path: 'outputTransaction.index'
+                },
+                {
+                    title: '<%= t('widgets.titles.output_transaction') %>',
+                    type: 'string-ellipsis',
+                    path: 'outputTransaction.hash',
+                    urlCallbackName: 'output_transaction_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.input_script_type') %>',
+                    type: 'string',
+                    style: 'max-width: 200px;',
+                    renderCallback: function(item){
+                        return item.inputScriptType.type + '<br>'+item.inputScriptType.pattern;
+                    },
+                },
+
+
+                {
+                    title: '<%= t('widgets.titles.input_script') %>',
+                    type: 'string',
+                    style: 'max-width: 200px;',
+                    path: 'inputScript'
+                },
+
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+</script>

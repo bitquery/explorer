@@ -69,5 +69,8 @@ class ApplicationController < ActionController::Base
     headers.delete('X-Frame-Options')
   end
 
+  def change_controller! controller_name
+    redirect_to  params.permit!.merge({controller: controller_name})
+  end
 
 end

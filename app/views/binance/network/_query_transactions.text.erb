@@ -1,0 +1,11 @@
+query {
+  chain: binance{
+    transactions(options:{asc: "date.month"}
+    ) {
+      date{
+        month: date(format: "%Y-%m")
+      }
+      count
+    }
+  }
+}

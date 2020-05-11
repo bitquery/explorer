@@ -1,10 +1,10 @@
-<% chain = BLOCKCHAINS.detect{|chain| chain[:network] == @network} if @network && !@network.empty? %>
+<% header = (@network ? t('headers.search_in',network: @network[:name], query: @query) : t('headers.search', query: @query)) %>
 <%= render partial: 'shared/title',
            locals: {
-               header: (chain ? t('headers.search_in',network: chain[:name], query: @query) : t('headers.search', query: @query)),
+               header: header,
                icon: 'fas fa-search text-default'
            } %>
-
+<%= content_for :title,  header %>
 <div class="row">
   <div class="col mb-4">
     <div id="search"><%= t('loading') %></div>
@@ -107,7 +107,7 @@ $( document ).ready(function() {
                       break;
                 };
 
-                let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{image_pack_path "media/icon/#{chain[:icon]}"}\"}".html_safe}.join(",\n").html_safe %>};
+                let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{network_icon_path chain}\"}".html_safe}.join(",\n").html_safe %>};
                 let url = item_url(item);
 
                 let html = "<div class='media'>\n" +

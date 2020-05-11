@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">Correlation of Recovery and Death Rates </div>
+      <div class="card-body">
+        <br><strong style="color: red; ">Note that not all countries report recovered cases.</strong><br>
+        <div id="bubbles"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    var bubbles_query = new widgets.query(`
+    query($from: ISO8601DateTime, $till: ISO8601DateTime) {
+      offchain {
+       covid {
+          facts(<%= render partial: 'covid/covid_continent/continent_filter' %> date: {since: $from, till: $till} ){
+
+        country {
+          name
+          continent
+        }
+
+        confirmed
+        recovered
+        deaths
+       }
+      }
+     }
+
+    }`);
+
+    new widgets.chart('#bubbles', bubbles_query, 'offchain.covid.facts', {
+        chartType: 'BubbleChart',
+        chartOptions: {
+            hAxis: {title: 'Recovered / Confirmed, %'},
+            height: 800,
+            vAxes: {
+                '0': {
+                    title: 'Death / Confirmed, %'
+                }
+            },
+            sizeAxis: {minValue: 0,  maxSize: 200}
+        },
+        dataOptions: [
+            {
+                title: 'Country',
+                path: 'country.name'
+            },
+            {
+                title: 'Recovered / Confirmed, %',
+                renderCallback: function(item){
+                    return 100.0 * item.recovered / item.confirmed;
+                }
+            },
+            {
+                title: 'Death / Confirmed, %',
+                renderCallback: function(item){
+                    return 100.0 * item.deaths / item.confirmed;
+                }
+            },
+            <% if defined? @continent_region %>
+            {
+                title: 'Country',
+                path: 'country.name'
+            },
+            <% else %>
+            {
+                title: 'Continent',
+                path: 'country.continent'
+            },
+            <% end %>
+            {
+                title: 'Confirmed Cases',
+                path: 'confirmed'
+            }
+        ]
+    });
+
+    bubbles_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
+
+    rr.change(function(start, end, clear){
+        bubbles_query.request({from: start, till: end});
+    })
+
+</script>

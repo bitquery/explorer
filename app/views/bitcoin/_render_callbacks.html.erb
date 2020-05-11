@@ -42,7 +42,19 @@
         transaction_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
         },
+        output_transaction_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ item.outputTransaction.hash;
+        },
+        property_value_path: function(item){
+            if (item.address ) {
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
+            } else if (item.block ){
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
+            }else{
+                return null;
+            }
 
+        },
     });
 
 </script>

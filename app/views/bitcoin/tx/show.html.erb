@@ -1,1 +1,6 @@
-Tx <%= @hash %> @ <%= @network %>
+<%= render partial: 'bitcoin/tx/tx_info' %>
+
+<div class="row">
+  <%= render partial: 'bitcoin/tx/inputs'  %>
+  <%= render partial: 'bitcoin/tx/outputs'  %>
+</div>

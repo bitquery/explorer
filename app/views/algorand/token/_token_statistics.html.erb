@@ -1,0 +1,109 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_statistics') %></div>
+    <div class="card-body">
+      <div id="token_statistics"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+$( document ).ready(function() {
+
+
+    var query = new widgets.query(`query ($network: AlgorandNetwork!,
+                              $token: Int!,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                          algorand(network: $network){
+                            transfers(currency: {is: $token}
+                            amount: {gt: 0}
+                            date: {since: $from till: $till}
+                            ){
+
+                              currency{
+                                symbol
+                                name
+                                tokenId
+                              }
+
+                              median: amount(calculate: median transferType: {in: [send,close]})
+                              average: amount(calculate: average transferType: {in: [send,close]})
+
+                              amount(transferType: {in: [send,close]})
+                              count(transferType: {in: [send,close]})
+
+                              days: count(uniq: dates transferType: {in: [send,close]})
+
+                              sender_count: count(uniq: senders transferType: {in: [send,close]})
+                              receiver_count: count(uniq: receivers transferType: {in: [send,close]})
+
+                              issued_amount: amount(transferType: {in: [create, genesis]})
+                              issued_at: minimum(of: time)
+
+                              issue_hash: minimum(of: time get: tx_hash)
+                              issue_sender: minimum(of: time get: tx_sender)
+
+                              min_date:minimum(of: date)
+                              max_date:maximum(of: date)
+
+                            }
+                          }
+                        }`);
+
+
+
+    new widgets.table('#token_statistics', query, 'algorand.transfers', {
+        title: '<%= t('widgets.headers.token_statistics') %>',
+        renderData: function (data) {
+            item = data[0];
+            return !item ? [] : [
+                {name: '<%= t('widgets.titles.symbol') %>', value: item.currency.symbol},
+                {name: '<%= t('widgets.titles.name') %>', value: item.currency.name},
+                {name: '<%= t('widgets.titles.asset_id') %>', value: item.currency.tokenId},
+                {name: '<%= t('widgets.titles.issued_amount') %>', value: item.issued_amount+' '+item.currency.symbol},
+                {name: '<%= t('widgets.titles.issued_at') %>', value: item.issued_at},
+                {name: '<%= t('widgets.titles.issue_hash') %>', value: item.issue_hash, tx_hash: item.issue_hash},
+                {name: '<%= t('widgets.titles.issue_sender') %>', value: item.issue_sender, address: item.issue_sender},
+
+                {name: '<%= t('widgets.titles.transfer_count') %>', value: item.count},
+
+                {name: '<%= t('widgets.titles.uniq_senders') %>', value: item.sender_count},
+                {name: '<%= t('widgets.titles.uniq_receivers') %>', value:item.receiver_count},
+
+                {name: '<%= t('widgets.titles.total_amount') %>', value: item.amount+' '+item.currency.symbol},
+
+                {name: '<%= t('widgets.titles.median_amount') %>', value: item.median+' '+item.currency.symbol},
+                {name: '<%= t('widgets.titles.average_amount') %>', value: item.average+' '+item.currency.symbol},
+
+
+                {name: '<%= t('widgets.titles.first_transfer_date') %>', value: item.min_date},
+                {name: '<%= t('widgets.titles.last_transfer_date') %>', value: item.max_date},
+                {name: '<%= t('widgets.titles.transfer_days') %>', value: item.days},
+
+            ];
+        },
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.metric') %>',
+                type: 'string-ellipsis',
+                path: 'name',
+                html_class: 'text-info font-weight-bold'
+            },
+            {
+                title: '<%= t('widgets.titles.property_value') %>',
+                type: 'string-ellipsis',
+                path: 'value',
+                urlCallbackName: 'property_value_path'
+            },
+        ]
+    });
+
+    query.request({
+        network: '<%= @network[:network] %>',
+        token: <%= @id %>
+    });
+
+});
+</script>

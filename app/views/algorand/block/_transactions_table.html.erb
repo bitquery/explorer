@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions') %></div>
+      <div class="card-body">
+        <div id="latest_transactions"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: AlgorandNetwork!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $date: ISO8601DateTime,
+                                $height: Int){
+                    algorand(network: $network){
+                      transactions(options:{asc: "index", limit: $limit, offset: $offset},
+                        date: {is: $date } height: {is: $height}
+                        ) {
+
+                          index
+                          address: sender {
+                            address
+                            annotation
+                          }
+                          hash
+                          fee
+                          type
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#latest_transactions', query, 'algorand.transactions', {
+            title: '<%= t('widgets.headers.latest_transactions') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.transaction_index') %>',
+                    path: 'index',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.tx_sender') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.hash') %>',
+                    type: 'string-ellipsis',
+                    path: 'hash',
+                    urlCallbackName: 'transaction_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction_type') %>',
+                    path: 'type',
+                },
+                {
+                    title: '<%= t('widgets.titles.gas_value') %>, <%= @network[:currency] %>',
+                    type: 'amount',
+                    path: 'fee',
+                    style: 'width: 110px;'
+                },
+            ]
+        });
+
+
+        query.request({
+            height: <%= @height %>, date: '<%= @block_date %>', network: '<%= @network[:network] %>'
+        });
+
+
+    });
+
+</script>

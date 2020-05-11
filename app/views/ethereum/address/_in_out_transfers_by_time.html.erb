@@ -20,7 +20,10 @@
                     ethereum(network: $network ){
                       transfers(date: {
                         since: $from
-                        till: $till}) {
+                        till: $till}
+                        amount: {gt: 0}
+                        options: {asc: "date.date"}
+                        ) {
                         date{
                           date(format: $dateFormat)
                         }

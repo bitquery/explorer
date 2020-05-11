@@ -232,8 +232,10 @@ function compactDataArray(arr){
 };
 
 
-global.dateRangeReportFormat = function(from, till){
-    if (from){
+global.dateRangeReportFormat = function(from, till, network){
+    if (networksLimitedDates(network)){
+        return '%Y-%m-%d';
+    }else if (from){
         var tillp = till ? Date.parse(till) : Date.now();
         if ((tillp - Date.parse(from) ) / (24*3600*1000) > 100 ){
             return '%Y-%m';
@@ -245,11 +247,14 @@ global.dateRangeReportFormat = function(from, till){
     }
 };
 
+global.networksLimitedDates = function(network){
+    return ['celo_alfajores','celo_baklava','celo_rc1'].indexOf(network)>=0;
+};
 
 global.queryWithTimeRange = function(rr, query, from, till, params){
 
     function draw(start,end){
-        var dateFormat = dateRangeReportFormat(start,end);
+        var dateFormat = dateRangeReportFormat(start,end, (params && params.network));
         var data = Object.assign({}, params, {
             from: start,
             till: end,

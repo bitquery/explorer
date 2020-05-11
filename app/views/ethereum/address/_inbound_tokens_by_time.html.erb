@@ -23,6 +23,7 @@
                         since: $from
                         till: $till}
                         receiver: {is: $address}
+                        amount: {gt: 0}
                         currency: {not: $nativeCurrency }
                       ) {
                         date: date{

@@ -22,7 +22,7 @@
                                 block {
                                         height
                                         timestamp {
-                                          iso8601
+                                          time (format: "%Y-%m-%d %H:%M:%S")
                                         }
                                       }
 
@@ -48,9 +48,9 @@
             title: '<%= t('widgets.headers.tx_info') %>',
             renderData: function (data) {
                 item = data[0];
-                return [
+                return !item ? [] : [
                     {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
-                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.iso8601},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
                     {name: '<%= t('widgets.titles.transaction_index') %>', value: item.index},
                     {name: '<%= t('widgets.titles.transaction_type') %>', value: item.transactionType},
 
@@ -59,7 +59,9 @@
 
                     {name: '<%= t('widgets.titles.success') %>', value: item.transactionCode==0 },
                     {name: '<%= t('widgets.titles.transaction_code') %>', value: item.transactionCode },
-
+                    {name: '<%= t('widgets.titles.log') %>', value: item.log },
+                    {name: '<%= t('widgets.titles.description') %>', value: item.description },
+                    {name: '<%= t('widgets.titles.memo') %>', value: item.memo },
                 ];
             },
             dataOptions: [

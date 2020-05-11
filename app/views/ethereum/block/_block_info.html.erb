@@ -18,7 +18,7 @@
 
                               blocks(height: {is: $height}){
                                 timestamp {
-                                  iso8601
+                                  time (format: "%Y-%m-%d %H:%M:%S")
                                 }
                                 difficulty
                                 hash
@@ -47,8 +47,8 @@
             title: '<%= t('widgets.headers.block_info') %>',
             renderData: function (data) {
                 item = data[0];
-                return [
-                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.iso8601},
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
                     {name: '<%= t('widgets.titles.miner') %>', value: (item.miner.annotation || item.miner.address), address: item.miner},
                     {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' '+ item.rewardCurrency.symbol },
                     {name: '<%= t('widgets.titles.transactions_count') %>', value: item.transactionCount},

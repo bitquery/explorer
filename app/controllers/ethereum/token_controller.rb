@@ -1,5 +1,4 @@
-class Ethereum::TokenController < NetworkController
-  layout 'tabs'
+class Ethereum::TokenController < Ethereum::AddressController
 
   before_action :is_native
 
@@ -34,7 +33,22 @@ class Ethereum::TokenController < NetworkController
   private
 
   def is_native
-    @native_token = params[:address]==@network[:currency]
+    @token = params[:address]
+    @native_token = native_token?
+    @token_info = !@native_token && @info.smart_contract.currency
+  end
+
+  def native_token?
+    @address == @network[:currency]
+  end
+
+  def redirect_by_type
+    return if native_token?
+    if !(sc = @info.try(:smart_contract))
+      change_controller!  'ethereum/address'
+    elsif !sc.try(:currency)
+      change_controller! 'ethereum/smart_contract'
+    end
   end
 
 end

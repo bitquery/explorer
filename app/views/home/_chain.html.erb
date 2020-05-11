@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <%= network_icon chain %>
-      <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:path]}" %>
+      <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}" %>
     </div>
     <div class="card-body">
       <div id="<%= chain[:tag] %>"><%= t('loading') %></div>
@@ -25,12 +25,12 @@
                         title: '<%= t('widgets.titles.transactions_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                hAxis: <%= render partial: 'shared/date_axis.json', locals: {title: t('widgets.titles.month')} %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
                 },
-                height: 300,
+                height: 240,
                 chartArea:{left: '20%', right: 0, top: '5%', bottom: '15%'}
             },
             dataOptions: [

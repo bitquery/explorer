@@ -1,14 +1,8 @@
 <% if @native_token %>
-
-  <h3><%= t 'pages.token.native.header', currency: @address, network: @network[:name] %></h3>
   <div class="row">
     <%= render partial: 'ethereum/token/token_statistics' %>
   </div>
-
 <% else %>
-
-  <%= render partial: 'ethereum/token/description' %>
-
   <div class="row">
     <%= render partial: 'ethereum/token/token_attributes' %>
     <%= render partial: 'ethereum/token/token_statistics' %>

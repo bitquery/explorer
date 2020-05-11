@@ -1,0 +1,102 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.tx_info') %></div>
+    <div class="card-body">
+      <div id="tx_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: AlgorandNetwork!,
+                              $hash: String!){
+                          algorand(network: $network){
+                            transactions(txHash: {is: $hash}
+                          ){
+
+                                block {
+                                        height
+                                        timestamp {
+                                          time (format: "%Y-%m-%d %H:%M:%S")
+                                        }
+                                      }
+
+                                      currency {
+                                        symbol
+                                        tokenId
+                                      }
+
+
+                                      sender {
+                                        address
+                                        annotation
+                                      }
+
+                                      fee
+
+                                      firstRound
+                                      lastRound
+
+                                      genesisHash
+                                      genesisId
+                                      index
+                                      note
+                                      poolerror
+                                      type
+
+                           }
+                          }
+                        }`);
+
+
+
+        new widgets.table('#tx_info', query, 'algorand.transactions', {
+            title: '<%= t('widgets.headers.tx_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
+                    {name: '<%= t('widgets.titles.transaction_index') %>', value: item.index},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
+                    {name: '<%= t('widgets.titles.tx_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
+
+                    {name: '<%= t('widgets.titles.fee') %>', value: item.fee + ' <%= @network[:currency] %>' },
+                    {name: 'firstRound', value: item.firstRound },
+                    {name: 'lastRound', value: item.lastRound },
+                    {name: 'genesisHash64', value: item.genesisHash64 },
+                    {name: 'genesisId', value: item.genesisId },
+                    {name: 'note', value: item.note },
+                    {name: 'poolerror', value: item.poolerror },
+                    {name: 'type', value: item.type }
+
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 110px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+</script>

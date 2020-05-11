@@ -23,6 +23,7 @@
                           transfers(options:{limit: $limit, offset: $offset, desc: "count"},
                             date: {since: $from till: $till },
                             sender: {is: $address},
+                            transferType:{notIn: [DEX_FEE,TX_FEE]}
                             currency: {not: $nativeCurrency }) {
 
                             address: receiver{
@@ -38,6 +39,7 @@
                             currency {
                               address
                               symbol
+                              tokenId
                               tokenType
                             }
 

@@ -1,0 +1,23 @@
+<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title") %>
+<% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description") %>
+
+
+<div class="row search mb-2">
+  <div class="col-12 col-lg">
+    <!--    <%# if local_assigns[:header] %><h6 class="header-title word-wrap"><%#= header %></h6><%# end %>-->
+    <h1 class="mt-2 word-wrap"><%= t( "tabs.#{controller_name}.#{params[:action]}.header") %></h1>
+    <p>
+      Use date range control to see data by different time period.
+      Data is loaded on <%= Date.today %> 00:00 UTC.
+      Click country from table below to see country-level.
+      <br><strong style="color: red; ">Note that not all countries report recovered cases.</strong><br><br>
+      <%= render partial: 'covid/covid_dashboard/short_countries' %><br><br>
+      <%= render partial: 'covid/covid_dashboard/short_continents' %>
+    </p>
+  </div>
+
+  <div class="col-12 col-lg-auto">
+    <%= render partial: 'shared/reportrange' %>
+  </div>
+
+</div>
