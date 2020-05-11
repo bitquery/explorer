@@ -19,6 +19,17 @@
 </div>
 
 
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transaction_average_fee_by_time') %></div>
+      <div class="card-body">
+        <div id="transaction_average_fee_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 
     $( document ).ready(function() {
@@ -40,6 +51,7 @@
                         }
                         count: count
                         feeValue
+                        avgFee: feeValue(calculate: average)
                       }
                     }
                   }`);
@@ -76,7 +88,7 @@
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.fee') %>'
+                        title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
                     }
                 },
                 hAxis: <%= render partial: 'shared/date_axis.json' %>,
@@ -91,8 +103,36 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.fee') %>',
+                    title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
                     path: 'feeValue'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#transaction_average_fee_by_time', query, 'bitcoin.transactions', {
+            title: '<%= t('widgets.headers.transaction_average_fee_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.fee_per_transaction') %>, <%= @network[:currency] %>'
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+                seriesType: 'bars'
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.fee_per_transaction') %>, <%= @network[:currency] %>',
+                    path: 'avgFee',
+                    format: '#,##0.0000000'
                 },
 
             ]
