@@ -62,6 +62,6 @@ Rails.application.configure do
 
   BITQUERY_WIDGETS_URL = "http://localhost:63342/widgets"
   BITQUERY_PROJECT_URL = "https://bitquery.io"
-  BITQUERY_GRAPHQL = 'http://localhost:3000/graphql' # 'https://graphql.bitquery.io'
+  BITQUERY_GRAPHQL = 'https://graphql.bitquery.io'
   ANALYTICS = false
 end

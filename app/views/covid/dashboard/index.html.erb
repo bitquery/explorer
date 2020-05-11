@@ -22,54 +22,54 @@
 </div>
 
 <div class="row">
-  <%= render partial: 'total_text_query' %>
-  <%= render partial: 'total_text', locals: {field: 'confirmed',
+  <%#= render partial: 'total_text_query' %>
+  <%#= render partial: 'total_text', locals: {field: 'confirmed',
                                              name: 'Confirmed',
                                              card_class: 'border-warning',
                                              html_class: 'text-warning'
   } %>
 
-  <%= render partial: 'total_text', locals: {field: 'recovered',
+  <%#= render partial: 'total_text', locals: {field: 'recovered',
                                              name: 'Recovered',
                                              card_class: 'border-success',
                                              html_class: 'text-success'}
   %>
 
-  <%= render partial: 'total_text', locals: {field: 'deaths',
+  <%#= render partial: 'total_text', locals: {field: 'deaths',
                                              name: 'Deaths',
                                              card_class: 'border-danger',
                                              html_class: 'text-danger'
   } %>
 </div>
 
-<%= render partial: 'timegraph' %>
-<%= render partial: 'timegraph_total' %>
+<%#= render partial: 'timegraph' %>
+<%#= render partial: 'timegraph_total' %>
 
-<%= render partial: 'countrymap' %>
-<%= render partial: 'countrytable' %>
-<%= render partial: 'densitymap' %>
+<%#= render partial: 'countrymap' %>
+<%#= render partial: 'countrytable' %>
+<%#= render partial: 'densitymap' %>
 
 <div class="row">
 
-  <%= render partial: 'countries_pie', locals: {field: 'confirmed',
+  <%#= render partial: 'countries_pie', locals: {field: 'confirmed',
                                                 name: 'Top countries by Confirmed Cases'} %>
 
-  <%= render partial: 'countries_pie', locals: {field: 'recovered',
+  <%#= render partial: 'countries_pie', locals: {field: 'recovered',
                                                 name: 'Top countries by Recovered Cases'} %>
 
-  <%= render partial: 'countries_pie', locals: {field: 'deaths',
+  <%#= render partial: 'countries_pie', locals: {field: 'deaths',
                                                 name: 'Top countries by Death Cases'} %>
 
 </div>
 
-<%= render partial: 'time_stacked' %>
-<%= render partial: 'country_bubble' %>
-<%= render partial: 'days_confirmed_bubble' %>
-<%= render partial: 'days_bubble' %>
+<%#= render partial: 'time_stacked' %>
+<%#= render partial: 'country_bubble' %>
+<%#= render partial: 'days_confirmed_bubble' %>
+<%#= render partial: 'days_bubble' %>
 
 <div class="row">
   <%= render partial: 'continent_table' %>
-  <%= render partial: 'continents_stacked' %>
+  <%#= render partial: 'continents_stacked' %>
 </div>
 
 <%= render partial: 'sources' %>
