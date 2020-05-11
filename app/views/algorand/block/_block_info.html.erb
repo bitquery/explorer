@@ -28,6 +28,8 @@
                                 }
 
                                 reward
+                                rate
+                                frac
 
                                 seed
                                 nextProtocol
@@ -52,7 +54,7 @@
                 return !item ? [] : [
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
                     {name: '<%= t('widgets.titles.proposer') %>', value: (item.proposer.annotation || item.proposer.address), address: item.proposer},
-                    {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' <%= @network[:currency] %>' },
+
                     {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
                     {name: 'seed', value: item.seed},
                     {name: 'currentProtocol', value: item.currentProtocol, url: item.currentProtocol},
@@ -64,6 +66,10 @@
                     {name: 'nextProtocolApprovals', value: item.nextProtocolApprovals},
                     {name: 'nextProtocolSwitchOn', value: item.nextProtocolSwitchOn},
                     {name: 'nextProtocolVoteBefore', value: item.nextProtocolVoteBefore},
+
+                    {name: 'reward', value: item.reward},
+                    {name: 'frac', value: item.frac},
+                    {name: '<%= t('widgets.titles.block_reward') %>', value: item.rate + ' <%= @network[:currency] %>'},
 
 
                 ];
