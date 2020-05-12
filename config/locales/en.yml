@@ -47,7 +47,7 @@ en:
       outflow:
         name: 'Outflow'
         title: "%{address} outflow in %{network}"
-        description: "Outflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+        description: "Outflow of different crypto tokens and coins from address %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
       calls_contracts:
         name: 'Calls Contracts'
         title: "%{address} calls smart contracts in %{network}"
@@ -86,7 +86,7 @@ en:
       outflow:
         name: 'Outflow'
         title: "%{address} Smart Contract Outflow in %{network}"
-        description: "Outflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+        description: "Outflow of different crypto tokens and coins from smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
       calls_contracts:
         name: 'Calls Contracts'
         title: "%{address} Calls Smart Contracts in %{network}"
@@ -133,7 +133,7 @@ en:
       outflow:
         name: 'Outflow'
         title: "%{token} Outflow from Smart Contract in %{network}"
-        description: "Outflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+        description: "Outflow of different crypto tokens and coins from token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
       calls_contracts:
         name: 'Calls Contracts'
         title: "%{token} Calls Smart Contracts in %{network}"
