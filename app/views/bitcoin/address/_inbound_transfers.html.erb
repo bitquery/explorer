@@ -27,7 +27,7 @@
                                               since: $from
                                               till: $till}
                               outputAddress: {is: $address}
-                              options:{desc: "block.height", limit: $limit, offset: $offset}
+                              options:{desc: ["block.height","outputIndex"], limit: $limit, offset: $offset}
                             ){
 
                               block {
