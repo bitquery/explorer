@@ -27,7 +27,7 @@
                                               since: $from
                                               till: $till}
                               inputAddress: {is: $address}
-                              options:{desc: ["block.height","outputTransaction.index"], limit: $limit, offset: $offset}
+                              options:{desc: ["block.height","transaction.index"], limit: $limit, offset: $offset}
                             ){
 
                               block {
@@ -44,6 +44,7 @@
 
                               transaction {
                                 hash
+                                index
                               }
                               inputIndex
 
@@ -70,6 +71,7 @@
                     urlCallbackName: 'block_path',
                     style: 'width: 90px'
                 },
+
                 {
                     title: '<%= t('widgets.titles.amount') %>',
                     type: 'amount',
@@ -98,6 +100,11 @@
                     type: 'string',
                     data: '<i class="fa fa-sign-in text-success"></i>',
                     html_class: 'text-center'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction_index') %>',
+                    style: 'width: 40px',
+                    path: 'transaction.index'
                 },
                 {
                     title: '<%= t('widgets.titles.input_index') %>',
