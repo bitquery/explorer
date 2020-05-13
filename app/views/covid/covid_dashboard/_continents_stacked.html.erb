@@ -10,85 +10,65 @@
 
 
 <script>
-
-    var continent_stacked_query = new widgets.query(`
+  var continent_stacked_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
-     offchain {
+      offchain {
        covid {
-              facts(date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
-
+          facts(date: {since: $from, till: $till}, options: {desc: "confirmed"}){
               date {
                 date(format: "%d/%m")
                 fulldate: date
+                month: date(format: "%m")
               }
+            country {
+              continent
+            }
 
-              europe: confirmed(continent: {is: Europe})
-              asia: confirmed(continent: {is: Asia})
-              north: confirmed(continent: {is: North_America})
-              south: confirmed(continent: {is: South_America})
-              oceania: confirmed(continent: {is: Oceania})
-              antarctica: confirmed(continent: {is: Antarctica})
-
+            confirmed
+            recovered
+            deaths
+        }
        }
-     }
-    }
+      }
 
-  }`);
+    }`);
 
-    new widgets.chart('#continent_stacked', continent_stacked_query, 'offchain.covid.facts', {
-        title: 'Daily stats by continents',
-        chartOptions: {
-            vAxes: {
-                '0': {
-                    title: 'New Confirmed Cases Daily',
-                    viewWindow: { min: 0 }
-                }
-            },
-            hAxis: {
-                title: '<%= t('widgets.titles.date') %>'
-            },
-            bar: {groupWidth: "100%"},
-            isStacked: true
-        },
-        dataOptions: [
-            {
-                title: '<%= t('widgets.titles.date') %>',
-                path: 'date.date'
-            },
-            {
-                title: 'Asia',
-                path: 'asia'
-            },
-            {
-                title: 'Europe',
-                path: 'europe'
-            },
+  new widgets.pivotChart('#continent_stacked', continent_stacked_query, 'offchain.covid.facts', {
+      title: 'Daily stats by continents',
+      chartOptions: {
+          vAxes: {
+              '0': {
+                  title: 'New Confirmed Cases Daily',
+                  viewWindow: { min: 0 }
+              }
+          },
+          hAxis: {
+              title: '<%= t('widgets.titles.date') %>'
+          },
+          bar: {groupWidth: "100%"},
+          isStacked: true
+      },
+      cols: [{
+          title: 'Continent',
+          path: 'country.continent',
+          metrics: [
+              {
+                  title: 'Confirmed',
+                  path: 'confirmed'
+              }
+          ]
+      }],
+      rows: [{
+          title: 'Date',
+          path: 'date.fulldate',
+          sort: 'asc'
+      }]
+  });
 
-            {
-                title: 'North America',
-                path: 'north'
-            },
-            {
-                title: 'South America',
-                path: 'south'
-            },
-            {
-                title: 'Oceania',
-                path: 'oceania'
-            },
-            {
-                title: 'Antarctica',
-                path: 'antarctica'
-            },
+  continent_stacked_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
 
-
-        ]
-    });
-
-    continent_stacked_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
-
-    rr.change(function(start, end, clear){
-        continent_stacked_query.request({from: start, till: end});
-    })
+  rr.change(function(start, end, clear){
+      continent_stacked_query.request({from: start, till: end});
+  })
 
 </script>
