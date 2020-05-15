@@ -51,6 +51,10 @@ ru:
         header: "Вызовы с адреса %{network}  %{address}"
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов с %{address} в сети %{network}, статистика вызовов, используемые методы"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       show:

@@ -60,6 +60,10 @@ en:
         name: 'Trades'
         title: "%{address} trades in %{network}"
         description: "Trades by address %{address} activity in %{network}, statistics of token exchanges"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract in %{network}"
@@ -461,6 +465,7 @@ en:
       orders: "Orders"
       orders_by_currencies: "Orders By Currencies"
       latest_trades: "Latest Trades"
+      graph: 'Graph'
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
       validators: "Validators"

@@ -13,8 +13,10 @@ require("bootstrap")
 require('daterangepicker')
 import ClipboardJS from 'clipboard'
 import moment from 'moment'
+import vis from 'vis'
 
 global.$ = $;
+global.vis = vis;
 
 $('document').ready(function(){
     new ClipboardJS('.to-clipboard');

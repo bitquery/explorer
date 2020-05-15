@@ -14,7 +14,8 @@
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "popper.js": "^1.16.1",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "vis": "^4.21.0-EOL"
   },
   "version": "0.1.0",
   "devDependencies": {
