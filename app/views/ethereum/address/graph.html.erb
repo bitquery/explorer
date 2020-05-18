@@ -73,12 +73,12 @@
                       }`);
 
         new widgets.template('#graph', query, '', {
+            test_array: [1,2,3,4],
+            test_obj: {a:1, b:2, c: {d: 3}},
             title: '<%= t('widgets.headers.graph') %>',
             callback: function(domNode, data){
                 let _ = widgets.lodash;
-              console.log(domNode);
                 console.log(data);
-                domNode.innerText = 'FUCk';
 
                 this.prepareNodes = function(nodes){
                     let prepareNode = function(node){
@@ -93,8 +93,8 @@
                         } else {
                             return {
                                 id: node.address,
-                                label: _.truncate(node.address, {lenght: 15, separator: '...'}),
-                                group: 'address',
+                                label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                group: node.annotation ? 'annotated_address' : 'address',
                                 title: node.address,
                                 link: ''
                             };
@@ -115,7 +115,7 @@
                         let currency_name = 'ETH';//edge.currency.symbol;
                         let width_counts = Math.log(edge.transfers)+1;
                         let width = (edge.amount > 1) ? 1.5*Math.log10(edge.amount)+1 : 1;
-                        let value = edge.amount;//parseFloat(edge.amount)<=1e-6 ? edge.amount : numeral(edge.amount).format('0.0000a');
+                        let value = parseFloat(edge.amount)<=1e-6 ? edge.amount : numeral(edge.amount).format('0.0000a');
 
                         let label = value + ' ' + currency_name;
 
@@ -160,7 +160,6 @@
                     var string = JSON.stringify(data);
                     console.log(string);
                     if (Array.prototype.reduce){
-                        console.log(string.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0));
                         return string.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
                     }
                     var hash = 0;
@@ -216,9 +215,9 @@
                         address: {
                             shape: 'icon',
                             icon: {
-                                face: 'Font Awesome 5 Free',
+                                face: 'FontAwesome',
                                 code: '\uf007',
-                                weight: 400,
+                                weight: 900,
                                 size: 30,
                                 color: '#009688'
                             }
@@ -226,8 +225,9 @@
                         annotated_address: {
                             shape: 'icon',
                             icon: {
-                                face: 'Glyphicons Halflings',
-                                code: '\ue008',
+                                face: 'FontAwesome',
+                                code: '\uf007',
+                                weight: 900,
                                 size: 30,
                                 color: '#006650',
                             },
@@ -299,32 +299,25 @@
 
                 this.expand = function(address){
                     let g = this;
-                    g.dataset.nodes.update({id: address, physics: false});
-                    // query.request({
-                    //    network: '<%#= params['network']['network'] %>',
-                        // address: address
-                    // }, undefined, false);
-                    query.request({
-                        network: '<%= params['network']['network'] %>',
-                        address: address
-                    }, function(result){
-                      _.each(_.uniqBy(g.prepareNodes(result.ethereum.inbound).concat(g.prepareNodes(result.ethereum.outbound)), 'id'), function(node){
-                          if(!g.dataset.nodes.get(node.id)){
-                              g.dataset.nodes.add(node);
-                          }
-                      });
+                    if(!g.dataset.nodes.get(address).expanded){
+                        g.dataset.nodes.update({id: address, physics: false, expanded: true});
+                        query.request({
+                            network: '<%= params['network']['network'] %>',
+                            address: address
+                        }, function(result){
+                            _.each(_.uniqBy(g.prepareNodes(result.ethereum.inbound).concat(g.prepareNodes(result.ethereum.outbound)), 'id'), function(node){
+                                if(!g.dataset.nodes.get(node.id)){
+                                    g.dataset.nodes.add(node);
+                                }
+                            });
+                            _.each(g.prepareEdges(result.ethereum.inbound, true, address).concat(g.prepareEdges(result.ethereum.outbound, false, address)), function(edge){
+                                if(!g.dataset.edges.get(edge.id)){
+                                    g.dataset.edges.add(edge);
+                                }
+                            });
 
-                      // _.each(g.prepareEdges(result.ethereum.inbound, true, address).concat(g.prepareEdges(result.ethereum.outbound, false, address)), function(edge){
-                      //     g.dataset.edges.add(edge);
-                      // });
-
-                      _.each(g.prepareEdges(result.ethereum.inbound, true, address).concat(g.prepareEdges(result.ethereum.outbound, false, address)), function(edge){
-                          if(!g.dataset.edges.get(edge.id)){
-                              g.dataset.edges.add(edge);
-                          }
-                      });
-
-                    });
+                        });
+                    }
                 };
 
                 this.draw();

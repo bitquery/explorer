@@ -1,5 +1,19 @@
 @import "daterangepicker_dark";
 @import url(https://fonts.googleapis.com/css?family=Nunito:300,400,600,700);
+
+@font-face {
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: 900;
+  font-display: $fa-font-display;
+  src: url('#{$fa-font-path}/fa-solid-900.eot');
+  src: url('#{$fa-font-path}/fa-solid-900.eot?#iefix') format('embedded-opentype'),
+  url('#{$fa-font-path}/fa-solid-900.woff2') format('woff2'),
+  url('#{$fa-font-path}/fa-solid-900.woff') format('woff'),
+  url('#{$fa-font-path}/fa-solid-900.ttf') format('truetype'),
+  url('#{$fa-font-path}/fa-solid-900.svg#fontawesome') format('svg');
+}
+
 :root{
   --font-family-sans-serif:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
   --font-family-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace

@@ -14,9 +14,11 @@ require('daterangepicker')
 import ClipboardJS from 'clipboard'
 import moment from 'moment'
 import vis from 'vis'
+import numeral from 'numeral'
 
 global.$ = $;
 global.vis = vis;
+global.numeral = numeral;
 
 $('document').ready(function(){
     new ClipboardJS('.to-clipboard');
