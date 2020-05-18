@@ -33,10 +33,22 @@
                             sender {
                               address
                               annotation
+                              smartContract {
+                                contractType
+                                currency {
+                                  symbol
+                                }
+                              }
                             }
                             receiver {
                               address
                               annotation
+                              smartContract {
+                                contractType
+                                currency {
+                                  symbol
+                                }
+                              }
                             }
 
                             amount
@@ -57,10 +69,22 @@
                             sender {
                               address
                               annotation
+                              smartContract {
+                                contractType
+                                currency {
+                                  symbol
+                                }
+                              }
                             }
                             receiver {
                               address
                               annotation
+                              smartContract {
+                                contractType
+                                currency {
+                                  symbol
+                                }
+                              }
                             }
 
                             amount
@@ -78,7 +102,6 @@
             title: '<%= t('widgets.headers.graph') %>',
             callback: function(domNode, data){
                 let _ = widgets.lodash;
-                console.log(data);
 
                 this.prepareNodes = function(nodes){
                     let prepareNode = function(node){
@@ -87,16 +110,49 @@
                                 id: node.address,
                                 label: 'System',
                                 group: 'system',
-                                title: node.address,
-                                link: ''
+                                title: node.address
+                            };
+                        } else if(node.smartContract.contractType == 'Generic'){
+                            return {
+                                id: node.address,
+                                label: _.truncate(node.address, {length: 15, separator: '...'}),
+                                group: 'smart_contract',
+                                title: 'Smart Contract ' + node.address
+                            };
+                        } else if(node.smartContract.contractType == 'Token' || node.smartContract.contractType == 'TokenSale'){
+                            return {
+                                id: node.address,
+                                label: node.annotation +' ('+node.smartContract.currency.symbol+')',
+                                group: 'token',
+                                title: node.annotation +' ('+node.smartContract.currency.symbol+')' + ' ' + node.address
+                            };
+                        } else if(node.smartContract.contractType == 'MarginPositionToken'){
+                            return {
+                                id: node.address,
+                                label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                group: 'MarginPositionToken',
+                                title: 'MarginPositionToken ' + node.address
+                            };
+                        } else if(node.smartContract.contractType == 'Multisig'){
+                            return {
+                                id: node.address,
+                                label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                group: 'Multisig',
+                                title: 'MultiSig Wallet ' + node.address
+                            };
+                        } else if(node.smartContract.contractType == 'DEX'){
+                            return {
+                                id: node.address,
+                                label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                group: 'dex',
+                                title: 'DEX ' + node.address
                             };
                         } else {
                             return {
                                 id: node.address,
                                 label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
                                 group: node.annotation ? 'annotated_address' : 'address',
-                                title: node.address,
-                                link: ''
+                                title: node.address
                             };
                         }
                     };
@@ -158,7 +214,6 @@
 
                 this.hashCode = function(data){
                     var string = JSON.stringify(data);
-                    console.log(string);
                     if (Array.prototype.reduce){
                         return string.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
                     }
@@ -176,8 +231,6 @@
                     nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.ethereum.inbound).concat(this.prepareNodes(data.ethereum.outbound)), 'id')),
                     edges: new vis.DataSet(this.prepareEdges(data.ethereum.inbound).concat(this.prepareEdges(data.ethereum.outbound, false)))
                 };
-
-                console.log(this.dataset);
 
                 this.options = {
                     height: '400px',
@@ -197,18 +250,20 @@
                         smart_contract: {
                             shape: 'icon',
                             icon: {
-                                face: 'Glyphicons Halflings',
-                                code: '\ue019',
-                                size: 50,
+                                face: 'FontAwesome',
+                                code: '\uf013',
+                                weight: 900,
+                                size: 40,
                                 color: '#f0a30a'
                             }
                         },
                         multisig: {
                             shape: 'icon',
                             icon: {
-                                face: 'Glyphicons Halflings',
-                                code: '\ue225',
-                                size: 90,
+                                face: 'FontAwesome',
+                                code: '\uf4d3',
+                                weight: 900,
+                                size: 40,
                                 color: '#03a9f4'
                             }
                         },
@@ -218,7 +273,7 @@
                                 face: 'FontAwesome',
                                 code: '\uf007',
                                 weight: 900,
-                                size: 30,
+                                size: 40,
                                 color: '#009688'
                             }
                         },
@@ -228,7 +283,7 @@
                                 face: 'FontAwesome',
                                 code: '\uf007',
                                 weight: 900,
-                                size: 30,
+                                size: 40,
                                 color: '#006650',
                             },
                             font: {
@@ -239,35 +294,39 @@
                         token: {
                             shape: 'icon',
                             icon: {
-                                face: 'Glyphicons Halflings',
-                                code: '\ue201',
-                                size: 70,
+                                face: 'FontAwesome',
+                                code: '\uf51f',
+                                weight: 900,
+                                size: 40,
                                 color: '#ff5722'
                             }
                         },
                         dex: {
                             shape: 'icon',
                             icon: {
-                                face: 'Glyphicons Halflings',
-                                code: '\ue031',
-                                size: 70,
+                                face: 'FontAwesome',
+                                code: '\uf021',
+                                weight: 900,
+                                size: 40,
                                 color: '#03a9f4'
                             }
                         },
                         MarginPositionToken: {
                             shape: 'icon',
                             icon: {
-                                face: 'Glyphicons Halflings',
-                                code: '\ue245',
-                                size: 70,
+                                face: 'FontAwesome',
+                                code: '\uf1b2',
+                                weight: 900,
+                                size: 40,
                                 color: '#ff5722'
                             }
                         },
                         system: {
                             shape: 'icon',
                             icon: {
-                                face: 'Glyphicons Halflings',
-                                code: '\ue135',
+                                face: 'FontAwesome',
+                                code: '\uf0ac',
+                                weight: 900,
                                 size: 40,
                                 color: '#009688'
                             }
