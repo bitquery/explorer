@@ -1,4 +1,4 @@
-<% if @native_token %>
+ <% if @native_token %>
   <% content_for :token, @address %>
   <% content_for :header, t('pages.token.native.header',currency: @address, network: @network[:name] ) %>
 <% else %>
@@ -14,7 +14,7 @@
     <%= t "network.ethereum.token.smart_contract", token_type: @token_info.token_type %>
     <%= copy_text(@address, 'text-info').html_safe %>.
 
-    <%= render partial: 'shared/address_annotation', locals: {annotation:  @info.address.annotation } %>
+    <%= render partial: 'shared/address_annotation', locals: {annotation:  @info.annotation } %>
 
   <% end %>
 

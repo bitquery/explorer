@@ -14,10 +14,10 @@
             query($network: EthereumNetwork!, $address: String!) {
               ethereum(network: $network) {
                 address(address: {is: $address}){
-                  address {
-                    annotation
-                    address
-                  }
+
+                  annotation
+                  address
+
                   smartContract {
                     contractType
                     currency{
@@ -43,7 +43,7 @@
                     {name: '<%= t('widgets.headers.token_type') %>', value: item.smartContract.currency.tokenType},
                     {name: '<%= t('widgets.headers.token_name') %>', value: item.smartContract.currency.name},
                     {name: '<%= t('widgets.headers.token_decimals') %>', value: item.smartContract.currency.decimals},
-                    {name: '<%= t('widgets.headers.annotation') %>', value: item.address.annotation}
+                    {name: '<%= t('widgets.headers.annotation') %>', value: item.annotation}
                 ];
             },
             dataOptions: [
