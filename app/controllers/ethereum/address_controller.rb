@@ -7,10 +7,9 @@ class Ethereum::AddressController < NetworkController
    query($network: EthereumNetwork!, $address: String!) {
               ethereum(network: $network) {
                 address(address: {is: $address}){
-                  address {
-                    annotation
-                    address
-                  }
+                  address 
+                  annotation
+                  
                   smartContract {
                     contractType
                     currency{
