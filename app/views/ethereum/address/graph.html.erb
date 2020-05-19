@@ -1,20 +1,10 @@
 <%= @info.inspect %>
-<%= @theme %>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.graph') %></div>
       <div class="card-body">
-        <div class="graph-container">
-          <div class="graph-top row">
-            <div class="col-md-8">1</div>
-            <div class="col-md-4 text-right">
-              <input id="detailLevel" type="range" min="10" max="100" step="10" value="10" title="Detail level">
-            </div>
-          </div>
           <div id="graph"><%= t('loading') %></div>
-          <div class="graph-bottom">Bottom</div>
-        </div>
       </div>
     </div>
   </div>
@@ -23,15 +13,6 @@
 <script>
 
     $( document ).ready(function() {
-
-        $('#detailLevel').on('change', function(){
-            let it = $(this);
-            let timeout = setTimeout()
-            console.log('ok');
-
-        });
-
-
         var query = new widgets.query(`
                         query ($network: EthereumNetwork!,
                                 $address: String!,
@@ -118,6 +99,7 @@
             title: '<%= t('widgets.headers.graph') %>',
             callback: function(domNode, data){
                 let _ = widgets.lodash;
+                let $ = widgets.jquery;
 
                 this.prepareNodes = function(nodes){
                     let prepareNode = function(node){
@@ -412,11 +394,40 @@
                                 }
                             });
 
-                        });
+                        }, false);
                     }
                 };
 
                 this.draw();
+
+                let jqWrapper = $(domNode);
+
+                jqWrapper.css({
+                    position: 'relative',
+                    backgroundColor: 'red'
+                });
+
+                this.detailLevel = function(wrap, limit){
+                    let graphDetalLevel = $('<div><input id="graphDetailLevel" type="range" min="1" max="100" step="1" value="'+limit+'" title="Detail level"></div>');
+                    wrap.append(graphDetalLevel);
+                    graphDetalLevel.css({
+                        position: 'absolute',
+                        top: 10,
+                        right: 10
+                    });
+                    graphDetalLevel.val(query.variables.limit);
+                    graphDetalLevel.find('input').on('change', function(){
+                        let it = $(this);
+                        let timeout = setTimeout(function(){
+                            query.request({
+                                network: '<%= params['network']['network'] %>',
+                                address: '<%= @address %>',
+                                limit: parseInt(it.val())
+                            });
+                        }, 500);
+                    });
+                };
+                this.detailLevel(jqWrapper, query.variables.limit);
             }
         });
 
