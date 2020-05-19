@@ -43,4 +43,8 @@ module ApplicationHelper
     end
   end
 
+  def dark?
+    @theme == 'dark'
+  end
+
 end

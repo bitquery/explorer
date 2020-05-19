@@ -24,6 +24,10 @@ class ApplicationController < ActionController::Base
     @theme = session[:theme]
   end
 
+  def dark?
+    @theme == 'dark'
+  end
+
   def set_date
     if params[:from] && !params[:from].empty?
       @from = "\"#{params[:from]}\""

@@ -1,10 +1,20 @@
 <%= @info.inspect %>
+<%= @theme %>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.graph') %></div>
       <div class="card-body">
-        <div id="graph"><%= t('loading') %></div>
+        <div class="graph-container">
+          <div class="graph-top row">
+            <div class="col-md-8">1</div>
+            <div class="col-md-4 text-right">
+              <input id="detailLevel" type="range" min="10" max="100" step="10" value="10" title="Detail level">
+            </div>
+          </div>
+          <div id="graph"><%= t('loading') %></div>
+          <div class="graph-bottom">Bottom</div>
+        </div>
       </div>
     </div>
   </div>
@@ -13,6 +23,13 @@
 <script>
 
     $( document ).ready(function() {
+
+        $('#detailLevel').on('change', function(){
+            let it = $(this);
+            let timeout = setTimeout()
+            console.log('ok');
+
+        });
 
 
         var query = new widgets.query(`
@@ -98,8 +115,6 @@
                       }`);
 
         new widgets.template('#graph', query, '', {
-            test_array: [1,2,3,4],
-            test_obj: {a:1, b:2, c: {d: 3}},
             title: '<%= t('widgets.headers.graph') %>',
             callback: function(domNode, data){
                 let _ = widgets.lodash;
@@ -182,8 +197,8 @@
                                 to: address,
                                 arrows: 'to',
                                 label: label,
-                                color: {color: 'grey', highlight: '#ff5722'},
-                                font: {align: 'middle', multi: true},
+                                color: {color: '<%= dark? ? 'silver' : 'grey' %>', highlight: '#ff5722'},
+                                font: {align: 'middle', multi: true, color: '<%= dark? ? 'white' : 'black' %>', strokeColor: '<%= dark? ? 'black' : 'white' %>'},
                                 smooth: true,
                                 width: width,
                                 select_type: 'select_transfers',
@@ -196,8 +211,8 @@
                                 to: edge.receiver.address,
                                 arrows: 'to',
                                 label: label,
-                                color: {color: 'black', highlight: '#ff5722'},
-                                font: {align: 'middle', multi: true},
+                                color: {color: '<%= dark? ? 'white' : 'black' %>', highlight: '#ff5722'},
+                                font: {align: 'middle', multi: true, color: '<%= dark? ? 'white' : 'black' %>', strokeColor: '<%= dark? ? 'black' : 'white' %>'},
                                 smooth: true,
                                 width: width,
                                 select_type: 'select_transfers',
@@ -256,6 +271,9 @@
                                 weight: 900,
                                 size: 40,
                                 color: '#f0a30a'
+                            },
+                            font:{
+                                color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
                         multisig: {
@@ -266,6 +284,9 @@
                                 weight: 900,
                                 size: 40,
                                 color: '#03a9f4'
+                            },
+                            font:{
+                                color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
                         address: {
@@ -275,7 +296,10 @@
                                 code: '\uf007',
                                 weight: 900,
                                 size: 40,
-                                color: '#009688'
+                                color: '<%= dark? ? '#00dbb7' : '#009688' %>'
+                            },
+                            font:{
+                                color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
                         annotated_address: {
@@ -285,10 +309,10 @@
                                 code: '\uf007',
                                 weight: 900,
                                 size: 40,
-                                color: '#006650',
+                                color: '<%= dark? ? '#00967b' : '#006650' %>',
                             },
                             font: {
-                                background: '#006650',
+                                background: '<%= dark? ? '#00967b' : '#006650' %>',
                                 color: 'white'
                             }
                         },
@@ -300,6 +324,9 @@
                                 weight: 900,
                                 size: 40,
                                 color: '#ff5722'
+                            },
+                            font:{
+                                color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
                         dex: {
@@ -310,6 +337,9 @@
                                 weight: 900,
                                 size: 40,
                                 color: '#03a9f4'
+                            },
+                            font:{
+                                color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
                         MarginPositionToken: {
@@ -320,6 +350,9 @@
                                 weight: 900,
                                 size: 40,
                                 color: '#ff5722'
+                            },
+                            font:{
+                                color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
                         system: {
@@ -329,7 +362,10 @@
                                 code: '\uf0ac',
                                 weight: 900,
                                 size: 40,
-                                color: '#009688'
+                                color: '<%= dark? ? '#00dbb7' : '#009688' %>'
+                            },
+                            font:{
+                                color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         }
                     }
