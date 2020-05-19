@@ -1,4 +1,4 @@
-<%= @info.inspect %>
+<%= @currencies %>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
@@ -231,7 +231,7 @@
                 };
 
                 this.options = {
-                    height: '400px',
+                    height: '100%',
                     physics: {
                         stabilization: {
                             enabled: false,
@@ -428,6 +428,50 @@
                     });
                 };
                 this.detailLevel(jqWrapper, query.variables.limit);
+
+                this.fullScreen = function(wrap){
+                    let fullscreen = $(wrap.parents('div')[1]);
+                    $(wrap.parents('div')[0]).height('100%');
+                    wrap.height('90%');
+                    let fullScreenButton = fullscreen.hasClass('graph-fullscreen') ? $('<div><i class="fas fa-compress"></i></div>') : $('<div><i class="fas fa-expand"></i></div>');
+                    wrap.append(fullScreenButton);
+
+                    fullScreenButton.css({
+                        position: 'absolute',
+                        right: 10,
+                        bottom: 20
+                    });
+
+                    fullScreenButton.find('.fas').on('click', function(){
+                        let it = $(this);
+                        if(fullscreen.hasClass('graph-fullscreen')){
+                            fullscreen.removeClass('graph-fullscreen');
+                            fullscreen.css({
+                                position: 'static',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                zIndex: 1000
+                            });
+                            it.addClass('fa-expand');
+                            it.removeClass('fa-compress');
+                        } else {
+                            fullscreen.addClass('graph-fullscreen');
+                            fullscreen.css({
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                zIndex: 1000
+                            });
+                            it.addClass('fa-compress');
+                            it.removeClass('fa-expand');
+                        }
+                    });
+                };
+                this.fullScreen(jqWrapper);
             }
         });
 
