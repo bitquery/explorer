@@ -1,9 +1,8 @@
-<%= @currencies %>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.graph') %></div>
-      <div class="card-body">
+      <div class="card-body" style="height: 500px; padding: 0">
           <div id="graph"><%= t('loading') %></div>
       </div>
     </div>
@@ -17,6 +16,7 @@
                         query ($network: EthereumNetwork!,
                                 $address: String!,
                                 $limit: Int!,
+                                $currency: String!,
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                         ethereum(network: $network){
@@ -24,7 +24,7 @@
                           inbound: transfers(options:{desc: "amount", limit: $limit},
                             date: {since: $from till: $till },
 
-                            currency:{is:"ETH"}
+                            currency:{is: $currency}
                             receiver:{is: $address}
 
                           ) {
@@ -60,7 +60,7 @@
                           outbound: transfers(options:{desc: "amount", limit: $limit},
                             date: {since: $from till: $till },
 
-                            currency:{is:"ETH"}
+                            currency:{is: $currency}
                             sender:{is: $address}
 
                           ) {
@@ -100,6 +100,7 @@
             callback: function(domNode, data){
                 let _ = widgets.lodash;
                 let $ = widgets.jquery;
+                let _n = widgets.numeral;
 
                 this.prepareNodes = function(nodes){
                     let prepareNode = function(node){
@@ -169,7 +170,7 @@
                         let currency_name = 'ETH';//edge.currency.symbol;
                         let width_counts = Math.log(edge.transfers)+1;
                         let width = (edge.amount > 1) ? 1.5*Math.log10(edge.amount)+1 : 1;
-                        let value = parseFloat(edge.amount)<=1e-6 ? edge.amount : numeral(edge.amount).format('0.0000a');
+                        let value = parseFloat(edge.amount)<=1e-6 ? edge.amount : _n(edge.amount).format('0.0000a');
 
                         let label = value + ' ' + currency_name;
 
@@ -403,21 +404,22 @@
                 let jqWrapper = $(domNode);
 
                 jqWrapper.css({
-                    position: 'relative',
-                    backgroundColor: 'red'
+                    position: 'relative'
                 });
 
                 this.detailLevel = function(wrap, limit){
-                    let graphDetalLevel = $('<div><input id="graphDetailLevel" type="range" min="1" max="100" step="1" value="'+limit+'" title="Detail level"></div>');
+                    let graphDetalLevel = $('<input id="graphDetailLevel" type="range" min="1" max="100" step="1" value="'+limit+'" title="Detail level">');
                     wrap.append(graphDetalLevel);
                     graphDetalLevel.css({
                         position: 'absolute',
-                        top: 10,
-                        right: 10
+                        top: '20px',
+                        right: '20px',
+                        maxWidth: '40%'
                     });
                     graphDetalLevel.val(query.variables.limit);
-                    graphDetalLevel.find('input').on('change', function(){
+                    graphDetalLevel.on('change', function(){
                         let it = $(this);
+                        // clearTimeout
                         let timeout = setTimeout(function(){
                             query.request({
                                 network: '<%= params['network']['network'] %>',
@@ -431,28 +433,40 @@
 
                 this.fullScreen = function(wrap){
                     let fullscreen = $(wrap.parents('div')[1]);
+                    let links = fullscreen.find('.widgets-links');
                     $(wrap.parents('div')[0]).height('100%');
-                    wrap.height('90%');
-                    let fullScreenButton = fullscreen.hasClass('graph-fullscreen') ? $('<div><i class="fas fa-compress"></i></div>') : $('<div><i class="fas fa-expand"></i></div>');
+                    wrap.height('100%');
+                    let fullScreenButton = fullscreen.hasClass('graph-fullscreen') ? $('<div title="Minimize"><i class="fas fa-compress"></i></div>') : $('<div title="Fullscreen"><i class="fas fa-expand"></i></div>');
+
+                    links.css({
+                        position: 'absolute',
+                        bottom: '20px',
+                        right: '20px'
+                    });
+
                     wrap.append(fullScreenButton);
 
                     fullScreenButton.css({
                         position: 'absolute',
-                        right: 10,
-                        bottom: 20
+                        right: '20px',
+                        bottom: '50px',
+                        color: '<%= dark? ? 'silver' : 'gray' %>'
                     });
+
+                    fullScreenButton.find('i').css({fontSize: '25px'});
 
                     fullScreenButton.find('.fas').on('click', function(){
                         let it = $(this);
                         if(fullscreen.hasClass('graph-fullscreen')){
                             fullscreen.removeClass('graph-fullscreen');
                             fullscreen.css({
-                                position: 'static',
+                                position: 'relative',
                                 top: 0,
                                 left: 0,
                                 width: '100%',
                                 height: '100%',
-                                zIndex: 1000
+                                zIndex: 100,
+                                backgroundColor: 'transparent'
                             });
                             it.addClass('fa-expand');
                             it.removeClass('fa-compress');
@@ -464,7 +478,8 @@
                                 left: 0,
                                 width: '100%',
                                 height: '100%',
-                                zIndex: 1000
+                                zIndex: 1000,
+                                backgroundColor: '<%= dark? ? '#434e57' : 'white' %>'
                             });
                             it.addClass('fa-compress');
                             it.removeClass('fa-expand');
@@ -472,17 +487,40 @@
                     });
                 };
                 this.fullScreen(jqWrapper);
+
+                let currencies = [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
+                this.currencyFilter = function(wrap, currencies){
+                    let select = $('<select></select>');
+                    _.each(currencies, function(c){
+                        let value = c.address === '-' ? c.symbol : c.address;
+                        select.append('<option value="'+value+'" '+(value == query.variables.currency ? 'selected=selected' : '')+'>'+c.name+' ('+c.symbol+')</option>');
+                    });
+                    wrap.append(select);
+                    select.css({
+                        position: 'absolute',
+                        top: '20px',
+                        left: '20px',
+                        maxWidth: '40%'
+                    });
+
+                    select.on('change', function(){
+                        let it = $(this);
+                        query.request({
+                            network: '<%= params['network']['network'] %>',
+                            address: '<%= @address %>',
+                            currency: it.val()
+                        });
+                    });
+                };
+                this.currencyFilter(jqWrapper, currencies);
             }
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
+            address: '<%= @address %>',
+            currency: '<%= @currencies.first.symbol %>'
         });
-//        query.request({
-  //          network: '<%#= params['network']['network'] %>',
-    //        address: '<%#= @address %>'
-      //  }, undefined, fal)se
     });
 
 </script>
