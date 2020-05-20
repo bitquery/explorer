@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.graph') %></div>
-      <div class="card-body" style="height: 500px; padding: 0">
+      <div class="card-header"><%= t('tabs.address.graph.name') %></div>
+      <div class="card-body" style="height: 600px; padding: 0">
           <div id="graph"><%= t('loading') %></div>
       </div>
     </div>
@@ -96,11 +96,14 @@
                       }`);
 
         new widgets.template('#graph', query, '', {
-            title: '<%= t('widgets.headers.graph') %>',
+            title: '<%= t('tabs.address.graph.name') %>',
             callback: function(domNode, data){
                 let _ = widgets.lodash;
                 let $ = widgets.jquery;
                 let _n = widgets.numeral;
+
+                let currencies = [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
+                let currency = (_.find(currencies,{address: query.variables.currency}) || currencies[0]).symbol;
 
                 this.prepareNodes = function(nodes){
                     let prepareNode = function(node){
@@ -167,7 +170,7 @@
                 this.prepareEdges = function(edges, receiver = true, address = '<%= @address %>'){
                     let g = this;
                     let prepareEdge = function(edge){
-                        let currency_name = 'ETH';//edge.currency.symbol;
+                        let currency_name = currency;
                         let width_counts = Math.log(edge.transfers)+1;
                         let width = (edge.amount > 1) ? 1.5*Math.log10(edge.amount)+1 : 1;
                         let value = parseFloat(edge.amount)<=1e-6 ? edge.amount : _n(edge.amount).format('0.0000a');
@@ -408,16 +411,18 @@
                 });
 
                 this.detailLevel = function(wrap, limit){
-                    let graphDetalLevel = $('<input id="graphDetailLevel" type="range" min="1" max="100" step="1" value="'+limit+'" title="Detail level">');
+                    let graphDetalLevel = $('<div><span>Detail level</span>' +
+                        '<div><i class="fas fa-th-large"></i> <input type="range" min="1" max="100" step="1" value="'+limit+'" title="Detail level"> <i class="fas fa-th"></i></div>' +
+                        '</div>');
                     wrap.append(graphDetalLevel);
                     graphDetalLevel.css({
                         position: 'absolute',
                         top: '20px',
                         right: '20px',
-                        maxWidth: '40%'
+                        maxWidth: '60%'
                     });
-                    graphDetalLevel.val(query.variables.limit);
-                    graphDetalLevel.on('change', function(){
+                    graphDetalLevel.find('input').val(query.variables.limit);
+                    graphDetalLevel.find('input').on('change', function(){
                         let it = $(this);
                         // clearTimeout
                         let timeout = setTimeout(function(){
@@ -488,22 +493,23 @@
                 };
                 this.fullScreen(jqWrapper);
 
-                let currencies = [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
                 this.currencyFilter = function(wrap, currencies){
-                    let select = $('<select></select>');
+                    let select = $('<div>Show currency transfers' +
+                        '<div><select style="width:100%"></select></div>' +
+                        '</div>');
                     _.each(currencies, function(c){
                         let value = c.address === '-' ? c.symbol : c.address;
-                        select.append('<option value="'+value+'" '+(value == query.variables.currency ? 'selected=selected' : '')+'>'+c.name+' ('+c.symbol+')</option>');
+                        select.find('select').append('<option value="'+value+'" '+(value == query.variables.currency ? 'selected=selected' : '')+'>'+c.name+' ('+c.symbol+')</option>');
                     });
                     wrap.append(select);
                     select.css({
                         position: 'absolute',
                         top: '20px',
                         left: '20px',
-                        maxWidth: '40%'
+                        maxWidth: '30%'
                     });
 
-                    select.on('change', function(){
+                    select.find('select').on('change', function(){
                         let it = $(this);
                         query.request({
                             network: '<%= params['network']['network'] %>',
@@ -519,7 +525,7 @@
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>',
             address: '<%= @address %>',
-            currency: '<%= @currencies.first.symbol %>'
+            currency: '<%= @currencies.first && @currencies.first.symbol %>'
         });
     });
 
