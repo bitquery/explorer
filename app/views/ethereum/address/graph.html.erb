@@ -360,6 +360,7 @@
                 this.draw = function(){
                     let g = this;
                     g.network = new vis.Network(domNode, this.dataset, this.options);
+                    g.dataset.nodes.update({id: '<%= @address %>', physics: false, expanded: true});
 
                     g.network.on('dragEnd', function (t) {
                         _.each(t.nodes, function(node, i){
