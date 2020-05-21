@@ -95,6 +95,10 @@ en:
         name: 'Calls Contracts'
         title: "%{address} Calls Smart Contracts in %{network}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -150,6 +154,10 @@ en:
         name: 'Trades'
         title: "%{token} Trades in %{network}"
         description: "Trades for token %{token} in %{network}"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     tx:
       icon: 'fas fa-bolt'
       header: "%{network} transaction %{hash}"

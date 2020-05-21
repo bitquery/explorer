@@ -370,11 +370,20 @@
 
                     g.network.on('doubleClick', function(target){
                         if(target.nodes.length>0){
-                            var node_id = target.nodes[0];
+                            let node_id = target.nodes[0];
                             if(g.dataset.nodes.get(node_id).group!='system'){
                                 g.expand(node_id);
                             }
 
+                        }
+                    });
+
+                    g.network.on('oncontext', function(target){
+                        if(target.nodes.length>0){
+                            let node = g.dataset.nodes.get(target.nodes[0]);
+                            if(node.group!='system'){
+                                window.open('<%= locale_path_prefix %><%= @network[:network] %>'+'/address/<%= @address %>', '_blank');
+                            }
                         }
                     });
 

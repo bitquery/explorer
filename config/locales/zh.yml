@@ -92,6 +92,10 @@ zh:
         header: "来自%{network}地址%{address}的呼叫"
         title: "来电 %{network}:%{address}"
         description: "来自%{network}中地址%{address}活动的智能合约调用，智能合约调用的统计信息，使用情况和使用的方法"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     token:
       icon: 'fas fa-coins text-warning'
       show:
@@ -149,6 +153,10 @@ zh:
         header: "地址为%{address}的%{network}中的令牌"
         title: "来电 %{network}:%{address}"
         description: "来自%{network}中地址%{address}活动的智能合约调用，智能合约调用的统计信息，使用情况和使用的方法"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     tx:
       icon: 'fas fa-bolt'
       show:

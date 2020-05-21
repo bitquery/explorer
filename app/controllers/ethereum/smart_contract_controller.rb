@@ -12,6 +12,10 @@ class Ethereum::SmartContractController < Ethereum::AddressController
     render 'ethereum/address/calls_contracts'
   end
 
+  def graph
+    render 'ethereum/address/graph'
+  end
+
   private
 
   def redirect_by_type
