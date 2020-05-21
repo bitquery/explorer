@@ -235,7 +235,7 @@
                 };
 
                 this.options = {
-                    height: '100%',
+                    height: '600px',
                     physics: {
                         stabilization: {
                             enabled: false,
@@ -359,15 +359,16 @@
 
                 this.draw = function(){
                     let g = this;
-                    let network = new vis.Network(domNode, this.dataset, this.options);
+                    g.network = new vis.Network(domNode, this.dataset, this.options);
+                    g.dataset.nodes.update({id: '<%= @address %>', physics: false, expanded: true});
 
-                    network.on('dragEnd', function (t) {
+                    g.network.on('dragEnd', function (t) {
                         _.each(t.nodes, function(node, i){
                             g.dataset.nodes.update({id: node, physics: false});
                         });
                     });
 
-                    network.on('doubleClick', function(target){
+                    g.network.on('doubleClick', function(target){
                         if(target.nodes.length>0){
                             var node_id = target.nodes[0];
                             if(g.dataset.nodes.get(node_id).group!='system'){
@@ -437,6 +438,7 @@
                 this.detailLevel(jqWrapper, query.variables.limit);
 
                 this.fullScreen = function(wrap){
+                    let g = this;
                     let fullscreen = $(wrap.parents('div')[1]);
                     let links = fullscreen.find('.widgets-links');
                     $(wrap.parents('div')[0]).height('100%');
@@ -463,6 +465,7 @@
                     fullScreenButton.find('.fas').on('click', function(){
                         let it = $(this);
                         if(fullscreen.hasClass('graph-fullscreen')){
+                            g.network.setOptions({height:'600px'});
                             fullscreen.removeClass('graph-fullscreen');
                             fullscreen.css({
                                 position: 'relative',
@@ -476,6 +479,7 @@
                             it.addClass('fa-expand');
                             it.removeClass('fa-compress');
                         } else {
+                            g.network.setOptions({height:'100%'});
                             fullscreen.addClass('graph-fullscreen');
                             fullscreen.css({
                                 position: 'fixed',

@@ -1,11 +1,11 @@
 @import "daterangepicker_dark";
 @import url(https://fonts.googleapis.com/css?family=Nunito:300,400,600,700);
-
+$fa-font-path:         "../webfonts" !default;
 @font-face {
   font-family: FontAwesome;
   font-style: normal;
   font-weight: 900;
-  font-display: $fa-font-display;
+  font-display: block;
   src: url('#{$fa-font-path}/fa-solid-900.eot');
   src: url('#{$fa-font-path}/fa-solid-900.eot?#iefix') format('embedded-opentype'),
   url('#{$fa-font-path}/fa-solid-900.woff2') format('woff2'),
