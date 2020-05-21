@@ -10,7 +10,7 @@
 
   <% for c in [{code: 'CN', name: 'China'},{code: 'IT', name: 'Italy'},{code: 'IR', name: 'Iran'},
                {code: 'ES', name: 'Spain'},{code: 'DE', name: 'Germany'},{code: 'FR', name: 'France'},
-               {code: 'RU', name: 'Russia'},{code: 'BR', name: 'Brasilia'},
+               {code: 'RU', name: 'Russia'},{code: 'BR', name: 'Brazil'},
                {code: 'KR', name: 'South Korea'},{code: 'US', name: 'United States'}] %>
     <%= render partial: 'sitemaps/url', locals: {url: covid_country_url(c)} %>
   <% end  %>
