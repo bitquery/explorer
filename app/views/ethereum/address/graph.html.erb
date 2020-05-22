@@ -184,7 +184,7 @@
                                 arrows: 'to',
                                 label: label,
                                 color: {color: '<%= dark? ? 'silver' : 'grey' %>', highlight: '#ff5722'},
-                                font: {align: 'middle', multi: true, color: '<%= dark? ? 'white' : 'black' %>', strokeColor: '<%= dark? ? 'black' : 'white' %>'},
+                                font: {align: 'middle', multi: true, color: '<%= dark? ? 'white' : 'black' %>', strokeWidth: 4, strokeColor: '<%= dark? ? 'black' : 'white' %>'},
                                 smooth: true,
                                 width: width,
                                 select_type: 'select_transfers',
@@ -198,7 +198,7 @@
                                 arrows: 'to',
                                 label: label,
                                 color: {color: '<%= dark? ? 'white' : 'black' %>', highlight: '#ff5722'},
-                                font: {align: 'middle', multi: true, color: '<%= dark? ? 'white' : 'black' %>', strokeColor: '<%= dark? ? 'black' : 'white' %>'},
+                                font: {align: 'middle', multi: true, color: '<%= dark? ? 'white' : 'black' %>', strokeWidth: 4, strokeColor: '<%= dark? ? 'black' : 'white' %>'},
                                 smooth: true,
                                 width: width,
                                 select_type: 'select_transfers',
@@ -382,7 +382,7 @@
                         if(target.nodes.length>0){
                             let node = g.dataset.nodes.get(target.nodes[0]);
                             if(node.group!='system'){
-                                window.open('<%= locale_path_prefix %><%= @network[:network] %>'+'/address/<%= @address %>', '_blank');
+                                window.open('<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+node.id, '_blank');
                             }
                         }
                     });
@@ -432,6 +432,22 @@
                         maxWidth: '60%'
                     });
                     graphDetalLevel.find('input').val(query.variables.limit);
+
+                    let val = $('<div style="width:40px;height:25px;position:absolute;border:1px solid black;background-color:<%= dark? ? "#434e57" : "white" %>;text-align:center"></div>');
+                    graphDetalLevel.find('input').on('mousedown', function(e){
+                        $('body').append(val);
+                        val.css({left: e.pageX-20, top: e.pageY-40});
+                        val.html($(this).val());
+                        $(this).on('mousemove', function(e){
+                            let it = $(this);
+                            val.css({left: e.pageX-20, top: e.pageY-40});
+                            val.html($(this).val());
+                        });
+                    }).on('mouseup', function(e){
+                        val.remove();
+                        $(this).off('mousemove');
+                    });
+
                     graphDetalLevel.find('input').on('change', function(){
                         let it = $(this);
                         // clearTimeout

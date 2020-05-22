@@ -1,6 +1,5 @@
-class Algorand::SmartContractController < NetworkController
+class Algorand::SmartContractController < Algorand::AddressController
   layout 'tabs'
-
 
   def inflow
     render 'algorand/address/inflow'
@@ -8,6 +7,10 @@ class Algorand::SmartContractController < NetworkController
 
   def outflow
     render 'algorand/address/outflow'
+  end
+
+  def graph
+    render 'algorand/address/graph'
   end
 
 end
