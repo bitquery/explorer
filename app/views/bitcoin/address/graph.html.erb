@@ -352,16 +352,12 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!) {
 
                     graphDetalLevel.find('input').on('change', function(){
                         let it = $(this);
-                        // clearTimeout
-                        let timeout = setTimeout(function(){
-                            query.request({
-                                network: '<%= params['network']['network'] %>',
-                                address: '<%= @address %>',
-                                limit: parseInt(it.val())
-                            });
-                        }, 500);
+                        query.request({
+                            network: '<%= params['network']['network'] %>',
+                            address: '<%= @address %>',
+                            limit: parseInt(it.val())
+                        });
                     });
-
                 };
                 this.detailLevel(jqWrapper, query.variables.limit);
 

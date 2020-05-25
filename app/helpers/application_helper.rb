@@ -13,7 +13,7 @@ module ApplicationHelper
   end
 
   def copy_text addr, html_class = ''
-    "<span class=\"copy-text #{html_class}\">#{addr} <a href=\"javascript:void()\" class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\"></a></span>".html_safe
+    "<span class=\"copy-text #{html_class}\">#{addr} <a href='javascript:void()' class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\" data-toggle=\"tooltip\" title=\"Copy\"></a></span>".html_safe
   end
 
   def extend_layout(layout, &block)

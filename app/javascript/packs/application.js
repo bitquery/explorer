@@ -22,6 +22,14 @@ global.numeral = numeral;
 
 $('document').ready(function(){
     new ClipboardJS('.to-clipboard');
+    $('.to-clipboard').tooltip();
+    $('.to-clipboard').on('click', function(){
+        let it = $(this);
+        $('.to-clipboard').attr('data-original-title', 'Copied!').tooltip('show');
+        setTimeout(function(){
+            $('.to-clipboard').attr('data-original-title', 'Copy');
+        }, 200);
+    });
 });
 
 global.reportRange = function(selector, from, till, i18n){
