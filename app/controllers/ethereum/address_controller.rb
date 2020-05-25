@@ -60,10 +60,11 @@ class Ethereum::AddressController < NetworkController
   def query_graphql
     @address = params[:address]
     query = action_name == 'graph' ? QUERY_CURRENCIES : QUERY
-    result = @address.starts_with?('0x') &&
-        BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.ethereum
-    @info = result.address.first
-    @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
+    if @address.starts_with?('0x')
+      result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.ethereum
+      @info = result.address.first
+      @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
+    end
   end
 
   def redirect_by_type
