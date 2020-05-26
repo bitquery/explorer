@@ -2,7 +2,7 @@
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-header"><%= t('tabs.address.graph.name') %></div>
-      <div class="card-body" style="height: 600px; padding: 0">
+      <div class="card-body" style="padding: 0">
           <div id="graph"><%= t('loading') %></div>
       </div>
     </div>
@@ -201,7 +201,7 @@
 
                 this.dataset = {
                     nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.ethereum.inbound).concat(this.prepareNodes(data.ethereum.outbound)), 'id')),
-                    edges: new vis.DataSet(this.prepareEdges(data.ethereum.inbound).concat(this.prepareEdges(data.ethereum.outbound, false)))
+                    edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.ethereum.inbound).concat(this.prepareEdges(data.ethereum.outbound, false)), 'id'))
                 };
 
                 this.options = {

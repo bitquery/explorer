@@ -114,4 +114,10 @@ body.dark{
     color: #fff;
   }
 
+  .breadcrumb-item{
+    &.active{
+      color: inherit;
+    }
+  }
+
 }

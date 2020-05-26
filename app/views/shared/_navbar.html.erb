@@ -19,11 +19,16 @@
     </ul>
   </nav>
 </header>
-<!--<div class="container-fluid">-->
-  <%#= @breadcrumbs %>
-<!--  <ol class="breadcrumb">-->
-<!--    <li class="breadcrumb-item"><a href="./">Explorer</a></li>-->
-<!--    <li class="breadcrumb-item"><a href="#">Library</a></li>-->
-<!--    <li class="breadcrumb-item active" aria-current="page">Data</li>-->
-<!--  </ol>-->
-<!--</div>-->
+<% if @breadcrumbs %>
+  <div class="container-fluid">
+    <ol class="breadcrumb">
+      <% @breadcrumbs.each do |breadcrumb| %>
+        <% unless @breadcrumbs.last == breadcrumb %>
+          <li class="breadcrumb-item word-wrap"><a href="<%= breadcrumb[:url] %>"><%= breadcrumb[:name] %></a></li>
+        <% else %>
+          <li class="breadcrumb-item word-wrap active"><%= breadcrumb[:name] %></li>
+        <% end %>
+      <% end %>
+    </ol>
+  </div>
+<% end %>

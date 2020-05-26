@@ -75,7 +75,7 @@
                 let _n = widgets.numeral;
 
                 let currencies = [<%= @currencies.collect{|cur| "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
-                let currency = (_.find(currencies,{token_id: query.variables.currency}) || currencies[0] || {symbol: '<%= params['network']['currency'] %>'}).symbol;
+                let currency = (_.find(currencies,{token_id: query.variables.currency+''}) || currencies[0] || {symbol: '<%= params['network']['currency'] %>'}).symbol;
 
                 this.prepareNodes = function(nodes){
                     let prepareNode = function(node){
@@ -159,7 +159,7 @@
 
                 this.dataset = {
                     nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.algorand.inbound).concat(this.prepareNodes(data.algorand.outbound)), 'id')),
-                    edges: new vis.DataSet(this.prepareEdges(data.algorand.inbound).concat(this.prepareEdges(data.algorand.outbound, false)))
+                    edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.algorand.inbound).concat(this.prepareEdges(data.algorand.outbound, false)), 'id'))
                 };
 
                 this.options = {

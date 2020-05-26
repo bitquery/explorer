@@ -4,9 +4,22 @@ class NetworkController < ApplicationController
 
   private
   def breadcrumbs
-    #@breadcrumbs = [
-    #    {name: @network[:network], link: url_for(blockchain: @network[:network])}
-    #]
+    @breadcrumbs = [
+        {name: 'Explorer', url: locale_path_prefix},
+        {name: @network[:name], url: "#{locale_path_prefix}#{@network[:network]}"},
+        (params[:address] ? {name: params[:address].truncate(15), url: "#{locale_path_prefix}#{@network[:network]}/#{params[:address]}"} : nil),
+        (params[:block] ? {name: params[:block].truncate(15), url: "#{locale_path_prefix}#{@network[:network]}/#{params[:block]}"} : nil),
+        (params[:hash] ? {name: params[:hash].truncate(15), url: "#{locale_path_prefix}#{@network[:network]}/#{params[:hash]}"} : nil),
+        ((params[:address]|| params[:block] || params[:hash]) && action_name != 'show' ? {name: t("tabs.#{controller_name}.#{action_name}.name"), url: "#{locale_path_prefix}#{@network[:network]}/#{params[:hash]}"} : nil)
+    ].compact
+  end
+
+  def locale_path_prefix
+    if params[:locale]
+      "/#{params[:locale]}/"
+    else
+      '/'
+    end
   end
 
 
