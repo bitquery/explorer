@@ -26,7 +26,7 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO860
       }
       amount
     }
-    outbound: coinpath(sender: {is: $address}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+    outbound: coinpath(sender: {is: $address}, receiver: {not: ""}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
