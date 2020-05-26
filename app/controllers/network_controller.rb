@@ -1,8 +1,14 @@
 class NetworkController < ApplicationController
 
-  before_action :network_params
+  before_action :network_params, :breadcrumbs
 
   private
+  def breadcrumbs
+    #@breadcrumbs = [
+    #    {name: @network[:network], link: url_for(blockchain: @network[:network])}
+    #]
+  end
+
 
   def network_params
     raise "Network not defined" unless params[:network]

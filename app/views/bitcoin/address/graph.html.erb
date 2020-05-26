@@ -13,9 +13,9 @@
 
     $( document ).ready(function() {
         var query = new widgets.query(`
-query ($network: BitcoinNetwork!, $address: String!, $limit: Int!) {
+query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
   bitcoin(network: $network) {
-    inbound: coinpath(receiver: {is: $address}, options: {desc: "amount", limit: $limit}) {
+    inbound: coinpath(receiver: {is: $address}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
@@ -26,7 +26,7 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!) {
       }
       amount
     }
-    outbound: coinpath(sender: {is: $address}, options: {desc: "amount", limit: $limit}) {
+    outbound: coinpath(sender: {is: $address}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
@@ -53,12 +53,21 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!) {
 
                 this.prepareNodes = function(nodes){
                     let prepareNode = function(node){
-                        return {
-                            id: node.address,
-                            label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
-                            group: node.annotation ? 'annotated_address' : 'address',
-                            title: node.address
-                        };
+                        if (node.address == ''){
+                            return {
+                                id: node.address,
+                                label: 'Coinbase',
+                                group: 'coinbase',
+                                title: node.address
+                            };
+                        } else {
+                            return {
+                                id: node.address,
+                                label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                group: node.annotation ? 'annotated_address' : 'address',
+                                title: node.address
+                            };
+                        }
                     };
 
                     let prepared = [];
@@ -243,7 +252,7 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!) {
                                 color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
-                        system: {
+                        coinbase: {
                             shape: 'icon',
                             icon: {
                                 face: 'FontAwesome',

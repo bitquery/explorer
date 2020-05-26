@@ -1,4 +1,4 @@
-<header class="header border-bottom mb-4">
+<header class="header border-bottom mb-2">
   <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
     <a href="/"><%= image_tag external_image(@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %>
       <strong class="text-primary">BETA</strong>
@@ -19,3 +19,11 @@
     </ul>
   </nav>
 </header>
+<!--<div class="container-fluid">-->
+  <%#= @breadcrumbs %>
+<!--  <ol class="breadcrumb">-->
+<!--    <li class="breadcrumb-item"><a href="./">Explorer</a></li>-->
+<!--    <li class="breadcrumb-item"><a href="#">Library</a></li>-->
+<!--    <li class="breadcrumb-item active" aria-current="page">Data</li>-->
+<!--  </ol>-->
+<!--</div>-->

@@ -13,87 +13,57 @@
 
     $( document ).ready(function() {
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
-                                $address: String!,
-                                $limit: Int!,
-                                $currency: String!,
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                        ethereum(network: $network){
-
-                          inbound: transfers(options:{desc: "amount", limit: $limit},
-                            date: {since: $from till: $till },
-
-                            currency:{is: $currency}
-                            receiver:{is: $address}
-
-                          ) {
-
-                            sender {
-                              address
-                              annotation
-                              smartContract {
-                                contractType
-                                currency {
-                                  symbol
-                                }
-                              }
-                            }
-                            receiver {
-                              address
-                              annotation
-                              smartContract {
-                                contractType
-                                currency {
-                                  symbol
-                                }
-                              }
-                            }
-
-                            amount
-                            transfers: count
-                            txs: count(uniq: txs)
-
-                          }
-
-
-                          outbound: transfers(options:{desc: "amount", limit: $limit},
-                            date: {since: $from till: $till },
-
-                            currency:{is: $currency}
-                            sender:{is: $address}
-
-                          ) {
-
-                            sender {
-                              address
-                              annotation
-                              smartContract {
-                                contractType
-                                currency {
-                                  symbol
-                                }
-                              }
-                            }
-                            receiver {
-                              address
-                              annotation
-                              smartContract {
-                                contractType
-                                currency {
-                                  symbol
-                                }
-                              }
-                            }
-
-                            amount
-                            transfers: count
-                            txs: count(uniq: txs)
-                          }
-
-
-                        }
-                      }`);
+        query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+  ethereum(network: $network) {
+    inbound: coinpath(receiver: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+      sender {
+        address
+        annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+          }
+        }
+      }
+      receiver {
+        address
+        annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+          }
+        }
+      }
+      amount
+    }
+    outbound: coinpath(sender: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+      sender {
+        address
+        annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+          }
+        }
+      }
+      receiver {
+        address
+        annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+          }
+        }
+      }
+      amount
+    }
+  }
+}
+`);
 
         new widgets.template('#graph', query, '', {
             title: '<%= t('tabs.address.graph.name') %>',
@@ -110,8 +80,8 @@
                         if (node.address == '0x0000000000000000000000000000000000000000'){
                             return {
                                 id: node.address,
-                                label: 'System',
-                                group: 'system',
+                                label: 'Coinbase',
+                                group: 'coinbase',
                                 title: node.address
                             };
                         } else if(node.smartContract.contractType == 'Generic'){
@@ -341,7 +311,7 @@
                                 color: '<%= dark? ? 'white' : 'black' %>'
                             }
                         },
-                        system: {
+                        coinbase: {
                             shape: 'icon',
                             icon: {
                                 face: 'FontAwesome',
