@@ -13,29 +13,28 @@
 
     var continent_stacked_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
-     offchain {
+      offchain {
        covid {
-              facts(date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
-
+          facts(date: {since: $from, till: $till}, options: {desc: "confirmed"}){
               date {
                 date(format: "%d/%m")
                 fulldate: date
+                month: date(format: "%m")
               }
+            country {
+              continent
+            }
 
-              europe: confirmed(continent: {is: Europe})
-              asia: confirmed(continent: {is: Asia})
-              north: confirmed(continent: {is: North_America})
-              south: confirmed(continent: {is: South_America})
-              oceania: confirmed(continent: {is: Oceania})
-              antarctica: confirmed(continent: {is: Antarctica})
-
+            confirmed
+            recovered
+            deaths
+        }
        }
-     }
-    }
+      }
 
-  }`);
+    }`);
 
-    new widgets.chart('#continent_stacked', continent_stacked_query, 'offchain.covid.facts', {
+    new widgets.pivotChart('#continent_stacked', continent_stacked_query, 'offchain.covid.facts', {
         title: 'Daily stats by continents',
         chartOptions: {
             vAxes: {
@@ -50,39 +49,21 @@
             bar: {groupWidth: "100%"},
             isStacked: true
         },
-        dataOptions: [
-            {
-                title: '<%= t('widgets.titles.date') %>',
-                path: 'date.date'
-            },
-            {
-                title: 'Asia',
-                path: 'asia'
-            },
-            {
-                title: 'Europe',
-                path: 'europe'
-            },
-
-            {
-                title: 'North America',
-                path: 'north'
-            },
-            {
-                title: 'South America',
-                path: 'south'
-            },
-            {
-                title: 'Oceania',
-                path: 'oceania'
-            },
-            {
-                title: 'Antarctica',
-                path: 'antarctica'
-            },
-
-
-        ]
+        cols: [{
+            title: 'Continent',
+            path: 'country.continent',
+            metrics: [
+                {
+                    title: 'Confirmed',
+                    path: 'confirmed'
+                }
+            ]
+        }],
+        rows: [{
+            title: 'Date',
+            path: 'date.fulldate',
+            sort: 'asc'
+        }]
     });
 
     continent_stacked_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
