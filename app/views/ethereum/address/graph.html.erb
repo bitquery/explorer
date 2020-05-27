@@ -23,6 +23,7 @@
           contractType
           currency {
             symbol
+            name
           }
         }
       }
@@ -33,6 +34,7 @@
           contractType
           currency {
             symbol
+            name
           }
         }
       }
@@ -46,6 +48,7 @@
           contractType
           currency {
             symbol
+            name
           }
         }
       }
@@ -56,6 +59,7 @@
           contractType
           currency {
             symbol
+            name
           }
         }
       }
@@ -94,9 +98,9 @@
                         } else if(node.smartContract.contractType == 'Token' || node.smartContract.contractType == 'TokenSale'){
                             return {
                                 id: node.address,
-                                label: node.annotation +' ('+node.smartContract.currency.symbol+')',
+                                label: node.smartContract.currency.name +' ('+node.smartContract.currency.symbol+')',
                                 group: 'token',
-                                title: node.annotation +' ('+node.smartContract.currency.symbol+')' + ' ' + node.address
+                                title: node.smartContract.currency.name +' ('+node.smartContract.currency.symbol+')' + ' ' + node.address
                             };
                         } else if(node.smartContract.contractType == 'MarginPositionToken'){
                             return {
