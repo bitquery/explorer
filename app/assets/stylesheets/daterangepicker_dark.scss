@@ -118,6 +118,9 @@ body.dark{
     &.active{
       color: inherit;
     }
+    &:before{
+      color: inherit;
+    }
   }
 
 }
