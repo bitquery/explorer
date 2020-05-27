@@ -121,6 +121,7 @@ Rails.application.routes.draw do
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search'
 
     get "platform/:action", controller: "home"
+    get "graphql" => "utility#graphql"
     root 'home#index'
 
 
@@ -129,7 +130,6 @@ Rails.application.routes.draw do
     ##  match "/#{code}", :to => :error, controller: "utility", id: code, via: :all
     #  match "/#{code}", :to => "utility#errors", via: :all
     #end
-
     get 'sitemap.xml' => "sitemaps#index"
     get 'robots.txt' => "sitemaps#robots"
     get '*path' => "utility#errors"
