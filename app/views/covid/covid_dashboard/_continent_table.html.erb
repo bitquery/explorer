@@ -13,16 +13,18 @@
 
     widgets.callbacks({
         continent_path: function(item){
-            return '/covid/continent/'+item.country.continent;
+            return '/covid/continent/'+item;
         }
     });
 
     var continent_query = new widgets.query(`
-    query($from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!) {
+    query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
        covid {
-          facts(date: {since: $from, till: $till}, options: {desc: "confirmed", limit: $limit, offset: $offset}){
-
+          facts(date: {since: $from, till: $till}, options: {desc: "confirmed"}){
+              date {
+                date(format: "%d/%m")
+              }
             country {
               continent
             }
@@ -35,39 +37,50 @@
       }
 
     }`);
-    
 
-    new widgets.table('#continents', continent_query, 'offchain.covid.facts', {
+    new widgets.pivotTable('#continents', continent_query, 'offchain.covid.facts', {
+        cols: [{
+            metrics: [
+                {
+                    title: 'Confirmed',
+                    path: 'confirmed'
+                },
+                {
+                    title: 'Recovered',
+                    path: 'recovered'
+                },
+                {
+                    title: 'Deaths',
+                    path: 'deaths'
+                }
+            ]
+        }],
+        rows: [{
+            title: 'Continent',
+            path: 'country.continent'
+        }],
+        sort: {metric: 'Confirmed', direction: 'desc', axis: 'row'},
         title: 'Country stats',
         dataOptions: [
             {
-                title: 'Continent',
-                type: 'string',
                 urlCallbackName: 'continent_path',
-                path: 'country.continent'
             },
             {
-                title: 'Confirmed Cases',
-                type: 'count',
-                path: 'confirmed'
+                type: 'count'
             },
             {
-                title: 'Recovered',
-                type: 'count',
-                path: 'recovered'
+                type: 'count'
             },
             {
-                title: 'Deaths',
-                type: 'count',
-                path: 'deaths'
+                type: 'count'
             }
         ]
     });
 
-    continent_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, limit: 10});
+    continent_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
 
     rr.change(function(start, end, clear){
-        continent_query.request({from: start, till: end, limit: 10, offset: 0});
+        continent_query.request({from: start, till: end});
     })
 
 </script>
