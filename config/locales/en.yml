@@ -728,14 +728,17 @@ en:
       transfers:
         title: "Transfers in %{network}"
         header: "Transfer Transactions in %{network}"
+        breadcrumb: "Transfer Transactions"
         description: "List of transactions in %{network} with transfers, filtered by parameters"
       calls:
         title: "Calls in %{network}"
         header: "Call Transactions in %{network}"
+        breadcrumb: "Call Transactions"
         description: "List of transactions in %{network} with smart contract calls, filtered by parameters"
       events:
         title: "Events in %{network}"
         header: "Event Transactions in %{network}"
+        breadcrumb: "Event Transactions"
         description: "List of transactions in %{network} with smart contract events, filtered by parameters"
   network:
     algorand:

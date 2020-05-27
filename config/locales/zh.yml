@@ -348,12 +348,15 @@ zh:
       transfers:
         title: "汇入 %{network}"
         header: "转移交易 %{network}"
+        breadcrumb: "转移交易"
         description: "交易清单%{network} 带传输，按参数过滤"
       calls:
         title: "呼入%{network}"
         header: "致电交易%{network}"
+        breadcrumb: "致电交易"
         description: "交易清单%{network} 智能合约调用，按参数过滤"
       events:
         title: "中的活动%{network}"
         header: "中的事件交易%{network}"
+        breadcrumb: "中的事件交易"
         description: "交易清单%{network} 通过参数过滤的智能合约事件"
