@@ -1,6 +1,6 @@
 
 <% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name],
-                          address: (@info.annotation=='' ? @address : @info.annotation )) %>
+                          address: ((!@info.annotation || @info.annotation=='') ? @address : @info.annotation )) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description",
                                 network: @network[:name], address: @address) %>
 
