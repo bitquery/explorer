@@ -10,39 +10,28 @@
 </div>
 
 <script>
-
     var stacked_query = new widgets.query(`
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
-     offchain {
+      offchain {
        covid {
-              facts(<%= render partial: 'covid/covid_continent/continent_filter' %> date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
-
+          facts(date: {since: $from, till: $till}, options: {desc: "confirmed"}){
               date {
                 date(format: "%d/%m")
                 fulldate: date
+                month: date(format: "%m")
               }
+            country {
+              name
+            }
 
-              china: confirmed(country:{is: CN})
-              italy: confirmed(country:{is: IT})
-              germany: confirmed(country:{is: DE})
-              usa: confirmed(country:{is: US})
-              iran: confirmed(country:{is: IR})
-              spain: confirmed(country:{is: ES})
-              korea: confirmed(country:{is: KR})
-              france: confirmed(country:{is: FR})
-              turkey: confirmed(country:{is: TR})
-              russia: confirmed(country:{is: RU})
-              brazil: confirmed(country:{is: BR})
-              gb: confirmed(country:{is: GB})
-              others: confirmed(country:{notIn: [FR,CN,IT,DE,US,IR,ES,KR,TR,RU,GB,BR]})
-
+            confirmed
+        }
        }
-     }
-    }
+      }
 
-  }`);
+    }`);
 
-    new widgets.chart('#stacked', stacked_query, 'offchain.covid.facts', {
+    new widgets.pivotChart('#stacked', stacked_query, 'offchain.covid.facts', {
         title: 'Daily stats by selected countries',
         chartOptions: {
             vAxes: {
@@ -57,64 +46,23 @@
             bar: {groupWidth: "95%"},
             isStacked: true
         },
-        dataOptions: [
-            {
-                title: '<%= t('widgets.titles.date') %>',
-                path: 'date.date'
-            },
-            {
-                title: 'China',
-                path: 'china'
-            },
-            {
-                title: 'Italy',
-                path: 'italy'
-            },
-            {
-                title: 'Germany',
-                path: 'germany'
-            },
-            {
-                title: 'USA',
-                path: 'usa'
-            },
-            {
-                title: 'Iran',
-                path: 'iran'
-            },
-            {
-                title: 'Spain',
-                path: 'spain'
-            },
-            {
-                title: 'Korea',
-                path: 'korea'
-            },
-            {
-                title: 'France',
-                path: 'france'
-            },
-            {
-                title: 'GB',
-                path: 'gb'
-            },
-            {
-                title: 'Turkey',
-                path: 'turkey'
-            },
-            {
-                title: 'Russia',
-                path: 'russia'
-            },
-            {
-                title: 'Brazil',
-                path: 'brazil'
-            },
-            {
-                title: 'Other Countries',
-                path: 'others'
-            },
-        ]
+        cols: [{
+            title: 'Country',
+            path: 'country.name',
+            metrics: [
+                {
+                    title: '',
+                    path: 'confirmed'
+                }
+            ]
+        }],
+        rows: [{
+            title: 'Date',
+            path: 'date.fulldate',
+            sort: 'asc'
+        }],
+        sort: {metric: '', direction: 'desc', axis: 'col'},
+        limit: {length: 10, other: true, axis: 'col'},
     });
 
     stacked_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});

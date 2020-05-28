@@ -40,9 +40,7 @@
             dataOptions:
                 {
                     type: 'string',
-                    renderCallback: function(item){
-                        return item.smartContract.source;
-                    }
+                    path: 'smartContract.source'
                 }
 
         });
@@ -51,9 +49,7 @@
             dataOptions:
                 {
                     type: 'string',
-                    renderCallback: function(item){
-                        return item.smartContract.bytecode;
-                    }
+                    path: 'smartContract.bytecode'
                 }
 
         });
