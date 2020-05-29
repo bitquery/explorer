@@ -41,6 +41,10 @@ global.reportRange = function(selector, from, till, i18n){
         cbs: []
     };
 
+    this.cancel = false;
+    this.click = false;
+    let his = this;
+
     if (i18n.locale == 'ru'){
         moment.locale('ru');
     } else if ((i18n.locale == 'zh')){
@@ -63,7 +67,7 @@ global.reportRange = function(selector, from, till, i18n){
     function set_reportrange(start, end) {
         $(selector).find('span').html(start.format(i18n.format) + ' - ' + end.format(i18n.format));
     }
-
+    properties.ranges[i18n.all_time] = [null, null];
     properties.ranges[i18n.today] = [moment(), moment()];
     properties.ranges[i18n.yesterday] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
     properties.ranges[i18n.last7] = [moment().subtract(6, 'days'), moment()];
@@ -72,10 +76,14 @@ global.reportRange = function(selector, from, till, i18n){
     properties.ranges[i18n.last_month] = [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')];
 
     $(selector).daterangepicker({
+        showDropdowns: true,
+        minYear: 1970,
+        maxYear: parseInt(moment().format('YYYY'),10),
         startDate: properties.start,
         endDate: properties.end,
+        maxDate: moment(),
         opens: 'left',
-        alwaysShowCalendars: true,
+        "linkedCalendars": false,
         locale: {
             cancelLabel: i18n.clear,
             applyLabel: i18n.apply,
@@ -86,6 +94,14 @@ global.reportRange = function(selector, from, till, i18n){
 
     $(selector).on('cancel.daterangepicker', function(ev, picker) {
         $(selector).find('span').html(i18n.all_time);
+        $('.daterangepicker .ranges li').addClass('active');
+    });
+
+    $(selector).on('show.daterangepicker', function(ev, picker){
+            if($(selector).find('span').html() == i18n.all_time){
+                picker.container.find('.ranges li').removeClass('active');
+                picker.container.find('.ranges li').first().addClass('active');
+            }
     });
 
     if (from != null && till != null){
@@ -128,17 +144,36 @@ global.reportRange = function(selector, from, till, i18n){
 
     properties.change = function(cb){
         properties.cbs.push(cb);
-        $(selector).on('apply.daterangepicker', function(ev, picker) {
-            var start = picker.startDate.format('YYYY-MM-DD'),
-                end = picker.endDate.format('YYYY-MM-DDT23:59:59'),
-                endToParam = picker.endDate.format('YYYY-MM-DD'),
-                clear_date = undefined;
-            cb(start, end, clear_date);
-            let url = location.origin + location.pathname;
-            if (location.href != url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam}))){
-                history.pushState({data: {}, url: url}, document.title, url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam})));
-                changeUrl(start, endToParam);
+
+        $($(selector).data().daterangepicker.container.find('.ranges li')[1]).on('click', function(ev){
+            if(his.click == false){
+               his.click = true;
+               $(this).click();
+                his.click = false;
             }
+        });
+        $(selector).on('apply.daterangepicker', function(ev, picker) {
+            if (!picker.startDate._isValid && !picker.endDate._isValid){
+                his.cancel = true;
+                picker.startDate = moment();
+                picker.endDate = moment();
+                $(selector).trigger('cancel.daterangepicker', ev, picker);
+            } else if (his.cancel === true){
+                his.cancel = false;
+            } else {
+                var start = picker.startDate.format('YYYY-MM-DD'),
+                    end = picker.endDate.format('YYYY-MM-DDT23:59:59'),
+                    endToParam = picker.endDate.format('YYYY-MM-DD'),
+                    clear_date = undefined;
+                cb(start, end, clear_date);
+                $(selector).find('span').html(picker.startDate.format(i18n.format) + ' - ' + picker.endDate.format(i18n.format));
+                let url = location.origin + location.pathname;
+                if (location.href != url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam}))){
+                    history.pushState({data: {}, url: url}, document.title, url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam})));
+                    changeUrl(start, endToParam);
+                }
+            }
+
         });
         $(selector).on('cancel.daterangepicker', function(ev, picker) {
             var start = null,

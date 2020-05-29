@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header">Miners Block Count By Time</div>
+      <div class="card-body">
+        <div id="miners_block_count"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header">Miners Block Reward By Time</div>
+      <div class="card-body">
+        <div id="miners_block_amount"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $( document ).ready(function() {
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                                $dateFormat: String!,
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    ethereum(network: $network){
+                      blocks(options:{desc: "count"},
+                        date: {since: $from till: $till }
+                        ) {
+
+                          address: miner {
+                            address
+                            annotation
+                          }
+                          date {
+                            date(format: $dateFormat)
+                          }
+                          count
+                          reward
+                      }
+                    }
+                  }`);
+
+        new widgets.pivotChart('#miners_block_count', query, 'ethereum.blocks', {
+            title: 'Miners Block Count By Time',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: 'Miners Block Count',
+                        viewWindow: { min: 0 }
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                bar: {groupWidth: "100%"},
+                isStacked: true
+            },
+            cols: [{
+                title: 'Miners',
+                path: ['address.annotation', 'address.address'],
+                metrics: [
+                    {
+                        title: 'Count',
+                        path: 'count'
+                    }
+                ]
+            }],
+            rows: [{
+                title: 'Date',
+                path: 'date.date',
+                sort: 'asc'
+            }],
+            sort: {metric: 'Count', direction: 'desc', axis: 'col'},
+            limit: {length: 10, other: true, axis: 'col'},
+        });
+
+        new widgets.pivotChart('#miners_block_amount', query, 'ethereum.blocks', {
+            title: 'Miners Block Reward By Time',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: 'Miners Block Reward',
+                        viewWindow: { min: 0 }
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                bar: {groupWidth: "100%"},
+                isStacked: true
+            },
+            cols: [{
+                title: 'Miner',
+                path: ['address.annotation', 'address.address'],
+                metrics: [
+                    {
+                        title: 'Reward',
+                        path: 'reward'
+                    }
+                ]
+            }],
+            rows: [{
+                title: 'Date',
+                path: 'date.date',
+                sort: 'asc'
+            }],
+            sort: {metric: 'Reward', direction: 'desc', axis: 'col'},
+            limit: {length: 10, other: true, axis: 'col'},
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+</script>
