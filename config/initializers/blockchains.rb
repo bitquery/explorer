@@ -172,9 +172,9 @@ BLOCKCHAINS = [
     {
         tag: 'celo',
         network: 'celo_rc1',
-        name: 'Celo RC1',
+        name: 'Celo Mainnet',
         family: 'ethereum',
-        platform: 'Testnet',
+        platform: 'Smart Contract',
         currency: 'cGLD',
         icon: 'currency/celo.png',
         start: Date.parse('2020-04-22')
