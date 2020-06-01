@@ -526,7 +526,7 @@
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>',
             address: '<%= @address %>',
-            currency: '<%= @currencies.first && @currencies.first.symbol %>'
+            currency: '<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>'
         });
     });
 
