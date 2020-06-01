@@ -48,20 +48,7 @@ $( document ).ready(function() {
           }
         }
       }
-    `, {
-            types: [
-                {
-                    kind: 'UNION',
-                    name: 'SearchResultItem',
-                    possibleTypes: [
-                        { name: 'Address' },
-                        { name: 'Currency' },
-                        { name: 'SmartContract' },
-                        { name: 'TransactionHash' }
-                    ],
-                },
-            ],
-        });
+    `);
 
     function item_type(item){
         return (item.subject.hash ? 'tx' :

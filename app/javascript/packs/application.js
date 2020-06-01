@@ -77,7 +77,7 @@ global.reportRange = function(selector, from, till, i18n){
 
     $(selector).daterangepicker({
         showDropdowns: true,
-        minYear: 1970,
+        minYear: 2000,
         maxYear: parseInt(moment().format('YYYY'),10),
         startDate: properties.start,
         endDate: properties.end,
@@ -153,10 +153,12 @@ global.reportRange = function(selector, from, till, i18n){
             }
         });
         $(selector).on('apply.daterangepicker', function(ev, picker) {
-            if (!picker.startDate._isValid && !picker.endDate._isValid){
+            if (!picker.startDate._isValid && !picker.endDate._isValid && his.cancel == false){
                 his.cancel = true;
-                picker.startDate = moment();
-                picker.endDate = moment();
+                setTimeout(function(){
+                    picker.startDate = moment();
+                    picker.endDate = moment();
+                }, 500);
                 $(selector).trigger('cancel.daterangepicker', ev, picker);
             } else if (his.cancel === true){
                 his.cancel = false;
