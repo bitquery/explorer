@@ -250,6 +250,11 @@ en:
         name: "Miners"
         title: "Miners on %{network} Explorer"
         description: "Miner list for %{network}"
+      miner_distrib:
+        name: "Miner distribution"
+        title: "Miners distribution on %{network} Explorer"
+        description: "Miner distribution list for %{network}"
+        attention: "Attention. The calculation may take a long time"
       proposers:
         name: "Proposers"
         title: "Proposers on %{network} Explorer"
@@ -596,11 +601,15 @@ en:
       uncle_count: "Uncles"
       size: "Size"
       block_reward: "Block Reward"
+      miners_block_reward_by_time: 'Miners Block Reward By Time'
+      miners_block_reward: "Miners Block Reward"
       difficulty: "Difficulty"
       total_difficulty: "Total Difficulty"
       hash: "Hash"
       parent_hash: "Parent Hash"
       block_count: "Block Count"
+      miners_block_count_by_time: 'Miners Block Count By Time'
+      miners_block_count: "Miners Block Count"
       approvals: "Approvals"
       unique_miners: "Unique Miners"
       median_difficulty: "Median Difficulty"

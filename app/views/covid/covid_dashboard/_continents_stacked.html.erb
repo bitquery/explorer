@@ -15,7 +15,7 @@
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
        covid {
-          facts(date: {since: $from, till: $till}, options: {desc: "confirmed"}){
+          facts(date: {since: $from, till: $till}, options: {asc: "date.fulldate"}){
               date {
                 date(format: "%d/%m")
                 fulldate: date
@@ -26,8 +26,6 @@
             }
 
             confirmed
-            recovered
-            deaths
         }
        }
       }
@@ -61,8 +59,7 @@
         }],
         rows: [{
             title: 'Date',
-            path: 'date.fulldate',
-            sort: 'asc'
+            path: 'date.fulldate'
         }]
     });
 

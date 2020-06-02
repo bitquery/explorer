@@ -23,29 +23,34 @@
 <script>
     $( document ).ready(function() {
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
-                                $dateFormat: String!,
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum(network: $network){
-                      blocks(options:{asc: "date.date"},
-                        date: {since: $from till: $till }
-                        ) {
-
-                          address: miner {
-                            address
-                            annotation
-                          }
-                          date {
-                            date(format: $dateFormat)
-                          }
-                          count
-                          reward
+                  query ($network: BitcoinNetwork!,
+                        $dateFormat: String!,
+                        $from: ISO8601DateTime,
+                        $till: ISO8601DateTime){
+                  bitcoin(network: $network ){
+                    outputs(
+                      options:{asc: "date.date"}
+                      date: { since: $from till: $till}
+                      txIndex: {is: 0}
+                      outputDirection: {is: mining}
+                      outputScriptType: {notIn: [nulldata,nonstandard]}
+                    ) {
+                      address: outputAddress{
+                        address
+                        annotation
                       }
-                    }
-                  }`);
 
-        new widgets.pivotChart('#miners_block_count', query, 'ethereum.blocks', {
+                      date {
+                        date(format: $dateFormat)
+                      }
+
+                      reward: value
+                      count(uniq: blocks)
+                    }
+                  }
+                }`);
+
+        new widgets.pivotChart('#miners_block_count', query, 'bitcoin.outputs', {
             title: '<%= t('widgets.titles.miners_block_count_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -76,7 +81,7 @@
             limit: {length: 10, other: true, axis: 'col'},
         });
 
-        new widgets.pivotChart('#miners_block_amount', query, 'ethereum.blocks', {
+        new widgets.pivotChart('#miners_block_amount', query, 'bitcoin.outputs', {
             title: '<%= t('widgets.titles.miners_block_reward_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -106,7 +111,7 @@
             sort: {metric: 'Reward', direction: 'desc', axis: 'col'},
             limit: {length: 10, other: true, axis: 'col'},
         });
-        
+
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>'
         });

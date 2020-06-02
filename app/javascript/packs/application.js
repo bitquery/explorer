@@ -83,7 +83,7 @@ global.reportRange = function(selector, from, till, i18n){
         endDate: properties.end,
         maxDate: moment(),
         opens: 'left',
-        "linkedCalendars": false,
+        linkedCalendars: false,
         locale: {
             cancelLabel: i18n.clear,
             applyLabel: i18n.apply,
