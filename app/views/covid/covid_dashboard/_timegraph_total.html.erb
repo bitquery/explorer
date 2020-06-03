@@ -22,7 +22,7 @@
                 totalDet += item.deaths;
 
                 new_data.push({
-                    data: item.data,
+                    date: item.date,
                     confirmed: totalConf,
                     recovered: totalRec,
                     deaths: totalDet
@@ -31,21 +31,25 @@
             return new_data;
         },
         chartOptions: {
+            explorer: {
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomOut: 1,
+                maxZoomIn: 40
+            },
             pointSize: 2,
             vAxes: {
                 '0': {
                     title: 'Total Cases'
                 }
             },
-            hAxis: {
-                title: '<%= t('widgets.titles.date') %>'
-            },
+            hAxis: <%= render partial: 'shared/date_axis.json' %>,
             seriesType: 'line',
             colors: [ '#ffc107', 'lightgreen', 'red']
         },
         dataOptions: [
             {
-                title: '<%= t('widgets.titles.date') %>',
+                title: {label: "<%= t('widgets.titles.date') %>", type: "date"},
                 path: 'date.date'
             },
             {

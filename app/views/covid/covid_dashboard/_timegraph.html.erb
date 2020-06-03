@@ -15,11 +15,10 @@
     query($from: ISO8601DateTime, $till: ISO8601DateTime) {
       offchain {
        covid {
-              facts(<%= render partial: 'covid/covid_continent/continent_filter' %> date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
+              facts(<%= render partial: 'covid/covid_continent/continent_filter' %> date: {since: $from, till: $till}, options: {asc: "date.date"} ){
 
               date {
-                date(format: "%d/%m")
-                fulldate: date
+                date
               }
 
             confirmed
@@ -34,20 +33,24 @@
     new widgets.chart('#daily', daily_query, 'offchain.covid.facts', {
         title: 'Daily stats',
         chartOptions: {
+            explorer: {
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomOut: 1,
+                maxZoomIn: 40
+            },
             vAxes: {
                 '0': {
                     title: 'New Cases'
                 }
             },
-            hAxis: {
-                title: '<%= t('widgets.titles.date') %>'
-            },
+            hAxis: <%= render partial: 'shared/date_axis.json' %>,
             bar: {groupWidth: "95%"},
             colors: [ '#ffc107', 'lightgreen', 'red']
         },
         dataOptions: [
             {
-                title: '<%= t('widgets.titles.date') %>',
+                title: {label: "<%= t('widgets.titles.date') %>", type: "date"},
                 path: 'date.date'
             },
             {

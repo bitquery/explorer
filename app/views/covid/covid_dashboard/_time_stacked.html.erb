@@ -34,15 +34,19 @@
     new widgets.pivotChart('#stacked', stacked_query, 'offchain.covid.facts', {
         title: 'Daily stats by selected countries',
         chartOptions: {
+            explorer: {
+                axis: 'horizontal',
+                keepInBounds: true,
+                maxZoomOut: 1,
+                maxZoomIn: 40
+            },
             vAxes: {
                 '0': {
                     title: 'New Confirmed Cases Daily',
                     viewWindow: { min: 0 }
                 }
             },
-            hAxis: {
-                title: '<%= t('widgets.titles.date') %>'
-            },
+            hAxis: <%= render partial: 'shared/date_axis.json' %>,
             bar: {groupWidth: "95%"},
             isStacked: true
         },
@@ -57,7 +61,7 @@
             ]
         }],
         rows: [{
-            title: 'Date',
+            title: {label: "<%= t('widgets.titles.date') %>", type: "date"},
             path: 'date.fulldate'
         }],
         sort: {metric: '', direction: 'desc', axis: 'col'},
