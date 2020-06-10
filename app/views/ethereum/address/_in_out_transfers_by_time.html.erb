@@ -34,9 +34,76 @@
                   }`);
 
 
-        new widgets.chart('#in_out_transfers_by_time', query, 'ethereum.transfers', {
+        new widgets.chartByTime('#in_out_transfers_by_time', query, 'ethereum.transfers', {
             title: '<%= t('widgets.headers.in_out_transfers_by_time') %>',
+            onReady: function(chart, google, data){
+                var data = google.visualization.arrayToDataTable(data);
+                let select = document.createElement('div');
+                select.style.border = "1px dashed #3366cc";
+                select.style.display = "none";
+                select.style.position = "fixed";
+                select.style.zIndex = 1000;
+                select.style.backgroundColor = 'rgba(51,102,204, 0.2)';
+                chart.container.parentNode.appendChild(select);
+                let body = document.querySelector('body');
+                var chartLayout = chart.getChartLayoutInterface();
+                var x1 = 0;
+                var y1 = 0;
+                var x2 = 0;
+                var y2 = 0;
+                var x3 = 0;
+                var y3 = 0;
+                var x4 = 0;
+                var y4 = 0;
+
+                function reCalc() {
+                    x3 = Math.min(x1,x2);
+                    x4 = Math.max(x1,x2);
+                    y3 = Math.min(y1,y2);
+                    y4 = Math.max(y1,y2);
+                    select.style.left = x3 + 'px';
+                    select.style.top = y3 + 'px';
+                    select.style.width = x4 - x3 + 'px';
+                    select.style.height = y4 - y3 + 'px';
+                }
+
+                function selectPoints() {
+                    var selection = [];
+                    for (var row = 0; row < data.getNumberOfRows(); row++) {
+                        for (var col = 1; col < data.getNumberOfColumns(); col++) {
+                            var point = chartLayout.getBoundingBox('point#' + (col - 1) + '#' + row);
+                            if (((point.left >= (x3 - point.width)) && ((point.left + point.width) <= (x4 + point.width))) &&
+                                ((point.top >= (y3 - point.height)) && ((point.top + point.height) <= (y4 + point.height)))) {
+                                selection.push({row: row, column: col});
+                            }
+                        }
+                    }
+                    chart.setSelection(selection);
+                }
+
+                chart.container.addEventListener('mousedown', function (e) {
+                    body.style.userSelect = 'none';
+                    select.style.display = 'block';
+                    x1 = e.clientX;
+                    y1 = e.clientY;
+                    reCalc();
+                }, false);
+
+                window.addEventListener('mousemove', function (e) {
+                    x2 = e.clientX;
+                    y2 = e.clientY;
+                    reCalc();
+                }, true);
+
+                window.addEventListener('mouseup', function (e) {
+                    select.style.display = 'none';
+                    body.style.userSelect = 'auto';
+                    selectPoints();
+                }, false);
+            },
             chartOptions: {
+
+                selectionMode: 'multiple',
                 isStacked: true,
                 vAxes: {
                     '0': {
