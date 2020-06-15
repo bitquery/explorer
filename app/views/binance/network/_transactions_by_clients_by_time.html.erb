@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_by_clients_by_time') %></div>
+      <div class="card-body">
+        <div id="transactions_by_clients_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query (
+                  $dateFormat: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    binance {
+                      transactions(
+                      options:{asc: "date.date"},
+                      date: {
+                        since: $from
+                        till: $till}
+                      ) {
+
+                          date {
+                            date(format: $dateFormat)
+                          }
+
+                          transactionSource {
+                            code
+                            name
+                          }
+
+                          count
+
+                      }
+                    }
+                  }`);
+
+        new widgets.pivotChart('#transactions_by_clients_by_time', query, 'binance.transactions', {
+            title: '<%= t('widgets.headers.transactions_by_clients_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.transactions_count') %>',
+                        viewWindow: { min: 0 }
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                bar: {groupWidth: "100%"},
+                isStacked: true
+            },
+            cols: [{
+                title: '<%= t('widgets.titles.transaction_source') %>',
+                path: ['transactionSource.name'],
+                metrics: [
+                    {
+                        title: 'Count',
+                        path: 'count'
+                    }
+                ]
+            }],
+            rows: [{
+                title: 'Date',
+                path: 'date.date'
+            }],
+            sort: {metric: 'Count', direction: 'desc', axis: 'col'},
+            limit: {length: 10, other: true, axis: 'col'},
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>);
+
+
+    });
+</script>
