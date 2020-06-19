@@ -19,6 +19,7 @@ import numeral from 'numeral'
 global.$ = $;
 global.vis = vis;
 global.numeral = numeral;
+global.m = moment;
 
 $('document').ready(function(){
     new ClipboardJS('.to-clipboard');
