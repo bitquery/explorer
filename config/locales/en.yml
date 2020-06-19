@@ -473,6 +473,7 @@ en:
       protocols_by_time: "Protocols By Dates"
       approvals_by_time: "Approvals of Protocols"
       transactions_by_clients: "Transactions By Client types"
+      transactions_by_clients_by_time: "Client Type Transactions by Month / Date"
       latest_orders: "Latest Orders"
       order_transactions_by_time: "Orders By Date"
       orders: "Orders"
