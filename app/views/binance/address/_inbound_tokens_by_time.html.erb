@@ -33,7 +33,7 @@
                     }
                   }`);
 
-        new widgets.chart('#inbound_tokens_by_time', query, 'binance.transfers', {
+        new widgets.chartByTime('#inbound_tokens_by_time', query, 'binance.transfers', {
             title: '<%= t('widgets.headers.inbound_tokens_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -41,7 +41,6 @@
                         title: '<%= t('widgets.titles.receive_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'line',
                 series: {
                     '0': { color: '#28a745', type: 'line',  lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }

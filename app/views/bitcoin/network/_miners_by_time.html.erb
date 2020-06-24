@@ -52,7 +52,7 @@
                 }
               }`);
 
-        new widgets.chart('#miners_by_time', query, 'bitcoin.outputs', {
+        new widgets.chartByTime('#miners_by_time', query, 'bitcoin.outputs', {
             title: '<%= t('widgets.headers.miners_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -60,7 +60,6 @@
                         title: '<%= t('widgets.titles.unique_miners') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
@@ -79,7 +78,7 @@
             ]
         });
 
-        new widgets.chart('#mined_value_by_time', query, 'bitcoin.outputs', {
+        new widgets.chartByTime('#mined_value_by_time', query, 'bitcoin.outputs', {
             title: '<%= t('widgets.headers.mined_value_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -87,7 +86,6 @@
                         title: '<%= t('widgets.titles.mined_value') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 series: {
                     '0': { color: '#ffc107' }
                 },

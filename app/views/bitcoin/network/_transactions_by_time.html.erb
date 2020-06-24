@@ -56,7 +56,7 @@
                     }
                   }`);
 
-        new widgets.chart('#transactions_by_time', query, 'bitcoin.transactions', {
+        new widgets.chartByTime('#transactions_by_time', query, 'bitcoin.transactions', {
             title: '<%= t('widgets.headers.transactions_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -64,7 +64,6 @@
                         title: '<%= t('widgets.titles.transactions_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
@@ -83,7 +82,7 @@
             ]
         });
 
-        new widgets.chart('#transaction_fee_by_time', query, 'bitcoin.transactions', {
+        new widgets.chartByTime('#transaction_fee_by_time', query, 'bitcoin.transactions', {
             title: '<%= t('widgets.headers.transaction_fee_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -91,7 +90,6 @@
                         title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 series: {
                     '0': { color: '#ffc107' }
                 },
@@ -110,7 +108,7 @@
             ]
         });
 
-        new widgets.chart('#transaction_average_fee_by_time', query, 'bitcoin.transactions', {
+        new widgets.chartByTime('#transaction_average_fee_by_time', query, 'bitcoin.transactions', {
             title: '<%= t('widgets.headers.transaction_average_fee_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -118,7 +116,6 @@
                         title: '<%= t('widgets.titles.fee_per_transaction') %>, <%= @network[:currency] %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 series: {
                     '0': { color: '#ffc107' }
                 },

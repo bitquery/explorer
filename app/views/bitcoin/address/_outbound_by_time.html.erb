@@ -38,7 +38,7 @@
                   }
                 }`);
 
-        new widgets.chart('#outbound_native_by_time', query, 'bitcoin.inputs', {
+        new widgets.chartByTime('#outbound_native_by_time', query, 'bitcoin.inputs', {
             title: '<%= t('widgets.headers.outbound_native_by_time', currency: @network[:currency]) %>',
             chartOptions: {
                 vAxes: {
@@ -49,7 +49,6 @@
                         title: '<%= t('widgets.titles.transactions_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: 'lightgreen' },

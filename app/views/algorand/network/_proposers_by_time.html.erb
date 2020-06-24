@@ -44,7 +44,7 @@
                     }
                   }`);
 
-        new widgets.chart('#proposers_by_time', query, 'algorand.blocks', {
+        new widgets.chartByTime('#proposers_by_time', query, 'algorand.blocks', {
             title: '<%= t('widgets.headers.proposers_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -52,7 +52,6 @@
                         title: '<%= t('widgets.titles.proposers_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
@@ -71,7 +70,7 @@
             ]
         });
 
-        new widgets.chart('#block_reward_by_time', query, 'algorand.blocks', {
+        new widgets.chartByTime('#block_reward_by_time', query, 'algorand.blocks', {
             title: '<%= t('widgets.headers.block_reward_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -79,7 +78,6 @@
                         title: '<%= t('widgets.titles.block_reward') %>, <%= @network[:currency] %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 series: {
                     '0': { color: '#ffc107' }
                 },

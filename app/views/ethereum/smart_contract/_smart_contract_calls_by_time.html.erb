@@ -44,7 +44,7 @@
                           }
                         }`);
 
-        new widgets.chart('#smart_contract_calls_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#smart_contract_calls_by_time', query, 'ethereum.smartContractCalls', {
             title: '<%= t('widgets.headers.smart_contract_calls_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -52,7 +52,6 @@
                         title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
                     },
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 isStacked: true,
                 series: {
@@ -84,7 +83,7 @@
             ]
         });
 
-        new widgets.chart('#smart_contract_callers_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#smart_contract_callers_by_time', query, 'ethereum.smartContractCalls', {
             title: '<%= t('widgets.headers.smart_contract_callers_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -92,7 +91,6 @@
                         title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
                     },
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 isStacked: true,
                 series: {

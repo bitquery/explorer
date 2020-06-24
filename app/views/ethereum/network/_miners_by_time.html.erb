@@ -45,7 +45,7 @@
                     }
                   }`);
 
-        new widgets.chart('#miners_by_time', query, 'ethereum.blocks', {
+        new widgets.chartByTime('#miners_by_time', query, 'ethereum.blocks', {
             title: '<%= t('widgets.headers.miners_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -53,7 +53,6 @@
                         title: '<%= t('widgets.titles.unique_miners') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
@@ -72,7 +71,7 @@
             ]
         });
 
-        new widgets.chart('#difficulty_by_time', query, 'ethereum.blocks', {
+        new widgets.chartByTime('#difficulty_by_time', query, 'ethereum.blocks', {
             title: '<%= t('widgets.headers.difficulty_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -80,7 +79,6 @@
                         title: '<%= t('widgets.titles.median_difficulty') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 series: {
                     '0': { color: '#ffc107' }
                 },

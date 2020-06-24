@@ -39,7 +39,7 @@
                           }
                         }`);
 
-        new widgets.chart('#token_senders_by_time', query, 'algorand.transfers', {
+        new widgets.chartByTime('#token_senders_by_time', query, 'algorand.transfers', {
             title: '<%= t('widgets.headers.token_senders_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -47,7 +47,6 @@
                         title: '<%= t('widgets.titles.uniq_senders') %>'
                     },
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
@@ -67,7 +66,7 @@
             ]
         });
 
-        new widgets.chart('#token_median_sender_amount_by_time', query, 'algorand.transfers', {
+        new widgets.chartByTime('#token_median_sender_amount_by_time', query, 'algorand.transfers', {
             title: '<%= t('widgets.headers.token_median_sender_amount_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -75,7 +74,6 @@
                         title: '<%= t('widgets.titles.median_amount') %>'
                     },
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }

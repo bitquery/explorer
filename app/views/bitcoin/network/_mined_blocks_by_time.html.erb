@@ -49,7 +49,7 @@
                 }
               }`);
 
-        new widgets.chart('#mined_blocks', query, 'bitcoin.transactions', {
+        new widgets.chartByTime('#mined_blocks', query, 'bitcoin.transactions', {
             title: '<%= t('widgets.headers.mined_blocks') %>',
             chartOptions: {
                 vAxes: {
@@ -57,7 +57,6 @@
                         title: '<%= t('widgets.titles.block_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
@@ -76,7 +75,7 @@
             ]
         });
 
-        new widgets.chart('#average_mined_by_block', query, 'bitcoin.transactions', {
+        new widgets.chartByTime('#average_mined_by_block', query, 'bitcoin.transactions', {
             title: '<%= t('widgets.headers.average_mined_by_block') %>',
             chartOptions: {
                 vAxes: {
@@ -84,7 +83,6 @@
                         title: '<%= t('widgets.titles.mined_value') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 series: {
                     '0': { color: '#ffc107' }
                 },

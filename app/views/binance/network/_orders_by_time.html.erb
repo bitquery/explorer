@@ -31,7 +31,7 @@
                     }
                   }`);
 
-        new widgets.chart('#order_transactions_by_time', query, 'binance.orders', {
+        new widgets.chartByTime('#order_transactions_by_time', query, 'binance.orders', {
             title: '<%= t('widgets.headers.order_transactions_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -39,7 +39,6 @@
                         title: '<%= t('widgets.titles.unique_orders') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }

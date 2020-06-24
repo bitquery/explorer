@@ -31,7 +31,7 @@
                     }
                   }`);
 
-        new widgets.chart('#transfers_by_time', query, 'binance.transfers', {
+        new widgets.chartByTime('#transfers_by_time', query, 'binance.transfers', {
             title: '<%= t('widgets.headers.transfers_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -39,7 +39,6 @@
                         title: '<%= t('widgets.titles.transfer_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }

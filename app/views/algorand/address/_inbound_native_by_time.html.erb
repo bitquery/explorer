@@ -34,7 +34,7 @@
                     }
                   }`);
 
-        new widgets.chart('#inbound_native_by_time', query, 'algorand.transfers', {
+        new widgets.chartByTime('#inbound_native_by_time', query, 'algorand.transfers', {
             title: '<%= t('widgets.headers.inbound_native_by_time', currency: @network[:currency]) %>',
             chartOptions: {
                 vAxes: {
@@ -45,7 +45,6 @@
                         title: '<%= t('widgets.titles.receive_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: 'lightgreen' },

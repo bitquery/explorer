@@ -30,7 +30,7 @@
                           }
                         }`);
 
-        new widgets.chart('#max_token_transfers_by_time', query, 'ethereum.transfers', {
+        new widgets.chartByTime('#max_token_transfers_by_time', query, 'ethereum.transfers', {
             title: '<%= t('widgets.headers.max_token_transfers_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -38,7 +38,6 @@
                         title: '<%= t('widgets.titles.max_amount') %>'
                     },
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#ffc107', targetAxisIndex: 0 },

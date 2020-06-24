@@ -50,7 +50,7 @@
                   }`);
 
 
-        new widgets.chart('#in_out_transfers_value_by_time', query, 'bitcoin', {
+        new widgets.chartByTime('#in_out_transfers_value_by_time', query, 'bitcoin', {
             title: '<%= t('widgets.headers.in_out_transfers_value_by_time', token: @network[:currency]) %>',
             chartOptions: {
                 isStacked: true,
@@ -63,7 +63,6 @@
                         }
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' },

@@ -44,7 +44,7 @@
                     }
                   }`);
 
-        new widgets.chart('#calls_by_time', query, 'algorand.smartContractCalls', {
+        new widgets.chartByTime('#calls_by_time', query, 'algorand.smartContractCalls', {
             title: '<%= t('widgets.headers.calls_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -52,7 +52,6 @@
                         title: '<%= t('widgets.titles.calls_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
@@ -71,7 +70,7 @@
             ]
         });
 
-        new widgets.chart('#contracts_by_time', query, 'algorand.smartContractCalls', {
+        new widgets.chartByTime('#contracts_by_time', query, 'algorand.smartContractCalls', {
             title: '<%= t('widgets.headers.contracts_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -79,7 +78,6 @@
                         title: '<%= t('widgets.titles.uniq_contracts') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 series: {
                     '0': { color: '#ffc107' }
                 },

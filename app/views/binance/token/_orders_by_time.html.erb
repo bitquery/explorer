@@ -37,7 +37,7 @@
     }`);
 
 
-        new widgets.chart('#orders_by_time', query, 'binance.orders', {
+        new widgets.chartByTime('#orders_by_time', query, 'binance.orders', {
             title: '<%= t('widgets.headers.orders_by_time') %>',
             chartOptions: {
                 isStacked: true,
@@ -46,7 +46,6 @@
                         title: '<%= t('widgets.titles.trades') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' },

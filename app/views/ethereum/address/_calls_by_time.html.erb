@@ -29,7 +29,7 @@
               }
             }`);
 
-        new widgets.chart('#calls_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#calls_by_time', query, 'ethereum.smartContractCalls', {
             title: '<%= t('widgets.headers.calls_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -37,7 +37,6 @@
                         title: '<%= t('widgets.titles.calls_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json' %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#007bff' },
