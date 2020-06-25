@@ -17,7 +17,7 @@
 
         var query = new widgets.query(`<%= query.html_safe %>`);
 
-        new widgets.chart('#<%= chain[:tag] %>', query, 'chain.transactions', {
+        new widgets.chartByTime('#<%= chain[:tag] %>', query, 'chain.transactions', {
             title: '<%= t('widgets.headers.transactions_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -25,7 +25,6 @@
                         title: '<%= t('widgets.titles.transactions_count') %>'
                     }
                 },
-                hAxis: <%= render partial: 'shared/date_axis.json', locals: {title: t('widgets.titles.month')} %>,
                 seriesType: 'bars',
                 series: {
                     '0': { color: '#28a745' }
@@ -45,7 +44,18 @@
 
             ]
         });
-        query.request({network: '<%= chain[:network] %>', dateFormat: dateRangeReportFormat() });
-
+        query.request({network: '<%= chain[:network] %>', dateFormat: dateRangeReportFormat(),  from: null, till: null});
     });
 </script>
+<style>
+  .widgets-set-units{
+    bottom: -6px;
+    font-size: 12px;
+  }
+  .widgets-revert-zoom{
+    bottom: -6px;
+    padding: 0px 2px;
+    font-size: 12px;
+    right: 0;
+  }
+</style>

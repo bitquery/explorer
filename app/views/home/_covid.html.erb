@@ -14,13 +14,13 @@
 <script>
 
     var stacked_query = new widgets.query(`
-    query($from: ISO8601DateTime, $till: ISO8601DateTime) {
+    query($from: ISO8601DateTime, $till: ISO8601DateTime, $dateFormat: String!) {
      offchain {
        covid {
               facts(<%= render partial: 'covid/covid_continent/continent_filter' %> date: {since: $from, till: $till}, options: {asc: "date.fulldate"} ){
 
               date {
-                date(format: "%d/%m")
+                date(format: $dateFormat)
                 fulldate: date
               }
 
@@ -42,7 +42,7 @@
 
   }`);
 
-    new widgets.chart('#stacked', stacked_query, 'offchain.covid.facts', {
+    new widgets.chartByTime('#stacked', stacked_query, 'offchain.covid.facts', {
         title: 'Daily stats by selected countries',
         chartOptions: {
             vAxes: {
@@ -51,9 +51,6 @@
                     viewWindow: { min: 0 }
                 }
             },
-            hAxis: {
-                title: '<%= t('widgets.titles.date') %>'
-            },
             bar: {groupWidth: "95%"},
             isStacked: true,
 
@@ -61,7 +58,7 @@
         },
         dataOptions: [
             {
-                title: '<%= t('widgets.titles.date') %>',
+                title: {label: '<%= t('widgets.titles.date') %>', type: 'date'},
                 path: 'date.date'
             },
             {
@@ -111,10 +108,10 @@
         ]
     });
 
-    stacked_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>});
+    stacked_query.request({from: <%= @from.html_safe %>, till: <%= @till.html_safe %>, dateFormat: '%Y-%m-%d'});
 
-    rr.change(function(start, end, clear){
-        stacked_query.request({from: start, till: end});
-    })
+    // rr.change(function(start, end, clear){
+    //     stacked_query.request({from: start, till: end});
+    // })
 
 </script>

@@ -1,9 +1,8 @@
-query ($network: BitcoinNetwork){
+query ($network: BitcoinNetwork, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
   chain: bitcoin(network: $network ){
-    transactions(options:{asc: "date.month"}
-    ) {
+    transactions(options:{asc: "date.month"}, date: {since: $from, till: $till}) {
       date{
-        month: date(format: "%Y-%m")
+        month: date(format: $dateFormat)
       }
       count
     }
