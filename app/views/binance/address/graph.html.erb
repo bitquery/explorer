@@ -2,65 +2,44 @@
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-header"><%= t('tabs.address.graph.name') %></div>
-      <div class="card-body" style="height: 600px; padding: 0">
-          <div id="graph"><%= t('loading') %></div>
+      <div class="card-body" style="padding: 0">
+        <div id="graph"><%= t('loading') %></div>
       </div>
     </div>
   </div>
 </div>
-
 <script>
 
     $( document ).ready(function() {
         var query = new widgets.query(`
-                       query (  $address: String!,
-                                $limit: Int!,
-                                $currency: Int!,
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                        algorand{
-                          inbound: coinpath(options:{desc: "amount", limit: $limit},
-                            date: {since: $from till: $till },
-                            receiver:{is: $address}
-                            currency:{is: $currency}
-                          ) {
+        query ($address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+  binance {
+    inbound: coinpath(receiver: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+      sender {
+        address
+        annotation
+      }
+      receiver {
+        address
+        annotation
+      }
+      amount
+    }
+    outbound: coinpath(sender: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+      sender {
+        address
+        annotation
+      }
+      receiver {
+        address
+        annotation
+      }
+      amount
+    }
+  }
+}
+`);
 
-                            sender {
-                              address
-                              annotation
-                            }
-                            receiver {
-                              address
-                              annotation
-                            }
-
-                            amount
-                            transfers: count
-                          }
-
-
-                          outbound: coinpath(options:{desc: "amount", limit: $limit},
-                            date: {since: $from till: $till },
-                            sender:{is: $address}
-                            currency:{is: $currency}
-                          ) {
-
-                            sender {
-                              address
-                              annotation
-                            }
-                            receiver {
-                              address
-                              annotation
-                            }
-
-                            amount
-                            transfers: count
-                          }
-
-
-                        }
-                      }`);
         new widgets.template('#graph', query, '', {
             title: '<%= t('tabs.address.graph.name') %>',
             callback: function(domNode, data){
@@ -69,16 +48,25 @@
                     let _n = widgets.numeral;
 
                     let currencies = [<%= @currencies.collect{|cur| "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
-                    let currency = (_.find(currencies,{token_id: query.variables.currency+''}) || currencies[0] || {symbol: '<%= params['network']['currency'] %>'}).symbol;
+                    let currency = (_.find(currencies,{token_id: query.variables.currency}) || currencies[0]).symbol;
 
                     this.prepareNodes = function(nodes){
                         let prepareNode = function(node){
-                            return {
-                                id: node.address,
-                                label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
-                                group: node.annotation ? 'annotated_address' : 'address',
-                                title: node.address
-                            };
+                            if (node.address == ''){
+                                return {
+                                    id: node.address,
+                                    label: 'Coinbase',
+                                    group: 'coinbase',
+                                    title: node.address
+                                };
+                            } else {
+                                return {
+                                    id: node.address,
+                                    label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                    group: node.annotation ? 'annotated_address' : 'address',
+                                    title: node.address
+                                };
+                            }
                         };
 
                         let prepared = [];
@@ -92,8 +80,8 @@
                     this.prepareEdges = function(edges, receiver = true, address = '<%= @address %>'){
                         let g = this;
                         let prepareEdge = function(edge){
-                            let currency_name = currency;//edge.currency.symbol;
-                            // let width_counts = Math.log(edge.transfers)+1;
+                            let currency_name = currency;
+                            let width_counts = Math.log(edge.transfers)+1;
                             let width = (edge.amount > 1) ? 1.5*Math.log10(edge.amount)+1 : 1;
                             let value = parseFloat(edge.amount)<=1e-6 ? edge.amount : _n(edge.amount).format('0.0000a');
 
@@ -152,8 +140,8 @@
                     };
 
                     this.dataset = {
-                        nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.algorand.inbound).concat(this.prepareNodes(data.algorand.outbound)), 'id')),
-                        edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.algorand.inbound).concat(this.prepareEdges(data.algorand.outbound, false)), 'id'))
+                        nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.binance.inbound).concat(this.prepareNodes(data.binance.outbound)), 'id')),
+                        edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.binance.inbound).concat(this.prepareEdges(data.binance.outbound, false)), 'id'))
                     };
 
                     this.options = {
@@ -171,6 +159,32 @@
                             }
                         },
                         groups: {
+                            smart_contract: {
+                                shape: 'icon',
+                                icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf013',
+                                    weight: 900,
+                                    size: 40,
+                                    color: '#f0a30a'
+                                },
+                                font:{
+                                    color: '<%= dark? ? 'white' : 'black' %>'
+                                }
+                            },
+                            multisig: {
+                                shape: 'icon',
+                                icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf4d3',
+                                    weight: 900,
+                                    size: 40,
+                                    color: '#03a9f4'
+                                },
+                                font:{
+                                    color: '<%= dark? ? 'white' : 'black' %>'
+                                }
+                            },
                             address: {
                                 shape: 'icon',
                                 icon: {
@@ -198,6 +212,58 @@
                                     color: 'white'
                                 }
                             },
+                            token: {
+                                shape: 'icon',
+                                icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf51f',
+                                    weight: 900,
+                                    size: 40,
+                                    color: '#ff5722'
+                                },
+                                font:{
+                                    color: '<%= dark? ? 'white' : 'black' %>'
+                                }
+                            },
+                            dex: {
+                                shape: 'icon',
+                                icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf021',
+                                    weight: 900,
+                                    size: 40,
+                                    color: '#03a9f4'
+                                },
+                                font:{
+                                    color: '<%= dark? ? 'white' : 'black' %>'
+                                }
+                            },
+                            MarginPositionToken: {
+                                shape: 'icon',
+                                icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf1b2',
+                                    weight: 900,
+                                    size: 40,
+                                    color: '#ff5722'
+                                },
+                                font:{
+                                    color: '<%= dark? ? 'white' : 'black' %>'
+                                }
+                            },
+                            coinbase: {
+                                shape: 'icon',
+                                icon: {
+                                    face: 'FontAwesome',
+                                    code: '\uf0ac',
+                                    weight: 900,
+                                    size: 40,
+                                    color: '#03a9f4'
+                                },
+                                font:{
+                                    color: '<%= dark? ? 'white' : 'black' %>'
+                                }
+                            }
                         }
                     };
 
@@ -214,7 +280,7 @@
 
                         g.network.on('doubleClick', function(target){
                             if(target.nodes.length>0){
-                                var node_id = target.nodes[0];
+                                let node_id = target.nodes[0];
                                 if(g.dataset.nodes.get(node_id).group!='coinbase'){
                                     g.expand(node_id);
                                 }
@@ -226,10 +292,11 @@
                             if(target.nodes.length>0){
                                 let node = g.dataset.nodes.get(target.nodes[0]);
                                 if(node.group!='coinbase'){
-                                    window.open('<%= locale_path_prefix %><%= @network[:network] %>/address/'+node.id, '_blank');
+                                    window.open('<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+node.id, '_blank');
                                 }
                             }
                         });
+
                     };
 
                     this.expand = function(address){
@@ -240,12 +307,12 @@
                                 network: '<%= params['network']['network'] %>',
                                 address: address
                             }, function(result){
-                                _.each(_.uniqBy(g.prepareNodes(result.algorand.inbound).concat(g.prepareNodes(result.algorand.outbound)), 'id'), function(node){
+                                _.each(_.uniqBy(g.prepareNodes(result.binance.inbound).concat(g.prepareNodes(result.binance.outbound)), 'id'), function(node){
                                     if(!g.dataset.nodes.get(node.id)){
                                         g.dataset.nodes.add(node);
                                     }
                                 });
-                                _.each(g.prepareEdges(result.algorand.inbound, true, address).concat(g.prepareEdges(result.algorand.outbound, false, address)), function(edge){
+                                _.each(g.prepareEdges(result.binance.inbound, true, address).concat(g.prepareEdges(result.binance.outbound, false, address)), function(edge){
                                     if(!g.dataset.edges.get(edge.id)){
                                         g.dataset.edges.add(edge);
                                     }
@@ -367,7 +434,7 @@
                             '<div><select style="width:100%"></select></div>' +
                             '</div>');
                         _.each(currencies, function(c){
-                            let value = c.token_id;
+                            let value = c.token_id === '-' ? c.symbol : c.token_id;
                             select.find('select').append('<option value="'+value+'" '+(value == query.variables.currency ? 'selected=selected' : '')+'>'+c.name+' ('+c.symbol+')</option>');
                         });
                         wrap.append(select);
@@ -383,7 +450,7 @@
                             query.request({
                                 network: '<%= params['network']['network'] %>',
                                 address: '<%= @address %>',
-                                currency: parseInt(it.val())
+                                currency: it.val()
                             });
                         });
                     };
@@ -395,7 +462,7 @@
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>',
             address: '<%= @address %>',
-            currency: <%= @currencies.first && @currencies.first.token_id || 0 %>
+            currency: '<%= @currencies.first && @currencies.first.token_id %>'
         });
     });
 
