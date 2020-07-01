@@ -1,0 +1,2 @@
+module Conflux::NetworkHelper
+end

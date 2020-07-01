@@ -8,19 +8,18 @@
     </div>
   </div>
 </div>
-
 <script>
 
     $( document ).ready(function() {
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network){
                       transactions(options:{desc: "block.height", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
@@ -43,7 +42,7 @@
                     }
                   }`);
 
-        new widgets.table('#latest_transactions', query, 'ethereum.transactions', {
+        new widgets.table('#latest_transactions', query, '<%= @network[:protocol] || 'ethereum' %>.transactions', {
             title: '<%= t('widgets.headers.latest_transactions') %>',
             dataOptions: [
                 {
@@ -56,7 +55,7 @@
                     title: '<%= t('widgets.titles.block') %>',
                     type: 'string',
                     path: 'block.height',
-                    urlCallbackName: 'block_path',
+                    urlCallbackName: '<%= @network[:protocol] && "#{@network[:protocol]}_" %>block_path',
                     style: 'width: 80px;'
                 },
 

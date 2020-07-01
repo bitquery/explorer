@@ -13,9 +13,9 @@
     $( document ).ready(function() {
 
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                               $hash: String!){
-                          ethereum(network: $network){
+                          <%= @network[:protocol] || 'ethereum' %>(network: $network){
                             transactions(txHash: {is: $hash}
                           ){
 
@@ -62,7 +62,7 @@
 
 
 
-        new widgets.table('#tx_info', query, 'ethereum.transactions', {
+        new widgets.table('#tx_info', query, '<%= @network[:protocol] || 'ethereum' %>.transactions', {
             title: '<%= t('widgets.headers.tx_info') %>',
             renderData: function (data) {
                 item = data[0];

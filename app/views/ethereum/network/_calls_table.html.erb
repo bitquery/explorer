@@ -15,12 +15,12 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network){
                       smartContractCalls(options:{desc: "block.height", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         external: true
@@ -58,7 +58,7 @@
                     }
                   }`);
 
-        new widgets.table('#latest_calls', query, 'ethereum.smartContractCalls', {
+        new widgets.table('#latest_calls', query, '<%= @network[:protocol] || 'ethereum' %>.smartContractCalls', {
             title: '<%= t('widgets.headers.latest_calls') %>',
             dataOptions: [
                 {

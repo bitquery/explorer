@@ -12,10 +12,10 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query($network: EthereumNetwork!,
+            query($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                   $dateFormat: String!,
                   $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
-              ethereum(network: $network) {
+              <%= @network[:protocol] || 'ethereum' %>(network: $network) {
                 smartContractCalls(date: {since: $from, till: $till}){
                       count(
                         uniq: calls,
@@ -29,7 +29,7 @@
               }
             }`);
 
-        new widgets.chartByTime('#calls_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#calls_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.smartContractCalls', {
             title: '<%= t('widgets.headers.calls_by_time') %>',
             chartOptions: {
                 vAxes: {

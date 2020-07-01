@@ -26,13 +26,13 @@
 <script>
 
     $( document ).ready(function() {
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                         $address: String!,
                         $limit:Int,
                         $offset:Int,
                         $from: ISO8601DateTime,
                         $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network){
                       smartContractCalls(options:{
                         desc: "count",
                         limit:$limit, offset: $offset},
@@ -56,7 +56,7 @@
                     }
                   }`);
 
-new widgets.table('#smart_contract_methods_table', query, 'ethereum.smartContractCalls', {
+new widgets.table('#smart_contract_methods_table', query, '<%= @network[:protocol] || 'ethereum' %>.smartContractCalls', {
     title: '<%= t('widgets.headers.smart_contract_methods_table') %>',
     dataOptions: [
         {
@@ -114,7 +114,7 @@ new widgets.table('#smart_contract_methods_table', query, 'ethereum.smartContrac
 });
 
 
-new widgets.chart('#smart_contract_methods_diagram', query, 'ethereum.smartContractCalls', {
+new widgets.chart('#smart_contract_methods_diagram', query, '<%= @network[:protocol] || 'ethereum' %>.smartContractCalls', {
     chartType: 'BarChart',
     title: '<%= t('widgets.headers.smart_contract_methods_diagram') %>',
     chartOptions: {

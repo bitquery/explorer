@@ -1,21 +1,22 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transactions_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.miners_by_time') %></div>
       <div class="card-body">
-        <div id="transactions_by_time"><%= t('loading') %></div>
+        <div id="miners_by_time"><%= t('loading') %></div>
       </div>
     </div>
   </div>
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transaction_gas_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.difficulty_by_time') %></div>
       <div class="card-body">
-        <div id="transaction_gas_by_time"><%= t('loading') %></div>
+        <div id="difficulty_by_time"><%= t('loading') %></div>
       </div>
     </div>
   </div>
+
 </div>
 
 
@@ -27,30 +28,29 @@
             query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                   $dateFormat: String!,
 
-                  $address: String!,
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
                     <%= @network[:protocol] || 'ethereum' %>(network: $network ){
-                      transactions(options:{asc: "date.date"}, date: {
+                      blocks(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
-                        txSender: {is: $address}
+                        height:{gt: 0}
                       ) {
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
-                        gasValue
+                        count(uniq: miners)
+                        #difficulty(calculate: median)
                       }
                     }
                   }`);
 
-        new widgets.chartByTime('#transactions_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.transactions', {
-            title: '<%= t('widgets.headers.transactions_by_time') %>',
+        new widgets.chartByTime('#miners_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.blocks', {
+            title: '<%= t('widgets.headers.miners_by_time') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.transactions_count') %>'
+                        title: '<%= t('widgets.titles.unique_miners') %>'
                     }
                 },
                 seriesType: 'bars',
@@ -64,19 +64,19 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.transactions_count') %>',
+                    title: '<%= t('widgets.titles.unique_miners') %>',
                     path: 'count'
                 },
 
             ]
         });
 
-        new widgets.chartByTime('#transaction_gas_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.transactions', {
-            title: '<%= t('widgets.headers.transaction_gas_by_time') %>',
+        new widgets.chartByTime('#difficulty_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.blocks', {
+            title: '<%= t('widgets.headers.difficulty_by_time') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.gas_value') %>'
+                        title: '<%= t('widgets.titles.median_difficulty') %>'
                     }
                 },
                 series: {
@@ -90,16 +90,15 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.gas_value') %>',
-                    path: 'gasValue'
+                    title: '<%= t('widgets.titles.median_difficulty') %>',
+                    path: 'difficulty'
                 },
 
             ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
+            network: '<%= params['network']['network'] %>'
         });
 
 

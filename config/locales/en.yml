@@ -596,11 +596,13 @@ en:
       event_or_method: "Event / Method"
       name: "Name"
       miner: "Miner"
+      pivot: "Pivot"
       proposer: "Proposer"
       protocol: "Protocol"
       next_protocol: "Next Protocol"
       uncle_count: "Uncles"
       size: "Size"
+      epoch: "Epoch"
       block_reward: "Block Reward"
       miners_block_reward_by_time: 'Miners Block Reward By Time'
       miners_block_reward: "Miners Block Reward"

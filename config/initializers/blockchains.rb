@@ -180,7 +180,17 @@ BLOCKCHAINS = [
         start: Date.parse('2020-04-22')
     },
 
-
+    {
+        tag: 'conflux',
+        network: 'conflux_pontus',
+        name: 'Conflux',
+        family: 'ethereum',
+        platform: 'Smart Contract',
+        currency: 'CFX',
+        icon: 'eth.svg',
+        protocol: 'conflux',
+        network_type: 'ConfluxNetwork'
+    },
 
 
 ]

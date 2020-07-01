@@ -3,6 +3,12 @@ Rails.application.routes.draw do
 
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
 
+    #BLOCKCHAINS.select{|b| b[:network]=='conflux_pontus'}.each{|blockchain|
+    #  get ":blockchain/miner_distrib", controller: "#{blockchain[:protocol]}/network", action: 'miner_distrib', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+    #  get ":blockchain/miners", controller: "#{blockchain[:protocol]}/network", action: 'miners', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+    #  get ":blockchain", controller: "#{blockchain[:protocol]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+    #}
+
     BLOCKCHAINS.select{|b| b[:family]=='ethereum'}.each{|blockchain|
 
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}

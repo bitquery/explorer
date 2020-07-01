@@ -12,13 +12,13 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
+            query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                   $dateFormat: String!,
                   $nativeCurrency: String!,
                   $address: String!,
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network ){
                       transfers(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
@@ -34,7 +34,7 @@
                     }
                   }`);
 
-        new widgets.chartByTime('#outbound_tokens_by_time', query, 'ethereum.transfers', {
+        new widgets.chartByTime('#outbound_tokens_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.transfers', {
             title: '<%= t('widgets.headers.outbound_tokens_by_time') %>',
             chartOptions: {
                 vAxes: {

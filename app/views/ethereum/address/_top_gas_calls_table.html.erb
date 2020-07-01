@@ -13,13 +13,13 @@
     $( document ).ready(function() {
 
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                                       $address: String!,
                                       $limit: Int!,
                                       $offset: Int!
                                       $from: ISO8601DateTime,
                                       $till: ISO8601DateTime){
-                                  ethereum(network: $network){
+                                  <%= @network[:protocol] || 'ethereum' %>(network: $network){
                                     smartContractCalls(options:{desc: "gasValue", limit: $limit, offset: $offset},
                                       date: {since: $from till: $till },
                                       caller: {is: $address}) {
@@ -48,7 +48,7 @@
                                   }
                                 }`);
 
-        new widgets.table('#top_gas_calls_table', query, 'ethereum.smartContractCalls', {
+        new widgets.table('#top_gas_calls_table', query, '<%= @network[:protocol] || 'ethereum' %>.smartContractCalls', {
             title: '<%= t('widgets.headers.calls_table') %>',
             dataOptions: [
                 {

@@ -13,7 +13,7 @@
 
     $( document ).ready(function() {
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                                 $address: String!,
                                 $limit: Int!,
                                 $offset: Int!
@@ -21,7 +21,7 @@
                                  <% if @sender  %>$sender: String!,<% end %>
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network){
                       transfers(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         amount: {gt: 0},
@@ -52,7 +52,7 @@
                     }
                   }`);
 
-        new widgets.table('#inbound_transfers', query, 'ethereum.transfers', {
+        new widgets.table('#inbound_transfers', query, '<%= @network[:protocol] || 'ethereum' %>.transfers', {
             title: '<%= t('widgets.headers.inbound_transfers') %>',
             renderData: <%= render partial: 'shared/redirect_tx.text' %>,
             dataOptions: [

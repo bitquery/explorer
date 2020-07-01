@@ -56,6 +56,9 @@
         block_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.height || item.block.height);
         },
+        conflux_block_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.hash;
+        },
         transaction_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
         },

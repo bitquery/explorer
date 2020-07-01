@@ -14,8 +14,8 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
+            query($network: <%= @network[:network_type] || 'EthereumNetwork!' %>, $address: String!) {
+              <%= @network[:protocol] || 'ethereum' %>(network: $network) {
                 address(address: {is: $address}){
                   balance
                 }
@@ -25,7 +25,7 @@
         query.request({ network: '<%= @network[:network] %>',
             address: '<%= @address %>'});
 
-        new widgets.text('#ethereum_address_balance', query, 'ethereum.address', {
+        new widgets.text('#ethereum_address_balance', query, '<%= @network[:protocol] || 'ethereum' %>.address', {
             dataOptions:
                 {
                     type: 'string',

@@ -21,12 +21,12 @@
 
     $( document ).ready(function() {
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                               $address: String!,
                               $dateFormat: String!,
                               $from: ISO8601DateTime,
                               $till: ISO8601DateTime){
-                          ethereum(network: $network){
+                          <%= @network[:protocol] || 'ethereum' %>(network: $network){
                             smartContractCalls(options:{
                                 asc: "date.date"}, date: {since: $from till: $till },
                                 smartContractAddress: {is: $address}) {
@@ -44,7 +44,7 @@
                           }
                         }`);
 
-        new widgets.chartByTime('#smart_contract_calls_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#smart_contract_calls_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.smartContractCalls', {
             title: '<%= t('widgets.headers.smart_contract_calls_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -83,7 +83,7 @@
             ]
         });
 
-        new widgets.chartByTime('#smart_contract_callers_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#smart_contract_callers_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.smartContractCalls', {
             title: '<%= t('widgets.headers.smart_contract_callers_by_time') %>',
             chartOptions: {
                 vAxes: {

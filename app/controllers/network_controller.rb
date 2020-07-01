@@ -26,7 +26,7 @@ class NetworkController < ApplicationController
   def network_params
     raise "Network not defined" unless params[:network]
     @network = params[:network].kind_of?(ActionController::Parameters) ?
-                   params[:network].permit(:network, :tag, :name, :family, :currency, :icon).to_h :
+                   params[:network].permit(:network, :tag, :name, :family, :currency, :icon, :protocol, :network_type).to_h :
                    BLOCKCHAIN_BY_NAME[params[:network]]
 
     @id = params[:id]

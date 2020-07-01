@@ -12,13 +12,13 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query($network: EthereumNetwork!,
+            query($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                   $address: String!,
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime,
                   $limit: Int!,
                   $offset: Int!){
-              ethereum(network: $network) {
+              <%= @network[:protocol] || 'ethereum' %>(network: $network) {
                 transfers(date: {since: $from, till: $till},
                 amount: {gt: 0}
                 options: {limit: $limit, offset: $offset, desc: "count_in"}){
@@ -43,7 +43,7 @@
               }
             }`);
 
-        new widgets.table('#currencies_table', query, 'ethereum.transfers', {
+        new widgets.table('#currencies_table', query, '<%= @network[:protocol] || 'ethereum' %>.transfers', {
             title: '<%= t('widgets.headers.currencies_sent_received') %>',
             dataOptions: [
                 {

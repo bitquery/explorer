@@ -13,8 +13,8 @@
 
     $( document ).ready(function() {
         var query = new widgets.query(`
-        query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-  ethereum(network: $network) {
+        query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>, $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+  <%= @network[:protocol] || 'ethereum' %>(network: $network) {
     inbound: coinpath(receiver: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
       sender {
         address
@@ -204,8 +204,8 @@
                     };
 
                     this.dataset = {
-                        nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.ethereum.inbound).concat(this.prepareNodes(data.ethereum.outbound)), 'id')),
-                        edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.ethereum.inbound).concat(this.prepareEdges(data.ethereum.outbound, false)), 'id'))
+                        nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.<%= @network[:protocol] || 'ethereum' %>.inbound).concat(this.prepareNodes(data.<%= @network[:protocol] || 'ethereum' %>.outbound)), 'id')),
+                        edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.<%= @network[:protocol] || 'ethereum' %>.inbound).concat(this.prepareEdges(data.<%= @network[:protocol] || 'ethereum' %>.outbound, false)), 'id'))
                     };
 
                     this.options = {
@@ -371,12 +371,12 @@
                                 network: '<%= params['network']['network'] %>',
                                 address: address
                             }, function(result){
-                                _.each(_.uniqBy(g.prepareNodes(result.ethereum.inbound).concat(g.prepareNodes(result.ethereum.outbound)), 'id'), function(node){
+                                _.each(_.uniqBy(g.prepareNodes(result.<%= @network[:protocol] || 'ethereum' %>.inbound).concat(g.prepareNodes(result.<%= @network[:protocol] || 'ethereum' %>.outbound)), 'id'), function(node){
                                     if(!g.dataset.nodes.get(node.id)){
                                         g.dataset.nodes.add(node);
                                     }
                                 });
-                                _.each(g.prepareEdges(result.ethereum.inbound, true, address).concat(g.prepareEdges(result.ethereum.outbound, false, address)), function(edge){
+                                _.each(g.prepareEdges(result.<%= @network[:protocol] || 'ethereum' %>.inbound, true, address).concat(g.prepareEdges(result.<%= @network[:protocol] || 'ethereum' %>.outbound, false, address)), function(edge){
                                     if(!g.dataset.edges.get(edge.id)){
                                         g.dataset.edges.add(edge);
                                     }

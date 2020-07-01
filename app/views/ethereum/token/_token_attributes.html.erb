@@ -11,8 +11,8 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
+            query($network: <%= @network[:network_type] || 'EthereumNetwork!' %>, $address: String!) {
+              <%= @network[:protocol] || 'ethereum' %>(network: $network) {
                 address(address: {is: $address}){
 
                   annotation
@@ -34,7 +34,7 @@
 
 
 
-        new widgets.table('#ethereum_token_attributes', query, 'ethereum.address', {
+        new widgets.table('#ethereum_token_attributes', query, '<%= @network[:protocol] || 'ethereum' %>.address', {
             title: '<%= t('widgets.headers.token_attributes') %>',
             renderData: function(data){
                 item = data[0];

@@ -13,11 +13,11 @@
 
     $( document ).ready(function() {
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                                 $hash: String!,
                                 $limit:Int,
                                 $offset:Int){
-                            ethereum(network: $network){
+                            <%= @network[:protocol] || 'ethereum' %>(network: $network){
                               arguments(options:{limit: $limit, offset: $offset, asc: "callDepth"}
                                 txHash: {is: $hash }) {
                                 address: reference {
@@ -51,7 +51,7 @@
                           }
                           }`);
 
-        new widgets.table('#references_table', query, 'ethereum.arguments', {
+        new widgets.table('#references_table', query, '<%= @network[:protocol] || 'ethereum' %>.arguments', {
             title: '<%= t('widgets.headers.references_table') %>',
             dataOptions: [
                 {

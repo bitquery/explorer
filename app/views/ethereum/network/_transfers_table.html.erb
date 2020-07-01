@@ -15,12 +15,12 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network){
                       transfers(options:{desc: "block.height", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         amount: {gt: 0}
@@ -58,7 +58,7 @@
                     }
                   }`);
 
-        new widgets.table('#latest_transfers', query, 'ethereum.transfers', {
+        new widgets.table('#latest_transfers', query, '<%= @network[:protocol] || 'ethereum' %>.transfers', {
             title: '<%= t('widgets.headers.latest_transfers') %>',
             dataOptions: [
                 {

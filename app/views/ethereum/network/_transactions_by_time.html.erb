@@ -24,12 +24,12 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
+            query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                   $dateFormat: String!,
 
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network ){
                       transactions(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
@@ -44,7 +44,7 @@
                     }
                   }`);
 
-        new widgets.chartByTime('#transactions_by_time', query, 'ethereum.transactions', {
+        new widgets.chartByTime('#transactions_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.transactions', {
             title: '<%= t('widgets.headers.transactions_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -70,7 +70,7 @@
             ]
         });
 
-        new widgets.chartByTime('#transaction_gas_by_time', query, 'ethereum.transactions', {
+        new widgets.chartByTime('#transaction_gas_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.transactions', {
             title: '<%= t('widgets.headers.transaction_gas_by_time') %>',
             chartOptions: {
                 vAxes: {

@@ -25,12 +25,12 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
+            query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                   $dateFormat: String!,
 
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network ){
                       blocks(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
@@ -45,7 +45,7 @@
                     }
                   }`);
 
-        new widgets.chartByTime('#miners_by_time', query, 'ethereum.blocks', {
+        new widgets.chartByTime('#miners_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.blocks', {
             title: '<%= t('widgets.headers.miners_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -71,7 +71,7 @@
             ]
         });
 
-        new widgets.chartByTime('#difficulty_by_time', query, 'ethereum.blocks', {
+        new widgets.chartByTime('#difficulty_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.blocks', {
             title: '<%= t('widgets.headers.difficulty_by_time') %>',
             chartOptions: {
                 vAxes: {

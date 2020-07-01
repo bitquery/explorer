@@ -15,13 +15,13 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                                 $address: String!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network){
                       transactions(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         txSender: {is: $address}) {
@@ -51,7 +51,7 @@
                     }
                   }`);
 
-        new widgets.table('#transactions', query, 'ethereum.transactions', {
+        new widgets.table('#transactions', query, '<%= @network[:protocol] || 'ethereum' %>.transactions', {
             title: '<%= t('widgets.headers.transactions') %>',
             dataOptions: [
                 {

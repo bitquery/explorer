@@ -26,13 +26,13 @@
 <script>
 
     $( document ).ready(function() {
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                               $token: String!,
                               $limit:Int,
                               $offset:Int,
                               $from: ISO8601DateTime,
                               $till: ISO8601DateTime){
-                          ethereum(network: $network){
+                          <%= @network[:protocol] || 'ethereum' %>(network: $network){
                             transfers(currency: {is: $token}
                             date: {since: $from till: $till}
                             height:{gt: 1}
@@ -56,7 +56,7 @@
                           }
                         }`);
 
-        new widgets.table('#token_receivers_table', query, 'ethereum.transfers', {
+        new widgets.table('#token_receivers_table', query, '<%= @network[:protocol] || 'ethereum' %>.transfers', {
             title: '<%= t('widgets.headers.token_receivers_table') %>',
             dataOptions: [
                 {
@@ -106,7 +106,7 @@
         });
 
 
-        new widgets.chart('#token_receivers_diagram', query, 'ethereum.transfers', {
+        new widgets.chart('#token_receivers_diagram', query, '<%= @network[:protocol] || 'ethereum' %>.transfers', {
             chartType: 'BarChart',
             title: '<%= t('widgets.headers.token_receivers_diagram') %>',
             chartOptions: {

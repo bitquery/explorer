@@ -12,12 +12,12 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: <%= @network[:network_type] || 'EthereumNetwork!' %>,
                         $dateFormat: String!,
                         $address: String!,
                         $from: ISO8601DateTime,
                         $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    <%= @network[:protocol] || 'ethereum' %>(network: $network ){
                       transfers(date: {
                         since: $from
                         till: $till}
@@ -34,7 +34,7 @@
                   }`);
 
 
-        new widgets.chartByTime('#in_out_transfers_by_time', query, 'ethereum.transfers', {
+        new widgets.chartByTime('#in_out_transfers_by_time', query, '<%= @network[:protocol] || 'ethereum' %>.transfers', {
             title: '<%= t('widgets.headers.in_out_transfers_by_time') %>',
             chartOptions: {
                 isStacked: true,
