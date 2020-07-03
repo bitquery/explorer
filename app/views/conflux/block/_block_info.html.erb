@@ -12,15 +12,14 @@
 
     $( document ).ready(function() {
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
-                              $height: Int!){
-                          ethereum(network: $network) {
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
+                              $hash: String!){
+                          conflux(network: $network) {
 
-                              blocks(height: {is: $height}){
+                              blocks(blockHash: {is: $hash}){
                                 timestamp {
                                   time (format: "%Y-%m-%d %H:%M:%S")
                                 }
-                                difficulty
                                 hash
                                 miner {
                                   address
@@ -30,12 +29,11 @@
                                 transactionCount
                                 uncleCount
                                 size
-                                reward
                                 parentHash
-
-                                rewardCurrency {
-                                  symbol
-                                }
+                                height
+                                epoch
+                                pivot
+                                powerQuality
 
                               }
                             }
@@ -43,21 +41,22 @@
 
 
 
-        new widgets.table('#block_info', query, 'ethereum.blocks', {
+        new widgets.table('#block_info', query, 'conflux.blocks', {
             title: '<%= t('widgets.headers.block_info') %>',
             renderData: function (data) {
                 item = data[0];
                 return !item ? [] : [
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
                     {name: '<%= t('widgets.titles.miner') %>', value: (item.miner.annotation || item.miner.address), address: item.miner},
-                    {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' '+ item.rewardCurrency.symbol },
                     {name: '<%= t('widgets.titles.transactions_count') %>', value: item.transactionCount},
                     {name: '<%= t('widgets.titles.uncle_count') %>', value: item.uncleCount},
                     {name: '<%= t('widgets.titles.size') %>', value: item.size},
-                    {name: '<%= t('widgets.titles.difficulty') %>', value: item.difficulty},
-                    {name: '<%= t('widgets.titles.total_difficulty') %>', value: item.totalDifficulty},
                     {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
                     {name: '<%= t('widgets.titles.parent_hash') %>', value: item.parentHash},
+                    {name: '<%= t('widgets.titles.block') %>', value: item.height},
+                    {name: '<%= t('widgets.titles.epoch') %>', value: item.epoch},
+                    {name: '<%= t('widgets.titles.pivot') %>', value: item.pivot},
+                    {name: '<%= t('widgets.titles.powerQuality') %>', value: item.powerQuality},
                 ];
             },
             dataOptions: [
@@ -79,7 +78,7 @@
 
         query.request({
             network: '<%= @network[:network] %>',
-            height: <%= @height %>
+            hash: '<%= @hash %>'
         });
 
     });

@@ -12,12 +12,12 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: ConfluxNetwork!,
                         $dateFormat: String!,
                         $address: String!,
                         $from: ISO8601DateTime,
                         $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    conflux(network: $network ){
                       transfers(date: {
                         since: $from
                         till: $till}
@@ -34,7 +34,7 @@
                   }`);
 
 
-        new widgets.chartByTime('#in_out_transfers_by_time', query, 'ethereum.transfers', {
+        new widgets.chartByTime('#in_out_transfers_by_time', query, 'conflux.transfers', {
             title: '<%= t('widgets.headers.in_out_transfers_by_time') %>',
             chartOptions: {
                 isStacked: true,

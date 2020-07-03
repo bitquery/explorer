@@ -541,6 +541,7 @@ en:
       amount: 'Amount'
       transaction: 'Transaction'
       block: 'Block'
+      epoch: 'Epoch'
       max_date: 'Latest Date'
       gas_value: 'Gas Cost'
       avg_gas_value: 'Gas Cost/Call'
@@ -602,6 +603,7 @@ en:
       uncle_count: "Uncles"
       size: "Size"
       block_reward: "Block Reward"
+      pivot: "Pivot"
       miners_block_reward_by_time: 'Miners Block Reward By Time'
       miners_block_reward: "Miners Block Reward"
       difficulty: "Difficulty"

@@ -24,12 +24,12 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
+            query ($network: ConfluxNetwork!,
                   $dateFormat: String!,
 
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    conflux(network: $network ){
                       smartContractCalls(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
@@ -44,7 +44,7 @@
                     }
                   }`);
 
-        new widgets.chartByTime('#calls_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#calls_by_time', query, 'conflux.smartContractCalls', {
             title: '<%= t('widgets.headers.calls_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -70,7 +70,7 @@
             ]
         });
 
-        new widgets.chartByTime('#contracts_by_time', query, 'ethereum.smartContractCalls', {
+        new widgets.chartByTime('#contracts_by_time', query, 'conflux.smartContractCalls', {
             title: '<%= t('widgets.headers.contracts_by_time') %>',
             chartOptions: {
                 vAxes: {

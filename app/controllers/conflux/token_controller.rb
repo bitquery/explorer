@@ -1,4 +1,4 @@
-class Conflux::TokenController < Ethereum::AddressController
+class Conflux::TokenController < Conflux::AddressController
 
   before_action :is_native
 

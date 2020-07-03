@@ -12,11 +12,11 @@
 $( document ).ready(function() {
 
 
-    var query = new widgets.query(`query ($network: EthereumNetwork!,
+    var query = new widgets.query(`query ($network: ConfluxNetwork!,
                               $token: String!,
                               $from: ISO8601DateTime,
                               $till: ISO8601DateTime){
-                          ethereum(network: $network){
+                          conflux(network: $network){
                             transfers(currency: {is: $token}
                             amount: {gt: 0}
                             date: {since: $from till: $till}
@@ -45,7 +45,7 @@ $( document ).ready(function() {
 
 
 
-    new widgets.table('#token_statistics', query, 'ethereum.transfers', {
+    new widgets.table('#token_statistics', query, 'conflux.transfers', {
         title: '<%= t('widgets.headers.token_statistics') %>',
         renderData: function (data) {
             item = data[0];

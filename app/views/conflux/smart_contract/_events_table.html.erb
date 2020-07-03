@@ -25,13 +25,13 @@
 <script>
 
     $( document ).ready(function() {
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
                         $address: String!,
                         $limit:Int,
                         $offset:Int,
                         $from: ISO8601DateTime,
                         $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    conflux(network: $network){
                       smartContractEvents(options:{
                         desc: "count",
                         limit:$limit, offset: $offset},
@@ -51,7 +51,7 @@
                     }
                   }`);
 
-new widgets.table('#smart_contract_events_table', query, 'ethereum.smartContractEvents', {
+new widgets.table('#smart_contract_events_table', query, 'conflux.smartContractEvents', {
     title: '<%= t('widgets.headers.smart_contract_events_table') %>',
     dataOptions: [
         {
@@ -82,7 +82,7 @@ new widgets.table('#smart_contract_events_table', query, 'ethereum.smartContract
 });
 
 
-new widgets.chart('#smart_contract_events_diagram', query, 'ethereum.smartContractEvents', {
+new widgets.chart('#smart_contract_events_diagram', query, 'conflux.smartContractEvents', {
     chartType: 'BarChart',
     title: '<%= t('widgets.headers.smart_contract_events_diagram') %>',
     chartOptions: {

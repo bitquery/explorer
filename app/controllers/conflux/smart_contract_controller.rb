@@ -1,28 +1,28 @@
-class Conflux::SmartContractController < Ethereum::AddressController
+class Conflux::SmartContractController < Conflux::AddressController
 
   def inflow
-    render 'ethereum/address/inflow'
+    render 'conflux/address/inflow'
   end
 
   def outflow
-    render 'ethereum/address/outflow'
+    render 'conflux/address/outflow'
   end
 
   def calls_contracts
-    render 'ethereum/address/calls_contracts'
+    render 'conflux/address/calls_contracts'
   end
 
   def graph
-    render 'ethereum/address/graph'
+    render 'conflux/address/graph'
   end
 
   private
 
   def redirect_by_type
     if !(sc = @info.try(:smart_contract))
-      change_controller! 'ethereum/address'
+      change_controller! 'conflux/address'
     elsif sc.try(:currency)
-      change_controller! 'ethereum/token'
+      change_controller! 'conflux/token'
     end
   end
 

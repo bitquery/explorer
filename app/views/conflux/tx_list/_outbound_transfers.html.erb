@@ -15,7 +15,7 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: ConfluxNetwork!,
                                 $address: String!,
                                 $limit: Int!,
                                 $offset: Int!,
@@ -23,7 +23,7 @@
                                 <% if @receiver  %>$receiver: String!,<% end %>
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    conflux(network: $network){
                       transfers(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         amount: {gt: 0},
@@ -56,7 +56,7 @@
                     }
                   }`);
 
-        new widgets.table('#outbound_transfers', query, 'ethereum.transfers', {
+        new widgets.table('#outbound_transfers', query, 'conflux.transfers', {
             title: '<%= t('widgets.headers.outbound_transfers') %>',
             renderData: <%= render partial: 'shared/redirect_tx.text' %>,
             dataOptions: [
@@ -98,7 +98,7 @@
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
                     urlCallbackName: 'transaction_path',
-                    renderCallback: <%= render partial: 'ethereum/tx_external_display.text' %>
+                    renderCallback: <%= render partial: 'conflux/tx_external_display.text' %>
                 },
             ]
         });

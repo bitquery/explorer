@@ -12,13 +12,13 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
+            query ($network: ConfluxNetwork!,
                   $dateFormat: String!,
                   $nativeCurrency: String!,
                   $address: String!,
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    conflux(network: $network ){
                       transfers(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
@@ -35,7 +35,7 @@
                     }
                   }`);
 
-        new widgets.chartByTime('#outbound_native_by_time', query, 'ethereum.transfers', {
+        new widgets.chartByTime('#outbound_native_by_time', query, 'conflux.transfers', {
             title: '<%= t('widgets.headers.outbound_native_by_time', currency: @network[:currency]) %>',
             chartOptions: {
                 vAxes: {

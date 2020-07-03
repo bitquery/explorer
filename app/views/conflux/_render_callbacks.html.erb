@@ -54,7 +54,7 @@
             }
         },
         block_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.height || item.block.height);
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.block && item.block.hash || item.hash);
         },
         transaction_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);

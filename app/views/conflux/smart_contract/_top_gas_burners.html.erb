@@ -12,13 +12,13 @@
     $( document ).ready(function() {
 
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
                                       $address: String!,
                                       $limit: Int!,
                                       $offset: Int!
                                       $from: ISO8601DateTime,
                                       $till: ISO8601DateTime){
-                                  ethereum(network: $network){
+                                  conflux(network: $network){
                                     smartContractCalls(options:{desc: "gasValue", limit: $limit, offset: $offset},
                                       date: {since: $from till: $till },
                                       smartContractAddress: {is: $address}) {
@@ -36,7 +36,7 @@
                                   }
                                 }`);
 
-        new widgets.table('#smart_contract_top_gas_burners', query, 'ethereum.smartContractCalls', {
+        new widgets.table('#smart_contract_top_gas_burners', query, 'conflux.smartContractCalls', {
             title: '<%= t('widgets.headers.smart_contract_top_gas_burners') %>',
             dataOptions: [
                 {

@@ -1,4 +1,4 @@
-module Ethereum::TokenHelper
+module Conflux::TokenHelper
 
 
   def limited_date_range_limit from, till

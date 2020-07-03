@@ -15,12 +15,12 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: ConfluxNetwork!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    conflux(network: $network){
                       smartContractCalls(options:{desc: "block.height", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         external: true
@@ -58,7 +58,7 @@
                     }
                   }`);
 
-        new widgets.table('#latest_calls', query, 'ethereum.smartContractCalls', {
+        new widgets.table('#latest_calls', query, 'conflux.smartContractCalls', {
             title: '<%= t('widgets.headers.latest_calls') %>',
             dataOptions: [
                 {
@@ -67,14 +67,6 @@
                     path: 'block.timestamp.time',
                     style: 'width: 170px;'
                 },
-                {
-                    title: '<%= t('widgets.titles.block') %>',
-                    type: 'string',
-                    path: 'block.height',
-                    urlCallbackName: 'block_path',
-                    style: 'width: 80px;'
-                },
-
                 {
                     title: '<%= t('widgets.titles.caller') %>',
                     type: 'string-ellipsis',

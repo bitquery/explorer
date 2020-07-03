@@ -15,12 +15,12 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: ConfluxNetwork!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    conflux(network: $network){
                       transfers(options:{desc: "block.height", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         amount: {gt: 0}
@@ -58,7 +58,7 @@
                     }
                   }`);
 
-        new widgets.table('#latest_transfers', query, 'ethereum.transfers', {
+        new widgets.table('#latest_transfers', query, 'conflux.transfers', {
             title: '<%= t('widgets.headers.latest_transfers') %>',
             dataOptions: [
                 {
@@ -66,13 +66,6 @@
                     type: 'string',
                     path: 'block.timestamp.time',
                     style: 'width: 170px;'
-                },
-                {
-                    title: '<%= t('widgets.titles.block') %>',
-                    type: 'string',
-                    path: 'block.height',
-                    urlCallbackName: 'block_path',
-                    style: 'width: 80px;'
                 },
                 {
                     title: '<%= t('widgets.titles.sender') %>',

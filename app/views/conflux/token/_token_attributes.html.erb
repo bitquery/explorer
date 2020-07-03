@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header"><%= t('widgets.headers.token_attributes') %></div>
     <div class="card-body">
-      <div id="ethereum_token_attributes"><%= t('loading') %></div>
+      <div id="conflux_token_attributes"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -11,8 +11,8 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
+            query($network: ConfluxNetwork!, $address: String!) {
+              conflux(network: $network) {
                 address(address: {is: $address}){
 
                   annotation
@@ -34,7 +34,7 @@
 
 
 
-        new widgets.table('#ethereum_token_attributes', query, 'ethereum.address', {
+        new widgets.table('#conflux_token_attributes', query, 'conflux.address', {
             title: '<%= t('widgets.headers.token_attributes') %>',
             renderData: function(data){
                 item = data[0];

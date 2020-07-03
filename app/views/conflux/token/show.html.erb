@@ -1,10 +1,10 @@
 <% if @native_token %>
   <div class="row">
-    <%= render partial: 'ethereum/token/token_statistics' %>
+    <%= render partial: 'conflux/token/token_statistics' %>
   </div>
 <% else %>
   <div class="row">
-    <%= render partial: 'ethereum/token/token_attributes' %>
-    <%= render partial: 'ethereum/token/token_statistics' %>
+    <%= render partial: 'conflux/token/token_attributes' %>
+    <%= render partial: 'conflux/token/token_statistics' %>
   </div>
 <% end  %>

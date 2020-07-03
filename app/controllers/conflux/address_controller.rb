@@ -4,8 +4,8 @@ class Conflux::AddressController < NetworkController
   before_action :query_graphql, :redirect_by_type
 
   QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
+   query($network: ConfluxNetwork!, $address: String!) {
+              conflux(network: $network) {
                 address(address: {is: $address}){
                   address 
                   annotation
@@ -26,8 +26,8 @@ class Conflux::AddressController < NetworkController
   GRAPHQL
 
   QUERY_CURRENCIES = BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
+   query($network: ConfluxNetwork!, $address: String!) {
+              conflux(network: $network) {
                 address(address: {is: $address}){
                   address 
                   annotation
@@ -61,7 +61,7 @@ class Conflux::AddressController < NetworkController
     @address = params[:address]
     query = action_name == 'graph' ? QUERY_CURRENCIES : QUERY
     if @address.starts_with?('0x')
-      result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.ethereum
+      result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.conflux
       @info = result.address.first
       @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
     end
@@ -69,7 +69,7 @@ class Conflux::AddressController < NetworkController
 
   def redirect_by_type
     if sc = @info.try(:smart_contract)
-      change_controller! (sc.currency  ? 'ethereum/token' : 'ethereum/smart_contract')
+      change_controller! (sc.currency  ? 'conflux/token' : 'conflux/smart_contract')
     end
   end
 

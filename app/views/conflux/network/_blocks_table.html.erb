@@ -15,12 +15,12 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: ConfluxNetwork!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    conflux(network: $network){
                       blocks(options:{desc: "height", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
@@ -30,6 +30,9 @@
                             time (format: "%Y-%m-%d %H:%M:%S")
                           }
                           height
+                          epoch
+                          hash
+                          pivot
 
                           transactionCount
 
@@ -38,16 +41,11 @@
                             annotation
                           }
 
-                          reward
-                          rewardCurrency {
-                            symbol
-                          }
-
                       }
                     }
                   }`);
 
-        new widgets.table('#latest_blocks', query, 'ethereum.blocks', {
+        new widgets.table('#latest_blocks', query, 'conflux.blocks', {
             title: '<%= t('widgets.headers.latest_blocks') %>',
             dataOptions: [
                 {
@@ -59,6 +57,12 @@
                     title: '<%= t('widgets.titles.block') %>',
                     type: 'string',
                     path: 'height',
+                    urlCallbackName: 'block_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.epoch') %>',
+                    type: 'string',
+                    path: 'epoch',
                     urlCallbackName: 'block_path'
                 },
                 {
@@ -74,9 +78,9 @@
                     urlCallbackName: 'address_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.block_reward') %>, <%= @network[:currency] %>',
-                    type: 'amount',
-                    path: 'reward'
+                    title: '<%= t('widgets.titles.pivot') %>',
+                    type: 'string',
+                    path: 'pivot'
                 },
             ]
         });

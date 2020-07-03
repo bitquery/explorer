@@ -14,13 +14,13 @@
     $( document ).ready(function() {
 
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
                                         $address: String!,
                                         $limit: Int!,
                                         $offset: Int!
                                         $from: ISO8601DateTime,
                                         $till: ISO8601DateTime){
-                                    ethereum(network: $network){
+                                    conflux(network: $network){
                                       smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                                         date: {since: $from till: $till },
                                         caller: {is: $address}) {
@@ -50,7 +50,7 @@
                                           }
                                         }`);
 
-        new widgets.table('#calls_table', query, 'ethereum.smartContractCalls', {
+        new widgets.table('#calls_table', query, 'conflux.smartContractCalls', {
             title: '<%= t('widgets.headers.calls_table') %>',
             dataOptions: [
                 {
@@ -59,14 +59,6 @@
                     path: 'block.timestamp.time',
                     style: 'width: 180px'
                 },
-                {
-                    title: '<%= t('widgets.titles.block') %>',
-                    type: 'string',
-                    path: 'block.height',
-                    urlCallbackName: 'block_path',
-                    style: 'width: 100px'
-                },
-
                 {
                     title: '<%= t('widgets.titles.smart_contract') %>',
                     type: 'string-ellipsis',

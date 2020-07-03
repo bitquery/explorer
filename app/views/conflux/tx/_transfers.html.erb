@@ -13,11 +13,11 @@
 
     $( document ).ready(function() {
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
                                   $hash: String!,
                                   $limit: Int!,
                                   $offset: Int!){
-                              ethereum(network: $network){
+                              conflux(network: $network){
                                 transfers(options:{
                                   limit: $limit, offset: $offset},
                                   amount: {gt: 0},
@@ -46,7 +46,7 @@
                               }
                             }`);
 
-        new widgets.table('#tx_transfers', query, 'ethereum.transfers', {
+        new widgets.table('#tx_transfers', query, 'conflux.transfers', {
             title: '<%= t('widgets.headers.tx_transfers') %>',
             dataOptions: [
 

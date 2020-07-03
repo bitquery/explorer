@@ -23,11 +23,11 @@
 <script>
     $( document ).ready(function() {
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: ConfluxNetwork!,
                                 $dateFormat: String!,
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    conflux(network: $network){
                       blocks(options:{asc: "date.date"},
                         date: {since: $from till: $till }
                         ) {
@@ -40,12 +40,12 @@
                             date(format: $dateFormat)
                           }
                           count
-                          reward
+                          #reward
                       }
                     }
                   }`);
 
-        new widgets.pivotChart('#miners_block_count', query, 'ethereum.blocks', {
+        new widgets.pivotChart('#miners_block_count', query, 'conflux.blocks', {
             title: '<%= t('widgets.titles.miners_block_count_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -76,7 +76,7 @@
             limit: {length: 10, other: true, axis: 'col'},
         });
 
-        new widgets.pivotChart('#miners_block_amount', query, 'ethereum.blocks', {
+        new widgets.pivotChart('#miners_block_amount', query, 'conflux.blocks', {
             title: '<%= t('widgets.titles.miners_block_reward_by_time') %>',
             chartOptions: {
                 vAxes: {

@@ -13,8 +13,8 @@
 
     $( document ).ready(function() {
         var query = new widgets.query(`
-        query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-  ethereum(network: $network) {
+        query ($network: ConfluxNetwork!, $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+  conflux(network: $network) {
     inbound: coinpath(receiver: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
       sender {
         address
@@ -204,8 +204,8 @@
                     };
 
                     this.dataset = {
-                        nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.ethereum.inbound).concat(this.prepareNodes(data.ethereum.outbound)), 'id')),
-                        edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.ethereum.inbound).concat(this.prepareEdges(data.ethereum.outbound, false)), 'id'))
+                        nodes: new vis.DataSet(_.uniqBy(this.prepareNodes(data.conflux.inbound).concat(this.prepareNodes(data.conflux.outbound)), 'id')),
+                        edges: new vis.DataSet(_.uniqBy(this.prepareEdges(data.conflux.inbound).concat(this.prepareEdges(data.conflux.outbound, false)), 'id'))
                     };
 
                     this.options = {
@@ -371,12 +371,12 @@
                                 network: '<%= params['network']['network'] %>',
                                 address: address
                             }, function(result){
-                                _.each(_.uniqBy(g.prepareNodes(result.ethereum.inbound).concat(g.prepareNodes(result.ethereum.outbound)), 'id'), function(node){
+                                _.each(_.uniqBy(g.prepareNodes(result.conflux.inbound).concat(g.prepareNodes(result.conflux.outbound)), 'id'), function(node){
                                     if(!g.dataset.nodes.get(node.id)){
                                         g.dataset.nodes.add(node);
                                     }
                                 });
-                                _.each(g.prepareEdges(result.ethereum.inbound, true, address).concat(g.prepareEdges(result.ethereum.outbound, false, address)), function(edge){
+                                _.each(g.prepareEdges(result.conflux.inbound, true, address).concat(g.prepareEdges(result.conflux.outbound, false, address)), function(edge){
                                     if(!g.dataset.edges.get(edge.id)){
                                         g.dataset.edges.add(edge);
                                     }

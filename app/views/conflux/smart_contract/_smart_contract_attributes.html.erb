@@ -11,10 +11,10 @@
 
     $( document ).ready(function() {
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: ConfluxNetwork!,
                         $address: String!
                   ){
-                  ethereum(network: $network){
+                  conflux(network: $network){
                       address(address: {is: $address }){
                       smartContract {
                           attributes{
@@ -32,7 +32,7 @@
 
                   }`);
 
-        new widgets.table('#smart_contract_attributes', query, 'ethereum.address', {
+        new widgets.table('#smart_contract_attributes', query, 'conflux.address', {
             title: '<%= t('widgets.headers.smart_contract_attributes') %>',
             renderData: function(data){
                 return data[0].smartContract.attributes;

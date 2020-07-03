@@ -13,14 +13,14 @@
 
     $( document ).ready(function() {
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
                                         $limit: Int!,
                                         $offset: Int!,
                                         <% if @contract  %>$contract: String!,<% end %>
                                         <% if @event  %>$event: String!,<% end %>
                                         $from: ISO8601DateTime,
                                         $till: ISO8601DateTime){
-                                    ethereum(network: $network){
+                                    conflux(network: $network){
                                       smartContractEvents(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
 
                                          <% if @contract  %>smartContractAddress: {is: $contract},<% end %>
@@ -52,7 +52,7 @@
                                           }
                                         }`);
 
-        new widgets.table('#events_table', query, 'ethereum.smartContractEvents', {
+        new widgets.table('#events_table', query, 'conflux.smartContractEvents', {
             title: '<%= t('widgets.headers.events_table') %>',
             renderData: <%= render partial: 'shared/redirect_tx.text' %>,
             dataOptions: [

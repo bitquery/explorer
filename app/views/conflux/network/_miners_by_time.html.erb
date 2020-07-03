@@ -25,12 +25,12 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
+            query ($network: ConfluxNetwork!,
                   $dateFormat: String!,
 
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    conflux(network: $network ){
                       blocks(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
@@ -40,12 +40,12 @@
                           date(format: $dateFormat)
                         }
                         count(uniq: miners)
-                        difficulty(calculate: median)
+                        #difficulty(calculate: median)
                       }
                     }
                   }`);
 
-        new widgets.chartByTime('#miners_by_time', query, 'ethereum.blocks', {
+        new widgets.chartByTime('#miners_by_time', query, 'conflux.blocks', {
             title: '<%= t('widgets.headers.miners_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -71,7 +71,7 @@
             ]
         });
 
-        new widgets.chartByTime('#difficulty_by_time', query, 'ethereum.blocks', {
+        new widgets.chartByTime('#difficulty_by_time', query, 'conflux.blocks', {
             title: '<%= t('widgets.headers.difficulty_by_time') %>',
             chartOptions: {
                 vAxes: {

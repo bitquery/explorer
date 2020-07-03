@@ -13,11 +13,11 @@
 
     $( document ).ready(function() {
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
                                 $hash: String!,
                                 $limit:Int,
                                 $offset:Int){
-                            ethereum(network: $network){
+                            conflux(network: $network){
                               arguments(options:{limit: $limit, offset: $offset, asc: "callDepth"}
                                 txHash: {is: $hash }) {
                                 address: reference {
@@ -51,7 +51,7 @@
                           }
                           }`);
 
-        new widgets.table('#references_table', query, 'ethereum.arguments', {
+        new widgets.table('#references_table', query, 'conflux.arguments', {
             title: '<%= t('widgets.headers.references_table') %>',
             dataOptions: [
                 {

@@ -1,2 +1,2 @@
-module Ethereum::TxHelper
+module Conflux::TxHelper
 end

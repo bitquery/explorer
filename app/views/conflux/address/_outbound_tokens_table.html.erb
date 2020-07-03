@@ -12,14 +12,14 @@
     $( document ).ready(function() {
 
 
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
+        var query = new widgets.query(`query ($network: ConfluxNetwork!,
                             $address: String!,
                             $nativeCurrency: String!,
                             $limit: Int!,
                             $offset: Int!
                             $from: ISO8601DateTime,
                             $till: ISO8601DateTime){
-                        ethereum(network: $network){
+                        conflux(network: $network){
                           transfers(options:{limit: $limit, offset: $offset, desc: "count"},
                             date: {since: $from till: $till },
                             sender: {is: $address},
@@ -46,7 +46,7 @@
                         }
                       }`);
 
-        new widgets.table('#outbound_tokens_table', query, 'ethereum.transfers', {
+        new widgets.table('#outbound_tokens_table', query, 'conflux.transfers', {
             title: '<%= t('widgets.headers.outbound_tokens_table') %>',
             dataOptions: [
                 {

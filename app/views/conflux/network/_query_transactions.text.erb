@@ -1,5 +1,5 @@
-query ($network: EthereumNetwork, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
-  chain: ethereum(network: $network ){
+query ($network: ConfluxNetwork, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+  chain: conflux(network: $network ){
     transactions(options:{asc: "date.month"}, date: {since: $from, till: $till }) {
       date{
         month: date(format: $dateFormat)

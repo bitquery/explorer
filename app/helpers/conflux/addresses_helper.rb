@@ -1,2 +1,2 @@
-module Ethereum::AddressesHelper
+module Conflux::AddressesHelper
 end

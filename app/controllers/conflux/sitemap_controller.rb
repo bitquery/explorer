@@ -1,10 +1,10 @@
 class Conflux::SitemapController < NetworkController
 
   QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-           query ($network: EthereumNetwork! $from: ISO8601DateTime){
+           query ($network: ConfluxNetwork! $from: ISO8601DateTime){
 
 
-                    miners: ethereum(network: $network){
+                    miners: conflux(network: $network){
                       blocks(options:{desc: "count", limit: 50},
                         date: {since: $from }
                         ) {
@@ -18,7 +18,7 @@ class Conflux::SitemapController < NetworkController
                       }
                     }
 
-                   senders: ethereum(network: $network){
+                   senders: conflux(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -35,7 +35,7 @@ class Conflux::SitemapController < NetworkController
                      
                    }
 
-                  receivers: ethereum(network: $network){
+                  receivers: conflux(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -52,7 +52,7 @@ class Conflux::SitemapController < NetworkController
                       
                   }
 
-						      tokens: ethereum(network: $network){
+						      tokens: conflux(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -69,7 +69,7 @@ class Conflux::SitemapController < NetworkController
                      
                    }
 
-                  callers: ethereum(network: $network){
+                  callers: conflux(network: $network){
                         smartContractCalls(options:{
                           desc: "count", 
                           limit: 100},
@@ -87,7 +87,7 @@ class Conflux::SitemapController < NetworkController
                         }
                   }
 
-                  contracts: ethereum(network: $network){
+                  contracts: conflux(network: $network){
                         smartContractCalls(options:{
                           desc: "count", 
                           limit: 100},
