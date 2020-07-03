@@ -5,7 +5,7 @@ module NetworkHelper
   end
 
   def network_icon network, options = {}
-    image_tag network_icon_path(network), { alt: network[:name] }.merge(options)
+    image_tag network_icon_path(network), {style: 'width: 32px; height: auto', alt: network[:name] }.merge(options)
   end
 
   def dataset_icon dataset, size = 30
