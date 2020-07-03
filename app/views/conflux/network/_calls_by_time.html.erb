@@ -1,0 +1,105 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.calls_by_time') %></div>
+      <div class="card-body">
+        <div id="calls_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.contracts_by_time') %></div>
+      <div class="card-body">
+        <div id="contracts_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: EthereumNetwork!,
+                  $dateFormat: String!,
+
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    ethereum(network: $network ){
+                      smartContractCalls(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+                        count: count
+                        contracts: count(uniq: smart_contracts)
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#calls_by_time', query, 'ethereum.smartContractCalls', {
+            title: '<%= t('widgets.headers.calls_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.calls_count') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    path: 'count'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#contracts_by_time', query, 'ethereum.smartContractCalls', {
+            title: '<%= t('widgets.headers.contracts_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.uniq_contracts') %>'
+                    }
+                },
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+                seriesType: 'bars'
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.uniq_contracts') %>',
+                    path: 'contracts'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+
+    });
+</script>

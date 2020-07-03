@@ -1,0 +1,108 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.tx_info') %></div>
+    <div class="card-body">
+      <div id="tx_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                              $hash: String!){
+                          ethereum(network: $network){
+                            transactions(txHash: {is: $hash}
+                          ){
+
+                                block {
+                                        height
+                                        timestamp {
+                                          time (format: "%Y-%m-%d %H:%M:%S")
+                                        }
+                                      }
+
+                                      amount
+                                      currency {
+                                        symbol
+                                      }
+
+                                      creates {
+                                        address
+                                        annotation
+                                      }
+
+                                      error
+                                      success
+
+                                      sender {
+                                        address
+                                        annotation
+                                      }
+
+                                      to {
+                                        address
+                                        annotation
+                                      }
+
+                                      gas
+                                      gasPrice
+                                      gasCurrency {
+                                        symbol
+                                      }
+
+                                      gasValue
+                           }
+                          }
+                        }`);
+
+
+
+        new widgets.table('#tx_info', query, 'ethereum.transactions', {
+            title: '<%= t('widgets.headers.tx_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
+                    {name: '<%= t('widgets.titles.tx_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
+                    {name: '<%= t('widgets.titles.tx_to') %>', value: (item.to.annotation || item.to.address), address: item.to },
+                    {name: '<%= t('widgets.titles.tx_creates') %>', value: (item.creates.annotation || item.creates.address ||
+                            '-'), address: item.creates },
+
+                    {name: '<%= t('widgets.titles.amount') %>', value: item.amount + ' '+ item.currency.symbol },
+                    {name: '<%= t('widgets.titles.gas_value') %>', value: item.gasValue + ' '+ item.gasCurrency.symbol },
+                    {name: '<%= t('widgets.titles.gas_price') %>', value: item.gasPrice/1.0e9 + ' GWei' },
+                    {name: '<%= t('widgets.titles.gas_used') %>', value: item.gas },
+                    {name: '<%= t('widgets.titles.success') %>', value: item.success + ' ' + item.error },
+
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 110px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+</script>

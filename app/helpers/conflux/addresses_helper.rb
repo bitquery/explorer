@@ -1,0 +1,2 @@
+module Ethereum::AddressesHelper
+end

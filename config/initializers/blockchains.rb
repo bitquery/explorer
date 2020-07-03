@@ -180,6 +180,17 @@ BLOCKCHAINS = [
         start: Date.parse('2020-04-22')
     },
 
+    {
+        tag: 'conflux',
+        network: 'celo_rc1',
+        name: 'Celo Mainnet',
+        family: 'ethereum',
+        platform: 'Smart Contract',
+        currency: 'cGLD',
+        icon: 'currency/celo.png',
+        start: Date.parse('2020-04-22')
+    },
+
 
 
 
