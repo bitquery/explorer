@@ -200,6 +200,16 @@ BLOCKCHAINS = [
         icon: 'currency/libra.png',
     },
 
+    #{
+    #    tag: 'eos',
+    #    network: 'eos',
+    #    name: 'EOS',
+    #    family: 'eos',
+    #    platform: 'Smart Contract',
+    #    currency: 'EOS',
+    #    icon: 'eos.svg'
+    #},
+
 
 
 ]
