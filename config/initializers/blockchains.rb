@@ -192,10 +192,10 @@ BLOCKCHAINS = [
 
     {
         tag: 'libra',
-        network: 'libra',
+        network: 'libra_testnet',
         name: 'Libra',
         family: 'libra',
-        platform: 'Libra',
+        platform: 'Testnet',
         currency: 'LBR',
         icon: 'currency/libra.png',
     },

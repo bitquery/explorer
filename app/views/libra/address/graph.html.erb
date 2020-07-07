@@ -305,7 +305,7 @@
                         if(!g.dataset.nodes.get(address).expanded){
                             g.dataset.nodes.update({id: address, physics: false, expanded: true});
                             query.request({
-                                network: '<%= params['network']['network'] %>',
+
                                 address: address
                             }, function(result){
                                 _.each(_.uniqBy(g.prepareNodes(result.libra.inbound).concat(g.prepareNodes(result.libra.outbound)), 'id'), function(node){
@@ -362,7 +362,7 @@
                         graphDetalLevel.find('input').on('change', function(){
                             let it = $(this);
                             query.request({
-                                network: '<%= params['network']['network'] %>',
+
                                 address: '<%= @address %>',
                                 limit: parseInt(it.val())
                             });
@@ -449,7 +449,7 @@
                         select.find('select').on('change', function(){
                             let it = $(this);
                             query.request({
-                                network: '<%= params['network']['network'] %>',
+
                                 address: '<%= @address %>',
                                 currency: it.val()
                             });
@@ -461,7 +461,7 @@
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
+
             address: '<%= @address %>',
             currency: '<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>'
         });
