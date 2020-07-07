@@ -70,7 +70,7 @@
             ]
         });
 
-        new widgets.chartByTime('#contracts_by_time', query, 'libra.smartContractCalls', {
+        new widgets.chartByTime('#contracts_by_time', query, 'libra.mints', {
             title: '<%= t('widgets.headers.contracts_by_time') %>',
             chartOptions: {
                 vAxes: {
@@ -90,6 +90,7 @@
                 },
                 {
                     title: {label: '<%= t('widgets.titles.uniq_mints') %>', type: 'number'},
+
                     path: 'minters'
                 },
 

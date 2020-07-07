@@ -1,12 +1,7 @@
 <script>
     widgets.callbacks({
         token_path: function(item){
-            if(item.currency.address=='-'){
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.symbol;
-            }else{
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.address;
-            }
-
+            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.symbol;
         },
         transfer_to_path: function(item){
             if(item.count_in==0) {
