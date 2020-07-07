@@ -1,0 +1,150 @@
+
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.token_receivers_diagram') %></div>
+      <div class="card-body">
+        <div id="token_receivers_diagram"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.token_receivers_table') %></div>
+      <div class="card-body">
+        <div id="token_receivers_table"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+
+    $( document ).ready(function() {
+        var query = new widgets.query(`query (
+                              $token: String!,
+                              $limit:Int,
+                              $offset:Int,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                          libra{
+                            transfers(currency: {is: $token}
+                            date: {since: $from till: $till}
+                            height:{gt: 1}
+                            amount: {gt: 0}
+                            options: {desc: "amount", limit:$limit, offset: $offset}
+                            ){
+
+                              receiver {
+                                address
+                                annotation
+                              }
+                              currency {
+                                symbol
+                              }
+                              amount
+                              count
+                              sender_count: count(uniq: senders)
+                              max_amount: maximum(of: amount, get: amount)
+                              max_date:maximum(of: date)
+                            }
+                          }
+                        }`);
+
+        new widgets.table('#token_receivers_table', query, 'libra.transfers', {
+            title: '<%= t('widgets.headers.token_receivers_table') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['receiver.annotation','receiver.address'],
+                    urlCallbackName: 'receiver_address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_amount') %>',
+                    type: 'amount',
+                    path: 'max_amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.uniq_receivers') %>',
+                    type: 'count',
+                    path: 'sender_count'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_token_receiver_path'
+                },
+            ]
+        });
+
+
+        new widgets.chart('#token_receivers_diagram', query, 'libra.transfers', {
+            chartType: 'BarChart',
+            title: '<%= t('widgets.headers.token_receivers_diagram') %>',
+            chartOptions: {
+                hAxis: {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    minValue: 0,
+                },
+
+                vAxis: {
+                    title: '<%= t('widgets.titles.receiver') %>'
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' },
+                },
+                chartArea:{left: '25%', right: '10%', top: 0, bottom: '15%'},
+                height: 500
+            },
+            dataOptions: [
+                {
+                    type: 'string',
+                    path: ['receiver.annotation','receiver.address'],
+                    title: '<%= t('widgets.titles.receiver') %>'
+                },
+                {
+                    type: 'amount',
+                    path: 'amount',
+                    title:'<%= t('widgets.titles.amount') %>'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            token: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

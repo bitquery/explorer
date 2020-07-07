@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions_by_time') %></div>
+      <div class="card-body">
+        <div id="transactions_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transaction_gas_by_time') %></div>
+      <div class="card-body">
+        <div id="transaction_gas_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query (
+                  $dateFormat: String!,
+
+                  $address: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    libra{
+                      transactions(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+                        txSender: {is: $address}
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+                        count: count
+                        gasValue
+                        gasCurrency{
+                          symbol
+                        }
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#transactions_by_time', query, 'libra.transactions', {
+            title: '<%= t('widgets.headers.transactions_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.transactions_count') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number'},
+                    path: 'count'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#transaction_gas_by_time', query, 'libra.transactions', {
+            title: '<%= t('widgets.headers.transaction_gas_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.gas_value') %>'
+                    }
+                },
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+                seriesType: 'bars'
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.gas_value') %>',
+                    path: 'gasValue'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+</script>

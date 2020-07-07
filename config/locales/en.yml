@@ -238,6 +238,10 @@ en:
         name: "Smart Contract Calls"
         title: "Smart Contract Calls on %{network} Explorer"
         description: "Smart Contract Calls on %{network}"
+      mints:
+        name: "Mints"
+        title: "Mints on %{network} Explorer"
+        description: "Mints on %{network}"
       transfers:
         name: "Transfers"
         title: "Transfers on %{network} Explorer"
@@ -300,6 +304,11 @@ en:
         header: "Cosmos Blockchains at Bitquery"
         title: "Cosmos Blockchains Explorer"
         description: "Explorers for Cosmos-like Blockchains by Bitquery"
+      libra:
+        name: "Libra Platform"
+        header: "Libra Blockchains at Bitquery"
+        title: "Libra Blockchains Explorer"
+        description: "Explorers for Libra-like Blockchains by Bitquery"
       offchain:
         name: "Offchain Data"
         header: "Offchain Data at Bitquery"
@@ -390,6 +399,8 @@ en:
     headers:
       transaction_by_time: 'Activities by date'
       in_out_transfers_by_time: 'In/Outbound transfer count by date'
+      mints_by_time: 'Mints by date'
+      minters_by_time: 'Minters by date'
       calls_by_time: 'Calls smart contracts by date'
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'
@@ -462,6 +473,7 @@ en:
       latest_transactions: "Latest Transactions"
       latest_transfers: "Latest Transfers"
       latest_calls: "Latest Smart Contract Calls"
+      latest_mints: "Latest Mints"
       contracts_by_time: "Unique Smart Contracts"
       miners: "Miners"
       miners_by_time: "Active Miners By Time"
@@ -535,6 +547,7 @@ en:
       smart_contract: "Smart Contract"
       method: "Method"
       calls_count: "Calls Count"
+      mints_count: "Mints Count"
       timestamp: 'Timestamp'
       sender: 'Sender'
       receiver: 'Receiver'
@@ -547,6 +560,7 @@ en:
       avg_gas_value: 'Gas Cost/Call'
       uniq_methods: "Uniq Methods"
       uniq_contracts: "Uniq Contracts"
+      uniq_mints: 'Uniq Mints'
       property: "Property"
       property_value: "Value"
       external_calls: "External Calls ( TXs )"
@@ -577,6 +591,7 @@ en:
       first_transfer_date: "First transfer date"
       last_transfer_date: "Last transfer date"
       transfer_days: "Days token transfered"
+      token_id: "Token Id"
       call_days: "Days contract called"
       creator: "Creator"
       created: "Created"
@@ -594,6 +609,12 @@ en:
       tx_creates: "Created"
       gas_price: "Gas Price"
       gas_used: "Gas Used"
+      sequence_number: "Sequence Number"
+      signature: "Signature"
+      script_type: "Script Type"
+      script_hash: "Script Hash"
+      status: "Status"
+      public_key: "Public Key"
       event_or_method: "Event / Method"
       name: "Name"
       miner: "Miner"

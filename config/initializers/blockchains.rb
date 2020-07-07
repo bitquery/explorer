@@ -190,15 +190,15 @@ BLOCKCHAINS = [
         icon: 'currency/conflux.png',
     },
 
-    #{
-    #    tag: 'libra',
-    #    network: 'libra',
-    #    name: 'Libra',
-    #    family: 'libra',
-    #    platform: 'Smart Contract',
-    #    currency: 'LBR',
-    #    icon: 'currency/libra.png',
-    #},
+    {
+        tag: 'libra',
+        network: 'libra',
+        name: 'Libra',
+        family: 'libra',
+        platform: 'Libra',
+        currency: 'LBR',
+        icon: 'currency/libra.png',
+    },
 
 
 

@@ -1,0 +1,71 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.outbound_tokens_by_time') %></div>
+    <div class="card-body">
+      <div id="outbound_tokens_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query (
+                  $dateFormat: String!,
+                  $nativeCurrency: String!,
+                  $address: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    libra{
+                      transfers(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+                        sender: {is: $address}
+                        amount: {gt: 0}
+                        currency: {not: $nativeCurrency }
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+                        count: count
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#outbound_tokens_by_time', query, 'libra.transfers', {
+            title: '<%= t('widgets.headers.outbound_tokens_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.receive_count') %>'
+                    }
+                },
+                seriesType: 'line',
+                series: {
+                    '0': { color: '#28a745', type: 'line',  lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: {label: '<%= t('widgets.titles.receive_count') %>', type: 'number'},
+                    path: 'count'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>',
+            nativeCurrency: '<%= @network[:currency] %>'
+        });
+
+
+    });
+</script>
