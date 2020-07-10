@@ -1,4 +1,4 @@
-query ($network: EthereumNetwork, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+query ($dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
   chain: eos{
     transactions(options:{asc: "date.month"}, date: {since: $from, till: $till }) {
       date{
