@@ -26,8 +26,6 @@
                               $date: ISO8601DateTime){
                           eos{
                             transfers(currency: {is: $token}
-                            height:{gt: 0}
-                            amount: {gt: 0}
                             date: {is: $date}){
                               date{
                                 date(format: $dateFormat)

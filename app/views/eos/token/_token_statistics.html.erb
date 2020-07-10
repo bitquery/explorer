@@ -17,7 +17,6 @@ $( document ).ready(function() {
                               $date: ISO8601DateTime){
                           eos{
                             transfers(currency: {is: $token}
-                            amount: {gt: 0}
                             date: {is: $date}
                             ){
 

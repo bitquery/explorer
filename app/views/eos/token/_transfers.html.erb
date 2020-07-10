@@ -22,7 +22,6 @@
                               eos{
                                 transfers(options:{desc: "block.timestamp.time"  limit: $limit, offset: $offset},
                                   date: {since: $from till: $till },
-                                  amount: {gt: 0},
                                   currency: {is: $token}) {
 
                                   block {

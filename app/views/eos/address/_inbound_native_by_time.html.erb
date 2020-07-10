@@ -22,7 +22,6 @@
                       transfers(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
-                        amount: {gt: 0}
                         receiver: {is: $address}
                         currency: {is: $nativeCurrency }
                       ) {
