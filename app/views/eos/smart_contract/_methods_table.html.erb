@@ -50,7 +50,6 @@
                         external_count: count(external: true)
                         senders: count(uniq:senders)
                         txs: count(uniq: txs)
-                        gasValue(calculate:average)
                         max_date:maximum(of: date)
                       }
                     }

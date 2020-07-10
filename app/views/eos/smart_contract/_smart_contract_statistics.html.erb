@@ -1,4 +1,4 @@
-<div class="col-12 col-lg-6 mb-4">
+<div class="col-12 col-lg-12 mb-4">
   <div class="card">
     <div class="card-header"><%= t('widgets.headers.smart_contract_statitics') %></div>
     <div class="card-body">
@@ -21,7 +21,7 @@
                                     created: minimum(of: block, get: time)
                                     created_block: minimum(of: block)
                                     created_tx: minimum(of: block, get:tx_hash)
-                                    created_by: minimum(of: block, get:caller)
+                                    created_by: minimum(of: block, get:tx_from)
 
                                     max_time: maximum(of: time)
 
@@ -56,9 +56,9 @@
 
                     },
                     {name: '<%= t('widgets.titles.create_tx') %>',
-                          value: '<a href="/<%= @network[:network] %>/tx/'+item.created_tx+'">'+item.created_tx+'</a>'},
+                          value: '<a href="/<%= @network[:network] %>/block/'+item.created_tx+'">'+item.created_tx+'</a>'},
                     {name: '<%= t('widgets.titles.creator') %>',
-                        value: '<a href="/<%= @network[:network] %>/address/'+item.created_by+'">'+item.created_by+'</a>'}
+                        value: '<a href="/<%= @network[:network] %>/block/'+item.created_by+'">'+item.created_by+'</a>'}
                 ];
             },
             dataOptions: [

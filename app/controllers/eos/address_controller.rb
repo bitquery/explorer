@@ -27,6 +27,20 @@ class Eos::AddressController < NetworkController
   QUERY_CURRENCIES = BitqueryGraphql::Client.parse  <<-'GRAPHQL'
    query($address: String!) {
               eos{
+address(address: {is: $address}) {
+      address
+      smartContract {
+        contractType
+        protocolType
+      currency {
+        symbol
+        name
+        tokenType
+        decimals
+      }
+      }
+      
+    }
     						transfers(receiver: {is: $address}, options: {desc: "count"}){
       							currency {
                       address

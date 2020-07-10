@@ -83,7 +83,7 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?contract=<%= @address %>&caller='+item.address.address;
         },
         property_value_path: function(item){
-            if (item.address && item.address.address!='0x0000000000000000000000000000000000000000' ) {
+            if (item.address && item.address.address!='' ) {
                 return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
             } else if (item.block ){
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
