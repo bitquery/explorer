@@ -49,11 +49,11 @@
                     let _n = widgets.numeral;
 
                     let currencies = [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
-                    let currency = (_.find(currencies,{address: query.variables.currency}) || currencies[0]).symbol;
+                    let currency = (_.find(currencies,{address: query.variables.currency}) || currencies[0]).address;
 
                     this.prepareNodes = function(nodes){
                         let prepareNode = function(node){
-                            if (node.address == '0x0000000000000000000000000000000000000000'){
+                            if (node.address == ''){
                                 return {
                                     id: node.address,
                                     label: 'Coinbase',
@@ -435,7 +435,7 @@
                             '<div><select style="width:100%"></select></div>' +
                             '</div>');
                         _.each(currencies, function(c){
-                            let value = c.symbol;
+                            let value = c.address;
                             select.find('select').append('<option value="'+value+'" '+(value == query.variables.currency ? 'selected=selected' : '')+'>'+c.name+' ('+c.symbol+')</option>');
                         });
                         wrap.append(select);
@@ -463,7 +463,7 @@
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
 
             address: '<%= @address %>',
-            currency: '<%= @currencies.first && @currencies.first.symbol %>'
+            currency: '<%= @currencies.first && @currencies.first.address %>'
         });
     });
 

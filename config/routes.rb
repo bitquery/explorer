@@ -43,8 +43,8 @@ Rails.application.routes.draw do
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
 
-      get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
-      get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
+      get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
 
       get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
