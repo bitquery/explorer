@@ -1,0 +1,22 @@
+
+<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name],
+                          address: (@info.annotation=='' ? @address : @info.annotation )) %>
+<% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description",
+                                network: @network[:name], address: @address) %>
+
+<% content_for :header do %>
+
+  <% if @info.smart_contract.contract_type=='Generic' %>
+    <%= t 'network.eos.smart_contract.generic',  network: @network[:name]%>
+  <% else %>
+    <%= t 'network.eos.smart_contract.custom', type: @info.smart_contract.contract_type, network: @network[:name]%>
+  <% end %>
+  <%= copy_text(@address, 'text-info').html_safe %>.
+  <%= render partial: 'shared/address_annotation', locals: {annotation:  @info.annotation } %>
+
+<% end %>
+
+<%= render partial: 'shared/title', locals: {
+    icon: t("tabs.#{controller_name}.icon"),
+    header: content_for(:header),
+    reportrange: true} %>

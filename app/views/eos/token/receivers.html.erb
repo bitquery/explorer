@@ -1,0 +1,7 @@
+<% unless @native_token %>
+<%= render partial: 'eos/token/receivers' %>
+<% end %>
+
+<div class="row">
+  <%= render partial: 'eos/token/receivers_by_time' %>
+</div>

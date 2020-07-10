@@ -263,6 +263,11 @@ en:
         name: "Proposers"
         title: "Proposers on %{network} Explorer"
         description: "Proposer list for %{network}"
+      proposer_distrib:
+        name: "Proposer distribution"
+        title: "Proposers distribution on %{network} Explorer"
+        description: "Proposer distribution list for %{network}"
+        attention: "Attention. The calculation may take a long time"
       protocols:
         name: "Protocols"
         title: "Protocols on %{network} Explorer"
@@ -619,6 +624,7 @@ en:
       name: "Name"
       miner: "Miner"
       proposer: "Proposer"
+      producer: "Producer"
       protocol: "Protocol"
       next_protocol: "Next Protocol"
       uncle_count: "Uncles"
@@ -634,6 +640,8 @@ en:
       block_count: "Block Count"
       miners_block_count_by_time: 'Miners Block Count By Time'
       miners_block_count: "Miners Block Count"
+      proposers_block_count_by_time: 'Proposers Block Count By Time'
+      proposers_block_count: "Proposers Block Count"
       approvals: "Approvals"
       unique_miners: "Unique Miners"
       median_difficulty: "Median Difficulty"

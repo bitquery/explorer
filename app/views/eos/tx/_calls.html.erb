@@ -1,0 +1,109 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.tx_calls') %></div>
+      <div class="card-body">
+        <div id="tx_calls"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query (
+                    $hash: String!,
+                    $limit: Int!,
+                    $offset: Int!){
+                eos{
+                  smartContractCalls(
+                    options:{limit: $limit, offset: $offset,
+                      asc: "callDepth"},
+                    txHash: {is: $hash }) {
+
+
+                    smartContract {
+                      address {
+                        address
+                        annotation
+                      }
+                      contractType
+                      protocolType
+                    }
+
+                    smartContractMethod {
+                      name
+                      signatureHash
+                    }
+
+                    address: txFrom {
+                      address
+                      annotation
+                    }
+
+                    success
+
+                    callDepth
+
+                  }
+                }
+              }`);
+
+        new widgets.table('#tx_calls', query, 'eos.smartContractCalls', {
+            title: '<%= t('widgets.headers.tx_calls') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.call_depth') %>',
+                    type: 'string',
+                    path: 'callDepth'
+                },
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    type: 'string',
+                    path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
+                    urlCallbackName: 'smart_contract_method_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_type') %>',
+                    type: 'string',
+                    path: 'smartContract.contractType'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_protocol_type') %>',
+                    type: 'string',
+                    path: 'smartContract.protocolType'
+                },
+                {
+                    title: '<%= t('widgets.titles.caller') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.success') %>',
+                    type: 'string',
+                    path: 'success'
+                }
+            ]
+        });
+
+
+        query.request({
+
+            hash: '<%= @hash %>'
+        });
+
+
+
+    });
+
+</script>

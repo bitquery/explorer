@@ -1,0 +1,2 @@
+module Eos::AddressesHelper
+end

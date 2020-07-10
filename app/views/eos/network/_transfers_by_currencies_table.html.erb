@@ -1,0 +1,99 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.transfers_by_currencies') %></div>
+    <div class="card-body">
+      <div id="transfers_by_currencies"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query (
+                  $limit: Int!,
+                  $offset: Int!,
+                  $date: ISO8601DateTime
+                  ){
+                   eos{
+                      transfers(
+                      options:{desc: "count", limit: $limit, offset: $offset},
+                      amount: {gt: 0},
+                      date: {is: $date}
+
+                      ) {
+                          currency {
+                            symbol
+                            address
+                          }
+                          count
+
+                          senders: count(uniq: senders)
+                          receivers: count(uniq: receivers)
+                          days: count(uniq:dates)
+
+                          from_date: minimum(of: date)
+                          till_date: maximum(of: date)
+
+                          amount
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#transfers_by_currencies', query, 'eos.transfers', {
+            title: '<%= t('widgets.headers.transfers_by_currencies') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string-ellipsis',
+                    path: ['currency.symbol','currency.name','currency.address'],
+                    urlCallbackName: 'token_path'
+                },
+
+
+                {
+                    title: '<%= t('widgets.titles.first_transfer_date') %>',
+                    path: 'from_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.last_transfer_date') %>',
+                    path: 'till_date'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.transfer_days') %>',
+                    path: 'days'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.uniq_senders') %>',
+                    path: 'senders'
+                },
+                {
+                    title: '<%= t('widgets.titles.uniq_receivers') %>',
+                    path: 'receivers'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_amount') %>',
+                    path: 'amount',
+                    type: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    path: 'count'
+                },
+            ]
+        });
+
+        query.request({
+            date: '<%= @block_date %>'
+        })
+
+
+    });
+</script>

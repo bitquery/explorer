@@ -1,0 +1,111 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.calls_table') %></div>
+      <div class="card-body">
+        <div id="calls_table"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query (
+                                        $limit: Int!,
+                                        $offset: Int!,
+                                        <% if @caller  %>$caller: String!,<% end %>
+                                        <% if @contract  %>$contract: String!,<% end %>
+                                        <% if @method  %>$method: String!,<% end %>
+                                        $from: ISO8601DateTime,
+                                        $till: ISO8601DateTime){
+                                    eos{
+                                      smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+
+                                         <% if @caller  %>caller: {is: $caller},<% end %>
+                                         <% if @contract  %>smartContractAddress: {is: $contract},<% end %>
+                                         <% if @method  %>smartContractMethod: {is: $method},<% end %>
+                                         date: {since: $from till: $till }
+                                        ) {
+
+                                        block {
+                                          timestamp {
+                                            time (format: "%Y-%m-%d %H:%M:%S")
+                                          }
+                                          height
+                                        }
+
+                                        address: caller {
+                                          address
+                                          annotation
+                                        }
+                                        smartContractMethod {
+                                          name
+                                          signatureHash
+                                        }
+                                        smartContract {
+                                          address {
+                                            address
+                                            annotation
+                                          }
+                                        }
+                                        txHash
+                                            }
+                                          }
+                                        }`);
+
+        new widgets.table('#calls_table', query, 'eos.smartContractCalls', {
+            title: '<%= t('widgets.headers.calls_table') %>',
+            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.timestamp') %>',
+                    type: 'string',
+                    path: 'block.timestamp.time'
+                },
+                {
+                    title: '<%= t('widgets.titles.block') %>',
+                    type: 'string',
+                    path: 'block.height',
+                    urlCallbackName: 'block_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.caller') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    type: 'string',
+                    path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
+                    urlCallbackName: 'smart_contract_method_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction') %>',
+                    type: 'string-ellipsis',
+                    path: 'transaction.hash',
+                    urlCallbackName: 'transaction_path'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+
+            contract: '<%= @contract %>',
+            caller: '<%= @caller %>',
+            method: '<%= @method %>'
+        });
+
+
+    });
+
+</script>

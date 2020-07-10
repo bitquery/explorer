@@ -1,7 +1,7 @@
 class Libra::AddressController < NetworkController
   layout 'tabs'
 
-  before_action :query_graphql, :redirect_by_type
+  before_action :query_graphql
 
   QUERY_CURRENCIES = BitqueryGraphql::Client.parse  <<-'GRAPHQL'
    query($address: String!) {
@@ -25,12 +25,6 @@ class Libra::AddressController < NetworkController
     if action_name == 'graph'
         result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: {network: @network[:network], address: @address}).data.libra
         @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
-    end
-  end
-
-  def redirect_by_type
-    if sc = @info.try(:smart_contract)
-      change_controller! (sc.currency  ? 'libra/token' : 'libra/smart_contract')
     end
   end
 
