@@ -1,28 +1,28 @@
 class Eos::SmartContractController < Eos::AddressController
 
   def inflow
-    render 'ethereum/address/inflow'
+    render 'eos/address/inflow'
   end
 
   def outflow
-    render 'ethereum/address/outflow'
+    render 'eos/address/outflow'
   end
 
   def calls_contracts
-    render 'ethereum/address/calls_contracts'
+    render 'eos/address/calls_contracts'
   end
 
   def graph
-    render 'ethereum/address/graph'
+    render 'eos/address/graph'
   end
 
   private
 
   def redirect_by_type
     if !(sc = @info.try(:smart_contract))
-      change_controller! 'ethereum/address'
+      change_controller! 'eos/address'
     elsif sc.try(:currency)
-      change_controller! 'ethereum/token'
+      change_controller! 'eos/token'
     end
   end
 

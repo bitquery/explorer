@@ -1,15 +1,15 @@
 class Eos::SitemapController < NetworkController
 
   QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-           query ($network: EthereumNetwork! $from: ISO8601DateTime){
+           query ($from: ISO8601DateTime){
 
 
-                    miners: ethereum(network: $network){
+                    producers: eos{
                       blocks(options:{desc: "count", limit: 50},
                         date: {since: $from }
                         ) {
 
-                          address: miner {
+                          address: producer {
                             address
                           }
 
@@ -18,14 +18,14 @@ class Eos::SitemapController < NetworkController
                       }
                     }
 
-                   senders: ethereum(network: $network){
+                   senders: eos{
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
                           ) {
                   
-                            sender(sender: {not: "0x0000000000000000000000000000000000000000"}) {
+                            sender(sender: {not: ""}) {
                               address
                             }
                   
@@ -35,75 +35,75 @@ class Eos::SitemapController < NetworkController
                      
                    }
 
-                  receivers: ethereum(network: $network){
+                  receivers: eos{
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
                           ) {
-                  
-                            receiver(receiver: {not: "0x0000000000000000000000000000000000000000"}) {
+
+                            receiver(receiver: {not: ""}) {
                               address
                             }
-                  
+
                             count
-                  
+
                         }
-                      
+
                   }
 
-						      tokens: ethereum(network: $network){
+						      tokens: eos{
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
                           ) {
-                  
+
                             currency {
                               address
                             }
-                  
+
                             count
-                  
+
                         }
-                     
+
                    }
 
-                  callers: ethereum(network: $network){
+                  callers: eos{
                         smartContractCalls(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-  
-                          ) {
-                  
-                    				caller {
-                              address
-                            }
 
-                  
+                          ) {
+
+                       caller: txFrom(txFrom: {not: ""}){
+                          address
+                        }
+
+
                             count
-                  
+
                         }
                   }
 
-                  contracts: ethereum(network: $network){
+                  contracts: eos{
                         smartContractCalls(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-  
+
                           ) {
-                  
+
                     				smartContract {
                               address {
                                 address
                               }
                             }
 
-                  
+
                             count
-                  
+
                         }
                   }
 
@@ -111,8 +111,7 @@ class Eos::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-10,
-                                                                 network: @network[:network]}).data
+    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-1}).data
 
 
   end
