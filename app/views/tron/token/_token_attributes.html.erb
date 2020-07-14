@@ -1,0 +1,72 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_attributes') %></div>
+    <div class="card-body">
+      <div id="ethereum_token_attributes"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query( $address: String!) {
+              tron{
+                address(address: {is: $address}){
+
+                  annotation
+                  address
+
+                  smartContract {
+                    contractType
+                    currency{
+                      symbol
+                      name
+                      decimals
+                      tokenType
+                    }
+                  }
+                  balance
+                }
+              }
+            }`);
+
+
+
+        new widgets.table('#ethereum_token_attributes', query, 'tron.address', {
+            title: '<%= t('widgets.headers.token_attributes') %>',
+            renderData: function(data){
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.headers.token_symbol') %>', value: item.smartContract.currency.symbol},
+                    {name: '<%= t('widgets.headers.token_type') %>', value: item.smartContract.currency.tokenType},
+                    {name: '<%= t('widgets.headers.token_name') %>', value: item.smartContract.currency.name},
+                    {name: '<%= t('widgets.headers.token_decimals') %>', value: item.smartContract.currency.decimals},
+                    {name: '<%= t('widgets.headers.annotation') %>', value: item.annotation}
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.property') %>',
+                    type: 'string-ellipsis',
+                    path: 'name',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title:  '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            address: '<%= @address %>'});
+
+    });
+
+
+
+</script>

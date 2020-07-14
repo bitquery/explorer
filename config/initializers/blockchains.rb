@@ -189,7 +189,6 @@ BLOCKCHAINS = [
         currency: 'CFX',
         icon: 'currency/conflux.png',
     },
-
     {
         tag: 'libra',
         network: 'libra_testnet',
@@ -199,7 +198,6 @@ BLOCKCHAINS = [
         currency: 'LBR',
         icon: 'currency/libra.png',
     },
-
     {
         tag: 'eos',
         network: 'eos',
@@ -208,6 +206,15 @@ BLOCKCHAINS = [
         platform: 'Smart Contract',
         currency: 'eosio.token',
         icon: 'eos.svg'
+    },
+    {
+        tag: 'tron',
+        network: 'tron',
+        name: 'TRON Mainnet',
+        family: 'tron',
+        platform: 'Smart Contract',
+        currency: 'TRX',
+        icon: 'trx.svg'
     },
 
 

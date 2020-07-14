@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions') %></div>
+      <div class="card-body">
+        <div id="latest_transactions"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query (
+                                $limit: Int!,
+                                $offset: Int!
+                                $date: ISO8601DateTime,
+                                $height: Int){
+                    tron{
+                      transactions(options:{asc: "index", limit: $limit, offset: $offset},
+                        date: {is: $date } height: {is: $height}
+                        ) {
+
+                          index
+                          hash
+                          fee
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#latest_transactions', query, 'tron.transactions', {
+            title: '<%= t('widgets.headers.latest_transactions') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.transaction_index') %>',
+                    path: 'index',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.hash') %>',
+                    type: 'string-ellipsis',
+                    path: 'hash',
+                    urlCallbackName: 'transaction_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
+                    type: 'amount',
+                    path: 'fee',
+                    style: 'width: 110px;'
+                },
+            ]
+        });
+
+
+        query.request({
+            height: <%= @height %>, date: '<%= @block_date %>'
+        });
+
+
+    });
+
+</script>

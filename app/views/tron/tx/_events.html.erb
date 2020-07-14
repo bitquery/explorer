@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.tx_events') %></div>
+      <div class="card-body">
+        <div id="tx_events"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query (
+                    $hash: String!,
+                    $limit: Int!,
+                    $offset: Int!){
+                tron{
+                  smartContractEvents(
+                    options:{limit: $limit, offset: $offset},
+                    txHash: {is: $hash }) {
+
+
+                    smartContract {
+                      address {
+                        address
+                        annotation
+                      }
+                      contractType
+                      protocolType
+                    }
+
+                    smartContractEvent {
+                      name
+                      signatureHash
+                    }
+
+                  }
+                }
+              }`);
+
+        new widgets.table('#tx_events', query, 'tron.smartContractEvents', {
+            title: '<%= t('widgets.headers.tx_events') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.event') %>',
+                    type: 'string',
+                    path: ['smartContractEvent.name','smartContractEvent.signatureHash'],
+                    urlCallbackName: 'smart_contract_event_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_type') %>',
+                    type: 'string',
+                    path: 'smartContract.contractType'
+                },
+                {
+                    title: '<%= t('widgets.titles.smart_contract_protocol_type') %>',
+                    type: 'string',
+                    path: 'smartContract.protocolType'
+                },
+            ]
+        });
+
+
+        query.request({
+
+            hash: '<%= @hash %>'
+        });
+
+
+
+    });
+
+</script>
