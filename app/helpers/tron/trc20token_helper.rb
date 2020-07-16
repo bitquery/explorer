@@ -1,4 +1,4 @@
-module Tron::TokenHelper
+module Tron::Trc20tokenHelper
 
 
   def limited_date_range_limit from, till

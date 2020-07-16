@@ -1,0 +1,10 @@
+<% if @native_token %>
+  <div class="row">
+    <%= render partial: 'tron/trc20token/token_statistics' %>
+  </div>
+<% else %>
+  <div class="row">
+    <%= render partial: 'tron/trc20token/token_attributes' %>
+    <%= render partial: 'tron/trc20token/token_statistics' %>
+  </div>
+<% end  %>

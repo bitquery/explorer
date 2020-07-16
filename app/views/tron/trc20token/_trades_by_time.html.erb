@@ -1,0 +1,78 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.trades_by_time') %></div>
+    <div class="card-body">
+      <div id="trades_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+      query (
+          $token: String!,
+
+          $dateFormat: String!,
+          $from: ISO8601DateTime,
+          $till: ISO8601DateTime){
+      tron {
+
+        trades (
+          any: [{buyCurrency: {is: $token}},{sellCurrency: {is: $token}}]
+          date: {since: $from till: $till}
+          options: { asc: "date.date"}
+        ){
+          date{
+           date(format: $dateFormat)
+          }
+
+          baseCount: count(buyCurrency: {is: $token})
+          quoteCount: count(sellCurrency: {is: $token})
+        }
+
+      }
+    }`);
+
+
+        new widgets.chartByTime('#trades_by_time', query, 'tron.trades', {
+            title: '<%= t('widgets.headers.trades_by_time') %>',
+            chartOptions: {
+                isStacked: true,
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.trades') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' },
+                    '1': { color: '#ffc107' },
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades_as_base_count') %>',
+                    path: 'baseCount'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades_as_quote_count') %>',
+                    path: 'quoteCount'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            token: '<%= @token %>'
+        });
+
+
+    });
+
+</script>

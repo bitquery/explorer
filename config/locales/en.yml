@@ -158,6 +158,124 @@ en:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+    trc20token:
+      icon: 'fas fa-coins text-warning'
+      header: "%{token} in %{network}"
+      show:
+        name: 'Token'
+        title: "%{token} in %{network}"
+        description: "Token %{token} attributes in %{network}"
+      transfers:
+        name: 'Transfers'
+        title: "%{token} Transfers in %{network}"
+        description: "Transfers of token %{token} in %{network}"
+      senders:
+        name: 'Senders'
+        title: "%{token} Senders in %{network}"
+        description: "Senders of token %{token} in %{network}"
+      receivers:
+        name: 'Receivers'
+        title: "%{token} Receivers in %{network}"
+        description: "Receivers of token %{token} in %{network}"
+      smart_contract:
+        name: 'Smart Contract'
+        title: "%{token} Smart Contract in %{network}"
+        description: "Overview of token smart contract %{address} in %{network}"
+      transactions:
+        name: 'Transactions'
+        title: "%{token} Transactions in %{network}"
+        description: "Transactions with token smart contract %{address} in %{network}"
+      methods:
+        name: 'Methods'
+        title: "%{token} Methods in %{network}"
+        description: "Method calls for token smart contract %{address} in %{network}"
+      events:
+        name: 'Events'
+        title: "%{token} Events in %{network}"
+        description: "Events logged by token smart contract %{address} in %{network}"
+      inflow:
+        name: 'Inflow'
+        title: "%{token} Inflow to Smart Contract in %{network}"
+        description: "Inflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        title: "%{token} Outflow from Smart Contract in %{network}"
+        description: "Outflow of different crypto tokens and coins from token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        title: "%{token} Calls Smart Contracts in %{network}"
+        description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
+      orders:
+        name: 'Orders'
+        title: "%{token} Orders in %{network}"
+        description: "Orders for token %{token} trading in %{network}"
+      trades:
+        name: 'Trades'
+        title: "%{token} Trades in %{network}"
+        description: "Trades for token %{token} in %{network}"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+    trc10token:
+      icon: 'fas fa-coins text-warning'
+      header: "%{token} in %{network}"
+      show:
+        name: 'Token'
+        title: "%{token} in %{network}"
+        description: "Token %{token} attributes in %{network}"
+      transfers:
+        name: 'Transfers'
+        title: "%{token} Transfers in %{network}"
+        description: "Transfers of token %{token} in %{network}"
+      senders:
+        name: 'Senders'
+        title: "%{token} Senders in %{network}"
+        description: "Senders of token %{token} in %{network}"
+      receivers:
+        name: 'Receivers'
+        title: "%{token} Receivers in %{network}"
+        description: "Receivers of token %{token} in %{network}"
+      smart_contract:
+        name: 'Smart Contract'
+        title: "%{token} Smart Contract in %{network}"
+        description: "Overview of token smart contract %{address} in %{network}"
+      transactions:
+        name: 'Transactions'
+        title: "%{token} Transactions in %{network}"
+        description: "Transactions with token smart contract %{address} in %{network}"
+      methods:
+        name: 'Methods'
+        title: "%{token} Methods in %{network}"
+        description: "Method calls for token smart contract %{address} in %{network}"
+      events:
+        name: 'Events'
+        title: "%{token} Events in %{network}"
+        description: "Events logged by token smart contract %{address} in %{network}"
+      inflow:
+        name: 'Inflow'
+        title: "%{token} Inflow to Smart Contract in %{network}"
+        description: "Inflow of different crypto tokens and coins to token smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+      outflow:
+        name: 'Outflow'
+        title: "%{token} Outflow from Smart Contract in %{network}"
+        description: "Outflow of different crypto tokens and coins from token smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+      calls_contracts:
+        name: 'Calls Contracts'
+        title: "%{token} Calls Smart Contracts in %{network}"
+        description: "Token smart contract calls from address %{address} activity in %{network}, statistics of token smart contract calls, usage and methods used"
+      orders:
+        name: 'Orders'
+        title: "%{token} Orders in %{network}"
+        description: "Orders for token %{token} trading in %{network}"
+      trades:
+        name: 'Trades'
+        title: "%{token} Trades in %{network}"
+        description: "Trades for token %{token} in %{network}"
+      graph:
+        name: 'Graph'
+        title: "%{address} graph in %{network}"
+        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     tx:
       icon: 'fas fa-bolt'
       header: "%{network} transaction %{hash}"
@@ -766,6 +884,22 @@ en:
       native:
         header: "Token %{currency} is the native token in %{network}"
       unnamed: "Unnamed"
+    trc10token:
+      description:
+        part1: "Address %{address} is token"
+        part2: "token in %{network}"
+        part3: "a token"
+      native:
+        header: "Token %{currency} is the native token in %{network}"
+      unnamed: "Unnamed"
+    trc20token:
+      description:
+        part1: "Address %{address} is token"
+        part2: "token in %{network}"
+        part3: "a token"
+      native:
+        header: "Token %{currency} is the native token in %{network}"
+      unnamed: "Unnamed"
     tx_list:
       icon: "fas fa-bolt text-warning"
       filters:
@@ -799,5 +933,11 @@ en:
         smart_contract: "Token is implemented as %{token_type} smart contract with address"
     tron:
       token:
+        name: "%{name} (%{symbol}) %{token_type} Token"
+        smart_contract: "Token is implemented as %{token_type} smart contract with address"
+      trc20token:
+        name: "%{name} (%{symbol}) %{token_type} Token"
+        smart_contract: "Token is implemented as %{token_type} smart contract with address"
+      trc10token:
         name: "%{name} (%{symbol}) %{token_type} Token"
         smart_contract: "Token is implemented as %{token_type} smart contract with address"

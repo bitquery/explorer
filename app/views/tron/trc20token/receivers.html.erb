@@ -1,0 +1,7 @@
+<% unless @native_token %>
+<%= render partial: 'tron/trc20token/receivers' %>
+<% end %>
+
+<div class="row">
+  <%= render partial: 'tron/trc20token/receivers_by_time' %>
+</div>

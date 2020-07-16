@@ -39,13 +39,22 @@
   <% end %>
 
   <% for token in @response.tokens.transfers %>
-    <% if token.currency.address.starts_with? '0x' %>
-      <%= render partial: 'sitemaps/url', locals: {url: url_for(controller: "#{@network[:family]}/token", action: 'show',
-                                                                blockchain: @network[:network], network: @network,
-                                                                address: token.currency.address,
-                                                                only_path: false) } %>
-
-    <% end  %>
+    <% if token.currency.address == '-' && token.currency.token_id == '0' %>
+              <%= render partial: 'sitemaps/url', locals: {url: url_for(controller: "#{@network[:family]}/trc20token", action: 'show',
+                                                                  blockchain: @network[:network], network: @network,
+                                                                  address: @network[:currency],
+                                                                  only_path: false) } %>
+    <% elsif token.currency.token_id == '0' %>
+              <%= render partial: 'sitemaps/url', locals: {url: url_for(controller: "#{@network[:family]}/trc20token", action: 'show',
+                                                                  blockchain: @network[:network], network: @network,
+                                                                  address: token.currency.address,
+                                                                  only_path: false) } %>
+    <% else %>
+          <%= render partial: 'sitemaps/url', locals: {url: url_for(controller: "#{@network[:family]}/trc10token", action: 'show',
+                                                                  blockchain: @network[:network], network: @network,
+                                                                  address: token.currency.token_id,
+                                                                  only_path: false) } %>
+    <% end %>
   <% end %>
 
 </urlset>

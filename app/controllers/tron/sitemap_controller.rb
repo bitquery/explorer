@@ -61,6 +61,7 @@ class Tron::SitemapController < NetworkController
                   
                             currency {
                               address
+                              tokenId
                             }
                   
                             count

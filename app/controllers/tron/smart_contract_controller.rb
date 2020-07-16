@@ -22,7 +22,7 @@ class Tron::SmartContractController < Tron::AddressController
     if !(sc = @info.try(:smart_contract))
       change_controller! 'tron/address'
     elsif sc.try(:currency)
-      change_controller! 'tron/token'
+      change_controller! 'tron/trc20token'
     end
   end
 

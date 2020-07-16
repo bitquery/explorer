@@ -1,4 +1,4 @@
-class Tron::TokenController < Tron::AddressController
+class Tron::Trc20tokenController < Tron::AddressController
 
   before_action :is_native
 

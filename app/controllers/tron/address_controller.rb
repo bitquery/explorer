@@ -67,7 +67,7 @@ class Tron::AddressController < NetworkController
 
   def redirect_by_type
     if sc = @info.try(:smart_contract)
-      change_controller! (sc.currency  ? 'tron/token' : 'tron/smart_contract')
+      change_controller! (sc.currency  ? 'tron/trc20token' : 'tron/smart_contract')
     end
   end
 

@@ -46,8 +46,11 @@ Rails.application.routes.draw do
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
-      get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
-      get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/trc20token/:address/:action", controller: "#{blockchain[:family]}/trc20token", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/trc20token/:address", controller: "#{blockchain[:family]}/trc20token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/trc10token/:address/:action", controller: "#{blockchain[:family]}/trc10token", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/trc10token/:address", controller: "#{blockchain[:family]}/trc10token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
       get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}

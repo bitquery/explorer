@@ -2,11 +2,11 @@
     widgets.callbacks({
         token_path: function(item){
             if(item.currency.tokenType=='TRC10') {
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.tokenId;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc10token/'+  item.currency.tokenId;
             } else  if (item.currency.tokenType=='TRC20'){
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc20token/'+  item.currency.address;
             }else{
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.symbol;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc20token/'+  item.currency.symbol;
             }
 
         },
@@ -43,6 +43,30 @@
         address_path: function(item){
             if (item.address.address!='0x0000000000000000000000000000000000000000'){
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
+            }
+        },
+        seller_address_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.seller.address;
+        },
+        buyer_address_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.buyer.address;
+        },
+        buy_token_path: function(item){
+            if(item.buyCurrency.tokenType=='TRC10') {
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc10token/'+  item.buyCurrency.tokenId;
+            } else  if (item.buyCurrency.tokenType=='TRC20'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc20token/'+  item.buyCurrency.address;
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc20token/'+  item.buyCurrency.symbol;
+            }
+        },
+        sell_token_path: function(item){
+            if(item.sellCurrency.tokenType=='TRC10') {
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc10token/'+  item.sellCurrency.tokenId;
+            } else  if (item.sellCurrency.tokenType=='TRC20'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc20token/'+  item.sellCurrency.address;
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/trc20token/'+  item.sellCurrency.symbol;
             }
         },
         sender_address_path: function(item){
