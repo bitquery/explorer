@@ -76,8 +76,8 @@
                     let _ = widgets.lodash;
                     let _n = widgets.numeral;
 
-                    let currencies = [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
-                    let currency = (_.find(currencies,{address: query.variables.currency}) || currencies[0]).symbol;
+                    let currencies = [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>];
+                    let currency = (_.find(currencies,{token_id: query.variables.currency}) || _.find(currencies,{address: query.variables.currency}) || currencies[0]).symbol;
 
                     this.prepareNodes = function(nodes){
                         let prepareNode = function(node){
@@ -498,7 +498,14 @@
                             '<div><select style="width:100%"></select></div>' +
                             '</div>');
                         _.each(currencies, function(c){
-                            let value = c.address === '-' ? c.symbol : c.address;
+                            let value;
+                            if(c.token_id == '0' && c.address == '-'){
+                                value = c.symbol;
+                            } else if (c.token_id == '0'){
+                                value = c.address;
+                            } else {
+                                value = c.token_id;
+                            }
                             select.find('select').append('<option value="'+value+'" '+(value == query.variables.currency ? 'selected=selected' : '')+'>'+c.name+' ('+c.symbol+')</option>');
                         });
                         wrap.append(select);

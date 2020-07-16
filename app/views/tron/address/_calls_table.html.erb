@@ -23,7 +23,7 @@
                                     tron{
                                       smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
                                         date: {since: $from till: $till },
-                                        caller: {is: $address}) {
+                                        txFrom: {is: $address}) {
 
                                         block {
                                           timestamp {
@@ -41,11 +41,9 @@
                                             annotation
                                           }
                                         }
-                                        transaction {
-                                          hash
-                                        }
+                                        txHash
                                         external
-                                        gasValue
+                                        fee
                                             }
                                           }
                                         }`);
@@ -82,9 +80,9 @@
                 },
 
                 {
-                    title: '<%= t('widgets.titles.gas_value') %>',
+                    title: '<%= t('widgets.titles.fee') %>',
                     type: 'amount',
-                    path: 'gas_value',
+                    path: 'fee',
                     style: 'width: 100px'
                 },
                 {

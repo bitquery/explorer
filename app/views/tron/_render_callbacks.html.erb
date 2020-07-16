@@ -15,7 +15,7 @@
                 return null;
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
-                    (item.currency.address=='-' ? item.currency.symbol : item.currency.address ) +
+                    (item.currency.address=='-' && item.currency.tokenId=='0' ? item.currency.symbol : (item.currency.tokenId=='0' ? item.currency.address : item.currency.tokenId )) +
                     (item.address ? '&sender='+item.address.address : '');
             }
         },
@@ -24,7 +24,7 @@
                 return null;
             }else {
                 return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
-                    (item.currency.address=='-' ? item.currency.symbol : item.currency.address ) +
+                    (item.currency.address=='-' && item.currency.tokenId=='0' ? item.currency.symbol : (item.currency.tokenId=='0' ? item.currency.address : item.currency.tokenId )) +
                     (item.address ? '&receiver='+item.address.address : '');
             }
         },

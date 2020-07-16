@@ -23,7 +23,7 @@
                                 date: {since: $from till: $till },
                                 smartContractAddress: {is: $address}) {
 
-                                address: caller {
+                                address: txFrom {
                                   address
                                   annotation
                                 }
@@ -31,7 +31,7 @@
                                 max_date: maximum(of: date)
                                 count
 
-                                gasValue(calculate: average)
+                                fee(calculate: average)
                               }
                             }
                           }`);
@@ -51,9 +51,9 @@
                     path: 'max_date'
                 },
                 {
-                    title: '<%= t('widgets.titles.avg_gas_value') %>',
+                    title: '<%= t('widgets.titles.avg_fee_value') %>',
                     type: 'amount',
-                    path: 'gasValue'
+                    path: 'fee'
                 },
                 {
                     title: '<%= t('widgets.titles.calls_count') %>',

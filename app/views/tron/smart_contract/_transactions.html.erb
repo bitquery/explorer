@@ -36,16 +36,13 @@
                       signatureHash
                     }
 
-                    address: caller {
+                    address: txFrom {
                       address
                       annotation
                     }
 
-                    transaction {
-                      hash
-                    }
-                    gasValue
-                    external
+                    txHash
+                    fee
                   }
                 }
               }`);
@@ -77,9 +74,9 @@
                     urlCallbackName: 'address_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.gas_value') %>',
+                    title: '<%= t('widgets.titles.fee') %>',
                     type: 'amount',
-                    path: 'gasValue'
+                    path: 'fee'
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',

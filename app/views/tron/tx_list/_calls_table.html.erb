@@ -24,7 +24,7 @@
                                     tron{
                                       smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
 
-                                         <% if @caller  %>caller: {is: $caller},<% end %>
+                                         <% if @caller  %>txFrom: {is: $caller},<% end %>
                                          <% if @contract  %>smartContractAddress: {is: $contract},<% end %>
                                          <% if @method  %>smartContractMethod: {is: $method},<% end %>
                                          date: {since: $from till: $till }
@@ -37,7 +37,7 @@
                                           height
                                         }
 
-                                        address: caller {
+                                        address: txFrom {
                                           address
                                           annotation
                                         }
@@ -51,11 +51,8 @@
                                             annotation
                                           }
                                         }
-                                        transaction {
-                                          hash
-                                        }
-                                        external
-                                        gasValue
+                                        txHash
+                                        fee
                                             }
                                           }
                                         }`);
@@ -95,14 +92,14 @@
                 },
 
                 {
-                    title: '<%= t('widgets.titles.gas_value') %>',
+                    title: '<%= t('widgets.titles.fee') %>',
                     type: 'amount',
-                    path: 'gas_value'
+                    path: 'fee'
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
-                    path: 'transaction.hash',
+                    path: 'txHash',
                     urlCallbackName: 'transaction_path'
                 },
             ]

@@ -45,9 +45,7 @@
                                             annotation
                                           }
                                         }
-                                        transaction {
-                                          hash
-                                        }
+                                        txHash
                                             }
                                           }
                                         }`);
@@ -82,7 +80,7 @@
                 {
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
-                    path: 'transaction.hash',
+                    path: 'txHash',
                     urlCallbackName: 'transaction_path'
                 },
             ]

@@ -1,7 +1,7 @@
 
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.top_gas_calls_table') %></div>
+    <div class="card-header"><%= t('widgets.headers.top_fee_calls_table') %></div>
     <div class="card-body">
       <div id="top_gas_calls_table"><%= t('loading') %></div>
     </div>
@@ -20,9 +20,9 @@
                                       $from: ISO8601DateTime,
                                       $till: ISO8601DateTime){
                                   tron{
-                                    smartContractCalls(options:{desc: "gasValue", limit: $limit, offset: $offset},
+                                    smartContractCalls(options:{desc: "fee", limit: $limit, offset: $offset},
                                       date: {since: $from till: $till },
-                                      caller: {is: $address}) {
+                                      txFrom: {is: $address}) {
 
                                       block {
                                         timestamp {
@@ -39,11 +39,8 @@
                                           annotation
                                         }
                                       }
-                                      transaction {
-                                        hash
-                                      }
-                                      gasValue
-                                      external
+                                      txHash
+                                      fee
                                     }
                                   }
                                 }`);
@@ -69,9 +66,9 @@
                     urlCallbackName: 'smart_contract_method_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.gas_value') %>',
+                    title: '<%= t('widgets.titles.fee') %>',
                     type: 'amount',
-                    path: 'gas_value'
+                    path: 'fee'
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',

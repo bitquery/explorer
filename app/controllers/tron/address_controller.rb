@@ -19,15 +19,14 @@ class Tron::AddressController < NetworkController
                       tokenType
                     }
                   }
-                  #balance
                 }
               }
             }
   GRAPHQL
 
   QUERY_CURRENCIES = BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
+   query($address: String!) {
+              tron{
                 address(address: {is: $address}){
                   address 
                   annotation
@@ -46,6 +45,8 @@ class Tron::AddressController < NetworkController
       							currency {
                       address
                       symbol
+                      tokenType
+                      tokenId
                       name
                     }
       							count
@@ -59,11 +60,9 @@ class Tron::AddressController < NetworkController
   def query_graphql
     @address = params[:address]
     query = action_name == 'graph' ? QUERY_CURRENCIES : QUERY
-    if @address.starts_with?('0x')
-      result = BitqueryGraphql::Client.query(query, variables: {address: @address}).data.tron
-      @info = result.address.first
-      @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
-    end
+    result = BitqueryGraphql::Client.query(query, variables: {address: @address}).data.tron
+    @info = result.address.first
+    @currencies = result.transfers.map(&:currency).sort_by{|c| c.symbol=='TRX' ? 0 : 1 } if result.try(:transfers)
   end
 
   def redirect_by_type

@@ -18,7 +18,7 @@
                   $address: String!,
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
-                    ethereum(network: $network ){
+                    tron{
                       transfers(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}

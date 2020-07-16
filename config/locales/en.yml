@@ -426,6 +426,7 @@ en:
       smart_contracts_table: "Smart Contracts Called"
       smart_contract_methods_called_table: "Smart Contract Methods Called"
       top_gas_calls_table: "Top Gas Cost Calls"
+      top_fee_calls_table: "Top Fee Cost Calls"
       smart_contract_attributes: "Smart Contract Readonly Properties"
       smart_contract_code: "Smart Contract Code"
       smart_contract_source: "Smart Contract Source (disassembled)"
@@ -435,6 +436,7 @@ en:
       smart_contract_transactions: "Latest Transactions"
       smart_contract_top_callers: "Top Callers"
       smart_contract_top_gas_burners: "Top Gas Burners"
+      smart_contract_top_fee_burners: "Top Fee"
       smart_contract_methods_table: "Smart Contract Methods"
       smart_contract_methods_diagram: "Distribution of Calls Count by Methods"
       method_references_table: "Addresses used in Method Parameters"
@@ -564,6 +566,7 @@ en:
       max_date: 'Latest Date'
       gas_value: 'Gas Cost'
       avg_gas_value: 'Gas Cost/Call'
+      avg_fee_value: 'Fee Cost/Call'
       uniq_methods: "Uniq Methods"
       uniq_contracts: "Uniq Contracts"
       uniq_mints: 'Uniq Mints'
@@ -791,6 +794,10 @@ en:
       smart_contract:
         generic: "Smart contract in %{network}"
         custom: "%{type} smart contract in %{network}"
+      token:
+        name: "%{name} (%{symbol}) %{token_type} Token"
+        smart_contract: "Token is implemented as %{token_type} smart contract with address"
+    tron:
       token:
         name: "%{name} (%{symbol}) %{token_type} Token"
         smart_contract: "Token is implemented as %{token_type} smart contract with address"

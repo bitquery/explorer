@@ -1,6 +1,6 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.smart_contract_top_gas_burners') %></div>
+    <div class="card-header"><%= t('widgets.headers.smart_contract_top_fee_burners') %></div>
     <div class="card-body">
       <div id="smart_contract_top_gas_burners"><%= t('loading') %></div>
     </div>
@@ -19,18 +19,18 @@
                                       $from: ISO8601DateTime,
                                       $till: ISO8601DateTime){
                                   tron{
-                                    smartContractCalls(options:{desc: "gasValue", limit: $limit, offset: $offset},
+                                    smartContractCalls(options:{desc: "fee", limit: $limit, offset: $offset},
                                       date: {since: $from till: $till },
                                       smartContractAddress: {is: $address}) {
 
-                                      address: caller {
+                                      address: txFrom {
                                         address
                                         annotation
                                       }
 
                                       max_date: maximum(of: date)
 
-                                      gasValue(calculate: sum)
+                                      fee(calculate: sum)
                                       count
                                     }
                                   }
@@ -51,7 +51,7 @@
                     path: 'max_date'
                 },
                 {
-                    title: '<%= t('widgets.titles.gas_value') %>',
+                    title: '<%= t('widgets.titles.fee') %>',
                     type: 'amount',
                     path: 'gasValue'
                 },

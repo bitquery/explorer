@@ -21,7 +21,7 @@
                             tron{
                               smartContractCalls(options:{desc: "count", limit: $limit, offset: $offset},
                                 date: {since: $from till: $till },
-                                caller: {is: $address} ) {
+                                txFrom: {is: $address} ) {
 
                                 smartContractMethod {
                                   name
@@ -32,7 +32,7 @@
 
                                 count
                                 uniq_contracts: count(uniq: smart_contracts)
-                                gasValue(calculate: average)
+                                fee(calculate: average)
 
                               }
                             }
@@ -53,9 +53,9 @@
                     path: 'max_date'
                 },
                 {
-                    title: '<%= t('widgets.titles.avg_gas_value') %>',
+                    title: '<%= t('widgets.titles.avg_fee_value') %>',
                     type: 'amount',
-                    path: 'gasValue'
+                    path: 'fee'
                 },
                 {
                     title: '<%= t('widgets.titles.uniq_contracts') %>',

@@ -6,16 +6,6 @@
                                                               blockchain: @network[:network], network: @network, only_path: false) } %>
   <% end %>
 
-
-  <% for miner in @response.miners.blocks %>
-    <%= render partial: 'sitemaps/url', locals: {url: url_for(controller: "#{@network[:family]}/address", action: 'show',
-                                                              blockchain: @network[:network], network: @network,
-                                                              address: miner.address.address,
-                                                              only_path: false) } %>
-
-  <% end %>
-
-
   <% for receiver in @response.receivers.transfers %>
     <%= render partial: 'sitemaps/url', locals: {url: url_for(controller: "#{@network[:family]}/address", action: 'show',
                                                               blockchain: @network[:network], network: @network,
@@ -35,7 +25,7 @@
   <% for caller in @response.callers.smart_contract_calls %>
     <%= render partial: 'sitemaps/url', locals: {url: url_for(controller: "#{@network[:family]}/address", action: 'show',
                                                               blockchain: @network[:network], network: @network,
-                                                              address: caller.caller.address,
+                                                              address: caller.tx_from.address,
                                                               only_path: false) } %>
 
   <% end %>

@@ -1,24 +1,24 @@
 class Tron::SitemapController < NetworkController
 
   QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-           query ($network: EthereumNetwork! $from: ISO8601DateTime){
+           query ($from: ISO8601DateTime){
 
 
-                    miners: ethereum(network: $network){
-                      blocks(options:{desc: "count", limit: 50},
-                        date: {since: $from }
-                        ) {
+                    #miners: tron{
+                    #  blocks(options:{desc: "count", limit: 50},
+                    #    date: {since: $from }
+                    #    ) {
+                    #
+                    #      address: miner {
+                    #        address
+                    #      }
+                    #
+                    #      count
+                    #
+                    #  }
+                    #}
 
-                          address: miner {
-                            address
-                          }
-
-                          count
-
-                      }
-                    }
-
-                   senders: ethereum(network: $network){
+                   senders: tron{
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -35,7 +35,7 @@ class Tron::SitemapController < NetworkController
                      
                    }
 
-                  receivers: ethereum(network: $network){
+                  receivers: tron{
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -52,7 +52,7 @@ class Tron::SitemapController < NetworkController
                       
                   }
 
-						      tokens: ethereum(network: $network){
+						      tokens: tron{
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -69,7 +69,7 @@ class Tron::SitemapController < NetworkController
                      
                    }
 
-                  callers: ethereum(network: $network){
+                  callers: tron{
                         smartContractCalls(options:{
                           desc: "count", 
                           limit: 100},
@@ -77,7 +77,7 @@ class Tron::SitemapController < NetworkController
   
                           ) {
                   
-                    				caller {
+                    				txFrom {
                               address
                             }
 
@@ -87,7 +87,7 @@ class Tron::SitemapController < NetworkController
                         }
                   }
 
-                  contracts: ethereum(network: $network){
+                  contracts: tron{
                         smartContractCalls(options:{
                           desc: "count", 
                           limit: 100},
@@ -111,8 +111,7 @@ class Tron::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-10,
-                                                                 network: @network[:network]}).data
+    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-10}).data
 
 
   end

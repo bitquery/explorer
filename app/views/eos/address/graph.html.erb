@@ -19,10 +19,24 @@
       sender {
         address
         annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+            name
+          }
+        }
       }
       receiver {
         address
         annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+            name
+          }
+        }
       }
       amount
     }
@@ -30,10 +44,24 @@
       sender {
         address
         annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+            name
+          }
+        }
       }
       receiver {
         address
         annotation
+        smartContract {
+          contractType
+          currency {
+            symbol
+            name
+          }
+        }
       }
       amount
     }
@@ -59,6 +87,41 @@
                                     label: 'Coinbase',
                                     group: 'coinbase',
                                     title: node.address
+                                };
+                            } else if(node.smartContract.contractType == 'Generic'){
+                                return {
+                                    id: node.address,
+                                    label: _.truncate(node.address, {length: 15, separator: '...'}),
+                                    group: 'smart_contract',
+                                    title: 'Smart Contract ' + node.address
+                                };
+                            } else if(node.smartContract.contractType == 'Token' || node.smartContract.contractType == 'TokenSale'){
+                                return {
+                                    id: node.address,
+                                    label: node.smartContract.currency.name +' ('+node.smartContract.currency.symbol+')',
+                                    group: 'token',
+                                    title: node.smartContract.currency.name +' ('+node.smartContract.currency.symbol+')' + ' ' + node.address
+                                };
+                            } else if(node.smartContract.contractType == 'MarginPositionToken'){
+                                return {
+                                    id: node.address,
+                                    label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                    group: 'MarginPositionToken',
+                                    title: 'MarginPositionToken ' + node.address
+                                };
+                            } else if(node.smartContract.contractType == 'Multisig'){
+                                return {
+                                    id: node.address,
+                                    label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                    group: 'multisig',
+                                    title: 'MultiSig Wallet ' + node.address
+                                };
+                            } else if(node.smartContract.contractType == 'DEX'){
+                                return {
+                                    id: node.address,
+                                    label: node.annotation || _.truncate(node.address, {length: 15, separator: '...'}),
+                                    group: 'dex',
+                                    title: 'DEX ' + node.address
                                 };
                             } else {
                                 return {

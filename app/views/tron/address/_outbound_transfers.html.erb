@@ -40,12 +40,11 @@
                         currency {
                           address
                           symbol
+                          tokenId
+                          tokenType
                         }
                         amount
-                        transaction {
-                          hash
-                        }
-                        external
+                        txHash
                       }
                     }
                   }`);
@@ -78,6 +77,12 @@
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path',
                     style: 'width: 80px'
+                },
+                {
+                    title: '<%= t('widgets.titles.token_type') %>',
+                    type: 'string-ellipsis',
+                    path: 'currency.tokenType',
+                    style: 'width: 120px'
                 },
                 {
                     title: '',
