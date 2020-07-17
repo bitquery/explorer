@@ -722,6 +722,7 @@ en:
       external_calls_count: "External calls"
       address: "Address"
       owner: "Owner"
+      contract_type: "Contract Type"
       argument: "Argument"
       argindex: "Argument Index"
       argvalue: "Argument Value"

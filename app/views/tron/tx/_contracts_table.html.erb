@@ -35,7 +35,7 @@
                             annotation
                           }
                           txHash
-                          fee
+                          contractType
                       }
                     }
                   }`);
@@ -63,17 +63,16 @@
                     urlCallbackName: 'owner_address_path',
                 },
                 {
+                    title: '<%= t('widgets.titles.contract_type') %>',
+                    type: 'string',
+                    path: 'contractType'
+                },
+                {
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
                     path: 'txHash',
                     urlCallbackName: 'transaction_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
-                    type: 'amount',
-                    path: 'fee',
-                    style: 'width: 110px;'
-                },
+                }
             ]
         });
 
