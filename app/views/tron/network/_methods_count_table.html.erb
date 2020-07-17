@@ -1,0 +1,60 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.top_methods') %></div>
+    <div class="card-body">
+      <div id="top_methods"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query (
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    tron{
+                      smartContractCalls(options:{desc: "count", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till },
+                        external: true
+                        ) {
+
+                          count
+
+                          smartContractMethod {
+                            name
+                            signatureHash
+                          }
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#top_methods', query, 'tron.smartContractCalls', {
+            title: '<%= t('widgets.headers.top_methods') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    type: 'string',
+                    path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
+                    urlCallbackName: 'smart_contract_method_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    type: 'count',
+                    path: 'count'
+                }
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        });
+
+    });
+
+</script>

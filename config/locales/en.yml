@@ -616,6 +616,8 @@ en:
       latest_contracts: "Latest Contracts"
       latest_transfers: "Latest Transfers"
       latest_calls: "Latest Smart Contract Calls"
+      top_calls: "Top Smart Contract Calls"
+      top_methods: "Top Smart Contract Methods"
       latest_mints: "Latest Mints"
       contracts_by_time: "Unique Smart Contracts"
       miners: "Miners"

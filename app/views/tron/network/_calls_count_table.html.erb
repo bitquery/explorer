@@ -1,0 +1,62 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.top_calls') %></div>
+    <div class="card-body">
+      <div id="top_calls_count"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query (
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    tron{
+                      smartContractCalls(options:{desc: "count", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till },
+                        external: true
+                        ) {
+
+                          count
+
+                          smartContract{
+                            address{
+                              address
+                              annotation
+                            }
+                          }
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#top_calls_count', query, 'tron.smartContractCalls', {
+            title: '<%= t('widgets.headers.top_calls') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    type: 'count',
+                    path: 'count'
+                }
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        });
+
+    });
+
+</script>
