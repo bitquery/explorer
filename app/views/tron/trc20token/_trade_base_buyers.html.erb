@@ -1,6 +1,6 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.trade_base_buyers', token: @token) %></div>
+    <div class="card-header"><%= t('widgets.headers.trade_buy_buyers', token: @token) %></div>
     <div class="card-body">
       <div id="trade_base_buyers"><%= t('loading') %></div>
     </div>
@@ -47,7 +47,7 @@
   }`);
 
         new widgets.table('#trade_base_buyers', query, 'tron.trades', {
-            title: '<%= t('widgets.headers.trade_base_buyers') %>',
+            title: '<%= t('widgets.headers.trade_buy_buyers') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.buyer') %>',
@@ -61,10 +61,10 @@
                     path: 'count'
                 },
                 {
-                    title: '<%= t('widgets.titles.quote_amount') %>, <%= @token %>',
+                    title: '<%= t('widgets.titles.buy_amount') %>, <%= @token %>',
                     style: 'width: 120px;',
                     type: 'amount',
-                    path: 'quoteAmount'
+                    path: 'amountBuy'
                 },
                 {
                     title: '<%= t('widgets.titles.first_trade_date') %>',

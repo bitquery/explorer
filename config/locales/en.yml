@@ -647,7 +647,9 @@ en:
       token_trades_currencies: "Token Trade Pairs"
       orders_by_time: "Orders by time"
       trade_base_buyers: "%{token} Top Buyers as Base Currency"
+      trade_buy_buyers: "%{token} Top Buyers as Buy Currency"
       trade_base_sellers: "%{token} Top Sellers as Base Currency"
+      trade_sell_sellers: "%{token} Top Sellers as Sell Currency"
       order_statuses: "Order Statuses"
       transaction_fee_by_time: "Fee Spent By Date"
       transaction_average_fee_by_time: "Average Fee per Transactions By Date"
@@ -810,9 +812,13 @@ en:
       maker: 'Maker'
       order_id: 'Order ID'
       base_currency: 'Base currency'
+      buy_currency: 'Buy currency'
       quote_currency: 'Quote currency'
+      sell_currency: 'Sell currency'
       base_amount: 'Base amount'
       quote_amount: 'Quote amount'
+      buy_amount: 'Buy amount'
+      sell_amount: 'Sell amount'
       order_status: 'Order Status'
       price: 'Price'
       unique_orders: 'Unique Orders'
@@ -838,7 +844,9 @@ en:
       last_trade_date: "Last trade date"
       trades_days: "Days traded"
       trade_base_currency_amount: 'Base Amount'
+      trade_buy_currency_amount: 'Buy Amount'
       trade_quote_currency_amount: 'Quote Amount'
+      trade_sell_currency_amount: 'Sell Amount'
       average_price: 'Avg Price'
       orders_as_base_count: "Orders As Base Currency"
       orders_as_quote_count: "Orders As Quote Currency"

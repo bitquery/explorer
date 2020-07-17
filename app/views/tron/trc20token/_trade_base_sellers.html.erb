@@ -1,6 +1,6 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.trade_base_sellers', token: @token) %></div>
+    <div class="card-header"><%= t('widgets.headers.trade_sell_sellers', token: @token) %></div>
     <div class="card-body">
       <div id="trade_base_sellers"><%= t('loading') %></div>
     </div>
@@ -25,9 +25,9 @@
 
       buyCurrency: {is: $token}
       date: {since: $from till: $till}
-        options: {desc: "amountBuy", limit: $limit, offset: $offset}
+        options: {desc: "amountSell", limit: $limit, offset: $offset}
       ){
-        buyCurrency{
+        sellCurrency{
           symbol
         }
         address: seller {
@@ -36,7 +36,7 @@
         }
 
         count
-        amountBuy
+        amountSell
         days: count(uniq: dates)
 
         min_date:minimum(of: date)
@@ -46,7 +46,7 @@
   }`);
 
         new widgets.table('#trade_base_sellers', query, 'tron.trades', {
-            title: '<%= t('widgets.headers.trade_base_sellers') %>',
+            title: '<%= t('widgets.headers.trade_sell_sellers') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.seller') %>',
@@ -60,10 +60,10 @@
                     path: 'count'
                 },
                 {
-                    title: '<%= t('widgets.titles.quote_amount') %>, <%= @token %>',
+                    title: '<%= t('widgets.titles.sell_amount') %>, <%= @token %>',
                     style: 'width: 120px;',
                     type: 'amount',
-                    path: 'quoteAmount'
+                    path: 'amountSell'
                 },
                 {
                     title: '<%= t('widgets.titles.first_trade_date') %>',
