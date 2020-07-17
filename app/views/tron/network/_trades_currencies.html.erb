@@ -1,0 +1,98 @@
+<div class="row">
+<div class="col-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_trades_currencies') %></div>
+    <div class="card-body">
+      <div id="token_trades_currencies"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query (
+        $limit: Int!,
+        $offset: Int!
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime){
+    tron {
+      trades(
+      date: {since: $from till: $till}
+        options: {desc: "count", limit: $limit, offset: $offset}
+      ){
+
+        buyCurrency {
+          symbol
+          tokenId
+          address
+        }
+        sellCurrency {
+          symbol
+          tokenId
+          address
+        }
+
+        count
+
+        amountBuy
+        amountSell
+
+      }
+    }
+  }`);
+
+        new widgets.table('#token_trades_currencies', query, 'tron.trades', {
+            title: '<%= t('widgets.headers.token_trades_currencies') %>',
+            renderData: function(data){
+                widgets.lodash.each(data, function(item){
+                    item.price = item.amountBuy/item.amountSell;
+                });
+                return data;
+            },
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.trade_base_currency_amount') %>',
+                    type: 'amount',
+                    path: 'amountBuy'
+                },
+                {
+                    title: '<%= t('widgets.titles.base_currency') %>',
+                    type: 'string',
+                    path: 'buyCurrency.symbol',
+                    urlCallbackName: 'buy_token_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.trade_quote_currency_amount') %>',
+                    type: 'amount',
+                    path: 'amountSell'
+                },
+                {
+                    title: '<%= t('widgets.titles.quote_currency') %>',
+                    type: 'string',
+                    path: 'sellCurrency.symbol',
+                    urlCallbackName: 'sell_token_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.average_price') %>',
+                    type: 'amount',
+                    path: 'price'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        });
+
+    });
+
+</script>
