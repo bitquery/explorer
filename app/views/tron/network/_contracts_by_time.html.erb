@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transactions_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.contract_by_time') %></div>
       <div class="card-body">
         <div id="transactions_by_time"><%= t('loading') %></div>
       </div>
@@ -30,7 +30,7 @@
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
                     tron{
-                      transactions(options:{asc: "date.date"}, date: {
+                      contracts(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till},
                         height: {gt: 0}
@@ -44,12 +44,12 @@
                     }
                   }`);
 
-        new widgets.chartByTime('#transactions_by_time', query, 'tron.transactions', {
-            title: '<%= t('widgets.headers.transactions_by_time') %>',
+        new widgets.chartByTime('#transactions_by_time', query, 'tron.contracts', {
+            title: '<%= t('widgets.headers.contract_by_time') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.transactions_count') %>'
+                        title: '<%= t('widgets.titles.contracts_count') %>'
                     }
                 },
                 seriesType: 'bars',
@@ -63,14 +63,14 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.transactions_count') %>',
+                    title: '<%= t('widgets.titles.contracts_count') %>',
                     path: 'count'
                 },
 
             ]
         });
 
-        new widgets.chartByTime('#transaction_gas_by_time', query, 'tron.transactions', {
+        new widgets.chartByTime('#transaction_gas_by_time', query, 'tron.contracts', {
             title: '<%= t('widgets.headers.transaction_fee_by_time') %>',
             chartOptions: {
                 vAxes: {

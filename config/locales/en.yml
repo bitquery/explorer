@@ -40,6 +40,10 @@ en:
         name: 'Transactions'
         title: "%{address} transactions in %{network}"
         description: "Transactions sent by address %{address} activity in %{network}"
+      contracts:
+        name: "Contracts"
+        title: "%{address} contracts in %{network}"
+        description: "Contracts owned by address %{address} activity in %{network}"
       inflow:
         name: 'Inflow'
         title: "%{address} inflow in %{network}"
@@ -287,6 +291,10 @@ en:
         name: 'Transfers'
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
+      contracts:
+        name: "Contracts"
+        title: "Contracts %{network} %{hash}"
+        description: "Contracts in transaction %{hash} in %{network}"
       calls:
         name: 'Calls'
         title: "Calls %{network} %{hash}"
@@ -326,6 +334,10 @@ en:
         name: "Transactions"
         title: "Block %{height} Transactions on %{network} Explorer"
         description: "Transaction list in block %{height} for %{network}"
+      contracts:
+        name: "Contracts"
+        title: "Contracts in block %{height}"
+        description: "Contracts list in block %{height} for %{network}"
       calls:
         name: "Smart Contract Calls"
         title: "Block %{height} Smart Contract Calls on %{network} Explorer"
@@ -364,6 +376,10 @@ en:
         name: "Transfers"
         title: "Transfers on %{network} Explorer"
         description: "Transfer list for %{network}"
+      contracts:
+        name: "Contracts"
+        title: "Contracts on %{network} Explorer"
+        description: "Contracts list for %{network}"
       tokens:
         name: "Tokens"
         title: "Tokens on %{network} Explorer"
@@ -591,11 +607,13 @@ en:
       transactions: "Transactions"
       call_arguments: "Smart Contract Call Arguments"
       transactions_by_time: "Transactions By Date"
+      contract_by_time: "Contracts By Date"
       proposers_by_time: "Proposers By Date"
       block_reward_by_time: "Block Rewards By Date"
       transaction_gas_by_time: "Gas Spent By Date"
       latest_blocks: "Latest Blocks"
       latest_transactions: "Latest Transactions"
+      latest_contracts: "Latest Contracts"
       latest_transfers: "Latest Transfers"
       latest_calls: "Latest Smart Contract Calls"
       latest_mints: "Latest Mints"
@@ -703,6 +721,7 @@ en:
       internal_calls_count: "Internal calls"
       external_calls_count: "External calls"
       address: "Address"
+      owner: "Owner"
       argument: "Argument"
       argindex: "Argument Index"
       argvalue: "Argument Value"
@@ -724,6 +743,7 @@ en:
       created: "Created"
       create_tx: "Create TX"
       transactions_count: "Transactions count"
+      contracts_count: "Contracts count"
       proposers_count: "Proposers Unique"
       last_transaction_time: "Last transaction time"
       call_depth: "Call Depth"

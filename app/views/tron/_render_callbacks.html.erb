@@ -41,9 +41,10 @@
             return '<%= locale_path_prefix %><%= @network[:network] %>'+'/event/'+item.smartContractEvent.signatureHash;
         },
         address_path: function(item){
-            if (item.address.address!='0x0000000000000000000000000000000000000000'){
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
-            }
+        },
+        owner_address_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.txOwner.address;
         },
         seller_address_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.seller.address;
