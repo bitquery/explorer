@@ -962,6 +962,13 @@ en:
       token:
         name: "%{name} (%{symbol}) %{token_type} Token"
         smart_contract: "Token is implemented as %{token_type} smart contract with address"
+    conflux:
+      smart_contract:
+        generic: "Smart contract in %{network}"
+        custom: "%{type} smart contract in %{network}"
+      token:
+        name: "%{name} (%{symbol}) %{token_type} Token"
+        smart_contract: "Token is implemented as %{token_type} smart contract with address"
     tron:
       token:
         name: "%{name} (%{symbol}) %{token_type} Token"
