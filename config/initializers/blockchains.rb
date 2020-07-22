@@ -182,7 +182,7 @@ BLOCKCHAINS = [
 
     {
         tag: 'conflux',
-        network: 'conflux',
+        network: 'conflux_oceanus',
         name: 'Conflux',
         family: 'conflux',
         platform: 'Smart Contract',
