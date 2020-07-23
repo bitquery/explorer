@@ -38,6 +38,7 @@
                       signatureHash
                     }
 
+                    count
                   }
                 }
               }`);
@@ -50,6 +51,10 @@
                     type: 'string',
                     path: ['smartContractEvent.name','smartContractEvent.signatureHash'],
                     urlCallbackName: 'smart_contract_event_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.events_count') %>',
+                    path: 'count'
                 },
                 {
                     title: '<%= t('widgets.titles.smart_contract') %>',
