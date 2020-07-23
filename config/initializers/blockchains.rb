@@ -159,6 +159,17 @@ BLOCKCHAINS = [
     },
 
     {
+        tag: 'bsc_testnet',
+        network: 'bsc_testnet',
+        name: 'Binance Smart Chain Testnet',
+        family: 'ethereum',
+        platform: 'Testnet',
+        currency: 'BNB',
+        icon: 'bnb.svg',
+        start: Date.parse('2020-04-20')
+    },
+
+    {
         tag: 'baklava',
         network: 'celo_baklava',
         name: 'Celo Baklava Testnet',
