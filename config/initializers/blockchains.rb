@@ -64,6 +64,17 @@ BLOCKCHAINS = [
     },
 
     {
+        tag: 'etc',
+        network: 'ethclassic_reorg',
+        name: 'Ethereum Classic ( no reorg from block 10904146)',
+        family: 'ethereum',
+        platform: 'Smart Contract',
+        currency: 'ETC',
+        icon: 'etc.svg'
+
+    },
+
+    {
         tag: 'zcash',
         network: 'zcash',
         name: 'ZCash',
