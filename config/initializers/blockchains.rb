@@ -66,7 +66,7 @@ BLOCKCHAINS = [
     {
         tag: 'etc',
         network: 'ethclassic_reorg',
-        name: 'Ethereum Classic ( no reorg from block 10904146)',
+        name: 'Ethereum Classic ( no reorg )',
         family: 'ethereum',
         platform: 'Smart Contract',
         currency: 'ETC',

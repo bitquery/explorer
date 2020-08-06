@@ -43,7 +43,15 @@ class Ethereum::AddressController < NetworkController
                   }
                   balance
                 }
-    						transfers(receiver: {is: $address}, options: {desc: "count"}){
+    						tin: transfers(receiver: {is: $address}, options: {desc: "count"}){
+      							currency {
+                      address
+                      symbol
+                      name
+                    }
+      							count
+    						}
+    						tout: transfers(sender: {is: $address}, options: {desc: "count"}){
       							currency {
                       address
                       symbol
@@ -63,7 +71,8 @@ class Ethereum::AddressController < NetworkController
     if @address.starts_with?('0x')
       result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.ethereum
       @info = result.address.first
-      @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
+      all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
+      @currencies = all_t.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 }
     end
   end
 
