@@ -37,6 +37,7 @@
                         }
 
                         gasValue
+                        average: gasValue(calculate: average)
                         count
 
                       }
@@ -61,6 +62,12 @@
                     title: '<%= t('widgets.titles.gas_value') %>, <%= @network[:currency] %>',
                     type: 'amount',
                     path: 'gasValue',
+                    style: 'width: 110px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.avg_gas_value') %>, <%= @network[:currency] %>',
+                    type: 'amount',
+                    path: 'average',
                     style: 'width: 110px;'
                 },
             ]

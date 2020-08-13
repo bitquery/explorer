@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transaction_gas_by_time') %>, <%= @network[:currency] %></div>
+      <div class="card-header"><%= t('widgets.headers.transaction_gas_cost_by_time') %>, <%= @network[:currency] %></div>
       <div class="card-body">
         <div id="transaction_gas_by_time"><%= t('loading') %></div>
       </div>
@@ -15,16 +15,27 @@
       </div>
     </div>
   </div>
-  <div class="col-12 col-lg-12 mb-4">
+
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transaction_gas_price_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.transaction_gas_avg_cost_by_time') %></div>
+      <div class="card-body">
+        <div id="transaction_gas_avg_cost_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transaction_gas_price_by_time_log') %></div>
       <div class="card-body">
         <div id="transaction_gas_price_by_time_log"><%= t('loading') %></div>
       </div>
     </div>
   </div>
 </div>
-
 
 <script>
 
@@ -47,6 +58,7 @@
                         }
                         gasPrice
                         gasValue
+                        average: gasValue(calculate: average )
                         maxGasPrice: gasPrice(calculate: maximum)
                         medianGasPrice: gasPrice(calculate: median)
                       }
@@ -79,6 +91,32 @@
             ]
         });
 
+        new widgets.chartByTime('#transaction_gas_avg_cost_by_time', query, 'ethereum.transactions', {
+            title: '<%= t('widgets.headers.transaction_gas_avg_cost_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.gas_value') %>'
+                    }
+                },
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+                seriesType: 'bars'
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.avg_gas_value') %>,  <%= @network[:currency] %>',
+                    path: 'average'
+                },
+
+            ]
+        });
+
         new widgets.chartByTime('#transaction_gas_price_by_time', query, 'ethereum.transactions', {
             title: '<%= t('widgets.headers.transaction_gas_price_by_time') %>',
             chartOptions: {
@@ -88,7 +126,7 @@
                     }
                 },
                 series: {
-                    '0': { color: '#ffc107' }
+                    '0': { color: '#28a745' }
                 },
                 seriesType: 'bars'
             },
@@ -106,7 +144,7 @@
         });
 
         new widgets.chartByTime('#transaction_gas_price_by_time_log', query, 'ethereum.transactions', {
-            title: '<%= t('widgets.headers.transaction_gas_price_by_time') %>',
+            title: '<%= t('widgets.headers.transaction_gas_price_by_time_log') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
