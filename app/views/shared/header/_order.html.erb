@@ -1,5 +1,6 @@
 <% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], order: @order) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], order: @order) %>
+<% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name], order: @order) %>
 
 <%= render partial: 'shared/title', locals: {
           icon: t("tabs.#{controller_name}.icon"),

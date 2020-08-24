@@ -1,11 +1,12 @@
 <% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name]) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name]) %>
+<% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name]) %>
 
 <div class="row mt-2 mb-2">
   <div class="col-12 col-lg">
-    <h6 class="mt-2 word-wrap">
+    <h1 class="mt-2 word-wrap" style="font-size: 22px;">
       <%= network_icon @network %>
-      <%= t( "tabs.#{controller_name}.header", network: @network[:name]) %></h6>
+      <%= t( "tabs.#{controller_name}.header", network: @network[:name]) %></h1>
   </div>
 
   <div class="col-12 col-lg-auto">
