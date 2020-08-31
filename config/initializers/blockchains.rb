@@ -181,6 +181,17 @@ BLOCKCHAINS = [
     },
 
     {
+        tag: 'bsc',
+        network: 'bsc',
+        name: 'Binance Smart Chain Mainnet',
+        family: 'ethereum',
+        platform: 'Smart Contract',
+        currency: 'BNB',
+        icon: 'bnb.svg',
+        start: Date.parse('2020-08-29')
+    },
+
+    {
         tag: 'baklava',
         network: 'celo_baklava',
         name: 'Celo Baklava Testnet',
