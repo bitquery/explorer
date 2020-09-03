@@ -544,7 +544,7 @@ en:
       in_out_transfers_by_time: 'In/Outbound transfer count by date'
       mints_by_time: 'Mints by date'
       minters_by_time: 'Minters by date'
-      calls_by_time: 'Calls smart contracts by date'
+      calls_by_time: 'Smart contract calls ( including internal ) by date'
       currencies_sent_received: 'Currencies sent/received'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
@@ -630,6 +630,8 @@ en:
       top_methods: "Top Smart Contract Methods"
       latest_mints: "Latest Mints"
       contracts_by_time: "Unique Smart Contracts"
+      contract_callers_by_time: "Unique Smart Contracts Callers"
+      contract_methods_by_time: "Unique Smart Contracts Methods Called"
       miners: "Miners"
       miners_by_time: "Active Miners By Time"
       difficulty_by_time: "Difficulty By Time"
