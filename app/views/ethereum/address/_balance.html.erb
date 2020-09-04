@@ -1,14 +1,13 @@
 
 
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
+  <div class="col-12 col-lg-6 mb-4">
     <div class="card">
+      <div class="card-header"><%= t('widgets.headers.currencies_balances') %></div>
       <div class="card-body">
         <div id="ethereum_address_balance"><%= t('loading') %></div>
       </div>
     </div>
   </div>
-</div>
 
 <script>
     $( document ).ready(function() {
@@ -17,7 +16,14 @@
             query($network: EthereumNetwork!, $address: String!) {
               ethereum(network: $network) {
                 address(address: {is: $address}){
-                  balance
+                  balances {
+                    value
+                    currency {
+                      address
+                      symbol
+                      tokenType
+                    }
+                  }
                 }
               }
             }`);
@@ -25,18 +31,25 @@
         query.request({ network: '<%= @network[:network] %>',
             address: '<%= @address %>'});
 
-        new widgets.text('#ethereum_address_balance', query, 'ethereum.address', {
-            dataOptions:
+
+        new widgets.table('#ethereum_address_balance', query, 'ethereum.address[0].balances', {
+            title: '<%= t('widgets.headers.currencies_balances') %>',
+            dataOptions: [
                 {
-                    type: 'string',
-                    renderCallback: function(item){
-                        return '<%= t 'pages.address.description.balance' %> ' +
-                            '<strong class="text-success">'+item.balance + ' <%= @network[:currency] %>'+ '</strong>';
-
-                    }
-                }
-
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.balance') %>',
+                    type: 'amount',
+                    path: 'value'
+                },
+            ]
         });
+
+
     });
 
 

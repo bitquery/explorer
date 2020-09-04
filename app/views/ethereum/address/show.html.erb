@@ -1,13 +1,12 @@
 
-<%= render partial: 'ethereum/address/balance' %>
-
 <div class="row">
-  <%= render partial: 'ethereum/address/in_out_transfers_by_time' %>
-  <%= render partial: 'ethereum/address/calls_by_time' %>
+  <%= render partial: 'ethereum/address/currencies_table' %>
+  <%= render partial: 'ethereum/address/balance' %>
+
 </div>
 
 
 <div class="row">
-  <%= render partial: 'ethereum/address/currencies_table' %>
-  <%= render partial: 'ethereum/address/calls_smart_contracts_table' %>
+  <%= render partial: 'ethereum/address/in_out_transfers_by_time' %>
+  <%= render partial: 'ethereum/address/calls_by_time' %>
 </div>

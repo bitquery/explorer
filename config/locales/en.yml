@@ -546,6 +546,7 @@ en:
       minters_by_time: 'Minters by date'
       calls_by_time: 'Smart contract calls ( including internal ) by date'
       currencies_sent_received: 'Currencies sent/received'
+      currencies_balances: 'Address balance by currencies'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
       trades: "Trades"
@@ -698,6 +699,7 @@ en:
       symbol: "Symbol"
       asset_id: "Asset ID"
       receive: "Receive"
+      balance: "Balance"
       txs: "Tx's"
       send: "Send"
       pair: "Pair"
