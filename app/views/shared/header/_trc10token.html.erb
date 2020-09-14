@@ -2,6 +2,8 @@
                           token: @info.symbol, address: @address) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name],
                           token: @info.symbol, address: @address) %>
+<% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name],
+                          token: @info.symbol, address: @address) %>
 
 <%= render partial: 'shared/title', locals: {
           icon: t("tabs.#{controller_name}.icon"),

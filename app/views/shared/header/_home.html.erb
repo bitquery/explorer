@@ -1,9 +1,10 @@
 <% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title") %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description") %>
-
+<% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords") %>
+ 
 <div class="row mt-2 mb-2">
   <div class="col-12 col-lg">
-    <h6 class="mt-2 word-wrap">
-      <%= t( "tabs.#{controller_name}.#{params[:action]}.header") %></h6>
+    <h1 class="mt-2 word-wrap" style="font-size: 22px;">
+      <%= t( "tabs.#{controller_name}.#{params[:action]}.header") %></h1>
   </div>
 </div>
