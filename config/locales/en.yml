@@ -37,65 +37,80 @@ en:
         title: "Address %{address} | %{network}"
         description: "Visualize %{network} address ${address} portfolio, balances, transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
         keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
-        %{network} address ,blockchain address, %{network} balance, 
-        balance, %{network} address portfolio, %{network} address tokens, coin, 
-        crypto, %{network} address analytics, ERC-20, ERC-721, smart contract call, 
-        money, explorer, currency"
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history
+        %{network} address finder,%{address}"
       transactions:
         name: 'Transactions'
         title: "%{address} transactions | %{network}"
         description: "Transactions sent by address %{address} and other transaction analytics charts in %{network}"
+        keywords: "%{address} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
+        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
       contracts:
         name: "Contracts"
-        title: "%{address} contracts in %{network}"
-        description: "Contracts owned by address %{address} activity in %{network}"
+        title: "%{address} smart contract | %{network}"
+        description: "%{network} Smart Contracts created by address %{address}"
+        keywords: "%{address} smart contract, %{network} smart contract creator, %{network} smart contract owner, %{network} smart contract admin"
       inflow:
         name: 'Inflow'
-        title: "%{address} inflow in %{network}"
-        description: "Inflow of different crypto tokens and coins to address %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+        title: "%{network} recieved by %{address}"
+        description: "%{network} Crypto tokens and coins recieved by address %{address}, statistics of %{network} inbound transfers, sources of %{network} money transfers"
+        keywords: "%{address} inflow, %{network} inflow, %{network} inflow chart, %{network} money inflow, %{network} address inflow,%{network} inflows chart,%{network} fiat inflow, %{network} recieved, %{network} recieved by address, recieved %{network}, crypto inflow"
       outflow:
         name: 'Outflow'
         title: "%{address} outflow in %{network}"
         description: "Outflow of different crypto tokens and coins from address %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
+        keywords: "%{address} outflow, crypto outflow, %{network} sent, sent %{network}, %{network} money outflow,%{network} wallet sent, %{network} outflow, %{network} outflows"
       calls_contracts:
         name: 'Calls Contracts'
-        title: "%{address} calls smart contracts in %{network}"
-        description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+        title: "%{network} smart contracts calls by %{address}"
+        description: "%{network} Smart contract call by address %{address}, statistics of smart contract calls, usage and methods used"
+        keywords: "%{address} smart contract calls, %{network} smart contract calls, %{network} smart contract call, smart contract function calls"
       orders:
         name: 'Orders'
         title: "%{address} orders in %{network}"
         description: "Orders for trading crypto currencies by address %{address} activity in %{network}, statistics of token exchange orders"
+        keywords: "%{address} orders, %{network} orders, %{network} exchange orders"
       trades:
         name: 'Trades'
         title: "%{address} trades in %{network}"
         description: "Trades by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} trades, %{network} trades, %{network} exchange trades"
       graph:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} graph, %{network} %{address} graph"
     smart_contract:
       icon: 'fas fa-cogs text-info'
-      header: "%{address} smart contract in %{network}"
+      header: "%{address} smart contract | %{network}"
       show:
         name: 'Smart Contract'
-        title: "%{address} Smart Contract in %{network}"
-        description: "Overview of smart contract %{address} activity in %{network}"
+        title: "%{address} smart contract | %{network}"
+        description: "Overview of %{address} smart contract activity in %{network}"
       transactions:
         name: 'Transactions'
-        title: "%{address} Smart Contract Transactions in %{network}"
-        description: "Transactions with smart contract %{address} in %{network}"
+        title: "%{address} Transactions | %{network}"
+        description: "%{address} Transactions on %{network} blockchain"
+        keywords: "%{address} Transactions, %{address} smart contract Transactions"
       methods:
         name: 'Methods'
-        title: "%{address} Smart Contract Methods in %{network}"
-        description: "Method calls for smart contract %{address} in %{network}"
+        title: "%{address} Smart Contract Methods | %{network}"
+        description: "%{address} smart contract methods and functions in %{network} blockchain"
+        keywords: "%{address} methods, %{address} smart contract methods, %{address} smart contract functions, %{address} functions"
       events:
         name: 'Events'
-        title: "%{address} Smart Contract Events in %{network}"
-        description: "Events logged by smart contract %{address} in %{network}"
+        title: "%{address} Smart Contract Events | %{network}"
+        description: "%{address} smart contract events in %{network} blockchain"
+        keywords: "%{address} events, %{address} smart contract events, %{address} smart contract event, %{address} event log"
       inflow:
         name: 'Inflow'
         title: "%{address} Smart Contract Inflow in %{network}"
         description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
+        keywords: "%{address} inflow, %{address} money inflow"
       outflow:
         name: 'Outflow'
         title: "%{address} Smart Contract Outflow in %{network}"
@@ -104,10 +119,12 @@ en:
         name: 'Calls Contracts'
         title: "%{address} Calls Smart Contracts in %{network}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
+        keywords: " %{network} smart contracts calls, %{network} contract calls, %{network} smart contract calls"
       graph:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: " %{network} analysis, %{network} tracing graph, %{network} tracking graph, %{address} tracing, %{address} tracking ,Blockchain money flow graph, blockchain investigation, blockchain tracking, blockchain tracing, blockchain analysis, blockchain tracing graph"
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"

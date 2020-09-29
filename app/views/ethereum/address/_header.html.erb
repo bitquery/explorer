@@ -2,9 +2,9 @@
 <% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name],
                           address: ((!@info.annotation || @info.annotation=='') ? @address : @info.annotation )) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description",
-                                network: @network[:name], address: @address) %>
+                                network: @network[:name], address: ((!@info.annotation || @info.annotation=='') ? @address : @info.annotation)) %>
 <% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords",
-                                network: @network[:name], address: @address) %>
+                                network: @network[:name], address: ((!@info.annotation || @info.annotation=='') ? @address : @info.annotation )) %>
 <% content_for :header do %>
 
   <%= copy_text(@address, 'text-info').html_safe %>.
