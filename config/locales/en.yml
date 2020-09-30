@@ -390,69 +390,89 @@ en:
         name: 'Transfers'
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
+        keywords: "%{network} transfer, %{network} transaction value"
       contracts:
         name: "Contracts"
         title: "Contracts %{network} %{hash}"
         description: "Contracts in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction contract, %{network} transaction contract analytics"
       calls:
         name: 'Calls'
         title: "Calls %{network} %{hash}"
         description: "Smart Contract Calls in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction calls, %{network} transaction calls analytics"
       events:
         name: 'Events'
         title: "Events %{network} %{hash}"
         description: "Smart Contract Events in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction events, %{network} transaction events analytics"
       references:
         name: 'References'
         title: "References from %{network} %{hash}"
         description: "References from Smart Contract Events and Methods in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction events"
       orders:
         name: 'Orders'
         title: "Orders %{network} %{hash}"
         description: "Orders for trading crypto currencies in transaction %{hash} of %{network}, statistics of token exchange orders"
+        keywords: "%{network} transaction orders"
       trades:
         name: 'Trades'
         title: "Trades %{network} %{hash}"
         description: "Trades in transaction %{hash} of %{network}, statistics of token exchanges"
+        keywords: "%{network} transaction trades"
       input_scripts:
         name: 'Input Scripts'
         title: "Scripts for inputs %{hash} in %{network}"
         description: "Input scripts in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction input script"
       output_scripts:
         name: 'Output Scripts'
         title: "Scripts for output %{hash} in %{network}"
         description: "Output scripts in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction output script"
     block:
       icon: 'fas fa-cube'
       header: "%{network} Block %{height}"
       show:
         name: 'Block'
         title: "Block %{height} in %{network}"
-        description: "Overview of block %{height}  in %{network}"
+        description: "Check %{network} block %{height} and %{network} block data and analytics"
+        keywords: "%{network} blocks, %{network} latest blocks"
       transactions:
         name: "Transactions"
         title: "Block %{height} Transactions on %{network} Explorer"
-        description: "Transaction list in block %{height} for %{network}"
+        description: "Check latest %{network} transaction, trasnsaction fee and count analytics"
+        keywords: "%{network} transactions, %{network} latest transactions, %{network} transaction fee, %{network} transaction count"
       contracts:
         name: "Contracts"
         title: "Contracts in block %{height}"
-        description: "Contracts list in block %{height} for %{network}"
+        description: "%{network} Contracts list in block %{height}"
+        keywords: "%{network} contracts, %{network} smart contracts"
       calls:
         name: "Smart Contract Calls"
         title: "Block %{height} Smart Contract Calls on %{network} Explorer"
-        description: "Smart Contract Calls in block %{height} on %{network}"
+        description: "check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+        %{network} smart contract users"
       transfers:
         name: "Transfers"
         title: "Block %{height} Transfers on %{network} Explorer"
-        description: "Transfer list in block %{height} for %{network}"
+        description: "Check latest %{network} transfers, token transfers data and analytics"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+        %{network} smart contract users"
       trades:
         name: "Trades"
         title: "Block %{height} Trades on %{network} Explorer"
         description: "Trade list in block %{height} for %{network}"
+        keywords: "%{network} trades, %{network} exchange trades"
       orders:
         name: "Orders"
         title: "Block %{height} Orders on %{network} Explorer"
         description: "Order list in block %{height} for %{network}"
+        keywords: "%{network} orders, %{network} exchange orders"
     network:
       header: "%{network} Blockchain Explorer"
       blocks:
@@ -477,23 +497,32 @@ en:
       calls:
         name: "Smart Contract Calls"
         title: "Smart Contract Calls on %{network} Explorer"
-        description: "Smart Contract Calls on %{network}"
+        description: "check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+        %{network} smart contract users"
       mints:
         name: "Mints"
         title: "Mints on %{network} Explorer"
         description: "Mints on %{network}"
+        keywords: "%{network} inflation, %{network} mints"
       transfers:
         name: "Transfers"
         title: "Transfers on %{network} Explorer"
         description: "Transfer list for %{network}"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+        %{network} smart contract users"
       contracts:
         name: "Contracts"
         title: "Contracts on %{network} Explorer"
         description: "Contracts list for %{network}"
+        keywords: "%{network} contracts, %{network} smart contracts"
       tokens:
         name: "Tokens"
         title: "Tokens on %{network} Explorer"
         description: "Token list for %{network}"
+        keywords: "%{network} token list, %{network} tokens, %{network} coins"
       miners:
         name: "Miners"
         title: "%{network} Mining Analytics"
@@ -509,6 +538,7 @@ en:
         name: "Proposers"
         title: "Proposers on %{network} Explorer"
         description: "Proposer list for %{network}"
+        keywords: "%{network} proposers"
       proposer_distrib:
         name: "Proposer distribution"
         title: "Proposers distribution on %{network} Explorer"
@@ -518,22 +548,27 @@ en:
         name: "Protocols"
         title: "Protocols on %{network} Explorer"
         description: "Protocol list, votes and approvals for %{network}"
+        keywords: "%{network} protocol"
       trades:
         name: "Trades"
         title: "Trades on %{network} Explorer"
         description: "Trade list for %{network}"
+        keywords: "%{network} trades"
       orders:
         name: "Orders"
         title: "Orders on %{network} Explorer"
         description: "Order list for %{network}"
+        keywords: "%{network} orders"
       validators:
         name: "Validators"
         title: "Validators on %{network} Explorer"
         description: "Validator list for %{network}"
+        keywords: "%{network} validators, %{network} validators list"
       clients:
         name: "Client Types"
         title: "Client Types on %{network} Explorer"
         description: "Client Type list for %{network}"
+        keywords: "%{network} clients"
     home:
       index:
         name: "All"
@@ -584,10 +619,12 @@ en:
         name: 'Order Statuses'
         title: "%{network} order %{order}"
         description: "Status history of order %{order}  in %{network}"
+        keywords: "%{network} order status"
       trades:
         name: 'Trades'
         title: "%{network} order %{order} trades"
         description: "Trade history of order %{order}  in %{network}"
+        keywords: "%{network} trades"
     covid_dashboard:
       index:
         name: "World Dynamics"
