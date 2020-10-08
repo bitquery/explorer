@@ -44,8 +44,8 @@
                     title: 'New Cases in <%= @name %>'
                 }
             },
+            seriesType: 'line',
             hAxis: <%= render partial: 'shared/date_axis.json' %>,
-            bar: {groupWidth: "95%"},
             colors: ['#ffc107', 'lightgreen', 'red']
         },
         dataOptions: [
