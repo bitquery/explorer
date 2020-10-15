@@ -539,6 +539,11 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      dex:
+        name: "DEX"
+        title: "%{network} DEX Smart Contracts"
+        description: "Decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEXes"
       proposers:
         name: "Proposers"
         title: "Proposers on %{network} Explorer"
@@ -709,6 +714,9 @@ en:
       unique_traders_by_time: 'Unique Traders (makers and takers ) by time'
       unique_currencies_by_time: 'Traded currencies by time'
       unique_dex_smart_contracts_by_time: 'DEX Smart Contracts by time'
+      dex_tradex_by_protocol: "Count of DEX Trades By Protocol"
+      dex_smart_contracts: "DEX Smart Contracts"
+      dex_protocols: "DEX Smart Contract Protocols"
       trades: "Trades"
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
@@ -801,6 +809,7 @@ en:
       transfers: "Transfers"
       transfers_by_currencies: "Transfers By Currencies"
       protocols_by_time: "Protocols By Dates"
+      protocol: "Protocol"
       approvals_by_time: "Approvals of Protocols"
       transactions_by_clients: "Transactions By Client types"
       transactions_by_clients_by_time: "Client Type Transactions by Month / Date"

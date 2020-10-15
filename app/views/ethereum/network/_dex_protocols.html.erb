@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.dex_protocols') %></div>
+      <div class="card-body">
+        <div id="dex_protocols"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    ethereum(network: $network){
+                      dexTrades(options:{desc: "trades", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+
+                        ) {
+
+                          protocol
+
+                          trades: count
+                          traders: count(uniq: address)
+                          currencies: count(uniq: buy_currency)
+                          contracts: count(uniq: smart_contracts)
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#dex_protocols', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_protocols') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol'
+                },
+
+                {
+                    title: '<%= t('widgts.titles.trades') %>',
+                    path: 'trades'
+                },
+
+                {
+                    title: '<%= t('widgts.titles.traders') %>',
+                    path: 'traders'
+                },
+
+                {
+                    title: '<%= t('widgts.titles.currencies') %>',
+                    path: 'currencies'
+                },
+
+                {
+                    title: '<%= t('widgts.titles.contracts') %>',
+                    path: 'contracts'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+    });
+
+</script>
