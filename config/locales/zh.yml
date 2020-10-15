@@ -189,6 +189,7 @@ zh:
       currencies_sent_received: '貨幣已發送/已收到'
       calls_smart_contracts: '呼叫智能合約'
       trades_by_time: '按時間交易'
+      unique_traders_by_time: '按时间排列的唯一交易者（制造者和接收者）'
       trades_by_currencies: '交易買/賣'
       transactions_in_network: "以%{network}轉移"
       inbound_transfers: "最新入站转账"
@@ -251,6 +252,9 @@ zh:
       volume_in: "音量輸入, %{currency}"
       volume_out: "傳入數量, %{currency}"
       trades: "交易計數"
+      traders: "交易地址"
+      currencies: "货币"
+      smart_contracts: "智能合约"
       trades_as_buyer: "作為買方的交易"
       trades_as_seller: "賣方交易"
       currency: "貨幣"

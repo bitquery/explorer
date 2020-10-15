@@ -8,6 +8,22 @@
             }
 
         },
+        buy_token_path: function(item){
+            if(item.buyCurrency.address=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.buyCurrency.symbol;
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.buyCurrency.address;
+            }
+
+        },
+        sell_token_path: function(item){
+            if(item.sellCurrency.address=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.sellCurrency.symbol;
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.sellCurrency.address;
+            }
+
+        },
         transfer_to_path: function(item){
             if(item.count_in==0) {
                 return null;

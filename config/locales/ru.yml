@@ -189,6 +189,7 @@ ru:
       currencies_sent_received: 'Валюта отправлено/получено'
       calls_smart_contracts: 'Вызовы смарт контрактов'
       trades_by_time: 'Сделок по времени'
+      unique_traders_by_time: 'Уникальных адресов ( maker/taker) по времени'
       trades_by_currencies: 'Сделки Покупка/продажа'
       transactions_in_network: "Переводы в %{network}"
       inbound_transfers: "Свежие входящие переводы"
@@ -251,6 +252,9 @@ ru:
       volume_in: "Объем входящих, %{currency}"
       volume_out: "Объем исходящих, %{currency}"
       trades: "Количество сделок"
+      currencies: "Валют"
+      smart_contracts: "Смарт Контрактов"
+      traders: "Адреса трейдеров"
       trades_as_buyer: "Сделок от покупателей"
       trades_as_seller: "Сделок от продавцов"
       currency: "Валюта"

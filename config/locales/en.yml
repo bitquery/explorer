@@ -534,6 +534,11 @@ en:
         description: "Miner distribution chart for %{network}"
         attention: "Attention. The calculation may take a long time"
         keywords: "%{network} mining"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
       proposers:
         name: "Proposers"
         title: "Proposers on %{network} Explorer"
@@ -701,6 +706,9 @@ en:
       currencies_balances: 'Address balance by currencies'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
+      unique_traders_by_time: 'Unique Traders (makers and takers ) by time'
+      unique_currencies_by_time: 'Traded currencies by time'
+      unique_dex_smart_contracts_by_time: 'DEX Smart Contracts by time'
       trades: "Trades"
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
@@ -844,6 +852,7 @@ en:
       volume_in: "Volume In, %{currency}"
       volume_out: "Volume Out, %{currency}"
       trades: "Trades Count"
+      currencies: "Currencies"
       trades_as_buyer: "Trades as buyer"
       trades_as_seller: "Trades as seller"
       currency: "Currency"
@@ -891,6 +900,7 @@ en:
       internal_calls_count: "Internal calls"
       external_calls_count: "External calls"
       address: "Address"
+      traders: "Trader addresses"
       owner: "Owner"
       contract_type: "Contract Type"
       argument: "Argument"
