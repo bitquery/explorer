@@ -192,6 +192,17 @@ BLOCKCHAINS = [
     },
 
     {
+        tag: 'goerli',
+        network: 'goerli',
+        name: 'Goerli Ethereum Testnet',
+        family: 'ethereum',
+        platform: 'Testnet',
+        currency: 'GTH',
+        icon: 'eth.svg',
+        start: Date.parse('2019-01-30')
+    },
+
+    {
         tag: 'baklava',
         network: 'celo_baklava',
         name: 'Celo Baklava Testnet',
