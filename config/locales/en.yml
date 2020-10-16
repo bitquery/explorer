@@ -84,6 +84,11 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} graph, %{network} %{address} graph"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -126,6 +131,16 @@ en:
         title: "%{address} graph | %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
+      dex_tokens:
+        name: "DEX Tokens"
+        title: "%{network} Token Traded on DEXes"
+        description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
+        keywords: "%{network} DEX Tokens"
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -209,6 +224,16 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+      token_dex_trades:
+        name: "Trades on DEXs"
+        title: "%{network} DEX Trades of the token"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network} DEX Trades"
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -831,7 +856,8 @@ en:
       latest_token_orders: "Latest Token Orders"
       latest_token_trades: "Latest Token Trades"
       token_trading_statistics: "Token trading statistics"
-      token_makers: "Token Order Makers"
+      token_makers: "Trade Makers"
+      token_takers: "Trade Takers"
       token_currencies: "Token Order Pairs"
       token_trades_currencies: "Token Trade Pairs"
       orders_by_time: "Orders by time"
