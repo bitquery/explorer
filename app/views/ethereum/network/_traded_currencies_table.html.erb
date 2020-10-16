@@ -31,7 +31,7 @@
                               address
                             }
                             count
-
+                            amount
                             dates: count(uniq: dates)
                             started: minimum(of: date)
                       }
@@ -52,6 +52,10 @@
                 {
                     title: '<%= t('widgets.titles.trades') %>',
                     path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'amount'
                 },
                 {
                     title: '<%= t('widgets.titles.started') %>',
