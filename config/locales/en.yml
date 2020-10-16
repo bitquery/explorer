@@ -851,6 +851,7 @@ en:
       graph: 'Graph'
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
+      trade_amount_by_time: "Trade Amount By Time"
       validators: "Validators"
       proposers: "Proposers"
       latest_token_orders: "Latest Token Orders"

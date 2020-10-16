@@ -10,9 +10,9 @@
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.token_takers') %></div>
+      <div class="card-header"><%= t('widgets.headers.trade_amount_by_time') %></div>
       <div class="card-body">
-        <div id="token_takers"><%= t('loading') %></div>
+        <div id="trade_amount_by_time"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -60,7 +60,7 @@
                         }
 
                             trades: count
-                            traders: count(uniq: takers)
+                            amount
                             contracts: count(uniq: smart_contracts)
                             currencies: count(uniq: buy_currency)
 
@@ -94,12 +94,12 @@
             ]
         });
 
-        new widgets.chartByTime('#token_takers', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.token_takers') %>',
+        new widgets.chartByTime('#trade_amount_by_time', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.trade_amount_by_time') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.traders') %>'
+                        title: '<%= @token_info.symbol %>'
                     }
                 },
                 seriesType: 'bars',
@@ -113,8 +113,8 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.traders') %>',
-                    path: 'traders'
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'amount'
                 },
 
             ]
