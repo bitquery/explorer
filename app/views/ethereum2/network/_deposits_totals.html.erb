@@ -1,0 +1,87 @@
+<div class="row">
+
+  <div class="col-lg-4 mb-4">
+    <div class="card border-success">
+      <div class="card-header"><%= t('widgets.titles.deposit_count') %></div>
+      <div class="card-body">
+        <div id="deposit_count"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 mb-4">
+    <div class="card border-success">
+      <div class="card-header"><%= t('widgets.titles.amount') %>, <%= @network[:currency] %></div>
+      <div class="card-body">
+        <div id="amount"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 mb-4">
+    <div class="card border-success">
+      <div class="card-header"><%= t('widgets.headers.validators') %></div>
+      <div class="card-body">
+        <div id="validators"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: Ethereum2Network!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    ethereum2(network: $network ){
+                      deposits(date: { since: $from till: $till } ) {
+                        count
+                        amount
+                        validators: count(uniq: validators)
+                      }
+                    }
+                  }`);
+
+        new widgets.text('#deposit_count', query, 'ethereum2.deposits', {
+            html_class: 'fontsize35rem text-center text-success',
+            dataOptions: {
+                type: 'string',
+                path: 'count'
+            }
+
+        });
+
+        new widgets.text('#amount', query, 'ethereum2.deposits', {
+            html_class: 'fontsize25rem text-center text-success',
+            dataOptions: {
+                type: 'string',
+                path: 'amount'
+            }
+
+        });
+
+        new widgets.text('#validators', query, 'ethereum2.deposits', {
+            html_class: 'fontsize35rem text-center text-warning',
+            dataOptions: {
+                type: 'string',
+                path: 'validators'
+            }
+
+        });
+
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+
+    });
+
+
+
+</script>
