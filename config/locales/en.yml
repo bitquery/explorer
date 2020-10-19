@@ -879,6 +879,8 @@ en:
       validators: "Validators"
       proposers: "Proposers"
       top_deposit_validators: "Top Validators By Deposited Amount"
+      top_block_proposers: "Top Proposers By Blocks"
+      top_slashings_proposers: "Top Proposers By Count of Slashings"
       latest_token_orders: "Latest Token Orders"
       latest_token_trades: "Latest Token Trades"
       token_trading_statistics: "Token trading statistics"
@@ -1031,6 +1033,7 @@ en:
       parent_hash: "Parent Hash"
       block_count: "Block Count"
       deposit_count: "Deposit count"
+      slashing_count: "Slashing count"
       count: "Count"
       miners_block_count_by_time: 'Miners Block Count By Time'
       miners_block_count: "Miners Block Count"
