@@ -1032,6 +1032,7 @@ en:
       hash: "Hash"
       parent_hash: "Parent Hash"
       block_count: "Block Count"
+      slot_count: "Slot Count"
       deposit_count: "Deposit count"
       slashing_count: "Slashing count"
       count: "Count"
