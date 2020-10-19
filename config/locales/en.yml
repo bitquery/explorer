@@ -619,11 +619,16 @@ en:
         title: "Exits on %{network} Explorer"
         description: "Exits on %{network}"
         keywords: "%{network} exits"
-      slashings:
-        name: "Slashings"
-        title: "Slashings on %{network} Explorer"
-        description: "Slashings on %{network}"
-        keywords: "%{network} slashings"
+      proposer_slashings:
+        name: "Proposer Slashings"
+        title: "Proposer Slashings on %{network} Explorer"
+        description: "Proposer Slashings on %{network}"
+        keywords: "%{network} proposer slashings"
+      attester_slashings:
+        name: "Attester Slashings"
+        title: "Attester Slashings on %{network} Explorer"
+        description: "Attester Slashings on %{network}"
+        keywords: "%{network} attester slashings"
     home:
       index:
         name: "All"
@@ -870,8 +875,10 @@ en:
       trades_by_currencies: "Trades By Currencies"
       trade_amount_by_time: "Trade Amount By Time"
       deposit_amount_by_time: "Deposit Amount By Time"
+      slashings_by_time: "Slashings By Date"
       validators: "Validators"
       proposers: "Proposers"
+      top_deposit_validators: "Top Validators By Deposited Amount"
       latest_token_orders: "Latest Token Orders"
       latest_token_trades: "Latest Token Trades"
       token_trading_statistics: "Token trading statistics"
@@ -1024,6 +1031,7 @@ en:
       parent_hash: "Parent Hash"
       block_count: "Block Count"
       deposit_count: "Deposit count"
+      count: "Count"
       miners_block_count_by_time: 'Miners Block Count By Time'
       miners_block_count: "Miners Block Count"
       proposers_block_count_by_time: 'Proposers Block Count By Time'
@@ -1093,6 +1101,7 @@ en:
       orders_as_base_count: "Orders As Base Currency"
       orders_as_quote_count: "Orders As Quote Currency"
       validator_cons_pub_key: "Validator Consensus Public Key"
+      validator_pub_key: "Validator Public Key"
       fee: "Fee"
       fee_per_transaction: "Fee per Transaction"
       input_value: "Input Value"
