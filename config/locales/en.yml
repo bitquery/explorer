@@ -609,6 +609,21 @@ en:
         title: "Client Types on %{network} Explorer"
         description: "Client Type list for %{network}"
         keywords: "%{network} clients"
+      deposits:
+        name: "Deposits"
+        title: "Deposits on %{network} Explorer"
+        description: "Deposits on %{network}"
+        keywords: "%{network} deposits"
+      exits:
+        name: "Exits"
+        title: "Exits on %{network} Explorer"
+        description: "Exits on %{network}"
+        keywords: "%{network} exits"
+      slashings:
+        name: "Slashings"
+        title: "Slashings on %{network} Explorer"
+        description: "Slashings on %{network}"
+        keywords: "%{network} slashings"
     home:
       index:
         name: "All"
@@ -733,6 +748,8 @@ en:
   widgets:
     headers:
       transaction_by_time: 'Activities by date'
+      blocks_by_time: 'Blocks by date'
+      deposits_by_time: 'Deposits By Time'
       in_out_transfers_by_time: 'In/Outbound transfer count by date'
       mints_by_time: 'Mints by date'
       minters_by_time: 'Minters by date'
@@ -852,6 +869,7 @@ en:
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
       trade_amount_by_time: "Trade Amount By Time"
+      deposit_amount_by_time: "Deposit Amount By Time"
       validators: "Validators"
       proposers: "Proposers"
       latest_token_orders: "Latest Token Orders"
@@ -1005,6 +1023,7 @@ en:
       hash: "Hash"
       parent_hash: "Parent Hash"
       block_count: "Block Count"
+      deposit_count: "Deposit count"
       miners_block_count_by_time: 'Miners Block Count By Time'
       miners_block_count: "Miners Block Count"
       proposers_block_count_by_time: 'Proposers Block Count By Time'
