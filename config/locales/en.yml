@@ -629,6 +629,11 @@ en:
         title: "Attester Slashings on %{network} Explorer"
         description: "Attester Slashings on %{network}"
         keywords: "%{network} attester slashings"
+      attestations:
+        name: "Attestations"
+        title: "Attestations on %{network} Explorer"
+        description: "Attestations on %{network}"
+        keywords: "%{network} attestations"
     home:
       index:
         name: "All"
@@ -883,6 +888,7 @@ en:
       top_block_proposers: "Top Proposers By Blocks"
       top_slashings_proposers: "Top Proposers By Count of Slashings"
       top_slashings_validators: "Top Validators By Count of Slashings"
+      attestation_committees: "Attestation Committees"
       last_exits: "Last Exits"
       latest_token_orders: "Latest Token Orders"
       latest_token_trades: "Latest Token Trades"
@@ -1022,6 +1028,8 @@ en:
       miner: "Miner"
       witness: "Witness"
       proposer: "Proposer"
+      committee_index: "Committee Index"
+      committee_count: "Committee Count"
       producer: "Producer"
       protocol: "Protocol"
       next_protocol: "Next Protocol"
@@ -1039,6 +1047,7 @@ en:
       slot_count: "Slot Count"
       deposit_count: "Deposit count"
       slashing_count: "Slashing count"
+      attestations: "Attestations"
       count: "Count"
       miners_block_count_by_time: 'Miners Block Count By Time'
       miners_block_count: "Miners Block Count"
