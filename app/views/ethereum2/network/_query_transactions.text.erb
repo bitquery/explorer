@@ -1,0 +1,10 @@
+query ($network: Ethereum2Network, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+  chain: ethereum2(network: $network ){
+    transactions: blocks(options:{asc: "date.month"}, date: {since: $from, till: $till }) {
+      date{
+        month: date(format: $dateFormat)
+      }
+      count
+    }
+  }
+}

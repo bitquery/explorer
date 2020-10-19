@@ -260,7 +260,15 @@ BLOCKCHAINS = [
         currency: 'TRX',
         icon: 'trx.svg'
     },
-
+    {
+        tag: 'medalla',
+        network: 'medalla',
+        name: 'Medalla Ethereum 2.0 Testnet',
+        family: 'ethereum2',
+        platform: 'Testnet',
+        currency: 'ETH',
+        icon: 'eth.svg',
+    },
 
 
 ]
