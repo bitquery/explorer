@@ -42,6 +42,10 @@ Rails.application.routes.draw do
 
       get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/validator/:index/:action", controller: "#{blockchain[:family]}/validator", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/validator/:index", controller: "#{blockchain[:family]}/validator", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+
     }
 
 

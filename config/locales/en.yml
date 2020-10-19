@@ -753,12 +753,21 @@ en:
         header: "Time Series of COVID-2019 Data in %{continent}"
         title: "COVID-2019 %{continent} Study"
         description: "Time Series of COVID-2019 Data in %{continent}"
+    validator:
+      icon: 'far fa-address-card'
+      header: "%{network} validator with index #%{index}"
+      show:
+        name: 'Validator'
+        title: "Validator %{index} | %{network}"
+        description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
+        keywords: "%{network} Validator ${index}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
       transaction_by_time: 'Activities by date'
       blocks_by_time: 'Blocks by date'
+      proposed_blocks_by_time: 'Proposed Blocks by date'
       deposits_by_time: 'Deposits By Time'
       in_out_transfers_by_time: 'In/Outbound transfer count by date'
       mints_by_time: 'Mints by date'
