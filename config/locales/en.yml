@@ -768,6 +768,7 @@ en:
       transaction_by_time: 'Activities by date'
       blocks_by_time: 'Blocks by date'
       proposed_blocks_by_time: 'Proposed Blocks by date'
+      attestations_by_time: 'Slot Attestations by date'
       deposits_by_time: 'Deposits By Time'
       in_out_transfers_by_time: 'In/Outbound transfer count by date'
       mints_by_time: 'Mints by date'
@@ -890,6 +891,8 @@ en:
       trade_amount_by_time: "Trade Amount By Time"
       deposit_amount_by_time: "Deposit Amount By Time"
       slashings_by_time: "Slashings By Date"
+      proposer_slashings_by_time: "Proposer Slashings By Date"
+      attester_slashings_by_time: "Attester Slashings By Date"
       exits_by_time: "Voluntary Exits By Date"
       validators: "Validators"
       proposers: "Proposers"

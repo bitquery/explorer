@@ -1,9 +1,9 @@
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.proposed_blocks_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.attestations_by_time') %></div>
       <div class="card-body">
-        <div id="proposed_blocks_by_time"><%= t('loading') %></div>
+        <div id="attestations_by_time"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -20,10 +20,10 @@
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
                     ethereum2(network: $network ){
-                      blocks(options:{asc: "date.date"}, date: {
+                      attestations(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
-                        blockProposerIndex: {is: $index}
+                        validatorIndex: {is: $index}
 
                       ) {
                         date: date{
@@ -34,17 +34,17 @@
                     }
                   }`);
 
-        new widgets.chartByTime('#proposed_blocks_by_time', query, 'ethereum2.blocks', {
-            title: '<%= t('widgets.headers.proposed_blocks_by_time') %>',
+        new widgets.chartByTime('#attestations_by_time', query, 'ethereum2.attestations', {
+            title: '<%= t('widgets.headers.attestations_by_time') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.block_count') %>'
+                        title: '<%= t('widgets.titles.attestations') %>'
                     }
                 },
                 seriesType: 'bars',
                 series: {
-                    '0': { color: '#28a745' }
+                    '0': { color: '#ffc107' }
                 },
             },
             dataOptions: [
@@ -53,7 +53,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.block_count') %>',
+                    title: '<%= t('widgets.titles.attestations') %>',
                     path: 'count'
                 },
 
