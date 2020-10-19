@@ -263,7 +263,7 @@ BLOCKCHAINS = [
     {
         tag: 'medalla',
         network: 'medalla',
-        name: 'Medalla Ethereum 2.0 Testnet',
+        name: 'Medalla Eth 2.0 Testnet',
         family: 'ethereum2',
         platform: 'Testnet',
         currency: 'ETH',
