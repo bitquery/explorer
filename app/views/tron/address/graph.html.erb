@@ -7,12 +7,12 @@
       </div>
     </div>
   </div>
-</div>
-
+  <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs/dist/graphs.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs/dist/graphs.min.js"></script>
 <script>
     $(document).ready(function() {
         const query = new graphs.query(`
-        query ( $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+query ( $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
   tron{
     inbound: coinpath(receiver: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
       sender {
@@ -70,8 +70,8 @@
 
         new graphs.address_graph('#graph', query, {
             title: '<%= t('tabs.address.graph.name') %>',
-            // title: 'Title from options',
             theme: '<%= @theme %>',
+            buttons: ['JS', 'GraphQL'],
             network: "<%= params['network']['network'] %>",
             currencies: [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>],
         })
@@ -79,3 +79,4 @@
         queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
     })
 </script>
+</div>

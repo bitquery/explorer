@@ -7,8 +7,8 @@
       </div>
     </div>
   </div>
-</div>
-
+  <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs/dist/graphs.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs/dist/graphs.min.js"></script>
 <script>
     $(document).ready(function() {
         const query = new graphs.query(`
@@ -43,8 +43,8 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO860
 
         new graphs.address_graph('#graph', query, {
             title: '<%= t('tabs.address.graph.name') %>',
-            // title: 'Title from options',
             theme: '<%= @theme %>',
+            buttons: ['JS', 'GraphQL'],
             network: "<%= params['network']['network'] %>",
             currency: '<%= params['network']['currency'] %>'
         })
@@ -52,3 +52,4 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO860
         queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>"})
     })
 </script>
+</div>
