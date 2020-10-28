@@ -7,69 +7,67 @@
       </div>
     </div>
   </div>
-  <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs/dist/graphs.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs/dist/graphs.min.js"></script>
-  <script>
-      $(document).ready(function() {
-          const query = new graphs.query(`
- query (  $address: String!,
-          $limit: Int!,
-          $currency: Int!,
-          $from: ISO8601DateTime,
-          $till: ISO8601DateTime){
-  algorand{
-    inbound: coinpath(options:{desc: "amount", limit: $limit},
-      date: {since: $from till: $till },
-      receiver:{is: $address}
-      currency:{is: $currency}
-    ) {
+<script>
+    $(document).ready(function() {
+        const query = new graphs.query(`
+query (  $address: String!,
+        $limit: Int!,
+        $currency: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime){
+algorand{
+  inbound: coinpath(options:{desc: "amount", limit: $limit},
+    date: {since: $from till: $till },
+    receiver:{is: $address}
+    currency:{is: $currency}
+  ) {
 
-      sender {
-        address
-        annotation
-      }
-      receiver {
-        address
-        annotation
-      }
-
-      amount
-      transfers: count
+    sender {
+      address
+      annotation
+    }
+    receiver {
+      address
+      annotation
     }
 
-
-    outbound: coinpath(options:{desc: "amount", limit: $limit},
-      date: {since: $from till: $till },
-      sender:{is: $address}
-      currency:{is: $currency}
-    ) {
-
-      sender {
-        address
-        annotation
-      }
-      receiver {
-        address
-        annotation
-      }
-
-      amount
-      transfers: count
-    }
-
-
+    amount
+    transfers: count
   }
+
+
+  outbound: coinpath(options:{desc: "amount", limit: $limit},
+    date: {since: $from till: $till },
+    sender:{is: $address}
+    currency:{is: $currency}
+  ) {
+
+    sender {
+      address
+      annotation
+    }
+    receiver {
+      address
+      annotation
+    }
+
+    amount
+    transfers: count
+  }
+
+
+}
 }`)
 
-          new graphs.address_graph('#graph', query, {
-              title: '<%= t('tabs.address.graph.name') %>',
-              theme: '<%= @theme %>',
-              buttons: ['JS', 'GraphQL'],
-              network: "<%= params['network']['network'] %>",
-              currencies: [<%= @currencies.collect{|cur| "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>],
-          })
+        new graphs.address_graph('#graph', query, {
+            title: '<%= t('tabs.address.graph.name') %>',
+            theme: '<%= @theme %>',
+            buttons: ['JS', 'GraphQL'],
+            network: "<%= params['network']['network'] %>",
+            currencies: [<%= @currencies.collect{|cur| "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>],
+        })
 
-          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": <%= @currencies.first && @currencies.first.token_id || 0 %>})
-      })
-  </script>
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": <%= @currencies.first && @currencies.first.token_id || 0 %>})
+    })
+</script>
 </div>
