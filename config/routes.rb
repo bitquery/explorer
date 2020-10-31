@@ -264,6 +264,7 @@ Rails.application.routes.draw do
 
     get "platform/:action", controller: "home"
     get "graphql" => "utility#graphql"
+    get "graphqlide" => "utility#graphqlide"
     root 'home#index'
 
 
