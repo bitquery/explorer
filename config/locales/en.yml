@@ -564,11 +564,16 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      dex_protocols:
+        name: "DEX Protocols"
+        title: "%{network} DEX Protocols"
+        description: "Decentralised exchanges (DEX) protocols, smart contracts on %{network}"
+        keywords: "%{network} Decentralized Exchanges Protocols"
       dex:
         name: "DEX"
-        title: "%{network} DEX Smart Contracts"
-        description: "Decentralised exchanges (DEX), smart contracts on %{network}"
-        keywords: "%{network} DEXes"
+        title: "%{network} Decentralized Exchanges"
+        description: "Decentralised exchanges (DEX) on %{network}"
+        keywords: "%{network} Decentralized Exchanges"
       dex_tokens:
         name: "DEX Tokens"
         title: "%{network} Token Traded on DEXes"
@@ -782,8 +787,10 @@ en:
       unique_currencies_by_time: 'Traded currencies by time'
       unique_dex_smart_contracts_by_time: 'DEX Smart Contracts by time'
       dex_tradex_by_protocol: "Count of DEX Trades By Protocol"
+      dex_trades_by_exchange: "Count of DEX Trades By Exchange"
       dex_smart_contracts: "DEX Smart Contracts"
       dex_protocols: "DEX Smart Contract Protocols"
+      dex_exchanges: "DEX Exchanges"
       trades: "Trades"
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
@@ -941,6 +948,7 @@ en:
       volume_in: "Volume In, %{currency}"
       volume_out: "Volume Out, %{currency}"
       trades: "Trades Count"
+      exchange: "Exchange"
       currencies: "Currencies"
       trades_as_buyer: "Trades as buyer"
       trades_as_seller: "Trades as seller"

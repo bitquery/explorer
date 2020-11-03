@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-8 col-lg-8 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_protocols') %></div>
+      <div class="card-header"><%= t('widgets.headers.dex_exchanges') %></div>
       <div class="card-body">
-        <div id="dex_protocols"><%= t('loading') %></div>
+        <div id="dex_exchanges"><%= t('loading') %></div>
       </div>
     </div>
   </div>
 
   <div class="col-4 col-lg-4 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_tradex_by_protocol') %></div>
+      <div class="card-header"><%= t('widgets.headers.dex_trades_by_exchange') %></div>
       <div class="card-body">
-        <div id="dex_tradex_by_protocol_pie"><%= t('loading') %></div>
+        <div id="dex_trades_by_exchange_pie"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -27,54 +27,58 @@
         var query = new widgets.query(`
                         query ($network: EthereumNetwork!,
                                 $limit: Int!,
-                                $offset: Int!
+                                $offset: Int!,
+                                $token: String!,
                                 $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
+                                $till: ISO8601DateTime,
+                                ){
                     ethereum(network: $network){
                       dexTrades(options:{desc: "trades", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-
+                        buyOrSellCurrency: {is: $token}
                         ) {
 
-                          protocol
+                          exchange {
+                            fullName
+                          }
 
                           trades: count
-                          currencies: count(uniq: buy_currency)
-                          contracts: count(uniq: smart_contracts)
-
+                          takers: count(uniq: takers)
+                          makers: count(uniq: makers)
                       }
                     }
                   }`);
 
-        new widgets.table('#dex_protocols', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.dex_protocols') %>',
+        new widgets.table('#dex_exchanges', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_exchanges') %>',
             dataOptions: [
 
                 {
-                    title: '<%= t('widgets.titles.protocol') %>',
-                    path: 'protocol'
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName',
+                    renderCallback: function(item){
+                        return item.exchange.fullName.replace(/[<]/g, "&lt;").replace(/[<]/g, "&gt;");
+                    },
                 },
 
                 {
                     title: '<%= t('widgts.titles.trades') %>',
                     path: 'trades'
                 },
-
                 {
-                    title: '<%= t('widgts.titles.currencies') %>',
-                    path: 'currencies'
+                    title: '<%= t('widgts.titles.takers') %>',
+                    path: 'takers'
                 },
-
                 {
-                    title: '<%= t('widgts.titles.contracts') %>',
-                    path: 'contracts'
+                    title: '<%= t('widgts.titles.makers') %>',
+                    path: 'makers'
                 },
 
             ]
         });
 
-        new widgets.chart('#dex_tradex_by_protocol_pie', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.dex_tradex_by_protocol') %>',
+        new widgets.chart('#dex_trades_by_exchange_pie', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_trades_by_exchange') %>',
             chartType: 'PieChart',
             chartOptions: {
                 pieSliceText: 'label',
@@ -85,8 +89,8 @@
 
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.protocol') %>',
-                    path: 'protocol'
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName'
                 },
                 {
                     title: '<%= t('widgets.titles.trades') %>',
@@ -98,7 +102,8 @@
 
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+            network: '<%= params['network']['network'] %>',
+            token: '<%= @address %>'
         });
 
     });

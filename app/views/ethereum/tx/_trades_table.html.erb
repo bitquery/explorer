@@ -16,6 +16,7 @@
 
         var query = new widgets.query(`
                         query ($network: EthereumNetwork!,
+                                $token: String!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $from: ISO8601DateTime,
@@ -23,7 +24,7 @@
                     ethereum(network: $network){
                       dexTrades(options:{desc: ["block.height","tradeIndex"], limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-
+                        buyOrSellCurrency: {is: $token}
                         ) {
 
                           block {
@@ -35,9 +36,6 @@
 
                           tradeIndex
                           protocol
-                          exchange {
-                            fullName
-                          }
 
                           smartContract {
                             address {
@@ -117,10 +115,6 @@
                     path: 'protocol'
                 },
                 {
-                    title: '<%= t('widgets.titles.exchange') %>',
-                    path: 'exchange.fullName'
-                },
-                {
                     title: '<%= t('widgets.titles.smart_contract') %>',
                     type: 'string-ellipsis',
                     path: ['smartContract.address.annotation', 'smartContract.address.address'],
@@ -138,7 +132,8 @@
         });
 
         queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+            network: '<%= params['network']['network'] %>',
+            token: '<%= @address %>'
         });
 
     });

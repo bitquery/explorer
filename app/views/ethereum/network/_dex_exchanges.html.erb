@@ -1,18 +1,18 @@
 <div class="row">
   <div class="col-8 col-lg-8 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_protocols') %></div>
+      <div class="card-header"><%= t('widgets.headers.dex_exchanges') %></div>
       <div class="card-body">
-        <div id="dex_protocols"><%= t('loading') %></div>
+        <div id="dex_exchanges"><%= t('loading') %></div>
       </div>
     </div>
   </div>
 
   <div class="col-4 col-lg-4 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_tradex_by_protocol') %></div>
+      <div class="card-header"><%= t('widgets.headers.dex_trades_by_exchange') %></div>
       <div class="card-body">
-        <div id="dex_tradex_by_protocol_pie"><%= t('loading') %></div>
+        <div id="dex_trades_by_exchange_pie"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -36,7 +36,9 @@
 
                         ) {
 
-                          protocol
+                          exchange {
+                            fullName
+                          }
 
                           trades: count
                           currencies: count(uniq: buy_currency)
@@ -46,13 +48,16 @@
                     }
                   }`);
 
-        new widgets.table('#dex_protocols', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.dex_protocols') %>',
+        new widgets.table('#dex_exchanges', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_exchanges') %>',
             dataOptions: [
 
                 {
-                    title: '<%= t('widgets.titles.protocol') %>',
-                    path: 'protocol'
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName',
+                    renderCallback: function(item){
+                        return item.exchange.fullName.replace(/[<]/g, "&lt;").replace(/[<]/g, "&gt;");
+                    },
                 },
 
                 {
@@ -73,8 +78,8 @@
             ]
         });
 
-        new widgets.chart('#dex_tradex_by_protocol_pie', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.dex_tradex_by_protocol') %>',
+        new widgets.chart('#dex_trades_by_exchange_pie', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_trades_by_exchange') %>',
             chartType: 'PieChart',
             chartOptions: {
                 pieSliceText: 'label',
@@ -85,8 +90,8 @@
 
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.protocol') %>',
-                    path: 'protocol'
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName'
                 },
                 {
                     title: '<%= t('widgets.titles.trades') %>',

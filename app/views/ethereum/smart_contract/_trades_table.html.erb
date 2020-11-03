@@ -53,6 +53,9 @@
                             hash
                           }
 
+                          exchange {
+                            fullName
+                          }
                       }
                     }
                   }`);
@@ -102,6 +105,11 @@
                     type: 'string',
                     path: 'buyCurrency.symbol',
                     urlCallbackName: 'buy_token_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName'
                 },
 
                 {
