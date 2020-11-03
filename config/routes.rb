@@ -263,8 +263,7 @@ Rails.application.routes.draw do
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search', constraints: { query: /[^\/]+/ }
 
     get "platform/:action", controller: "home"
-    get "graphql" => "utility#graphql"
-    get "graphqlide(/:param)" => "utility#graphqlide"
+    get "graphql(/:param)" => "utility#graphql"
     root 'home#index'
 
 
