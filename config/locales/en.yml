@@ -456,6 +456,11 @@ en:
         title: "Scripts for output %{hash} in %{network}"
         description: "Output scripts in transaction %{hash} in %{network}"
         keywords: "%{network} transaction output script"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
     block:
       icon: 'fas fa-cube'
       header: "%{network} Block %{height}"

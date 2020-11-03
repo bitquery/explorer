@@ -36,6 +36,9 @@
 
                           tradeIndex
                           protocol
+                          exchange {
+                            fullName
+                          }
 
                           smartContract {
                             address {
@@ -113,6 +116,10 @@
                 {
                     title: '<%= t('widgets.titles.protocol') %>',
                     path: 'protocol'
+                },
+                {
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName'
                 },
                 {
                     title: '<%= t('widgets.titles.smart_contract') %>',
