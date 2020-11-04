@@ -1,8 +1,7 @@
 <% content_for :html_head do %>
-
-
-  <link href="https://cdn.jsdelivr.net/gh/bitquery/graphql-ide@1.1.8/build/static/css/main.css" rel="stylesheet">
-
+  <% if !params[:nocss] %>
+    <link href="https://cdn.jsdelivr.net/gh/bitquery/graphql-ide@1.1.8/build/static/css/main.css" rel="stylesheet">
+  <% end  %>
 <% end %>
 
 
