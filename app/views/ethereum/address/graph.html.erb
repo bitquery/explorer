@@ -69,9 +69,10 @@ query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: S
         new graphs.address_graph('#graph', query, {
             title: '<%= t('tabs.address.graph.name') %>',
             theme: '<%= @theme %>',
-            buttons: ['JS', 'GraphQL'],
-            network: "<%= params['network']['network'] %>",
-            currencies: [<%= @currencies.collect{|cur| "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\"}"}.join(',').html_safe %>],
+            currencies: [<%= @currencies.collect{|cur|
+            value = cur.address === '-' ? cur.symbol : cur.address
+            "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+            }.join(',').html_safe %>],
         })
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
