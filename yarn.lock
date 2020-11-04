@@ -772,10 +772,10 @@
     lodash "^4.17.13"
     to-fast-properties "^2.0.0"
 
-"@bitquery/graph@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@bitquery/graph/-/graph-1.0.0.tgz#1297e08cec052205fa7bcf31c445d8bf58d6afc6"
-  integrity sha512-vNqCAshAby7db9OkMRbwXAQE4zu1FdSa1FDSzGERqcuYWZB2j+w6xq2VHjyrw8FEgHqf8IOqK55hapd34K/boQ==
+"@bitquery/graph@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@bitquery/graph/-/graph-1.0.3.tgz#20e79fb6962edd5aa36afff99d82bb84fcabfdf0"
+  integrity sha512-GERnj/1a64KSuGd9c2s8oQBpgQUo8vNYa8AqKU6H1Nzuoda/tupnrC56TryzjjMWq5/jmWG4DIIGnziunmrO2g==
   dependencies:
     lodash "^4.17.20"
     numeral "^2.0.6"
