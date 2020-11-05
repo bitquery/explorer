@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
       session[:theme] = params[:theme]
     elsif session[:theme] && !session[:theme].empty?
     else
-      session[:theme] = 'dark'
+      session[:theme] = 'light'
     end
 
     @theme = session[:theme]
