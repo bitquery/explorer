@@ -227,7 +227,7 @@ BLOCKCHAINS = [
     {
         tag: 'conflux_tethys',
         network: 'conflux_tethys',
-        name: 'Conflux',
+        name: 'Conflux Tethys',
         family: 'conflux',
         platform: 'Testnet',
         currency: 'CFX',
@@ -237,7 +237,7 @@ BLOCKCHAINS = [
     {
         tag: 'conflux_oceanus',
         network: 'conflux_oceanus',
-        name: 'Conflux',
+        name: 'Conflux Oceanus',
         family: 'conflux',
         platform: 'Testnet',
         currency: 'CFX',
