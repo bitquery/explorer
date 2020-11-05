@@ -225,14 +225,25 @@ BLOCKCHAINS = [
     },
 
     {
-        tag: 'conflux',
-        network: 'conflux_oceanus',
+        tag: 'conflux_tethys',
+        network: 'conflux_tethys',
         name: 'Conflux',
         family: 'conflux',
-        platform: 'Smart Contract',
+        platform: 'Testnet',
         currency: 'CFX',
         icon: 'currency/conflux.png',
     },
+
+    {
+        tag: 'conflux_oceanus',
+        network: 'conflux_oceanus',
+        name: 'Conflux',
+        family: 'conflux',
+        platform: 'Testnet',
+        currency: 'CFX',
+        icon: 'currency/conflux.png',
+    },
+
     {
         tag: 'libra',
         network: 'libra_testnet',
