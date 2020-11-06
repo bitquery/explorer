@@ -264,6 +264,7 @@ Rails.application.routes.draw do
 
     get "platform/:action", controller: "home"
     get "graphql(/:param)" => "utility#graphql"
+    get "graphql/reset(/:token)" => "utility#graphql"
     root 'home#index'
 
 
