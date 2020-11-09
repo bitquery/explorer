@@ -96,51 +96,52 @@ en:
         name: 'Smart Contract'
         title: "%{address} smart contract | %{network}"
         description: "Overview of %{address} smart contract activity in %{network}"
+        keywords: "Smart contract,%{address},%{network}"
       transactions:
         name: 'Transactions'
         title: "%{address} Transactions | %{network}"
         description: "%{address} Transactions on %{network} blockchain"
-        keywords: "%{address} Transactions, %{address} smart contract Transactions"
+        keywords: "%{address} Transactions, %{address} smart contract Transactions,%{network}"
       methods:
         name: 'Methods'
         title: "%{address} Smart Contract Methods | %{network}"
         description: "%{address} smart contract methods and functions in %{network} blockchain"
-        keywords: "%{address} methods, %{address} smart contract methods, %{address} smart contract functions, %{address} functions"
+        keywords: "%{address} methods, %{address} smart contract methods, %{address} smart contract functions, %{address} functions,%{network}"
       events:
         name: 'Events'
         title: "%{address} Smart Contract Events | %{network}"
         description: "%{address} smart contract events in %{network} blockchain"
-        keywords: "%{address} events, %{address} smart contract events, %{address} smart contract event, %{address} event log"
+        keywords: "%{address} events, %{address} smart contract events, %{address} smart contract event, %{address} event log,%{network}"
       inflow:
         name: 'Inflow'
         title: "%{address} Smart Contract Inflow | %{network}"
         description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
-        keywords: "%{address} inflow, %{address} money inflow"
+        keywords: "%{address} inflow, %{address} money inflow,%{network}"
       outflow:
         name: 'Outflow'
         title: "%{address} Smart Contract Outflow | %{network}"
         description: "Outflow of different crypto tokens and coins from smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
-        keywords: "%{address} outflow, %{address} outflows"
+        keywords: "%{address} outflow, %{address} outflows,%{network}"
       calls_contracts:
         name: 'Calls Contracts'
         title: "%{address} Smart Contracts Calls | %{network}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
-        keywords: " %{address} smart contracts calls, %{address} contract calls, %{address} smart contract calls"
+        keywords: " %{address} smart contracts calls, %{address} contract calls, %{address} smart contract calls,%{network}"
       graph:
         name: 'Graph'
         title: "%{address} graph | %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
-        keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking"
+        keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking,%{network}"
       dex_trades:
         name: "DEX Trades"
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
-        keywords: "%{network} DEX Trades"
+        keywords: "%{network},DEX,Trades"
       dex_tokens:
         name: "DEX Tokens"
         title: "%{network} Token Traded on DEXes"
         description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
-        keywords: "%{network} DEX Tokens"
+        keywords: "%{network},DEX,Tokens"
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
