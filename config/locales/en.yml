@@ -980,6 +980,8 @@ en:
       sender: 'Sender'
       receiver: 'Receiver'
       amount: 'Amount'
+      amount_usd: 'Amount, USD'
+      usd: '$'
       transaction: 'Transaction'
       block: 'Block'
       epoch: 'Epoch'
