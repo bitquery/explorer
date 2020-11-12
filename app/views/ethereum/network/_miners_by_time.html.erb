@@ -19,6 +19,26 @@
 
 </div>
 
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.block_reward_by_time') %></div>
+      <div class="card-body">
+        <div id="block_reward_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.block_reward_by_time_usd') %></div>
+      <div class="card-body">
+        <div id="block_reward_by_time_usd"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 <script>
 
@@ -40,6 +60,8 @@
                           date(format: $dateFormat)
                         }
                         count(uniq: miners)
+                        reward
+                        usd: reward(in: USD)
                         difficulty(calculate: median)
                       }
                     }
@@ -92,6 +114,58 @@
                 {
                     title: '<%= t('widgets.titles.median_difficulty') %>',
                     path: 'difficulty'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#block_reward_by_time', query, 'ethereum.blocks', {
+            title: '<%= t('widgets.headers.block_reward_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= @network[:currency] %>'
+                    }
+                },
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+                seriesType: 'bars'
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'reward'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#block_reward_by_time_usd', query, 'ethereum.blocks', {
+            title: '<%= t('widgets.headers.block_reward_by_time_usd') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.usd') %>'
+                    }
+                },
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+                seriesType: 'bars'
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.usd') %>',
+                    path: 'usd'
                 },
 
             ]

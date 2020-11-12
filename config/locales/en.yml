@@ -866,6 +866,7 @@ en:
       contract_by_time: "Contracts By Date"
       proposers_by_time: "Proposers By Date"
       block_reward_by_time: "Block Rewards By Date"
+      block_reward_by_time_usd: "Block Rewards By Date in USD"
       transaction_gas_by_time: "Gas Spent By Date"
       transaction_gas_cost_by_time: "Gas Cost By Date"
       transaction_gas_price_by_time: "Gas Unit Price By Date, GWei"
