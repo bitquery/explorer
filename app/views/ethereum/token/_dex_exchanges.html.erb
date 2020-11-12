@@ -15,7 +15,14 @@
         <div id="dex_trades_by_exchange_pie"><%= t('loading') %></div>
       </div>
     </div>
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.dex_amounts_by_exchange') %></div>
+      <div class="card-body">
+        <div id="dex_amounts_by_exchange_pie"><%= t('loading') %></div>
+      </div>
+    </div>
   </div>
+
 
 </div>
 
@@ -26,14 +33,13 @@
 
         var query = new widgets.query(`
                         query ($network: EthereumNetwork!,
-                                $limit: Int!,
-                                $offset: Int!,
+
                                 $token: String!,
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime,
                                 ){
                     ethereum(network: $network){
-                      dexTrades(options:{desc: "trades", limit: $limit, offset: $offset},
+                      dexTrades(options:{desc: "amount"},
                         date: {since: $from till: $till }
                         buyOrSellCurrency: {is: $token}
                         ) {
@@ -45,6 +51,9 @@
                           trades: count
                           takers: count(uniq: takers)
                           makers: count(uniq: makers)
+
+                          amount: currencyAmount
+                          currency{symbol}
                       }
                     }
                   }`);
@@ -62,16 +71,20 @@
                 },
 
                 {
-                    title: '<%= t('widgts.titles.trades') %>',
+                    title: '<%= t('widgets.titles.trades') %>',
                     path: 'trades'
                 },
                 {
-                    title: '<%= t('widgts.titles.takers') %>',
+                    title: '<%= t('widgets.titles.takers') %>',
                     path: 'takers'
                 },
                 {
-                    title: '<%= t('widgts.titles.makers') %>',
+                    title: '<%= t('widgets.titles.makers') %>',
                     path: 'makers'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'amount'
                 },
 
             ]
@@ -95,6 +108,29 @@
                 {
                     title: '<%= t('widgets.titles.trades') %>',
                     path: 'trades'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#dex_amounts_by_exchange_pie', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_amounts_by_exchange') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'amount'
                 },
 
             ]

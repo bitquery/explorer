@@ -794,6 +794,8 @@ en:
       unique_dex_smart_contracts_by_time: 'DEX Smart Contracts by time'
       dex_tradex_by_protocol: "Count of DEX Trades By Protocol"
       dex_trades_by_exchange: "Count of DEX Trades By Exchange"
+      dex_amounts_by_protocol: "Amounts of DEX Trades By Protocol"
+      dex_amounts_by_exchange: "Amounts of DEX Trades By Exchange"
       dex_smart_contracts: "DEX Smart Contracts"
       dex_protocols: "DEX Smart Contract Protocols"
       dex_exchanges: "DEX Exchanges"
