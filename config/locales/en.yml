@@ -89,6 +89,11 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -225,6 +230,11 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow | %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow analytics"
       token_dex_trades:
         name: "Trades on DEXs"
         title: "%{network} DEX Trades of the token"
