@@ -84,6 +84,11 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} graph, %{network} %{address} graph"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -126,6 +131,11 @@ en:
         title: "%{address} graph | %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow | %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow"
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -209,6 +219,11 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow | %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow analytics"
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -292,6 +307,11 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow | %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow"
     trc10token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -375,6 +395,11 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow analytics"
     tx:
       icon: 'fas fa-bolt'
       header: "%{network} transaction %{hash}"
@@ -819,6 +844,7 @@ en:
       orders_by_currencies: "Orders By Currencies"
       latest_trades: "Latest Trades"
       graph: 'Graph'
+      money_flow: 'Money flow'
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
       validators: "Validators"

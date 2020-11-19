@@ -16,6 +16,10 @@ class Tron::SmartContractController < Tron::AddressController
     render 'tron/address/graph'
   end
 
+  def money_flow
+    render 'tron/address/money_flow'
+  end
+
   private
 
   def redirect_by_type

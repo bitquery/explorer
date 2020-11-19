@@ -57,7 +57,7 @@ address(address: {is: $address}) {
 
   def query_graphql
     @address = params[:address]
-    query = action_name == 'graph' ? QUERY_CURRENCIES : QUERY
+    query = action_name == 'graph' || action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     result = BitqueryGraphql::Client.query(query, variables: {address: @address}).data.eos
     @info = result.address.first
     @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='eosio.token' ? 0 : 1 } if result.try(:transfers)
