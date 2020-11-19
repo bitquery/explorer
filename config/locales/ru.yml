@@ -55,6 +55,10 @@ ru:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+      money_flow:
+        name: 'Money flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       show:
@@ -96,6 +100,10 @@ ru:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+      money_flow:
+        name: 'Money flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
     token:
       icon: 'fas fa-coins text-warning'
       show:
@@ -157,6 +165,10 @@ ru:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+      money_flow:
+        name: 'Money flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
     tx:
       icon: 'fas fa-bolt'
       show:

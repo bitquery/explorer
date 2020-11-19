@@ -16,6 +16,10 @@ class Ethereum::SmartContractController < Ethereum::AddressController
     render 'ethereum/address/graph'
   end
 
+  def money_flow
+    render 'ethereum/address/money_flow'
+  end
+
   private
 
   def redirect_by_type

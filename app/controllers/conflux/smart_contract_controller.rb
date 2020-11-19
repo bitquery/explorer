@@ -16,6 +16,10 @@ class Conflux::SmartContractController < Conflux::AddressController
     render 'conflux/address/graph'
   end
 
+  def money_flow
+    render 'conflux/address/money_flow'
+  end
+
   private
 
   def redirect_by_type

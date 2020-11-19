@@ -1,17 +1,17 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header">Sankey</div>
+      <div class="card-header"><%= t('tabs.address.graph.name') %></div>
       <div class="card-body" style="padding: 0">
-        <div id="sankey-graph" style="width: 100%; height: 600px"></div>
+        <div id="graph"></div>
       </div>
     </div>
   </div>
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('tabs.address.graph.name') %></div>
+      <div class="card-header">Money flow</div>
       <div class="card-body" style="padding: 0">
-        <div id="graph"></div>
+        <div id="sankey-graph" ></div>
       </div>
     </div>
   </div>
@@ -82,7 +82,14 @@ query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: S
             }.join(',').html_safe %>],
     })
 
-    new graphs.address_sankey('#sankey-graph', query)
+    new graphs.address_sankey('#sankey-graph', query, {
+        theme: '<%= @theme %>',
+        currencies: [<%= @currencies.collect{|cur|
+            value = cur.address === '-' ? cur.symbol : cur.address
+            "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+            }.join(',').html_safe %>],
+        dependent: true,
+    })
 
     queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
 

@@ -16,6 +16,10 @@ class Eos::SmartContractController < Eos::AddressController
     render 'eos/address/graph'
   end
 
+  def money_flow
+    render 'eos/address/money_flow'
+  end
+
   private
 
   def redirect_by_type
