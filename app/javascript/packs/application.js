@@ -15,14 +15,22 @@ import ClipboardJS from 'clipboard'
 import moment from 'moment'
 import vis from 'vis'
 import numeral from 'numeral'
-// import * as graphs from '@bitquery/graph'
+// import from npm package
+// when you import from the package
+// the first 2 imported functions are
+// (query and address_graph) but no address_sankey
+// why??
+import * as graphs from '@bitquery/graph'
+// import from file (the same as in the package)
+// when importing from a file,
+// there is no function in the module
 // import * as graphs from './graphs.min.js'
 
 global.$ = $;
 global.vis = vis;
 global.numeral = numeral;
 global.m = moment;
-// global.graphs = graphs;
+global.graphs = graphs;
 
 
 $('document').ready(function(){
