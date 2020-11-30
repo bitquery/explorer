@@ -53,7 +53,7 @@
                       dexTrades(options:{asc: "date.date"}, date: {
                         since: $from
                         till: $till}
-                        buyOrSellCurrency: {is: $token}
+                        baseCurrency: {is: $token}
                       ) {
                         date: date{
                           date(format: $dateFormat)

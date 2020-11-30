@@ -24,7 +24,7 @@
                     ethereum(network: $network){
                       dexTrades(options:{desc: ["block.height","tradeIndex"], limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-                        buyOrSellCurrency: {is: $token}
+                        baseCurrency: {is: $token}
                         ) {
 
                           block {

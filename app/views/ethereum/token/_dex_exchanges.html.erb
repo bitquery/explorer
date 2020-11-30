@@ -41,7 +41,7 @@
                     ethereum(network: $network){
                       dexTrades(options:{desc: "amount"},
                         date: {since: $from till: $till }
-                        buyOrSellCurrency: {is: $token}
+                        baseCurrency: {is: $token}
                         ) {
 
                           exchange {
