@@ -60,10 +60,10 @@
                         }
 
                             trades: count
-                            amount: currencyAmount
-                            currency{symbol}
+                            amount: baseAmount
+                            baseCurrency{symbol}
                             contracts: count(uniq: smart_contracts)
-                            currencies: count(uniq: buy_currency)
+                            currencies: count(uniq: quote_currency)
 
                       }
                     }

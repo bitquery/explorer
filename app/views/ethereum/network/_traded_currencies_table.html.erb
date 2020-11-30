@@ -26,12 +26,12 @@
 
                         ) {
 
-                            currency {
+                            baseCurrency {
                               symbol
                               address
                             }
                             count
-                            currencyAmount(in: USD)
+                            currencyAmount: baseAmount(in: USD)
                             dates: count(uniq: dates)
                             started: minimum(of: date)
                       }
