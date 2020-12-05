@@ -67,7 +67,7 @@ class Ethereum::AddressController < NetworkController
 
   def query_graphql
     @address = params[:address]
-    query = action_name == 'graph' || action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
+    query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     if @address.starts_with?('0x')
       result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.ethereum
       @info = result.address.first

@@ -12,10 +12,6 @@ class Conflux::SmartContractController < Conflux::AddressController
     render 'conflux/address/calls_contracts'
   end
 
-  def graph
-    render 'conflux/address/graph'
-  end
-
   def money_flow
     render 'conflux/address/money_flow'
   end

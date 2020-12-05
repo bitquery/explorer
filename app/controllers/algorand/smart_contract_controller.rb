@@ -9,10 +9,6 @@ class Algorand::SmartContractController < Algorand::AddressController
     render 'algorand/address/outflow'
   end
 
-  def graph
-    render 'algorand/address/graph'
-  end
-
   def money_flow
     render 'algorand/address/money_flow'
   end

@@ -1,9 +1,21 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header">Money flow</div>
+      <div class="card-header">
+        <div class="choice-view">
+          <input class="choice-view__radio" type="radio" name="view" id="graph-radio" value="graph" onclick="$('#graph').parents('.card-body').show();$('#sankey-graph').parents('.card-body').hide()" checked>
+          <label class="choice-view__label" for="graph-radio">Graph</label>
+        </div>
+        <div class="choice-view">
+          <input class="choice-view__radio" type="radio" name="view" id="sankey-radio" value="sankey" onclick="$('#sankey-graph').parents('.card-body').show();$('#graph').parents('.card-body').hide()">
+          <label class="choice-view__label" for="sankey-radio">Sankey</label>
+        </div>
+      </div>
       <div class="card-body" style="padding: 0">
-        <div id="sankey-graph" ></div>
+        <div id="graph" style="width: 100%;"></div>
+      </div>
+      <div class="card-body" style="padding: 0; display: none;">
+        <div id="sankey-graph" style="width: 100%;"></div>
       </div>
     </div>
   </div>
@@ -38,7 +50,20 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO860
 }
 `)
 
+          new graphs.address_graph('#graph', query, {
+              theme: '<%= @theme %>',
+          })
+
+          new graphs.addControls('#graph', query, {
+              theme: '<%= @theme %>',
+              currencies: [{address: "<%= @address %>", name: "Bitcoin", symbol: "BTC", search: "<%= @address %>"}],
+          })
+
           new graphs.address_sankey('#sankey-graph', query, {
+              theme: '<%= @theme %>',
+          })
+
+          new graphs.addControls('#sankey-graph', query, {
               theme: '<%= @theme %>',
               currencies: [{address: "<%= @address %>", name: "Bitcoin", symbol: "BTC", search: "<%= @address %>"}],
           })

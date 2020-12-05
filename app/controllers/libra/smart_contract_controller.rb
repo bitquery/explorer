@@ -12,10 +12,6 @@ class Libra::SmartContractController < Libra::AddressController
     render 'ethereum/address/calls_contracts'
   end
 
-  def graph
-    render 'ethereum/address/graph'
-  end
-
   def money_flow
     render 'ethereum/address/money_flow'
   end
