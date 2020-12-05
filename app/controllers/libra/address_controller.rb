@@ -22,7 +22,7 @@ class Libra::AddressController < NetworkController
 
   def query_graphql
     @address = params[:address]
-    if action_name == 'graph' || action_name == 'money_flow'
+    if action_name == 'money_flow'
         result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: {network: @network[:network], address: @address}).data.libra
         @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
     end

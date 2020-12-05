@@ -12,10 +12,6 @@ class Eos::SmartContractController < Eos::AddressController
     render 'eos/address/calls_contracts'
   end
 
-  def graph
-    render 'eos/address/graph'
-  end
-
   def money_flow
     render 'eos/address/money_flow'
   end

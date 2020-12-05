@@ -1,9 +1,21 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header">Money flow</div>
+      <div class="card-header">
+        <div class="choice-view">
+          <input class="choice-view__radio" type="radio" name="view" id="graph-radio" value="graph" onclick="$('#graph').parents('.card-body').show();$('#sankey-graph').parents('.card-body').hide()" checked>
+          <label class="choice-view__label" for="graph-radio">Graph</label>
+        </div>
+        <div class="choice-view">
+          <input class="choice-view__radio" type="radio" name="view" id="sankey-radio" value="sankey" onclick="$('#sankey-graph').parents('.card-body').show();$('#graph').parents('.card-body').hide()">
+          <label class="choice-view__label" for="sankey-radio">Sankey</label>
+        </div>
+      </div>
       <div class="card-body" style="padding: 0">
-        <div id="sankey-graph" ></div>
+        <div id="graph" style="width: 100%;"></div>
+      </div>
+      <div class="card-body" style="padding: 0; display: none;">
+        <div id="sankey-graph" style="width: 100%;"></div>
       </div>
     </div>
   </div>
@@ -38,13 +50,28 @@ query ($address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTi
 }
 `)
 
-          new graphs.address_sankey('#sankey-graph', query, {
+          new graphs.address_graph('#graph', query, {
+              theme: '<%= @theme %>',
+          })
+
+          new graphs.addControls('#graph', query, {
               theme: '<%= @theme %>',
               currencies: [<%= @currencies.collect{|cur|
             value = cur.address === '-' ? cur.symbol : cur.token_id
             "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",label:\"#{cur.symbol}\",search:\"#{value}\"}"
             }.join(',').html_safe %>],
-              dependent: true
+          })
+
+          new graphs.address_sankey('#sankey-graph', query, {
+              theme: '<%= @theme %>',
+          })
+
+          new graphs.addControls('#sankey-graph', query, {
+              theme: '<%= @theme %>',
+              currencies: [<%= @currencies.collect{|cur|
+            value = cur.address === '-' ? cur.symbol : cur.token_id
+            "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",label:\"#{cur.symbol}\",search:\"#{value}\"}"
+            }.join(',').html_safe %>],
           })
 
           queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": '<%= @currencies.first && @currencies.first.token_id %>'})

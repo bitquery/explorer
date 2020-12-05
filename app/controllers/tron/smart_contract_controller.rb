@@ -12,10 +12,6 @@ class Tron::SmartContractController < Tron::AddressController
     render 'tron/address/calls_contracts'
   end
 
-  def graph
-    render 'tron/address/graph'
-  end
-
   def money_flow
     render 'tron/address/money_flow'
   end
