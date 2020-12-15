@@ -72,7 +72,7 @@ class Ethereum::AddressController < NetworkController
       result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.ethereum
       @info = result.address.first
       all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
-      @currencies = all_t.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 }
+      @currencies = all_t.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 }.uniq{|x| x.address}
     end
   end
 

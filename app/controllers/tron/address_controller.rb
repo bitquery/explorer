@@ -62,7 +62,7 @@ class Tron::AddressController < NetworkController
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     result = BitqueryGraphql::Client.query(query, variables: {address: @address}).data.tron
     @info = result.address.first
-    @currencies = result.transfers.map(&:currency).sort_by{|c| c.symbol=='TRX' ? 0 : 1 } if result.try(:transfers)
+    @currencies = result.transfers.map(&:currency).sort_by{|c| c.symbol=='TRX' ? 0 : 1 }.uniq{|x| x.address } if result.try(:transfers)
   end
 
   def redirect_by_type
