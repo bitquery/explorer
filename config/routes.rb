@@ -12,9 +12,11 @@ Rails.application.routes.draw do
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/smart_contract/:address/graph", controller: "#{blockchain[:family]}/smart_contract", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/token/:address/graph", controller: "#{blockchain[:family]}/token", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
@@ -59,6 +61,7 @@ Rails.application.routes.draw do
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/smart_contract/:address/graph", controller: "#{blockchain[:family]}/smart_contract", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
@@ -91,13 +94,15 @@ Rails.application.routes.draw do
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
 
-      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/smart_contract/:address/graph", controller: "#{blockchain[:family]}/smart_contract", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
 
+      get ":blockchain/token/:address/graph", controller: "#{blockchain[:family]}/token", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network], address: /[^\/]+/ }, defaults: {network: blockchain}
 
@@ -124,13 +129,16 @@ Rails.application.routes.draw do
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
-      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/smart_contract/:address/graph", controller: "#{blockchain[:family]}/smart_contract", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/token/:address/graph", controller: "#{blockchain[:family]}/token", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
@@ -157,10 +165,11 @@ Rails.application.routes.draw do
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
-      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/token/:address/graph", controller: "#{blockchain[:family]}/token", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
@@ -236,10 +245,12 @@ Rails.application.routes.draw do
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
-      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/smart_contract/:address/graph", controller: "#{blockchain[:family]}/smart_contract", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/smart_contract/:address", controller: "#{blockchain[:family]}/smart_contract", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
