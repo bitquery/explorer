@@ -22,9 +22,9 @@
   <script>
       $(document).ready(function() {
           const query = new graphs.query(`
-query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+query ($network: BitcoinNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
   bitcoin(network: $network) {
-    inbound: coinpath(receiver: {is: $address}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+    inbound: coinpath(initialAddress: {is: $address}, depth: {lteq: $inboundDepth}, options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
@@ -34,8 +34,10 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO860
         annotation
       }
       amount
+      depth
+      count
     }
-    outbound: coinpath(sender: {is: $address}, receiver: {not: ""}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+    outbound: coinpath(initialAddress: {is: $address}, depth: {lteq: $outboundDepth}, options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
@@ -45,6 +47,8 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO860
         annotation
       }
       amount
+      depth
+      count
     }
   }
 }
@@ -68,7 +72,7 @@ query ($network: BitcoinNetwork!, $address: String!, $limit: Int!, $from: ISO860
               currencies: [{address: "<%= @address %>", name: "Bitcoin", symbol: "BTC", search: "<%= @address %>"}],
           })
 
-          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>"})
+          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>"})
       })
   </script>
 </div>
