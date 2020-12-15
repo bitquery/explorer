@@ -21,9 +21,9 @@
   </div>
   <script>
       const query = new graphs.query(`
-query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
   ethereum(network: $network) {
-    inbound: coinpath(receiver: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+    inbound: coinpath(initialAddress: {is: $address}, currency:{is: $currency}, depth: {lteq: $inboundDepth}, options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
@@ -47,8 +47,11 @@ query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: S
         }
       }
       amount
+      currency{symbol}
+      depth
+      count
     }
-    outbound: coinpath(sender: {is: $address}, currency:{is: $currency}, options: {desc: "amount", limit: $limit}, date:{since: $from, till: $till}) {
+    outbound: coinpath(initialAddress: {is: $address}, currency:{is: $currency}, depth: {lteq: $outboundDepth}, options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
@@ -72,6 +75,9 @@ query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: S
         }
       }
       amount
+      currency{symbol}
+      depth
+      count
     }
   }
 }
@@ -101,7 +107,7 @@ query ($network: EthereumNetwork!, $address: String!, $limit: Int!, $currency: S
             }.join(',').html_safe %>],
       })
 
-      queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
 
   </script>
 </div>
