@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.deposits_by_time') %></div>
+      <div class="card-body">
+        <div id="deposits_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.deposit_amount_by_time') %></div>
+      <div class="card-body">
+        <div id="deposit_amount_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: Ethereum2Network!,
+                  $dateFormat: String!,
+
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    ethereum2(network: $network ){
+                      deposits(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+                        count: count
+                        amount
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#deposits_by_time', query, 'ethereum2.deposits', {
+            title: '<%= t('widgets.headers.deposits_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.deposit_count') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.deposit_count') %>',
+                    path: 'count'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#deposit_amount_by_time', query, 'ethereum2.deposits', {
+            title: '<%= t('widgets.headers.deposit_amount_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.amount') %>, <%= @network[:currency] %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>, <%= @network[:currency] %>',
+                    path: 'amount'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+
+    });
+</script>

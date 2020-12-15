@@ -84,11 +84,11 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} graph, %{network} %{address} graph"
-      money_flow:
-        name: 'Money Flow'
-        title: "%{address} money flow in %{network}"
-        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
-        keywords: "%{address} money flow, %{network} %{address} money flow"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -96,46 +96,52 @@ en:
         name: 'Smart Contract'
         title: "%{address} smart contract | %{network}"
         description: "Overview of %{address} smart contract activity in %{network}"
+        keywords: "Smart contract,%{address},%{network}"
       transactions:
         name: 'Transactions'
         title: "%{address} Transactions | %{network}"
         description: "%{address} Transactions on %{network} blockchain"
-        keywords: "%{address} Transactions, %{address} smart contract Transactions"
+        keywords: "%{address} Transactions, %{address} smart contract Transactions,%{network}"
       methods:
         name: 'Methods'
         title: "%{address} Smart Contract Methods | %{network}"
         description: "%{address} smart contract methods and functions in %{network} blockchain"
-        keywords: "%{address} methods, %{address} smart contract methods, %{address} smart contract functions, %{address} functions"
+        keywords: "%{address} methods, %{address} smart contract methods, %{address} smart contract functions, %{address} functions,%{network}"
       events:
         name: 'Events'
         title: "%{address} Smart Contract Events | %{network}"
         description: "%{address} smart contract events in %{network} blockchain"
-        keywords: "%{address} events, %{address} smart contract events, %{address} smart contract event, %{address} event log"
+        keywords: "%{address} events, %{address} smart contract events, %{address} smart contract event, %{address} event log,%{network}"
       inflow:
         name: 'Inflow'
         title: "%{address} Smart Contract Inflow | %{network}"
         description: "Inflow of different crypto tokens and coins to smart contract %{address} activity in %{network}, statistics of inbound transfers, sources of money transfers"
-        keywords: "%{address} inflow, %{address} money inflow"
+        keywords: "%{address} inflow, %{address} money inflow,%{network}"
       outflow:
         name: 'Outflow'
         title: "%{address} Smart Contract Outflow | %{network}"
         description: "Outflow of different crypto tokens and coins from smart contract %{address} activity in %{network}, statistics of outbound transfers, destinations of money transfers"
-        keywords: "%{address} outflow, %{address} outflows"
+        keywords: "%{address} outflow, %{address} outflows,%{network}"
       calls_contracts:
         name: 'Calls Contracts'
         title: "%{address} Smart Contracts Calls | %{network}"
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
-        keywords: " %{address} smart contracts calls, %{address} contract calls, %{address} smart contract calls"
+        keywords: " %{address} smart contracts calls, %{address} contract calls, %{address} smart contract calls,%{network}"
       graph:
         name: 'Graph'
         title: "%{address} graph | %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
-        keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking"
-      money_flow:
-        name: 'Money Flow'
-        title: "%{address} money flow | %{network}"
-        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
-        keywords: "%{address} money flow, %{network} %{address} money flow"
+        keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking,%{network}"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network},DEX,Trades"
+      dex_tokens:
+        name: "DEX Tokens"
+        title: "%{network} Token Traded on DEXes"
+        description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
+        keywords: "%{network},DEX,Tokens"
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -219,11 +225,16 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
-      money_flow:
-        name: 'Money Flow'
-        title: "%{address} money flow | %{network}"
-        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
-        keywords: "%{address} money flow, %{network} %{address} money flow analytics"
+      token_dex_trades:
+        name: "Trades on DEXs"
+        title: "%{network} DEX Trades of the token"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network} DEX Trades"
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -456,6 +467,11 @@ en:
         title: "Scripts for output %{hash} in %{network}"
         description: "Output scripts in transaction %{hash} in %{network}"
         keywords: "%{network} transaction output script"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
     block:
       icon: 'fas fa-cube'
       header: "%{network} Block %{height}"
@@ -564,11 +580,21 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      dex_protocols:
+        name: "DEX Protocols"
+        title: "%{network} DEX Protocols"
+        description: "Decentralised exchanges (DEX) protocols, smart contracts on %{network}"
+        keywords: "%{network} Decentralized Exchanges Protocols"
       dex:
         name: "DEX"
-        title: "%{network} DEX Smart Contracts"
-        description: "Decentralised exchanges (DEX), smart contracts on %{network}"
-        keywords: "%{network} DEXes"
+        title: "%{network} Decentralized Exchanges"
+        description: "Decentralised exchanges (DEX) on %{network}"
+        keywords: "%{network} Decentralized Exchanges"
+      dex_tokens:
+        name: "DEX Tokens"
+        title: "%{network} Token Traded on DEXes"
+        description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
+        keywords: "%{network} DEX Tokens"
       proposers:
         name: "Proposers"
         title: "Proposers on %{network} Explorer"
@@ -604,6 +630,31 @@ en:
         title: "Client Types on %{network} Explorer"
         description: "Client Type list for %{network}"
         keywords: "%{network} clients"
+      deposits:
+        name: "Deposits"
+        title: "Deposits on %{network} Explorer"
+        description: "Deposits on %{network}"
+        keywords: "%{network} deposits"
+      exits:
+        name: "Exits"
+        title: "Exits on %{network} Explorer"
+        description: "Exits on %{network}"
+        keywords: "%{network} exits"
+      proposer_slashings:
+        name: "Proposer Slashings"
+        title: "Proposer Slashings on %{network} Explorer"
+        description: "Proposer Slashings on %{network}"
+        keywords: "%{network} proposer slashings"
+      attester_slashings:
+        name: "Attester Slashings"
+        title: "Attester Slashings on %{network} Explorer"
+        description: "Attester Slashings on %{network}"
+        keywords: "%{network} attester slashings"
+      attestations:
+        name: "Attestations"
+        title: "Attestations on %{network} Explorer"
+        description: "Attestations on %{network}"
+        keywords: "%{network} attestations"
     home:
       index:
         name: "All"
@@ -723,11 +774,23 @@ en:
         header: "Time Series of COVID-2019 Data in %{continent}"
         title: "COVID-2019 %{continent} Study"
         description: "Time Series of COVID-2019 Data in %{continent}"
+    validator:
+      icon: 'far fa-address-card'
+      header: "%{network} validator with index #%{index}"
+      show:
+        name: 'Validator'
+        title: "Validator %{index} | %{network}"
+        description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
+        keywords: "%{network} Validator ${index}"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
       transaction_by_time: 'Activities by date'
+      blocks_by_time: 'Blocks by date'
+      proposed_blocks_by_time: 'Proposed Blocks by date'
+      attestations_by_time: 'Slot Attestations by date'
+      deposits_by_time: 'Deposits By Time'
       in_out_transfers_by_time: 'In/Outbound transfer count by date'
       mints_by_time: 'Mints by date'
       minters_by_time: 'Minters by date'
@@ -740,8 +803,10 @@ en:
       unique_currencies_by_time: 'Traded currencies by time'
       unique_dex_smart_contracts_by_time: 'DEX Smart Contracts by time'
       dex_tradex_by_protocol: "Count of DEX Trades By Protocol"
+      dex_trades_by_exchange: "Count of DEX Trades By Exchange"
       dex_smart_contracts: "DEX Smart Contracts"
       dex_protocols: "DEX Smart Contract Protocols"
+      dex_exchanges: "DEX Exchanges"
       trades: "Trades"
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
@@ -847,12 +912,25 @@ en:
       money_flow: 'Money flow'
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
+      trade_amount_by_time: "Trade Amount By Time"
+      deposit_amount_by_time: "Deposit Amount By Time"
+      slashings_by_time: "Slashings By Date"
+      proposer_slashings_by_time: "Proposer Slashings By Date"
+      attester_slashings_by_time: "Attester Slashings By Date"
+      exits_by_time: "Voluntary Exits By Date"
       validators: "Validators"
       proposers: "Proposers"
-      latest_token_orders: "Latest Token Orders"
-      latest_token_trades: "Latest Token Trades"
+      top_deposit_validators: "Top Validators By Deposited Amount"
+      top_block_proposers: "Top Proposers By Blocks"
+      top_slashings_proposers: "Top Proposers By Count of Slashings"
+      top_slashings_validators: "Top Validators By Count of Slashings"
+      attestation_committees: "Attestation Committees"
+      last_exits: "Last Exits"
+      latest_token_orders: "Token Orders"
+      latest_token_trades: "Token Trades"
       token_trading_statistics: "Token trading statistics"
-      token_makers: "Token Order Makers"
+      token_makers: "Trade Makers"
+      token_takers: "Trade Takers"
       token_currencies: "Token Order Pairs"
       token_trades_currencies: "Token Trade Pairs"
       orders_by_time: "Orders by time"
@@ -887,6 +965,7 @@ en:
       volume_in: "Volume In, %{currency}"
       volume_out: "Volume Out, %{currency}"
       trades: "Trades Count"
+      exchange: "Exchange"
       currencies: "Currencies"
       trades_as_buyer: "Trades as buyer"
       trades_as_seller: "Trades as seller"
@@ -961,6 +1040,7 @@ en:
       transactions_count: "Transactions count"
       contracts_count: "Contracts count"
       proposers_count: "Proposers Unique"
+      validators_count: "Validators Unique"
       last_transaction_time: "Last transaction time"
       call_depth: "Call Depth"
       smart_contract_type: "Contract Type"
@@ -985,6 +1065,8 @@ en:
       miner: "Miner"
       witness: "Witness"
       proposer: "Proposer"
+      committee_index: "Committee Index"
+      committee_count: "Committee Count"
       producer: "Producer"
       protocol: "Protocol"
       next_protocol: "Next Protocol"
@@ -999,6 +1081,11 @@ en:
       hash: "Hash"
       parent_hash: "Parent Hash"
       block_count: "Block Count"
+      slot_count: "Slot Count"
+      deposit_count: "Deposit count"
+      slashing_count: "Slashing count"
+      attestations: "Attestations"
+      count: "Count"
       miners_block_count_by_time: 'Miners Block Count By Time'
       miners_block_count: "Miners Block Count"
       proposers_block_count_by_time: 'Proposers Block Count By Time'
@@ -1063,9 +1150,12 @@ en:
       trade_quote_currency_amount: 'Quote Amount'
       trade_sell_currency_amount: 'Sell Amount'
       average_price: 'Avg Price'
+      last_price: 'Last Price'
+      median_price: 'Median Price'
       orders_as_base_count: "Orders As Base Currency"
       orders_as_quote_count: "Orders As Quote Currency"
       validator_cons_pub_key: "Validator Consensus Public Key"
+      validator_pub_key: "Validator Public Key"
       fee: "Fee"
       fee_per_transaction: "Fee per Transaction"
       input_value: "Input Value"

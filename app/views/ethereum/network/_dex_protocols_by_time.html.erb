@@ -58,7 +58,7 @@
                 path: 'protocol',
                 metrics: [
                     {
-                        title: 'Count',
+                        title: '<%= t('widgets.headers.trades') %>',
                         path: 'count'
                     }
                 ]
@@ -67,7 +67,7 @@
                 title: 'Date',
                 path: 'date.date'
             }],
-            sort: {metric: 'Count', direction: 'desc', axis: 'col'},
+            sort: {metric: '<%= t('widgets.headers.trades') %>', direction: 'desc', axis: 'col'},
             limit: {length: 41, other: true, axis: 'col'},
         });
 

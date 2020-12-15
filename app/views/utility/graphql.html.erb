@@ -1,31 +1,7 @@
-<script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgetsGraphiql.js"></script>
-<div class="row">
-  <div class="col-12">
-    <div class="row my-3">
-      <div class="col-sm-8 col-md-9 col-xl-10">
-        <input type="text" value="<%= BITQUERY_GRAPHQL %>" class="form-control form-control-sm">
-      </div>
-      <div class="col-sm-4 col-md-3 col-xl-2">
-        <a href="https://github.com/bitquery/graphql/wiki" class='float-right' target="_blank">Docs on Github</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-12">
-    <div id="graphiql" style="min-height:600px;height: 65vh"></div>
-  </div>
-  <div class="col-12 mt-3">
-    <a href="https://github.com/graphql/graphiql" class="float-right">GraphiQL on GitHub</a>
-  </div>
-</div>
-<script>
-    widgetsGraphiql.render(document.getElementById('graphiql'),{
-        url: '<%= BITQUERY_GRAPHQL %>',
-        query: `query{
-  bitcoin{
-    blocks{
-      count
-    }
-   }
-}`
-    });
-</script>
+<% content_for :html_head do %><link href="https://cdn.jsdelivr.net/gh/bitquery/graphql-ide@1.1.15/build/static/css/main.css" rel="stylesheet"><% end %>
+
+
+<div id="graphql_ide" baseurl="https://graphql.bitquery.io"></div>
+
+
+<script src="https://cdn.jsdelivr.net/gh/bitquery/graphql-ide@1.1.15/build/static/js/main.js"></script>

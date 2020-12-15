@@ -35,6 +35,20 @@ Rails.application.routes.draw do
 
     }
 
+    BLOCKCHAINS.select{|b| b[:family]=='ethereum2'}.each{|blockchain|
+
+      get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/validator/:index/:action", controller: "#{blockchain[:family]}/validator", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/validator/:index", controller: "#{blockchain[:family]}/validator", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+
+    }
+
+
     BLOCKCHAINS.select{|b| b[:family]=='tron'}.each{|blockchain|
 
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
@@ -249,7 +263,8 @@ Rails.application.routes.draw do
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search', constraints: { query: /[^\/]+/ }
 
     get "platform/:action", controller: "home"
-    get "graphql" => "utility#graphql"
+    get "graphql(/:param)" => "utility#graphql"
+    get "graphql/reset(/:token)" => "utility#graphql"
     root 'home#index'
 
 

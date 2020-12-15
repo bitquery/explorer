@@ -1,10 +1,11 @@
 class UtilityController < ApplicationController
-  def graphql
+
+
+  def set_locale
+
+    session[:locale] ||= I18n.default_locale
+    super
+
   end
 
-  def date
-    # save date
-  end
-  def errors
-  end
 end

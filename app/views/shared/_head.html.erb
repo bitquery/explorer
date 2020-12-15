@@ -20,5 +20,6 @@
   <script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgets.js"></script>
   <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
   <%= render(partial: 'shared/google_analytics') if ANALYTICS %>
+  <% if content_for?(:html_head) %><%= yield :html_head %><% end %>
 </head>
 

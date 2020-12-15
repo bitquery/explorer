@@ -1,0 +1,70 @@
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.attester_slashings_by_time') %></div>
+      <div class="card-body">
+        <div id="attester_slashings_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: Ethereum2Network!,
+                  $dateFormat: String!,
+                  $index: Int!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    ethereum2(network: $network ){
+                      attesterSlashings(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+                        validatorIndex: {is: $index}
+
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+                        count
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#attester_slashings_by_time', query, 'ethereum2.attesterSlashings', {
+            title: '<%= t('widgets.headers.attester_slashings_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.slashing_count') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#FF6347' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.slashing_count') %>',
+                    path: 'count'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            index: <%= @index %>
+        });
+
+
+    });
+</script>

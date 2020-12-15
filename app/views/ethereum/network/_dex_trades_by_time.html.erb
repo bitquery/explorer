@@ -10,7 +10,7 @@
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.unique_traders_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_takers') %></div>
       <div class="card-body">
         <div id="unique_traders_by_time"><%= t('loading') %></div>
       </div>
@@ -60,7 +60,7 @@
                         }
 
                             trades: count
-                            traders: count(uniq: address)
+                            traders: count(uniq: takers)
                             contracts: count(uniq: smart_contracts)
                             currencies: count(uniq: buy_currency)
 
@@ -95,7 +95,7 @@
         });
 
         new widgets.chartByTime('#unique_traders_by_time', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.traders') %>',
+            title: '<%= t('widgets.headers.token_takers') %>',
             chartOptions: {
                 vAxes: {
                     '0': {

@@ -1,0 +1,14 @@
+<script>
+    widgets.callbacks({
+        validator_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validator/'+item.validator.index;
+        },
+        proposer_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validator/'+item.proposer.index;
+        },
+        slashing_proposer_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validator/'+item.slashing.proposer.index;
+        }
+    });
+
+</script>
