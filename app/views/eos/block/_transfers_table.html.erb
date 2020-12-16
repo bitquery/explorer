@@ -21,7 +21,7 @@
                                 $date: ISO8601DateTime,
                                 $height: Int){
                     eos{
-                      transfers(options:{ desc: "amount",limit: $limit, offset: $offset},
+                      transfers(options:{ desc: "amount"  asc: "currency.symbol" limit: $limit, offset: $offset},
                         date: {is: $date } height: {is: $height}
                         ) {
 

@@ -35,7 +35,7 @@
                           binance {
                             transfers(currency: {is: $token}
                             date: {since: $from till: $till}
-                            options: {desc: "amount", limit:$limit, offset: $offset}
+                            options: {desc: "amount"  asc: "currency.symbol" limit:$limit, offset: $offset}
                             ){
 
                               receiver {

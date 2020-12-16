@@ -21,7 +21,9 @@
                                         $from: ISO8601DateTime,
                                         $till: ISO8601DateTime){
                                     eos{
-                                      smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                                      smartContractCalls(options:{desc: "block.timestamp.time"
+                                        asc: "txHash"
+                                        limit: $limit, offset: $offset},
                                         date: {since: $from till: $till },
                                         txFrom: {is: $address}) {
 

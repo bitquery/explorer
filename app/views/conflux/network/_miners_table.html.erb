@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     conflux(network: $network){
-                      blocks(options:{desc: "count", limit: $limit, offset: $offset},
+                      blocks(options:{desc: "count"  asc: "address.address" limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 

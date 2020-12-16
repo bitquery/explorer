@@ -10,6 +10,18 @@
 
 </div>
 
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.dex_amounts_by_exchange') %></div>
+      <div class="card-body">
+        <div id="dex_amounts_by_exchange"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
 
 <script>
@@ -38,13 +50,15 @@
 
                         count
 
+                        tradeAmount(in: USD)
+
 
                       }
                     }
                   }`);
 
         new widgets.pivotChart('#dex_trades_by_exchange', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.titles.dex_trades_by_exchange') %>',
+            title: '<%= t('widgets.headers.dex_trades_by_exchange') %>',
             chartOptions: {
                 vAxes: {
                     '0': {
@@ -73,6 +87,38 @@
             sort: {metric: '<%= t('widgets.headers.trades') %>', direction: 'desc', axis: 'col'},
             limit: {length: 41, other: true, axis: 'col'},
         });
+
+        new widgets.pivotChart('#dex_amounts_by_exchange', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_amounts_by_exchange') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.amount_usd') %>',
+                        viewWindow: { min: 0 }
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis.json' %>,
+                bar: {groupWidth: "100%"},
+                isStacked: true
+            },
+            cols: [{
+                title: '<%= t('widgets.titles.exchange') %>',
+                path: 'exchange.fullName',
+                metrics: [
+                    {
+                        title: '<%= t('widgets.titles.usd') %>',
+                        path: 'tradeAmount'
+                    }
+                ]
+            }],
+            rows: [{
+                title: 'Date',
+                path: 'date.date'
+            }],
+            sort: {metric: '<%= t('widgets.titles.usd') %>', direction: 'desc', axis: 'col'},
+            limit: {length: 41, other: true, axis: 'col'},
+        });
+
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
             network: '<%= params['network']['network'] %>'

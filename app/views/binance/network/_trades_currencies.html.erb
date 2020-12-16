@@ -22,7 +22,7 @@
     binance {
       trades(
       date: {since: $from till: $till}
-        options: {desc: "count", limit: $limit, offset: $offset}
+        options: {desc: "count" asc: "quoteCurrency.symbol"  limit: $limit, offset: $offset}
       ){
 
         baseCurrency {

@@ -18,7 +18,7 @@
                         $till: ISO8601DateTime,
                         $limit: Int!, $offset: Int!){
                     conflux(network: $network ){
-                        smartContractCalls(options:{limit: $limit, offset: $offset, desc: "count"}, date: {
+                        smartContractCalls(options:{limit: $limit, offset: $offset, desc: "count"  asc: "smartContract.address.address"}, date: {
                           since: $from
                           till: $till
                         }, caller: {is: $address}) {

@@ -20,7 +20,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     binance{
-                      transactions(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      transactions(options:{desc: "block.height" asc: "hash" limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 

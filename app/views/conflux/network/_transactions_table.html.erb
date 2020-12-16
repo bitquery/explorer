@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     conflux(network: $network){
-                      transactions(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      transactions(options:{desc: "block.height"  asc: "address.address" limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 

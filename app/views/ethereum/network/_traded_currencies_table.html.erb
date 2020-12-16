@@ -21,17 +21,17 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     ethereum(network: $network){
-                      dexTrades(options:{desc: "count", limit: $limit, offset: $offset},
+                      dexTrades(options:{desc: "currencyAmount", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
 
                         ) {
 
-                            currency {
+                            currency: baseCurrency {
                               symbol
                               address
                             }
                             count
-                            amount
+                            currencyAmount: baseAmount(in: USD)
                             dates: count(uniq: dates)
                             started: minimum(of: date)
                       }
@@ -54,8 +54,8 @@
                     path: 'count'
                 },
                 {
-                    title: '<%= t('widgets.titles.amount') %>',
-                    path: 'amount'
+                    title: '<%= t('widgets.titles.amount_usd') %>',
+                    path: 'currencyAmount'
                 },
                 {
                     title: '<%= t('widgets.titles.started') %>',

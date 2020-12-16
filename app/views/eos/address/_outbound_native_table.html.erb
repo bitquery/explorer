@@ -20,7 +20,7 @@
                       $from: ISO8601DateTime,
                       $till: ISO8601DateTime){
                   eos{
-                    transfers(options:{limit: $limit, offset: $offset, desc: "amount"},
+                    transfers(options:{limit: $limit, offset: $offset, desc: "amount"  asc: "currency.symbol"},
                       date: {since: $from till: $till },
                       sender: {is: $address},
                       currency: {is: $nativeCurrency }) {

@@ -25,7 +25,7 @@
 
       baseCurrency: {is: $token}
       date: {since: $from till: $till}
-        options: {desc: "baseAmount", limit: $limit, offset: $offset}
+        options: {desc: "baseAmount"  asc: "address.address" limit: $limit, offset: $offset}
       ){
 
         address: buyer {

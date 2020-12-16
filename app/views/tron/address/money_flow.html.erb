@@ -83,7 +83,7 @@ query ( $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: In
   }
 }
 `)
-
+window.query = query
           new graphs.address_graph('#graph', query, {
               theme: '<%= @theme %>',
           })

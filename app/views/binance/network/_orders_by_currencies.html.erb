@@ -18,7 +18,7 @@
                   $till: ISO8601DateTime){
                     binance {
                       orders(
-                      options:{desc: "count", limit: 20},
+                      options:{desc: "count" asc: "quoteCurrency.symbol" limit: 20},
                       date: {
                         since: $from
                         till: $till}

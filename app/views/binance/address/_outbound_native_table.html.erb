@@ -20,7 +20,7 @@
                       $from: ISO8601DateTime,
                       $till: ISO8601DateTime){
                   binance {
-                    transfers(options:{limit: $limit, offset: $offset, desc: "amount"},
+                    transfers(options:{limit: $limit, offset: $offset, desc: "amount" asc: "currency.symbol"},
                       date: {since: $from till: $till },
                       sender: {is: $address},
                       transferType:{notIn: [DEX_FEE,TX_FEE]}

@@ -19,7 +19,7 @@
                   $offset: Int!){
               binance {
                 transfers(date: {since: $from, till: $till},
-                options: {limit: $limit, offset: $offset, desc: "count_in"}){
+                options: {limit: $limit, offset: $offset, desc: ["count_in","count_out"] asc: "currency.symbol"}){
                     sum_in: amount(calculate: sum,
                       receiver: {is: $address}
                     )

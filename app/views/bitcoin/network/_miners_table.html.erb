@@ -21,7 +21,7 @@
                         $from: ISO8601DateTime,
                         $till: ISO8601DateTime){
                   bitcoin(network: $network ){
-                    outputs(options:{desc: "reward", limit: $limit, offset: $offset},
+                    outputs(options:{desc: "reward"  asc: "address.address" limit: $limit, offset: $offset},
                       date: { since: $from till: $till}
 
                       txIndex: {is: 0}

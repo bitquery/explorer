@@ -20,7 +20,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     binance{
-                      blocks(options:{desc: "height", limit: $limit, offset: $offset},
+                      blocks(options:{desc: "height"  limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 

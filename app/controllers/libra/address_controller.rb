@@ -24,7 +24,7 @@ class Libra::AddressController < NetworkController
     @address = params[:address]
     if action_name == 'money_flow'
         result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: {network: @network[:network], address: @address}).data.libra
-        @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
+        @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 }.uniq{|x| x.address } if result.try(:transfers)
     end
   end
 

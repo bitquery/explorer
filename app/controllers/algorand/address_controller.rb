@@ -21,7 +21,7 @@ query (  $address: String!){
     @address = params[:address]
     if action_name == 'money_flow'
       result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: {address: @address}).data.algorand
-      @currencies = result.transfers.map(&:currency).sort_by{|c| c.token_id == '0' ? 0 : 1 } if result.try(:transfers)
+      @currencies = result.transfers.map(&:currency).sort_by{|c| c.token_id == '0' ? 0 : 1 }.uniq{|x| x.token_id } if result.try(:transfers)
     end
   end
 

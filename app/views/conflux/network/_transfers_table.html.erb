@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     conflux(network: $network){
-                      transfers(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      transfers(options:{desc: "block.height"  asc: "currency.symbol" limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         amount: {gt: 0}
                         ) {

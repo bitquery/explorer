@@ -19,7 +19,7 @@
                     $offset: Int! ){
                     binance{
                       transfers(
-                          options:{desc: "block.height", limit: $limit, offset: $offset},
+                          options:{desc: "block.height"  asc: "currency.symbol" limit: $limit, offset: $offset},
                           currency: {is: $token }
                         ) {
 

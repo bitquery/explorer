@@ -63,7 +63,7 @@ class Conflux::AddressController < NetworkController
     if @address.starts_with?('0x')
       result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.conflux
       @info = result.address.first
-      @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 } if result.try(:transfers)
+      @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 }.uniq{|x| x.address } if result.try(:transfers)
     end
   end
 

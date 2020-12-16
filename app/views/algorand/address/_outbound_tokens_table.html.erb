@@ -19,7 +19,7 @@
                             $from: ISO8601DateTime,
                             $till: ISO8601DateTime){
                         algorand(network: $network){
-                          transfers(options:{limit: $limit, offset: $offset, desc: "count"},
+                          transfers(options:{limit: $limit, offset: $offset, desc: "count" asc: "currency.symbol"},
                             date: {since: $from till: $till },
                             sender: {is: $address},
                             amount: {gt: 0},

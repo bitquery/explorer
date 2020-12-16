@@ -22,7 +22,9 @@
                                         $from: ISO8601DateTime,
                                         $till: ISO8601DateTime){
                                     conflux(network: $network){
-                                      smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                                      smartContractCalls(options:{desc: "block.timestamp.time"
+                                        asc: "address.address"
+                                        limit: $limit, offset: $offset},
 
                                          <% if @caller  %>caller: {is: $caller},<% end %>
                                          <% if @contract  %>smartContractAddress: {is: $contract},<% end %>

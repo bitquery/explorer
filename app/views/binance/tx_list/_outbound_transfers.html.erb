@@ -24,7 +24,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     binance{
-                      transfers(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                      transfers(options:{desc: "block.timestamp.time"  asc: "currency.symbol" limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         <% if @currency  %>currency: {is: $currency},<% end %>
                         <% if @receiver  %>receiver: {is: $receiver},<% end %>
