@@ -22,7 +22,7 @@
                                 $till: ISO8601DateTime){
                             conflux(network: $network){
                               arguments(options:{
-                                desc: "count",
+                                desc: "count"  asc: "address.address"
                                 limit:$limit, offset: $offset},
                                 date: {since: $from till: $till },
                                 smartContractAddress: {is: $address},

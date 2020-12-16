@@ -21,7 +21,7 @@
                   $till: ISO8601DateTime){
                     binance {
                       transfers(
-                      options:{desc: "count", limit: $limit, offset: $offset},
+                      options:{desc: "count" asc: "currency.symbol" limit: $limit, offset: $offset},
                       date: {
                         since: $from
                         till: $till}

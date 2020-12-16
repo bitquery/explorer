@@ -21,7 +21,9 @@
                                         $from: ISO8601DateTime,
                                         $till: ISO8601DateTime){
                                     conflux(network: $network){
-                                      smartContractEvents(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                                      smartContractEvents(options:{desc: "block.timestamp.time"
+                                        asc: "transaction.hash"
+                                        limit: $limit, offset: $offset},
 
                                          <% if @contract  %>smartContractAddress: {is: $contract},<% end %>
                                          <% if @event  %>smartContractEvent: {is: $event},<% end %>

@@ -23,7 +23,7 @@
 
                   algorand(network: $network ){
 
-                      blocks(options:{ desc: "max_date" limit: $limit, offset: $offset},
+                      blocks(options:{ desc: "max_date" asc: "protocol" limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 

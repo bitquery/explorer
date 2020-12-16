@@ -25,7 +25,7 @@
 
       any: [{baseCurrency: {is: $token}},{quoteCurrency: {is: $token}}]
       date: {since: $from till: $till}
-        options: {desc: "count", limit: $limit, offset: $offset}
+        options: {desc: "count"  asc: "address.address" limit: $limit, offset: $offset}
       ){
 
         address: orderOwner{

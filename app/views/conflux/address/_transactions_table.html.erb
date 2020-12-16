@@ -22,7 +22,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     conflux(network: $network){
-                      transactions(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
+                      transactions(options:{desc: "block.timestamp.time"  limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         txSender: {is: $address}) {
 

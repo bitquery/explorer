@@ -19,7 +19,7 @@
                   $till: ISO8601DateTime){
                     binance {
                       transactions(
-                      options:{desc: "all"},
+                      options:{desc: "all" asc: "transactionSource.code"},
                       date: {
                         since: $from
                         till: $till}

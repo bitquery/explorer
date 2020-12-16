@@ -33,7 +33,7 @@
                         $till: ISO8601DateTime){
                     conflux(network: $network){
                       smartContractEvents(options:{
-                        desc: "count",
+                        desc: "count"
                         limit:$limit, offset: $offset},
                         date: {since: $from till: $till },
                         smartContractAddress: {is: $address}) {

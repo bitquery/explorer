@@ -21,7 +21,7 @@
                     $limit: Int!,
                     $offset: Int! ){
                     binance{
-                      trades(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      trades(options:{desc: "block.height"  asc: "quoteCurrency.symbol" limit: $limit, offset: $offset},
                         any: [{baseCurrency: {is: $token}},{quoteCurrency: {is: $token}}]
                         date: {since: $from till: $till },
                         ) {

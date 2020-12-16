@@ -22,7 +22,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     algorand(network: $network){
-                      arguments(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      arguments(options:{desc: "block.height" asc: "transaction.hash" limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         smartContractAddress: {is: $address}) {
 
