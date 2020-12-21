@@ -12,10 +12,10 @@
   <%= render partial: 'shared/image_links_meta' %>
   <%= stylesheet_pack_tag 'application', media: 'all'%>
   <%= javascript_pack_tag 'application' %>
-  <script src="<%= BITQUERY_WIDGETS_URL %>/dist/graphs.min.js"></script>
-  <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/graphs.min.css">
-<!--  <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs@1.0.9/dist/graphs.min.css">-->
-<!--  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs@1.0.9/dist/graphs.min.js"></script>-->
+<!--  <script src="<%#= BITQUERY_WIDGETS_URL %>/dist/graphs.min.js"></script>-->
+<!--  <link rel="stylesheet" media="all" href="<%#= BITQUERY_WIDGETS_URL %>/dist/graphs.min.css">-->
+  <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs@1.0.11/dist/graphs.min.css">
+  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs@1.0.11/dist/graphs.min.js"></script>
   <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">
   <script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgets.js"></script>
   <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
