@@ -61,20 +61,20 @@ query ($network: FilecoinNetwork!, $address: String!, $inboundDepth: Int!, $outb
 
       new graphs.address_graph('#graph', query, {
           theme: '<%= @theme %>',
+          currency: "<%= params['network']['currency'] %>",
       })
 
       new graphs.addControls('#graph', query, {
           theme: '<%= @theme %>',
-          currencies: [{name: "Filecoin", symbol: "FIL"}],
       })
 
       new graphs.address_sankey('#sankey-graph', query, {
           theme: '<%= @theme %>',
+          currency: "<%= params['network']['currency'] %>",
       })
 
       new graphs.addControls('#sankey-graph', query, {
           theme: '<%= @theme %>',
-          currencies: [{name: "Filecoin", symbol: "FIL"}],
       })
 
       queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>"})

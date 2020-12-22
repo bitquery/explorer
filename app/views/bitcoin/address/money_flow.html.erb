@@ -56,20 +56,20 @@ query ($network: BitcoinNetwork!, $address: String!, $inboundDepth: Int!, $outbo
 
           new graphs.address_graph('#graph', query, {
               theme: '<%= @theme %>',
+              currency: "<%= params['network']['currency'] %>",
           })
 
           new graphs.addControls('#graph', query, {
               theme: '<%= @theme %>',
-              currencies: [{address: "<%= @address %>", name: "Bitcoin", symbol: "BTC", search: "<%= @address %>"}],
           })
 
           new graphs.address_sankey('#sankey-graph', query, {
               theme: '<%= @theme %>',
+              currency: "<%= params['network']['currency'] %>",
           })
 
           new graphs.addControls('#sankey-graph', query, {
               theme: '<%= @theme %>',
-              currencies: [{address: "<%= @address %>", name: "Bitcoin", symbol: "BTC", search: "<%= @address %>"}],
           })
 
           queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>"})
