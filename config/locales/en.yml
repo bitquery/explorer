@@ -530,6 +530,13 @@ en:
         keywords: "explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
         %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+      messages:
+        name: "Messages"
+        title: "%{network} Messages | Bitquery"
+        description: "Check latest %{network} messages related analytics, charts and widgets"
+        keywords: "explore %{network} messages, track %{network} messages, search %{network} messages,
+        %{network} messages per day, %{network} messages fee, %{network} messages live, %{network} messages live, %{network} transaction time, %{network} messages data,
+         %{network} messages per second chart, %{network} messages chart, tracking %{network} transactions"
       gas:
         name: "Gas Analytics"
         title: "%{network} Gas Cost and usage and other analytics"
@@ -995,6 +1002,7 @@ en:
       usd: '$'
       transaction: 'Transaction'
       block: 'Block'
+      height: 'Height'
       epoch: 'Epoch'
       max_date: 'Latest Date'
       gas_value: 'Gas Cost'

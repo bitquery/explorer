@@ -51,14 +51,10 @@ ru:
         header: "Вызовы с адреса %{network}  %{address}"
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов с %{address} в сети %{network}, статистика вызовов, используемые методы"
-      graph:
+      money_flow:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
-      money_flow:
-        name: 'Money flow'
-        title: "%{address} money flow in %{network}"
-        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       show:
@@ -96,14 +92,10 @@ ru:
         header: "Вызовы со смарт контракта %{network}  %{address}"
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов со смарт контракта %{address} в сети %{network}, статистика вызовов, используемые методы"
-      graph:
+      money_flow:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
-      money_flow:
-        name: 'Money flow'
-        title: "%{address} money flow in %{network}"
-        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
     token:
       icon: 'fas fa-coins text-warning'
       show:
@@ -161,14 +153,10 @@ ru:
         header: "Вызовы со смарт контракта токена %{network}  %{address}"
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов со смарт контракта токена %{address} в сети %{network}, статистика вызовов, используемые методы"
-      graph:
+      money_flow:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
-      money_flow:
-        name: 'Money flow'
-        title: "%{address} money flow in %{network}"
-        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
     tx:
       icon: 'fas fa-bolt'
       show:

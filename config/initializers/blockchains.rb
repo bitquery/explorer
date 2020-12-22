@@ -281,6 +281,16 @@ BLOCKCHAINS = [
         icon: 'eth.svg',
     },
 
+    {
+      tag: 'filecoin',
+      network: 'filecoin',
+      name: 'Filecoin Mainnet',
+      family: 'filecoin',
+      platform: 'Utility',
+      currency: 'FIL',
+      icon: 'currency/fil.svg'
+
+    },
 
 ]
 
