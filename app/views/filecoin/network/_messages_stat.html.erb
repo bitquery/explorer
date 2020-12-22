@@ -1,0 +1,135 @@
+<div class="row">
+
+  <div class="col-4 col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.messages_by_name') %></div>
+      <div class="card-body">
+        <div id="messages_by_name"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.messages_by_method') %></div>
+      <div class="card-body">
+        <div id="messages_by_method"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.messages_by_code_type') %></div>
+      <div class="card-body">
+        <div id="messages_by_code_type"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+                        query ($network: FilecoinNetwork!,
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    filecoin(network: $network){
+                         by_name: messages( options: {desc: "count"} date: {since: $from till: $till }) {
+                              count
+                              name
+                         }
+                         by_method: messages( options: {desc: "count"} date: {since: $from till: $till }) {
+                              count
+                              method {name }
+                         }
+                         by_code: messages( options: {desc: "count"} date: {since: $from till: $till }) {
+                              count
+                              codeType { code }
+                         }
+                    }
+                  }`);
+
+
+        new widgets.chart('#messages_by_name', query, 'filecoin.by_name', {
+            title: '<%= t('widgets.headers.messages_by_name') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.name') %>',
+                    path: 'name'
+                },
+                {
+                    title: '<%= t('widgets.titles.count') %>',
+                    path: 'count'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#messages_by_method', query, 'filecoin.by_method', {
+            title: '<%= t('widgets.headers.messages_by_method') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.name') %>',
+                    path: 'method.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.count') %>',
+                    path: 'count'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#messages_by_code_type', query, 'filecoin.by_code', {
+            title: '<%= t('widgets.headers.messages_by_code_type') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.name') %>',
+                    path: 'codeType.code'
+                },
+                {
+                    title: '<%= t('widgets.titles.count') %>',
+                    path: 'count'
+                },
+
+            ]
+        });
+
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+    });
+
+</script>
