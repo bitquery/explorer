@@ -985,6 +985,7 @@ en:
       trades_as_seller: "Trades as seller"
       currency: "Currency"
       token_type: "Token Type"
+      code_type: "Code Type"
       symbol: "Symbol"
       asset_id: "Asset ID"
       receive: "Receive"

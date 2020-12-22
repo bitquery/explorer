@@ -1,7 +1,17 @@
 <script>
     widgets.callbacks({
         block_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.height;
+
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.height || item.block.height);
+        },
+
+        sender_address_path: function(item){
+
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.sender.address;
+
+        },
+        receiver_address_path: function(item){
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.receiver.address;
         },
 
     });
