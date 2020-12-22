@@ -14,6 +14,11 @@
                 return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.receiver.address;
         },
 
+        address_path: function(item){
+
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
+
+        },
     });
 
 </script>

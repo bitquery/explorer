@@ -2,7 +2,7 @@ class Filecoin::NetworkController <  ::NetworkController
   layout 'tabs'
 
   before_action :breadcrumb
-
+  
 
   private
   def breadcrumb
