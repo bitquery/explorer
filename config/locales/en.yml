@@ -472,6 +472,14 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+    height:
+      icon: 'fas fa-cube'
+      header: "%{network} Height %{height}"
+      blocks:
+        name: 'Blocks on height'
+        title: "Blocks on %{height} in %{network}"
+        description: "Check %{network} blocks on %{height} and %{network} block data and analytics"
+        keywords: "%{network} blocks"
     block:
       icon: 'fas fa-cube'
       header: "%{network} Block %{height}"
@@ -890,6 +898,7 @@ en:
       transaction_gas_avg_cost_by_time: "Transaction Average Cost"
       transaction_gas_price_by_time_log: "Gas Price By Date ( Median, Average, Maximum) in Log scale, GWei"
       latest_blocks: "Latest Blocks"
+      blocks_on_height: "Blocks on Height"
       latest_transactions: "Latest Transactions"
       latest_contracts: "Latest Contracts"
       latest_transfers: "Latest Transfers"

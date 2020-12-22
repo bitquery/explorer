@@ -253,8 +253,8 @@ Rails.application.routes.draw do
 
       get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
-      get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
-      get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/height/:height/:action", controller: "#{blockchain[:family]}/height", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/height/:height", controller: "#{blockchain[:family]}/height", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
       get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
