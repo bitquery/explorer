@@ -47,6 +47,16 @@
                     '0': { color: '#ffc107' }
                 },
             },
+            renderData: function(data){
+                let new_data = [];
+                widgets.lodash.each(data, function(item){
+                    new_data.push({
+                        date: item.date,
+                        count: parseInt(item.count)
+                    });
+                });
+                return new_data;
+            },
             dataOptions: [
                 {
                     title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
