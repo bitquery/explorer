@@ -15,7 +15,7 @@ import ClipboardJS from 'clipboard'
 import moment from 'moment'
 import vis from 'vis'
 import numeral from 'numeral'
-// import '@bitquery/graph'
+import '@bitquery/graph'
 
 global.$ = $;
 global.vis = vis;
