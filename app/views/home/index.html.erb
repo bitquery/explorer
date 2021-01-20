@@ -1,22 +1,27 @@
 
 <div class="row">
 
-<% for group in BLOCKCHAINS.group_by{|bc| bc[:platform]} %>
+<% for fgroup in grouped_families %>
+
   <div class="col-lg-3 mb-4">
-  <div class="card">
-    <div class="card-header"><%= link_to t("pages.home.family", family: group.first),
-                                          action: group.first.gsub(' ','').underscore %></div>
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        <% for chain in group.second %>
-          <li class="list-group-item"><%= network_icon chain %>&nbsp;
-            <%= link_to chain[:name], "/#{chain[:network]}", class: 'text-default' %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+    <% for group in fgroup %>
+      <div class="card">
+        <div class="card-header"><%= link_to t("pages.home.family", family: group.first),
+                                              action: group.first.gsub(' ','').underscore %></div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <% for chain in group.second %>
+              <li class="list-group-item"><%= network_icon chain %>&nbsp;
+                <%= link_to chain[:name], "/#{chain[:network]}", class: 'text-default' %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      &nbsp;
+    <% end  %>
   </div>
-  </div>
+
 <% end %>
 
 <% for group in DATASETS.group_by{|bc| bc[:family]} %>

@@ -85,15 +85,15 @@
                 },
 
                 {
-                    title: '<%= t('widgets.titles.sell_amount') %>',
-                    type: 'sellAmount',
-                    path: 'sellAmount'
+                    title: '<%= t('widgets.titles.base_amount') %>',
+                    type: 'amount',
+                    path: 'baseAmount'
                 },
                 {
-                    title: '<%= t('widgets.titles.sell_currency') %>',
+                    title: '<%= t('widgets.titles.base_currency') %>',
                     type: 'string',
-                    path: 'sellCurrency.symbol',
-                    urlCallbackName: 'sell_token_path'
+                    path: 'baseCurrency.symbol',
+                    urlCallbackName: 'base_token_path'
                 },
                 {
                     title: '',
@@ -103,15 +103,15 @@
                 },
 
                 {
-                    title: '<%= t('widgets.titles.buy_amount') %>',
-                    type: 'buyAmount',
-                    path: 'buyAmount'
+                    title: '<%= t('widgets.titles.quote_amount') %>',
+                    type: 'amount',
+                    path: 'quoteAmount'
                 },
                 {
-                    title: '<%= t('widgets.titles.buy_currency') %>',
+                    title: '<%= t('widgets.titles.quote_currency') %>',
                     type: 'string',
-                    path: 'buyCurrency.symbol',
-                    urlCallbackName: 'buy_token_path'
+                    path: 'quoteCurrency.symbol',
+                    urlCallbackName: 'quote_token_path'
                 },
                 {
                     title: '<%= t('widgets.titles.protocol') %>',

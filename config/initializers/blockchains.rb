@@ -279,8 +279,18 @@ BLOCKCHAINS = [
         platform: 'Testnet',
         currency: 'ETH',
         icon: 'eth.svg',
+        start: Date.parse('2020-08-03')
     },
-
+    {
+      tag: 'eth2',
+      network: 'eth2',
+      name: 'Beacon Chain Ethereum 2.0',
+      family: 'ethereum2',
+      platform: 'Beacon',
+      currency: 'ETH',
+      icon: 'eth.svg',
+      start: Date.parse('2020-12-01')
+    },
     {
       tag: 'filecoin',
       network: 'filecoin',
