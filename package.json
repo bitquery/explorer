@@ -2,7 +2,7 @@
   "name": "explorer",
   "private": true,
   "dependencies": {
-    "@bitquery/graph": "^1.0.7",
+    "@bitquery/graph": "^1.0.13",
     "@fortawesome/fontawesome-free": "^5.13.0",
     "@rails/actioncable": "^6.0.2-2",
     "@rails/activestorage": "^6.0.2-2",
