@@ -137,6 +137,11 @@ en:
         title: "%{address} graph | %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking,%{network}"
+      money_flow:
+        name: 'Money Flow'
+        title: "%{address} money flow | %{network}"
+        description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
+        keywords: "%{address} money flow, %{network} %{address} money flow analytics"
       dex_trades:
         name: "DEX Trades"
         title: "%{network} DEX Trades"
