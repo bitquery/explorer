@@ -1,7 +1,6 @@
-module Ethereum::TokenHelper
+module Bitcoin::NetworkHelper
 
-
-  def limited_date_range_limit from, till, days
+  def limited_date_range_limit_days from, till, days
     if till=='null'
       if days
         ["'#{(Date.today-days).to_s}'", 'null']
