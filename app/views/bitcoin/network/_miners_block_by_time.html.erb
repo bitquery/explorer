@@ -112,8 +112,9 @@
             limit: {length: 10, other: true, axis: 'col'},
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till,15).join(',').html_safe %>,{
             network: '<%= params['network']['network'] %>'
         });
+
     });
 </script>

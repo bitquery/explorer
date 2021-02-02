@@ -1,0 +1,15 @@
+[Unit]
+Description=explorer
+Requires=network.target
+
+[Service]
+User=deploy
+PIDFile=/var/www/explorer/current/tmp/pids/explorer.pid
+WorkingDirectory=/var/www/explorer/current
+Environment="RAILS_SERVE_STATIC_FILES=true"
+Environment="SECRET_KEY_BASE=<PUT YOUR SECRET HERE>"
+Environment="PATH=/var/www/explorer/shared/bundle/ruby/2.6.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/bin/bash -lc 'rvm use 2.6.3 && export RAILS_ENV=production && export GEM_PATH=/var/www/explorer/shared/bundle/ruby/2.6.0 && cd /var/www/explorer/current && pumactl -F config/puma.production.rb -P tmp/pids/explorer.pid start'
+
+[Install]
+WantedBy=multi-user.target
