@@ -1,0 +1,2 @@
+module Diem::AddressesHelper
+end

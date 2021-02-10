@@ -1,0 +1,98 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.inbound_tokens_table') %></div>
+    <div class="card-body">
+      <div id="inbound_tokens_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query (
+                            $network: DiemNetwork!,
+                            $address: String!,
+                            $nativeCurrency: String!,
+                            $limit: Int!,
+                            $offset: Int!
+                            $from: ISO8601DateTime,
+                            $till: ISO8601DateTime){
+                        diem(network: $network){
+                          transfers(options:{limit: $limit, offset: $offset, desc: "count"},
+                            date: {since: $from till: $till },
+                            receiver: {is: $address},
+                            amount: {gt: 0},
+                            currency: {not: $nativeCurrency }) {
+
+                            address: sender{
+                              address
+                              annotation
+                            }
+
+                            max_date: maximum(of: date)
+
+                            count
+                            amount
+
+                            currency {
+                              address
+                              symbol
+                              tokenType
+                            }
+
+                          }
+                        }
+                      }`);
+
+        new widgets.table('#inbound_tokens_table', query, 'diem.transfers', {
+            title: '<%= t('widgets.headers.inbound_tokens_table') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.sender') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount',
+                    style: 'width: 100px'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string-ellipsis',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path',
+                    style: 'width: 100px'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date',
+                    style: 'width: 110px'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_to_path',
+                    style: 'width: 130px'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+
+            address: '<%= @address %>',
+            nativeCurrency: '<%= @network[:currency] %>'
+        });
+
+
+    });
+
+</script>

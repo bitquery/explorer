@@ -1,0 +1,77 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.smart_contract_top_callers') %></div>
+    <div class="card-body">
+      <div id="smart_contract_top_callers"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: DiemNetwork!,
+                                $address: String!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                            diem(network: $network){
+                              smartContractCalls(options:{desc: "count", limit: $limit, offset: $offset},
+                                date: {since: $from till: $till },
+                                smartContractAddress: {is: $address}) {
+
+                                address: caller {
+                                  address
+                                  annotation
+                                }
+
+                                max_date: maximum(of: date)
+                                count
+
+                                gasValue(calculate: average)
+                              }
+                            }
+                          }`);
+
+        new widgets.table('#smart_contract_top_callers', query, 'diem.smartContractCalls', {
+            title: '<%= t('widgets.headers.smart_contract_top_callers') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.caller') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_date') %>',
+                    type: 'string',
+                    path: 'max_date'
+                },
+                {
+                    title: '<%= t('widgets.titles.avg_gas_value') %>',
+                    type: 'amount',
+                    path: 'gasValue'
+                },
+                {
+                    title: '<%= t('widgets.titles.calls_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'call_by_caller_count_path'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+
+            address: '<%= @address %>',
+            nativeCurrency: '<%= @network[:currency] %>'
+        });
+
+
+    });
+
+</script>

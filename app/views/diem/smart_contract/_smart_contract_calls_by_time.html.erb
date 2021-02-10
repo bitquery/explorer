@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.smart_contract_calls_by_time') %></div>
+      <div class="card-body">
+        <div id="smart_contract_calls_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.smart_contract_callers_by_time') %></div>
+      <div class="card-body">
+        <div id="smart_contract_callers_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query ($network: DiemNetwork!,
+                              $address: String!,
+                              $dateFormat: String!,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                          diem(network: $network){
+                            smartContractCalls(options:{
+                                asc: "date.date"}, date: {since: $from till: $till },
+                                smartContractAddress: {is: $address}) {
+
+                                    date{ date(format: $dateFormat)}
+
+                                    external_calls: count(external: true)
+                                    internal_calls: count(external: false)
+
+                                    external_callers: count(uniq: callers, external: true)
+                                    internal_callers: count(uniq: callers, external: false)
+                                    senders: count(uniq:senders)
+                                    txs: count(uniq: txs)
+                            }
+                          }
+                        }`);
+
+        new widgets.chartByTime('#smart_contract_calls_by_time', query, 'diem.smartContractCalls', {
+            title: '<%= t('widgets.headers.smart_contract_calls_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
+                    },
+                },
+                seriesType: 'bars',
+                isStacked: true,
+                series: {
+                    '0': { color: '#28a745' },
+                    '1': { color: '#ffc107' },
+                    '2': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.external_calls') %>',
+                    type: 'count',
+                    path: 'external_calls'
+                },
+                {
+                    title: '<%= t('widgets.titles.internal_calls') %>',
+                    type: 'count',
+                    path: 'internal_calls'
+                },
+                {
+                    title: '<%= t('widgets.titles.tx_count') %>',
+                    type: 'count',
+                    path: 'txs'
+                },
+            ]
+        });
+
+        new widgets.chartByTime('#smart_contract_callers_by_time', query, 'diem.smartContractCalls', {
+            title: '<%= t('widgets.headers.smart_contract_callers_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
+                    },
+                },
+                seriesType: 'bars',
+                isStacked: true,
+                series: {
+                    '0': { color: '#28a745' },
+                    '1': { color: '#ffc107' },
+                    '2': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.external_callers') %>',
+                    type: 'count',
+                    path: 'external_callers'
+                },
+                {
+                    title: '<%= t('widgets.titles.internal_callers') %>',
+                    type: 'count',
+                    path: 'internal_callers'
+                },
+                {
+                    title: '<%= t('widgets.titles.senders') %>',
+                    type: 'count',
+                    path: 'senders'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+
+            address: '<%= @address %>',
+            nativeCurrency: '<%= @network[:currency] %>'
+        });
+
+
+    });
+</script>

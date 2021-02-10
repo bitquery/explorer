@@ -700,12 +700,12 @@ en:
         title: "Cosmos Based Blockchains Explorer"
         description: "Explorers for Blockchains based on Cosmos platform, such as Binance chain explorer"
         keywords: "explorer, Cosmos Explorer, Binance chain explorer, Binance chain address, Binance chain transactions"
-      libra:
-        name: "Libra Based Platform"
-        header: "Libra Based Blockchain"
-        title: "Libra Blockchains Explorer"
-        description: "Explorers for Libra Blockchains by Bitquery"
-        keywords: "Libra explorer, Libra transaction tracker, Libra blockchain explorer, Libra address, Libra transactions"
+      diem:
+        name: "Diem (former Libra) Based Platform"
+        header: "Diem (former Libra) Based Blockchain"
+        title: "Diem (former Libra) Blockchains Explorer"
+        description: "Explorers for Diem (former Libra) Blockchains by Bitquery"
+        keywords: "Diem (former Libra) explorer, Diem (former Libra) transaction tracker, Diem (former Libra) blockchain explorer, Diem (former Libra) address, Diem (former Libra) transactions"
       offchain:
         name: "Offchain Data"
         header: "Offchain Data at Bitquery"

@@ -160,7 +160,7 @@ Rails.application.routes.draw do
 
     }
 
-    BLOCKCHAINS.select{|b| b[:family]=='libra'}.each{|blockchain|
+    BLOCKCHAINS.select{|b| b[:family]=='diem'}.each{|blockchain|
 
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}

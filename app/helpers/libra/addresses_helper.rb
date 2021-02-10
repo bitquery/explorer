@@ -1,2 +1,0 @@
-module Libra::AddressesHelper
-end
