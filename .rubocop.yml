@@ -1,0 +1,95 @@
+# This is the configuration used to check the rubocop source code.
+
+require:
+  - rubocop-performance
+  - rubocop-rails
+  # - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - bin/**/*
+    - db/schema.rb
+    - db/migrate/**/*
+    - node_modules/**/*
+    - tmp/**/*
+    - vendor/**/*
+  DisplayStyleGuide: true
+  NewCops: enable
+
+# *********************** Bundler **************************
+# https://docs.rubocop.org/rubocop/cops_bundler.html
+
+Bundler/OrderedGems:
+  Description: >-
+    Gems within groups in the Gemfile should be alphabetically sorted.
+  Enabled: true
+  ConsiderPunctuation: true
+
+# *********************** Layouts **************************
+# https://docs.rubocop.org/rubocop/cops_layout.html
+
+Layout/ClassStructure:
+  Description: "Enforces a configured order of definitions within a class body."
+  StyleGuide: "#consistent-classes"
+  Enabled: true
+
+Layout/LineLength:
+  Description: "Checks that line length does not exceed the configured limit."
+  AutoCorrect: true # this is false by default
+  Exclude:
+    - Gemfile
+
+# *********************** Lint **************************
+# https://docs.rubocop.org/rubocop/cops_lint.html
+
+Lint/MissingSuper:
+  Description: >-
+    This cop checks for the presence of constructors and lifecycle
+    callbacks without calls to super.
+  Exclude:
+    - app/services/**/*
+
+# *********************** Metrics **************************
+# https://docs.rubocop.org/rubocop/1.5/cops_metrics.html
+
+Metrics/BlockLength:
+  Description: 'Avoid long blocks with many lines.'
+  Enabled: true
+  Exclude:
+    - 'db/seeds.rb'
+    - 'spec/**/*'
+    - 'config/**/*'
+
+# *********************** Styles ***************************
+# https://docs.rubocop.org/rubocop/cops_style.html
+
+Style/Documentation:
+  Description: >-
+    This cop checks for missing top-level documentation of classes and modules. 
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Description: >-
+    Add the frozen_string_literal comment to the top of files
+    to help transition to frozen string literals by default.
+  Enabled: true
+  EnforcedStyle: never
+
+Style/HashSyntax:
+  Description: >-
+    Prefer Ruby 1.9 hash syntax { a: 1, b: 2 } over 1.8 syntax
+    { :a => 1, :b => 2 }.
+  StyleGuide: "#hash-literals"
+  Enabled: true
+  EnforcedStyle: no_mixed_keys
+
+Style/RedundantInterpolation:
+  Description: >-
+    This cop checks for strings that are just an interpolated expression.
+  Enabled: false
+
+Style/StringLiterals:
+  Description: "Checks if uses of quotes match the configured preference."
+  StyleGuide: "#consistent-string-literals"
+  Enabled: true
+  ConsistentQuotesInMultiline: true
