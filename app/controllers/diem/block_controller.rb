@@ -5,7 +5,7 @@ class Diem::BlockController < NetworkController
 
   QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
            query ($network: DiemNetwork!, $height: Int!){
-              diem{ network: $network blocks( height: {is: $height}) { date {date} } }
+              diem(network: $network){ blocks( height: {is: $height}) { date {date} } }
            }
   GRAPHQL
 

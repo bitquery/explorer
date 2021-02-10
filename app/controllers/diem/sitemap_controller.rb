@@ -1,8 +1,8 @@
 class Diem::SitemapController < NetworkController
 
   QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-           query ($from: ISO8601DateTime){
-                   senders: diem($network: DiemNetwork!){
+           query ($network: DiemNetwork! $from: ISO8601DateTime){
+                   senders: diem(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -19,7 +19,7 @@ class Diem::SitemapController < NetworkController
                      
                    }
 
-                  receivers: diem($network: DiemNetwork!){
+                  receivers: diem(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
@@ -36,7 +36,7 @@ class Diem::SitemapController < NetworkController
                       
                   }
 
-						      tokens: diem($network: DiemNetwork!){
+						      tokens: diem(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
