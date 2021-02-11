@@ -54,5 +54,6 @@ group :development, :test do
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   # gem 'capistrano-rvm'
+  gem 'dotenv-rails', '~> 2.7', '>= 2.7.6'
   gem 'sshkit-sudo'
 end
