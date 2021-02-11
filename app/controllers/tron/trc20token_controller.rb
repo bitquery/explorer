@@ -1,5 +1,4 @@
 class Tron::Trc20tokenController < Tron::AddressController
-
   before_action :is_native
 
   def smart_contract
@@ -44,11 +43,11 @@ class Tron::Trc20tokenController < Tron::AddressController
 
   def redirect_by_type
     return if native_token?
+
     if !(sc = @info.try(:smart_contract))
-      change_controller!  'tron/address'
+      change_controller! 'tron/address'
     elsif !sc.try(:currency)
       change_controller! 'tron/smart_contract'
     end
   end
-
 end

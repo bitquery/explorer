@@ -1,7 +1,3 @@
 class Filecoin::SitemapController < NetworkController
-
-  def index
-
-  end
-
+  def index; end
 end

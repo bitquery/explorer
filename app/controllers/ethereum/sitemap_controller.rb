@@ -1,6 +1,5 @@
 class Ethereum::SitemapController < NetworkController
-
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY =  BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($network: EthereumNetwork! $from: ISO8601DateTime){
 
 
@@ -111,10 +110,7 @@ class Ethereum::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-10,
-                                                                 network: @network[:network]}).data
-
-
+    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 10,
+                                                                  network: @network[:network] }).data
   end
-
 end

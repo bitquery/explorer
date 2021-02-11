@@ -2,7 +2,7 @@ class Bitcoin::AddressController < NetworkController
   layout 'tabs'
   before_action :query_graphql
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
    query ($network: BitcoinNetwork!,
           $address:String!){
             bitcoin(network: $network ){
@@ -24,10 +24,9 @@ class Bitcoin::AddressController < NetworkController
           }
   GRAPHQL
 
-
   def query_graphql
-    @info = BitqueryGraphql::Client.query(QUERY, variables: {network: @network[:network], address: @address}).data.bitcoin.outputs.first.try(:output_address)
+    @info = BitqueryGraphql::Client.query(QUERY,
+                                          variables: { network: @network[:network],
+                                                       address: @address }).data.bitcoin.outputs.first.try(:output_address)
   end
-
-
 end

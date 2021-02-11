@@ -1,5 +1,4 @@
 class Diem::SmartContractController < Diem::AddressController
-
   def inflow
     render 'ethereum/address/inflow'
   end
@@ -25,5 +24,4 @@ class Diem::SmartContractController < Diem::AddressController
       change_controller! 'ethereum/token'
     end
   end
-
 end

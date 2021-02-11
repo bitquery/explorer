@@ -1,5 +1,4 @@
 class Ethereum::SmartContractController < Ethereum::AddressController
-
   def inflow
     render 'ethereum/address/inflow'
   end
@@ -25,5 +24,4 @@ class Ethereum::SmartContractController < Ethereum::AddressController
       change_controller! 'ethereum/token'
     end
   end
-
 end

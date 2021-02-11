@@ -7,6 +7,6 @@ class Binance::TokenController < NetworkController
 
   def is_native
     @token = params[:symbol]
-    @native_token = @token==@network[:currency]
+    @native_token = @token == @network[:currency]
   end
 end

@@ -1,5 +1,4 @@
 class Tron::SmartContractController < Tron::AddressController
-
   def inflow
     render 'tron/address/inflow'
   end
@@ -25,5 +24,4 @@ class Tron::SmartContractController < Tron::AddressController
       change_controller! 'tron/trc20token'
     end
   end
-
 end

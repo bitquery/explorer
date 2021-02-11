@@ -12,8 +12,7 @@ class Diem::BlockController < NetworkController
   private
 
   def query_date
-    @block_date = BitqueryGraphql::Client.query(QUERY, variables: {height: @height.to_i,
-                                                                   network: @network[:network]}).data.diem.blocks[0].date.date
+    @block_date = BitqueryGraphql::Client.query(QUERY, variables: { height: @height.to_i,
+                                                                    network: @network[:network] }).data.diem.blocks[0].date.date
   end
-
 end

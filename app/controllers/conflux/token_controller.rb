@@ -1,5 +1,4 @@
 class Conflux::TokenController < Conflux::AddressController
-
   before_action :is_native
 
   def smart_contract
@@ -44,11 +43,11 @@ class Conflux::TokenController < Conflux::AddressController
 
   def redirect_by_type
     return if native_token?
+
     if !(sc = @info.try(:smart_contract))
-      change_controller!  'ethereum/address'
+      change_controller! 'ethereum/address'
     elsif !sc.try(:currency)
       change_controller! 'ethereum/smart_contract'
     end
   end
-
 end

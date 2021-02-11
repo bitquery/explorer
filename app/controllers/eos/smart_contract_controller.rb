@@ -1,5 +1,4 @@
 class Eos::SmartContractController < Eos::AddressController
-
   def inflow
     render 'eos/address/inflow'
   end
@@ -25,5 +24,4 @@ class Eos::SmartContractController < Eos::AddressController
       change_controller! 'eos/token'
     end
   end
-
 end

@@ -1,7 +1,6 @@
-class Binance::OrderController <  NetworkController
+class Binance::OrderController < NetworkController
   layout 'tabs'
   before_action :order_id
-
 
   private
 

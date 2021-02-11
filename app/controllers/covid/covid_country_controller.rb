@@ -1,5 +1,4 @@
 class Covid::CovidCountryController < ApplicationController
-
   layout 'tabs'
   before_action :set_codes
 
@@ -9,5 +8,4 @@ class Covid::CovidCountryController < ApplicationController
     @code = params[:code]
     @name = params[:name]
   end
-
 end

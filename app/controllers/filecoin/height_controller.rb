@@ -1,5 +1,3 @@
-class Filecoin::HeightController  < NetworkController
+class Filecoin::HeightController < NetworkController
   layout 'tabs'
-
-
 end

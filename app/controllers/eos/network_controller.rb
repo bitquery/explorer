@@ -3,7 +3,7 @@ class Eos::NetworkController < ::NetworkController
 
   before_action :breadcrumb, :query_date
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
   query{
     eos{
       blocks(options:{desc: "date.date", limit: 1}){
@@ -14,8 +14,9 @@ class Eos::NetworkController < ::NetworkController
   GRAPHQL
 
   private
+
   def breadcrumb
-    action_name != 'show' && @breadcrumbs << {name: t("tabs.#{controller_name}.#{action_name}.name")}
+    action_name != 'show' && @breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") }
   end
 
   def query_date

@@ -1,8 +1,7 @@
 class Eos::TokenController < Eos::AddressController
-
   before_action :is_native, :query_date
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
   query{
     eos{
       blocks(options:{desc: "date.date", limit: 1}){
@@ -53,8 +52,9 @@ class Eos::TokenController < Eos::AddressController
 
   def redirect_by_type
     return if native_token?
+
     if !(sc = @info.try(:smart_contract))
-      change_controller!  'eos/address'
+      change_controller! 'eos/address'
     elsif !sc.try(:currency)
       change_controller! 'eos/smart_contract'
     end

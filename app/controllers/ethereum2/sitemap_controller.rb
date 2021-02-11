@@ -1,7 +1,3 @@
 class Ethereum2::SitemapController < NetworkController
-
-  def index
-
-  end
-
+  def index; end
 end

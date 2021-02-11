@@ -2,7 +2,6 @@ class Diem::TokenController < NetworkController
   layout 'tabs'
   before_action :is_native
 
-
   private
 
   def is_native
@@ -13,5 +12,4 @@ class Diem::TokenController < NetworkController
   def native_token?
     @address == @network[:currency]
   end
-
 end

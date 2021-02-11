@@ -3,7 +3,7 @@ class Tron::Trc10tokenController < NetworkController
 
   before_action :token, :breadcrumb
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY =  BitqueryGraphql::Client.parse <<-'GRAPHQL'
    query ( $token: String!){
                     tron{
                       transfers(
@@ -42,14 +42,15 @@ class Tron::Trc10tokenController < NetworkController
 
   def token
     @token = params[:address]
-    result = BitqueryGraphql::Client.query(QUERY, variables: {token: @token}).data.tron.transfers.first
+    result = BitqueryGraphql::Client.query(QUERY, variables: { token: @token }).data.tron.transfers.first
     @info = result.currency
   end
 
-
   def breadcrumb
-    action_name == 'show' ?
-        @breadcrumbs.last[:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}" :
-        @breadcrumbs[-2][:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}"
+    if action_name == 'show'
+      @breadcrumbs.last[:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}"
+    else
+      @breadcrumbs[-2][:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}"
+    end
   end
 end

@@ -1,6 +1,5 @@
 class Tron::SitemapController < NetworkController
-
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY =  BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($from: ISO8601DateTime){
 
 
@@ -112,9 +111,6 @@ class Tron::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-10}).data
-
-
+    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 10 }).data
   end
-
 end

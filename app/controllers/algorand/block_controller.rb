@@ -9,12 +9,10 @@ class Algorand::BlockController < NetworkController
            }
   GRAPHQL
 
-
   private
 
   def query_date
-    @block_date = BitqueryGraphql::Client.query(QUERY, variables: {height: @height.to_i,
-                                                                   network: @network[:network]}).data.algorand.blocks[0].date.date
+    @block_date = BitqueryGraphql::Client.query(QUERY, variables: { height: @height.to_i,
+                                                                    network: @network[:network] }).data.algorand.blocks[0].date.date
   end
-
 end

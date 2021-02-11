@@ -1,6 +1,5 @@
 class Conflux::SitemapController < NetworkController
-
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY =  BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($network: ConfluxNetwork! $from: ISO8601DateTime){
 
 
@@ -111,10 +110,7 @@ class Conflux::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-10,
-                                                                 network: @network[:network]}).data
-
-
+    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 10,
+                                                                  network: @network[:network] }).data
   end
-
 end

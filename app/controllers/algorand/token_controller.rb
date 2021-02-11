@@ -1,10 +1,9 @@
-class Algorand::TokenController  < ::NetworkController
+class Algorand::TokenController < ::NetworkController
   layout 'tabs'
 
   before_action :query_graphql
 
-
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
    query($network: AlgorandNetwork!, $id: Int!) {
               algorand(network: $network ) {
 
@@ -18,17 +17,16 @@ class Algorand::TokenController  < ::NetworkController
             }
   GRAPHQL
 
-  
   private
-  
+
   def query_graphql
-    if (@native_token = (@id==@network[:currency]))
+    if (@native_token = (@id == @network[:currency]))
       @id = 0
     else
       @id = @id.to_i
-      @token_info = BitqueryGraphql::Client.query(QUERY, variables: {network: @network[:network], id: @id}).data.algorand.transactions.first.currency
+      @token_info = BitqueryGraphql::Client.query(QUERY,
+                                                  variables: { network: @network[:network],
+                                                               id: @id }).data.algorand.transactions.first.currency
     end
   end
-  
-
 end

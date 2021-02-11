@@ -23,9 +23,13 @@ class Diem::AddressController < NetworkController
   def query_graphql
     @address = params[:address]
     if action_name == 'money_flow'
-        result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: {network: @network[:network], address: @address}).data.diem
-        @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 }.uniq{|x| x.address } if result.try(:transfers)
+      result = BitqueryGraphql::Client.query(QUERY_CURRENCIES,
+                                             variables: { network: @network[:network], address: @address }).data.diem
+      if result.try(:transfers)
+        @currencies = result.transfers.map(&:currency).sort_by do |c|
+                        c.address == '-' ? 0 : 1
+                      end.uniq { |x| x.address }
+      end
     end
   end
-
 end

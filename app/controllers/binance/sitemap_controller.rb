@@ -1,7 +1,5 @@
 class Binance::SitemapController < NetworkController
-
-
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY =  BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($from: ISO8601DateTime){
 
                    senders: binance {
@@ -59,9 +57,6 @@ class Binance::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-30}).data
-
-
+    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 30 }).data
   end
-
 end

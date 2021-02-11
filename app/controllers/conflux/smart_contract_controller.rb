@@ -1,5 +1,4 @@
 class Conflux::SmartContractController < Conflux::AddressController
-
   def inflow
     render 'conflux/address/inflow'
   end
@@ -25,5 +24,4 @@ class Conflux::SmartContractController < Conflux::AddressController
       change_controller! 'conflux/token'
     end
   end
-
 end

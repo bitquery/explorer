@@ -10,6 +10,6 @@ class Ethereum2::ValidatorController < NetworkController
   end
 
   def breadcrumb
-    @breadcrumbs << {name: t("tabs.#{controller_name}.#{action_name}.name")}
+    @breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") }
   end
 end

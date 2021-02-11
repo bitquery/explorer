@@ -12,5 +12,4 @@ class Algorand::SmartContractController < Algorand::AddressController
   def money_flow
     render 'algorand/address/money_flow'
   end
-
 end

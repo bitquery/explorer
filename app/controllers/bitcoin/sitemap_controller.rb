@@ -1,6 +1,5 @@
 class Bitcoin::SitemapController < NetworkController
-
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY =  BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($network: BitcoinNetwork! $from: ISO8601DateTime){
               miners: bitcoin(network: $network ) { 
                   
@@ -58,8 +57,7 @@ class Bitcoin::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-14,
-                                                                network: @network[:network]}).data
-
+    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 14,
+                                                                  network: @network[:network] }).data
   end
 end

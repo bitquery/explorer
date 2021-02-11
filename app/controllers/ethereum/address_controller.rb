@@ -3,7 +3,7 @@ class Ethereum::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
    query($network: EthereumNetwork!, $address: String!) {
               ethereum(network: $network) {
                 address(address: {is: $address}){
@@ -25,7 +25,7 @@ class Ethereum::AddressController < NetworkController
             }
   GRAPHQL
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
    query($network: EthereumNetwork!, $address: String!) {
               ethereum(network: $network) {
                 address(address: {is: $address}){
@@ -69,17 +69,18 @@ class Ethereum::AddressController < NetworkController
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     if @address.starts_with?('0x')
-      result = BitqueryGraphql::Client.query(query, variables: {network: @network[:network], address: @address}).data.ethereum
+      result = BitqueryGraphql::Client.query(query,
+                                             variables: { network: @network[:network],
+                                                          address: @address }).data.ethereum
       @info = result.address.first
       all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
-      @currencies = all_t.map(&:currency).sort_by{|c| c.address=='-' ? 0 : 1 }.uniq{|x| x.address}
+      @currencies = all_t.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
     end
   end
 
   def redirect_by_type
     if sc = @info.try(:smart_contract)
-      change_controller! (sc.currency  ? 'ethereum/token' : 'ethereum/smart_contract')
+      change_controller!(sc.currency ? 'ethereum/token' : 'ethereum/smart_contract')
     end
   end
-
 end
