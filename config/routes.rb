@@ -191,6 +191,38 @@ Rails.application.routes.draw do
 
     }
 
+    BLOCKCHAINS.select{|b| b[:family] == 'hedera'}.each do |blockchain|
+
+      constraints(blockchain: blockchain[:network]) do
+        defaults network: blockchain do
+          get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'transactions'
+
+          get ":blockchain/:action", controller: "#{blockchain[:family]}/network"
+
+          # get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',defaults: {network: blockchain}
+          # get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
+          # get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
+
+          # get ":blockchain/token/:address/graph", controller: "#{blockchain[:family]}/token", action: 'money_flow',defaults: {network: blockchain}
+          # get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token"
+          # get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show'
+
+          # get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
+          get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+
+          # get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list"
+
+          # get ":blockchain/method/:signature/:action", controller: "#{blockchain[:family]}/method"
+          # get ":blockchain/method/:signature", controller: "#{blockchain[:family]}/method", action: 'show'
+
+          # get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event"
+          # get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show'
+
+          # get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+        end
+      end
+    end
+
     BLOCKCHAINS.select{|b| b[:family]=='binance' }.each{|blockchain|
 
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}

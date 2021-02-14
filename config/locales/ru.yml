@@ -183,7 +183,7 @@ ru:
     no_methods: "Функция еще не реализована, попробуйте вернуться позже"
   widgets:
     headers:
-      transaction_by_time: 'Активность по времени'
+      transactions_by_time: 'Активность по времени'
       in_out_transfers_by_time: 'Количество пополнений и снятий по дате'
       calls_by_time: 'Вызовы смартрконтрактов по времени'
       currencies_sent_received: 'Валюта отправлено/получено'
@@ -241,6 +241,7 @@ ru:
       tx_calls: "Вызовы смарт контрактов в транзакции"
       tx_events: "События смарт контрактов в транзакции"
       events_table: "События смарт контрактов"
+      latest_transactions: "Последние транзакции"
     titles:
       date: 'Дата'
       month: 'Месяц'
@@ -317,6 +318,10 @@ ru:
       smart_contract_type: "Тип контракта"
       smart_contract_protocol_type: "Протокол"
       success: "Успех?"
+      transaction_hash: "Хэш транзакции"
+      account: "Отправитель"
+      node: "Получатель"
+      transaction_type: "Тип транзакции"
   pages:
     footer:
       built: "Сделано на основе"
