@@ -11,83 +11,82 @@
 
 <script>
 
-    $( document ).ready(function() {
+  $( document ).ready(function() {
+
+      var query = new widgets.query(`
+            query ($network: BitcoinNetwork!,
+                    $limit: Int!,
+                    $offset: Int!
+                    $date: ISO8601DateTime,
+                    $height: Int){
+        bitcoin(network: $network){
+          transactions(options:{asc: ["index"], limit: $limit, offset: $offset},
+            date: {is: $date } height: {is: $height}
+            ) {
 
 
-        var query = new widgets.query(`
-              query ($network: BitcoinNetwork!,
-                      $limit: Int!,
-                      $offset: Int!
-                      $date: ISO8601DateTime,
-                      $height: Int){
-          bitcoin(network: $network){
-            transactions(options:{asc: ["index"], limit: $limit, offset: $offset},
-              date: {is: $date } height: {is: $height}
-              ) {
 
+              inputValue
+              outputCount
+              inputCount
 
+              index
 
-                inputValue
-                outputCount
-                inputCount
+              hash
+              feeValue
 
-                index
-
-                hash
-                feeValue
-
-            }
           }
-          }`);
+        }
+        }`);
 
-        new widgets.table('#latest_transactions', query, 'bitcoin.transactions', {
-            title: '<%= t('widgets.headers.latest_transactions') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.transaction_index') %>',
-                    path: 'index',
-                    style: 'width: 80px;'
-                },
-                {
-                    title: '<%= t('widgets.titles.hash') %>',
-                    type: 'string-ellipsis',
-                    path: 'hash',
-                    urlCallbackName: 'transaction_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.input_count') %>',
-                    path: 'inputCount',
-                    style: 'width: 80px;'
-                },
-                {
-                    title: '<%= t('widgets.titles.output_count') %>',
-                    path: 'outputCount',
-                    style: 'width: 80px;'
-                },
-                {
-                    title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
-                    type: 'number',
-                    path: 'feeValue',
-                    style: 'width: 80px;'
-                },
-                {
-                    title: '<%= t('widgets.titles.input_value') %>, <%= @network[:currency] %>',
-                    type: 'number',
-                    path: 'inputValue',
-                    style: 'width: 110px;'
-                },
-
-
-
-            ]
-        });
-
-        query.request({
-            height: <%= @height %>, date: '<%= @block_date %>', network: '<%= params['network']['network'] %>'
-        });
+      new widgets.table('#latest_transactions', query, 'bitcoin.transactions', {
+          title: '<%= t('widgets.headers.latest_transactions') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.transaction_index') %>',
+                  path: 'index',
+                  style: 'width: 80px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.hash') %>',
+                  type: 'string-ellipsis',
+                  path: 'hash',
+                  urlCallbackName: 'transaction_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.input_count') %>',
+                  path: 'inputCount',
+                  style: 'width: 80px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.output_count') %>',
+                  path: 'outputCount',
+                  style: 'width: 80px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
+                  type: 'number',
+                  path: 'feeValue',
+                  style: 'width: 80px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.input_value') %>, <%= @network[:currency] %>',
+                  type: 'number',
+                  path: 'inputValue',
+                  style: 'width: 110px;'
+              },
 
 
 
-    });
+          ]
+      });
+
+      query.request({
+          height: <%= @height %>, date: '<%= @block_date %>', network: '<%= params['network']['network'] %>'
+      });
+
+
+
+  });
 
 </script>

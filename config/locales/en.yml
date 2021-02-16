@@ -630,6 +630,18 @@ en:
         title: "Protocols on %{network} Explorer"
         description: "Protocol list, votes and approvals for %{network}"
         keywords: "%{network} protocol"
+      accounts:
+        name: "Accounts"
+        title: "Accounts on %{network} Explorer"
+        description: ""
+      files:
+        name: "Files"
+        title: "File Operations on %{network} Explorer"
+        description: ""
+      topics:
+        name: "Topics"
+        title: "Topic Operations on %{network} Explorer"
+        description: ""
       trades:
         name: "Trades"
         title: "Trades on %{network} Explorer"
@@ -1220,6 +1232,9 @@ en:
       memo: "Memo"
       account: "Account"
       node: "Node"
+      consensus_timestamp: "Consensus"
+      total_amount: "Total Amount"
+      transaction_fee: "Transaction Fee"
   pages:
     home:
       family: "%{family} Platform Explorers"

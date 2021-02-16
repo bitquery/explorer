@@ -192,7 +192,6 @@ Rails.application.routes.draw do
     }
 
     BLOCKCHAINS.select{|b| b[:family] == 'hedera'}.each do |blockchain|
-
       constraints(blockchain: blockchain[:network]) do
         defaults network: blockchain do
           get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'transactions'
@@ -207,8 +206,11 @@ Rails.application.routes.draw do
           # get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token"
           # get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show'
 
-          # get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
           get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
+
+          # get ":blockchain/account/:id", controller: "#{blockchain[:family]}/accounts", action: 'show'
+          # get ":blockchain/account/:id/:action", controller: "#{blockchain[:family]}/accounts"
 
           # get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list"
 

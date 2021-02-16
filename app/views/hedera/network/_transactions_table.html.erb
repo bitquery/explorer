@@ -18,10 +18,10 @@
           query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
             hedera(network: $network) {
               transactions(options: {limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
-                date {
-                  date
+                time {
+                  time
                 }
-                transactionHash
+                hash: transactionHash
                 transactionType
                 payerAccount {
                   id
@@ -30,6 +30,7 @@
                   id
                 }
                 success
+                memo
               }
             }
           }
@@ -42,14 +43,15 @@
             {
               title: '<%= t('widgets.titles.timestamp') %>',
               type: 'string',
-              path: 'date.date',
-              style: 'width: 50px;'
+              path: 'time.time',
+              style: 'width: 100px;'
             },
             {
-              title: '<%= t('widgets.titles.transaction_hash') %>',
-              type: 'string',
-              path: 'transactionHash',
-              style: 'width: 100px;'
+              title: '<%= t('widgets.titles.hash') %>',
+              type: 'string-ellipsis',
+              path: 'hash',
+              urlCallbackName: 'transaction_path',
+              style: 'width: 150px;'
             },
             {
               title: '<%= t('widgets.titles.transaction_type') %>',
@@ -59,14 +61,21 @@
             },
             {
               title: '<%= t('widgets.titles.account') %>',
-              type: 'string',
+              type: 'number',
               path: 'payerAccount.id',
+              urlCallbackName: 'account_path',
               style: 'width: 70px;'
             },
             {
               title: '<%= t('widgets.titles.node') %>',
-              type: 'string',
+              type: 'number',
               path: 'nodeAccount.id',
+              style: 'width: 70px;'
+            },
+            {
+              title: '<%= t('widgets.titles.memo') %>',
+              type: 'string',
+              path: 'memo',
               style: 'width: 70px;'
             },
             {
