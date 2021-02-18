@@ -1,7 +1,10 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_transactions') %></div>
+      <div class="card-header">
+        <%= t('widgets.headers.latest_transactions') %>
+      </div>
+
       <div class="card-body">
         <div id="latest_transactions"><%= t('loading') %></div>
       </div>
@@ -11,86 +14,87 @@
 
 <script>
 
-    $( document ).ready(function() {
+  $(document).ready(function() {
 
-      var query = new widgets.query(
-        `
-          query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-            hedera(network: $network) {
-              transactions(options: {limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
-                time {
-                  time
-                }
-                hash: transactionHash
-                transactionType
-                payerAccount {
-                  id
-                }
-                nodeAccount {
-                  id
-                }
-                success
-                memo
-              }
+    const graphql_query = 
+    `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        hedera(network: $network) {
+          transactions(options: {limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
+            time {
+              time
             }
+            hash: transactionHash
+            transactionType
+            payerAccount {
+              id
+            }
+            nodeAccount {
+              id
+            }
+            success
+            memo
           }
-        `
-      );
+        }
+      }
+    `.trim();
 
-      new widgets.table('#latest_transactions', query, 'hedera.transactions', {
-          title: '<%= t('widgets.headers.latest_transactions') %>',
-          dataOptions: [
-            {
-              title: '<%= t('widgets.titles.timestamp') %>',
-              type: 'string',
-              path: 'time.time',
-              style: 'width: 100px;'
-            },
-            {
-              title: '<%= t('widgets.titles.hash') %>',
-              type: 'string-ellipsis',
-              path: 'hash',
-              urlCallbackName: 'transaction_path',
-              style: 'width: 150px;'
-            },
-            {
-              title: '<%= t('widgets.titles.transaction_type') %>',
-              type: 'string',
-              path: 'transactionType',
-              style: 'width: 70px;'
-            },
-            {
-              title: '<%= t('widgets.titles.account') %>',
-              type: 'number',
-              path: 'payerAccount.id',
-              urlCallbackName: 'account_path',
-              style: 'width: 70px;'
-            },
-            {
-              title: '<%= t('widgets.titles.node') %>',
-              type: 'number',
-              path: 'nodeAccount.id',
-              style: 'width: 70px;'
-            },
-            {
-              title: '<%= t('widgets.titles.memo') %>',
-              type: 'string',
-              path: 'memo',
-              style: 'width: 70px;'
-            },
-            {
-              title: '<%= t('widgets.titles.success') %>',
-              type: 'bool',
-              path: 'success',
-              style: 'width: 70px;'
-            }
-          ]
-      });
+    const query = new widgets.query(graphql_query);
 
-      queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-          network: '<%= params['network']['network'] %>'
-      });
-
+    new widgets.table('#latest_transactions', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.latest_transactions') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'time.time',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.hash') %>',
+          type: 'string-ellipsis',
+          path: 'hash',
+          urlCallbackName: 'transaction_path',
+          style: 'width: 150px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_type') %>',
+          type: 'string',
+          path: 'transactionType',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.account') %>',
+          type: 'number',
+          path: 'payerAccount.id',
+          urlCallbackName: 'account_path',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.node') %>',
+          type: 'number',
+          path: 'nodeAccount.id',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.memo') %>',
+          type: 'string',
+          path: 'memo',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.success') %>',
+          type: 'bool',
+          path: 'success',
+          style: 'width: 70px;'
+        }
+      ]
     });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+      network: '<%= params['network']['network'] %>'
+    });
+
+  });
 
 </script>

@@ -265,7 +265,7 @@ BLOCKCHAINS = [
     family: 'hedera',
     platform: 'Hedera Hashgraph',
     currency: 'HBAR',
-    icon: 'currency/hedera.png'
+    icon: 'currency/hedera-hashgraph.svg'
   },
   {
     tag: 'hedera',
@@ -274,7 +274,7 @@ BLOCKCHAINS = [
     family: 'hedera',
     platform: 'Hedera Hashgraph',
     currency: 'HBAR',
-    icon: 'currency/hedera.png'
+    icon: 'currency/hedera-hashgraph.svg'
   },
   {
     tag: 'eos',

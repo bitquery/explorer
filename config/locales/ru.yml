@@ -242,6 +242,8 @@ ru:
       tx_events: "События смарт контрактов в транзакции"
       events_table: "События смарт контрактов"
       latest_transactions: "Последние транзакции"
+      latest_accounts: "Последние Аккаунты"
+      latest_contracts: "Последние Контракты"
     titles:
       date: 'Дата'
       month: 'Месяц'
@@ -320,6 +322,7 @@ ru:
       success: "Успех?"
       transaction_hash: "Хэш транзакции"
       account: "Отправитель"
+      payer: "Отправитель"
       node: "Получатель"
       transaction_type: "Тип транзакции"
   pages:

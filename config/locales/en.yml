@@ -29,6 +29,20 @@ en:
     search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
+    topics:
+      icon: 'far fa-address-card'
+      header: "%{network} Topic %{topic}"
+      show:
+        name: "Topic"
+        title: "Topics %{network} | %{topic}"
+        description: "Visualize %{network} address %{topic} portfolio, balances, transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} topics finder %{topic}"
     address:
       icon: 'far fa-address-card'
       header: "%{network} address %{address}"
@@ -918,6 +932,7 @@ en:
       blocks_on_height: "Blocks on Height"
       latest_transactions: "Latest Transactions"
       latest_contracts: "Latest Contracts"
+
       latest_transfers: "Latest Transfers"
       latest_calls: "Latest Smart Contract Calls"
       gas_burners: "Smart Contracts Burning Maximum of Gas"
@@ -994,6 +1009,8 @@ en:
       inputs: "Transaction Inputs"
       outputs: "Transaction Outputs"
       outbound_by_script_type: "Outbound Volumes By Output Script Type"
+      latest_accounts: "Latest Accounts"
+      latest_topics: "Latest Topics"
     titles:
       date: 'Date'
       month: 'Month'
@@ -1231,6 +1248,7 @@ en:
       description: "Descrition"
       memo: "Memo"
       account: "Account"
+      payer: "Payer"
       node: "Node"
       consensus_timestamp: "Consensus"
       total_amount: "Total Amount"
