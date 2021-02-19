@@ -13,10 +13,10 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`query ($network: DiemNetwork!,
-                              $height: Int!){
+                              $version: Int!){
                           diem(network: $network){
 
-                              blocks(height: {is: $height}){
+                              blocks(version: {is: $version}){
                                 timestamp {
                                   time (format: "%Y-%m-%d %H:%M:%S")
                                 }
@@ -63,7 +63,7 @@
 
         query.request({
             network: '<%= @network[:network] %>',
-            height: <%= @height %>
+            version: <%= @height %>
         });
 
     });
