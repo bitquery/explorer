@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     filecoin(network: $network){
-                      blocks(options:{desc: "count", limit: $limit, offset: $offset},
+                      blocks(options:{desc: "reward", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 
@@ -34,6 +34,9 @@
 
                           min_date: minimum(of: date)
                           max_date: maximum(of: date)
+
+                        	reward
+                        	minerTips
 
                       }
                     }
@@ -65,6 +68,15 @@
                     path: 'max_date'
                 },
 
+                {
+                    title: '<%= t('widgets.titles.miners_block_reward') %>',
+                    path: 'reward'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.miners_tips') %>',
+                    path: 'minerTips'
+                },
             ]
         });
 

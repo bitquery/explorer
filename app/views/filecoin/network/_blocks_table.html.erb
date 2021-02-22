@@ -32,7 +32,9 @@
                                                     height
 
                         	count
-
+                        messageCount
+                        reward
+                        minerTips
                       }
                     }
                   }`);
@@ -53,6 +55,18 @@
                 {
                     title: '<%= t('widgets.titles.block_count') %>',
                     path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.messages_count') %>',
+                    path: 'messageCount'
+                },
+                {
+                    title: '<%= t('widgets.titles.miners_block_reward') %>',
+                    path: 'reward'
+                },
+                {
+                    title: '<%= t('widgets.titles.miners_tips') %>',
+                    path: 'minerTips'
                 }
             ]
         });

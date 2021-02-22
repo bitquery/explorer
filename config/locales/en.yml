@@ -1109,6 +1109,7 @@ en:
       pivot: "Pivot"
       miners_block_reward_by_time: 'Miners Block Reward By Time'
       miners_block_reward: "Miners Block Reward"
+      miners_tips: "Miners Tips"
       difficulty: "Difficulty"
       total_difficulty: "Total Difficulty"
       hash: "Hash"
