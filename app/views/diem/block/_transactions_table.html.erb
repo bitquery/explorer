@@ -19,10 +19,10 @@
                                 $limit: Int!,
                                 $offset: Int!
                                 $date: ISO8601DateTime,
-                                $height: Int){
+                                $version: Int){
                     diem(network: $network){
                       transactions(options:{limit: $limit, offset: $offset},
-                        date: {is: $date } height: {is: $height}
+                        date: {is: $date } version: {is: $version}
                         ) {
 
                           address: sender {
@@ -67,7 +67,7 @@
 
 
         query.request({
-            height: <%= @height %>, date: '<%= @block_date %>', network: '<%= @network[:network] %>'
+            version: <%= @height %>, date: '<%= @block_date %>', network: '<%= @network[:network] %>'
         });
 
 

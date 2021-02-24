@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     diem(network: $network){
-                      mints(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      mints(options:{desc: "version", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 
@@ -55,7 +55,6 @@
                     title: '<%= t('widgets.titles.block') %>',
                     type: 'string',
                     path: 'block.height',
-                    urlCallbackName: 'block_path',
                     style: 'width: 80px;'
                 },
 

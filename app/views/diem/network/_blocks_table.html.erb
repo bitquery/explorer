@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     diem(network: $network){
-                      blocks(options:{desc: "height", limit: $limit, offset: $offset},
+                      blocks(options:{desc: "version", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
 
@@ -52,13 +52,13 @@
                 {
                     title: '<%= t('widgets.titles.block') %>',
                     type: 'string',
-                    path: 'height',
-                    urlCallbackName: 'block_path'
+                    path: 'height'
                 },
                 {
                     title: '<%= t('widgets.titles.version') %>',
                     type: 'string',
-                    path: 'version'
+                    path: 'version',
+                    urlCallbackName: 'block_path'
                 },
 
                 {
