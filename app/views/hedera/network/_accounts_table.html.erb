@@ -19,7 +19,7 @@
             time {
               time
             }
-            entity(entityType: { is: account }){
+            account: entity(entityType: { is: account }){
               id
             }
             payerAccount {
@@ -46,7 +46,8 @@
         {
           title: '<%= t('widgets.titles.id') %>',
           type: 'string',
-          path: 'entity.id',
+          path: 'account.id',
+          urlCallbackName: 'account_path',
           style: 'width: 70px;'
         },
         {

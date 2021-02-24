@@ -24,7 +24,7 @@
             time {
               time
             }
-            hash: transactionHash
+            transactionHash
             transactionType
             payerAccount {
               id
@@ -53,8 +53,8 @@
         {
           title: '<%= t('widgets.titles.hash') %>',
           type: 'string-ellipsis',
-          path: 'hash',
-          urlCallbackName: 'transaction_path',
+          path: 'transactionHash',
+          urlCallbackName: 'transaction_hash_path',
           style: 'width: 150px;'
         },
         {
@@ -64,10 +64,9 @@
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.account') %>',
-          type: 'number',
+          title: '<%= t('widgets.titles.id') %>',
+          type: 'string',
           path: 'payerAccount.id',
-          urlCallbackName: 'account_path',
           style: 'width: 70px;'
         },
         {

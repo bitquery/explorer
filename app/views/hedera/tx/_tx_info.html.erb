@@ -28,7 +28,10 @@
               id
             }
             consensusTimestamp {
-              time
+              nanoseconds
+            }
+            result {
+              name
             }
             success
             transactionType
@@ -47,10 +50,12 @@
         return !item ? [] : [
           { name: '<%= t('widgets.titles.account') %>', value: item.payerAccount.id },
           { name: '<%= t('widgets.titles.node') %>', value: item.nodeAccount.id },
-          { name: '<%= t('widgets.titles.consensus_timestamp') %>', value: item.consensusTimestamp.time },
+          { name: '<%= t('widgets.titles.consensus_timestamp') %>', value: item.consensusTimestamp.nanoseconds },
           { name: '<%= t('widgets.titles.success') %>', value: item.success },
           { name: '<%= t('widgets.titles.transaction_type') %>', value: item.transactionType },
+          { name: '<%= t('widgets.titles.result') %>', value: item.result.name },
           { name: '<%= t('widgets.titles.memo') %>', value: item.memo },
+          { name: '<%= t('widgets.titles.transaction_id') %>', value: `${item.payerAccount.id}-${item.consensusTimestamp.nanoseconds}` },
           { name: '<%= t('widgets.titles.total_amount') %>', value: item.maxFee + ' <%= @network[:currency] %>' },
           { name: '<%= t('widgets.titles.transaction_fee') %>', value: item.transactionFee + ' <%= @network[:currency] %>'},
         ];

@@ -1,6 +1,6 @@
 <head>
   <title>
-    <% if content_for? :title %><%= yield :title %><% end %>
+    <% if content_for?(:title) %><%= yield :title %><% end %>
   </title>
   <% if content_for?(:description) %><meta name="description" content="<%= yield :description %>"><% end %>
   <% if content_for?(:keywords) %><meta name="keywords" content="<%= yield :keywords %>"><% end %>

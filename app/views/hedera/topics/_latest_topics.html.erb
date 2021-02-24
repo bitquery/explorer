@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <%= t('widgets.headers.latest_topics') %>
+      </div>
+
+      <div class="card-body">
+        <div id="latest_topics"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+
+    const graphql_query = 
+    `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $topic_id: String!) {
+        hedera(network: $network) {
+          messages(options: {desc: "date.date", limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
+            date {
+              date
+            }
+            account: entity(entityType: {is: topic}) {
+              id(entityId: $topic_id)
+            }
+            transactionHash
+            topicSequenceNumber
+            topicRunningHash
+            message
+            memo
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.table('#latest_topics', query, 'hedera.messages', {
+      title: '<%= t('widgets.headers.latest_transactions') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.date') %>',
+          path: 'date.date',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_hash') %>',
+          type: 'string-ellipsis',
+          path: 'transactionHash',
+          urlCallbackName: 'transaction_hash_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.sequence_number') %>',
+          path: 'topicSequenceNumber',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.running_hash') %>',
+          type: 'string-ellipsis',
+          path: 'topicRunningHash',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.message') %>',
+          type: 'string-ellipsis',
+          path: 'message',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.memo') %>',
+          path: 'memo',
+          style: 'width: 70px;'
+        }
+      ]
+    });
+
+    query.request({
+      topic_id: '<%= @topic_id %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+
+</script>

@@ -2,11 +2,8 @@ module Hedera
   class TopicsController < NetworkController
     layout 'tabs'
 
-    # before_action :set_topic_id, only: %i[show]
-    # before_action :breadcrumb, only: %i[show]
-
-    before_action :set_topic_id
-    before_action :breadcrumb
+    before_action :set_topic_id, only: %i[show]
+    before_action :breadcrumb, only: %i[show]
 
     def show; end
 
@@ -17,7 +14,7 @@ module Hedera
     end
 
     def breadcrumb
-      action_name != 'show' && @breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") }
+      @breadcrumbs << { name: "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@topic_id.truncate(15)}" }
     end
   end
 end

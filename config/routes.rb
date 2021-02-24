@@ -213,7 +213,7 @@ Rails.application.routes.draw do
           get ":blockchain/topics/:topic_id/messages", controller: "#{blockchain[:family]}/topics", action: 'show', constraints: { topic_id: /[^\/]+/ }
           # get ":blockchain/topics/:topics_id/messages/:action", controller: "#{blockchain[:family]}/topics"
 
-          # get ":blockchain/account/:id", controller: "#{blockchain[:family]}/accounts", action: 'show'
+          get ":blockchain/accounts/:account_id", controller: "#{blockchain[:family]}/accounts", action: 'show', constraints: { account_id: /[^\/]+/ }
           # get ":blockchain/account/:id/:action", controller: "#{blockchain[:family]}/accounts"
 
           # get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list"

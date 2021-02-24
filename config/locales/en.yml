@@ -29,6 +29,21 @@ en:
     search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
+    accounts:
+      icon: 'fas fa-user-circle'
+      header: "%{network} Account %{account}"
+      show:
+        name: "Account"
+        title: "Accounts %{network} | %{account}"
+        description: "Visualize %{network} address %{account} , balances, 
+          transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} account finder %{account}"
     topics:
       icon: 'far fa-address-card'
       header: "%{network} Topic %{topic}"
@@ -833,6 +848,7 @@ en:
   widgets:
     headers:
       transaction_by_time: 'Activities by date'
+      transactions_count: "Transactions Count"
       blocks_by_time: 'Blocks by date'
       proposed_blocks_by_time: 'Proposed Blocks by date'
       attestations_by_time: 'Slot Attestations by date'
@@ -938,6 +954,7 @@ en:
       gas_burners: "Smart Contracts Burning Maximum of Gas"
       top_calls: "Top Smart Contract Calls"
       top_methods: "Top Smart Contract Methods"
+      top_topics_by_transactions_count: "Top Topics by Transactions Count"
       latest_mints: "Latest Mints"
       contracts_by_time: "Unique Smart Contracts"
       contract_callers_by_time: "Unique Smart Contracts Callers"
@@ -1117,6 +1134,8 @@ en:
       med_gas_price: "Median Gas Price, GWei"
       gas_used: "Gas Used"
       sequence_number: "Sequence Number"
+      running_hash: "Running Hash"
+      message: "Message"
       signature: "Signature"
       script_type: "Script Type"
       script_hash: "Script Hash"

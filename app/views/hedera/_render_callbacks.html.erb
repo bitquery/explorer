@@ -39,11 +39,14 @@
     block_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.height || item.block.height);
     },
-    transaction_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
+    transaction_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transactionHash);
     },
     topic_path: function(item) {
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/topics/' + item.topic.id + '/messages';
+    },
+    account_path: function(item) {
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/accounts/' + item.account.id;
     },
     output_transaction_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ item.outputTransaction.hash;
