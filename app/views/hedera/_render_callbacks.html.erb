@@ -42,11 +42,20 @@
     transaction_hash_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transactionHash);
     },
+    message_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/messages/'+ (item.hash || item.transactionHash);
+    },
     topic_path: function(item) {
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/topics/' + item.topic.id + '/messages';
     },
     account_path: function(item) {
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/accounts/' + item.account.id;
+    },
+    node_path: function(item) {
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/nodes/' + (item.nodeAccount.id || item.node.id);
+    },
+    payer_path: function(item) {
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/payers/' + (item.payerAccount.id || item.payer.id);
     },
     output_transaction_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ item.outputTransaction.hash;
