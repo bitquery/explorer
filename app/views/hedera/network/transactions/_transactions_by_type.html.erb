@@ -1,0 +1,50 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.transactions_by_type') %></div>
+    <div class="card-body">
+      <div id="transactions_by_type"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  $( document ).ready(function() {
+
+    const graphql_query = `
+      query ($from: ISO8601DateTime, $till: ISO8601DateTime) {
+        hedera {
+          transactions(options: {desc: "count"}, date: {since: $from, till: $till}) {
+            transactionType
+            count
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.chart('#transactions_by_type', query, 'hedera.transactions', {
+        title: '<%= t('widgets.headers.transactions_by_type') %>',
+        chartType: 'PieChart',
+        chartOptions: {
+            pieSliceText: 'label',
+            pieHole: 0.4,
+        },
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.transaction_type') %>',
+                path: 'transactionType'
+            },
+            {
+                title: '<%= t('widgets.titles.transactions_count') %>',
+                path: 'count'
+            },
+
+        ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>);
+  });
+</script>

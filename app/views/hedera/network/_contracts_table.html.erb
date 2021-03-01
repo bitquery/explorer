@@ -25,6 +25,9 @@
             payerAccount {
               id
             }
+            nodeAccount {
+              id
+            }
             memo
           }
         }
@@ -52,6 +55,14 @@
           title: '<%= t('widgets.titles.payer') %>',
           type: 'string',
           path: 'payerAccount.id',
+          urlCallbackName: 'payer_path',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.node') %>',
+          type: 'string',
+          path: 'nodeAccount.id',
+          urlCallbackName: 'node_path',
           style: 'width: 70px;'
         },
         {

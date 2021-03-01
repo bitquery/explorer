@@ -64,15 +64,17 @@
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.id') %>',
+          title: '<%= t('widgets.titles.payer') %>',
           type: 'string',
           path: 'payerAccount.id',
+          urlCallbackName: 'payer_path',
           style: 'width: 70px;'
         },
         {
           title: '<%= t('widgets.titles.node') %>',
           type: 'number',
           path: 'nodeAccount.id',
+          urlCallbackName: 'node_path',
           style: 'width: 70px;'
         },
         {
