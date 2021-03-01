@@ -1,12 +1,12 @@
 <div class="row">
-  <%# <div class="col-8 col-lg-8 mb-4"> %>
-  <%#   <div class="card"> %>
-  <%#     <div class="card-header"><%= t('widgets.headers.dex_protocols') %1></div> %>
-  <%#     <div class="card-body"> %>
-  <%#       <div id="dex_protocols"><%= t('loading') %1></div> %>
-  <%#     </div> %>
-  <%#   </div> %>
-  <%# </div> %>
+  <div class="col-8 col-lg-8 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.top_topics_by_transactions_count') %></div>
+      <div class="card-body">
+        <div id="top_topics_by_transactions_count_table"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
 
   <div class="col-4 col-lg-4 mb-4">
     <div class="card">
@@ -38,6 +38,22 @@
 
     const query = new widgets.query(graphql_query);
 
+    new widgets.table('#top_topics_by_transactions_count_table', query, 'hedera.messages', {
+      title: '<%= t('widgets.headers.top_topics_by_transactions_count') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.account') %>',
+          path: 'account.id',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.count') %>',
+          path: 'count',
+          style: 'width: 70px;'
+        },
+      ]
+    });
+
     new widgets.chart('#top_topics_by_transactions_count', query, 'hedera.messages', {
       title: '<%= t('widgets.headers.top_topics_by_transactions_count') %>',
       chartType: 'PieChart',
@@ -58,7 +74,6 @@
         },
       ]
     });
-
 
     queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
       network: '<%= params['network']['network'] %>'

@@ -62,7 +62,7 @@
         path: 'date.date'
       }],
       sort: { metric: '<%= t('widgets.headers.transactions_count') %>', direction: 'desc', axis: 'col' },
-      limit: { length: 41, other: true, axis: 'col' },
+      limit: { length: 15, other: true, axis: 'col' },
     });
 
     queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
