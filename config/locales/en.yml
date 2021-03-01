@@ -29,6 +29,57 @@ en:
     search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
+    payers:
+      icon: 'far fa-address-card'
+      header: "%{network} Payer %{payer_account}"
+      show:
+        name: "Payer"
+        title: "Payers %{network} | %{payer_account}"
+        description: "Visualize %{network} payer %{payer_account} , balances, 
+          transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} payer account finder %{payer_account}"
+    messages:
+      icon: 'fas fa-bolt'
+      header: "%{network} message %{hash}"
+      show:
+        name: 'Message'
+        title: "Message %{hash} | %{network}"
+        description: "Message id %{hash} in %{network}"
+        keywords: "%{network} transaction, %{network} transaction explorer, %{network} explorer, token transaction, coin transaction, crypto transaction, %{network} transaction analytics,
+          smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
+          %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
+          check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
+      input_scripts:
+        name: 'Input Scripts'
+        title: "Scripts for inputs %{hash} in %{network}"
+        description: "Input scripts in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction input script"
+      output_scripts:
+        name: 'Output Scripts'
+        title: "Scripts for output %{hash} in %{network}"
+        description: "Output scripts in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction output script"
+    nodes:
+      icon: 'far fa-address-card'
+      header: "%{network} Node %{node_account}"
+      show:
+        name: "Node"
+        title: "Nodes %{network} | %{node_account}"
+        description: "Visualize %{network} node %{node_account} , balances, 
+          transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} node account finder %{node_account}"
     accounts:
       icon: 'fas fa-user-circle'
       header: "%{network} Account %{account}"
@@ -847,6 +898,7 @@ en:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
+      account_summery: "Account Summery"
       transaction_by_time: 'Activities by date'
       transactions_count: "Transactions Count"
       blocks_by_time: 'Blocks by date'
@@ -911,6 +963,7 @@ en:
       token_decimals: "Number of Decimals"
       annotation: "Annotation"
       latest_token_transfers: "Latest Token Transfers"
+      lastest_messages: "Latest Messages"
       token_transfers_by_time: "Token Transfers By Date"
       max_token_transfers_by_time: "The Largest Transaction Amount in Time Period"
       token_senders_table: "Token Senders By Volume"
@@ -955,6 +1008,8 @@ en:
       top_calls: "Top Smart Contract Calls"
       top_methods: "Top Smart Contract Methods"
       top_topics_by_transactions_count: "Top Topics by Transactions Count"
+      top_payer_by_transactions_count: "Top Payer by Transactions Count"
+      top_nodes_by_transactions_count: "Top Nodes by Transactions Count"
       latest_mints: "Latest Mints"
       contracts_by_time: "Unique Smart Contracts"
       contract_callers_by_time: "Unique Smart Contracts Callers"
@@ -1050,6 +1105,7 @@ en:
       asset_id: "Asset ID"
       receive: "Receive"
       balance: "Balance"
+      current_balance: "Current Balance"
       txs: "Tx's"
       send: "Send"
       pair: "Pair"
@@ -1268,6 +1324,7 @@ en:
       description: "Descrition"
       memo: "Memo"
       account: "Account"
+      account_summery: "Account Summery"
       payer: "Payer"
       node: "Node"
       consensus_timestamp: "Consensus"
