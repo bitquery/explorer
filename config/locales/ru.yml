@@ -276,6 +276,7 @@ ru:
       receiver: 'Получатель'
       amount: 'Сумма'
       transaction: 'Транзакция'
+      transaction_id: 'ID Транзакции'
       block: 'Блок'
       max_date: 'Последняя дата'
       gas_value: 'Комиссия'

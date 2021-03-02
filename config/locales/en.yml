@@ -1123,6 +1123,7 @@ en:
       amount_usd: 'Amount, USD'
       usd: '$'
       transaction: 'Transaction'
+      transaction_id: 'Transaction ID'
       block: 'Block'
       height: 'Height'
       epoch: 'Epoch'
