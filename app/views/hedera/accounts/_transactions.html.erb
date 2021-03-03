@@ -15,17 +15,19 @@
     const qraphql_query = `
       query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $account_id: String!) {
         hedera(network: $network) {
-          transactions(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
-            account: entity(entityType: {is: account}) {
-              id(entityId: $account_id)
-            }
+          output(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}, transferEntity: {is: $account_id}) {
             time {
               time
             }
             transactionHash
-            transactionType
-            success
+            result {
+              name
+            }
             memo
+            amount
+            currency {
+              name
+            }
           }
         }
       }
@@ -33,9 +35,14 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#transactions', query, 'hedera.transactions', {
+    new widgets.table('#transactions', query, 'hedera.output', {
       title: '<%= t('widgets.headers.transactions') %>',
       dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          path: 'time.time',
+          style: 'width: 70px;'
+        },
         {
           title: '<%= t('widgets.titles.transaction_hash') %>',
           path: 'transactionHash',
@@ -43,18 +50,13 @@
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.transaction_type') %>',
-          path: 'transactionType',
+          title: '<%= t('widgets.titles.amount') %>, <%= @network[:currency] %>',
+          path: 'amount',
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.date') %>',
-          path: 'time.time',
-          style: 'width: 70px;'
-        },
-        {
-          title: '<%= t('widgets.titles.success') %>',
-          path: 'success',
+          title: '<%= t('widgets.titles.transaction_result') %>',
+          path: 'result.name',
           style: 'width: 70px;'
         },
         {
@@ -65,7 +67,7 @@
       ]
     });
 
-    query.request({
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
       account_id: '<%= @account_id %>',
       network: '<%= @network[:network] %>'
     });
