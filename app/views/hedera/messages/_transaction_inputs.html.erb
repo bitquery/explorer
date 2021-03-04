@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.transfers') %></div>
+    <div class="card-header"><%= t('widgets.headers.inputs') %></div>
     <div class="card-body">
-      <div id="transfers"><%= t('loading') %></div>
+      <div id="inputs"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -13,11 +13,8 @@
     const qraphql_query = `
       query ($network: HederaNetwork!, $hash: String!) {
         hedera(network: $network) {
-          output(options: {desc: "time.time"}, transactionHash: {is: $hash}) {
-            time {
-              time
-            }
-            transferEntity {
+          inputs(transactionHash: {is: $hash}) {
+            account: transferEntity {
               id
             }
             amount
@@ -34,12 +31,13 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#transfers', query, 'hedera.output', {
-      title: '<%= t('widgets.headers.transfers') %>',
+    new widgets.table('#inputs', query, 'hedera.inputs', {
+      title: '<%= t('widgets.headers.inputs') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.account') %>',
-          path: 'transferEntity.id',
+          path: 'account.id',
+          urlCallbackName: 'account_path',
           style: 'width: 100px;'
         },
         {

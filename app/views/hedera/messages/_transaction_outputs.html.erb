@@ -1,0 +1,57 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.outputs') %></div>
+    <div class="card-body">
+      <div id="outputs"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    const qraphql_query = `
+      query ($network: HederaNetwork!, $hash: String!) {
+        hedera(network: $network) {
+          output(transactionHash: {is: $hash}) {
+            account: transferEntity {
+              id
+            }
+            amount
+            currency {
+              address
+              name
+              tokenId
+              tokenType
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#outputs', query, 'hedera.output', {
+      title: '<%= t('widgets.headers.outputs') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.account') %>',
+          path: 'account.id',
+          urlCallbackName: 'account_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.amount') %>, <%= @network[:currency] %>',
+          path: 'amount',
+          style: 'width: 100px;'
+        },
+      ]
+    });
+
+    query.request({
+      hash: '<%= @hash %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+</script>

@@ -1,10 +1,8 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transactions') %></div>
-      <div class="card-body">
-        <div id="transactions"><%= t('loading') %></div>
-      </div>
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.outputs_transactions') %></div>
+    <div class="card-body">
+      <div id="outputs"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -35,8 +33,8 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#transactions', query, 'hedera.output', {
-      title: '<%= t('widgets.headers.transactions') %>',
+    new widgets.table('#outputs', query, 'hedera.output', {
+      title: '<%= t('widgets.headers.outputs_transactions') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
@@ -68,7 +66,7 @@
     });
 
     queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
-      account_id: '<%= @account_id %>',
+      account_id: '<%= params[:account_id] %>',
       network: '<%= @network[:network] %>'
     });
 

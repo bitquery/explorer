@@ -55,6 +55,16 @@ en:
           smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
           %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
           check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
+      inputs:
+        name: 'Inputs'
+        title: "Inputs %{network} %{hash}"
+        description: "Inputs in transaction %{hash} in %{network}"
+        keywords: "%{network} inputs, %{network} transaction value"
+      outputs:
+        name: 'Outputs'
+        title: "Outputs %{network} %{hash}"
+        description: "Outputs in transaction %{hash} in %{network}"
+        keywords: "%{network} outputs, %{network} transaction value"
       input_scripts:
         name: 'Input Scripts'
         title: "Scripts for inputs %{hash} in %{network}"
@@ -95,6 +105,20 @@ en:
         crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
         %{network} address finder, 
         %{network} account finder %{account}"
+      inputs_transactions:
+        name: 'Inputs Transactions'
+        title: "%{account} transactions inputs | %{network}"
+        description: "Transactions Inputs sent by account %{account} and other transaction analytics charts in %{network}"
+        keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
+        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+      outputs_transactions:
+        name: 'Outputs Transactions'
+        title: "%{account} transactions outputs | %{network}"
+        description: "Transactions Outputs sent by account %{account} and other transaction analytics charts in %{network}"
+        keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
+        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
     topics:
       icon: 'far fa-address-card'
       header: "%{network} Topic %{topic}"
@@ -512,6 +536,16 @@ en:
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
         keywords: "%{network} transfer, %{network} transaction value"
+      inputs:
+        name: 'Inputs'
+        title: "Inputs %{network} %{hash}"
+        description: "Inputs in transaction %{hash} in %{network}"
+        keywords: "%{network} inputs, %{network} transaction value"
+      outputs:
+        name: 'Outputs'
+        title: "Outputs %{network} %{hash}"
+        description: "Outputs in transaction %{hash} in %{network}"
+        keywords: "%{network} outputs, %{network} transaction value"
       contracts:
         name: "Contracts"
         title: "Contracts %{network} %{hash}"
@@ -1080,6 +1114,8 @@ en:
       inbound_types: "Inbound Volumes By Output Type"
       inputs: "Transaction Inputs"
       outputs: "Transaction Outputs"
+      inputs_transactions: "Inputs Transactions"
+      outputs_transactions: "Outputs Transactions"
       outbound_by_script_type: "Outbound Volumes By Output Script Type"
       latest_accounts: "Latest Accounts"
       latest_topics: "Latest Topics"

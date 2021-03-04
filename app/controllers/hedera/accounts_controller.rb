@@ -7,6 +7,10 @@ module Hedera
 
     def show; end
 
+    def inputs_transactions; end
+
+    def outputs_tranasctions; end
+
     private
 
     def set_account_id
