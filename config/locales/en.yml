@@ -16,6 +16,7 @@ en:
   token: "token"
   tx: "transaction"
   smart_contract: "smart contract"
+  account: "account"
   find: "Search"
   find_in: "%{network}"
   find_all: "Search in all blockchains"
