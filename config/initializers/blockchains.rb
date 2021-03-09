@@ -263,7 +263,7 @@ BLOCKCHAINS = [
     network: 'hedera',
     name: 'Hedera Hashgraph Mainnet',
     family: 'hedera',
-    platform: 'Graph-based platforms',
+    platform: 'Graph',
     currency: 'HBAR',
     icon: 'currency/hedera-hashgraph.svg'
   },
