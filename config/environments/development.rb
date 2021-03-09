@@ -60,9 +60,4 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  BITQUERY_WIDGETS_URL = "http://localhost:63342/widgets"
-  BITQUERY_PROJECT_URL = "https://bitquery.io"
-  BITQUERY_IMAGES = "#{BITQUERY_PROJECT_URL}/wp-content/uploads/2020/09"
-  BITQUERY_GRAPHQL = 'https://graphql.bitquery.io'
-  ANALYTICS = false
 end

@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.top_topics_by_transactions_count') %></div>
+      <div class="card-body">
+        <div id="top_topics_by_transactions_count_pivot"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<script>
+
+  $(document).ready(function() {
+
+    const graphql_query = `
+      query ($network: HederaNetwork!, $from: ISO8601DateTime, $till: ISO8601DateTime, $dateFormat: String!) {
+        hedera(network: $network) {
+          messages(options: {asc: "date.date"}, date: {since: $from, till: $till}) {
+            date {
+              date(format: $dateFormat)
+            }
+            account: entity(entityType: {is: topic}) {
+              id
+            }
+            count
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.pivotChart('#top_topics_by_transactions_count_pivot', query, 'hedera.messages', {
+      title: '<%= t('widgets.headers.top_topics_by_transactions_count') %>',
+      chartOptions: {
+          vAxes: {
+            '0': {
+              title: '<%= t('widgets.titles.transactions_count') %>',
+              viewWindow: { min: 0 }
+            }
+          },
+          hAxis: <%= render partial: 'shared/date_axis.json' %>,
+          bar: { groupWidth: "100%" },
+          isStacked: true
+        },
+      cols: [{
+          title: '<%= t('widgets.headers.transactions_count') %>',
+          path: 'account.id',
+          metrics: [
+            {
+              title: '<%= t('widgets.headers.transactions_count') %>',
+              path: 'count'
+            }
+          ]
+      }],
+      rows: [{
+        title: 'Date',
+        path: 'date.date'
+      }],
+      sort: { metric: '<%= t('widgets.headers.transactions_count') %>', direction: 'desc', axis: 'col' },
+      limit: { length: 15, other: true, axis: 'col' },
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>

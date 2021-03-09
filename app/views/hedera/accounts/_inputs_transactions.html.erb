@@ -1,0 +1,74 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.inputs_transactions') %></div>
+    <div class="card-body">
+      <div id="inputs"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    const qraphql_query = `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $account_id: String!) {
+        hedera(network: $network) {
+          inputs(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}, transferEntity: {is: $account_id}) {
+            time {
+              time
+            }
+            transactionHash
+            result {
+              name
+            }
+            memo
+            amount
+            currency {
+              name
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#inputs', query, 'hedera.inputs', {
+      title: '<%= t('widgets.headers.inputs_transactions') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          path: 'time.time',
+          style: 'width: 30px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_hash') %>',
+          path: 'transactionHash',
+          urlCallbackName: 'transaction_hash_path',
+          style: 'width: 30px;'
+        },
+        {
+          title: '<%= t('widgets.titles.amount') %>, <%= @network[:currency] %>',
+          path: 'amount',
+          style: 'width: 30px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_result') %>',
+          path: 'result.name',
+          style: 'width: 30px;'
+        },
+        {
+          title: '<%= t('widgets.titles.memo') %>',
+          path: 'memo',
+          style: 'width: 30px;'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
+      account_id: '<%= params[:account_id] %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+</script>

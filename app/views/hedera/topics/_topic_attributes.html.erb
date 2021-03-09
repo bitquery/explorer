@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.topic_attributes') %></div>
+      <div class="card-body">
+        <div id="topic_attributes"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    const graphql_query = 
+    `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $topic_id: String!) {
+        hedera(network: $network) {
+          messages(options: {limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
+            creator: payerAccount {
+              id
+            }
+            account: entity(entityType: {is: topic}) {
+              id(entityId: $topic_id)
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.table('#topic_attributes', query, 'hedera.messages', {
+      title: '<%= t('widgets.headers.topic_attributes') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+          { name: '<%= t('widgets.titles.creator') %>', value: item.creator.id },
+        ];
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.attribute') %>',
+          type: 'string',
+          path: 'name',
+          style: 'width: 150px',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        },
+      ]
+    });
+
+    query.request({
+      topic_id: '<%= @topic_id %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+</script>

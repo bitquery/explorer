@@ -31,3 +31,6 @@
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
+
+# environment variables
+.env

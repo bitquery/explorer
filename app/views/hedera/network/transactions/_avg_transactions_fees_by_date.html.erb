@@ -1,0 +1,64 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.transaction_average_fee_by_time') %></div>
+    <div class="card-body">
+      <div id="transaction_average_fee_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $( document ).ready(function() {
+
+    const graphql_query = `
+      query ($network: HederaNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        hedera(network: $network) {
+          transactions(options: {asc: "date.date"}, date: {since: $from, till: $till}) {
+            date: date {
+              date(format: $dateFormat)
+            }
+            count
+            avgFee: transactionFee(calculate: average)
+            feeCurrency{
+              name
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.chartByTime('#transaction_average_fee_by_time', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.transaction_average_fee_by_time') %>',
+      chartOptions: {
+        vAxes: {
+          '0': {
+            title: '<%= t('widgets.titles.fee_per_transaction') %>, <%= @network[:currency] %>'
+          }
+        },
+        series: {
+          '0': { color: '#ffc107' }
+        },
+        seriesType: 'bars'
+      },
+      dataOptions: [
+        {
+          title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          path: 'date.date'
+        },
+        {
+          title: '<%= t('widgets.titles.fee_per_transaction') %>, <%= @network[:currency] %>',
+          path: 'avgFee',
+          format: '#,##0.0000000'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>, {
+      network: '<%= params['network']['network'] %>'
+    });
+
+  });
+</script>

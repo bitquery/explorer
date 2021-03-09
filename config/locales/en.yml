@@ -16,6 +16,7 @@ en:
   token: "token"
   tx: "transaction"
   smart_contract: "smart contract"
+  account: "account"
   find: "Search"
   find_in: "%{network}"
   find_all: "Search in all blockchains"
@@ -29,6 +30,110 @@ en:
     search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
+    payers:
+      icon: 'far fa-address-card'
+      header: "%{network} Payer %{payer_account}"
+      show:
+        name: "Payer"
+        title: "Payers %{network} | %{payer_account}"
+        description: "Visualize %{network} payer %{payer_account} , balances, 
+          transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} payer account finder %{payer_account}"
+    messages:
+      icon: 'fas fa-bolt'
+      header: "%{network} message %{hash}"
+      show:
+        name: 'Message'
+        title: "Message %{hash} | %{network}"
+        description: "Message id %{hash} in %{network}"
+        keywords: "%{network} transaction, %{network} transaction explorer, %{network} explorer, token transaction, coin transaction, crypto transaction, %{network} transaction analytics,
+          smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
+          %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
+          check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
+      inputs:
+        name: 'Inputs'
+        title: "Inputs %{network} %{hash}"
+        description: "Inputs in transaction %{hash} in %{network}"
+        keywords: "%{network} inputs, %{network} transaction value"
+      outputs:
+        name: 'Outputs'
+        title: "Outputs %{network} %{hash}"
+        description: "Outputs in transaction %{hash} in %{network}"
+        keywords: "%{network} outputs, %{network} transaction value"
+      input_scripts:
+        name: 'Input Scripts'
+        title: "Scripts for inputs %{hash} in %{network}"
+        description: "Input scripts in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction input script"
+      output_scripts:
+        name: 'Output Scripts'
+        title: "Scripts for output %{hash} in %{network}"
+        description: "Output scripts in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction output script"
+    nodes:
+      icon: 'far fa-address-card'
+      header: "%{network} Node %{node_account}"
+      show:
+        name: "Node"
+        title: "Nodes %{network} | %{node_account}"
+        description: "Visualize %{network} node %{node_account} , balances, 
+          transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} node account finder %{node_account}"
+    accounts:
+      icon: 'fas fa-user-circle'
+      header: "%{network} Account %{account}"
+      show:
+        name: "Account"
+        title: "Accounts %{network} | %{account}"
+        description: "Visualize %{network} address %{account} , balances, 
+          transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} account finder %{account}"
+      inputs_transactions:
+        name: 'Inputs Transactions'
+        title: "%{account} transactions inputs | %{network}"
+        description: "Transactions Inputs sent by account %{account} and other transaction analytics charts in %{network}"
+        keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
+        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+      outputs_transactions:
+        name: 'Outputs Transactions'
+        title: "%{account} transactions outputs | %{network}"
+        description: "Transactions Outputs sent by account %{account} and other transaction analytics charts in %{network}"
+        keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
+        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+    topics:
+      icon: 'far fa-address-card'
+      header: "%{network} Topic %{topic}"
+      show:
+        name: "Topic"
+        title: "Topics %{network} | %{topic}"
+        description: "Visualize %{network} address %{topic} portfolio, balances, transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} topics finder %{topic}"
     address:
       icon: 'far fa-address-card'
       header: "%{network} address %{address}"
@@ -432,6 +537,16 @@ en:
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
         keywords: "%{network} transfer, %{network} transaction value"
+      inputs:
+        name: 'Inputs'
+        title: "Inputs %{network} %{hash}"
+        description: "Inputs in transaction %{hash} in %{network}"
+        keywords: "%{network} inputs, %{network} transaction value"
+      outputs:
+        name: 'Outputs'
+        title: "Outputs %{network} %{hash}"
+        description: "Outputs in transaction %{hash} in %{network}"
+        keywords: "%{network} outputs, %{network} transaction value"
       contracts:
         name: "Contracts"
         title: "Contracts %{network} %{hash}"
@@ -630,6 +745,18 @@ en:
         title: "Protocols on %{network} Explorer"
         description: "Protocol list, votes and approvals for %{network}"
         keywords: "%{network} protocol"
+      accounts:
+        name: "Accounts"
+        title: "Accounts on %{network} Explorer"
+        description: ""
+      files:
+        name: "Files"
+        title: "File Operations on %{network} Explorer"
+        description: ""
+      topics:
+        name: "Topics"
+        title: "Topic Operations on %{network} Explorer"
+        description: ""
       trades:
         name: "Trades"
         title: "Trades on %{network} Explorer"
@@ -806,7 +933,9 @@ en:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
+      account_summery: "Account Summery"
       transaction_by_time: 'Activities by date'
+      transactions_count: "Transactions Count"
       blocks_by_time: 'Blocks by date'
       proposed_blocks_by_time: 'Proposed Blocks by date'
       attestations_by_time: 'Slot Attestations by date'
@@ -869,6 +998,7 @@ en:
       token_decimals: "Number of Decimals"
       annotation: "Annotation"
       latest_token_transfers: "Latest Token Transfers"
+      lastest_messages: "Latest Messages"
       token_transfers_by_time: "Token Transfers By Date"
       max_token_transfers_by_time: "The Largest Transaction Amount in Time Period"
       token_senders_table: "Token Senders By Volume"
@@ -906,11 +1036,15 @@ en:
       blocks_on_height: "Blocks on Height"
       latest_transactions: "Latest Transactions"
       latest_contracts: "Latest Contracts"
+
       latest_transfers: "Latest Transfers"
       latest_calls: "Latest Smart Contract Calls"
       gas_burners: "Smart Contracts Burning Maximum of Gas"
       top_calls: "Top Smart Contract Calls"
       top_methods: "Top Smart Contract Methods"
+      top_topics_by_transactions_count: "Top Topics by Transactions Count"
+      top_payer_by_transactions_count: "Top Payer by Transactions Count"
+      top_nodes_by_transactions_count: "Top Nodes by Transactions Count"
       latest_mints: "Latest Mints"
       contracts_by_time: "Unique Smart Contracts"
       contract_callers_by_time: "Unique Smart Contracts Callers"
@@ -981,7 +1115,11 @@ en:
       inbound_types: "Inbound Volumes By Output Type"
       inputs: "Transaction Inputs"
       outputs: "Transaction Outputs"
+      inputs_transactions: "Inputs Transactions"
+      outputs_transactions: "Outputs Transactions"
       outbound_by_script_type: "Outbound Volumes By Output Script Type"
+      latest_accounts: "Latest Accounts"
+      latest_topics: "Latest Topics"
     titles:
       date: 'Date'
       month: 'Month'
@@ -1004,6 +1142,7 @@ en:
       asset_id: "Asset ID"
       receive: "Receive"
       balance: "Balance"
+      current_balance: "Current Balance"
       txs: "Tx's"
       send: "Send"
       pair: "Pair"
@@ -1021,6 +1160,7 @@ en:
       amount_usd: 'Amount, USD'
       usd: '$'
       transaction: 'Transaction'
+      transaction_id: 'Transaction ID'
       block: 'Block'
       height: 'Height'
       epoch: 'Epoch'
@@ -1088,6 +1228,8 @@ en:
       med_gas_price: "Median Gas Price, GWei"
       gas_used: "Gas Used"
       sequence_number: "Sequence Number"
+      running_hash: "Running Hash"
+      message: "Message"
       signature: "Signature"
       script_type: "Script Type"
       script_hash: "Script Hash"
@@ -1113,6 +1255,7 @@ en:
       difficulty: "Difficulty"
       total_difficulty: "Total Difficulty"
       hash: "Hash"
+      transaction_hash: "Transaction Hash"
       parent_hash: "Parent Hash"
       block_count: "Block Count"
       slot_count: "Slot Count"
@@ -1218,6 +1361,13 @@ en:
       log: "Log"
       description: "Descrition"
       memo: "Memo"
+      account: "Account"
+      account_summery: "Account Summery"
+      payer: "Payer"
+      node: "Node"
+      consensus_timestamp: "Consensus"
+      total_amount: "Total Amount"
+      transaction_fee: "Transaction Fee"
   pages:
     home:
       family: "%{family} Platform Explorers"

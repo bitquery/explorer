@@ -1,7 +1,7 @@
 Blockchain Unified Explorer
 ============
 
-TLDR; Try this: [https://explorer.bitquery.io]()
+TLDR; Try this: [https://explorer.bitquery.io](https://explorer.bitquery.io)
 
 Bitquery Explorer is built by [Bitquery.io](https://bitquery.io) using 
 [Bitquery Widgets](https://github.com/bitquery/widgets) as user interface

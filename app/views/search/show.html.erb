@@ -41,6 +41,9 @@ $( document ).ready(function() {
             ... on TransactionHash {
               hash
             }
+            ... on HederaAccount{
+              account
+            }
           }
           network{
             network
@@ -51,13 +54,17 @@ $( document ).ready(function() {
     `);
 
     function item_type(item){
-        return (item.subject.hash ? 'tx' :
-                (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'))
-        );
+      if (item.subject.account){
+        return 'accounts';
+      }
+
+      return (item.subject.hash ? 'tx' :
+              (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'))
+      );
     }
     function item_url(item) {
-        return '<%= locale_path_prefix %>'+item.network.network+'/'+item_type(item)+'/'+
-            (item.subject.address || item.subject.hash);
+        return '<%= locale_path_prefix %>' + item.network.network + '/' +item_type(item) + '/' +
+            (item.subject.address || item.subject.hash || item.subject.account);
     }
 
     new widgets.list('#search', query, 'search', {
@@ -77,35 +84,47 @@ $( document ).ready(function() {
                 var item_name, item_icon = '';
                 switch (a_type) {
                   case 'address':
-                      item_name="<%= t('address') %> "+( item.subject.annotation || item.subject.address );
+                      item_name = "<%= t('address') %> "+( item.subject.annotation || item.subject.address );
                       item_icon = '<span class="<%= t 'tabs.address.icon' %>"></span>';
                       break;
                   case 'smart_contract':
-                      item_name="<%= t('smart_contract') %> "+( item.subject.annotation || item.subject.address );
+                      item_name = "<%= t('smart_contract') %> "+( item.subject.annotation || item.subject.address );
                       item_icon = '<span class="<%= t 'tabs.smart_contract.icon' %>"></span>';
                       break;
                   case 'token':
-                      item_name="<%= t('token') %> "+ item.subject.symbol + ', '+item.subject.name + ' '+ (item.subject.annotation || '') ;
+                      item_name = "<%= t('token') %> "+ item.subject.symbol + ', '+item.subject.name + ' '+ (item.subject.annotation || '') ;
                       item_icon = '<span class="<%= t 'tabs.token.icon' %>"></span>';
                       break;
                   case 'tx':
-                      item_name="<%= t('tx') %> "+( item.subject.hash );
+                      item_name = "<%= t('tx') %> "+( item.subject.hash );
                       item_icon = '<span class="<%= t 'tabs.tx.icon' %>"></span>';
                       break;
+                  case 'accounts':
+                    item_name = `<%= t('account') %> ${item.subject.account}`;
+                    item_icon = `<span class="<%= t('tabs.accounts.icon') %>"></span>`;
+                    break;
                 };
 
                 let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{network_icon_path chain}\"}".html_safe}.join(",\n").html_safe %>};
                 let url = item_url(item);
 
-                let html = "<div class='media'>\n" +
-                    "  <img src='"+chains[item.network.network].icon+"' class='mr-3' alt='"+chains[item.network.network].name+"'>\n" +
-                    "  <div class='media-body word-wrap' style='min-width: 40%;'>\n" +
-                    "    <h6 class='mt-0'>"+item_icon+" <a href='"+url+"'>"+chains[item.network.network].name +
-                    ' <strong class="text-success">' + item_name + ' '+ '</strong>'+
-                    "</a></h6>\n" +
-                    "    <a href='"+url+"'>"+url+"</a>" +
-                    "  </div>\n" +
-                    "</div>";
+                let html = `
+                  <div class="media">
+                    <img src="${chains[item.network.network].icon}" class="mr-3;" style="max-width: 32px;" alt="${chains[item.network.network].name}">
+                    <div class="media-body word-wrap" style="min-width: 40%;">
+                      <h6 class="mt-0">
+                        ${item_icon}
+                        <a href="${url}">
+                          ${chains[item.network.network].name}
+                          <strong class="text-success">${item_name}</strong>
+                        </a>
+                      </h6>
+
+                      <a href="${url}">${url}</a>
+                    </div>
+                  </div>
+                `;
+
                 return html;
             }
         }

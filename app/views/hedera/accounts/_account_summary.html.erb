@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.account_summery') %></div>
+      <div class="card-body">
+        <div id="account_summery"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    const qraphql_query = `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $account_id: String!) {
+        hedera(network: $network) {
+          transactions(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
+            account: entity(entityType: {is: account}) {
+              id(entityId: $account_id)
+            }
+            time {
+              time
+            }
+            initialBalance
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    console.log(query);
+
+    new widgets.table('#account_summery', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.account_summery') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+          { name: '<%= t('widgets.titles.current_balance') %>', value: item.initialBalance + ' <%= @network[:currency] %>' },
+        ];
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.attribute') %>',
+          type: 'string',
+          path: 'name',
+          style: 'width: 150px',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        },
+      ]
+    });
+
+    query.request({
+      account_id: '<%= @account_id %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+</script>

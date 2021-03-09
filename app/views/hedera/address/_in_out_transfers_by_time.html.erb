@@ -1,0 +1,125 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.in_out_transfers_value_by_time', token: @network[:currency]) %></div>
+    <div class="card-body">
+      <div id="in_out_transfers_value_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+                        query ($network: BitcoinNetwork!,
+                  $address:String!
+                  $dateFormat: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    bitcoin(network: $network ){
+                      inputs(
+                        date: {
+                                        since: $from
+                                        till: $till}
+                        inputAddress: {is: $address}
+                        options: {asc: "date.date"}
+                      ){
+
+                        date{
+                          date(format: $dateFormat)
+                        }
+                        value
+                      }
+
+                      outputs(
+                        date: {
+                                        since: $from
+                                        till: $till}
+                        outputAddress: {is: $address}
+                        options: {asc: "date.date"}
+                      ){
+                        date{
+                          date(format: $dateFormat)
+                        }
+                        value
+                      }
+
+
+                    }
+                  }`);
+
+
+        new widgets.chartByTime('#in_out_transfers_value_by_time', query, 'bitcoin', {
+            title: '<%= t('widgets.headers.in_out_transfers_value_by_time', token: @network[:currency]) %>',
+            chartOptions: {
+                isStacked: true,
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.amount_token', token: @network[:currency]) %>',
+                        format: 'decimal',
+                        viewWindow: {
+                            min: 'auto'
+                        }
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' },
+                    '1': { color: '#ffc107' },
+                }
+            },
+            renderData: function(data){
+
+                let new_data = [];
+                let dates = {};
+
+                widgets.lodash.each(data.outputs, function(item){
+                    var d = {
+                        date: item.date,
+                        in: item.value,
+                        out: 0
+                    };
+                    dates[item.date.date] = d;
+                    new_data.push(d);
+                });
+
+                widgets.lodash.each(data.inputs, function(item){
+                    if (dates[item.date.date]){
+                        dates[item.date.date].out = -item.value;
+                    }else{
+                        new_data.push({
+                            date: item.date,
+                            in: 0,
+                            out: -item.value
+                        });
+                    }
+                });
+
+                return new_data;
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.receive') %>',
+                    path: 'in'
+                },
+                {
+                    title: '<%= t('widgets.titles.send') %>',
+                    path: 'out'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            address: '<%= @address %>',
+            network: '<%= @network[:network] %>',
+        });
+
+
+    });
+
+</script>

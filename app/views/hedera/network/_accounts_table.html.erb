@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_accounts') %></div>
+      <div class="card-body">
+        <div id="latest_accounts"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    const graphql_query = `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        hedera(network: $network) {
+          transactions(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}){
+            time {
+              time
+            }
+            account: entity(entityType: { is: account }){
+              id
+            }
+            payerAccount {
+              id
+            }
+            memo
+            initialBalance
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.table('#latest_accounts', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.latest_accounts') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'time.time',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.id') %>',
+          type: 'string',
+          path: 'account.id',
+          urlCallbackName: 'account_path',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.payer') %>',
+          type: 'string',
+          path: 'payerAccount.id',
+          urlCallbackName: 'payer_path',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.balance') %>, <%= @network[:currency] %>',
+          type: 'string',
+          path: 'initialBalance',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.memo') %>',
+          type: 'string',
+          path: 'memo',
+          style: 'width: 70px;'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
+      network: '<%= params['network']['network'] %>'
+    });
+
+  });
+</script>

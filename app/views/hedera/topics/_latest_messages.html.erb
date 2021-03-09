@@ -1,0 +1,93 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <%= t('widgets.headers.latest_messages') %>
+      </div>
+
+      <div class="card-body">
+        <div id="latest_messages"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+
+    const graphql_query = 
+    `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $topic_id: String!) {
+        hedera(network: $network) {
+          messages(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
+            time {
+              time
+            }
+            account: entity(entityType: {is: topic}) {
+              id(entityId: $topic_id)
+            }
+            payerAccount {
+              id
+            }
+            nodeAccount {
+              id
+            }
+            transactionHash
+            success
+            memo
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.table('#latest_messages', query, 'hedera.messages', {
+      title: '<%= t('widgets.headers.latest_messages') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          path: 'time.time',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_hash') %>',
+          type: 'string-ellipsis',
+          path: 'transactionHash',
+          urlCallbackName: 'message_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.payer') %>',
+          path: 'payerAccount.id',
+          urlCallbackName: 'payer_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.node') %>',
+          path: 'nodeAccount.id',
+          urlCallbackName: 'node_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.memo') %>',
+          path: 'memo',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.success') %>',
+          path: 'success',
+          style: 'width: 70px;'
+        }
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
+      topic_id: '<%= @topic_id %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+
+</script>

@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.top_payer_by_transactions_count') %></div>
+      <div class="card-body">
+        <div id="top_payer_by_transactions_count_pivot"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  $(document).ready(function() {
+
+    const graphql_query = `
+      query ($network: HederaNetwork!, $node_account: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $dateFormat: String!) {
+        hedera(network: $network) {
+          transactions(options: {asc: "date.date"}, date: {since: $from, till: $till}, nodeAccount: {is: $node_account}) {
+            date {
+              date(format: $dateFormat)
+            }
+            payerAccount {
+              id
+            }
+            count
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.pivotChart('#top_payer_by_transactions_count_pivot', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.top_payer_by_transactions_count') %>',
+      chartOptions: {
+          vAxes: {
+            '0': {
+              title: '<%= t('widgets.titles.transactions_count') %>',
+              viewWindow: { min: 0 }
+            }
+          },
+          hAxis: <%= render partial: 'shared/date_axis.json' %>,
+          bar: { groupWidth: "100%" },
+          isStacked: true
+        },
+      cols: [{
+          title: '<%= t('widgets.headers.transactions_count') %>',
+          path: 'payerAccount.id',
+          metrics: [
+            {
+              title: '<%= t('widgets.headers.transactions_count') %>',
+              path: 'count'
+            }
+          ]
+      }],
+      rows: [{
+        title: 'Date',
+        path: 'date.date'
+      }],
+      sort: { metric: '<%= t('widgets.headers.transactions_count') %>', direction: 'desc', axis: 'col' },
+      limit: { length: 15, other: true, axis: 'col' },
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        node_account: '<%= @node_account %>',
+        network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
