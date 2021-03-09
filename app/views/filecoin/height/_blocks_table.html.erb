@@ -32,7 +32,8 @@
                             address
                             annotation
                           }
-
+                          totalReward
+                          messageCount
                       }
                     }
                   }`);
@@ -54,6 +55,15 @@
                     type: 'string',
                     path: ['address.annotation','address.address'],
                     urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.block_reward') %>',
+                    type: 'string',
+                    path: 'totalReward'
+                },
+                {
+                    title: '<%= t('widgets.titles.messages_count') %>',
+                    path: 'messageCount'
                 },
             ]
         });
