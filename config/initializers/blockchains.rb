@@ -261,9 +261,9 @@ BLOCKCHAINS = [
   {
     tag: 'hedera',
     network: 'hedera',
-    name: 'Hedera Mainnet',
+    name: 'Hedera Hashgraph Mainnet',
     family: 'hedera',
-    platform: 'Hedera Hashgraph',
+    platform: 'Graph-based platforms',
     currency: 'HBAR',
     icon: 'currency/hedera-hashgraph.svg'
   },
