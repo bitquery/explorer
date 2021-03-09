@@ -268,15 +268,6 @@ BLOCKCHAINS = [
     icon: 'currency/hedera-hashgraph.svg'
   },
   {
-    tag: 'hedera',
-    network: 'hedera_testnets',
-    name: 'Hedera Testnets',
-    family: 'hedera',
-    platform: 'Hedera Hashgraph',
-    currency: 'HBAR',
-    icon: 'currency/hedera-hashgraph.svg'
-  },
-  {
     tag: 'eos',
     network: 'eos',
     name: 'EOS Mainnet',
