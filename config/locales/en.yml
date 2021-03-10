@@ -852,11 +852,11 @@ en:
         description: "Testnet explorers for Filecoin, other utility blockchain by Bitquery"
         keywords: "Filecoin Explorer"
       graph:
-        name: "Graph-Based"
-        header: "Graph-Based DLT"
-        title: "Graph-Based DLT Explorer"
-        description: "Explorers for Graph-Based DLT by Bitquery"
-        keywords: "Graph-Based DLT explorer, Graph-Based DLT transaction tracker, Graph-Based DLT explorer, Graph-Based DLT address, Graph-Based DLT transactions"
+        name: "Graphs"
+        header: "Graphs DLT"
+        title: "Graphs DLT Explorer"
+        description: "Explorers for Graph DLT ( DAG, Hashgraph) by Bitquery"
+        keywords: "DAG,Hashgraph,Graphs DLT explorer, Graph-Based DLT transaction tracker, Graph-Based DLT explorer, Graph-Based DLT address, Graph-Based DLT transactions"
     order:
       icon: 'fas fa-file-invoice-dollar'
       header: "%{order} Order in %{network}"
