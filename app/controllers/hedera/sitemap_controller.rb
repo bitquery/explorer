@@ -1,65 +1,30 @@
 class Hedera::SitemapController < NetworkController
-
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
-           query ($network: BitcoinNetwork! $from: ISO8601DateTime){
-              miners: bitcoin(network: $network ) { 
-                  
-                      outputs(options:{desc: "value", limit: 100 },
-                      date: { since: $from }
-
-                      txIndex: {is: 0}
-                      outputDirection: {is: mining}
-                      outputScriptType: {notIn: [nulldata,nonstandard]}
-
-                    ) {
-
-                      value
-                      address: outputAddress{
-                        address
-                      }
-
-                    }
-
-              }
-
-              receivers: bitcoin(network: $network ) { 
-                  
-                      outputs(options:{desc: "value", limit: 100 },
-                      date: { since: $from }
-
-                    ) {
-
-                      value
-                      address: outputAddress{
-                        address
-                      }
-
-                    }
-
-              }
-
-              senders: bitcoin(network: $network ) { 
-                  
-                      inputs(options:{desc: "value", limit: 100 },
-                      date: { since: $from }
-
-                    ) {
-
-                      value
-                      address: inputAddress{
-                        address
-                      }
-
-                    }
-
-              }
-
-           }
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+    query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+      topics: hedera(network: $network) {
+        messages(
+          options: {desc: "count", limit: $limit, offset: $offset}
+          date: {since: $from, till: $till}
+        ) {
+          account: entity(entityType: {is: topic}) {
+            id
+          }
+          count
+        }
+      }
+    }
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-14,
-                                                                network: @network[:network]}).data
+    variables = {
+      limit: 100,
+      offset: 0,
+      network: @network[:network],
+      from: Date.today,
+      # till: null,
+      dateFormat: '%Y-%m-%d'
+    }
 
+    @response = BitqueryGraphql::Client.query(QUERY, variables: variables).data
   end
 end
