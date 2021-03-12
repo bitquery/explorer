@@ -46,7 +46,7 @@
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/messages/'+ (item.hash || item.transactionHash);
     },
     topic_path: function(item) {
-      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/topics/' + item.topic.id + '/messages';
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/topics/' + item.topic.id;
     },
     account_path: function(item) {
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/accounts/' + item.account.id;

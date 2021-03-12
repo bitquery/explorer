@@ -198,19 +198,11 @@ Rails.application.routes.draw do
 
           get ":blockchain/:action", controller: "#{blockchain[:family]}/network"
 
-          # get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',defaults: {network: blockchain}
-          # get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
-          # get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
-
-          # get ":blockchain/token/:address/graph", controller: "#{blockchain[:family]}/token", action: 'money_flow',defaults: {network: blockchain}
-          # get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token"
-          # get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show'
-
           get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
           get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
 
           # route with dot parameter is not available by default.
-          get ":blockchain/topics/:topic_id/messages", controller: "#{blockchain[:family]}/topics", action: 'show', constraints: { topic_id: /[^\/]+/ }
+          get ":blockchain/topics/:topic_id", controller: "#{blockchain[:family]}/topics", action: 'show', constraints: { topic_id: /[^\/]+/ }
           # get ":blockchain/topics/:topics_id/messages/:action", controller: "#{blockchain[:family]}/topics"
 
           get ":blockchain/accounts/:account_id", controller: "#{blockchain[:family]}/accounts", action: 'show', constraints: { account_id: /[^\/]+/ }
@@ -221,17 +213,8 @@ Rails.application.routes.draw do
 
           get ":blockchain/messages/:hash", controller: "#{blockchain[:family]}/messages", action: 'show'
           get ":blockchain/messages/:hash/:action", controller: "#{blockchain[:family]}/messages"
-          # get ":blockchain/nodes/:node_account/:action", controller: "#{blockchain[:family]}/nodes", constraints: { node_account: /[^\/]+/ }
 
-          # get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list"
-
-          # get ":blockchain/method/:signature/:action", controller: "#{blockchain[:family]}/method"
-          # get ":blockchain/method/:signature", controller: "#{blockchain[:family]}/method", action: 'show'
-
-          # get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event"
-          # get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show'
-
-          # get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+          get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end
       end
     end

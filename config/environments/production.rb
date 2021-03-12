@@ -111,9 +111,4 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  BITQUERY_WIDGETS_URL = ENV['BITQUERY_WIDGETS_URL']
-  BITQUERY_PROJECT_URL = ENV['BITQUERY_PROJECT_URL']
-  BITQUERY_IMAGES = ENV['BITQUERY_IMAGES']
-  BITQUERY_GRAPHQL = ENV['BITQUERY_GRAPHQL']
-  ANALYTICS = ENV['ANALYTICS']
 end

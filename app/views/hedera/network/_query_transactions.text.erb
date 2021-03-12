@@ -1,5 +1,5 @@
-query ($network: BitcoinNetwork, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
-  chain: bitcoin(network: $network ){
+query ($network: HederaNetwork, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+  chain: hedera(network: $network ){
     transactions(options:{asc: "date.month"}, date: {since: $from, till: $till}) {
       date{
         month: date(format: $dateFormat)
