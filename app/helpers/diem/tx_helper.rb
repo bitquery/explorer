@@ -1,2 +1,0 @@
-module Diem::TxHelper
-end

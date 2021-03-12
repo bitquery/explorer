@@ -1,2 +1,0 @@
-module Tron::AddressesHelper
-end

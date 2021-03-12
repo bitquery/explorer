@@ -1,2 +1,0 @@
-module Binance::AddressHelper
-end

@@ -1,2 +1,0 @@
-module Bitcoin::AddressHelper
-end

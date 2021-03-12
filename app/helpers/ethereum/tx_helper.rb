@@ -1,2 +1,0 @@
-module Ethereum::TxHelper
-end

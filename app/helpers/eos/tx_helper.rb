@@ -1,2 +1,0 @@
-module Eos::TxHelper
-end

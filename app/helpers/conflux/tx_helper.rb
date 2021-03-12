@@ -1,2 +1,0 @@
-module Conflux::TxHelper
-end
