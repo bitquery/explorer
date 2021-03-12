@@ -1,14 +1,13 @@
 module ApplicationHelper
-
-  def external_image name
+  def external_image(name)
     "#{BITQUERY_IMAGES}/#{name}"
   end
 
-  def image_pack_path path
+  def image_pack_path(path)
     resolve_path_to_image path
   end
 
-  def copy_text addr, html_class = ''
+  def copy_text(addr, html_class = '')
     "<span class=\"copy-text #{html_class}\">#{addr} <a href='javascript:void()' class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\" data-toggle=\"tooltip\" title=\"Copy\"></a></span>".html_safe
   end
 
@@ -21,14 +20,15 @@ module ApplicationHelper
     render file: layout
   end
 
-  def tab_link name, action, html_class = 'nav-item', data = {changeurl: true}
-    content_tag :li, class: html_class do
+  def tab_link(name, action, html_class = 'nav-item', data = { changeurl: true })
+    tag.li(class: html_class) do
       tab_a name, action, 'nav-link', data
     end
   end
 
-  def tab_a name, action, html_class = 'nav-link', data = {changeurl: true}
-    link_to name, request.query_parameters.merge(action: action), class: "#{html_class} #{params[:action] == action && 'active'}", data: data
+  def tab_a(name, action, html_class = 'nav-link', data = { changeurl: true })
+    link_to name, request.query_parameters.merge(action: action),
+            class: "#{html_class} #{params[:action] == action && 'active'}", data: data
   end
 
   def locale_path_prefix
@@ -43,4 +43,15 @@ module ApplicationHelper
     @theme == 'dark'
   end
 
+  def limited_date_range_limit(_from, till, days = nil)
+    if till == 'null'
+      if days
+        ["'#{Date.today - days}'", 'null']
+      else
+        ["'#{Date.today}'", 'null']
+      end
+    else
+      ["'#{(Date.parse(till) - 1).to_s}'", till]
+    end
+  end
 end
