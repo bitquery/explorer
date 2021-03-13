@@ -20,7 +20,7 @@
     `
       query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
         hedera(network: $network) {
-          transactions(options: {limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
+          transactions(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
             time {
               time
             }

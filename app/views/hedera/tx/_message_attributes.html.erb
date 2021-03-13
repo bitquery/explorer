@@ -1,0 +1,60 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.message_attributes') %></div>
+    <div class="card-body">
+      <div id="message_attributes"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+
+    const qraphql_query = `
+      query ($network: HederaNetwork!, $hash: String!) {
+        hedera(network: $network) {
+          messages(transactionHash:{is: $hash}) {
+            topicRunningHash
+            topicSequenceNumber
+            message
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#message_attributes', query, 'hedera.messages', {
+      title: '<%= t('widgets.headers.message_attributes') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+          { name: '<%= t('widgets.titles.running_hash') %>', value: item.topicRunningHash },
+          { name: '<%= t('widgets.titles.sequence_number') %>', value: item.topicSequenceNumber },
+          { name: '<%= t('widgets.titles.message') %>', value: item.message },
+        ];
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.attribute') %>',
+          type: 'string',
+          path: 'name',
+          style: 'width: 150px',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        },
+      ]
+    });
+
+    query.request({
+      hash: '<%= @hash %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+</script>
