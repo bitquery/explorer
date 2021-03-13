@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_accounts') %></div>
+      <div class="card-header"><%= t('widgets.headers.created_accounts') %></div>
       <div class="card-body">
-        <div id="latest_accounts"><%= t('loading') %></div>
+        <div id="created_accounts"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -34,8 +34,8 @@
 
     const query = new widgets.query(graphql_query);
 
-    new widgets.table('#latest_accounts', query, 'hedera.transactions', {
-      title: '<%= t('widgets.headers.latest_accounts') %>',
+    new widgets.table('#created_accounts', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.created_accounts') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',

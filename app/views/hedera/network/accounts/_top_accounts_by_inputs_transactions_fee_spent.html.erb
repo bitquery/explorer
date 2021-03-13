@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-8 col-lg-8 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.top_accounts_by_inputs_transactions_fee_spent_count') %></div>
+      <div class="card-body">
+        <div id="top_accounts_by_inputs_transaction_fee_spent_table"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.top_accounts_by_inputs_transactions_fee_spent_count') %></div>
+      <div class="card-body">
+        <div id="top_accounts_by_inputs_transaction_fee_spent_pie"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  $(document).ready(function() {
+
+    const graphql_query = `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        hedera(network: $network) {
+          inputs(
+            options: {desc: "transactionFee", limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+          ) {
+            account: transferEntity {
+              id
+            }
+            feeCurrency {
+              address
+            }
+            transactionFee
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.table('#top_accounts_by_inputs_transaction_fee_spent_table', query, 'hedera.inputs', {
+      title: '<%= t('widgets.headers.top_accounts_by_inputs_transactions_fee_spent_count') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.account') %>',
+          path: 'account.id',
+          urlCallbackName: 'account_path',
+          style: 'width: 70px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_fee') %>, <%= @network[:currency] %>',
+          path: 'transactionFee',
+          style: 'width: 70px;'
+        },
+      ]
+    });
+
+    new widgets.chart('#top_accounts_by_inputs_transaction_fee_spent_pie', query, 'hedera.inputs', {
+      title: '<%= t('widgets.headers.top_accounts_by_inputs_transactions_fee_spent_count') %>',
+      chartType: 'PieChart',
+      chartOptions: {
+        pieSliceText: 'label',
+        pieHole: 0.4,
+        legend: { position: 'right' },
+        chartArea: { left: '0', right: '15%', top: 0, bottom: 0 }
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.account') %>',
+          path: 'account.id'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_fee') %>',
+          path: 'transactionFee'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      network: '<%= params['network']['network'] %>'
+    });
+
+  });
+</script>

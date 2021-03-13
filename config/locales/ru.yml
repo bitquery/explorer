@@ -243,6 +243,7 @@ ru:
       events_table: "События смарт контрактов"
       latest_transactions: "Последние транзакции"
       latest_accounts: "Последние Аккаунты"
+      created_accounts: "Созданные Аккаунты"
       latest_contracts: "Последние Контракты"
     titles:
       date: 'Дата'
@@ -272,6 +273,7 @@ ru:
       method: "Метод"
       calls_count: "Количество вызовов"
       timestamp: 'Время'
+      creation_date: 'Дата создания'
       sender: 'Отправитель'
       receiver: 'Получатель'
       amount: 'Сумма'

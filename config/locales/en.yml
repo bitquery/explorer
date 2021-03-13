@@ -1057,6 +1057,11 @@ en:
       top_topics_by_transactions_count: "Top Topics by Transactions Count"
       top_payer_by_transactions_count: "Top Payer by Transactions Count"
       top_nodes_by_transactions_count: "Top Nodes by Transactions Count"
+      top_accounts_by_inputs_transactions_count: "Top Accounts by Inputs Transaction Count"
+      top_accounts_by_inputs_transactions_fee_spent_count: "Top Accounts by Inputs Transactions Fee Spent"
+      top_accounts_by_outputs_transactions_count: "Top Accounts by Outputs Transaction Count"
+      top_accounts_by_outputs_transactions_fee_spent_count: "Top Accounts by Outputs Transactions Fee Spent"
+      created_accounts_by_date: "Created Account by Date"
       latest_mints: "Latest Mints"
       contracts_by_time: "Unique Smart Contracts"
       contract_callers_by_time: "Unique Smart Contracts Callers"
@@ -1131,6 +1136,7 @@ en:
       outputs_transactions: "Outputs Transactions"
       outbound_by_script_type: "Outbound Volumes By Output Script Type"
       latest_accounts: "Latest Accounts"
+      created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
     titles:
       date: 'Date'
@@ -1166,6 +1172,7 @@ en:
       calls_count: "Calls Count"
       mints_count: "Mints Count"
       timestamp: 'Timestamp'
+      creation_date: 'Creation Date'
       sender: 'Sender'
       receiver: 'Receiver'
       amount: 'Amount'
@@ -1374,6 +1381,7 @@ en:
       description: "Descrition"
       memo: "Memo"
       account: "Account"
+      accounts: "Accounts"
       account_summery: "Account Summery"
       payer: "Payer"
       node: "Node"
