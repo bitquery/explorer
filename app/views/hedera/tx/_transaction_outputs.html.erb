@@ -13,7 +13,7 @@
     const qraphql_query = `
       query ($network: HederaNetwork!, $hash: String!) {
         hedera(network: $network) {
-          output(transactionHash: {is: $hash}) {
+          outputs(transactionHash: {is: $hash}) {
             account: transferEntity {
               id
             }
@@ -31,7 +31,7 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#outputs', query, 'hedera.output', {
+    new widgets.table('#outputs', query, 'hedera.outputs', {
       title: '<%= t('widgets.headers.outputs') %>',
       dataOptions: [
         {

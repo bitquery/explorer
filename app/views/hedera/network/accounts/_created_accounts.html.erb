@@ -38,20 +38,20 @@
       title: '<%= t('widgets.headers.created_accounts') %>',
       dataOptions: [
         {
-          title: '<%= t('widgets.titles.timestamp') %>',
+          title: '<%= t('widgets.titles.creation_date') %>',
           type: 'string',
           path: 'time.time',
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.id') %>',
+          title: '<%= t('widgets.titles.account') %>',
           type: 'string',
           path: 'account.id',
           urlCallbackName: 'account_path',
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.payer') %>',
+          title: '<%= t('widgets.titles.creator') %>',
           type: 'string',
           path: 'payerAccount.id',
           urlCallbackName: 'payer_path',

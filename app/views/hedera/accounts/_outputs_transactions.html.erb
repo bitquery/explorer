@@ -13,7 +13,7 @@
     const qraphql_query = `
       query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $account_id: String!) {
         hedera(network: $network) {
-          output(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}, transferEntity: {is: $account_id}) {
+          outputs(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}, transferEntity: {is: $account_id}) {
             time {
               time
             }
@@ -33,7 +33,7 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#outputs', query, 'hedera.output', {
+    new widgets.table('#outputs', query, 'hedera.outputs', {
       title: '<%= t('widgets.headers.outputs_transactions') %>',
       dataOptions: [
         {
