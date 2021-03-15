@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_contracts') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_calls') %></div>
       <div class="card-body">
-        <div id="latest_contracts"><%= t('loading') %></div>
+        <div id="latest_calls"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -25,9 +25,6 @@
             payerAccount {
               id
             }
-            nodeAccount {
-              id
-            }
             memo
           }
         }
@@ -36,38 +33,28 @@
 
     const query = new widgets.query(graphql_query);
 
-    new widgets.table('#latest_contracts', query, 'hedera.transactions', {
-      title: '<%= t('widgets.headers.latest_contracts') %>',
+    new widgets.table('#latest_calls', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.latest_calls') %>',
       dataOptions: [
         {
-          title: '<%= t('widgets.titles.timestamp') %>',
-          type: 'string',
+          title: '<%= t('widgets.titles.creation_date') %>',
           path: 'time.time',
           style: 'width: 70px;'
         },
         {
           title: '<%= t('widgets.titles.contract') %>',
-          type: 'string',
           path: 'contract.id',
-          style: 'width: 70px;'
+          style: 'width: 70px;',
+          urlCallbackName: 'contract_path'
         },
         {
-          title: '<%= t('widgets.titles.payer') %>',
-          type: 'string',
+          title: '<%= t('widgets.titles.creator') %>',
           path: 'payerAccount.id',
           urlCallbackName: 'payer_path',
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.node') %>',
-          type: 'string',
-          path: 'nodeAccount.id',
-          urlCallbackName: 'node_path',
-          style: 'width: 70px;'
-        },
-        {
           title: '<%= t('widgets.titles.memo') %>',
-          type: 'string',
           path: 'memo',
           style: 'width: 70px;'
         },

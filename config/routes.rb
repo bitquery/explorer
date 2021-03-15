@@ -210,6 +210,8 @@ Rails.application.routes.draw do
           get ":blockchain/nodes/:node_account", controller: "#{blockchain[:family]}/nodes", action: 'show', constraints: { node_account: /[^\/]+/ }
           get ":blockchain/payers/:payer_account", controller: "#{blockchain[:family]}/payers", action: 'show', constraints: { payer_account: /[^\/]+/ }
 
+          get ":blockchain/contracts/:contract_id", controller: "#{blockchain[:family]}/contracts", action: 'show', constraints: { contract_id: /[^\/]+/ }
+
           get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end
       end

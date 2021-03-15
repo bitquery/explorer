@@ -15,5 +15,8 @@
     payer_path: function(item) {
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/payers/' + (item.payerAccount.id || item.payer.id);
     },
+    contract_path: function(item) {
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/contracts/' + item.contract.id;
+    },
   });
 </script>

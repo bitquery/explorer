@@ -1,0 +1,89 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <%= t('widgets.headers.latest_transactions') %>
+      </div>
+
+      <div class="card-body">
+        <div id="latest_transactions"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+
+    const graphql_query = 
+    `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $contract_id: String!) {
+        hedera(network: $network) {
+          transactions(options: {desc: "time.time", limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
+            time {
+              time
+            }
+            contract: entity(entityType: {is: contract}) {
+              id(entityId: $contract_id)
+            }
+            payerAccount {
+              id
+            }
+            nodeAccount {
+              id
+            }
+            transactionHash
+            transactionType
+            success
+            memo
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.table('#latest_transactions', query, 'hedera.transactions', {
+      title: '<%= t('widgets.headers.latest_transactions') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.creation_date') %>',
+          path: 'time.time',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_hash') %>',
+          type: 'string-ellipsis',
+          path: 'transactionHash',
+          urlCallbackName: 'transaction_hash_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_type') %>',
+          type: 'string-ellipsis',
+          path: 'transactionType',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.payer') %>',
+          path: 'payerAccount.id',
+          urlCallbackName: 'payer_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.memo') %>',
+          path: 'memo',
+          style: 'width: 70px;'
+        }
+      ]
+    });
+
+    query.request({
+      contract_id: '<%= @contract_id %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+
+</script>

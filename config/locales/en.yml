@@ -120,6 +120,21 @@ en:
         keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
         %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
         %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+    contracts:
+      icon: 'fas fa-user-circle'
+      header: "%{network} Contract %{contract}"
+      show:
+        name: "Contract"
+        title: "Contract %{network} | %{contract}"
+        description: "Visualize %{network} contract %{contract} , balances, 
+          transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
+        keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
+        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+        %{network} address finder, 
+        %{network} contract finder %{contract}"
     topics:
       icon: 'far fa-address-card'
       header: "%{network} Topic %{topic}"
