@@ -1,4 +1,4 @@
-<div class="col-12 col-lg-6 mb-4">
+<div class="col-12 col-lg-12 mb-4">
   <div class="card">
     <div class="card-header"><%= t('widgets.headers.message_attributes') %></div>
     <div class="card-body">
@@ -26,28 +26,23 @@
 
     new widgets.table('#message_attributes', query, 'hedera.messages', {
       title: '<%= t('widgets.headers.message_attributes') %>',
-      renderData: function (data) {
-        item = data[0];
-        return !item ? [] : [
-          { name: '<%= t('widgets.titles.running_hash') %>', value: item.topicRunningHash },
-          { name: '<%= t('widgets.titles.sequence_number') %>', value: item.topicSequenceNumber },
-          { name: '<%= t('widgets.titles.message') %>', value: item.message },
-        ];
-      },
-      dataOptions: [
-        {
-          title: '<%= t('widgets.titles.attribute') %>',
-          type: 'string',
-          path: 'name',
-          style: 'width: 150px',
-          html_class: 'text-info font-weight-bold'
-        },
-        {
-          title: '<%= t('widgets.titles.property_value') %>',
-          type: 'string-ellipsis',
-          path: 'value'
-        },
-      ]
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.running_hash') %>',
+            style: 'max-width: 200px;',
+            path: 'topicRunningHash'
+          },
+          {
+            title: '<%= t('widgets.titles.sequence_number') %>',
+            style: 'width: 80px',
+            path: 'topicSequenceNumber',
+          },
+          {
+            title: '<%= t('widgets.titles.message') %>',
+            style: 'max-width: 200px;',
+            path: 'message'
+          },
+        ]
     });
 
     query.request({
