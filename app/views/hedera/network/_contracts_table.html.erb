@@ -19,7 +19,7 @@
             time {
               time
             }
-            entity(entityType: { is: contract }){
+            contract: entity(entityType: { is: contract }){
               id
             }
             payerAccount {
@@ -46,9 +46,9 @@
           style: 'width: 70px;'
         },
         {
-          title: '<%= t('widgets.titles.id') %>',
+          title: '<%= t('widgets.titles.contract') %>',
           type: 'string',
-          path: 'entity.id',
+          path: 'contract.id',
           style: 'width: 70px;'
         },
         {
@@ -74,7 +74,7 @@
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till, 2).join(',').html_safe %>, {
       network: '<%= params['network']['network'] %>'
     });
 

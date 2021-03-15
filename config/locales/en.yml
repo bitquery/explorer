@@ -1140,6 +1140,7 @@ en:
       created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
     titles:
+      contract: 'Contract'
       date: 'Date'
       month: 'Month'
       tx_count: "Tx Count"

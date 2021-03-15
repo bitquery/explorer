@@ -19,11 +19,11 @@
     const graphql_query = `
       query ($network: HederaNetwork!, $from: ISO8601DateTime, $till: ISO8601DateTime, $dateFormat: String!) {
         hedera(network: $network) {
-          messages(options: {asc: "date.date"}, date: {since: $from, till: $till}) {
+          transactions(options: {asc: "date.date"}, date: {since: $from, till: $till}) {
             date {
               date(format: $dateFormat)
             }
-            account: entity(entityType: {is: topic}) {
+            topic: entity(entityType: {is: topic}) {
               id
             }
             count
@@ -34,7 +34,7 @@
 
     const query = new widgets.query(graphql_query);
 
-    new widgets.pivotChart('#top_topics_by_transactions_count_pivot', query, 'hedera.messages', {
+    new widgets.pivotChart('#top_topics_by_transactions_count_pivot', query, 'hedera.transactions', {
       title: '<%= t('widgets.headers.top_topics_by_transactions_count') %>',
       chartOptions: {
           vAxes: {
@@ -49,7 +49,7 @@
         },
       cols: [{
           title: '<%= t('widgets.headers.transactions_count') %>',
-          path: 'account.id',
+          path: 'topic.id',
           metrics: [
             {
               title: '<%= t('widgets.headers.transactions_count') %>',

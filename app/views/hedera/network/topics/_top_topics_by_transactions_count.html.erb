@@ -26,8 +26,11 @@
     const graphql_query = `
       query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
         hedera(network: $network) {
-          messages(options: {desc: "count", limit: $limit, offset: $offset}, date: {since: $from, till: $till}) {
-            account: entity(entityType: {is: topic}) {
+          transactions(
+            options: {desc: "count", limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+          ) {
+            topic: entity(entityType: {is: topic}) {
               id
             }
             count
@@ -38,12 +41,13 @@
 
     const query = new widgets.query(graphql_query);
 
-    new widgets.table('#top_topics_by_transactions_count_table', query, 'hedera.messages', {
+    new widgets.table('#top_topics_by_transactions_count_table', query, 'hedera.transactions', {
       title: '<%= t('widgets.headers.top_topics_by_transactions_count') %>',
       dataOptions: [
         {
-          title: '<%= t('widgets.titles.account') %>',
-          path: 'account.id',
+          title: '<%= t('widgets.titles.topic') %>',
+          path: 'topic.id',
+          urlCallbackName: 'topic_path',
           style: 'width: 70px;'
         },
         {
@@ -54,7 +58,7 @@
       ]
     });
 
-    new widgets.chart('#top_topics_by_transactions_count', query, 'hedera.messages', {
+    new widgets.chart('#top_topics_by_transactions_count', query, 'hedera.transactions', {
       title: '<%= t('widgets.headers.top_topics_by_transactions_count') %>',
       chartType: 'PieChart',
       chartOptions: {
@@ -65,8 +69,8 @@
       },
       dataOptions: [
         {
-          title: '<%= t('widgets.titles.account') %>',
-          path: 'account.id'
+          title: '<%= t('widgets.titles.topic') %>',
+          path: 'topic.id'
         },
         {
           title: '<%= t('widgets.titles.count') %>',

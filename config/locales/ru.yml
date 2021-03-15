@@ -246,6 +246,7 @@ ru:
       created_accounts: "Созданные Аккаунты"
       latest_contracts: "Последние Контракты"
     titles:
+      contract: 'Контракт'
       date: 'Дата'
       month: 'Месяц'
       tx_count: "Количество транзакций"

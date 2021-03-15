@@ -34,6 +34,7 @@
               id
             }
             transactionHash
+            message
             success
             memo
           }
@@ -68,6 +69,12 @@
           title: '<%= t('widgets.titles.node') %>',
           path: 'nodeAccount.id',
           urlCallbackName: 'node_path',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.message') %>',
+          type: 'string-ellipsis',
+          path: 'message',
           style: 'width: 100px;'
         },
         {

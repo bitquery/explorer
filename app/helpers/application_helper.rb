@@ -51,7 +51,7 @@ module ApplicationHelper
         ["'#{Date.today}'", 'null']
       end
     else
-      ["'#{(Date.parse(till) - 1).to_s}'", till]
+      ["'#{Date.parse(till) - 1}'", till]
     end
   end
 end
