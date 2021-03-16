@@ -149,6 +149,13 @@ en:
         crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
         %{network} address finder, 
         %{network} topics finder %{topic}"
+      messages:
+        name: 'Messages'
+        title: "%{topic} Messages | %{network}"
+        description: "Latest message by topic %{topic} and other transaction analytics charts in %{network}"
+        keywords: "%{topic} messages, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
+        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
     address:
       icon: 'far fa-address-card'
       header: "%{network} address %{address}"

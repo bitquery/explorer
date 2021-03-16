@@ -203,6 +203,7 @@ Rails.application.routes.draw do
 
           # route with dot parameter is not available by default.
           get ":blockchain/topics/:topic_id", controller: "#{blockchain[:family]}/topics", action: 'show', constraints: { topic_id: /[^\/]+/ }
+          get ":blockchain/topics/:topic_id/:action", controller: "#{blockchain[:family]}/topics", constraints: { topic_id: /[^\/]+/ }
 
           get ":blockchain/accounts/:account_id", controller: "#{blockchain[:family]}/accounts", action: 'show', constraints: { account_id: /[^\/]+/ }
           get ":blockchain/accounts/:account_id/:action", controller: "#{blockchain[:family]}/accounts", constraints: { account_id: /[^\/]+/ }
