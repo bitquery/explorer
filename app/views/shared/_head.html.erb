@@ -14,10 +14,13 @@
   <%= javascript_pack_tag 'application' %>
 <!--  <script src="<%#= BITQUERY_WIDGETS_URL %>/dist/graphs.min.js"></script>-->
 <!--  <link rel="stylesheet" media="all" href="<%#= BITQUERY_WIDGETS_URL %>/dist/graphs.min.css">-->
-  <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs@latest/dist/graphs.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs@latest/dist/graphs.min.js"></script>
+
+  <link rel="stylesheet" media="all" href="<%= BITQUERY_GRAPHS_URL %>/dist/graphs.min.css">
+  <script src="<%= BITQUERY_GRAPHS_URL %>/dist/graphs.min.js"></script>
+
   <link rel="stylesheet" media="all" href="<%= BITQUERY_WIDGETS_URL %>/dist/assets/css/widgets.css">
   <script src="<%= BITQUERY_WIDGETS_URL %>/dist/widgets.js"></script>
+
   <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
   <%= render(partial: 'shared/google_analytics') if ANALYTICS %>
   <% if content_for?(:html_head) %><%= yield :html_head %><% end %>
