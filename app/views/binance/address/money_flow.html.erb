@@ -63,7 +63,7 @@ query ($address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int
           new graphs.addControls('#graph', query, {
               theme: '<%= @theme %>',
               currencies: [<%= @currencies.collect{|cur|
-            value = cur.address === '-' ? cur.symbol : cur.token_id
+            value = cur.token_id
             "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",label:\"#{cur.symbol}\",search:\"#{value}\"}"
             }.join(',').html_safe %>],
           })
@@ -75,7 +75,7 @@ query ($address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int
           new graphs.addControls('#sankey-graph', query, {
               theme: '<%= @theme %>',
               currencies: [<%= @currencies.collect{|cur|
-            value = cur.address === '-' ? cur.symbol : cur.token_id
+            value = cur.token_id
             "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",label:\"#{cur.symbol}\",search:\"#{value}\"}"
             }.join(',').html_safe %>],
           })
