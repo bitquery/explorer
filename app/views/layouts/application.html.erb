@@ -6,7 +6,7 @@
   widgets.init('<%= BITQUERY_GRAPHQL %>', '<%= ENV['EXPLORER_API_KEY'] %>', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
   graphs.init('<%= BITQUERY_GRAPHQL %>', '<%= ENV['EXPLORER_API_KEY'] %>');
 </script>
-<%= render partial: 'shared/navbar' %>
+<%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
 <div class="container-fluid">
   <div class="row my-2 d-lg-none">
     <div class="col">
