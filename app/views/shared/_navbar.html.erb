@@ -33,10 +33,11 @@
       <% end %>
     </ol>
 
-    <%= link_to bitquery_feed_item[:link], class: 'nav-link', target: :_blank do %>
-      <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
-      <%= bitquery_feed_item[:title] %> 
+    <% if bitquery_feed_item %>
+      <%= link_to bitquery_feed_item[:link], class: 'nav-link', target: :_blank do %>
+        <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
+        <%= bitquery_feed_item[:title] %>
+      <% end %>
     <% end %>
-
   </div>
 <% end %>
