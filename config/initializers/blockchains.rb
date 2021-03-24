@@ -226,7 +226,7 @@ BLOCKCHAINS = [
     network: 'conflux_tethys',
     name: 'Conflux Tethys',
     family: 'conflux',
-    platform: 'Testnet',
+    platform: 'Smart Contract',
     currency: 'CFX',
     icon: 'currency/conflux.png'
   },

@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.messages_by_time') %></div>
+
+      <div class="card-body">
+        <div id="messages_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+
+    const graphql_query =
+    `
+      query ($network: HederaNetwork!, $from: ISO8601DateTime, $dateFormat: String!, $till: ISO8601DateTime, $topic_id: String!) {
+        hedera(network: $network) {
+          messages(options: {asc: "date.date"}, date: {since: $from, till: $till}) {
+            date {
+              date(format: $dateFormat)
+            }
+            count
+            topic: entity(entityType: {is: topic}) {
+              id(entityId: $topic_id)
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.chartByTime('#messages_by_time', query, 'hedera.messages', {
+      title: '<%= t('widgets.headers.messages_by_time') %>',
+      chartOptions: {
+        vAxes: {
+          '0': {
+            title: '<%= t('widgets.titles.messages_count') %>'
+          }
+        },
+        seriesType: 'bars',
+        series: {
+          '0': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 10 }
+        },
+      },
+      dataOptions: [
+        {
+          title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          path: 'date.date'
+        },
+        {
+          title: '<%= t('widgets.titles.messages_count') %>',
+          path: 'count'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      topic_id: '<%= @topic_id %>',
+      network: '<%= @network[:network] %>'
+    });
+
+  });
+</script>
