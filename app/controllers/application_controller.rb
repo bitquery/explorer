@@ -88,7 +88,5 @@ class ApplicationController < ActionController::Base
       title: title,
       link: link
     }
-
-    puts "*** \n\n #{Rails.cache.fetch('tester')} \n\n ***"
   end
 end
