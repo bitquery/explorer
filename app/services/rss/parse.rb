@@ -13,7 +13,7 @@ module Rss
 
         Feedjira.parse(http.read)
       end
-    rescue StandardError
+    rescue
       nil
     end
 
