@@ -1,5 +1,5 @@
-require 'rest-client'
 require 'feedjira'
+require 'open-uri'
 
 module Rss
   class Parse < ApplicationService
@@ -8,22 +8,17 @@ module Rss
     end
 
     def call
-      return Rails.cache.fetch(url) if already_cached?('url')
+      Rails.cache.fetch(url, expires_in: 8.hours) do
+        http = open(url, open_timeout: 3, read_timeout: 3)
 
-      http = RestClient.get(url)
-      feed = Feedjira.parse(http.body)
-
-      Rails.cache.write(url, 'test', expires_in: 8.hours.to_i)
-
-      feed
+        Feedjira.parse(http.read)
+      end
+    rescue StandardError
+      nil
     end
 
     private
 
     attr_reader :url
-
-    def already_cached?(url)
-      Rails.cache.exist?(url)
-    end
   end
 end

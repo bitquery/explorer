@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  before_action :set_locale, :set_theme, :set_date #, :set_feed
+  before_action :set_locale, :set_theme, :set_date, :set_feed
 
   def default_url_options
     {locale: I18n.locale == I18n.default_locale ? nil : I18n.locale}
@@ -79,6 +79,8 @@ class ApplicationController < ActionController::Base
 
   def set_feed
     rss = Rss::Parse.call('https://bitquery.io/feed')
+    return unless rss
+
     random_item = rss.entries.sample
 
     title = random_item.title
