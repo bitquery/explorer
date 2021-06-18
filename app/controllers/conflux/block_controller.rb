@@ -19,6 +19,5 @@ class Conflux::BlockController < NetworkController
     sleep(1)
     retry
   end
-end
 
 end
