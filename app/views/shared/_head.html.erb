@@ -1,26 +1,35 @@
 <head>
   <title>
-    <% if content_for?(:title) %><%= yield :title %><% end %>
+    <% if content_for?(:title) %><%= yield :title %>
+    <% end %>
   </title>
-  <% if content_for?(:description) %><meta name="description" content="<%= yield :description %>"><% end %>
-  <% if content_for?(:keywords) %><meta name="keywords" content="<%= yield :keywords %>"><% end %>
+  <% if content_for?(:description) %>
+    <meta name="description" content="<%= yield :description %>">
+  <% end %>
+  <% if content_for?(:keywords) %>
+    <meta name="keywords" content="<%= yield :keywords %>">
+  <% end %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= favicon_link_tag external_image('favicon.png') %>
   <%= render partial: 'shared/image_links_meta' %>
-  <%= stylesheet_pack_tag 'application', media: 'all'%>
+  <%= stylesheet_pack_tag 'application', media: 'all' %>
   <%= javascript_pack_tag 'application' %>
 
-  <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs@v1.0.15/dist/graphs.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs@v1.0.15/dist/graphs.min.js"></script>
+    <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs@v1.0.15/dist/graphs.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs@v1.0.15/dist/graphs.min.js"></script>
+
+  <%#= stylesheet_pack_tag 'graphs', media: 'all' %>
+  <%#= javascript_pack_tag 'graphs' %>
 
   <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.3.9/dist/assets/css/widgets.css">
   <script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.3.9/dist/widgets.js"></script>
 
   <%= render(partial: 'shared/fb_pixel') if ANALYTICS %>
   <%= render(partial: 'shared/google_analytics') if ANALYTICS %>
-  <% if content_for?(:html_head) %><%= yield :html_head %><% end %>
+  <% if content_for?(:html_head) %><%= yield :html_head %>
+  <% end %>
 </head>
 

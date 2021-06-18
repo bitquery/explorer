@@ -27,6 +27,8 @@ gem 'graphql-client'
 
 gem 'feedjira', '~> 3.1', '>= 3.1.2'
 
+gem 'sentry-raven'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 

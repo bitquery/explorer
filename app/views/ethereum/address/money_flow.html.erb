@@ -89,10 +89,10 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
 
       new graphs.addControls('#graph', query, {
           theme: '<%= @theme %>',
-          currencies: [<%= @currencies.collect{|cur|
+          currencies: <%= @currencies.collect{|cur|
             value = cur.address === '-' ? cur.symbol : cur.address
-            "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
-            }.join(',').html_safe %>],
+            {address:cur.address,symbol:cur.symbol,name:cur.name,search:value}
+            }.to_json.to_s.html_safe %>,
       })
 
       new graphs.address_sankey('#sankey-graph', query, {
@@ -101,13 +101,21 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
 
       new graphs.addControls('#sankey-graph', query, {
           theme: '<%= @theme %>',
-          currencies: [<%= @currencies.collect{|cur|
+          currencies: <%= @currencies.collect{|cur|
             value = cur.address === '-' ? cur.symbol : cur.address
-            "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
-            }.join(',').html_safe %>],
+            {address:cur.address,symbol:cur.symbol,name:cur.name,search:value}
+            }.to_json.to_s.html_safe %>,
       })
 
-      queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+          "inboundDepth": 1,
+          "outboundDepth": 1,
+          "limit": 10,
+          "offset": 0,
+          "network": "<%= params['network']['network'] %>",
+          "address": "<%= @address %>",
+          "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"
+      })
 
   </script>
 </div>

@@ -15,14 +15,11 @@ import ClipboardJS from 'clipboard'
 import moment from 'moment'
 import vis from 'vis'
 import numeral from 'numeral'
-// import * as graphs from '@bitquery/graph'
-// import * as graphs from './graphs.min.js'
 
 global.$ = $;
 global.vis = vis;
 global.numeral = numeral;
 global.m = moment;
-// global.graphs = graphs;
 
 
 $('document').ready(function(){
