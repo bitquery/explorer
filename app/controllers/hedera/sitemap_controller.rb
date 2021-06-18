@@ -25,6 +25,12 @@ class Hedera::SitemapController < NetworkController
       dateFormat: '%Y-%m-%d'
     }
 
-    @response = BitqueryGraphql::Client.query(QUERY, variables: variables).data
+    begin
+      @response = BitqueryGraphql::Client.query(QUERY, variables: variables).data
+    rescue Net::ReadTimeout => e
+      Raven.capture_exception e
+      sleep(1)
+      retry
+    end
   end
 end

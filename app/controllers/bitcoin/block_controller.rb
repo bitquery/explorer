@@ -3,7 +3,7 @@ class Bitcoin::BlockController < NetworkController
 
   before_action :query_date
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($height: Int! $network: BitcoinNetwork!){
               bitcoin(network: $network ) { blocks( height: {is: $height}) { date {date} } }
            }
@@ -12,8 +12,11 @@ class Bitcoin::BlockController < NetworkController
   private
 
   def query_date
-    @block_date = BitqueryGraphql::Client.query(QUERY, variables: {height: @height.to_i,
-                                                                   network: @network[:network]}).data.bitcoin.blocks[0].date.date
+    @block_date = BitqueryGraphql::Client.query(QUERY, variables: { height: @height.to_i,
+                                                                    network: @network[:network] }).data.bitcoin.blocks[0].date.date
+  rescue Net::ReadTimeout => e
+    Raven.capture_exception e
+    sleep(1)
+    retry
   end
-
 end

@@ -1,6 +1,6 @@
 class Diem::SitemapController < NetworkController
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($network: DiemNetwork! $from: ISO8601DateTime){
                    senders: diem(network: $network){
                         transfers(options:{
@@ -58,9 +58,12 @@ class Diem::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-10,
-                                                                 network: @network[:network]}).data
-
+    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 10,
+                                                                  network: @network[:network] }).data
+  rescue Net::ReadTimeout => e
+    Raven.capture_exception e
+    sleep(1)
+    retry
 
   end
 

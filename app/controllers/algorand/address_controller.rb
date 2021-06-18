@@ -1,8 +1,8 @@
-class Algorand::AddressController  < NetworkController
+class Algorand::AddressController < NetworkController
   layout 'tabs'
   before_action :query_graphql
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
 query (  $address: String!){
                         algorand{
                           transfers(receiver: {is: $address}){
@@ -17,11 +17,18 @@ query (  $address: String!){
   GRAPHQL
 
   private
+
   def query_graphql
     @address = params[:address]
     if action_name == 'money_flow'
-      result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: {address: @address}).data.algorand
-      @currencies = result.transfers.map(&:currency).sort_by{|c| c.token_id == '0' ? 0 : 1 }.uniq{|x| x.token_id } if result.try(:transfers)
+      begin
+        result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: { address: @address }).data.algorand
+        @currencies = result.transfers.map(&:currency).sort_by { |c| c.token_id == '0' ? 0 : 1 }.uniq { |x| x.token_id } if result.try(:transfers)
+      rescue Net::ReadTimeout => e
+        Raven.capture_exception e
+        sleep(1)
+        retry
+      end
     end
   end
 

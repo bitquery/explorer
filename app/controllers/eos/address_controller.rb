@@ -24,7 +24,7 @@ class Eos::AddressController < NetworkController
 }
   GRAPHQL
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
    query($address: String!) {
               eos{
 address(address: {is: $address}) {
@@ -56,16 +56,22 @@ address(address: {is: $address}) {
   private
 
   def query_graphql
-    @address = params[:address]
-    query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    result = BitqueryGraphql::Client.query(query, variables: {address: @address}).data.eos
-    @info = result.address.first
-    @currencies = result.transfers.map(&:currency).sort_by{|c| c.address=='eosio.token' ? 0 : 1 }.uniq{|x| x.address } if result.try(:transfers)
+    begin
+      @address = params[:address]
+      query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
+      result = BitqueryGraphql::Client.query(query, variables: { address: @address }).data.eos
+      @info = result.address.first
+      @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == 'eosio.token' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
+    rescue Net::ReadTimeout => e
+      Raven.capture_exception e
+      sleep(1)
+      retry
+    end
   end
 
   def redirect_by_type
     if sc = @info.try(:smart_contract)
-      change_controller! (sc.currency  ? 'eos/token' : 'eos/smart_contract')
+      change_controller! (sc.currency ? 'eos/token' : 'eos/smart_contract')
     end
   end
 

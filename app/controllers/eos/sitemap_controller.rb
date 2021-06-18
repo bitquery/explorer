@@ -1,6 +1,6 @@
 class Eos::SitemapController < NetworkController
 
-  QUERY =  BitqueryGraphql::Client.parse  <<-'GRAPHQL'
+  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($from: ISO8601DateTime){
 
 
@@ -111,8 +111,11 @@ class Eos::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: {from: Date.today-1}).data
-
+    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 1 }).data
+  rescue Net::ReadTimeout => e
+    Raven.capture_exception e
+    sleep(1)
+    retry
 
   end
 
