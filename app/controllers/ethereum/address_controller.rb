@@ -43,7 +43,7 @@ class Ethereum::AddressController < NetworkController
                   }
                   balance
                 }
-    						tin: transfers(receiver: {is: $address}, options: {desc: "count"}){
+    						tin: transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
       							currency {
                       address
                       symbol
@@ -51,7 +51,7 @@ class Ethereum::AddressController < NetworkController
                     }
       							count
     						}
-    						tout: transfers(sender: {is: $address}, options: {desc: "count"}){
+    						tout: transfers(sender: {is: $address}, options: {desc: "count", limit: 100}){
       							currency {
                       address
                       symbol

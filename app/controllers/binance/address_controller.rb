@@ -6,7 +6,7 @@ class Binance::AddressController < NetworkController
   QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
 query (  $address: String!){
                         binance{
-                          transfers(receiver: {is: $address}){
+                          transfers(receiver: {is: $address}, options: {limit: 100}){
                             currency{
                               symbol
                               tokenId

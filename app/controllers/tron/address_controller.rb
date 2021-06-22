@@ -41,7 +41,7 @@ class Tron::AddressController < NetworkController
                     }
                   }
                 }
-    						transfers(receiver: {is: $address}, options: {desc: "count"}){
+    						transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
       							currency {
                       address
                       symbol

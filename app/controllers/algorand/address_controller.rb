@@ -5,7 +5,7 @@ class Algorand::AddressController < NetworkController
   QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
 query (  $address: String!){
                         algorand{
-                          transfers(receiver: {is: $address}){
+                          transfers(receiver: {is: $address}, options: {limit: 100}){
                             currency{
                               symbol
                               tokenId

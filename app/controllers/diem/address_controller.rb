@@ -6,7 +6,7 @@ class Diem::AddressController < NetworkController
   QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
    query($network: DiemNetwork!, $address: String!) {
               diem(network: $network){
-    						transfers(receiver: {is: $address}, options: {desc: "count"}){
+    						transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
       							currency {
                       address
                       symbol
