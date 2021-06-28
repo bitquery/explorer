@@ -184,6 +184,8 @@ ru:
   widgets:
     headers:
       transactions_by_time: 'Активность по времени'
+      transfers_by_type: 'Активность переводов по типу'
+      transactions_by_type: 'Активность транзакций по типу'
       in_out_transfers_by_time: 'Количество пополнений и снятий по дате'
       calls_by_time: 'Вызовы смартрконтрактов по времени'
       currencies_sent_received: 'Валюта отправлено/получено'
@@ -246,6 +248,7 @@ ru:
       created_accounts: "Созданные Аккаунты"
       latest_contracts: "Последние Контракты"
     titles:
+      previous_block_hash: 'Предыдуший хеш блока'
       contract: 'Контракт'
       date: 'Дата'
       month: 'Месяц'
@@ -319,6 +322,7 @@ ru:
       created: "Создан"
       create_tx: "Транзакция создания"
       transactions_count: "Количество транзакций"
+      blocks_count: "Колличество блоков"
       last_transaction_time: "Время последней транзакции"
       call_depth: "Уровен вызова"
       smart_contract_type: "Тип контракта"

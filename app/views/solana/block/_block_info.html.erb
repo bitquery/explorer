@@ -1,0 +1,65 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+    <div class="card-body">
+      <div id="block_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+  $( document ).ready(function() {
+
+    const query = new widgets.query(`
+      query ($network: SolanaNetwork!, $height: Int!) {
+        solana(network: $network) {
+          blocks(height: {is: $height}) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            parentSlot
+            previousBlockHash
+            rewards
+            transactionCount
+          }
+        }
+     }`);
+
+    new widgets.table('#block_info', query, 'solana.blocks', {
+      title: '<%= t('widgets.headers.block_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+          { name: '<%= t('widgets.titles.timestamp') %>', value: item.time.time },
+          { name: '<%= t('widgets.titles.parent_hash') %>', value: item.parentSlot },
+          { name: '<%= t('widgets.titles.previous_block_hash') %>', value: item.previousBlockHash },
+          { name: '<%= t('widgets.titles.block_rewards') %>', value: item.rewards },
+          { name: '<%= t('widgets.titles.tx_count') %>', value: item.transactionCount },
+        ];
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.attribute') %>',
+          type: 'string',
+          path: 'name',
+          style: 'width: 110px',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        },
+      ]
+    });
+
+    query.request({
+      network: '<%= @network[:network] %>',
+      height: <%= @block_id %>
+    });
+
+  });
+</script>

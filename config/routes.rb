@@ -316,6 +316,20 @@ Rails.application.routes.draw do
 
     }
 
+    BLOCKCHAINS.select{|b| b[:family] == 'solana'}.each do |blockchain|
+      constraints(blockchain: blockchain[:network]) do
+        defaults network: blockchain do
+          get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks'
+
+          get ":blockchain/:action", controller: "#{blockchain[:family]}/network"
+
+          get ":blockchain/block/:block_id", controller: "#{blockchain[:family]}/block", action: 'show'
+          get ":blockchain/block/:block_id/:action", controller: "#{blockchain[:family]}/block"
+
+          get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+        end
+      end
+    end
 
     get "covid", controller: 'covid/covid_dashboard', action: 'index', as: 'covid_index'
     get "covid/:action", controller: 'covid/covid_dashboard'

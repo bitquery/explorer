@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_transfers') %></div>
+      <div class="card-body">
+        <div id="latest_transfers"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $( document ).ready(function() {
+    var query = new widgets.query(`
+      query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $date: ISO8601DateTime, $height: Int) {
+        solana(network: $network) {
+          transfers(
+            options: {limit: $limit, offset: $offset}
+            date: {is: $date}
+            height: {is: $height}
+          ) {
+            block {
+              height
+              timestamp {
+                time
+              }
+            }
+            sender{
+              address
+            }
+            receiver{
+              address
+            }
+            currency{
+              symbol
+              address
+            }
+            amount
+            signature
+            transferType
+          }
+        }
+      }
+    `);
+
+    new widgets.table('#latest_transfers', query, 'solana.transfers', {
+        title: '<%= t('widgets.headers.latest_transfers') %>',
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.timestamp') %>',
+                type: 'string',
+                path: 'block.timestamp.time',
+                style: 'width: 170px;'
+            },
+            {
+                title: '<%= t('widgets.titles.block') %>',
+                type: 'string',
+                path: 'block.height',
+                urlCallbackName: 'block_path',
+                style: 'width: 80px;'
+            },
+            {
+                title: '<%= t('widgets.titles.sender') %>',
+                type: 'string-ellipsis',
+                path: 'sender.address',
+            },
+            {
+                title: '',
+                type: 'string',
+                data: '<i class="fa fa-sign-in text-success"></i>',
+                html_class: 'text-center'
+            },
+            {
+                title: '<%= t('widgets.titles.receiver') %>',
+                type: 'string-ellipsis',
+                path: 'receiver.address',
+            },
+            {
+                title: '<%= t('widgets.titles.amount') %>',
+                type: 'amount',
+                path: 'amount'
+            },
+            {
+                title: '<%= t('widgets.titles.currency') %>',
+                type: 'string',
+                path: ['currency.symbol', 'currency.address'],
+                urlCallbackName: 'token_path'
+            },
+            {
+                title: '<%= t('widgets.titles.signature') %>',
+                type: 'string-ellipsis',
+                path: 'signature'
+            },
+            {
+                title: '<%= t('widgets.titles.transfer_type') %>',
+                type: 'string-ellipsis',
+                path: 'transferType'
+            },
+        ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        network: '<%= params['network']['network'] %>',
+        height: <%= @block_id %>
+    });
+
+  });
+
+</script>

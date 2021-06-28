@@ -1,0 +1,7 @@
+<script>
+  widgets.callbacks({
+    block_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ (item.block || item.height);
+    },
+  });
+</script>

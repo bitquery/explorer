@@ -1057,6 +1057,7 @@ en:
       transactions: "Transactions"
       call_arguments: "Smart Contract Call Arguments"
       transactions_by_time: "Transactions By Date"
+      blocks_by_date: "Blocks By Date"
       gas_by_time: "Gas Cost / Usage By Date"
       contract_by_time: "Contracts By Date"
       proposers_by_time: "Proposers By Date"
@@ -1098,6 +1099,7 @@ en:
       miners_by_time: "Active Miners By Time"
       difficulty_by_time: "Difficulty By Time"
       transactions_by_type: "Transactions By Type"
+      transfers_by_type: "Transfers By Type"
       transfers_by_time: "Transfers By Date"
       transfers: "Transfers"
       transfers_by_currencies: "Transfers By Currencies"
@@ -1162,6 +1164,7 @@ en:
       created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
     titles:
+      previous_block_hash: 'Previous Block Hash'
       contract: 'Contract'
       date: 'Date'
       month: 'Month'
@@ -1253,6 +1256,7 @@ en:
       created: "Created"
       create_tx: "Create TX"
       transactions_count: "Transactions count"
+      blocks_count: "Blocks count"
       messages_count: "Messages count"
       contracts_count: "Contracts count"
       proposers_count: "Proposers Unique"

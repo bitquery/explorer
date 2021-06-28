@@ -286,6 +286,15 @@ BLOCKCHAINS = [
     icon: 'trx.svg'
   },
   {
+    tag: 'solana',
+    network: 'solana',
+    name: 'Solana Mainnet',
+    family: 'solana',
+    platform: 'Smart Contract',
+    currency: 'SOL',
+    icon: 'currency/solana.svg'
+  },
+  {
     tag: 'medalla',
     network: 'medalla',
     name: 'Medalla Eth 2.0 Testnet',
