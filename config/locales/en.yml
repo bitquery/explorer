@@ -120,6 +120,13 @@ en:
         keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
         %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
         %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+      transactions:
+        name: 'Transactions'
+        title: "%{account} transactions | %{network}"
+        description: "Transactions sent by account %{account} and other transaction analytics charts in %{network}"
+        keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
+        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
     contracts:
       icon: 'fas fa-user-circle'
       header: "%{network} Contract %{contract}"

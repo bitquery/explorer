@@ -13,10 +13,13 @@
   $( document ).ready(function() {
 
     const graphql_query = `
-      query ($from: ISO8601DateTime, $till: ISO8601DateTime) {
-        solana {
-          transfers(options: {desc: "count"}, date: {since: $from, till: $till}) {
-            transactionType: transferType
+      query ($network: SolanaNetwork!, $height: Int!) {
+        solana(network: $network) {
+          transfers(
+            options: {desc: "count"}
+            height: {is: $height}
+          ) {
+            transferType
             count
           }
         }
@@ -35,7 +38,7 @@
         dataOptions: [
             {
                 title: '<%= t('widgets.titles.transfers_type') %>',
-                path: 'transactionType'
+                path: 'transferType'
             },
             {
                 title: '<%= t('widgets.titles.transactions_count') %>',
@@ -45,7 +48,12 @@
         ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>);
+    <%# queryWithTimeRange(rr, query, <%= @from.html_safe %1>,<%= @till.html_safe %1>); %>
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        network: '<%= params['network']['network'] %>',
+        height: <%= @block_id %>
+    });
   });
 </script>
 
