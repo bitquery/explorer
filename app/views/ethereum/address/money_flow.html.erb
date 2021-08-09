@@ -82,7 +82,7 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
   }
 }
 `)
-      <% @currencies = @currencies.select{|c| c.address != '-' && c.symbol != '-' && c.name != '-'} %>
+      <% @currencies = @currencies.select{|c| !(c.address == '-' && c.symbol == '-' && c.name == '-')} %>
 
       new graphs.address_graph('#graph', query, {
           theme: '<%= @theme %>',
