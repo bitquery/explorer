@@ -1,0 +1,10 @@
+query ($network: SolanaNetwork, $from: ISO8601DateTime, $till: ISO8601DateTime){
+  chain: solana(network: $network ){
+    transactions(options:{asc: "date.month"}, date: {since: $from, till: $till }) {
+      date{
+        month: date(format: "%Y-%m-%d")
+      }
+      count
+    }
+  }
+}

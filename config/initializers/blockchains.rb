@@ -292,7 +292,8 @@ BLOCKCHAINS = [
     family: 'solana',
     platform: 'Smart Contract',
     currency: 'SOL',
-    icon: 'currency/solana.svg'
+    icon: 'sol.svg',
+    start: Date.parse('2021-01-01')
   },
   {
     tag: 'medalla',
@@ -324,6 +325,18 @@ BLOCKCHAINS = [
     icon: 'currency/fil.svg'
 
   },
+  {
+    tag: 'matic',
+    network: 'matic',
+    name: 'Matic (Polygon) Mainnet',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'MATIC',
+    icon: 'matic.svg',
+    start: Date.parse('2020-05-30')
+  },
+
+
 ]
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }
