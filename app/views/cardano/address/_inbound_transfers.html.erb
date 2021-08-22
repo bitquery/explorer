@@ -43,6 +43,7 @@
                               outputDirection
 
                               value
+                              currency {symbol}
                             }
 
 
@@ -72,8 +73,9 @@
                     style: 'width: 100px'
                 },
                 {
+                    title: '<%= t('widgets.titles.currency') %>',
                     type: 'string-ellipsis',
-                    data: '<%= @network[:currency] %>',
+                    path: 'currency.symbol',
                     style: 'width: 80px'
                 },
                 {

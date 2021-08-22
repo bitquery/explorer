@@ -18,6 +18,7 @@
                 $till: ISO8601DateTime){
                   cardano(network: $network ){
                     outputs(
+                    currency: {is: "ADA"}
                       date: {
                                       since: $from
                                       till: $till}

@@ -2,26 +2,7 @@ class Cardano::SitemapController < NetworkController
 
   QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
            query ($network: CardanoNetwork! $from: ISO8601DateTime){
-              miners: cardano(network: $network ) { 
-                  
-                      outputs(options:{desc: "value", limit: 100 },
-                      date: { since: $from }
-
-                      txIndex: {is: 0}
-                      outputDirection: {is: mining}
-                      outputScriptType: {notIn: [nulldata,nonstandard]}
-
-                    ) {
-
-                      value
-                      address: outputAddress{
-                        address
-                      }
-
-                    }
-
-              }
-
+             
               receivers: cardano(network: $network ) { 
                   
                       outputs(options:{desc: "value", limit: 100 },
@@ -30,6 +11,9 @@ class Cardano::SitemapController < NetworkController
                     ) {
 
                       value
+                      currency {
+                        symbol
+                      }
                       address: outputAddress{
                         address
                       }
@@ -46,6 +30,9 @@ class Cardano::SitemapController < NetworkController
                     ) {
 
                       value
+                      currency {
+                        symbol
+                      }
                       address: inputAddress{
                         address
                       }
