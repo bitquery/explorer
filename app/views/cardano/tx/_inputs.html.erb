@@ -29,6 +29,9 @@
                               annotation
                             }
                             value
+                            currency {
+                              symbol
+                            }
 
                         }
                       }
@@ -51,10 +54,10 @@
                     type: 'number'
                 },
                 {
-                    data: '<%= @network[:currency] %>',
+                    title: '<%= t('widgets.titles.currency') %>',
+                    path: 'currency.symbol',
                     style: 'width: 20px',
                 },
-
                 {
                     title: '<%= t('widgets.titles.address') %>',
                     type: 'string-ellipsis',

@@ -22,19 +22,20 @@
           time (format: "%Y-%m-%d %H:%M:%S")
         }
 
-        medianTime {
-          time (format: "%Y-%m-%d %H:%M:%S")
-        }
-
         blockHash
         blockSize
-        blockStrippedSize
         blockVersion
-        blockWeight
-        chainwork
-        difficulty
         transactionCount
 
+        epoch
+        opCert
+        slot
+        slotInEpoch
+
+        slotLeaderDescription
+        slotLeaderHash
+
+        vrfKey
       }
     }
 }`);
@@ -50,13 +51,18 @@
                     {name: '<%= t('widgets.titles.hash') %>', value: item.blockHash},
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
                     {name: '<%= t('widgets.titles.size') %>', value: item.blockSize},
-                    {name: '<%= t('widgets.titles.stripped_size') %>', value: item.blockStrippedSize},
 
                     {name: '<%= t('widgets.titles.version') %>', value: item.blockVersion},
-                    {name: '<%= t('widgets.titles.weight') %>', value: item.blockWeight},
-                    {name: '<%= t('widgets.titles.chainwork') %>', value: item.chainwork},
-                    {name: '<%= t('widgets.titles.difficulty') %>', value: item.difficulty},
                     {name: '<%= t('widgets.titles.transactions_count') %>', value: item.transactionCount},
+
+                    {name: '<%= t('widgets.titles.epoch') %>', value: item.epoch},
+                    {name: '<%= t('widgets.titles.op_cert') %>', value: item.opCert},
+                    {name: '<%= t('widgets.titles.slot') %>', value: item.slot},
+                    {name: '<%= t('widgets.titles.slot_in_epoch') %>', value: item.slotInEpoch},
+
+                    {name: '<%= t('widgets.titles.slot_leader_description') %>', value: item.slotLeaderDescription},
+                    {name: '<%= t('widgets.titles.slot_leader_hash') %>', value: item.slotLeaderHash},
+                    {name: '<%= t('widgets.titles.vrf_key') %>', value: item.vrfKey},
                 ];
             },
             dataOptions: [

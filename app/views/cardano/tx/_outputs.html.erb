@@ -30,6 +30,9 @@
                               annotation
                             }
                             value
+                            currency {
+                              symbol
+                            }
                             outputDirection
                         }
                       }
@@ -52,7 +55,8 @@
                     type: 'number'
                 },
                 {
-                    data: '<%= @network[:currency] %>',
+                    title: '<%= t('widgets.titles.currency') %>',
+                    path: 'currency.symbol',
                     style: 'width: 20px',
                 },
                 {

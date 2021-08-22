@@ -41,14 +41,24 @@
                               inputValue
                               outputValue
                               feeValue
-                              minedValue
 
-                              txCoinbase
-                              txLocktime
+                              depositValue
+                              includedAt {
+                                time (format: "%Y-%m-%d %H:%M:%S")
+                              }
+                              invalidBefore
+                              invalidHereafter
+
+                              metadata
+
+                              withdrawalCount
+                              withdrawalValue
+
+                              mintCount
+
+
                               txSize
-                              txVsize
-                              txWeight
-                              txVersion
+
                           }
                         }
                   }`);
@@ -66,9 +76,11 @@
 
                     {name: '<%= t('widgets.titles.input_value') %>', value: item.inputValue + ' <%= @network[:currency] %>'} ,
                     {name: '<%= t('widgets.titles.output_value') %>', value: item.outputValue + ' <%= @network[:currency] %>'} ,
+                    {name: '<%= t('widgets.titles.deposit_value') %>', value: item.depositValue + ' <%= @network[:currency] %>'} ,
+
+
 
                     {name: '<%= t('widgets.titles.fee') %>', value: item.feeValue + ' <%= @network[:currency] %>'} ,
-                    {name: '<%= t('widgets.titles.mined_value') %>', value: item.minedValue + ' <%= @network[:currency] %>'} ,
 
                 ];
             },
@@ -93,15 +105,15 @@
             renderData: function (data) {
                 item = data[0];
                 return !item ? [] : [
+                    {name: '<%= t('widgets.titles.included_at') %>', value: item.includedAt.time},
                     {name: '<%= t('widgets.titles.input_count') %>', value: item.inputCount} ,
                     {name: '<%= t('widgets.titles.output_count') %>', value: item.outputCount} ,
+                    {name: '<%= t('widgets.titles.withdrawal_count') %>', value: item.withdrawalCount} ,
+                    {name: '<%= t('widgets.titles.minted_count') %>', value: item.mintCount} ,
 
-                    {name: '<%= t('widgets.titles.txCoinbase') %>', value: item.txCoinbase} ,
                     {name: '<%= t('widgets.titles.txSize') %>', value: item.txSize} ,
-                    {name: '<%= t('widgets.titles.txVsize') %>', value: item.txVsize} ,
-                    {name: '<%= t('widgets.titles.txWeight') %>', value: item.txWeight} ,
-                    {name: '<%= t('widgets.titles.txVersion') %>', value: item.txVersion} ,
-                    {name: '<%= t('widgets.titles.txLocktime') %>', value: item.txLocktime} ,
+
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
                 ];
             },
             dataOptions: [

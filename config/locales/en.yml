@@ -1223,6 +1223,12 @@ en:
       block: 'Block'
       height: 'Height'
       epoch: 'Epoch'
+      slot: 'Slot'
+      slot_in_epoch: 'Slot In  Epoch'
+      slot_leader_description: 'Slot Leader Description'
+      slot_leader_hash: 'Slot Leader Hash'
+      vrf_key: 'VRF Key'
+      op_cert: "Op Cert"
       max_date: 'Latest Date'
       gas_value: 'Gas Cost'
       avg_gas_value: 'Gas Cost/Call'
@@ -1396,10 +1402,16 @@ en:
       validator_pub_key: "Validator Public Key"
       fee: "Fee"
       fee_per_transaction: "Fee per Transaction"
+      included_at: "Included At"
       input_value: "Input Value"
       input_count: "Inputs"
+      output_value: "Output Value"
       output_count: "Outputs"
       mined_value: "Mined Value"
+      minted_count: "Minted Count"
+      deposit_value: "Deposit Value"
+      withdrawal_count: "Withdrawal Count"
+      withdrawal_value: "Withdrawal Value"
       inputs_to_address_count: "Inputs in Transactions"
       outputs_from_address_count: "Outputs in Transactions"
       value_to_address: "Received in Outputs"
