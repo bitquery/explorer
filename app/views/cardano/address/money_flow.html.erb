@@ -24,7 +24,9 @@
           const query = new graphs.query(`
 query ($network: CardanoNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
   cardano(network: $network) {
-    inbound: coinpath(initialAddress: {is: $address}, depth: {lteq: $inboundDepth}, options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
+    inbound: coinpath(
+    currency: {is: "ADA"}
+    initialAddress: {is: $address}, depth: {lteq: $inboundDepth}, options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
@@ -37,7 +39,9 @@ query ($network: CardanoNetwork!, $address: String!, $inboundDepth: Int!, $outbo
       depth
       count
     }
-    outbound: coinpath(initialAddress: {is: $address}, depth: {lteq: $outboundDepth}, options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
+    outbound: coinpath(
+    currency: {is: "ADA"}
+    initialAddress: {is: $address}, depth: {lteq: $outboundDepth}, options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
       sender {
         address
         annotation
