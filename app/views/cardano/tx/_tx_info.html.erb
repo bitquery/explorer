@@ -1,0 +1,130 @@
+<div class="row">
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.tx_info') %></div>
+      <div class="card-body">
+        <div id="tx_info_1"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.tx_info_2') %></div>
+      <div class="card-body">
+        <div id="tx_info_2"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: CardanoNetwork!,
+                        $hash:String!){
+                          cardano(network: $network ){
+                            transactions(txHash: {is: $hash}) {
+                              block {
+                                height
+                                timestamp{
+                                  time (format: "%Y-%m-%d %H:%M:%S")
+                                }
+                              }
+                              index
+
+                              inputCount
+                              outputCount
+                              inputValue
+                              outputValue
+                              feeValue
+                              minedValue
+
+                              txCoinbase
+                              txLocktime
+                              txSize
+                              txVsize
+                              txWeight
+                              txVersion
+                          }
+                        }
+                  }`);
+
+
+
+        new widgets.table('#tx_info_1', query, 'cardano.transactions', {
+            title: '<%= t('widgets.headers.tx_info_2') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
+                    {name: '<%= t('widgets.titles.transaction_index') %>', value: item.index},
+
+                    {name: '<%= t('widgets.titles.input_value') %>', value: item.inputValue + ' <%= @network[:currency] %>'} ,
+                    {name: '<%= t('widgets.titles.output_value') %>', value: item.outputValue + ' <%= @network[:currency] %>'} ,
+
+                    {name: '<%= t('widgets.titles.fee') %>', value: item.feeValue + ' <%= @network[:currency] %>'} ,
+                    {name: '<%= t('widgets.titles.mined_value') %>', value: item.minedValue + ' <%= @network[:currency] %>'} ,
+
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 150px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+        new widgets.table('#tx_info_2', query, 'cardano.transactions', {
+            title: '<%= t('widgets.headers.tx_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.input_count') %>', value: item.inputCount} ,
+                    {name: '<%= t('widgets.titles.output_count') %>', value: item.outputCount} ,
+
+                    {name: '<%= t('widgets.titles.txCoinbase') %>', value: item.txCoinbase} ,
+                    {name: '<%= t('widgets.titles.txSize') %>', value: item.txSize} ,
+                    {name: '<%= t('widgets.titles.txVsize') %>', value: item.txVsize} ,
+                    {name: '<%= t('widgets.titles.txWeight') %>', value: item.txWeight} ,
+                    {name: '<%= t('widgets.titles.txVersion') %>', value: item.txVersion} ,
+                    {name: '<%= t('widgets.titles.txLocktime') %>', value: item.txLocktime} ,
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 150px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            hash: '<%= @hash %>',
+            network: '<%= @network[:network] %>'
+        });
+
+    });
+</script>

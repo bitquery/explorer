@@ -102,11 +102,11 @@ BLOCKCHAINS = [
   },
 
   {
-    tag: 'cardano',
+    tag: 'cardano2',
     network: 'cardano',
     name: 'Cardano',
-    family: 'bitcoin',
-    platform: 'Bitcoin',
+    family: 'cardano',
+    platform: 'Cardano',
     currency: 'ADA',
     icon: 'ada.svg'
   },

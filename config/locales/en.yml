@@ -849,7 +849,13 @@ en:
         header: "UTXO Based Blockchains"
         title: "UTXO Based Blockchains Explorer"
         description: "UTXO based blockchain Explorers such Bitcoin, Litecoin, Zcash, Dash, Bitcoin Cash Blockchain explorers by Bitquery"
-        keywords: "blockchain explorer, bitcoin explorer, litecoin explorer, zcash explorer, dash explorer, bitcoin cash explorer, bitcoin sv explorer, Dogecoin explorer, Cardano Explorer"
+        keywords: "blockchain explorer, bitcoin explorer, litecoin explorer, zcash explorer, dash explorer, bitcoin cash explorer, bitcoin sv explorer, Dogecoin explorer"
+      cardano:
+        name: "Cardano Blockchains"
+        header: "Cardano Blockchains"
+        title: "Cardano Blockchains Explorer"
+        description: "Cardano blockchain Explorer by Bitquery"
+        keywords: "blockchain explorer, Cardano Explorer"
       cosmos:
         name: "Cosmos Based Blockchains"
         header: "Cosmos Based Blockchains"

@@ -266,6 +266,27 @@ Rails.application.routes.draw do
 
     }
 
+    BLOCKCHAINS.select{|b| b[:family]=='cardano' }.each{|blockchain|
+
+      get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/txs/:action", controller: "#{blockchain[:family]}/tx_list", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+    }
+
     BLOCKCHAINS.select{|b| b[:family]=='filecoin' }.each{|blockchain|
 
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}

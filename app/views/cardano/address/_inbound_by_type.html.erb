@@ -1,0 +1,66 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.inbound_types') %></div>
+    <div class="card-body">
+      <div id="inbound_types"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: CardanoNetwork!,
+                $address:String!
+                $from: ISO8601DateTime,
+                $till: ISO8601DateTime){
+                  cardano(network: $network ){
+                    outputs(
+                      date: {
+                                      since: $from
+                                      till: $till}
+                      outputAddress: {is: $address}
+                      options:{desc: "value"}
+                    ){
+
+                        outputDirection
+                        value
+                    }
+
+
+                  }
+                }`);
+
+        new widgets.chart('#inbound_types', query, 'cardano.outputs', {
+            title: '<%= t('widgets.headers.inbound_types') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.transfer_type') %>',
+                    path: 'outputDirection',
+                },
+                {
+                    title: '<%= t('widgets.titles.amount_token', token: @network[:currency]) %>',
+                    path: 'value'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            address: '<%= @address %>',
+            network: '<%= @network[:network] %>',
+        });
+
+
+    });
+</script>
