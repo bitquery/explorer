@@ -335,8 +335,26 @@ BLOCKCHAINS = [
     icon: 'matic.svg',
     start: Date.parse('2020-05-30')
   },
-
-
+  {
+    tag: 'velas',
+    network: 'velas',
+    name: 'Velas Mainnet',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'VLX',
+    icon: 'currency/velas.png',
+    start: Date.parse('2021-04-19')
+  },
+  {
+    tag: 'velas_testnet',
+    network: 'velas_testnet',
+    name: 'Velas Testnet',
+    family: 'ethereum',
+    platform: 'Testnet',
+    currency: 'VLX',
+    icon: 'currency/velas.png',
+    start: Date.parse('2021-04-12')
+  },
 ]
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }
