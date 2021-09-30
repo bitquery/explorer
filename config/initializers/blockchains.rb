@@ -355,6 +355,16 @@ BLOCKCHAINS = [
     icon: 'currency/velas.png',
     start: Date.parse('2021-04-12')
   },
+  {
+    tag: 'klaytn',
+    network: 'klaytn',
+    name: 'Klaytn Mainnet',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'KLAY',
+    icon: 'currency/klaytn.png',
+    start: Date.parse('2019-06-25')
+  },
 ]
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }
