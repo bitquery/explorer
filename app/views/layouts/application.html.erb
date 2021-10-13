@@ -3,8 +3,8 @@
 <%= render partial: 'shared/head' %>
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
-  widgets.init('<%= BITQUERY_GRAPHQL %>', '<%= ENV['EXPLORER_API_KEY'] %>', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
-  graphs.init('<%= BITQUERY_GRAPHQL %>', '<%= ENV['EXPLORER_API_KEY'] %>');
+  widgets.init('<%= graphql_proxy_path %>', '<%= ENV['BITQUERY_IDE_QUERYTRANSFER'] %>', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
+  graphs.init('<%= graphql_proxy_path %>', '<%= ENV['BITQUERY_IDE_QUERYTRANSFER'] %>');
 </script>
 <%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
 <div class="container-fluid">

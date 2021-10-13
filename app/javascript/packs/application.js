@@ -3,6 +3,7 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 import '../stylesheets/application'
+
 require.context('cryptocurrency-icons/svg', true);
 require("@rails/ujs").start()
 require("@rails/activestorage").start()
@@ -22,19 +23,19 @@ global.numeral = numeral;
 global.m = moment;
 
 
-$('document').ready(function(){
+$('document').ready(function () {
     new ClipboardJS('.to-clipboard');
     $('.to-clipboard').tooltip();
-    $('.to-clipboard').on('click', function(){
+    $('.to-clipboard').on('click', function () {
         let it = $(this);
         $('.to-clipboard').attr('data-original-title', 'Copied!').tooltip('show');
-        setTimeout(function(){
+        setTimeout(function () {
             $('.to-clipboard').attr('data-original-title', 'Copy');
         }, 200);
     });
 });
 
-global.reportRange = function(selector, from, till, i18n){
+global.reportRange = function (selector, from, till, i18n) {
     var properties = {
         start: undefined,
         end: undefined,
@@ -47,28 +48,29 @@ global.reportRange = function(selector, from, till, i18n){
     this.click = false;
     let his = this;
 
-    if (i18n.locale == 'ru'){
+    if (i18n.locale == 'ru') {
         moment.locale('ru');
-    } else if ((i18n.locale == 'zh')){
+    } else if ((i18n.locale == 'zh')) {
         moment.locale('zh-cn');
     } else {
         moment.locale('en');
     }
 
-    if (from == null && till == null){
+    if (from == null && till == null) {
         $(selector).find('span').html(i18n.all_time);
     }
 
-    if (from !=null){
+    if (from != null) {
         properties.start = moment(from);
     }
-    if (till != null){
+    if (till != null) {
         properties.end = moment(till);
     }
 
     function set_reportrange(start, end) {
         $(selector).find('span').html(start.format(i18n.format) + ' - ' + end.format(i18n.format));
     }
+
     properties.ranges[i18n.all_time] = [null, null];
     properties.ranges[i18n.today] = [moment(), moment()];
     properties.ranges[i18n.yesterday] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
@@ -80,7 +82,7 @@ global.reportRange = function(selector, from, till, i18n){
     $(selector).daterangepicker({
         showDropdowns: true,
         minYear: 2000,
-        maxYear: parseInt(moment().format('YYYY'),10),
+        maxYear: parseInt(moment().format('YYYY'), 10),
         startDate: properties.start,
         endDate: properties.end,
         maxDate: moment(),
@@ -94,75 +96,75 @@ global.reportRange = function(selector, from, till, i18n){
         ranges: properties.ranges
     }, set_reportrange);
 
-    $(selector).on('cancel.daterangepicker', function(ev, picker) {
+    $(selector).on('cancel.daterangepicker', function (ev, picker) {
         $(selector).find('span').html(i18n.all_time);
         $('.daterangepicker .ranges li').addClass('active');
     });
 
-    $(selector).on('show.daterangepicker', function(ev, picker){
-            if($(selector).find('span').html() == i18n.all_time){
-                picker.container.find('.ranges li').removeClass('active');
-                picker.container.find('.ranges li').first().addClass('active');
-            }
+    $(selector).on('show.daterangepicker', function (ev, picker) {
+        if ($(selector).find('span').html() == i18n.all_time) {
+            picker.container.find('.ranges li').removeClass('active');
+            picker.container.find('.ranges li').first().addClass('active');
+        }
     });
 
-    if (from != null && till != null){
+    if (from != null && till != null) {
         set_reportrange(properties.start, properties.end);
     }
 
-    function changeUrl(from, till){
-        $('a[data-changeurl="true"]').each(function(){
+    function changeUrl(from, till) {
+        $('a[data-changeurl="true"]').each(function () {
             let href = $(this).prop('href').split('?');
             let up = href[1] ? $.urlParams(href[1].split('&')) : {};
-            if (from && till){
+            if (from && till) {
                 up['from'] = from;
                 up['till'] = till;
-            }else{
+            } else {
                 delete up.from;
                 delete up.till;
             }
-            $(this).prop('href', (href[0] + ($.param(up) ? '?'+$.param(up) : '')));
+            $(this).prop('href', (href[0] + ($.param(up) ? '?' + $.param(up) : '')));
         });
     }
 
-    $(window).on("popstate",function(e){
+    $(window).on("popstate", function (e) {
         var up = $.urlParams(window.location.search.substr(1).split('&'));
-        if (up.from && up.till){
+        if (up.from && up.till) {
             $(selector).data('daterangepicker').setStartDate(moment(up.from));
             $(selector).data('daterangepicker').setEndDate(moment(up.till));
             set_reportrange(moment(up.from), moment(up.till));
-            $.each(properties.cbs, function(){
+            $.each(properties.cbs, function () {
                 this(moment(up.from).format('YYYY-MM-DD'), moment(up.till).format('YYYY-MM-DD'), undefined);
             });
             changeUrl(up.from, up.till);
         } else {
             $(selector).find('span').html(i18n.all_time);
-            $.each(properties.cbs, function(){
+            $.each(properties.cbs, function () {
                 this(null, null, 'clear');
                 changeUrl(null, null);
             });
         }
     });
 
-    properties.change = function(cb){
+    properties.change = function (cb) {
         properties.cbs.push(cb);
 
-        $($(selector).data().daterangepicker.container.find('.ranges li')[1]).on('click', function(ev){
-            if(his.click == false){
-               his.click = true;
-               $(this).click();
+        $($(selector).data().daterangepicker.container.find('.ranges li')[1]).on('click', function (ev) {
+            if (his.click == false) {
+                his.click = true;
+                $(this).click();
                 his.click = false;
             }
         });
-        $(selector).on('apply.daterangepicker', function(ev, picker) {
-            if (!picker.startDate._isValid && !picker.endDate._isValid && his.cancel == false){
+        $(selector).on('apply.daterangepicker', function (ev, picker) {
+            if (!picker.startDate._isValid && !picker.endDate._isValid && his.cancel == false) {
                 his.cancel = true;
-                setTimeout(function(){
+                setTimeout(function () {
                     picker.startDate = moment();
                     picker.endDate = moment();
                 }, 500);
                 $(selector).trigger('cancel.daterangepicker', ev, picker);
-            } else if (his.cancel === true){
+            } else if (his.cancel === true) {
                 his.cancel = false;
             } else {
                 var start = picker.startDate.format('YYYY-MM-DD'),
@@ -172,14 +174,17 @@ global.reportRange = function(selector, from, till, i18n){
                 cb(start, end, clear_date);
                 $(selector).find('span').html(picker.startDate.format(i18n.format) + ' - ' + picker.endDate.format(i18n.format));
                 let url = location.origin + location.pathname;
-                if (location.href != url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam}))){
-                    history.pushState({data: {}, url: url}, document.title, url+'?'+$.param(_.merge($.urlParams, {from: start, till: endToParam})));
+                if (location.href != url + '?' + $.param(_.merge($.urlParams, {from: start, till: endToParam}))) {
+                    history.pushState({
+                        data: {},
+                        url: url
+                    }, document.title, url + '?' + $.param(_.merge($.urlParams, {from: start, till: endToParam})));
                     changeUrl(start, endToParam);
                 }
             }
 
         });
-        $(selector).on('cancel.daterangepicker', function(ev, picker) {
+        $(selector).on('cancel.daterangepicker', function (ev, picker) {
             var start = null,
                 end = null,
                 clear_date = 'clear';
@@ -188,8 +193,11 @@ global.reportRange = function(selector, from, till, i18n){
             let params = $.urlParams;
             delete params.from;
             delete params.till;
-            if (location.href != url+($.param(params) ? '?'+$.param(params) : '')) {
-                history.pushState({data: {}, url: url}, document.title, url+($.param(params) ? '?'+$.param(params) : ''));
+            if (location.href != url + ($.param(params) ? '?' + $.param(params) : '')) {
+                history.pushState({
+                    data: {},
+                    url: url
+                }, document.title, url + ($.param(params) ? '?' + $.param(params) : ''));
                 changeUrl(start, end);
             }
         });
@@ -199,11 +207,11 @@ global.reportRange = function(selector, from, till, i18n){
     return properties
 };
 
-global.search = function(selector){
+global.search = function (selector) {
     let form = $(selector);
     let is_find = true;
 
-    form.find('input[name="query"]').keyup(function(){
+    form.find('input[name="query"]').keyup(function () {
         let it = $(this);
         let f = it.parents('form').first();
         // form.find('input').not(this).val($(this).val());
@@ -216,44 +224,39 @@ global.search = function(selector){
         }
     });
 
-    form.find('input[name="query"]').change(function(){
+    form.find('input[name="query"]').change(function () {
         $(this).keyup();
     });
     form.find('input[name="query"]').keyup();
 
-    form.submit(function(){
+    form.submit(function () {
         let it = $(this);
         let net = it.find('input[type="hidden"][name="network"]');
         let btn = it.find('button').first();
 
-        if (!net[0] && btn.data('network')!=''){
+        if (!net[0] && btn.data('network') != '') {
             append_network(btn.data('network'));
         }
         return is_find;
     });
 
-    form.find('.search-form-type').click(function(){
+    form.find('.search-form-type').click(function () {
         let it = $(this);
         append_network(it.data('network'));
         it.parents('form').first().submit();
         return false;
     });
 
-    function append_network(network){
-        $('<input />').
-        attr('type', 'hidden').
-        attr('name', 'network').
-        attr('value', network).
-        appendTo(selector);
+    function append_network(network) {
+        $('<input />').attr('type', 'hidden').attr('name', 'network').attr('value', network).appendTo(selector);
     };
 };
 
-(function($) {
-    $.urlParams = function(paramsArray = window.location.search.substr(1).split('&')) {
+(function ($) {
+    $.urlParams = function (paramsArray = window.location.search.substr(1).split('&')) {
         var params = {};
 
-        for (var i = 0; i < paramsArray.length; ++i)
-        {
+        for (var i = 0; i < paramsArray.length; ++i) {
             var param = paramsArray[i]
                 .split('=', 2);
 
@@ -265,47 +268,47 @@ global.search = function(selector){
 
         return params;
     };
-    $.urlParamsToArray = (function(obj){
+    $.urlParamsToArray = (function (obj) {
         var p = [];
-        $.each(obj, function(k,v){
+        $.each(obj, function (k, v) {
             p.push({name: k, value: v})
         });
         return p;
     })($.urlParams);
 })($);
 
-function compactDataArray(arr){
+function compactDataArray(arr) {
     var data = [];
-    $.each(arr, function(){
+    $.each(arr, function () {
         this.value != '' ? data.push(this) : '';
     });
     return data;
 };
 
 
-global.dateRangeReportFormat = function(from, till, network){
-    if (networksLimitedDates(network)){
+global.dateRangeReportFormat = function (from, till, network) {
+    if (networksLimitedDates(network)) {
         return '%Y-%m-%d';
-    }else if (from){
+    } else if (from) {
         var tillp = till ? Date.parse(till) : Date.now();
-        if ((tillp - Date.parse(from) ) / (24*3600*1000) > 100 ){
+        if ((tillp - Date.parse(from)) / (24 * 3600 * 1000) > 100) {
             return '%Y-%m';
-        }else{
+        } else {
             return '%Y-%m-%d';
         }
-    }else{
+    } else {
         return '%Y-%m';
     }
 };
 
-global.networksLimitedDates = function(network){
-    return ['celo_alfajores','celo_baklava','celo_rc1','medalla','eth2'].indexOf(network)>=0;
+global.networksLimitedDates = function (network) {
+    return ['celo_alfajores', 'celo_baklava', 'celo_rc1', 'medalla', 'eth2'].indexOf(network) >= 0;
 };
 
-global.queryWithTimeRange = function(rr, query, from, till, params){
+global.queryWithTimeRange = function (rr, query, from, till, params) {
 
-    function draw(start,end){
-        var dateFormat = dateRangeReportFormat(start,end, (params && params.network));
+    function draw(start, end) {
+        var dateFormat = dateRangeReportFormat(start, end, (params && params.network));
         var data = Object.assign({}, params, {
             from: start,
             till: end && !end.includes('T') ? end + 'T23:59:59' : end,
@@ -314,7 +317,7 @@ global.queryWithTimeRange = function(rr, query, from, till, params){
         query.request(data);
     }
 
-    draw(from,till);
+    draw(from, till);
     rr.change(draw);
 
 };
