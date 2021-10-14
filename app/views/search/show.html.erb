@@ -41,9 +41,6 @@ $( document ).ready(function() {
             ... on TransactionHash {
               hash
             }
-            ... on HederaAccount{
-              account
-            }
           }
           network{
             network
@@ -54,17 +51,13 @@ $( document ).ready(function() {
     `);
 
     function item_type(item){
-      if (item.subject.account){
-        return 'accounts';
-      }
-
       return (item.subject.hash ? 'tx' :
               (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'))
       );
     }
     function item_url(item) {
         return '<%= locale_path_prefix %>' + item.network.network + '/' +item_type(item) + '/' +
-            (item.subject.address || item.subject.hash || item.subject.account);
+            (item.subject.address || item.subject.hash);
     }
 
     new widgets.list('#search', query, 'search', {
@@ -99,10 +92,6 @@ $( document ).ready(function() {
                       item_name = "<%= t('tx') %> "+( item.subject.hash );
                       item_icon = '<span class="<%= t 'tabs.tx.icon' %>"></span>';
                       break;
-                  case 'accounts':
-                    item_name = `<%= t('account') %> ${item.subject.account}`;
-                    item_icon = `<span class="<%= t('tabs.accounts.icon') %>"></span>`;
-                    break;
                 };
 
                 let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{network_icon_path chain}\"}".html_safe}.join(",\n").html_safe %>};
