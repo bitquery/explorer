@@ -3,8 +3,10 @@
 <%= render partial: 'shared/head' %>
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
-  widgets.init('<%= graphql_proxy_path %>', '<%= BITQUERY_IDE_QUERYTRANSFER %>', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
-  graphs.init('<%= graphql_proxy_path %>', '<%= BITQUERY_IDE_QUERYTRANSFER %>');
+  widgets.init('https://graphql.bitquery.io', '<%= BITQUERY_IDE_QUERYTRANSFER %>', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});
+  graphs.init('https://graphql.bitquery.io', '<%= BITQUERY_IDE_QUERYTRANSFER %>');
+<!--  widgets.init('<%= graphql_proxy_path %>', '<%= BITQUERY_IDE_QUERYTRANSFER %>', {locale: '<%= I18n.locale %>', theme: '<%= @theme %>'});-->
+<!--  graphs.init('<%= graphql_proxy_path %>', '<%= BITQUERY_IDE_QUERYTRANSFER %>');-->
 </script>
 <%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
 <div class="container-fluid">
