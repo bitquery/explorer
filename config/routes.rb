@@ -363,7 +363,7 @@ Rails.application.routes.draw do
 
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search', constraints: { query: /[^\/]+/ }
 
-    post 'graphql_proxy', to: "graphql_proxy#index", defaults: { format: :json }
+    post 'proxy_graphql', to: "proxy_graphql#index", defaults: { format: :json }
 
     get "platform/:action", controller: "home"
     get "graphql(/:param)" => "utility#graphql"
