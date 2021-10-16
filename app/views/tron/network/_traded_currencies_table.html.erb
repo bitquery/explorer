@@ -1,0 +1,79 @@
+
+  <div class="col-6 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.trades_by_currencies') %></div>
+      <div class="card-body">
+        <div id="trades_by_currencies"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: TronNetwork!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    tron(network: $network){
+                      dexTrades(options:{desc: "currencyAmount", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+
+                        ) {
+
+                            currency: baseCurrency {
+                              symbol
+                              address
+                            }
+                            count
+                            currencyAmount: baseAmount(in: USD)
+                            dates: count(uniq: dates)
+                            started: minimum(of: date)
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#trades_by_currencies', query, 'tron.dexTrades', {
+            title: '<%= t('widgets.headers.trades_by_currencies') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'token_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount_usd') %>',
+                    path: 'currencyAmount'
+                },
+                {
+                    title: '<%= t('widgets.titles.started') %>',
+                    path: 'started'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades_days') %>',
+                    path: 'dates'
+                },
+
+
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+
+</script>
