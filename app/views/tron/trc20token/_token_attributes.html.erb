@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header"><%= t('widgets.headers.token_attributes') %></div>
     <div class="card-body">
-      <div id="ethereum_token_attributes"><%= t('loading') %></div>
+      <div id="tron_token_attributes"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -34,7 +34,7 @@
 
 
 
-        new widgets.table('#ethereum_token_attributes', query, 'tron.address', {
+        new widgets.table('#tron_token_attributes', query, 'tron.address', {
             title: '<%= t('widgets.headers.token_attributes') %>',
             renderData: function(data){
                 item = data[0];

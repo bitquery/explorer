@@ -16,15 +16,15 @@
 
         var query = new widgets.query(`
                         query ($network: TronNetwork!,
+                                $token: String!,
                                 $limit: Int!,
                                 $offset: Int!
-                                $address: String!,
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     tron(network: $network){
                       dexTrades(options:{desc: ["block.height","tradeIndex"], limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-                        smartContractAddress: {is: $address}
+                        baseCurrency: {is: $token}
                         ) {
 
                           block {
@@ -35,20 +35,27 @@
                           }
 
                           tradeIndex
-
+                          protocol
                           exchange {
                             fullName
                           }
 
-                          buyAmount
-                          buyCurrency {
+                          smartContract {
+                            address {
+                              address
+                              annotation
+                            }
+                          }
+
+                          baseAmount
+                          baseCurrency {
                             address
                             symbol
                             tokenType
                           }
 
-                          sellAmount
-                          sellCurrency {
+                          quoteAmount
+                          quoteCurrency {
                             address
                             symbol
                             tokenType
@@ -58,9 +65,6 @@
                             hash
                           }
 
-                          exchange {
-                            fullName
-                          }
                       }
                     }
                   }`);
@@ -83,15 +87,15 @@
                 },
 
                 {
-                    title: '<%= t('widgets.titles.sell_amount') %>',
-                    type: 'sellAmount',
-                    path: 'sellAmount'
+                    title: '<%= t('widgets.titles.base_amount') %>',
+                    type: 'amount',
+                    path: 'baseAmount'
                 },
                 {
-                    title: '<%= t('widgets.titles.sell_currency') %>',
+                    title: '<%= t('widgets.titles.base_currency') %>',
                     type: 'string',
-                    path: 'sellCurrency.symbol',
-                    urlCallbackName: 'sell_token_path'
+                    path: 'baseCurrency.symbol',
+                    urlCallbackName: 'trc20_base_token_path'
                 },
                 {
                     title: '',
@@ -101,22 +105,30 @@
                 },
 
                 {
-                    title: '<%= t('widgets.titles.buy_amount') %>',
-                    type: 'buyAmount',
-                    path: 'buyAmount'
+                    title: '<%= t('widgets.titles.quote_amount') %>',
+                    type: 'amount',
+                    path: 'quoteAmount'
                 },
                 {
-                    title: '<%= t('widgets.titles.buy_currency') %>',
+                    title: '<%= t('widgets.titles.quote_currency') %>',
                     type: 'string',
-                    path: 'buyCurrency.symbol',
-                    urlCallbackName: 'buy_token_path'
+                    path: 'quoteCurrency.symbol',
+                    urlCallbackName: 'trc20_quote_token_path'
                 },
-
+                {
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol'
+                },
                 {
                     title: '<%= t('widgets.titles.exchange') %>',
                     path: 'exchange.fullName'
                 },
-
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
                 {
                     title: '<%= t('widgets.titles.hash') %>',
                     type: 'string-ellipsis',
@@ -130,7 +142,7 @@
 
         queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
             network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
+            token: '<%= @address %>'
         });
 
     });
