@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.dex_smart_contracts') %></div>
+      <div class="card-body">
+        <div id="dex_smart_contracts"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: TronNetwork!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    tron(network: $network){
+                      dexTrades(options:{desc: "trades", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+
+                        ) {
+
+
+                          smartContract {
+                            address {
+                              address
+                              annotation
+                            }
+                          }
+                          protocol
+
+                          trades: count
+                          currencies: count(uniq: buy_currency)
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#dex_smart_contracts', query, 'tron.dexTrades', {
+            title: '<%= t('widgets.headers.dex_smart_contracts') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol'
+                },
+
+                {
+                    title: '<%= t('widgts.titles.trades') %>',
+                    path: 'trades'
+                },
+
+                {
+                    title: '<%= t('widgts.titles.currencies') %>',
+                    path: 'currencies'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+
+</script>

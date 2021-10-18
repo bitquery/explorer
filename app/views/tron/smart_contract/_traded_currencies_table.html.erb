@@ -15,13 +15,13 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: TronNetwork!,
                                 $limit: Int!,
                                 $offset: Int!
                                 $address: String!,
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                    tron(network: $network){
                       dexTrades(options:{desc: "count", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         smartContractAddress: {is: $address}
@@ -30,6 +30,7 @@
                             currency: buyCurrency {
                               symbol
                               address
+                              tokenType
                             }
                             count
 
@@ -39,7 +40,7 @@
                     }
                   }`);
 
-        new widgets.table('#trades_by_currencies', query, 'ethereum.dexTrades', {
+        new widgets.table('#trades_by_currencies', query, 'tron.dexTrades', {
             title: '<%= t('widgets.headers.trades_by_currencies') %>',
             dataOptions: [
 

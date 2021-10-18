@@ -15,31 +15,31 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: TronNetwork!,
                                 $limit: Int!,
                                 $offset: Int!
-                                $address: String!,
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
-                    ethereum(network: $network){
-                      dexTrades(options:{desc: "count", limit: $limit, offset: $offset},
+                    tron(network: $network){
+                      dexTrades(options:{desc: "currencyAmount", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-                        smartContractAddress: {is: $address}
+
                         ) {
 
-                            currency: buyCurrency {
+                            currency: baseCurrency {
                               symbol
                               address
+                              tokenType
                             }
                             count
-
+                            currencyAmount: baseAmount(in: USD)
                             dates: count(uniq: dates)
                             started: minimum(of: date)
                       }
                     }
                   }`);
 
-        new widgets.table('#trades_by_currencies', query, 'ethereum.dexTrades', {
+        new widgets.table('#trades_by_currencies', query, 'tron.dexTrades', {
             title: '<%= t('widgets.headers.trades_by_currencies') %>',
             dataOptions: [
 
@@ -53,6 +53,10 @@
                 {
                     title: '<%= t('widgets.titles.trades') %>',
                     path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount_usd') %>',
+                    path: 'currencyAmount'
                 },
                 {
                     title: '<%= t('widgets.titles.started') %>',
@@ -69,8 +73,7 @@
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
+            network: '<%= params['network']['network'] %>'
         });
     });
 

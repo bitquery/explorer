@@ -467,6 +467,16 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+      token_dex_trades:
+        name: "Trades on DEXs"
+        title: "%{network} DEX Trades of the token"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
+      dex_trades:
+        name: "DEX Trades"
+        title: "%{network} DEX Trades"
+        description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network} DEX Trades"
     trc10token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
