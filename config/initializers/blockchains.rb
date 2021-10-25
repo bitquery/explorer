@@ -365,6 +365,15 @@ BLOCKCHAINS = [
     icon: 'currency/klaytn.png',
     start: Date.parse('2019-06-25')
   },
+  {
+    tag: 'elrond',
+    network: 'elrond',
+    name: 'Elrond Mainnet',
+    family: 'elrond',
+    platform: 'Smart Contract',
+    currency: 'EGLD',
+    icon: 'currency/klaytn.png'
+  }
 ]
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }

@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.miniblock_info') %></div>
+      <div class="card-body">
+        <div id="miniblock_info"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: ElrondNetwork!, $miniblockHash: String!) {
+        elrond(network: $network) {
+          miniblocks(miniblockHash: {is: $miniblockHash}) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            hash
+            senderBlock{
+              hash
+              shard
+            }
+            receiverShard
+            receiverBlockHash
+            type
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#miniblock_info', query, 'elrond.miniblocks', {
+      title: '<%= t('widgets.headers.miniblock_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.timestamp') %>', value: item.time.time},
+            {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
+            {name: '<%= t('widgets.titles.sender_block_hash') %>', value: item.senderBlock.hash},
+            {name: '<%= t('widgets.titles.sender_shard') %>', value: item.senderBlock.shard},
+            {name: '<%= t('widgets.titles.receiver_block_hash') %>', value: item.receiverBlockHash},
+            {name: '<%= t('widgets.titles.receiver_shard') %>', value: item.receiverShard},
+            {name: '<%= t('widgets.titles.type') %>', value: item.type},
+          ];
+        },
+          dataOptions: [
+            {
+              title: '<%= t('widgets.titles.attribute') %>',
+              type: 'string',
+              path: 'name',
+              style: 'width: 250px',
+              html_class: 'text-info font-weight-bold'
+            },
+            {
+              title: '<%= t('widgets.titles.property_value') %>',
+              type: 'string-ellipsis',
+              path: 'value'
+            },
+          ]
+    });
+
+    query.request({
+      miniblockHash: "<%= @miniblock_hash %>",
+      network: '<%= @network[:network] %>'
+    });
+  });
+</script>
+
+

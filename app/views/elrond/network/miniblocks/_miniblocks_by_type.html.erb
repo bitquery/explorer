@@ -1,0 +1,51 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.miniblocks_by_type') %></div>
+    <div class="card-body">
+      <div id="miniblocks_by_type"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $( document ).ready(function() {
+
+    const graphql_query = `
+      query ($network: ElrondNetwork!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        elrond(network: $network) {
+          miniblocks(options: {desc: "count"}, date: {since: $from, till: $till}) {
+            type
+            count
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.chart('#transactions_by_type', query, 'elrond.miniblocks', {
+        title: '<%= t('widgets.headers.transactions_by_type') %>',
+        chartType: 'PieChart',
+        chartOptions: {
+            pieSliceText: 'label',
+            pieHole: 0.4,
+        },
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.miniblock_type') %>',
+                path: 'type'
+            },
+            {
+                title: '<%= t('widgets.titles.transactions_count') %>',
+                path: 'count'
+            },
+
+        ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>

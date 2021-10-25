@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.tx_calls') %></div>
+      <div class="card-body">
+        <div id="tx_calls"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $miniblockHash: String!) {
+        elrond(network: $network) {
+          calls(
+            options: {desc: "time.time", limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+            miniblockHash: {is: $miniblockHash}
+          ) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            senderBlock {
+              hash
+            }
+            smartContractAddress {
+              address
+              annotation
+            }
+            smartContractMethod {
+              name
+              signatureHash
+            }
+            transaction {
+              hash
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#tx_calls', query, 'elrond.calls', {
+      title: '<%= t('widgets.headers.tx_calls') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'time.time'
+        },
+        {
+          title: '<%= t('widgets.titles.block_hash') %>',
+          type: 'string-ellipsis',
+          path: 'senderBlock.hash',
+          urlCallbackName: 'sender_block_path'
+        },
+        {
+          title: '<%= t('widgets.titles.caller') %>',
+          type: 'string',
+          path: ['smartContractAddress.annotation','smartContractAddress.address'],
+          urlCallbackName: 'smart_contract_address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.method') %>',
+          type: 'string',
+          path: ['smartContractMethod.name','smartContractMethod.signatureHash']
+        },
+        {
+          title: '<%= t('widgets.titles.transaction_hash') %>',
+          type: 'string',
+          path: 'transaction.hash',
+          urlCallbackName: 'transaction_path',
+        },
+      ]
+    });
+
+    query.request({
+      miniblockHash: '<%= @miniblock_hash %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+

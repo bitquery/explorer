@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transaction_info') %></div>
+      <div class="card-body">
+        <div id="transaction_info"><%= t('loading') %></div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $hash: String!) {
+        elrond(network: $network) {
+          transactions(
+            options: {desc: "time.time", limit: $limit, offset: $offset}
+            txHash: {is: $hash}
+          ) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            hash
+            status
+            senderBlock{
+              height
+              hash
+            }
+            miniblock{
+              hash
+            }
+            sender{
+              address
+              annotation
+            }
+            receiver{
+              address
+              annotation
+            }
+            value
+            fee
+            gasLimit
+            gasUsed
+            gasPrice
+            nonce
+            data
+            signature
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#transaction_info', query, 'elrond.transactions', {
+      title: '<%= t('widgets.headers.transaction_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.timestamp') %>', value: item.time.time},
+            {name: '<%= t('widgets.titles.height') %>', value: item.senderBlock.height},
+            {name: '<%= t('widgets.titles.block_hash') %>', value: item.senderBlock.hash},
+            {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
+            {name: '<%= t('widgets.titles.status') %>', value: item.status},
+            {name: '<%= t('widgets.titles.miniblock_hash') %>', value: item.miniblock.hash},
+            {name: '<%= t('widgets.titles.sender') %>', value: item.sender.address},
+            {name: '<%= t('widgets.titles.receiver') %>', value: item.receiver.address},
+            {name: '<%= t('widgets.titles.value') %>', value: item.value},
+            {name: '<%= t('widgets.titles.fee') %>', value: item.fee},
+            {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit},
+            {name: '<%= t('widgets.titles.gas_price') %>', value: item.gasPrice},
+            {name: '<%= t('widgets.titles.gas_used') %>', value: item.gasUsed},
+            {name: '<%= t('widgets.titles.nonce') %>', value: item.nonce},
+            {name: '<%= t('widgets.titles.data') %>', value: item.data},
+            {name: '<%= t('widgets.titles.signature') %>', value: item.signature},
+          ];
+        },
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.attribute') %>',
+            type: 'string',
+            path: 'name',
+            style: 'width: 250px',
+            html_class: 'text-info font-weight-bold'
+          },
+          {
+            title: '<%= t('widgets.titles.property_value') %>',
+            type: 'string-ellipsis',
+            path: 'value'
+          },
+        ]
+    });
+
+    query.request({
+      hash: "<%= @tx_hash %>",
+      network: '<%= @network[:network] %>'
+    });
+  });
+</script>
+

@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_validators') %></div>
+      <div class="card-body">
+        <div id="latest_validators"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $blockHash: String!, $date: ISO8601DateTime) {
+        elrond(network: $network) {
+          blockValidators(
+            options:{limit: $limit, offset: $offset},
+            date: {is: $date}
+            blockHash: {is: $blockHash}
+          ){
+            validator{
+              hex
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#latest_validators', query, 'elrond.blockValidators', {
+      title: '<%= t('widgets.headers.latest_validators') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.validator_hash') %>',
+          type: 'string',
+          path: 'validator.hex'
+        },
+      ]
+    });
+
+    query.request({
+      blockHash: '<%= @block_hash %>',
+      date: '<%= @block_date %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+

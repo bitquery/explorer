@@ -1,0 +1,40 @@
+<script>
+  widgets.callbacks({
+    block_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ (item.hash || item.notarizedBlockHash);
+    },
+
+    miniblocks_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/miniblocks/'+ item.hash;
+    },
+
+    miniblocks_related_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/miniblocks/'+ item.miniblock.hash;
+    },
+
+    transaction_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/' + (item.hash || item.transaction.hash);
+    },
+
+    sender_block_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.senderBlock.hash;
+    },
+    receiver_block_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.receiverBlockHash;
+    },
+
+    sender_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.sender.annotation || item.sender.address);
+    },
+    receiver_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.receiver.annotation || item.receiver.address);
+    },
+    smart_contract_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.smartContractAddress.address);
+    },
+
+    validator_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validators/'+ (item.smartContractAddress.address);
+    },
+  });
+</script>
