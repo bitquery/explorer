@@ -372,7 +372,7 @@ BLOCKCHAINS = [
     family: 'elrond',
     platform: 'Smart Contract',
     currency: 'EGLD',
-    icon: 'currency/klaytn.png'
+    icon: 'currency/elrond-egld.svg'
   }
 ]
 
