@@ -374,6 +374,9 @@ Rails.application.routes.draw do
           get ":blockchain/validators/:hash", controller: "#{blockchain[:family]}/validators", action: 'show'
           get ":blockchain/validators/:hash/:action", controller: "#{blockchain[:family]}/validators"
 
+          get ":blockchain/shards/:id", controller: "#{blockchain[:family]}/shards", action: 'show'
+          get ":blockchain/shards/:id/:action", controller: "#{blockchain[:family]}/shards"
+
           get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end
       end

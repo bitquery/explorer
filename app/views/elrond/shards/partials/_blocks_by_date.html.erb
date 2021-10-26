@@ -1,0 +1,59 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.blocks_by_data') %></div>
+    <div class="card-body">
+      <div id="blocks_by_data"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+
+    const graphql_query =
+    `
+      query ($network: ElrondNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+        elrond(network: $network){
+          blocks(options:{asc: "date.date"}, date: { since: $from, till: $till}) {
+            date {
+              date(format: $dateFormat)
+            }
+            count
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.chartByTime('#blocks_by_data', query, 'elrond.blocks', {
+      title: '<%= t('widgets.headers.blocks_by_data') %>',
+      chartOptions: {
+        vAxes: {
+          '0': {
+            title: '<%= t('widgets.titles.transactions_count') %>'
+          }
+        },
+        seriesType: 'bars',
+        series: {
+          '0': { color: '#28a745' }
+        },
+      },
+      dataOptions: [
+        {
+          title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          path: 'date.date'
+        },
+        {
+          title: '<%= t('widgets.titles.transactions_count') %>',
+          path: 'count'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      network: '<%= params['network']['network'] %>'
+    });
+
+  });
+</script>

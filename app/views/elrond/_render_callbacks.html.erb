@@ -36,5 +36,9 @@
     validator_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validators/'+ (item.smartContractAddress.address);
     },
+
+    shard_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ (item.shard);
+    },
   });
 </script>
