@@ -719,6 +719,37 @@ en:
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
           %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
           %{network} smart contract users for miniblock %{miniblock_hash}"
+    shards:
+      icon: 'fas fa-cube'
+      header: "%{network} Shard %{shard_id}"
+      show:
+        name: 'Shard'
+        title: "Shard %{shard_id} in %{network}"
+        description: "Check %{network} miniblock %{shard_id} and %{network} miniblock data and analytics"
+        keywords: "%{network} miniblock, %{network} latest miniblocks"
+      miniblocks:
+        name: "Miniblocks"
+        title: "Shard %{shard_id} Miniblocks on %{network} Explorer"
+        description: "Сross-shard transactions which enable communicate between shards and the metachain"
+        keywords: "%{network} miniblocks, %{network} cross-shard transaction in shard %{shard_id}"
+      transactions:
+        name: "Transactions"
+        title: "Shard %{shard_id} Transactions on %{network} Explorer"
+        description: "Shard %{shard_id} transactions"
+        keywords: "%{network} transactions, %{shard_id} transactions"
+      transfers:
+        name: "Transfers"
+        title: "Shards %{shard_id} Transfers on %{network} Explorer"
+        description: "Shards %{shard_id} transfers"
+        keywords: "%{network} transfers, shards %{shard_id} transfers"
+      calls:
+        name: "Smart Contract Calls"
+        title: "Smart Contract Calls on %{network} Explorer in shard %{shard_id}"
+        description: "Check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users
+          for shard %{shard_id}"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users for shard %{shard_id}"
     validators:
       icon: 'fas fa-cube'
       header: "%{network} Validator %{validator_hash}"
@@ -892,6 +923,11 @@ en:
         title: "Miniblocks on %{network} Explorer"
         description: "Miniblocks on %{network}"
         keywords: "%{network} miniblocks"
+      shards:
+        name: "Shards"
+        title: "Shards on %{network} Explorer"
+        description: "Shards"
+        keywords: "%{network} Shards"
     home:
       index:
         name: "All"
@@ -1042,6 +1078,7 @@ en:
   widgets:
     headers:
       notarized_blocks: "Notarized Blocks"
+      transaction_info: "Transaction Info"
       account_summery: "Account Summery"
       transaction_by_time: 'Activities by date'
       transactions_count: "Transactions Count"
@@ -1117,6 +1154,8 @@ en:
       latest_miniblocks: "Latest Miniblocks"
       latest_miniblocks_sender: "Latest Miniblocks where Block is sender"
       latest_miniblocks_receiver: "Latest Miniblocks where Block is receiver"
+      latest_miniblocks_shard_sender: "Latest Miniblocks where Shard is sender"
+      latest_miniblocks_shard_receiver: "Latest Miniblocks where Shard is receiver"
       token_transfers_by_time: "Token Transfers By Date"
       max_token_transfers_by_time: "The Largest Transaction Amount in Time Period"
       token_senders_table: "Token Senders By Volume"
@@ -1156,6 +1195,7 @@ en:
       latest_blocks_second_shard: "Latest Blocks in Shard 1"
       latest_blocks_third_shard: "Latest Blocks in Shard 2"
       latest_blocks_metachain: "Latest Blocks in Metachain"
+      latest_blocks_shards: "Latest Blocks in Shards"
       blocks_on_height: "Blocks on Height"
       latest_transactions: "Latest Transactions"
       latest_contracts: "Latest Contracts"
