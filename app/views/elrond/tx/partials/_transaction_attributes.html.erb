@@ -34,10 +34,12 @@
               address
               annotation
             }
+            senderShard
             receiver{
               address
               annotation
             }
+            receiverShard
             value
             fee
             gasLimit
@@ -65,7 +67,9 @@
             {name: '<%= t('widgets.titles.status') %>', value: item.status},
             {name: '<%= t('widgets.titles.miniblock_hash') %>', value: item.miniblock.hash},
             {name: '<%= t('widgets.titles.sender') %>', value: item.sender.address},
+            {name: '<%= t('widgets.titles.sender_shard') %>', value: item.senderShard},
             {name: '<%= t('widgets.titles.receiver') %>', value: item.receiver.address},
+            {name: '<%= t('widgets.titles.receiver_shard') %>', value: item.receiverShard},
             {name: '<%= t('widgets.titles.value') %>', value: item.value},
             {name: '<%= t('widgets.titles.fee') %>', value: item.fee},
             {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit},
