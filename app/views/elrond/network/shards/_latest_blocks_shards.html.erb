@@ -18,7 +18,7 @@
             date: {since: $from, till: $till}
           ) {
             shard
-            max_block: maximum(of: height)
+            max_height: maximum(of: height)
             hash: maximum(of: height get: hash)
             max_time: maximum(of: time)
           }
