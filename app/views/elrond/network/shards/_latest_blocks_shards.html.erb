@@ -19,7 +19,7 @@
           ) {
             shard
             max_block: maximum(of: height)
-            max_hash: maximum(of: height get: hash)
+            hash: maximum(of: height get: hash)
             max_time: maximum(of: time)
           }
         }
@@ -50,7 +50,7 @@
         {
           title: '<%= t('widgets.titles.hash') %>',
           type: 'string',
-          path: 'max_hash',
+          path: 'hash',
           urlCallbackName: 'block_path'
         },
       ]
