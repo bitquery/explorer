@@ -355,7 +355,7 @@ Rails.application.routes.draw do
     BLOCKCHAINS.select { |b| b[:family] == 'elrond' }.each do |blockchain|
       constraints(blockchain: blockchain[:network]) do
         defaults network: blockchain do
-          get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks'
+          get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'shards'
 
           get ":blockchain/:action", controller: "#{blockchain[:family]}/network"
 
