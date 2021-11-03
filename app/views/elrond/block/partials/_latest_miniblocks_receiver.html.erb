@@ -43,17 +43,18 @@
         {
           title: '<%= t('widgets.titles.timestamp') %>',
           type: 'string',
-          path: 'time.time'
+          path: 'time.time',
+          style: 'width: 170px;'
         },
         {
           title: '<%= t('widgets.titles.hash') %>',
-          type: 'string',
+          type: 'string-ellipsis',
           path: 'hash',
           urlCallbackName: 'miniblocks_path',
         },
         {
           title: '<%= t('widgets.titles.sender_block') %>',
-          type: 'string',
+          type: 'string-ellipsis',
           path: 'senderBlock.hash',
           urlCallbackName: 'sender_block_path'
         },
