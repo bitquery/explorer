@@ -13,7 +13,7 @@
   $( document ).ready(function() {
 
     const qraphql_query = `
-      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: Int!) {
+      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: BigInt!) {
         elrond(network: $network) {
           blocks(
             options: {desc: "height", limit: $limit, offset: $offset}
@@ -73,7 +73,7 @@
     });
 
     queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-      shard_id: <%= @shard_id %>,
+      shard_id: '<%= @shard_id %>',
       network: '<%= params['network']['network'] %>'
     });
   });

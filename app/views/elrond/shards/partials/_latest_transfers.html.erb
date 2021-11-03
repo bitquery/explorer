@@ -12,10 +12,11 @@
 <script>
   $( document ).ready(function() {
     const qraphql_query = `
-      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $shard_id: Int!) {
+      query ($network: ElrondNetwork!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $offset: Int!, $shard_id: BigInt) {
         elrond(network: $network) {
           transfers(
             options: {desc: "time.time", limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
             txSenderShard: {is: $shard_id}
           ) {
             time {
@@ -89,8 +90,8 @@
       ]
     });
 
-    query.request({
-      shard_id: <%= @shard_id %>,
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+      shard_id: '<%= @shard_id %>',
       network: '<%= params['network']['network'] %>'
     });
   });

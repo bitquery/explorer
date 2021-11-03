@@ -12,9 +12,13 @@
 
     const graphql_query =
     `
-      query ($network: ElrondNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+      query ($network: ElrondNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: BigInt!){
         elrond(network: $network){
-          blocks(options:{asc: "date.date"}, date: { since: $from, till: $till}) {
+          blocks(
+            options: {asc: "date.date"}, 
+            date: {since: $from, till: $till}, 
+            shard: {is: $shard_id}, 
+          ) {
             date {
               date(format: $dateFormat)
             }
@@ -52,6 +56,7 @@
     });
 
     queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      shard_id: '<%= @shard_id %>',
       network: '<%= params['network']['network'] %>'
     });
 
