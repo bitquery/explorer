@@ -38,7 +38,15 @@
     },
 
     shard_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ (item.shard);
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ item.shard;
+    },
+
+    receiver_shard_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ item.receiverShard;
+    },
+
+    sender_shard_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ item.senderBlock.shard;
     },
   });
 </script>
