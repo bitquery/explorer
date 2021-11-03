@@ -1339,6 +1339,7 @@ en:
       sell: "Sell"
       trade: "Trades"
       smart_contract: "Smart Contract"
+      smart_contract_address: "Smart Contract Address"
       method: "Method"
       calls_count: "Calls Count"
       mints_count: "Mints Count"
