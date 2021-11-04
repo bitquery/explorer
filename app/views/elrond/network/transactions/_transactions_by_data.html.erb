@@ -44,7 +44,7 @@
               date{
                 date(format: $dateFormat)
               }
-              count 
+              countBigInt
               fee
               avgFee: fee(calculate: average)
             }
@@ -73,8 +73,8 @@
                   path: 'date.date'
               },
               {
-                  title: '<%= t('widgets.titles.transactions_count') %>',
-                  path: 'count'
+                  title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number' },
+                  path: 'countBigInt'
               },
 
           ]
