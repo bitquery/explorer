@@ -1,7 +1,7 @@
 <script>
   widgets.callbacks({
     block_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ (item.hash || item.notarizedBlockHash);
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ (item.hash || item.notarizedBlockHash || item.block.hash);
     },
 
     miniblocks_path: function(item){
@@ -34,11 +34,15 @@
     },
 
     validator_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validators/'+ (item.smartContractAddress.address);
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validators/'+ (item.validator.hex);
     },
 
     shard_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ item.shard;
+    },
+
+    block_shard_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ item.block.shard;
     },
 
     receiver_shard_path: function(item){

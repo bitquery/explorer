@@ -7,9 +7,11 @@ module Elrond
     before_action :query_date, only: %i[show]
 
     QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
-             query ($validator: String! $network: ElrondNetwork!){
-                elrond(network: $network) { blockValidators(validator: {is: $validator}) { date {date} } }
+             query ($hash: String! $network: ElrondNetwork!){
+                elrond(network: $network) { blockValidators(date: {since: "2021-11-01"}, validator: {is: $hash}) { date {date} } }
              }
+
+
     GRAPHQL
 
     def show; end
@@ -17,7 +19,7 @@ module Elrond
     private
 
     def set_validator_hash
-      @validator_hash = params[:hash]
+      @hash = params[:hash]
     end
 
     def breadcrumb
@@ -25,9 +27,9 @@ module Elrond
     end
 
     def query_date
-      variables = { validator: @validator_hash.to_s,
+      variables = { hash: @hash.to_s,
                     network: @network[:network] }
-      @block_date = BitqueryGraphql::Client.query(QUERY, variables: variables).data.elrond.block_validators[0].date.date
+      @validator_data = BitqueryGraphql::Client.query(QUERY, variables: variables).data.elrond.block_validators[0].date.date
     rescue Net::ReadTimeout => e
       Raven.capture_exception e
       sleep(1)
