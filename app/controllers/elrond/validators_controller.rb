@@ -8,7 +8,7 @@ module Elrond
 
     QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
              query ($hash: String! $network: ElrondNetwork!){
-                elrond(network: $network) { blockValidators(date: {since: "2021-11-01"}, validator: {is: $hash}) { date {date} } }
+                elrond(network: $network) { blockValidators(validator: {is: $hash}) { date {date} } }
              }
 
 
