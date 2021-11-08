@@ -28,8 +28,8 @@
                         date{
                           date(format: $dateFormat)
                         }
-                        in_count: count(receiver: {is: $address})
-                        out_count: count(sender: {is: $address})
+                        in_count: countBigInt(receiver: {is: $address})
+                        out_count: countBigInt(sender: {is: $address})
                       }
                     }
                   }`);

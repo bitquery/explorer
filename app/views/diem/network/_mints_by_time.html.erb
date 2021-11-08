@@ -38,8 +38,8 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
-                        minters: count(uniq: minters)
+                        count: countBigInt
+                        minters: countBigInt(uniq: minters)
                       }
                     }
                   }`);
