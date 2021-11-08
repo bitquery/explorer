@@ -29,8 +29,8 @@
            date(format: $dateFormat)
           }
 
-          baseCount: count(uniq: orders, baseCurrency: {is: $token})
-          quoteCount: count(uniq: orders, quoteCurrency: {is: $token})
+          baseCount: countBigInt(uniq: orders, baseCurrency: {is: $token})
+          quoteCount: countBigInt(uniq: orders, quoteCurrency: {is: $token})
         }
 
       }
@@ -58,11 +58,11 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.orders_as_base_count') %>',
+                    title: {label: '<%= t('widgets.titles.orders_as_base_count') %>', type: 'number' },
                     path: 'baseCount'
                 },
                 {
-                    title: '<%= t('widgets.titles.orders_as_quote_count') %>',
+                    title: {label: '<%= t('widgets.titles.orders_as_quote_count') %>', type: 'number' },
                     path: 'quoteCount'
                 },
             ]
