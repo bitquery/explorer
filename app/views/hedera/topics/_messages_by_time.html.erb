@@ -21,7 +21,7 @@
             date {
               date(format: $dateFormat)
             }
-            count
+            count: countBigInt
             topic: entity(entityType: {is: topic}) {
               id(entityId: $topic_id)
             }
@@ -51,7 +51,7 @@
           path: 'date.date'
         },
         {
-          title: '<%= t('widgets.titles.messages_count') %>',
+          title: {label: '<%= t('widgets.titles.messages_count') %>', type: 'number' },
           path: 'count'
         },
       ]
