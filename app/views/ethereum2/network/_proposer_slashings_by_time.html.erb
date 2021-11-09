@@ -39,8 +39,8 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
-                        slashing_proposers: count(uniq: slashing_proposers)
+                        count: countBigInt
+                        slashing_proposers: countBigInt(uniq: slashing_proposers)
                       }
                     }
                   }`);
@@ -64,7 +64,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.count') %>',
+                    title: {label: '<%= t('widgets.titles.count') %>', type: 'number' },
                     path: 'count'
                 },
 
@@ -90,7 +90,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.proposers_count') %>',
+                    title: {label: '<%= t('widgets.titles.proposers_count') %>', type: 'number' },
                     path: 'slashing_proposers'
                 },
 
