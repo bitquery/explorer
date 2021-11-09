@@ -22,7 +22,7 @@
                                 date(format: $dateFormat)
                               }
 
-                              count
+                              count: countBigInt
                               amount
 
                             }
@@ -56,7 +56,7 @@
                     path: 'amount'
                 },
                 {
-                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    title: {label: '<%= t('widgets.titles.transfer_count') %>', type: 'number' },
                     path: 'count'
                 },
 
