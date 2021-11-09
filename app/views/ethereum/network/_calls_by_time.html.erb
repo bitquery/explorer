@@ -58,10 +58,10 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
-                        contracts: count(uniq: smart_contracts)
-                        callers: count(uniq: senders)
-                        methods: count(uniq: smart_contract_methods)
+                        count: countBigInt
+                        contracts: countBigInt(uniq: smart_contracts)
+                        callers: countBigInt(uniq: senders)
+                        methods: countBigInt(uniq: smart_contract_methods)
                       }
                     }
                   }`);
@@ -85,7 +85,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.calls_count') %>',
+                    title: {label: '<%= t('widgets.titles.calls_count') %>', type: 'number' },
                     path: 'count'
                 },
 
@@ -111,7 +111,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.uniq_contracts') %>',
+                    title: {label: '<%= t('widgets.titles.uniq_contracts') %>', type: 'number' },
                     path: 'contracts'
                 },
 
@@ -137,7 +137,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.uniq_callers') %>',
+                    title: {label: '<%= t('widgets.titles.uniq_callers') %>', type: 'number' },
                     path: 'callers'
                 },
 
@@ -163,7 +163,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.uniq_methods') %>',
+                    title: {label: '<%= t('widgets.titles.uniq_methods') %>', type: 'number' },
                     path: 'methods'
                 },
 

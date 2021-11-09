@@ -28,7 +28,7 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                            currencies: count(uniq: buy_currency)
+                            currencies: countBigInt(uniq: buy_currency)
 
                       }
                     }
@@ -53,7 +53,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.currencies') %>',
+                    title: {label: '<%= t('widgets.titles.currencies') %>', type: 'number' },
                     path: 'currencies'
                 },
 
