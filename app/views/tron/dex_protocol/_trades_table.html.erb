@@ -13,17 +13,17 @@
 
     $( document ).ready(function() {
 
-
         var query = new widgets.query(`
                         query ($network: TronNetwork!,
                                 $limit: Int!,
-                                $offset: Int!
+                                $offset: Int!,
+                                $protocol: String!,
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     tron(network: $network){
                       dexTrades(options:{desc: ["block.height","tradeIndex"], limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
-
+                        date: {since: $from till: $till },
+                        protocol: {is: $protocol}
                         ) {
 
                           block {
@@ -50,14 +50,12 @@
                           buyCurrency {
                             address
                             symbol
-                            tokenType
                           }
 
                           sellAmount
                           sellCurrency {
                             address
                             symbol
-                            tokenType
                           }
 
                           transaction {
@@ -116,13 +114,11 @@
                 },
                 {
                     title: '<%= t('widgets.titles.protocol') %>',
-                    path: 'protocol',
-                    urlCallbackName: 'dex_protocol_path'
+                    path: 'protocol'
                 },
                 {
                     title: '<%= t('widgets.titles.exchange') %>',
-                    path: 'exchange.fullName',
-                    urlCallbackName: 'dex_exchange_path'
+                    path: 'exchange.fullName'
                 },
                 {
                     title: '<%= t('widgets.titles.smart_contract') %>',
@@ -142,7 +138,8 @@
         });
 
         queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+            network: '<%= params['network']['network'] %>',
+            protocol: '<%= @protocol %>'
         });
 
     });

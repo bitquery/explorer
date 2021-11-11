@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-8 col-lg-8 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_exchanges') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_makers') %></div>
       <div class="card-body">
         <div id="dex_exchanges"><%= t('loading') %></div>
       </div>
@@ -10,15 +10,9 @@
 
   <div class="col-4 col-lg-4 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_trades_by_exchange') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_makers') %></div>
       <div class="card-body">
         <div id="dex_trades_by_exchange_pie"><%= t('loading') %></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_amounts_by_exchange') %></div>
-      <div class="card-body">
-        <div id="dex_amounts_by_exchange_pie"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -31,39 +25,41 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: TronNetwork!,
                                 $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum(network: $network){
-                      dexTrades(options:{desc: "tradeAmount"},
+                                $till: ISO8601DateTime
+                                $limit: Int!,
+                                $offset: Int!
+                                $protocol: String!
+                                ){
+                    tron(network: $network){
+                      dexTrades(options:{desc: "tradeAmount", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-
+                        protocol: {is: $protocol}
                         ) {
 
-                          exchange {
-                            fullName
-                          }
-
                           trades: count
+                          address: maker {
+                            address
+                            annotation
+                          }
                           tradeAmount(in: USD)
-                          currencies: count(uniq: buy_currency)
-                          contracts: count(uniq: smart_contracts)
+                          buy_currency_count: count(uniq: buy_currency)
+                          sell_currency_count: count(uniq: sell_currency)
 
                       }
                     }
                   }`);
 
-        new widgets.table('#dex_exchanges', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.dex_exchanges') %>',
+        new widgets.table('#dex_exchanges', query, 'tron.dexTrades', {
+            title: '<%= t('widgets.headers.token_makers') %>',
             dataOptions: [
 
                 {
-                    title: '<%= t('widgets.titles.exchange') %>',
-                    path: 'exchange.fullName',
-                    renderCallback: function(item){
-                        return item.exchange.fullName.replace(/[<]/g, "&lt;").replace(/[<]/g, "&gt;");
-                    },
-                    urlCallbackName: 'dex_exchange_path'
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
                 },
 
                 {
@@ -72,13 +68,13 @@
                 },
 
                 {
-                    title: '<%= t('widgets.titles.currencies') %>',
-                    path: 'currencies'
+                    title: '<%= t('widgets.titles.buy_currency_count') %>',
+                    path: 'buy_currency_count'
                 },
 
                 {
-                    title: '<%= t('widgets.titles.contracts') %>',
-                    path: 'contracts'
+                    title: '<%= t('widgets.titles.sell_currency_count') %>',
+                    path: 'sell_currency_count'
                 },
 
                 {
@@ -89,7 +85,7 @@
             ]
         });
 
-        new widgets.chart('#dex_trades_by_exchange_pie', query, 'ethereum.dexTrades', {
+        new widgets.chart('#dex_trades_by_exchange_pie', query, 'tron.dexTrades', {
             title: '<%= t('widgets.headers.dex_trades_by_exchange') %>',
             chartType: 'PieChart',
             chartOptions: {
@@ -112,7 +108,7 @@
             ]
         });
 
-        new widgets.chart('#dex_amounts_by_exchange_pie', query, 'ethereum.dexTrades', {
+        new widgets.chart('#dex_amounts_by_exchange_pie', query, 'tron.dexTrades', {
             title: '<%= t('widgets.headers.dex_amounts_by_exchange') %>',
             chartType: 'PieChart',
             chartOptions: {
@@ -137,7 +133,8 @@
 
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+            network: '<%= params['network']['network'] %>',
+            protocol: '<%= @protocol %>'
         });
 
     });

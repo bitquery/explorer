@@ -31,17 +31,20 @@
 
 
         var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
+                        query ($network: TronNetwork!,
                                 $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum(network: $network){
+                                $till: ISO8601DateTime
+                                $protocol: String!
+                                ){
+                    tron(network: $network){
                       dexTrades(options:{desc: "tradeAmount"},
                         date: {since: $from till: $till }
-
+                        protocol: {is: $protocol}
                         ) {
 
                           exchange {
                             fullName
+                            address{address}
                           }
 
                           trades: count
@@ -53,7 +56,7 @@
                     }
                   }`);
 
-        new widgets.table('#dex_exchanges', query, 'ethereum.dexTrades', {
+        new widgets.table('#dex_exchanges', query, 'tron.dexTrades', {
             title: '<%= t('widgets.headers.dex_exchanges') %>',
             dataOptions: [
 
@@ -89,7 +92,7 @@
             ]
         });
 
-        new widgets.chart('#dex_trades_by_exchange_pie', query, 'ethereum.dexTrades', {
+        new widgets.chart('#dex_trades_by_exchange_pie', query, 'tron.dexTrades', {
             title: '<%= t('widgets.headers.dex_trades_by_exchange') %>',
             chartType: 'PieChart',
             chartOptions: {
@@ -112,7 +115,7 @@
             ]
         });
 
-        new widgets.chart('#dex_amounts_by_exchange_pie', query, 'ethereum.dexTrades', {
+        new widgets.chart('#dex_amounts_by_exchange_pie', query, 'tron.dexTrades', {
             title: '<%= t('widgets.headers.dex_amounts_by_exchange') %>',
             chartType: 'PieChart',
             chartOptions: {
@@ -137,7 +140,8 @@
 
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+            network: '<%= params['network']['network'] %>',
+            protocol: '<%= @protocol %>'
         });
 
     });

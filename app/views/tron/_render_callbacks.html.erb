@@ -1,5 +1,15 @@
 <script>
     widgets.callbacks({
+        dex_protocol_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/dex_protocol/' + encodeURIComponent(item.protocol);
+        },
+        dex_exchange_path: function(item){
+            if(item.exchange.fullName.startsWith('<')){
+                return null;
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/dex/' + item.exchange.fullName;
+            }
+        },
         token_path: function(item){
             if(item.currency.tokenType=='TRC10') {
                 return '<%= locale_path_prefix %><%= @network[:network] %>/trc10token/'+  item.currency.tokenId;
