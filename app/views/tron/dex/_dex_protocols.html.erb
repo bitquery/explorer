@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-8 col-lg-8 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_exchanges') %></div>
+      <div class="card-header"><%= t('widgets.headers.dex_protocols') %></div>
       <div class="card-body">
         <div id="dex_exchanges"><%= t('loading') %></div>
       </div>
@@ -10,13 +10,13 @@
 
   <div class="col-4 col-lg-4 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_trades_by_exchange') %></div>
+      <div class="card-header"><%= t('widgets.headers.dex_tradex_by_protocol') %></div>
       <div class="card-body">
         <div id="dex_trades_by_exchange_pie"><%= t('loading') %></div>
       </div>
     </div>
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.dex_amounts_by_exchange') %></div>
+      <div class="card-header"><%= t('widgets.headers.dex_amounts_by_protocol') %></div>
       <div class="card-body">
         <div id="dex_amounts_by_exchange_pie"><%= t('loading') %></div>
       </div>
@@ -42,10 +42,7 @@
                         exchangeName: {is: $exchange}
                         ) {
 
-                          exchange {
-                            fullName
-                            address{address}
-                          }
+                          protocol
 
                           trades: count
                           tradeAmount(in: USD)
@@ -61,12 +58,9 @@
             dataOptions: [
 
                 {
-                    title: '<%= t('widgets.titles.exchange') %>',
-                    path: 'exchange.fullName',
-                    renderCallback: function(item){
-                        return item.exchange.fullName.replace(/[<]/g, "&lt;").replace(/[<]/g, "&gt;");
-                    },
-                    urlCallbackName: 'dex_exchange_path'
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol',
+                    urlCallbackName: 'dex_protocol_path'
                 },
 
                 {
@@ -93,7 +87,7 @@
         });
 
         new widgets.chart('#dex_trades_by_exchange_pie', query, 'tron.dexTrades', {
-            title: '<%= t('widgets.headers.dex_trades_by_exchange') %>',
+            title: '<%= t('widgets.headers.dex_tradex_by_protocol') %>',
             chartType: 'PieChart',
             chartOptions: {
                 pieSliceText: 'label',
@@ -104,8 +98,8 @@
 
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.exchange') %>',
-                    path: 'exchange.fullName'
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol'
                 },
                 {
                     title: '<%= t('widgets.titles.trades') %>',
@@ -116,7 +110,7 @@
         });
 
         new widgets.chart('#dex_amounts_by_exchange_pie', query, 'tron.dexTrades', {
-            title: '<%= t('widgets.headers.dex_amounts_by_exchange') %>',
+            title: '<%= t('widgets.headers.dex_amounts_by_protocol') %>',
             chartType: 'PieChart',
             chartOptions: {
                 pieSliceText: 'label',
@@ -127,8 +121,8 @@
 
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.exchange') %>',
-                    path: 'exchange.fullName'
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol'
                 },
                 {
                     title: '<%= t('widgets.titles.usd') %>',
