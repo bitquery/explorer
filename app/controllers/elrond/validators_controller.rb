@@ -29,11 +29,7 @@ module Elrond
     def query_date
       variables = { hash: @hash.to_s,
                     network: @network[:network] }
-      @validator_data = BitqueryGraphql::Client.query(QUERY, variables: variables).data.elrond.block_validators[0].date.date
-    rescue Net::ReadTimeout => e
-      Raven.capture_exception e
-      sleep(1)
-      retry
+      @validator_data = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data.elrond.block_validators[0].date.date
     end
   end
 end

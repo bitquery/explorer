@@ -23,14 +23,8 @@ class Diem::AddressController < NetworkController
   def query_graphql
     @address = params[:address]
     if action_name == 'money_flow'
-      begin
-        result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: { network: @network[:network], address: @address }).data.diem
+        result = BitqueryGraphql.instance.query_with_retry(QUERY_CURRENCIES, variables: { network: @network[:network], address: @address }).data.diem
         @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
-      rescue Net::ReadTimeout => e
-        Raven.capture_exception e
-        sleep(1)
-        retry
-      end
     end
   end
 

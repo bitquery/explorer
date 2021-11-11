@@ -36,13 +36,9 @@ module Elrond
         from: Date.today
       }
 
-      begin
-        @response = BitqueryGraphql::Client.query(QUERY, variables: variables).data
-      rescue Net::ReadTimeout => e
-        Raven.capture_exception e
-        sleep(1)
-        retry
-      end
+
+
+       @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data
     end
   end
 end

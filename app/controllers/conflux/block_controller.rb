@@ -12,12 +12,8 @@ class Conflux::BlockController < NetworkController
   private
 
   def query_date
-    @block_date = BitqueryGraphql::Client.query(QUERY, variables: { hash: @hash,
+    @block_date = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { hash: @hash,
                                                                     network: @network[:network] }).data.conflux.blocks[0].date.date
-  rescue Net::ReadTimeout => e
-    Raven.capture_exception e
-    sleep(1)
-    retry
   end
 
 end

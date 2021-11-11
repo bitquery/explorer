@@ -60,13 +60,9 @@ class Tron::AddressController < NetworkController
   def query_graphql
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    result = BitqueryGraphql::Client.query(query, variables: { address: @address }).data.tron
+    result = BitqueryGraphql.instance.query_with_retry(query, variables: { address: @address }).data.tron
     @info = result.address.first
     @currencies = result.transfers.map(&:currency).sort_by { |c| c.symbol == 'TRX' ? 0 : 1 }.uniq { |x| [x.address, x.token_id] } if result.try(:transfers)
-  rescue Net::ReadTimeout => e
-    Raven.capture_exception e
-    sleep(1)
-    retry
   end
 
   def redirect_by_type

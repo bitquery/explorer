@@ -56,17 +56,11 @@ address(address: {is: $address}) {
   private
 
   def query_graphql
-    begin
       @address = params[:address]
       query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-      result = BitqueryGraphql::Client.query(query, variables: { address: @address }).data.eos
+      result = BitqueryGraphql.instance.query_with_retry(query, variables: { address: @address }).data.eos
       @info = result.address.first
       @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == 'eosio.token' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
-    rescue Net::ReadTimeout => e
-      Raven.capture_exception e
-      sleep(1)
-      retry
-    end
   end
 
   def redirect_by_type

@@ -1118,37 +1118,37 @@ en:
         keywords: "%{protocol},%{network},dex,trades,exchanges,token,pair"
     dex:
       icon: 'fa fa-exchange'
-      header: "%{exchange_name} DEX at %{network} Blockchain"
+      header: "%{exchange} DEX at %{network} Blockchain"
       statistics:
         name: "Statistics"
-        title: "Statistics of %{exchange_name} DEX at %{network}"
-        description: "Statistics of %{exchange_name} for %{network}"
-        keywords: "%{protocol},%{exchange_name},dex,trades,statistics"
+        title: "Statistics of %{exchange} DEX at %{network}"
+        description: "Statistics of %{exchange} for %{network}"
+        keywords: "%{network},%{exchange},dex,trades,statistics"
       volume:
         name: "Volume"
-        title: "Volume of %{exchange_name} DEX at %{network}"
-        description: "Volume of %{exchange_name} for %{network}"
-        keywords: "%{protocol},%{exchange_name},dex,trades,volume"
+        title: "Volume of %{exchange} DEX at %{network}"
+        description: "Volume of %{exchange} for %{network}"
+        keywords: "%{network},%{exchange},dex,trades,volume"
       trades:
         name: "Trades"
-        title: "Trades on %{exchange_name} DEX at %{network}"
-        description: "Trade list on %{exchange_name} for %{network}"
-        keywords: "%{exchange_name},%{network},dex,trades"
+        title: "Trades on %{exchange} DEX at %{network}"
+        description: "Trade list on %{exchange} for %{network}"
+        keywords: "%{exchange},%{network},dex,trades"
       traders:
         name: "Makers/Takers"
-        title: "Makers/Takers on %{exchange_name} DEX at %{network}"
-        description: "Makers/Takers list on %{exchange_name} for %{network}"
-        keywords: "%{exchange_name},%{network},dex,trades,makers,takers"
+        title: "Makers/Takers on %{exchange} DEX at %{network}"
+        description: "Makers/Takers list on %{exchange} for %{network}"
+        keywords: "%{network},%{exchange},dex,trades,makers,takers"
       protocols:
         name: "Protocols"
-        title: "Protocols used by %{exchange_name} DEX at %{network}"
-        description: "Protocols used by %{exchange_name} at %{network}"
-        keywords: "%{exchange_name},%{network},dex,trades,exchanges"
+        title: "Protocols used by %{exchange} DEX at %{network}"
+        description: "Protocols used by %{exchange} at %{network}"
+        keywords: "%{network},%{exchange},dex,trades,exchanges"
       pairs:
         name: "Token Pairs"
-        title: "Token Pairs Traded on %{exchange_name} DEX at %{network}"
-        description: "Token Pairs traded on %{exchange_name} at %{network}"
-        keywords: "%{exchange_name},%{network},dex,trades,exchanges,token,pair"
+        title: "Token Pairs Traded on %{exchange} DEX at %{network}"
+        description: "Token Pairs traded on %{exchange} at %{network}"
+        keywords: "%{network},%{exchange},dex,trades,exchanges,token,pair"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:

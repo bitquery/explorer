@@ -1,0 +1,142 @@
+<div class="row">
+  <div class="col-8 col-lg-8 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.token_takers') %></div>
+      <div class="card-body">
+        <div id="dex_exchanges"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.token_takers') %></div>
+      <div class="card-body">
+        <div id="dex_trades_by_exchange_pie"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime
+                                $limit: Int!,
+                                $offset: Int!
+                                $exchange: String!
+                                ){
+                    ethereum(network: $network){
+                      dexTrades(options:{desc: "tradeAmount", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+                        exchangeName: {is: $exchange}
+                        ) {
+
+                          trades: count
+                          address: taker {
+                            address
+                            annotation
+                          }
+                          tradeAmount(in: USD)
+                          buy_currency_count: count(uniq: buy_currency)
+                          sell_currency_count: count(uniq: sell_currency)
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#dex_exchanges', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.token_takers') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'trades'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.buy_currency_count') %>',
+                    path: 'buy_currency_count'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.sell_currency_count') %>',
+                    path: 'sell_currency_count'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.amount_usd') %>',
+                    path: 'tradeAmount'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#dex_trades_by_exchange_pie', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_trades_by_exchange') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'trades'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#dex_amounts_by_exchange_pie', query, 'ethereum.dexTrades', {
+            title: '<%= t('widgets.headers.dex_amounts_by_exchange') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.exchange') %>',
+                    path: 'exchange.fullName'
+                },
+                {
+                    title: '<%= t('widgets.titles.usd') %>',
+                    path: 'tradeAmount'
+                },
+
+            ]
+        });
+
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            exchange: '<%= @exchange %>'
+        });
+
+    });
+
+</script>

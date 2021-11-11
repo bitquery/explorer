@@ -61,15 +61,9 @@ class Conflux::AddressController < NetworkController
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     if @address.starts_with?('0x')
-      begin
-        result = BitqueryGraphql::Client.query(query, variables: { network: @network[:network], address: @address }).data.conflux
+        result = BitqueryGraphql.instance.query_with_retry(query, variables: { network: @network[:network], address: @address }).data.conflux
         @info = result.address.first
         @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
-      rescue Net::ReadTimeout => e
-        Raven.capture_exception e
-        sleep(1)
-        retry
-      end
     end
   end
 

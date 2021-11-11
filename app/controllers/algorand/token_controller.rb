@@ -24,13 +24,7 @@ class Algorand::TokenController < ::NetworkController
       @id = 0
     else
       @id = @id.to_i
-      begin
-        @token_info = BitqueryGraphql::Client.query(QUERY, variables: { network: @network[:network], id: @id }).data.algorand.transactions.first.currency
-      rescue Net::ReadTimeout => e
-        Raven.capture_exception e
-        sleep(1)
-        retry
-      end
+      @token_info = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:network], id: @id }).data.algorand.transactions.first.currency
     end
   end
 

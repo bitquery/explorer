@@ -49,15 +49,11 @@ module Elrond
     end
 
     def query_graphql
-      result = BitqueryGraphql::Client.query(QUERY,
+      result = BitqueryGraphql.instance.query_with_retry(QUERY,
                                              variables: { network: @network[:network],
                                                           address: @address }).data.elrond
       all_currencies = result.outflow + result.inflow
       @currencies = all_currencies.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
-    rescue Net::ReadTimeout => e
-      Raven.capture_exception e
-      sleep(1)
-      retry
     end
   end
 end
