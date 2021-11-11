@@ -34,8 +34,8 @@ Rails.application.routes.draw do
       get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
-      get ":blockchain/dex_protocol/:protocol/:action", controller: "#{blockchain[:family]}/dex_protocol", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
-      get ":blockchain/dex_protocol/:protocol", controller: "#{blockchain[:family]}/dex_protocol", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex_protocol/:protocol_name/:action", controller: "#{blockchain[:family]}/dex_protocol", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex_protocol/:protocol_name", controller: "#{blockchain[:family]}/dex_protocol", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
       get ":blockchain/dex/:exchange/:action", controller: "#{blockchain[:family]}/dex", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/dex/:exchange", controller: "#{blockchain[:family]}/dex", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
@@ -92,8 +92,8 @@ Rails.application.routes.draw do
       get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
-      get ":blockchain/dex_protocol/:protocol/:action", controller: "#{blockchain[:family]}/dex_protocol", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
-      get ":blockchain/dex_protocol/:protocol", controller: "#{blockchain[:family]}/dex_protocol", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex_protocol/:protocol_name/:action", controller: "#{blockchain[:family]}/dex_protocol", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex_protocol/:protocol_name", controller: "#{blockchain[:family]}/dex_protocol", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
       get ":blockchain/dex/:exchange/:action", controller: "#{blockchain[:family]}/dex", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/dex/:exchange", controller: "#{blockchain[:family]}/dex", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}

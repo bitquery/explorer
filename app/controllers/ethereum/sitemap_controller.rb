@@ -107,6 +107,34 @@ class Ethereum::SitemapController < NetworkController
                         }
                   }
 
+                  dex_protocols: ethereum(network: $network){
+                        dexTrades(options:{
+                          desc: "count", 
+                          limit: 100},
+                          date: {since: $from }
+  
+                          ) {
+                 
+                    				protocol
+                            count
+                  
+                        }
+                  }
+
+                  dex_exchanges: ethereum(network: $network){
+                        dexTrades(options:{
+                          desc: "count", 
+                          limit: 100},
+                          date: {since: $from }
+  
+                          ) {
+                 
+                    				exchange{ fullName }
+                            count
+                  
+                        }
+                  }
+
            }
   GRAPHQL
 

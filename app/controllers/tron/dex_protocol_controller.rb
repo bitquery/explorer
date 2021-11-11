@@ -5,7 +5,7 @@ class Tron::DexProtocolController <  NetworkController
 
   private
   def set_protocol
-    @protocol = params[:protocol]
+    @protocol = params[:protocol_name]
   end
 
   def breadcrumb

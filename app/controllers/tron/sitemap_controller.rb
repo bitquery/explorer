@@ -108,6 +108,35 @@ class Tron::SitemapController < NetworkController
                         }
                   }
 
+                  dex_protocols: tron {
+                        dexTrades(options:{
+                          desc: "count", 
+                          limit: 100},
+                          date: {since: $from }
+  
+                          ) {
+                 
+                    				protocol
+                            count
+                  
+                        }
+                  }
+
+                  dex_exchanges: tron {
+                        dexTrades(options:{
+                          desc: "count", 
+                          limit: 100},
+                          date: {since: $from }
+  
+                          ) {
+                 
+                    				exchange{ fullName }
+                            count
+                  
+                        }
+                  }
+
+
            }
   GRAPHQL
 
