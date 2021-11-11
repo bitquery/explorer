@@ -33,11 +33,13 @@
         var query = new widgets.query(`
                         query ($network: EthereumNetwork!,
                                 $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
+                                $till: ISO8601DateTime
+                                $protocol: String!
+                                ){
                     ethereum(network: $network){
                       dexTrades(options:{desc: "tradeAmount"},
                         date: {since: $from till: $till }
-
+                        protocol: {is: $protocol}
                         ) {
 
                           exchange {
@@ -138,7 +140,8 @@
 
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+            network: '<%= params['network']['network'] %>',
+            protocol: '<%= @protocol %>'
         });
 
     });

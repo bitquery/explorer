@@ -18,12 +18,13 @@
                         query ($network: EthereumNetwork!,
                                 $limit: Int!,
                                 $offset: Int!
+                                $protocol: String!
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     ethereum(network: $network){
                       dexTrades(options:{desc: "count", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-
+                        protocol: {is: $protocol}
                         ) {
 
                           sellCurrency {
@@ -115,7 +116,8 @@
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
+            network: '<%= params['network']['network'] %>',
+            protocol: '<%= @protocol %>'
         });
     });
 
