@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/bitquery/bitquery_logger.git
+  revision: 4c6bb41798d24e0825930a46ba63f0298463e545
+  branch: main
+  specs:
+    bitquery_logger (0.1.7)
+      logstash-logger (~> 0.26.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -89,11 +97,12 @@ GEM
       dotenv (= 2.7.6)
       railties (>= 3.2)
     erubi (1.9.0)
-    faraday (1.3.0)
-      faraday-net_http (~> 1.0)
-      multipart-post (>= 1.2, < 3)
-      ruby2_keywords
-    faraday-net_http (1.0.1)
+    exception_notification (4.4.3)
+      actionmailer (>= 4.0, < 7)
+      activesupport (>= 4.0, < 7)
+    exception_notification-rake (0.3.1)
+      exception_notification (~> 4.3)
+      rake (>= 0.9.0)
     feedjira (3.1.2)
       loofah (>= 2.3.1)
       sax-machine (>= 1.0)
@@ -112,6 +121,9 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
       ruby_dep (~> 1.2)
+    logstash-event (1.2.02)
+    logstash-logger (0.26.1)
+      logstash-event (~> 1.2)
     loofah (2.5.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -127,7 +139,6 @@ GEM
     mini_portile2 (2.4.0)
     minitest (5.14.1)
     msgpack (1.3.3)
-    multipart-post (2.1.1)
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
     net-ssh (6.0.2)
@@ -196,7 +207,6 @@ GEM
       rack (>= 1.1)
       rubocop (>= 0.90.0, < 2.0)
     ruby-progressbar (1.11.0)
-    ruby2_keywords (0.0.4)
     ruby_dep (1.5.0)
     sass-rails (6.0.0)
       sassc-rails (~> 2.1, >= 2.1.1)
@@ -209,8 +219,6 @@ GEM
       sprockets-rails
       tilt
     sax-machine (1.3.2)
-    sentry-raven (3.0.0)
-      faraday (>= 1.0)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -253,12 +261,15 @@ PLATFORMS
 DEPENDENCIES
   better_errors (~> 2.9, >= 2.9.1)
   binding_of_caller (~> 1.0)
+  bitquery_logger!
   bootsnap (>= 1.4.2)
   byebug
   capistrano (= 3.11.1)
   capistrano-bundler
   capistrano-rails
   dotenv-rails (~> 2.7, >= 2.7.6)
+  exception_notification
+  exception_notification-rake (~> 0.3.1)
   feedjira (~> 3.1, >= 3.1.2)
   graphql-client
   jbuilder (~> 2.7)
@@ -269,7 +280,6 @@ DEPENDENCIES
   rubocop-performance (~> 1.9, >= 1.9.2)
   rubocop-rails (~> 2.9, >= 2.9.1)
   sass-rails (>= 6)
-  sentry-raven
   spring
   spring-watcher-listen (~> 2.0.0)
   sshkit-sudo

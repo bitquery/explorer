@@ -26,10 +26,16 @@ class BitqueryGraphql
 
   def query_with_retry(definition, variables: {}, context: {})
     attempt = 1
+
+    ::BitqueryLogger.extra_context query: definition.source_document.to_query_string,
+                                 variables: variables,
+                                 context: context,
+                                 attempt: attempt
+
     begin
       client.query definition, variables: variables, context: context
     rescue Net::ReadTimeout => e
-      if attempt>=ATTEMPTS
+      if attempt >= ATTEMPTS
         raise
       else
         sleep(1)
@@ -37,7 +43,6 @@ class BitqueryGraphql
         retry
       end
     end
-
 
   end
 

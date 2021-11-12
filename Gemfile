@@ -27,7 +27,10 @@ gem 'graphql-client'
 
 gem 'feedjira', '~> 3.1', '>= 3.1.2'
 
-gem 'sentry-raven'
+# Logger
+gem 'bitquery_logger', git: 'https://github.com/bitquery/bitquery_logger.git', branch: 'main'#, path: '../bitquery_logger'
+gem 'exception_notification'
+gem 'exception_notification-rake', '~> 0.3.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

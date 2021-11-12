@@ -6,6 +6,9 @@ class ProxyGraphqlController < ApplicationController
 
     api_key = ENV['EXPLORER_API_KEY']
 
+    BitqueryLogger.extra_context query: params[:query],
+                                 variables: params[:variables]
+
     uri = URI(BITQUERY_GRAPHQL)
     res = Net::HTTP.post(uri,
                          { query: params[:query], variables: params[:variables] }.to_json,
