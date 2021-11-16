@@ -7,7 +7,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server "bitquery", user: "deploy", roles: %w{app db web}
+server "www1-1.ph16.system.local", user: "deploy", roles: %w{app db web}
 
 # role-based syntax
 # ==================
