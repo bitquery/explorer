@@ -71,7 +71,7 @@ global.reportRange = function (selector, from, till, i18n) {
         $(selector).find('span').html(start.format(i18n.format) + ' - ' + end.format(i18n.format));
     }
 
-    properties.ranges[i18n.all_time] = [null, null];
+    // properties.ranges[i18n.all_time] = [null, null];
     properties.ranges[i18n.today] = [moment(), moment()];
     properties.ranges[i18n.yesterday] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
     properties.ranges[i18n.last7] = [moment().subtract(6, 'days'), moment()];
