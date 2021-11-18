@@ -638,6 +638,16 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      instructions:
+        name: "Instructions"
+        title: "%{network} Instuctions for %{hash} transaction"
+        description: "Single program, a subset of the transaction's accounts that should be passed to the progam."
+        keywords: "%{network} Instructions"
+      accounts:
+        name: "Accounts"
+        title: "%{network} Accounts for %{hash} transaction"
+        description: "Account addressed for %{network} transaction"
+        keywords: "%{network} Accounts"
     height:
       icon: 'fas fa-cube'
       header: "%{network} Height %{height}"
@@ -703,6 +713,11 @@ en:
         title: "Block %{height} Notarized Blocks on %{network} Explorer"
         description: "Notarized Blocks"
         keywords: "%{network} Notarized Blocks"
+      rewards:
+        name: "Reward"
+        title: "Block %{height} Rewards on %{network} Explorer"
+        description: "Rewards"
+        keywords: "%{network} Rewards"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1301,9 +1316,14 @@ en:
       created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
     titles:
+      instruction_account_index: "Account index in Instruction"
+      data_hex: "Data in Hex"
+      program: "Program"
+      program_name: "Program Name"
       validators_hash: "Validator Hash"
       miniblock_hash: "Miniblock Hash"
       miniblock_type: "Miniblock Type"
+      fee_payer: "Fee Payer"
       sender_block_hash: "Sender Block Hash"
       sender_shard: "Sender Shard"
       receiver_block_hash: "Receiver Block Hash"
@@ -1572,11 +1592,15 @@ en:
       weight: "Weight"
       chainwork: "Chainwork"
       log: "Log"
+      consumed: "Consumed"
+      total_gas: "Total Gas"
+      result: "Result"
       description: "Descrition"
       memo: "Memo"
       account: "Account"
       accounts: "Accounts"
       account_summery: "Account Summery"
+      accounts_count: "Count of Accounts"
       payer: "Payer"
       node: "Node"
       consensus_timestamp: "Consensus"

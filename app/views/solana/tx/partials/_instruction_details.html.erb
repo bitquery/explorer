@@ -1,0 +1,121 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <%= t('widgets.headers.instruction_details') %>
+      </div>
+
+      <div class="card-body">
+        <div id="instruction_details"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <%= t('widgets.headers.program_log') %>
+      </div>
+
+      <div class="card-body">
+        <div id="program_log"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $(document).ready(function() {
+
+    const graphql_query = `
+      query ($network: SolanaNetwork!, $signature: String!) {
+        solana(network: $network){
+          instructions(signature: {is: $signature}){
+            program{
+              id
+              name
+              parsedName
+            }
+            accountsCount
+            data{
+              hex
+            }
+            log{
+              consumed
+              logs
+              result
+              totalGas
+            }
+          }
+        }
+      }      
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.table('#program_log', query, 'solana.instructions', {
+      title: '<%= t('widgets.headers.program_log') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.consumed') %>',
+          type: 'string',
+          path: 'log.consumed',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.total_gas') %>',
+          type: 'string',
+          path: 'log.totalGas',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.logs') %>',
+          type: 'string',
+          path: 'log.logs',
+          style: 'width: 100px;'
+        },
+        {
+          title: '<%= t('widgets.titles.result') %>',
+          type: 'string',
+          path: 'log.result',
+          style: 'width: 100px;'
+        },
+      ]
+    });
+
+    new widgets.table('#instruction_details', query, 'solana.instructions', {
+      title: '<%= t('widgets.headers.instruction_details') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.program') %>',
+          type: 'string',
+          path: 'program.id',
+        },
+        {
+          title: '<%= t('widgets.titles.program_name') %>',
+          type: 'string',
+          path: ['program.name', 'program.parsedName'],
+        },
+        {
+          title: '<%= t('widgets.titles.accounts_count') %>',
+          type: 'string',
+          path: 'accountsCount',
+        },
+        {
+          title: '<%= t('widgets.titles.data_hex') %>',
+          type: 'string',
+          path: 'data.hex',
+        },
+      ]
+    });
+
+    query.request({
+      signature: '<%=  @tx_hash %>',
+      network: '<%= params['network']['network'] %>'
+    });
+
+  });
+
+</script>
+

@@ -347,6 +347,9 @@ Rails.application.routes.draw do
           get ":blockchain/block/:block_id", controller: "#{blockchain[:family]}/block", action: 'show'
           get ":blockchain/block/:block_id/:action", controller: "#{blockchain[:family]}/block"
 
+          get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
+
           get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end
       end
