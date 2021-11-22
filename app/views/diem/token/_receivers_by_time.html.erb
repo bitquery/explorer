@@ -33,7 +33,7 @@
                               date{
                                 date(format: $dateFormat)
                               }
-                              count(uniq: receivers)
+                              count: countBigInt(uniq: receivers)
                               median: amount(calculate: median)
                             }
                           }

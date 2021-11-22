@@ -30,7 +30,7 @@
                               date{
                                 date(format: $dateFormat)
                               }
-                              count(uniq: receivers)
+                              count: countBigInt(uniq: receivers)
                               median: amount(calculate: median)
                             }
                           }
@@ -55,7 +55,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.uniq_receivers') %>',
+                    title: {label: '<%= t('widgets.titles.uniq_receivers') %>', type: 'number' },
                     path: 'count'
                 },
 

@@ -39,8 +39,8 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count
-                        senders: count(uniq: senders)
+                        count: countBigInt
+                        senders: countBigInt(uniq: senders)
                       }
                     }
                   }`);
@@ -64,7 +64,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.messages_count') %>',
+                    title: {label: '<%= t('widgets.titles.messages_count') %>', type: 'number' },
                     path: 'count'
                 },
 
@@ -90,7 +90,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.uniq_callers') %>',
+                    title: {label: '<%= t('widgets.titles.uniq_callers') %>', type: 'number' },
                     path: 'senders'
                 },
 

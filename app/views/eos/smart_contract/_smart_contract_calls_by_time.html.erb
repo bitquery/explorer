@@ -33,13 +33,13 @@
 
                                     date{ date(format: $dateFormat)}
 
-                                    external_calls: count(external: true)
-                                    internal_calls: count(external: false)
+                                    external_calls: countBigInt(external: true)
+                                    internal_calls: countBigInt(external: false)
 
-                                    external_callers: count(uniq: callers, external: true)
-                                    internal_callers: count(uniq: callers, external: false)
-                                    senders: count(uniq:senders)
-                                    txs: count(uniq: txs)
+                                    external_callers: countBigInt(uniq: callers, external: true)
+                                    internal_callers: countBigInt(uniq: callers, external: false)
+                                    senders: countBigInt(uniq:senders)
+                                    txs: countBigInt(uniq: txs)
                             }
                           }
                         }`);
@@ -66,18 +66,15 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.external_calls') %>',
-                    type: 'count',
+                    title: {label: '<%= t('widgets.titles.external_calls') %>', type: 'number' },
                     path: 'external_calls'
                 },
                 {
-                    title: '<%= t('widgets.titles.internal_calls') %>',
-                    type: 'count',
+                    title: {label: '<%= t('widgets.titles.internal_calls') %>', type: 'number' },
                     path: 'internal_calls'
                 },
                 {
-                    title: '<%= t('widgets.titles.tx_count') %>',
-                    type: 'count',
+                    title: {label: '<%= t('widgets.titles.tx_count') %>', type: 'number' },
                     path: 'txs'
                 },
             ]
@@ -105,18 +102,15 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.external_callers') %>',
-                    type: 'count',
+                    title: {label: '<%= t('widgets.titles.external_callers') %>', type: 'number' },
                     path: 'external_callers'
                 },
                 {
-                    title: '<%= t('widgets.titles.internal_callers') %>',
-                    type: 'count',
+                    title: {label: '<%= t('widgets.titles.internal_callers') %>', type: 'number' },
                     path: 'internal_callers'
                 },
                 {
-                    title: '<%= t('widgets.titles.senders') %>',
-                    type: 'count',
+                    title: {label: '<%= t('widgets.titles.senders') %>', type: 'number' },
                     path: 'senders'
                 },
             ]

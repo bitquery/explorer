@@ -28,7 +28,7 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
+                        count: countBigInt
                         amount
                       }
                     }
@@ -61,7 +61,7 @@
                     path: 'amount'
                 },
                 {
-                    title: '<%= t('widgets.titles.receive_count') %>',
+                    title: {label: '<%= t('widgets.titles.receive_count') %>', type: 'number' },
                     path: 'count'
                 },
 

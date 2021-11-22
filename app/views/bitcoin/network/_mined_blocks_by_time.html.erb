@@ -41,7 +41,7 @@
                       date(format: $dateFormat)
                     }
 
-                    count(uniq: blocks)
+                    count: countBigInt(uniq: blocks)
 
                     minedValue
 
@@ -68,8 +68,8 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.block_count') %>',
-                    path: 'count'
+                    title: {label: '<%= t('widgets.titles.block_count') %>', type: 'number' },
+                    path: 'count: countBigInt'
                 },
 
             ]
@@ -96,7 +96,7 @@
                 {
                     title: '<%= t('widgets.titles.mined_value') %>',
                     renderCallback: function(item){
-                        return item.minedValue / item.count;
+                        return item.minedValue / item.count: countBigInt;
                     }
                 },
 

@@ -29,7 +29,7 @@
                          date: date{
                             date(format: $dateFormat)
                          }
-                        count(uniq: transactions)
+                        count: countBigInt(uniq: transactions)
                         value
 
                     }
@@ -65,7 +65,7 @@
                     path: 'value'
                 },
                 {
-                    title: '<%= t('widgets.titles.transactions_count') %>',
+                    title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number' },
                     path: 'count'
                 },
 

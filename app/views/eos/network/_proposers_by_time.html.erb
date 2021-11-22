@@ -30,7 +30,7 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count(uniq: proposers)
+                        count: countBigInt(uniq: proposers)
                       }
                     }
                   }`);
@@ -54,7 +54,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.unique_miners') %>',
+                    title: {label: '<%= t('widgets.titles.unique_miners') %>', type: 'number' },
                     path: 'count'
                 },
 
