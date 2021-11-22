@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.rewards') %></div>
+      <div class="card-body">
+        <div id="rewards"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $( document ).ready(function() {
+    var query = new widgets.query(`
+      query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $date: ISO8601DateTime, $height: Int) {
+        solana(network: $network) {
+          blockRewards(
+            options: {limit: $limit, offset: $offset}
+            date: {is: $date}
+            height: {is: $height}
+          ) {
+            time{
+              time
+            }
+            account
+            rewardType
+            amount
+            currency{
+              symbol
+            }
+            postBalance
+          }
+        }
+      }    
+    `);
+
+    new widgets.table('#rewards', query, 'solana.blockRewards', {
+        title: '<%= t('widgets.headers.rewards') %>',
+        dataOptions: [
+            {
+                title: '<%= t('widgets.titles.account') %>',
+                type: 'string',
+                path: 'account'
+            },
+            {
+                title: '<%= t('widgets.titles.type') %>',
+                type: 'string',
+                path: 'rewardType'
+            },
+            {
+                title: '<%= t('widgets.titles.amount') %>, <%= @network[:currency] %>',
+                type: 'string',
+                path: 'amount'
+            },
+            {
+                title: '<%= t('widgets.titles.new_balance') %>',
+                type: 'string',
+                path: 'postBalance'
+            },
+        ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        network: '<%= params['network']['network'] %>',
+        height: <%= @block_id %>
+    });
+
+  });
+
+</script>
+
