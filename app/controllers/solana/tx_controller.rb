@@ -3,10 +3,7 @@ module Solana
     layout 'tabs'
 
     before_action :set_tx_hash
-    before_action :breadcrumb
 
-    def show; end
-    def instructions; end
 
     private
 

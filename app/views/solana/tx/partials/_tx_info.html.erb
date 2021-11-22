@@ -18,6 +18,7 @@
           transactions(signature: {is: $signature}){
             signature
             block{
+              previousBlockHash
               hash
               height
               timestamp{
@@ -28,7 +29,7 @@
             signer
             transactionFee
             feePayer
-            previousBlockHash
+
             accountsCount
             transactionIndex
           }

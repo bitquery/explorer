@@ -7,7 +7,7 @@
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
     },
     tx_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+item.signature;
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.signature || item.transaction.signature);
     },
     account_path: function(item){
       if (item.sender && item.sender.address) {

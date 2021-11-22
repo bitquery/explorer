@@ -1383,6 +1383,7 @@ en:
       latest_topics: "Latest Topics"
     titles:
       instruction_account_index: "Account index in Instruction"
+      action: "Action"
       data_hex: "Data in Hex"
       program: "Program"
       program_name: "Program Name"

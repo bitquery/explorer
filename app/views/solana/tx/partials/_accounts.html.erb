@@ -15,6 +15,15 @@
       query ($network: SolanaNetwork!, $signature: String!) {
         solana(network: $network){
           instructionAccounts(signature: {is: $signature}){
+            instruction {
+              action {
+                name
+              }
+              program{
+                parsedName
+              }
+            }
+
             account{
               index
               name
@@ -31,6 +40,16 @@
     new widgets.table('#accounts', query, 'solana.instructionAccounts', {
       title: '<%= t('widgets.headers.accounts') %>',
       dataOptions: [
+        {
+            title: '<%= t('widgets.titles.program') %>',
+            type: 'string',
+            path: 'instruction.program.parsedName'
+        },
+        {
+            title: '<%= t('widgets.titles.action') %>',
+            type: 'string',
+            path: 'instruction.action.name'
+        },
         {
           title: '<%= t('widgets.titles.instruction_account_index') %>',
           type: 'string',
