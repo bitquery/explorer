@@ -17,8 +17,8 @@
           ) {
             sum_in: amount(calculate: sum, transferReceiver: {is: $address})
             sum_out: amount(calculate: sum, transferSender: {is: $address})
-            count_in: count(transferReceiver: {is: $address})
-            count_out: count(transferSender: {is: $address})
+            count_in: countBigInt(transferReceiver: {is: $address})
+            count_out: countBigInt(transferSender: {is: $address})
             currency {
               address
               symbol
