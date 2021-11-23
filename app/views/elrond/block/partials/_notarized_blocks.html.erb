@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.notarized_blocks') %></div>
+      <div class="card-body">
+        <div id="notarized_blocks"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $( document ).ready(function() {
+
+    const qraphql_query = `
+      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $blockHash: String!, $date: ISO8601DateTime) {
+        elrond(network: $network) {
+          notarizedBlock(
+            options: {limit: $limit, offset: $offset}
+            date: {is: $date}
+            blockHash: {is: $blockHash}
+          ) {
+            notarizedBlockHash
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#notarized_blocks', query, 'elrond.notarizedBlock', {
+      title: '<%= t('widgets.headers.notarized_blocks') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.hash') %>',
+          type: 'string',
+          path: 'notarizedBlockHash',
+          urlCallbackName: 'block_path',
+        },
+      ]
+    });
+
+  query.request({
+      blockHash: '<%= @block_hash %>',
+      date: '<%= @block_date %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+

@@ -1,0 +1,184 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.trades_by_time') %></div>
+      <div class="card-body">
+        <div id="trades_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.token_takers') %></div>
+      <div class="card-body">
+        <div id="unique_traders_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.unique_currencies_by_time') %></div>
+      <div class="card-body">
+        <div id="unique_currencies_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.unique_dex_smart_contracts_by_time') %></div>
+      <div class="card-body">
+        <div id="unique_dex_smart_contracts_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: TronNetwork!,
+                  $dateFormat: String!,
+                  $protocol: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    tron(network: $network ){
+                      dexTrades(options:{asc: "date.date"},
+                      protocol: {is: $protocol}
+                      date: {
+                        since: $from
+                        till: $till}
+
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+
+                            trades: count
+                            traders: count(uniq: takers)
+                            contracts: count(uniq: smart_contracts)
+                            currencies: count(uniq: buy_currency)
+
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#trades_by_time', query, 'tron.dexTrades', {
+            title: '<%= t('widgets.headers.trades_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.trades') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'trades'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#unique_traders_by_time', query, 'tron.dexTrades', {
+            title: '<%= t('widgets.headers.token_takers') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.traders') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.traders') %>',
+                    path: 'traders'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#unique_currencies_by_time', query, 'tron.dexTrades', {
+            title: '<%= t('widgets.headers.unique_currencies_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.currencies') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.currencies') %>',
+                    path: 'currencies'
+                },
+
+            ]
+        });
+
+        new widgets.chartByTime('#unique_dex_smart_contracts_by_time', query, 'tron.dexTrades', {
+            title: '<%= t('widgets.headers.unique_dex_smart_contracts_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.uniq_contracts') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#ffc107' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.uniq_contracts') %>',
+                    path: 'contracts'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            protocol: '<%= @protocol %>'
+        });
+
+
+    });
+</script>

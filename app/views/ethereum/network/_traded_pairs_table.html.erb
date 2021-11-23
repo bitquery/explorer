@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.token_currencies') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_trades_currencies') %></div>
       <div class="card-body">
         <div id="token_currencies"><%= t('loading') %></div>
       </div>
@@ -54,7 +54,7 @@
                   }`);
 
         new widgets.table('#token_currencies', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.token_currencies') %>',
+            title: '<%= t('widgets.headers.token_trades_currencies') %>',
             dataOptions: [
 
 

@@ -111,12 +111,8 @@ class Conflux::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 10,
+    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { from: Date.today - 10,
                                                                   network: @network[:network] }).data
-  rescue Net::ReadTimeout => e
-    Raven.capture_exception e
-    sleep(1)
-    retry
   end
 
 end

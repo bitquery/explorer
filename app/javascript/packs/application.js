@@ -126,7 +126,7 @@ global.createDashboard = function (dashboard_url, container_id, argsReplace) {
         height: 105,
         width: dashboard_container.clientWidth / 12
     }
-    $.get(`https://graphql.bitquery.io/api/dbcode/${dashboard_url}`, function (data) {
+    $.get(`/proxy_dbcode/${dashboard_url}`, function (data) {
         const layout = JSON.parse(data.layout)
         const height_units = Math.max(...layout.map(i => i.y + i.h))
         const container_height = height_units * unit.height
@@ -195,7 +195,7 @@ global.reportRange = function (selector, from, till, i18n) {
         $(selector).find('span').html(start.format(i18n.format) + ' - ' + end.format(i18n.format));
     }
 
-    properties.ranges[i18n.all_time] = [null, null];
+    // properties.ranges[i18n.all_time] = [null, null];
     properties.ranges[i18n.today] = [moment(), moment()];
     properties.ranges[i18n.yesterday] = [moment().subtract(1, 'days'), moment().subtract(1, 'days')];
     properties.ranges[i18n.last7] = [moment().subtract(6, 'days'), moment()];

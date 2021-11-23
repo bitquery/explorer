@@ -6,6 +6,13 @@ class Ethereum::TokenPairController < NetworkController
   def show
   end
 
+  def trading_view
+    @breadcrumbs << {name:'Trading view'}
+  end
+  def last_trades
+    @breadcrumbs << {name: 'Last Trades'}
+  end
+
   private
   def set_pair
     @token1 = params[:token1]

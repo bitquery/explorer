@@ -5,12 +5,6 @@ module Solana
     before_action :set_block_id
     before_action :breadcrumb
 
-    def show; end
-
-    def transactions; end
-
-    def transfers; end
-
     private
 
     def set_block_id

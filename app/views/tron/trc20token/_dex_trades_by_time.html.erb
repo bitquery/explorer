@@ -59,11 +59,11 @@
                           date(format: $dateFormat)
                         }
 
-                            trades: count
+                            trades: countBigInt
                             amount: baseAmount
                             baseCurrency{symbol}
-                            contracts: count(uniq: smart_contracts)
-                            currencies: count(uniq: quote_currency)
+                            contracts: countBigInt(uniq: smart_contracts)
+                            currencies: countBigInt(uniq: quote_currency)
 
                       }
                     }
@@ -88,7 +88,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.trades') %>',
+                    title: {label: '<%= t('widgets.titles.trades') %>', type: 'number' },
                     path: 'trades'
                 },
 
@@ -140,7 +140,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.currencies') %>',
+                    title: {label: '<%= t('widgets.titles.currencies') %>', type: 'number' },
                     path: 'currencies'
                 },
 
@@ -166,7 +166,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.uniq_contracts') %>',
+                    title: {label: '<%= t('widgets.titles.uniq_contracts') %>', type: 'number' },
                     path: 'contracts'
                 },
 

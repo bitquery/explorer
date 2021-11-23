@@ -26,7 +26,7 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count(uniq:orders)
+                        count: countBigInt(uniq:orders)
                       }
                     }
                   }`);
@@ -50,8 +50,8 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.unique_orders') %>',
-                    path: 'count'
+                    title: {label: '<%= t('widgets.titles.unique_orders') %>', type: 'number' },
+                    path: 'count: countBigInt'
                 },
 
             ]

@@ -8,6 +8,8 @@ class NetworkController < ApplicationController
         {name: 'Blockchains', url: locale_path_prefix},
         {name: @network[:name], url: "#{locale_path_prefix}#{@network[:network]}"},
         (params[:address] ? {name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:address].truncate(15)}", url: "#{locale_path_prefix}#{@network[:network]}/#{params[:address]}"} : nil),
+        (params[:token1] ? {name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:token1].truncate(15)}", url: "#{locale_path_prefix}#{@network[:network]}/token/#{params[:token1]}"} : nil),
+        (params[:token2] ? {name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:token2].truncate(15)}", url: "#{locale_path_prefix}#{@network[:network]}/token/#{params[:token2]}"} : nil),
         (params[:block] ? {name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:block].truncate(15)}", url: "#{locale_path_prefix}#{@network[:network]}/#{params[:block]}"} : nil),
         (params[:hash] ? {name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:hash].truncate(15)}", url: "#{locale_path_prefix}#{@network[:network]}/#{params[:hash]}"} : nil),
         ((params[:address]|| params[:block] || params[:hash]) && action_name != 'show' ? {name: t("tabs.#{controller_name}.#{action_name}.name"), url: "#{locale_path_prefix}#{@network[:network]}/#{params[:hash]}"} : nil)

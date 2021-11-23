@@ -12,12 +12,8 @@ class Eos::BlockController < NetworkController
   private
 
   def query_date
-    @block_date = BitqueryGraphql::Client.query(QUERY, variables: { height: @height.to_i,
+    @block_date = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { height: @height.to_i,
                                                                     network: @network[:network] }).data.eos.blocks[0].date.date
-  rescue Net::ReadTimeout => e
-    Raven.capture_exception e
-    sleep(1)
-    retry
   end
 
 end

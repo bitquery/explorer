@@ -38,7 +38,7 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count(uniq: proposers)
+                        count: countBigInt(uniq: proposers)
                         reward: rate
                       }
                     }
@@ -63,7 +63,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.proposers_count') %>',
+                    title: {label: '<%= t('widgets.titles.proposers_count') %>', type: 'number' },
                     path: 'count'
                 },
 

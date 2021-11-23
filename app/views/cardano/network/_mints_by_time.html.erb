@@ -30,7 +30,7 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
+                        count: countBigInt
                       }
                     }
                   }`);
@@ -54,7 +54,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.mints_count') %>',
+                    title: {label: '<%= t('widgets.titles.mints_count') %>', type: 'number' },
                     path: 'count'
                 },
 

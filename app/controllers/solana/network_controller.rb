@@ -4,9 +4,6 @@ module Solana
 
     before_action :breadcrumb
 
-    # GET /solana
-    def blocks; end
-
     private
 
     def breadcrumb

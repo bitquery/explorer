@@ -69,16 +69,10 @@ class Ethereum::AddressController < NetworkController
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     if @address.starts_with?('0x')
-      begin
-        result = BitqueryGraphql::Client.query(query, variables: { network: @network[:network], address: @address }).data.ethereum
-        @info = result.address.first
-        all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
-        @currencies = all_t.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
-      rescue Net::ReadTimeout => e
-        Raven.capture_exception e
-        sleep(1)
-        retry
-      end
+      result = BitqueryGraphql.instance.query_with_retry(query, variables: { network: @network[:network], address: @address }).data.ethereum
+      @info = result.address.first
+      all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
+      @currencies = all_t.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
     end
   end
 

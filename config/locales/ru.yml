@@ -247,7 +247,16 @@ ru:
       latest_accounts: "Последние Аккаунты"
       created_accounts: "Созданные Аккаунты"
       latest_contracts: "Последние Контракты"
+      latest_miniblocks: "Последние Миниблоки"
+      latest_miniblocks_sender: "Последние Миниблоки, где Блок является отправителем"
+      latest_miniblocks_receiver: "Последние Миниблоки, где Блок является получаетелем"
+      latest_blocks_first_shard: "Последние Блоки в Шарде номер 0"
+      latest_blocks_second_shard: "Последние Блоки в Шарде номер 1"
+      latest_blocks_third_shard: "Последние Блоки в Шарде номер 2"
+      latest_blocks_metachain: "Последние Блоки в Метачейне"
     titles:
+      validators_hash: "Хеш валидатора"
+      previous_block_hash: 'Предыдуший хеш блока'
       previous_block_hash: 'Предыдуший хеш блока'
       contract: 'Контракт'
       date: 'Дата'
@@ -277,9 +286,15 @@ ru:
       method: "Метод"
       calls_count: "Количество вызовов"
       timestamp: 'Время'
+      size: 'Размер'
+      size_txs: 'Размер Txs'
       creation_date: 'Дата создания'
       sender: 'Отправитель'
       receiver: 'Получатель'
+      receiver_block: 'Хеш блока получателя'
+      receiver_shard: 'Номер шарда получателяля'
+      sender_block: 'Хеш блока отправителя'
+      sender_shard: 'Номер шарда отправителя'
       amount: 'Сумма'
       transaction: 'Транзакция'
       transaction_id: 'ID Транзакции'
@@ -333,6 +348,7 @@ ru:
       payer: "Отправитель"
       node: "Получатель"
       transaction_type: "Тип транзакции"
+      shard: "Шард"
   pages:
     footer:
       built: "Сделано на основе"

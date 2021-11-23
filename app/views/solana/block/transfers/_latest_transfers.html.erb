@@ -26,6 +26,9 @@
                 time
               }
             }
+            transaction {
+             signature
+            }
             sender{
               address
             }
@@ -37,7 +40,7 @@
               address
             }
             amount
-            signature
+
             transferType
           }
         }
@@ -90,7 +93,8 @@
             {
                 title: '<%= t('widgets.titles.signature') %>',
                 type: 'string-ellipsis',
-                path: 'signature'
+                path: 'transaction.signature',
+                urlCallbackName: 'tx_path'
             },
             {
                 title: '<%= t('widgets.titles.transfer_type') %>',

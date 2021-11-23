@@ -42,12 +42,8 @@ class Tron::Trc10tokenController < NetworkController
 
   def token
     @token = params[:address]
-    result = BitqueryGraphql::Client.query(QUERY, variables: { token: @token }).data.tron.transfers.first
+    result = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { token: @token }).data.tron.transfers.first
     @info = result.currency
-  rescue Net::ReadTimeout => e
-    Raven.capture_exception e
-    sleep(1)
-    retry
   end
 
   def breadcrumb

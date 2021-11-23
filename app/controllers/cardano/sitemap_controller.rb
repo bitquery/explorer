@@ -45,11 +45,7 @@ class Cardano::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql::Client.query(QUERY, variables: { from: Date.today - 14,
+    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { from: Date.today - 14,
                                                                   network: @network[:network] }).data
-  rescue Net::ReadTimeout => e
-    Raven.capture_exception e
-    sleep(1)
-    retry
   end
 end

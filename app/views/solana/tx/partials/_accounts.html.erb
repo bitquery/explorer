@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.accounts') %></div>
+      <div class="card-body">
+        <div id="accounts"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: SolanaNetwork!, $signature: String!) {
+        solana(network: $network){
+          instructionAccounts(signature: {is: $signature}){
+            instruction {
+              action {
+                name
+              }
+              program{
+                parsedName
+              }
+            }
+
+            account{
+              index
+              name
+              owner
+              type
+            }
+          }
+        }
+       }    
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#accounts', query, 'solana.instructionAccounts', {
+      title: '<%= t('widgets.headers.accounts') %>',
+      dataOptions: [
+        {
+            title: '<%= t('widgets.titles.program') %>',
+            type: 'string',
+            path: 'instruction.program.parsedName'
+        },
+        {
+            title: '<%= t('widgets.titles.action') %>',
+            type: 'string',
+            path: 'instruction.action.name'
+        },
+        {
+          title: '<%= t('widgets.titles.instruction_account_index') %>',
+          type: 'string',
+          path: 'account.index'
+        },
+        {
+          title: '<%= t('widgets.titles.name') %>',
+          type: 'string',
+          path: 'account.name'
+        },
+        {
+          title: '<%= t('widgets.titles.owner') %>',
+          type: 'string',
+          path: 'account.owner'
+        },
+        {
+          title: '<%= t('widgets.titles.type') %>',
+          type: 'string',
+          path: 'account.type'
+        },
+      ]
+    });
+
+    query.request({
+      signature: '<%= @tx_hash %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+

@@ -40,6 +40,11 @@ class ApplicationController < ActionController::Base
     else
       @till = 'null'
     end
+
+    if params[:from].blank? && params[:till].blank?
+      @from = "\"#{(Time.now - 29.days).strftime('%Y-%m-%d')}\""
+      @till = "\"#{Time.now.strftime('%Y-%m-%d')}\""
+    end
   end
 
   def set_locale

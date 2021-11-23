@@ -39,12 +39,12 @@ en:
         description: "Visualize %{network} payer %{payer_account} , balances, 
           transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
         keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
-        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
-        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
-        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
-        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
-        %{network} address finder, 
-        %{network} payer account finder %{payer_account}"
+          %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+          %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+          balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+          crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+          %{network} address finder, 
+          %{network} payer account finder %{payer_account}"
     messages:
       icon: 'fas fa-bolt'
       header: "%{network} message %{hash}"
@@ -85,12 +85,12 @@ en:
         description: "Visualize %{network} node %{node_account} , balances, 
           transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
         keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
-        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
-        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
-        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
-        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
-        %{network} address finder, 
-        %{network} node account finder %{node_account}"
+          %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+          %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+          balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+          crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+          %{network} address finder, 
+          %{network} node account finder %{node_account}"
     accounts:
       icon: 'fas fa-user-circle'
       header: "%{network} Account %{account}"
@@ -127,6 +127,13 @@ en:
         keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
         %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
         %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+      transfers:
+        name: 'Transfres'
+        title: "%{account} Transfers | %{network}"
+        description: "Transfers sent by account %{account} and other transfers analytics charts in %{network}"
+        keywords: "%{account} transfers, explore %{network} transfers, track %{network} transfers, search %{network} transfers, 
+        %{network} transfers per day, %{network} transfers fee, %{network} transfers live, %{network} transfer live, %{network} transfer time, %{network} transfer data,
+        %{network} transfers per second chart, %{network} transfers chart, tracking %{network} transfers, %{network} transfers status, check %{network} transfers pending"
     contracts:
       icon: 'fas fa-user-circle'
       header: "%{network} Contract %{contract}"
@@ -387,6 +394,8 @@ en:
     token_pair:
       icon: ''
       header: ''
+      show:
+        name: 'Token'
       trading_view:
         name: 'Trading view'
       last_trades:
@@ -638,6 +647,16 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      instructions:
+        name: "Instructions"
+        title: "%{network} Instuctions for %{hash} transaction"
+        description: "Single program, a subset of the transaction's accounts that should be passed to the progam."
+        keywords: "%{network} Instructions"
+      accounts:
+        name: "Accounts"
+        title: "%{network} Accounts for %{hash} transaction"
+        description: "Account addressed for %{network} transaction"
+        keywords: "%{network} Accounts"
     height:
       icon: 'fas fa-cube'
       header: "%{network} Height %{height}"
@@ -688,6 +707,91 @@ en:
         title: "Block %{height} Orders on %{network} Explorer"
         description: "Order list in block %{height} for %{network}"
         keywords: "%{network} orders, %{network} exchange orders"
+      miniblocks:
+        name: "Miniblocks"
+        title: "Block %{height} Miniblocks on %{network} Explorer"
+        description: "Сross-shard transactions which enable communicate between shards and the metachain"
+        keywords: "%{network} miniblocks, %{network} cross-shard transaction"
+      validators:
+        name: "Validators"
+        title: "Block %{height} Validators on %{network} Explorer"
+        description: "A blockchain validator is someone who is responsible for verifying transactions on a blockchain."
+        keywords: "%{network} validators, %{network} Proof of stake, %{network} PoS"
+      notarized_blocks:
+        name: "Notarized Blocks"
+        title: "Block %{height} Notarized Blocks on %{network} Explorer"
+        description: "Notarized Blocks"
+        keywords: "%{network} Notarized Blocks"
+      rewards:
+        name: "Reward"
+        title: "Block %{height} Rewards on %{network} Explorer"
+        description: "Rewards"
+        keywords: "%{network} Rewards"
+    miniblocks:
+      icon: 'fas fa-cube'
+      header: "%{network} Miniblock %{miniblock_hash}"
+      show:
+        name: 'Miniblock'
+        title: "Miniblock %{miniblock_hash} in %{network}"
+        description: "Check %{network} miniblock %{miniblock_hash} and %{network} miniblock data and analytics"
+        keywords: "%{network} miniblock, %{network} latest miniblocks"
+      transactions:
+        name: "Transactions"
+        title: "Miniblock %{miniblock_hash} Transactions on %{network} Explorer"
+        description: "Transactions"
+        keywords: "%{network} miniblocks"
+      transfers:
+        name: "Transfers"
+        title: "Transfers %{miniblock_hash} Transfers on %{network} Explorer"
+        description: "Transfers"
+        keywords: "%{network} transfers"
+      calls:
+        name: "Smart Contract Calls"
+        title: "Smart Contract Calls on %{network} Explorer in miniblock"
+        description: "Check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users
+          for miniblock %{miniblock_hash}"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users for miniblock %{miniblock_hash}"
+    shards:
+      icon: 'fas fa-cube'
+      header: "%{network} Shard %{shard_id}"
+      show:
+        name: 'Shard'
+        title: "Shard %{shard_id} in %{network}"
+        description: "Check %{network} miniblock %{shard_id} and %{network} miniblock data and analytics"
+        keywords: "%{network} miniblock, %{network} latest miniblocks"
+      miniblocks:
+        name: "Miniblocks"
+        title: "Shard %{shard_id} Miniblocks on %{network} Explorer"
+        description: "Сross-shard transactions which enable communicate between shards and the metachain"
+        keywords: "%{network} miniblocks, %{network} cross-shard transaction in shard %{shard_id}"
+      transactions:
+        name: "Transactions"
+        title: "Shard %{shard_id} Transactions on %{network} Explorer"
+        description: "Shard %{shard_id} transactions"
+        keywords: "%{network} transactions, %{shard_id} transactions"
+      transfers:
+        name: "Transfers"
+        title: "Shards %{shard_id} Transfers on %{network} Explorer"
+        description: "Shards %{shard_id} transfers"
+        keywords: "%{network} transfers, shards %{shard_id} transfers"
+      calls:
+        name: "Smart Contract Calls"
+        title: "Smart Contract Calls on %{network} Explorer in shard %{shard_id}"
+        description: "Check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users
+          for shard %{shard_id}"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users for shard %{shard_id}"
+    validators:
+      icon: 'fas fa-cube'
+      header: "%{network} Validator %{validator_hash}"
+      show:
+        name: 'Validator'
+        title: "Validator %{validator_hash} in %{network}"
+        description: "Check %{network} validator %{validator_hash} and %{network} validator data and analytics"
+        keywords: "%{network} validator, %{network} latest validator"
     network:
       header: "%{network} Blockchain Explorer"
       blocks:
@@ -848,6 +952,16 @@ en:
         title: "Attestations on %{network} Explorer"
         description: "Attestations on %{network}"
         keywords: "%{network} attestations"
+      miniblocks:
+        name: "Miniblocks"
+        title: "Miniblocks on %{network} Explorer"
+        description: "Miniblocks on %{network}"
+        keywords: "%{network} miniblocks"
+      shards:
+        name: "Shards"
+        title: "Shards on %{network} Explorer"
+        description: "Shards"
+        keywords: "%{network} Shards"
     home:
       index:
         name: "All"
@@ -993,13 +1107,86 @@ en:
         title: "Validator %{index} | %{network}"
         description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
         keywords: "%{network} Validator ${index}"
+    dex_protocol:
+      icon: 'fa fa-exchange'
+      header: "%{protocol} DEX Protocol at %{network} Blockchain"
+      statistics:
+        name: "Statistics"
+        title: "Statistics of %{protocol} DEX at %{network}"
+        description: "Statistics of %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades,statistics"
+      volume:
+        name: "Volume"
+        title: "Volume of %{protocol} DEX at %{network}"
+        description: "Volume of %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades,volume"
+      trades:
+        name: "Trades"
+        title: "Trades on %{protocol} DEX at %{network}"
+        description: "Trade list on %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades"
+      traders:
+        name: "Makers/Takers"
+        title: "Makers/Takers on %{protocol} DEX at %{network}"
+        description: "Makers/Takers list on %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades,makers,takers"
+      exchanges:
+        name: "Exchanges"
+        title: "Exchanges with %{protocol} DEX at %{network}"
+        description: "Exchanges with %{protocol} at %{network}"
+        keywords: "%{protocol},%{network},dex,trades,exchanges"
+      pairs:
+        name: "Token Pairs"
+        title: "Token Pairs Traded on %{protocol} DEX at %{network}"
+        description: "Token Pairs traded using %{protocol} at %{network}"
+        keywords: "%{protocol},%{network},dex,trades,exchanges,token,pair"
+    dex:
+      icon: 'fa fa-exchange'
+      header: "%{exchange} DEX at %{network} Blockchain"
+      statistics:
+        name: "Statistics"
+        title: "Statistics of %{exchange} DEX at %{network}"
+        description: "Statistics of %{exchange} for %{network}"
+        keywords: "%{network},%{exchange},dex,trades,statistics"
+      volume:
+        name: "Volume"
+        title: "Volume of %{exchange} DEX at %{network}"
+        description: "Volume of %{exchange} for %{network}"
+        keywords: "%{network},%{exchange},dex,trades,volume"
+      trades:
+        name: "Trades"
+        title: "Trades on %{exchange} DEX at %{network}"
+        description: "Trade list on %{exchange} for %{network}"
+        keywords: "%{exchange},%{network},dex,trades"
+      traders:
+        name: "Makers/Takers"
+        title: "Makers/Takers on %{exchange} DEX at %{network}"
+        description: "Makers/Takers list on %{exchange} for %{network}"
+        keywords: "%{network},%{exchange},dex,trades,makers,takers"
+      protocols:
+        name: "Protocols"
+        title: "Protocols used by %{exchange} DEX at %{network}"
+        description: "Protocols used by %{exchange} at %{network}"
+        keywords: "%{network},%{exchange},dex,trades,exchanges"
+      pairs:
+        name: "Token Pairs"
+        title: "Token Pairs Traded on %{exchange} DEX at %{network}"
+        description: "Token Pairs traded on %{exchange} at %{network}"
+        keywords: "%{network},%{exchange},dex,trades,exchanges,token,pair"
   errors:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
+      notarized_blocks: "Notarized Blocks"
+      transaction_info: "Transaction Info"
       account_summery: "Account Summery"
       transaction_by_time: 'Activities by date'
       transactions_count: "Transactions Count"
+      latest_transactions_where_sender: "Latest Transactions where Account is sender"
+      latest_transactions_where_receiver: "Latest Transactions where Account is receiver"
+      latest_transfers_where_sender: "Latest Transfers where Account is sender"
+      latest_transfers_where_receiver: "Latest Transfers where Account is receiver"
+      latest_validators: "Latest Transfers where Account is receiver"
       blocks_by_time: 'Blocks by date'
       proposed_blocks_by_time: 'Proposed Blocks by date'
       attestations_by_time: 'Slot Attestations by date'
@@ -1064,6 +1251,11 @@ en:
       annotation: "Annotation"
       latest_token_transfers: "Latest Token Transfers"
       latest_messages: "Latest Messages"
+      latest_miniblocks: "Latest Miniblocks"
+      latest_miniblocks_sender: "Latest Miniblocks where Block is sender"
+      latest_miniblocks_receiver: "Latest Miniblocks where Block is receiver"
+      latest_miniblocks_shard_sender: "Latest Miniblocks where Shard is sender"
+      latest_miniblocks_shard_receiver: "Latest Miniblocks where Shard is receiver"
       token_transfers_by_time: "Token Transfers By Date"
       max_token_transfers_by_time: "The Largest Transaction Amount in Time Period"
       token_senders_table: "Token Senders By Volume"
@@ -1099,6 +1291,11 @@ en:
       transaction_gas_avg_cost_by_time: "Transaction Average Cost"
       transaction_gas_price_by_time_log: "Gas Price By Date ( Median, Average, Maximum) in Log scale, GWei"
       latest_blocks: "Latest Blocks"
+      latest_blocks_first_shard: "Latest Blocks in Shard 0"
+      latest_blocks_second_shard: "Latest Blocks in Shard 1"
+      latest_blocks_third_shard: "Latest Blocks in Shard 2"
+      latest_blocks_metachain: "Latest Blocks in Metachain"
+      latest_blocks_shards: "Latest Blocks in Shards"
       blocks_on_height: "Blocks on Height"
       latest_transactions: "Latest Transactions"
       latest_contracts: "Latest Contracts"
@@ -1194,6 +1391,19 @@ en:
       created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
     titles:
+      instruction_account_index: "Account index in Instruction"
+      action: "Action"
+      data_hex: "Data in Hex"
+      program: "Program"
+      program_name: "Program Name"
+      validators_hash: "Validator Hash"
+      miniblock_hash: "Miniblock Hash"
+      miniblock_type: "Miniblock Type"
+      fee_payer: "Fee Payer"
+      sender_block_hash: "Sender Block Hash"
+      sender_shard: "Sender Shard"
+      receiver_block_hash: "Receiver Block Hash"
+      receiver_shard: "Receiver Shard"
       previous_block_hash: 'Previous Block Hash'
       contract: 'Contract'
       date: 'Date'
@@ -1225,6 +1435,7 @@ en:
       sell: "Sell"
       trade: "Trades"
       smart_contract: "Smart Contract"
+      smart_contract_address: "Smart Contract Address"
       method: "Method"
       calls_count: "Calls Count"
       mints_count: "Mints Count"
@@ -1232,6 +1443,10 @@ en:
       creation_date: 'Creation Date'
       sender: 'Sender'
       receiver: 'Receiver'
+      receiver_block: 'Receiver Block'
+      receiver_shard: 'Receiver shard'
+      sender_block: 'Sender Block'
+      sender_shard: 'Sender shard'
       amount: 'Amount'
       amount_usd: 'Amount, USD'
       usd: '$'
@@ -1310,6 +1525,7 @@ en:
       max_gas_price: "Maximum Gas Price, GWei"
       med_gas_price: "Median Gas Price, GWei"
       gas_used: "Gas Used"
+      gas_limit: "Gas Limit"
       sequence_number: "Sequence Number"
       submited_by: "Submited By"
       running_hash: "Running Hash"
@@ -1331,6 +1547,7 @@ en:
       next_protocol: "Next Protocol"
       uncle_count: "Uncles"
       size: "Size"
+      size_txs: "Size Txs"
       block_reward: "Block Reward"
       pivot: "Pivot"
       miners_block_reward_by_time: 'Miners Block Reward By Time'
@@ -1342,6 +1559,7 @@ en:
       transaction_hash: "Transaction Hash"
       parent_hash: "Parent Hash"
       block_count: "Block Count"
+      block_hash: "Block Hash"
       slot_count: "Slot Count"
       deposit_count: "Deposit count"
       slashing_count: "Slashing count"
@@ -1378,6 +1596,8 @@ en:
       buy_currency: 'Buy currency'
       quote_currency: 'Quote currency'
       sell_currency: 'Sell currency'
+      buy_currency_count: 'Buy uniq tokens count'
+      sell_currency_count: 'Sell uniq tokens count'
       base_amount: 'Base amount'
       quote_amount: 'Quote amount'
       buy_amount: 'Buy amount'
@@ -1396,6 +1616,7 @@ en:
       operator_address: "Operator"
       operator_hr_address: "Operator HR"
       transaction_index: "Index in Block"
+      miniblock_index: "Index in Miniblock"
       transaction_code: "Result Code"
       trades_as_base_count: "Trades As Base Currency"
       trades_as_quote_count: "Trades As Quote Currency"
@@ -1449,16 +1670,21 @@ en:
       weight: "Weight"
       chainwork: "Chainwork"
       log: "Log"
+      consumed: "Consumed"
+      total_gas: "Total Gas"
+      result: "Result"
       description: "Descrition"
       memo: "Memo"
       account: "Account"
       accounts: "Accounts"
       account_summery: "Account Summery"
+      accounts_count: "Count of Accounts"
       payer: "Payer"
       node: "Node"
       consensus_timestamp: "Consensus"
       total_amount: "Total Amount"
       transaction_fee: "Transaction Fee"
+      shard: "Shard"
   pages:
     home:
       family: "%{family} Platform Explorers"

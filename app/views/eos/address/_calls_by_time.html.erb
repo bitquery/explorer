@@ -17,7 +17,7 @@
                   $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
               eos {
                 smartContractCalls(date: {since: $from, till: $till}){
-                      count(
+                      count: countBigInt(
                         uniq: calls,
                         txFrom: {is: $address}
                       )
@@ -48,7 +48,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.calls_count') %>',
+                    title: {label: '<%= t('widgets.titles.calls_count') %>', type: 'number' },
                     path: 'count'
                 }
             ]

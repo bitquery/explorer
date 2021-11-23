@@ -22,14 +22,8 @@ query (  $address: String!){
   def query_graphql
     @address = params[:address]
     if action_name == 'money_flow'
-      begin
-        result = BitqueryGraphql::Client.query(QUERY_CURRENCIES, variables: { address: @address }).data.binance
+        result = BitqueryGraphql.instance.query_with_retry(QUERY_CURRENCIES, variables: { address: @address }).data.binance
         @currencies = result.transfers.map(&:currency).sort_by { |c| c.token_id == 'BNB' ? 0 : 1 }.uniq { |x| x.token_id } if result.try(:transfers)
-      rescue Net::ReadTimeout => e
-        Raven.capture_exception e
-        sleep(1)
-        retry
-      end
     end
   end
 end

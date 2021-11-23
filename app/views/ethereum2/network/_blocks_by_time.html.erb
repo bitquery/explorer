@@ -39,8 +39,8 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
-                        proposers: count(uniq: block_proposers)
+                        count: countBigInt
+                        proposers: countBigInt(uniq: block_proposers)
                       }
                     }
                   }`);
@@ -64,7 +64,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.proposers_count') %>',
+                    title: {label: '<%= t('widgets.titles.proposers_count') %>', type: 'number' },
                     path: 'proposers'
                 },
 
@@ -90,7 +90,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.block_count') %>',
+                    title: {label: '<%= t('widgets.titles.block_count') %>', type: 'number' },
                     path: 'count'
                 },
 

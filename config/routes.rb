@@ -34,8 +34,15 @@ Rails.application.routes.draw do
       get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/dex_protocol/:protocol_name/:action", controller: "#{blockchain[:family]}/dex_protocol", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex_protocol/:protocol_name", controller: "#{blockchain[:family]}/dex_protocol", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/dex/:exchange/:action", controller: "#{blockchain[:family]}/dex", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex/:exchange", controller: "#{blockchain[:family]}/dex", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+
       get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
-      get ":blockchain/tokenpair/:token1/:token2", controller: "#{blockchain[:family]}/token_pair", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/tokenpair/:token1/:token2", controller: "#{blockchain[:family]}/token_pair", action: 'trading_view', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/tokenpair/:token1/:token2/trading_view", controller: "#{blockchain[:family]}/token_pair", action: 'trading_view', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/tokenpair/:token1/:token2/last_trades", controller: "#{blockchain[:family]}/token_pair", action: 'last_trades', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
     }
@@ -86,6 +93,13 @@ Rails.application.routes.draw do
 
       get ":blockchain/event/:signature/:action", controller: "#{blockchain[:family]}/event", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/event/:signature", controller: "#{blockchain[:family]}/event", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/dex_protocol/:protocol_name/:action", controller: "#{blockchain[:family]}/dex_protocol", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex_protocol/:protocol_name", controller: "#{blockchain[:family]}/dex_protocol", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/dex/:exchange/:action", controller: "#{blockchain[:family]}/dex", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/dex/:exchange", controller: "#{blockchain[:family]}/dex", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
 
       get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
@@ -349,6 +363,39 @@ Rails.application.routes.draw do
           get ":blockchain/block/:block_id", controller: "#{blockchain[:family]}/block", action: 'show'
           get ":blockchain/block/:block_id/:action", controller: "#{blockchain[:family]}/block"
 
+          get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
+
+          get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+        end
+      end
+    end
+
+    BLOCKCHAINS.select { |b| b[:family] == 'elrond' }.each do |blockchain|
+      constraints(blockchain: blockchain[:network]) do
+        defaults network: blockchain do
+          get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'shards'
+
+          get ":blockchain/:action", controller: "#{blockchain[:family]}/network"
+
+          get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
+
+          get ":blockchain/block/:hash", controller: "#{blockchain[:family]}/block", action: 'show'
+          get ":blockchain/block/:hash/:action", controller: "#{blockchain[:family]}/block"
+
+          get ":blockchain/miniblocks/:hash", controller: "#{blockchain[:family]}/miniblocks", action: 'show'
+          get ":blockchain/miniblocks/:hash/:action", controller: "#{blockchain[:family]}/miniblocks"
+
+          get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
+          get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
+
+          get ":blockchain/validators/:hash", controller: "#{blockchain[:family]}/validators", action: 'show'
+          get ":blockchain/validators/:hash/:action", controller: "#{blockchain[:family]}/validators"
+
+          get ":blockchain/shards/:id", controller: "#{blockchain[:family]}/shards", action: 'show'
+          get ":blockchain/shards/:id/:action", controller: "#{blockchain[:family]}/shards"
+
           get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end
       end
@@ -366,6 +413,7 @@ Rails.application.routes.draw do
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search', constraints: { query: /[^\/]+/ }
 
     post 'proxy_graphql', to: "proxy_graphql#index", defaults: { format: :json }
+    get 'proxy_dbcode/:dashbord_url', to: "proxy_dbcode#index", defaults: { format: :json }
 
     get "platform/:action", controller: "home"
     get "graphql(/:param)" => "utility#graphql"
