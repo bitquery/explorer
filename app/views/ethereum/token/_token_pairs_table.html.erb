@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">Token pairs</div>
+      <div class="card-body">
+        <div id="token-pairs"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($baseCurrency: String, $desc: [String!], $limit: Int!) {
+  ethereum {
+    dexTrades(baseCurrency: {is: $baseCurrency}, options: {desc: $desc, limit: $limit}) {
+      quoteCurrency {
+        symbol
+        name
+        address
+      }
+      count
+    }
+  }
+}
+`);
+
+        new widgets.table('#token-pairs', query, 'ethereum.dexTrades', {
+            title: 'Token pairs',
+            dataOptions: [
+                {
+                    title: 'Symbol',
+                    type: 'string',
+                    path: 'quoteCurrency.symbol',
+                    urlCallbackName: 'token_pair_path'
+                },
+                {
+                    title: 'name',
+                    type: 'string',
+                    path: 'quoteCurrency.name',
+
+                },
+                {
+                    title: 'address',
+                    type: 'string',
+                    path: 'quoteCurrency.address'
+                },
+                {
+                    title: 'Count',
+                    type: 'amount',
+                    path: 'count',
+                }
+            ]
+        });
+        query.request({
+            desc: 'count',
+            baseCurrency: '<%= @token %>'
+        })
+    });
+
+</script>

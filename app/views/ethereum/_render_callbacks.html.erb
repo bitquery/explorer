@@ -108,7 +108,10 @@
             }
 
         },
-
+        token_pair_path: function(item) {
+            console.log(item)
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tokenpair/<%=@token%>/'+ item.quoteCurrency.address
+        }
     });
 
 </script>

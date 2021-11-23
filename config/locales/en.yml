@@ -384,6 +384,13 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+    token_pair:
+      icon: ''
+      header: ''
+      trading_view:
+        name: 'Trading view'
+      last_trades:
+        name: 'Last trades'
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
