@@ -14,9 +14,16 @@
     $( document ).ready(function() {
 
 
-        var query = new widgets.query(`query ($baseCurrency: String, $desc: [String!], $limit: Int!) {
-  ethereum {
-    dexTrades(baseCurrency: {is: $baseCurrency}, options: {desc: $desc, limit: $limit}) {
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+            $from: ISO8601DateTime,
+            $till: ISO8601DateTime,
+            $baseCurrency: String,
+            $limit: Int!,
+            $offset: Int!) {
+  ethereum(network: $network){
+    dexTrades(baseCurrency: {is: $baseCurrency},
+      date: {since: $from till: $till }
+      options: {desc: "count", limit: $limit, offset: $offset}) {
       quoteCurrency {
         symbol
         name
@@ -55,10 +62,12 @@
                 }
             ]
         });
-        query.request({
-            desc: 'count',
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
             baseCurrency: '<%= @token %>'
-        })
+        });
+
     });
 
 </script>
