@@ -111,10 +111,7 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   BITQUERY_LOGGER_CONFIG = {
-    host: "127.0.0.1",
-    port: 5170,
-    buffer_max_items: 200,
-    log_to_console: true,
+    output: :file,
   }
 
 end

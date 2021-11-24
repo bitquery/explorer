@@ -62,10 +62,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   BITQUERY_LOGGER_CONFIG = {
-    host: "127.0.0.1",
-    port: 5170,
-    tcp_log_level: 0,
-    # log_to_console: true,
+    output: :file,
   }
 
 end

@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/bitquery/bitquery_logger.git
-  revision: 4c6bb41798d24e0825930a46ba63f0298463e545
+  revision: 8e0adf4e7ed6cd5329d8a38497aaf7fededa57c1
   branch: main
   specs:
-    bitquery_logger (0.1.7)
+    bitquery_logger (0.2.1)
       logstash-logger (~> 0.26.1)
 
 GEM
