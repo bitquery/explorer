@@ -42,6 +42,9 @@
                     title: 'Symbol',
                     type: 'string',
                     path: 'quoteCurrency.symbol',
+                    renderCallback: function(item){
+                        return '<%= @token_info.symbol %> / ' + item.quoteCurrency.symbol;
+                    },
                     urlCallbackName: 'token_pair_path'
                 },
                 {

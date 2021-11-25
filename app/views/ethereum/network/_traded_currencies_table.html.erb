@@ -1,7 +1,7 @@
 
   <div class="col-6 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.trades_by_currencies') %></div>
+      <div class="card-header"><%= t('widgets.headers.trades_by_pairs') %></div>
       <div class="card-body">
         <div id="trades_by_currencies"><%= t('loading') %></div>
       </div>
@@ -21,17 +21,23 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     ethereum(network: $network){
-                      dexTrades(options:{desc: "currencyAmount", limit: $limit, offset: $offset},
+                      dexTrades(options:{desc: "tradeAmount", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
 
                         ) {
 
-                            currency: baseCurrency {
+                            buyCurrency {
                               symbol
                               address
                             }
+
+                            sellCurrency {
+                              symbol
+                              address
+                            }
+
                             count
-                            currencyAmount: baseAmount(in: USD)
+                            tradeAmount(in: USD)
                             dates: count(uniq: dates)
                             started: minimum(of: date)
                       }
@@ -39,14 +45,16 @@
                   }`);
 
         new widgets.table('#trades_by_currencies', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.trades_by_currencies') %>',
+            title: '<%= t('widgets.headers.trades_by_pairs') %>',
             dataOptions: [
-
                 {
-                    title: '<%= t('widgets.titles.currency') %>',
+                    title: '<%= t('widgets.titles.pair') %>',
                     type: 'string',
-                    path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
+                    path: 'buyCurrency.symbol',
+                    renderCallback: function(item){
+                        return item.buyCurrency.symbol + ' / ' + item.sellCurrency.symbol;
+                    },
+                    urlCallbackName: 'token_pair_buysell_path'
                 },
 
                 {
@@ -55,7 +63,7 @@
                 },
                 {
                     title: '<%= t('widgets.titles.amount_usd') %>',
-                    path: 'currencyAmount'
+                    path: 'tradeAmount'
                 },
                 {
                     title: '<%= t('widgets.titles.started') %>',

@@ -289,8 +289,8 @@ en:
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network},DEX,Trades"
       dex_tokens:
-        name: "DEX Tokens"
-        title: "%{network} Token Traded on DEXes"
+        name: "DEX Token pairs"
+        title: "%{network} Token Pairs Traded on DEXes"
         description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
         keywords: "%{network},DEX,Tokens"
     token:
@@ -1348,6 +1348,7 @@ en:
       graph: 'Graph'
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
+      trades_by_pairs: "Trades By Pairs"
       trade_amount_by_time: "Trade Amount By Time"
       deposit_amount_by_time: "Deposit Amount By Time"
       slashings_by_time: "Slashings By Date"
