@@ -395,12 +395,16 @@ en:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
       address: "%{token}"
-      show:
-        name: 'Token'
       trading_view:
-        name: 'Trading view'
+        name: 'Pair Trading View '
+        title: "Trade %{network} %{token1} %{token2} DEX Trades"
+        description: "Trades %{token1} and %{token2} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}"
       last_trades:
-        name: 'Last trades'
+        name: 'Pair Last Trades'
+        title: "Trades %{network} %{token1} %{token2} DEX Trades"
+        description: "Trades %{token1} and %{token2} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}"
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"

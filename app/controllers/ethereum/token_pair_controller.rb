@@ -68,6 +68,7 @@ class Ethereum::TokenPairController < NetworkController
   def trading_view
     @breadcrumbs << {name:'Trading view'}
   end
+
   def last_trades
     @breadcrumbs << {name: 'Last Trades'}
   end
