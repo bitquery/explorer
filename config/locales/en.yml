@@ -392,8 +392,9 @@ en:
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
     token_pair:
-      icon: ''
-      header: ''
+      icon: 'fas fa-coins text-warning'
+      header: "%{token} in %{network}"
+      address: "%{token}"
       show:
         name: 'Token'
       trading_view:

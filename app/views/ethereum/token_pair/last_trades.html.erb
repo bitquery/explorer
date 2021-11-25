@@ -2,6 +2,7 @@
 <script type="text/javascript" charset="utf-8">
     createDashboard('last-trades-dashboard', 'pair-last-trades', {
         baseAddress: '<%=@token1 %>',
-        quoteAddress: '<%=@token2 %>'
+        quoteAddress: '<%=@token2 %>',
+        network: '<%= params['network']['network'] %>'
     })
 </script>

@@ -48,9 +48,9 @@ $('document').ready(function () {
     $('.to-clipboard').tooltip();
     $('.to-clipboard').on('click', function () {
         let it = $(this);
-        $('.to-clipboard').attr('data-original-title', 'Copied!').tooltip('show');
-        setTimeout(function () {
-            $('.to-clipboard').attr('data-original-title', 'Copy');
+        $(this).attr('data-original-title', 'Copied!').tooltip('show');
+        setTimeout( () => {
+            $(this).attr('data-original-title', 'Copy');
         }, 200);
     });
 });
