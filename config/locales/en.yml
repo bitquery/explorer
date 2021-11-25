@@ -393,18 +393,18 @@ en:
         keywords: "%{network} DEX Trades"
     token_pair:
       icon: 'fas fa-coins text-warning'
-      header: "%{token} in %{network}"
+      header: "Token pair %{token1symbol} (%{token1name}) vs %{token2symbol} (%{token2name}) in %{network}"
       address: "%{token}"
       trading_view:
         name: 'Pair Trading View '
-        title: "Trade %{network} %{token1} %{token2} DEX Trades"
-        description: "Trades %{token1} and %{token2} on decentralised exchanges (DEX), smart contract on %{network}"
-        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}"
+        title: "Trading View %{network} %{token1symbol} %{token2symbol} DEX Trades"
+        description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trading View,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
       last_trades:
         name: 'Pair Last Trades'
-        title: "Trades %{network} %{token1} %{token2} DEX Trades"
-        description: "Trades %{token1} and %{token2} on decentralised exchanges (DEX), smart contract on %{network}"
-        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}"
+        title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
+        description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"

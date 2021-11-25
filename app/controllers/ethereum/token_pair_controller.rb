@@ -1,12 +1,12 @@
 class Ethereum::TokenPairController < NetworkController
 
   layout 'tabs'
-  before_action :set_pair
+  before_action :set_pair, :query_graphql
 
   QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $address: String!) {
+   query($network: EthereumNetwork!, $token1: String!,$token2: String!) {
               ethereum(network: $network) {
-                address(address: {is: $address}){
+                address(address: {in: [$token1,$token2]}){
                   address 
                   annotation
                   
@@ -25,43 +25,7 @@ class Ethereum::TokenPairController < NetworkController
             }
   GRAPHQL
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
-                address(address: {is: $address}){
-                  address 
-                  annotation
-                  
-                  smartContract {
-                    contractType
-                    currency{
-                      symbol
-                      name
-                      decimals
-                      tokenType
-                    }
-                  }
-                  balance
-                }
-    						tin: transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
-      							currency {
-                      address
-                      symbol
-                      name
-                    }
-      							count
-    						}
-    						tout: transfers(sender: {is: $address}, options: {desc: "count", limit: 100}){
-      							currency {
-                      address
-                      symbol
-                      name
-                    }
-      							count
-    						}
-              }
-            }
-  GRAPHQL
+
   def show
   end
 
@@ -79,4 +43,22 @@ class Ethereum::TokenPairController < NetworkController
     @token1 = params[:token1]
     @token2 = params[:token2]
   end
+
+
+  def query_graphql
+
+    result = BitqueryGraphql.instance.query_with_retry(QUERY, variables: {
+              network: @network[:network], token1: @token1, token2: @token2 }).data.ethereum
+
+    @token1name = result.address.detect{|a| a.address==@token1 }
+    @token2name = result.address.detect{|a| a.address==@token2 }
+
+    @token1symbol = @token1name ? @token1name.smart_contract.currency.symbol : '-'
+    @token2symbol = @token2name ? @token2name.smart_contract.currency.symbol : '-'
+
+    @token1name = @token1name ? @token1name.smart_contract.currency.name : '-'
+    @token2name = @token2name ? @token2name.smart_contract.currency.name : '-'
+
+  end
+
 end
