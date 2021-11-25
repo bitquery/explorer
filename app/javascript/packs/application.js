@@ -12,11 +12,31 @@ require("jquery")
 require("popper.js")
 require("bootstrap")
 require('daterangepicker')
+
+import barWidgetRenderer from 'vega-widgets/src/components/widgets/barWidgetRenderer'
+import pieWidgetRenderer from 'vega-widgets/src/components/widgets/pieWidgetRenderer'
+import timeChartRenderer from "@bitquery/ide-charts/src/reactComponents/timeChartRenderer";
+import tableWidgetRenderer from "table-widget/src/components/tableWidgetRenderer";
+import tradingViewrenderer from "@bitquery/ide-tradingview/src/tradingViewRenderer";
+import { createChart } from 'lightweight-charts';
+import { micromark } from 'micromark';
 import ClipboardJS from 'clipboard'
 import moment from 'moment'
 import vis from 'vis'
 import numeral from 'numeral'
+import * as SockJS from 'sockjs-client';
+import Stomp from "stompjs"
 
+global.createChart = createChart
+global.widgetRenderer = {
+    "vega.bar": barWidgetRenderer,
+    "vega.pie": pieWidgetRenderer,
+    "time.chart": timeChartRenderer,
+    "table.widget": tableWidgetRenderer,
+    "tradingview.widget": tradingViewrenderer
+}
+global.Stomp = Stomp
+global.SockJS = SockJS
 global.$ = $;
 global.vis = vis;
 global.numeral = numeral;
@@ -28,12 +48,116 @@ $('document').ready(function () {
     $('.to-clipboard').tooltip();
     $('.to-clipboard').on('click', function () {
         let it = $(this);
-        $('.to-clipboard').attr('data-original-title', 'Copied!').tooltip('show');
-        setTimeout(function () {
-            $('.to-clipboard').attr('data-original-title', 'Copy');
+        $(this).attr('data-original-title', 'Copied!').tooltip('show');
+        setTimeout( () => {
+            $(this).attr('data-original-title', 'Copy');
         }, 200);
     });
 });
+
+const getValueFrom = (o, s) => {
+    s = s.replace(/\[(\w+)\]/g, '.$1'); 
+    s = s.replace(/^\./, '');           
+    var a = s.split('.');
+    for (var i = 0, n = a.length; i < n; ++i) {
+        var k = a[i];
+        if (k in o) {
+            o = o[k];
+        } else {
+            return;
+        }
+    }
+    return o;
+}
+class dataSourceWidget {
+	constructor(query, variables, displayed_data, url) {
+		this.query = query
+		this.variables = variables
+		this.displayed_data = displayed_data
+		this.setupData = function(json) {
+			return ('data' in json) ? getValueFrom(json.data, this.displayed_data) : null
+		}
+		this.fetcher = function() {
+			return fetch(
+				url,
+				{
+					method: 'POST',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({query: this.query, variables: this.variables}),
+					credentials: 'same-origin',
+				},
+			)
+		}
+
+	}
+}
+  
+global.createLayout = function (dashboard_container, unit, layout_item, name_item) {
+    let new_layout_element_container = document.createElement('div')
+    new_layout_element_container.style.position = 'absolute'
+    new_layout_element_container.style.display = 'flex'
+    new_layout_element_container.style.flexDirection = 'column'
+    new_layout_element_container.style.border = '1px solid rgba(0, 0, 0, 0.125)'
+    new_layout_element_container.style.borderRadius = '0.25rem'
+    new_layout_element_container.style.transform = `translate(${layout_item.x * unit.width + 10}px, ${layout_item.y * unit.height + 10}px)`
+    new_layout_element_container.style.width = `${layout_item.w * unit.width -10}px`
+    new_layout_element_container.style.height = `${layout_item.h * unit.height -10}px`
+    let title_element = document.createElement('div')
+    title_element.style.padding = '0.75rem 1.25rem'
+    title_element.style.marginBottom = '0'
+    title_element.style.backgroundColor = 'rgba(0, 0, 0, 0.03)'
+    title_element.style.borderBottom = '1px solid rgba(0, 0, 0, 0.125)'
+    let title = document.createTextNode(name_item)
+    title_element.appendChild(title)
+    new_layout_element_container.appendChild(title_element)
+    let new_layout_element = document.createElement('div')
+    new_layout_element.setAttribute('id', layout_item.i)
+    new_layout_element.style.height = '100%'
+    new_layout_element_container.appendChild(new_layout_element)
+    dashboard_container.appendChild(new_layout_element_container)
+}
+
+global.createDashboard = function (dashboard_url, container_id, argsReplace) {
+    const dashboard_container = document.getElementById(container_id)
+    const unit = {
+        height: 105,
+        width: dashboard_container.clientWidth / 12
+    }
+    $.get(`/proxy_dbcode/${dashboard_url}`, function (data) {
+        const layout = JSON.parse(data.layout)
+        const height_units = Math.max(...layout.map(i => i.y + i.h))
+        const container_height = height_units * unit.height
+        dashboard_container.style.height = `${container_height}px`
+        data.widgets.forEach(widget => {
+            createLayout(dashboard_container, unit, layout.find(item => item.i===widget.query_index), widget.name || '')
+            let args = JSON.parse(widget.arguments)
+            if (argsReplace && widget.widget_id !== 'block.content') {
+                for (let arg in argsReplace) {
+                    args[arg] = argsReplace[arg]
+                }
+            }
+            args = JSON.stringify(args)
+            let ds = new dataSourceWidget(
+                widget.query,
+                args,
+                widget.displayed_data,
+                '/proxy_graphql'
+            )
+            if (widget.widget_id === 'block.content') {
+                const widgetMD = JSON.parse(widget.config).content
+                const parsedMD = micromark(widgetMD)
+                const container = document.getElementById(widget.query_index)
+                container.style.padding = '10px'
+                container.insertAdjacentHTML('afterbegin', parsedMD)
+            } else {
+                widgetRenderer[widget.widget_id](ds, JSON.parse(widget.config), widget.query_index)
+            }
+        })
+    })
+}
 
 global.reportRange = function (selector, from, till, i18n) {
     var properties = {

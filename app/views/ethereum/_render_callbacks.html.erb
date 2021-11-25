@@ -119,7 +119,12 @@
             }
 
         },
-
+        token_pair_path: function(item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tokenpair/<%=@token%>/'+ item.quoteCurrency.address
+        },
+        token_pair_buysell_path: function(item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tokenpair/'+item.sellCurrency.address+'/'+ item.buyCurrency.address
+        }
     });
 
 </script>
