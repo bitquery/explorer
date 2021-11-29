@@ -1,4 +1,4 @@
-BitqueryLogger.init(type: :tcp, **BITQUERY_LOGGER_CONFIG)
+BitqueryLogger.init(**BITQUERY_LOGGER_CONFIG)
 
 ExceptionNotification.configure do |config|
   # Ignore additional exception types.
@@ -18,7 +18,6 @@ end
 
 ExceptionNotifier::Rake.configure
 
-Rails.application.config.middleware.use ExceptionNotification::Rack,
-                                        tcp: {}
+Rails.application.config.middleware.use ExceptionNotification::Rack
 
 Rails.application.config.middleware.use BitqueryLogger::BitqueryLoggerMiddleware
