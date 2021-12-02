@@ -43,15 +43,11 @@ module ApplicationHelper
     @theme == 'dark'
   end
 
-  def limited_date_range_limit(_from, till, days = nil)
-    if till == 'null'
-      if days
-        ["'#{Date.today - days}'", 'null']
-      else
-        ["'#{Date.today}'", 'null']
-      end
+  def limited_date_range_limit(from, till, days = nil)
+    if days
+      ["'#{Date.today - days}'", 'null']
     else
-      ["'#{Date.parse(till) - 1}'", till]
+      [from, till]
     end
   end
 end
