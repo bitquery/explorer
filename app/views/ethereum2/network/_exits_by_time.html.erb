@@ -39,8 +39,8 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
-                        validators: count(uniq: validators)
+                        count: countBigInt
+                        validators: countBigInt(uniq: validators)
                       }
                     }
                   }`);
@@ -64,7 +64,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.count') %>',
+                    title: {label: '<%= t('widgets.titles.count') %>', type: 'number' },
                     path: 'count'
                 },
 
@@ -90,7 +90,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.validators_count') %>',
+                    title: {label: '<%= t('widgets.titles.validators_count') %>', type: 'number' },
                     path: 'validators'
                 },
 

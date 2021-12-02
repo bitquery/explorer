@@ -34,8 +34,8 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count: count
-                        contracts: count(uniq: smart_contracts)
+                        count: countBigInt
+                        contracts: countBigInt(uniq: smart_contracts)
                       }
                     }
                   }`);
@@ -59,7 +59,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.calls_count') %>',
+                    title: {label: '<%= t('widgets.titles.calls_count') %>', type: 'number' },
                     path: 'count'
                 },
 
@@ -85,7 +85,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.uniq_contracts') %>',
+                    title: {label: '<%= t('widgets.titles.uniq_contracts') %>', type: 'number' },
                     path: 'contracts'
                 },
 

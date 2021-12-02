@@ -44,7 +44,7 @@
                       date(format: $dateFormat)
                     }
 
-                    count(uniq: addresses)
+                    count: countBigInt(uniq: addresses)
 
                     value
 
@@ -72,6 +72,7 @@
                 },
                 {
                     title: '<%= t('widgets.titles.unique_miners') %>',
+                    title: {label: '<%= t('widgets.titles.unique_miners') %>', type: 'number' },
                     path: 'count'
                 },
 

@@ -26,8 +26,8 @@
                         date{
                           date(format: $dateFormat)
                         }
-                        in_count: count(receiver: {is: $address})
-                        out_count: count(sender: {is: $address})
+                        in_count: countBigInt(receiver: {is: $address})
+                        out_count: countBigInt(sender: {is: $address})
                       }
                     }
                   }`);
@@ -69,11 +69,11 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.receive_count') %>',
+                    title: {label: '<%= t('widgets.titles.receive_count') %>', type: 'number' },
                     path: 'in_count'
                 },
                 {
-                    title: '<%= t('widgets.titles.send_count') %>',
+                    title: {label: '<%= t('widgets.titles.send_count') %>', type: 'number' },
                     path: 'out_count'
                 },
             ]

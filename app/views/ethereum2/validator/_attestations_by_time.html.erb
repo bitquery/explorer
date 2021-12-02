@@ -29,7 +29,7 @@
                         date: date{
                           date(format: $dateFormat)
                         }
-                        count
+                        count: countBigInt
                       }
                     }
                   }`);
@@ -63,7 +63,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.attestations') %>',
+                    title: {label: '<%= t('widgets.titles.attestations') %>', type: 'number' },
                     path: 'count'
                 },
 

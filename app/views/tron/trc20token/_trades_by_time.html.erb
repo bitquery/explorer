@@ -29,8 +29,8 @@
            date(format: $dateFormat)
           }
 
-          baseCount: count(buyCurrency: {is: $token})
-          quoteCount: count(sellCurrency: {is: $token})
+          baseCount: countBigInt(buyCurrency: {is: $token})
+          quoteCount: countBigInt(sellCurrency: {is: $token})
         }
 
       }
@@ -58,11 +58,11 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.trades_as_base_count') %>',
+                    title: {label: '<%= t('widgets.titles.trades_as_base_count') %>', type: 'number' },
                     path: 'baseCount'
                 },
                 {
-                    title: '<%= t('widgets.titles.trades_as_quote_count') %>',
+                    title: {label: '<%= t('widgets.titles.trades_as_quote_count') %>', type: 'number' },
                     path: 'quoteCount'
                 },
             ]

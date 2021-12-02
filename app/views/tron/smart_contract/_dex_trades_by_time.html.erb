@@ -39,8 +39,8 @@
                           date(format: $dateFormat)
                         }
 
-                            trades: count
-                            takers: count(uniq: takers)
+                            trades: countBigInt
+                            takers: countBigInt(uniq: takers)
 
                       }
                     }
@@ -65,7 +65,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.trades') %>',
+                    title: {label: '<%= t('widgets.titles.trades') %>', type: 'number' },
                     path: 'trades'
                 },
 
@@ -91,7 +91,7 @@
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.traders') %>',
+                    title: {label: '<%= t('widgets.titles.traders') %>', type: 'number' },
                     path: 'takers'
                 },
 

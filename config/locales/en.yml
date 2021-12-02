@@ -289,8 +289,8 @@ en:
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network},DEX,Trades"
       dex_tokens:
-        name: "DEX Tokens"
-        title: "%{network} Token Traded on DEXes"
+        name: "DEX Token pairs"
+        title: "%{network} Token Pairs Traded on DEXes"
         description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
         keywords: "%{network},DEX,Tokens"
     token:
@@ -391,6 +391,20 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+    token_pair:
+      icon: 'fas fa-coins text-warning'
+      header: "Token pair %{token1symbol} (%{token1name}) vs %{token2symbol} (%{token2name}) in %{network}"
+      address: "%{token}"
+      trading_view:
+        name: 'Pair Trading View '
+        title: "Trading View %{network} %{token1symbol} %{token2symbol} DEX Trades"
+        description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trading View,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
+      last_trades:
+        name: 'Pair Last Trades'
+        title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
+        description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -638,6 +652,16 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      instructions:
+        name: "Instructions"
+        title: "%{network} Instuctions for %{hash} transaction"
+        description: "Single program, a subset of the transaction's accounts that should be passed to the progam."
+        keywords: "%{network} Instructions"
+      accounts:
+        name: "Accounts"
+        title: "%{network} Accounts for %{hash} transaction"
+        description: "Account addressed for %{network} transaction"
+        keywords: "%{network} Accounts"
     height:
       icon: 'fas fa-cube'
       header: "%{network} Height %{height}"
@@ -703,6 +727,11 @@ en:
         title: "Block %{height} Notarized Blocks on %{network} Explorer"
         description: "Notarized Blocks"
         keywords: "%{network} Notarized Blocks"
+      rewards:
+        name: "Reward"
+        title: "Block %{height} Rewards on %{network} Explorer"
+        description: "Rewards"
+        keywords: "%{network} Rewards"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1319,6 +1348,7 @@ en:
       graph: 'Graph'
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
+      trades_by_pairs: "Trades By Pairs"
       trade_amount_by_time: "Trade Amount By Time"
       deposit_amount_by_time: "Deposit Amount By Time"
       slashings_by_time: "Slashings By Date"
@@ -1367,9 +1397,15 @@ en:
       created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
     titles:
+      instruction_account_index: "Account index in Instruction"
+      action: "Action"
+      data_hex: "Data in Hex"
+      program: "Program"
+      program_name: "Program Name"
       validators_hash: "Validator Hash"
       miniblock_hash: "Miniblock Hash"
       miniblock_type: "Miniblock Type"
+      fee_payer: "Fee Payer"
       sender_block_hash: "Sender Block Hash"
       sender_shard: "Sender Shard"
       receiver_block_hash: "Receiver Block Hash"
@@ -1640,11 +1676,15 @@ en:
       weight: "Weight"
       chainwork: "Chainwork"
       log: "Log"
+      consumed: "Consumed"
+      total_gas: "Total Gas"
+      result: "Result"
       description: "Descrition"
       memo: "Memo"
       account: "Account"
       accounts: "Accounts"
       account_summery: "Account Summery"
+      accounts_count: "Count of Accounts"
       payer: "Payer"
       node: "Node"
       consensus_timestamp: "Consensus"
