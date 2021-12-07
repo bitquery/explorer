@@ -1418,6 +1418,8 @@ en:
       transfer_count: "Transfer Count"
       volume: "Volume, %{currency}"
       receive_count: "Receive Count"
+      inbound_count: "Inbound Count"
+      outbound_count: "Outbound Count"
       send_count: "Send Count"
       volume_in: "Volume In, %{currency}"
       volume_out: "Volume Out, %{currency}"
