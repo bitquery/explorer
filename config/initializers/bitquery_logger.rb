@@ -18,6 +18,7 @@ end
 
 ExceptionNotifier::Rake.configure
 
-Rails.application.config.middleware.use ExceptionNotification::Rack
+Rails.application.config.middleware.use ExceptionNotification::Rack,
+                                        bitquery: {}
 
 Rails.application.config.middleware.use BitqueryLogger::BitqueryLoggerMiddleware

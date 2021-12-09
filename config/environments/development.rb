@@ -62,7 +62,7 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   BITQUERY_LOGGER_CONFIG = {
-    output: :stdout,
+    output: :file,
   }
 
 end
