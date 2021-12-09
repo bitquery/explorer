@@ -1,0 +1,88 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.currencies_sent_received') %></div>
+    <div class="card-body">
+      <div id="currencies_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: SolanaNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $limit: Int!, $offset: Int!) {
+        solana(network: $network) {
+          transfers(
+            date: {since: $from, till: $till}
+            options: {limit: $limit, offset: $offset, desc: ["count_in", "count_out"], asc: "currency.symbol"}
+          ) {
+            sum_in: amount(calculate: sum, receiverAddress: {is: $address})
+            sum_out: amount(calculate: sum, senderAddress: {is: $address})
+            count_in: countBigInt(receiverAddress: {is: $address})
+            count_out: countBigInt(senderAddress: {is: $address})
+            currency {
+              address
+              symbol
+              tokenType
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#currencies_table', query, 'solana.transfers', {
+      title: '<%= t('widgets.headers.tx_calls') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.currency') %>',
+          type: 'string-ellipsis',
+          path: ['currency.symbol', 'currency.address']
+        },
+        {
+          title: '',
+          type: 'string',
+          data: '<i class="fa fa-sign-in text-success"></i>',
+          html_class: 'text-center'
+        },
+        {
+          title: '<%= t('widgets.titles.receive') %>',
+          type: 'amount',
+          path: 'sum_in'
+        },
+        {
+          title: '<%= t('widgets.titles.txs') %>',
+          type: 'count',
+          path: 'count_in',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'transfer_to_path'
+        },
+        {
+          title: '<%= t('widgets.titles.send') %>',
+          type: 'amount',
+          path: 'sum_out'
+        },
+        {
+          title: '',
+          type: 'string',
+          data: '<i class="fa fa-sign-out text-warning"></i>',
+        },
+        {
+          title: '<%#= t('widgets.titles.txs') %>',
+          type: 'count',
+          path: 'count_out',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'transfer_from_path'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+      network: '<%= params['network']['network'] %>',
+        address: '<%= @address %>'
+    });
+  });
+</script>
+
+
+

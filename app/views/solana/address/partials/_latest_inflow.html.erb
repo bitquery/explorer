@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_transfers') %></div>
+      <div class="card-header"><%= t('widgets.headers.inbound_transfers') %></div>
       <div class="card-body">
-        <div id="latest_transfers"><%= t('loading') %></div>
+        <div id="inbound_transfers"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -13,12 +13,12 @@
 
   $( document ).ready(function() {
     var query = new widgets.query(`
-      query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $date: ISO8601DateTime, $height: Int) {
+      query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $receiver: String!) {
         solana(network: $network) {
           transfers(
             options: {limit: $limit, offset: $offset}
-            date: {is: $date}
-            height: {is: $height}
+            date: {since: $from, till: $till}
+            receiverAddress: {is: $receiver }
           ) {
             block {
               height
@@ -30,9 +30,6 @@
              signature
             }
             sender{
-              address
-            }
-            receiver{
               address
             }
             currency{
@@ -47,8 +44,8 @@
       }
     `);
 
-    new widgets.table('#latest_transfers', query, 'solana.transfers', {
-        title: '<%= t('widgets.headers.latest_transfers') %>',
+    new widgets.table('#inbound_transfers', query, 'solana.transfers', {
+        title: '<%= t('widgets.headers.inbound_transfers') %>',
         dataOptions: [
             {
                 title: '<%= t('widgets.titles.timestamp') %>',
@@ -67,18 +64,6 @@
                 title: '<%= t('widgets.titles.sender') %>',
                 type: 'string-ellipsis',
                 path: 'sender.address',
-                urlCallbackName: 'address_path',
-            },
-            {
-                title: '',
-                type: 'string',
-                data: '<i class="fa fa-sign-in text-success"></i>',
-                html_class: 'text-center'
-            },
-            {
-                title: '<%= t('widgets.titles.receiver') %>',
-                type: 'string-ellipsis',
-                path: 'receiver.address',
                 urlCallbackName: 'address_path',
             },
             {
@@ -108,7 +93,7 @@
 
     queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
         network: '<%= params['network']['network'] %>',
-        height: <%= @block_id %>
+        receiver: '<%= @address %>'
     });
 
   });

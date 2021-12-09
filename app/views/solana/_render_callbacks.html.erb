@@ -9,13 +9,17 @@
     tx_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.signature || item.transaction.signature);
     },
-    account_path: function(item){
+    address_path: function(item){
       if (item.sender && item.sender.address) {
-        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/accounts/'+(item.sender.address);
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.sender.address;
       }
 
       if (item.receiver && item.receiver.address) {
-        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/accounts/'+(item.sender.address);
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.receiver.address;
+      }
+
+      if (item.account) {
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.account;
       }
     },
   });
