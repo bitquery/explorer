@@ -308,6 +308,8 @@ Rails.application.routes.draw do
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
+      get ":blockchain/message/:hash", controller: "#{blockchain[:family]}/message", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
       get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}

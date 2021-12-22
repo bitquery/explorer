@@ -15,6 +15,7 @@ zh:
   address: "地址"
   token: "代币"
   tx: "交易"
+  message: "信息"
   smart_contract: "智能合约"
   find: "搜索"
   find_in: "%{network}"

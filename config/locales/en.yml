@@ -15,6 +15,7 @@ en:
   address: "address"
   token: "token"
   tx: "transaction"
+  message: "message"
   smart_contract: "smart contract"
   account: "account"
   find: "Search"
@@ -45,7 +46,7 @@ en:
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
           %{network} address finder, 
           %{network} payer account finder %{payer_account}"
-    messages:
+    message:
       icon: 'fas fa-bolt'
       header: "%{network} message %{hash}"
       show:

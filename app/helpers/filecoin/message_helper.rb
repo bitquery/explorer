@@ -1,0 +1,2 @@
+module Filecoin::MessageHelper
+end
