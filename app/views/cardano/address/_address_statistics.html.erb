@@ -10,42 +10,26 @@
 <script>
 
     $( document ).ready(function() {
-        var query = new widgets.query(`query ($network: CardanoNetwork!,
-          $address:String!
-          $from: ISO8601DateTime,
-          $till: ISO8601DateTime){
+        var query = new widgets.query(`query ($network: CardanoNetwork!, $address:String!){
             cardano(network: $network ){
               inputs(
-              currency: {is: "ADA"}
-                date: {
-                                since: $from
-                                till: $till}
+                currency: {is: "ADA"}
                 inputAddress: {is: $address}
               ){
                 count
                 value
-
                 min_date: minimum(of: date)
                 max_date: maximum(of: date)
               }
-
               outputs(
-              currency: {is: "ADA"}
-                date: {
-                                since: $from
-                                till: $till}
+                currency: {is: "ADA"}
                 outputAddress: {is: $address}
               ){
                 count
                 value
-
                 min_date: minimum(of: date)
                 max_date: maximum(of: date)
-
-
               }
-
-
             }
           }`);
 
