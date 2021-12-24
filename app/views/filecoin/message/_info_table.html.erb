@@ -48,15 +48,8 @@
 
         new widgets.table('#topic_attributes', query, 'filecoin.messages', {
             title: '<%= t('widgets.headers.message_attributes') %>',
-            // renderData: function (data) {
-            //     item = data[0];
-            //     return !item ? [] : [
-                 //   { name: '<%= t('widgets.titles.creator') %>', value: item.creator.id },
-                // ];
-            // },
             renderData: function (data) {
                 item = data[0];
-                console.log(item);
                 return !item ? [] : [
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
                     {name: '<%= t('widgets.titles.id') %>', value: item.hash},
