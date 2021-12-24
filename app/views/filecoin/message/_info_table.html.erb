@@ -1,0 +1,98 @@
+
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.message_attributes') %></div>
+    <div class="card-body">
+      <div id="topic_attributes"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    $(document).ready(function() {
+
+        const graphql_query =
+            `
+      query ($network: FilecoinNetwork!, $limit: Int!, $offset: Int!, $hash: String!) {
+        filecoin(network: $network) {
+          messages(options: {limit: $limit, offset: $offset}, hash: {is: $hash}) {
+            block{
+              height
+              timestamp{
+                time
+              }
+            }
+            hash
+            sender{
+              address
+            }
+            receiver{
+              address
+            }
+            method{
+              name
+            }
+            amount
+            nonce
+            gasFeeCap
+            gasPremium
+            gasLimit
+            gas
+          }
+        }
+      }
+    `.trim();
+
+        const query = new widgets.query(graphql_query);
+
+        new widgets.table('#topic_attributes', query, 'filecoin.messages', {
+            title: '<%= t('widgets.headers.message_attributes') %>',
+            // renderData: function (data) {
+            //     item = data[0];
+            //     return !item ? [] : [
+                 //   { name: '<%= t('widgets.titles.creator') %>', value: item.creator.id },
+                // ];
+            // },
+            renderData: function (data) {
+                item = data[0];
+                console.log(item);
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
+                    {name: '<%= t('widgets.titles.id') %>', value: item.hash},
+                    {name: '<%= t('widgets.titles.height') %>', value: item.block.height},
+                    {name: '<%= t('widgets.titles.sender') %>', value: item.sender.address},
+                    {name: '<%= t('widgets.titles.receiver') %>', value: item.receiver.address},
+                    {name: '<%= t('widgets.titles.amount') %>', value: item.amount + ' <%= @network[:currency] %>'},
+                    {name: '<%= t('widgets.titles.method') %>', value: item.method.name},
+                    {name: '<%= t('widgets.titles.nonce') %>', value: item.nonce},
+                    {name: '<%= t('widgets.titles.gas_fee_cap') %>', value: item.gasFeeCap},
+                    {name: '<%= t('widgets.titles.gas_premium') %>', value: item.gasPremium},
+                    {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit},
+                    {name: '<%= t('widgets.titles.gas_used') %>', value: item.gas},
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 150px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+</script>

@@ -57,6 +57,14 @@ en:
           smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
           %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
           check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
+      transfers:
+        name: 'Transfers'
+        title: "Message %{hash} transfers | %{network}"
+        description: "Transfers in message id %{hash} in %{network}"
+        keywords: "%{network} transaction, %{network} transaction explorer, %{network} explorer, token transaction, coin transaction, crypto transaction, %{network} transaction analytics,
+          smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
+          %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
+          check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
       inputs:
         name: 'Inputs'
         title: "Inputs %{network} %{hash}"
@@ -1446,6 +1454,9 @@ en:
       smart_contract: "Smart Contract"
       smart_contract_address: "Smart Contract Address"
       method: "Method"
+      nonce: "Nonce"
+      gas_fee_cap: "Gas Fee Cap"
+      gas_premium: "Gas Premium"
       calls_count: "Calls Count"
       mints_count: "Mints Count"
       timestamp: 'Timestamp'
