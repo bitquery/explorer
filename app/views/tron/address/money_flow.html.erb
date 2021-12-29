@@ -20,7 +20,7 @@
     </div>
   </div>
   <script>
-      $(document).ready(function() {
+      $(document).ready(function () {
           const query = new graphs.query(`
 query ( $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
   tron{
@@ -91,9 +91,9 @@ query ( $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: In
           new graphs.addControls('#graph', query, {
               theme: '<%= @theme %>',
               currencies: [<%= @currencies.collect{|cur|
-            if cur.token_id == '0' and cur.address == '-'
+            if (cur.token_id == '0' || cur.token_id == '') and cur.address == '-'
               value = cur.symbol
-            elsif cur.token_id == '0'
+            elsif cur.token_id == '0' || cur.token_id == ""
               value = cur.address
             else
               value = cur.token_id
@@ -109,9 +109,9 @@ query ( $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: In
           new graphs.addControls('#sankey-graph', query, {
               theme: '<%= @theme %>',
               currencies: [<%= @currencies.collect{|cur|
-            if cur.token_id == '0' and cur.address == '-'
+            if (cur.token_id == '0' || cur.token_id == '') and cur.address == '-'
               value = cur.symbol
-            elsif cur.token_id == '0'
+            elsif cur.token_id == '0' || cur.token_id == ""
               value = cur.address
             else
               value = cur.token_id
@@ -120,7 +120,14 @@ query ( $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: In
             }.join(',').html_safe %>],
           })
 
-          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
+          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+              "inboundDepth": 1,
+              "outboundDepth": 1,
+              "limit": 10,
+              "offset": 0,
+              "address": "<%= @address %>",
+              "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"
+          })
       })
   </script>
 </div>
