@@ -4,6 +4,37 @@ module Solana
 
     before_action :set_address
 
+    before_action :query_graphql, only: %i[money_flow]
+
+    MONEY_FLOW_QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+      query ($network: SolanaNetwork!, $address: String!) {
+        solana(network: $network) {
+          outflow: transfers(
+            options: {desc: "count", limit: 100}
+            senderAddress: {is: $address}
+          ) {
+            currency {
+              address
+              symbol
+              name
+            }
+            count
+          }
+          inflow: transfers(
+            options: {desc: "count", limit: 100}
+            receiverAddress: {is: $address}
+          ) {
+            currency {
+              address
+              symbol
+              name
+            }
+            count
+          }
+        }
+      }
+    GRAPHQL
+
     private
 
     def set_address
@@ -13,6 +44,14 @@ module Solana
     def breadcrumb
       return if action_name == 'show'
     end
+
+    def query_graphql
+      result = BitqueryGraphql.instance.query_with_retry(MONEY_FLOW_QUERY,
+                                             variables: { network: @network[:network],
+                                                          address: @address }).data.solana
+
+      all_currencies = result.outflow.map(&:currency) + result.inflow.map(&:currency)
+      @currencies = all_currencies.sort_by { |c| c.address == '-' ? 0 : 1 }.uniq(&:address)
+    end
   end
 end
-
