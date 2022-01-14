@@ -15,6 +15,7 @@ en:
   address: "address"
   token: "token"
   tx: "transaction"
+  message: "message"
   smart_contract: "smart contract"
   account: "account"
   find: "Search"
@@ -45,13 +46,21 @@ en:
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
           %{network} address finder, 
           %{network} payer account finder %{payer_account}"
-    messages:
+    message:
       icon: 'fas fa-bolt'
       header: "%{network} message %{hash}"
       show:
         name: 'Message'
         title: "Message %{hash} | %{network}"
         description: "Message id %{hash} in %{network}"
+        keywords: "%{network} transaction, %{network} transaction explorer, %{network} explorer, token transaction, coin transaction, crypto transaction, %{network} transaction analytics,
+          smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
+          %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
+          check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
+      transfers:
+        name: 'Transfers'
+        title: "Message %{hash} transfers | %{network}"
+        description: "Transfers in message id %{hash} in %{network}"
         keywords: "%{network} transaction, %{network} transaction explorer, %{network} explorer, token transaction, coin transaction, crypto transaction, %{network} transaction analytics,
           smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
           %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
@@ -895,6 +904,7 @@ en:
         title: "Proposers distribution on %{network} Explorer"
         description: "Proposer distribution list for %{network}"
         attention: "Attention. The calculation may take a long time"
+        keywords: ""
       protocols:
         name: "Protocols"
         title: "Protocols on %{network} Explorer"
@@ -904,14 +914,17 @@ en:
         name: "Accounts"
         title: "Accounts on %{network} Explorer"
         description: ""
+        keywords: ""
       files:
         name: "Files"
         title: "File Operations on %{network} Explorer"
         description: ""
+        keywords: ""
       topics:
         name: "Topics"
         title: "Topic Operations on %{network} Explorer"
         description: ""
+        keywords: ""
       trades:
         name: "Trades"
         title: "Trades on %{network} Explorer"
@@ -1445,6 +1458,9 @@ en:
       smart_contract: "Smart Contract"
       smart_contract_address: "Smart Contract Address"
       method: "Method"
+      nonce: "Nonce"
+      gas_fee_cap: "Gas Fee Cap"
+      gas_premium: "Gas Premium"
       calls_count: "Calls Count"
       mints_count: "Mints Count"
       timestamp: 'Timestamp'

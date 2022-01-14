@@ -1,0 +1,126 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transfers') %></div>
+      <div class="card-body">
+        <div id="transfers"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: FilecoinNetwork!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $hash: String!
+                              ){
+                    filecoin(network: $network){
+                      transfers(
+                      hash: {is: $hash}
+                      options:{limit: $limit, offset: $offset}
+                        ) {
+
+                          block {
+                            timestamp {
+                              time (format: "%Y-%m-%d %H:%M:%S")
+                            }
+                            height
+                          }
+
+                          sender {
+                            annotation
+                            address
+                          }
+                          receiver {
+                            annotation
+                            address
+                          }
+
+                          currency {
+                            symbol
+                          }
+
+                          amount
+                          hash
+
+                          method {name}
+
+                          transferType
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#transfers', query, 'filecoin.transfers', {
+            title: '<%= t('widgets.headers.transfers') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.timestamp') %>',
+                    type: 'string',
+                    path: 'block.timestamp.time',
+                    style: 'width: 170px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.height') %>',
+                    type: 'string',
+                    path: 'block.height',
+                    urlCallbackName: 'height_path',
+                    style: 'width: 80px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.sender') %>',
+                    type: 'string-ellipsis',
+                    path: ['sender.annotation','sender.address'],
+                    urlCallbackName: 'sender_address_path'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['receiver.annotation','receiver.address'],
+                    urlCallbackName: 'receiver_address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.hash') %>',
+                    type: 'string-ellipsis',
+                    path: 'hash'
+                },
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    path: 'method.name'
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_type') %>',
+                    path: 'transferType'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+
+</script>

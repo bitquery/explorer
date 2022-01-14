@@ -15,6 +15,7 @@ ru:
   address: "адрес"
   token: "токен"
   tx: "транзакция"
+  message: "сообщение"
   smart_contract: "смарт контракт"
   find: "Искать"
   find_in: "%{network}"

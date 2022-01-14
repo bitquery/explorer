@@ -41,6 +41,9 @@ $( document ).ready(function() {
             ... on TransactionHash {
               hash
             }
+            ... on MessageHash {
+              messageHash
+            }
           }
           network{
             network
@@ -52,12 +55,13 @@ $( document ).ready(function() {
 
     function item_type(item){
       return (item.subject.hash ? 'tx' :
-              (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' : 'address'))
+              (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' :
+                  (item.subject.messageHash ? 'message' : 'address')))
       );
     }
     function item_url(item) {
         return '<%= locale_path_prefix %>' + item.network.network + '/' +item_type(item) + '/' +
-            (item.subject.address || item.subject.hash);
+            (item.subject.address || item.subject.hash || item.subject.messageHash);
     }
 
     new widgets.list('#search', query, 'search', {
@@ -74,6 +78,7 @@ $( document ).ready(function() {
             type: 'string',
             renderCallback: function(item){
                 let a_type = item_type(item);
+                console.log(a_type);
                 var item_name, item_icon = '';
                 switch (a_type) {
                   case 'address':
@@ -91,6 +96,10 @@ $( document ).ready(function() {
                   case 'tx':
                       item_name = "<%= t('tx') %> "+( item.subject.hash );
                       item_icon = '<span class="<%= t 'tabs.tx.icon' %>"></span>';
+                      break;
+                  case 'message':
+                      item_name = "<%= t('message') %> "+( item.subject.messageHash );
+                      item_icon = '<span class="<%= t 'tabs.message.icon' %>"></span>';
                       break;
                 };
 
