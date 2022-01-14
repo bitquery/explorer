@@ -373,7 +373,17 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'EGLD',
     icon: 'currency/elrond-egld.svg'
-  }
+  },
+  {
+    tag: 'avalanche',
+    network: 'avalanche',
+    name: 'Avalance  C-chain',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'AVAX',
+    icon: 'currency/avalanche.png',
+    start: Date.parse('2020-09-23')
+  },
 ]
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }
