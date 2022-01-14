@@ -1541,6 +1541,7 @@ en:
       smart_contract_type: "Contract Type"
       smart_contract_protocol_type: "Protocol"
       success: "Success?"
+      external: "External?"
       attribute: "Attribute"
       tx_sender: "Sender"
       tx_to: "Receiver"
