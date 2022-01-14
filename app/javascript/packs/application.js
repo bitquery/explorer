@@ -436,7 +436,9 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
         var data = Object.assign({}, params, {
             from: start,
             till: end && !end.includes('T') ? end + 'T23:59:59' : end,
-            dateFormat: dateFormat
+            dateFormat: dateFormat,
+            offset: 0,
+            limit: 10
         });
         query.request(data);
     }
