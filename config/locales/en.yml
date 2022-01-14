@@ -904,6 +904,7 @@ en:
         title: "Proposers distribution on %{network} Explorer"
         description: "Proposer distribution list for %{network}"
         attention: "Attention. The calculation may take a long time"
+        keywords: ""
       protocols:
         name: "Protocols"
         title: "Protocols on %{network} Explorer"
@@ -913,14 +914,17 @@ en:
         name: "Accounts"
         title: "Accounts on %{network} Explorer"
         description: ""
+        keywords: ""
       files:
         name: "Files"
         title: "File Operations on %{network} Explorer"
         description: ""
+        keywords: ""
       topics:
         name: "Topics"
         title: "Topic Operations on %{network} Explorer"
         description: ""
+        keywords: ""
       trades:
         name: "Trades"
         title: "Trades on %{network} Explorer"
