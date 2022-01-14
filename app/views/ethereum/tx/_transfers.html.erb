@@ -42,6 +42,7 @@
                                   }
 
                                   external
+                                  success
                                 }
                               }
                             }`);
@@ -78,7 +79,15 @@
                     type: 'string',
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path'
-                }
+                },
+                {
+                    title: '<%= t('widgets.titles.external') %>',
+                    path: 'external'
+                },
+                {
+                    title: '<%= t('widgets.titles.success') %>',
+                    path: 'success'
+                },
             ]
         });
 
