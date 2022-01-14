@@ -50,8 +50,8 @@ module Solana
                                              variables: { network: @network[:network],
                                                           address: @address }).data.solana
 
-      all_currencies = result.outflow.map(&:currency) + result.inflow.map(&:currency)
-      @currencies = all_currencies.sort_by { |c| c.address == '-' ? 0 : 1 }.uniq(&:address)
+      all_results = result.outflow + result.inflow
+      @currencies = all_results.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq(&:address)
     end
   end
 end

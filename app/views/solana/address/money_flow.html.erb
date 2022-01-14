@@ -77,7 +77,16 @@
       currencies: [
         <%= @currencies.collect do |cur|
           value = cur.address === '-' ? cur.symbol : cur.address
-          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+          has_name = cur.name != ''
+
+          if has_name
+            name = cur.name
+            value = cur.symbol
+          else
+            name = value = cur.address
+          end
+
+          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{name}\",search:\"#{value}\"}"
         end.join(',').html_safe %>
       ]
   })
@@ -91,7 +100,16 @@
       currencies: [
         <%= @currencies.collect do |cur|
           value = cur.address === '-' ? cur.symbol : cur.address
-          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+          has_name = cur.name != ''
+
+          if has_name
+            name = cur.name
+            value = cur.symbol
+          else
+            name = value = cur.address
+          end
+
+          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{name}\",search:\"#{value}\"}"
         end.join(',').html_safe %>
       ]
   })
