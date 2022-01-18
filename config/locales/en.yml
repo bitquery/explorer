@@ -1708,6 +1708,7 @@ en:
       node: "Node"
       consensus_timestamp: "Consensus"
       total_amount: "Total Amount"
+      transaction_max_fee: "Transaction Max Fee"
       transaction_fee: "Transaction Fee"
       shard: "Shard"
   pages:

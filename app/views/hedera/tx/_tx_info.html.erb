@@ -54,7 +54,7 @@
           { name: '<%= t('widgets.titles.result') %>', value: item.result.name },
           { name: '<%= t('widgets.titles.memo') %>', value: item.memo },
           { name: '<%= t('widgets.titles.transaction_id') %>', value: `${item.payerAccount.id}-${item.consensusTimestamp.nanoseconds}` },
-          { name: '<%= t('widgets.titles.total_amount') %>', value: item.maxFee + ' <%= @network[:currency] %>' },
+          { name: '<%= t('widgets.titles.transaction_max_fee') %>', value: item.maxFee + ' <%= @network[:currency] %>' },
           { name: '<%= t('widgets.titles.transaction_fee') %>', value: item.transactionFee + ' <%= @network[:currency] %>'},
         ];
       },

@@ -21,6 +21,7 @@
             currency {
               address
               name
+              symbol
               tokenId
               tokenType
             }
@@ -41,10 +42,15 @@
           style: 'width: 100px;'
         },
         {
-          title: '<%= t('widgets.titles.amount') %>, <%= @network[:currency] %>',
+          title: '<%= t('widgets.titles.amount') %>',
           path: 'amount',
           style: 'width: 100px;'
         },
+        {
+            title: '<%= t('widgets.titles.symbol') %>',
+            path: 'currency.symbol',
+            style: 'width: 100px;'
+        }
       ]
     });
 
