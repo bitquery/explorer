@@ -84,6 +84,11 @@
       network: '<%= @network[:network] %>'
     });
 
+      queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
+          account_id: '<%= params[:account_id] %>',
+          network: '<%= @network[:network] %>'
+      });
+
   });
 
 </script>
