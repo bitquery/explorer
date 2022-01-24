@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.tokens') %></div>
+      <div class="card-body">
+        <div id="latest_topics"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+
+        const graphql_query = `
+      query ($network: HederaNetwork!, $limit: Int!, $offset: Int!) {
+  hedera(network: $network) {
+    inputs(
+      options: {desc: "countBigInt" limit: $limit, offset: $offset}
+
+    ) {
+
+      countBigInt
+      currency {
+        symbol
+        address
+      }
+    }
+  }
+}
+    `.trim();
+
+        const query = new widgets.query(graphql_query);
+
+        new widgets.table('#latest_topics', query, 'hedera.inputs', {
+            title: '<%= t('widgets.headers.tokens') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string',
+                    path: 'currency.address',
+                    // urlCallbackName: 'payer_path',
+                },
+                {
+                    title: '<%= t('widgets.titles.symbol') %>',
+                    type: 'string',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.count') %>',
+                    type: 'string',
+                    path: 'countBigInt',
+                    style: 'width: 100px;'
+                }
+            ]
+        });
+
+        //queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
+        //    network: '<%= params['network']['network'] %>'
+        //});
+        query.request({
+            network: '<%= params['network']['network'] %>',
+            //height: <%#= @height %>
+        });
+
+    });
+</script>

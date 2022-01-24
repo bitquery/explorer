@@ -1409,6 +1409,7 @@ en:
       latest_accounts: "Latest Accounts"
       created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
+      tokens: "Tokens"
     titles:
       instruction_account_index: "Account index in Instruction"
       action: "Action"
