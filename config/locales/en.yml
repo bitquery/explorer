@@ -109,40 +109,40 @@ en:
         description: "Visualize %{network} address %{account} , balances, 
           transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
         keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
-        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
-        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
-        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
-        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
-        %{network} address finder, 
-        %{network} account finder %{account}"
+          %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+          %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+          balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+          crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+          %{network} address finder, 
+          %{network} account finder %{account}"
       inputs_transactions:
         name: 'Inputs Transactions'
         title: "%{account} transactions inputs | %{network}"
         description: "Transactions Inputs sent by account %{account} and other transaction analytics charts in %{network}"
         keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
-        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
-        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+          %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
       outputs_transactions:
         name: 'Outputs Transactions'
         title: "%{account} transactions outputs | %{network}"
         description: "Transactions Outputs sent by account %{account} and other transaction analytics charts in %{network}"
         keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
-        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
-        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+          %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
       transactions:
         name: 'Transactions'
         title: "%{account} transactions | %{network}"
         description: "Transactions sent by account %{account} and other transaction analytics charts in %{network}"
         keywords: "%{account} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
-        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
-        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+          %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
       transfers:
         name: 'Transfres'
         title: "%{account} Transfers | %{network}"
         description: "Transfers sent by account %{account} and other transfers analytics charts in %{network}"
         keywords: "%{account} transfers, explore %{network} transfers, track %{network} transfers, search %{network} transfers, 
-        %{network} transfers per day, %{network} transfers fee, %{network} transfers live, %{network} transfer live, %{network} transfer time, %{network} transfer data,
-        %{network} transfers per second chart, %{network} transfers chart, tracking %{network} transfers, %{network} transfers status, check %{network} transfers pending"
+          %{network} transfers per day, %{network} transfers fee, %{network} transfers live, %{network} transfer live, %{network} transfer time, %{network} transfer data,
+          %{network} transfers per second chart, %{network} transfers chart, tracking %{network} transfers, %{network} transfers status, check %{network} transfers pending"
     contracts:
       icon: 'fas fa-user-circle'
       header: "%{network} Contract %{contract}"
@@ -152,12 +152,12 @@ en:
         description: "Visualize %{network} contract %{contract} , balances, 
           transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
         keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
-        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
-        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
-        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
-        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
-        %{network} address finder, 
-        %{network} contract finder %{contract}"
+          %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+          %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+          balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+          crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+          %{network} address finder, 
+          %{network} contract finder %{contract}"
     topics:
       icon: 'far fa-address-card'
       header: "%{network} Topic %{topic}"
@@ -166,19 +166,19 @@ en:
         title: "Topics %{network} | %{topic}"
         description: "Visualize %{network} address %{topic} portfolio, balances, transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
         keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
-        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
-        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
-        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
-        crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
-        %{network} address finder, 
-        %{network} topics finder %{topic}"
+          %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+          %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+          balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+          crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
+          %{network} address finder, 
+          %{network} topics finder %{topic}"
       messages:
         name: 'Messages'
         title: "%{topic} Messages | %{network}"
         description: "Latest message by topic %{topic} and other transaction analytics charts in %{network}"
         keywords: "%{topic} messages, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
-        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
-        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+          %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
     address:
       icon: 'far fa-address-card'
       header: "%{network} address %{address}"
@@ -187,18 +187,18 @@ en:
         title: "Address %{address} | %{network}"
         description: "Visualize %{network} address ${address} portfolio, balances, transactions, tokens, coins, transfers, and other analytics, charts and widgets on Bitquery"
         keywords: "%{network} wallet, %{network} address check, %{network} address validation, 
-        %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
-        %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
-        balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
-        crypto, %{network} address analytics, %{network} address search engine, %{network} address history
-        %{network} address finder,%{address}"
+          %{network} address, %{network} addresses, %{network} address tracker, %{network} address checker,
+          %{network} address search, blockchain address, %{network} balance, %{network} address balance, %{network} address blockchain, 
+          balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
+          crypto, %{network} address analytics, %{network} address search engine, %{network} address history
+          %{network} address finder,%{address}"
       transactions:
         name: 'Transactions'
         title: "%{address} transactions | %{network}"
         description: "Transactions sent by address %{address} and other transaction analytics charts in %{network}"
         keywords: "%{address} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
-        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
-        %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+          %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
       contracts:
         name: "Contracts"
         title: "%{address} smart contract | %{network}"
@@ -310,16 +310,16 @@ en:
         title: "%{token} Analytics | %{network} | Bitquery"
         description: "Check %{token} address in %{network}, transactions, wallet, status, gas fee, time, cost, transfers, and other analytics, charts and widgets"
         keywords: "%{token}, %{token} coin, %{token} cryptocurrency, %{token} crypto, %{token} %{network}, %{token} explorer, %{token} price, %{token} token,
-        %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
-        %{token} crypto, %{token} transaction explorer, %{token} address explorer,
-        %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
+          %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
+          %{token} crypto, %{token} transaction explorer, %{token} address explorer,
+          %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
         description: "Transfers of token %{token} in %{network}"
         keywords: "%{token} transfers, %{token} transfer, %{token} money transfer, 
-        %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
-        %{token} transaction volume"
+          %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
+          %{token} transaction volume"
       senders:
         name: 'Senders'
         title: "%{token} Exchange volume | %{network}"
@@ -335,26 +335,26 @@ en:
         title: "%{token} Smart Contract | %{network}"
         description: "Overview of %{token} smart contract %{address} in %{network}"
         keywords: "%{token} smart contract balance, %{token} contract balance, %{token} smart contract analytics,
-        %{token} unique callers, %{token} smart contract calls, %{token} smart contract statistics,
-        %{token} smart contract properties"
+          %{token} unique callers, %{token} smart contract calls, %{token} smart contract statistics,
+          %{token} smart contract properties"
       transactions:
         name: 'Transactions'
         title: "%{token} Transactions | %{network}"
         description: "Transactions with token smart contract %{address} in %{network}"
         keywords: "%{token} latest transactions, %{token} transaction fees,
-        %{token} top callers, %{token} transaction tracker"
+          %{token} top callers, %{token} transaction tracker"
       methods:
         name: 'Methods'
         title: "%{token} Methods | %{network}"
         description: "Method calls for token smart contract %{address} in %{network}"
         keywords: "%{token} smart contract methods, %{token} smart contract functions,
-        %{token} smart contract analytics, %{token} methods, %{token} functions"
+          %{token} smart contract analytics, %{token} methods, %{token} functions"
       events:
         name: 'Events'
         title: "%{token} Events | %{network}"
         description: "Events logged by token smart contract %{address} in %{network}"
         keywords: "%{token} smart contract events, %{token} events,
-        %{token} event analytics, %{token} %{network} events"
+          %{token} event analytics, %{token} %{network} events"
       inflow:
         name: 'Inflow'
         title: "%{token} Inflow to Smart Contract in %{network}"
@@ -422,16 +422,16 @@ en:
         title: "%{token} Analytics | %{network} | Bitquery"
         description: "Check %{token} address in %{network}, transactions, wallet, status, gas fee, time, cost, transfers, and other analytics, charts and widgets"
         keywords: "%{token}, %{token} coin, %{token} cryptocurrency, %{token} crypto, %{token} %{network}, %{token} explorer, %{token} price, %{token} token,
-        %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
-        %{token} crypto, %{token} transaction explorer, %{token} address explorer,
-        %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
+          %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
+          %{token} crypto, %{token} transaction explorer, %{token} address explorer,
+          %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
         description: "Transfers of token %{token} in %{network}"
         keywords: "%{token} transfers, %{token} transfer, %{token} money transfer, 
-        %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
-        %{token} transaction volume"
+          %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
+          %{token} transaction volume"
       senders:
         name: 'Senders'
         title: "%{token} Exchange volume | %{network}"
@@ -447,26 +447,26 @@ en:
         title: "%{token} Smart Contract | %{network}"
         description: "Overview of %{token} smart contract %{address} in %{network}"
         keywords: "%{token} smart contract balance, %{token} contract balance, %{token} smart contract analytics,
-        %{token} unique callers, %{token} smart contract calls, %{token} smart contract statistics,
-        %{token} smart contract properties"
+          %{token} unique callers, %{token} smart contract calls, %{token} smart contract statistics,
+          %{token} smart contract properties"
       transactions:
         name: 'Transactions'
         title: "%{token} Transactions | %{network}"
         description: "Transactions with token smart contract %{address} in %{network}"
         keywords: "%{token} latest transactions, %{token} transaction fees,
-        %{token} top callers, %{token} transaction tracker"
+          %{token} top callers, %{token} transaction tracker"
       methods:
         name: 'Methods'
         title: "%{token} Methods | %{network}"
         description: "Method calls for token smart contract %{address} in %{network}"
         keywords: "%{token} smart contract methods, %{token} smart contract functions,
-        %{token} smart contract analytics, %{token} methods, %{token} functions"
+          %{token} smart contract analytics, %{token} methods, %{token} functions"
       events:
         name: 'Events'
         title: "%{token} Events | %{network}"
         description: "Events logged by token smart contract %{address} in %{network}"
         keywords: "%{token} smart contract events, %{token} events,
-        %{token} event analytics, %{token} %{network} events"
+          %{token} event analytics, %{token} %{network} events"
       inflow:
         name: 'Inflow'
         title: "%{token} Inflow to Smart Contract in %{network}"
@@ -515,16 +515,16 @@ en:
         title: "%{token} Analytics | %{network} | Bitquery"
         description: "Check %{token} address in %{network}, transactions, wallet, status, gas fee, time, cost, transfers, and other analytics, charts and widgets"
         keywords: "%{token}, %{token} coin, %{token} cryptocurrency, %{token} crypto, %{token} %{network}, %{token} explorer, %{token} price, %{token} token,
-        %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
-        %{token} crypto, %{token} transaction explorer, %{token} address explorer,
-        %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
+          %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
+          %{token} crypto, %{token} transaction explorer, %{token} address explorer,
+          %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
         description: "Transfers of token %{token} in %{network}"
         keywords: "%{token} transfers, %{token} transfer, %{token} money transfer, 
-        %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
-        %{token} transaction volume"
+          %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
+          %{token} transaction volume"
       senders:
         name: 'Senders'
         title: "%{token} Exchange volume | %{network}"
@@ -540,26 +540,26 @@ en:
         title: "%{token} Smart Contract | %{network}"
         description: "Overview of %{token} smart contract %{address} in %{network}"
         keywords: "%{token} smart contract balance, %{token} contract balance, %{token} smart contract analytics,
-        %{token} unique callers, %{token} smart contract calls, %{token} smart contract statistics,
-        %{token} smart contract properties"
+          %{token} unique callers, %{token} smart contract calls, %{token} smart contract statistics,
+          %{token} smart contract properties"
       transactions:
         name: 'Transactions'
         title: "%{token} Transactions | %{network}"
         description: "Transactions with token smart contract %{address} in %{network}"
         keywords: "%{token} latest transactions, %{token} transaction fees,
-        %{token} top callers, %{token} transaction tracker"
+          %{token} top callers, %{token} transaction tracker"
       methods:
         name: 'Methods'
         title: "%{token} Methods | %{network}"
         description: "Method calls for token smart contract %{address} in %{network}"
         keywords: "%{token} smart contract methods, %{token} smart contract functions,
-        %{token} smart contract analytics, %{token} methods, %{token} functions"
+          %{token} smart contract analytics, %{token} methods, %{token} functions"
       events:
         name: 'Events'
         title: "%{token} Events | %{network}"
         description: "Events logged by token smart contract %{address} in %{network}"
         keywords: "%{token} smart contract events, %{token} events,
-        %{token} event analytics, %{token} %{network} events"
+          %{token} event analytics, %{token} %{network} events"
       inflow:
         name: 'Inflow'
         title: "%{token} Inflow to Smart Contract in %{network}"
@@ -702,15 +702,15 @@ en:
         title: "Block %{height} Smart Contract Calls on %{network} Explorer"
         description: "check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users"
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
-        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
-        %{network} smart contract users"
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users"
       transfers:
         name: "Transfers"
         title: "Block %{height} Transfers on %{network} Explorer"
         description: "Check latest %{network} transfers, token transfers data and analytics"
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
-        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
-        %{network} smart contract users"
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users"
       trades:
         name: "Trades"
         title: "Block %{height} Trades on %{network} Explorer"
@@ -777,7 +777,7 @@ en:
         keywords: "%{network} miniblock, %{network} latest miniblocks"
       miniblocks:
         name: "Miniblocks"
-        title: "Shard %{shard_id} Miniblocks on %{network} Explorer"
+        title: "Shard %{collection_id} Miniblocks on %{network} Explorer"
         description: "Сross-shard transactions which enable communicate between shards and the metachain"
         keywords: "%{network} miniblocks, %{network} cross-shard transaction in shard %{shard_id}"
       transactions:
@@ -813,21 +813,21 @@ en:
         title: "%{network} Explorer | Bitquery"
         description: "Search %{network} transactions, address, blocks, and miners on the blockchain, and check your %{network} balance and transaction fee, status and other analytics, charts and widgets"
         keywords: "%{network} address lookup, explore %{network} transactions, track %{network} transactions,
-        %{network} wallet explorer,%{network} address check, search %{network} address, %{network} address validation,
-        %{network} blocks, %{network} block height, %{network} block size, %{network} block time, %{network} block reward, %{network} block explorer"
+          %{network} wallet explorer,%{network} address check, search %{network} address, %{network} address validation,
+          %{network} blocks, %{network} block height, %{network} block size, %{network} block time, %{network} block reward, %{network} block explorer"
       transactions:
         name: "Transactions"
         title: "%{network} Transactions | Bitquery"
         description: "Check latest %{network} transactions, fee, transactions per day and other transaction related analytics, charts and widgets"
         keywords: "explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
-        %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
+          %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
       messages:
         name: "Messages"
         title: "%{network} Messages | Bitquery"
         description: "Check latest %{network} messages related analytics, charts and widgets"
         keywords: "explore %{network} messages, track %{network} messages, search %{network} messages,
-        %{network} messages per day, %{network} messages fee, %{network} messages live, %{network} messages live, %{network} transaction time, %{network} messages data,
+          %{network} messages per day, %{network} messages fee, %{network} messages live, %{network} messages live, %{network} transaction time, %{network} messages data,
          %{network} messages per second chart, %{network} messages chart, tracking %{network} transactions"
       gas:
         name: "Gas Analytics"
@@ -839,8 +839,8 @@ en:
         title: "Smart Contract Calls on %{network} Explorer"
         description: "check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users"
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
-        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
-        %{network} smart contract users"
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users"
       mints:
         name: "Mints"
         title: "Mints on %{network} Explorer"
@@ -851,8 +851,8 @@ en:
         title: "Transfers on %{network} Explorer"
         description: "Transfer list for %{network}"
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
-        %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
-        %{network} smart contract users"
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users"
       contracts:
         name: "Contracts"
         title: "Contracts on %{network} Explorer"
@@ -1643,6 +1643,7 @@ en:
       operator_hr_address: "Operator HR"
       transaction_index: "Index in Block"
       miniblock_index: "Index in Miniblock"
+      index_in_collection: "Index in Collection"
       transaction_code: "Result Code"
       trades_as_base_count: "Trades As Base Currency"
       trades_as_quote_count: "Trades As Quote Currency"
