@@ -741,6 +741,11 @@ en:
         title: "Block %{height} Rewards on %{network} Explorer"
         description: "Rewards"
         keywords: "%{network} Rewards"
+      collections:
+        name: "Collections"
+        title: "Block %{height} Collections on %{network} Explorer"
+        description: "List of collections"
+        keywords: "%{network} Collections"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1446,7 +1451,6 @@ en:
       token_type: "Token Type"
       code_type: "Code Type"
       symbol: "Symbol"
-      asset_id: "Asset ID"
       receive: "Receive"
       balance: "Balance"
       current_balance: "Current Balance"
@@ -1477,10 +1481,22 @@ en:
       usd: '$'
       transaction: 'Transaction'
       transaction_id: 'Transaction ID'
+      block_id: 'Block ID'
+      asset_id: "Asset ID"
+      reference_block_Id: 'Block ID'
+      token_id: "Token Id"
+      order_id: 'Order ID'
+      trade_id: "Trade ID"
+      proposal_key_id: "Proposal Key ID"
+      collection_id: "Collection ID"
+      block_seal_id: "Block Seal ID"
+      execution_receipt_Id: "Execution Receipt ID"
+      proposal_key_sequence_number: "Proposal Key Sequence Number"
       block: 'Block'
       height: 'Height'
       epoch: 'Epoch'
       slot: 'Slot'
+      error_message: 'Error Message'
       slot_in_epoch: 'Slot In  Epoch'
       slot_leader_description: 'Slot Leader Description'
       slot_leader_hash: 'Slot Leader Hash'
@@ -1526,7 +1542,6 @@ en:
       first_transfer_date: "First transfer date"
       last_transfer_date: "Last transfer date"
       transfer_days: "Days token transfered"
-      token_id: "Token Id"
       call_days: "Days contract called"
       creator: "Creator"
       created: "Created"
@@ -1617,7 +1632,6 @@ en:
       transactions_transfer: "Transfer transactions"
       total: "Total"
       maker: 'Maker'
-      order_id: 'Order ID'
       base_currency: 'Base currency'
       buy_currency: 'Buy currency'
       quote_currency: 'Quote currency'
@@ -1636,12 +1650,13 @@ en:
       seller: "Seller"
       buy_order: "Buy Order"
       sell_order: "Sell Order"
-      trade_id: "Trade ID"
       first_block_date: "First block date"
       last_block_date: "Last block date"
       operator_address: "Operator"
       operator_hr_address: "Operator HR"
       transaction_index: "Index in Block"
+      collection_index: "Index in Block"
+      index_in_block: "Index ean Block"
       miniblock_index: "Index in Miniblock"
       index_in_collection: "Index in Collection"
       transaction_code: "Result Code"

@@ -1,0 +1,32 @@
+<script>
+  widgets.callbacks({
+    block_by_height: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ (item.block.height || item.block);
+    },
+
+    transaction_by_id: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/' + (item.id || item.transaction.id);
+    },
+
+    collection_by_id: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/collections/' + (item.collectionId);
+    },
+
+    sender_block_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.senderBlock.hash;
+    },
+    receiver_block_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.receiverBlockHash;
+    },
+
+    sender_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.sender.annotation || item.sender.address);
+    },
+    receiver_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.receiver.annotation || item.receiver.address);
+    },
+    smart_contract_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.smartContractAddress.address);
+    },
+  });
+</script>

@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+      <div class="card-body">
+        <div id="block_info"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: FlowNetwork!, $height: Int!) {
+        flow(network: $network) {
+          blocks(height: {is: $height}) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            height
+            id
+            parentBlockId
+            collectionsCount
+            transactionsCount
+            blockSignatures
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#block_info', query, 'flow.blocks', {
+      title: '<%= t('widgets.headers.block_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.timestamp') %>', value: item.time.time},
+            {name: '<%= t('widgets.titles.height') %>', value: item.height},
+            {name: '<%= t('widgets.titles.id') %>', value: item.id},
+
+            {name: '<%= t('widgets.titles.parent_block_id') %>', value: item.parentBlockId},
+            {name: '<%= t('widgets.titles.collectionsCount') %>', value: item.collectionsCount},
+            {name: '<%= t('widgets.titles.transactionsCount') %>', value: item.transactionsCount},
+            {name: '<%= t('widgets.titles.block_signatures') %>', value: item.blockSignatures}
+          ];
+        },
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.attribute') %>',
+            type: 'string',
+            path: 'name',
+            style: 'width: 250px',
+            html_class: 'text-info font-weight-bold'
+          },
+          {
+            title: '<%= t('widgets.titles.property_value') %>',
+            type: 'string-wrap',
+            path: 'value'
+          },
+        ]
+    });
+
+    query.request({
+      height: <%= @height %>,
+      network: '<%= @network[:network] %>'
+    });
+  });
+</script>
+

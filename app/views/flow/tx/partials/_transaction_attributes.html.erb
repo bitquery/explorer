@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transaction_info') %></div>
+      <div class="card-body">
+        <div id="transaction_info"><%= t('loading') %></div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $id: String!) {
+        flow(network: $network) {
+          transactions(
+            options: {desc: "time.time", limit: $limit, offset: $offset}
+            transactionId: {is: $id}
+          ) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            block {
+              id
+              height
+            }
+            collectionId
+            id
+            gasLimit
+            eventsCount
+            errorMessage
+            indexInCollection
+            payer
+            proposalKeyId
+            proposalKeySequenceNumber
+            proposer
+            referenceBlockId
+            statusCode
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#transaction_info', query, 'flow.transactions', {
+      title: '<%= t('widgets.headers.transaction_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.timestamp') %>', value: item.time.time},
+            {name: '<%= t('widgets.titles.height') %>', value: item.block.height},
+            {name: '<%= t('widgets.titles.block_id') %>', value: item.block.id},
+            {name: '<%= t('widgets.titles.collection_id') %>', value: item.collectionId},
+            {name: '<%= t('widgets.titles.id') %>', value: item.id},
+            {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit},
+            {name: '<%= t('widgets.titles.reference_block_Id') %>', value: item.referenceBlockId},
+            {name: '<%= t('widgets.titles.events_count') %>', value: item.eventsCount},
+            {name: '<%= t('widgets.titles.index_in_collection') %>', value: item.indexInCollection},
+            {name: '<%= t('widgets.titles.payer') %>', value: item.payer},
+            {name: '<%= t('widgets.titles.proposal_key_id') %>', value: item.proposalKeyId},
+            {name: '<%= t('widgets.titles.proposal_key_sequence_number') %>', value: item.proposalKeySequenceNumber},
+            {name: '<%= t('widgets.titles.proposer') %>', value: item.proposer},
+            {name: '<%= t('widgets.titles.error_message') %>', value: item.errorMessage},
+            {name: '<%= t('widgets.titles.status_code') %>', value: item.statusCode},
+          ];
+        },
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.attribute') %>',
+            type: 'string',
+            path: 'name',
+            style: 'width: 250px',
+            html_class: 'text-info font-weight-bold'
+          },
+          {
+            title: '<%= t('widgets.titles.property_value') %>',
+            type: 'string-ellipsis',
+            path: 'value'
+          },
+        ]
+    });
+
+    query.request({
+      id: "<%= @tx_id %>",
+      network: '<%= @network[:network] %>'
+    });
+  });
+</script>
+

@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.block_seals') %></div>
+      <div class="card-body">
+        <div id="block_seals"><%= t('loading') %></div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+       query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, 
+          $till: ISO8601DateTime, $height: Int!
+        ) {
+        flow(network: $network) {
+          blockSeals(
+            options: {desc: "time.time", limit: $limit, offset: $offset, asc: "index"}
+            date: {since: $from, till: $till}
+            height: {is: $height}
+          ) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            sealId
+            executionReceiptId
+            executionReceiptSignatures
+            resultApprovalSignatures
+            index
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#block_seals', query, 'flow.blockSeals', {
+      title: '<%= t('widgets.headers.block_seals') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'time.time'
+        },
+        {
+          title: '<%= t('widgets.titles.index_in_block') %>',
+          type: 'string',
+          path: 'index'
+        },
+        {
+          title: '<%= t('widgets.titles.block_seal_id') %>',
+          type: 'string',
+          path: 'sealId'
+        },
+        {
+          title: '<%= t('widgets.titles.execution_receipt_Id') %>',
+          type: 'string',
+          path: 'executionReceiptId'
+        },
+        {
+          title: '<%= t('widgets.titles.execution_receipt_Id') %>',
+          type: 'string',
+          path: 'executionReceiptSignatures'
+        },
+        {
+          title: '<%= t('widgets.titles.execution_receipt_Id') %>',
+          type: 'string',
+          path: 'resultApprovalSignatures'
+        },
+      ]
+    });
+
+    query.request({
+      height: <%= @height %>,
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+

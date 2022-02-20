@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <% for sender in @response.senders.transfers %>
+    <%= render 'sitemaps/url', { 
+      url: url_for(controller: "#{@network[:family]}/address", 
+                   action: 'show',
+                   address: sender.sender.address,
+                   blockchain: @network[:network], 
+                   network: @network,
+                   only_path: false) } %>
+  <% end %>
+
+  <% for receiver in @response.receiver.transfers %>
+    <%= render 'sitemaps/url', { 
+      url: url_for(controller: "#{@network[:family]}/address", 
+                   action: 'show',
+                   address: receiver.receiver.address,
+                   blockchain: @network[:network], 
+                   network: @network,
+                   only_path: false) } %>
+  <% end %>
+
+  <% for call in @response.calls.calls %>
+    <%= render 'sitemaps/url', { 
+      url: url_for(controller: "#{@network[:family]}/address", 
+                   action: 'show',
+                   address: call.smart_contract_address.address,
+                   blockchain: @network[:network], 
+                   network: @network,
+                   only_path: false) } %>
+  <% end %>
+</urlset>
+

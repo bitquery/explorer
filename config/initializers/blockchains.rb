@@ -384,6 +384,16 @@ BLOCKCHAINS = [
     icon: 'currency/avalanche.png',
     start: Date.parse('2020-09-23')
   },
+  {
+    tag: 'flow',
+    network: 'flow',
+    name: 'Flow',
+    family: 'flow',
+    platform: 'Smart Contract',
+    currency: 'FLOW',
+    icon: 'currency/avalanche.png',
+    start: Date.parse('2020-09-23')
+  },
 ]
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }
