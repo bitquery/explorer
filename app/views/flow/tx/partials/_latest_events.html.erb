@@ -1,0 +1,72 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_events') %></div>
+      <div class="card-body">
+        <div id="latest_events"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $id: String!) {
+        flow(network: $network) {
+          events(
+            options: {desc: "time.time", limit: $limit, offset: $offset, asc: "index"}
+            date: {since: $from, till: $till}
+            transactionId: {is: $id}
+          ) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            index
+            smartContractAddress {
+              address
+            }
+            type
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#latest_events', query, 'flow.events', {
+      title: '<%= t('widgets.headers.latest_events') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          style: 'width: 180px',
+          path: 'time.time'
+        },
+        {
+          title: '<%= t('widgets.titles.index') %>',
+          type: 'string',
+          path: 'index'
+        },
+        {
+          title: '<%= t('widgets.titles.smart_contract_address') %>',
+          type: 'string',
+          path: 'smartContractAddress.address'
+        },
+        {
+          title: '<%= t('widgets.titles.type') %>',
+          type: 'string',
+          path: 'type'
+        }
+      ]
+    });
+
+    query.request({
+      id: '<%= @tx_id %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+
+
