@@ -165,6 +165,19 @@ body.dark{
 }
 
 .nav-item-ad{
-  background-color: lightyellow;
+  .nav-link-ad{
+    padding-top: 7px;
+    padding-bottom: 5px;
+    border-bottom-left-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+    position: relative;
+    background-color: #17a2b8;
+    color: #fff;
+    sup{
+      position: absolute;
+      top: 0;
+      right: 1px;
+    }
+  }
 }
 

@@ -31,7 +31,7 @@ module ApplicationHelper
     if ad
       tag.li(class: html_class) do
         link_to ad[:url], class: "nav-link nav-link-ad", target: :blank do
-          "<i class='fas fa-ad text-warning'></i> #{ad[:text]}".html_safe
+          "#{ad[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
         end
       end
     end
