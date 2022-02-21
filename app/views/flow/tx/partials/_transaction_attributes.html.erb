@@ -50,18 +50,18 @@
         item = data[0];
         return !item ? [] : [
             {name: '<%= t('widgets.titles.timestamp') %>', value: item.time.time},
-            {name: '<%= t('widgets.titles.height') %>', value: item.block.height},
+            {name: '<%= t('widgets.titles.height') %>', value: item.block.height, block: item.block.height },
             {name: '<%= t('widgets.titles.block_id') %>', value: item.block.id},
-            {name: '<%= t('widgets.titles.collection_id') %>', value: item.collectionId},
+            {name: '<%= t('widgets.titles.collection_id') %>', value: item.collectionId, collection: item.collectionId},
             {name: '<%= t('widgets.titles.id') %>', value: item.id},
             {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit},
             {name: '<%= t('widgets.titles.reference_block_Id') %>', value: item.referenceBlockId},
             {name: '<%= t('widgets.titles.events_count') %>', value: item.eventsCount},
             {name: '<%= t('widgets.titles.index_in_collection') %>', value: item.indexInCollection},
-            {name: '<%= t('widgets.titles.payer') %>', value: item.payer},
+            {name: '<%= t('widgets.titles.payer') %>', value: item.payer, address: item.payer },
             {name: '<%= t('widgets.titles.proposal_key_id') %>', value: item.proposalKeyId},
             {name: '<%= t('widgets.titles.proposal_key_sequence_number') %>', value: item.proposalKeySequenceNumber},
-            {name: '<%= t('widgets.titles.proposer') %>', value: item.proposer},
+            {name: '<%= t('widgets.titles.proposer') %>', value: item.proposer, address: item.proposer},
             {name: '<%= t('widgets.titles.error_message') %>', value: item.errorMessage},
             {name: '<%= t('widgets.titles.status_code') %>', value: item.statusCode},
           ];
@@ -77,7 +77,8 @@
           {
             title: '<%= t('widgets.titles.property_value') %>',
             type: 'string-ellipsis',
-            path: 'value'
+            path: 'value',
+            urlCallbackName: 'property_value_path'
           },
         ]
     });

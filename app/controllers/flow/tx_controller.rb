@@ -14,9 +14,13 @@ module Flow
     end
 
     def breadcrumb
-      return if action_name != 'show'
+      @breadcrumbs << { name: "#{t("tabs.#{controller_name}.show.name")}: #{@tx_id.truncate(15)}",
+                        url: "#{locale_path_prefix}#{@network[:network]}/tx/#{@tx_id}" }
+
+      return if action_name == 'show'
+
+      @breadcrumbs << { name: "#{t("tabs.#{controller_name}.#{action_name}.name")}" }
     end
   end
 end
-
 

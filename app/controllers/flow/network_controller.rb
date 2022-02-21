@@ -8,14 +8,10 @@ module Flow
 
     def transactions; end
 
-    def transfers; end
-
-    def calls; end
-
     private
 
     def breadcrumb
-      action_name != 'show' && @breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") }
+      action_name != 'show' && (@breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") })
     end
   end
 end
