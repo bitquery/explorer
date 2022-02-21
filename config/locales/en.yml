@@ -1130,6 +1130,27 @@ en:
         title: "Validator %{index} | %{network}"
         description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
         keywords: "%{network} Validator ${index}"
+    collections:
+      icon: 'fas fa-cube'
+      header: "%{network} Collection %{collection_id}"
+      show:
+        name: 'Collection'
+        title: "Collection %{collection_id} in %{network}"
+        description: "Check %{network} collection %{collection_id} and %{network} collection data and analytics"
+        keywords: "%{network} collection, %{network} latest collections"
+      transactions:
+        name: "Transactions"
+        title: "Collection %{collection_id} Transactions on %{network} Explorer"
+        description: "Check transactions for collection %{collection_id} in %{network}"
+        keywords: "%{network} collections with transactions"
+    validator:
+      icon: 'far fa-address-card'
+      header: "%{network} validator with index #%{index}"
+      show:
+        name: 'Validator'
+        title: "Validator %{index} | %{network}"
+        description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
+        keywords: "%{network} Validator ${index}"
     dex_protocol:
       icon: 'fa fa-exchange'
       header: "%{protocol} DEX Protocol at %{network} Blockchain"
@@ -1299,6 +1320,7 @@ en:
       tx_info_2: "Transaction Attributes Cont'd"
       references_table: "Addresses used in Events / Methods Parameters (may take time to load )"
       block_info: "Block Attributes"
+      collection_info: "Collection Attributes"
       transactions: "Transactions"
       call_arguments: "Smart Contract Call Arguments"
       transactions_by_time: "Transactions By Date"
@@ -1483,7 +1505,7 @@ en:
       transaction_id: 'Transaction ID'
       block_id: 'Block ID'
       asset_id: "Asset ID"
-      reference_block_Id: 'Block ID'
+      reference_block_Id: 'Reference Block ID'
       token_id: "Token Id"
       order_id: 'Order ID'
       trade_id: "Trade ID"
@@ -1656,7 +1678,7 @@ en:
       operator_hr_address: "Operator HR"
       transaction_index: "Index in Block"
       collection_index: "Index in Block"
-      index_in_block: "Index ean Block"
+      index_in_block: "Index in Block"
       miniblock_index: "Index in Miniblock"
       index_in_collection: "Index in Collection"
       transaction_code: "Result Code"
