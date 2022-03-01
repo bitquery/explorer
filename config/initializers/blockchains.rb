@@ -384,6 +384,16 @@ BLOCKCHAINS = [
     icon: 'currency/avalanche.png',
     start: Date.parse('2020-09-23')
   },
+  {
+    tag: 'fantom',
+    network: 'fantom',
+    name: 'Fantom Mainnet',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'FTM',
+    icon: 'currency/fantom.png',
+    start: Date.parse('2019-12-27')
+  },
 ]
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }
