@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.proposers') %></div>
+      <div class="card-body">
+        <div id="miners"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ( $network: CosmosNetwork!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    cosmos(network: $network){
+                      blocks(options:{desc: "count", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+                        ) {
+
+                          address: proposer {
+                            address
+                          }
+
+                          count
+
+                          min_date: minimum(of: date)
+                          max_date: maximum(of: date)
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#miners', query, 'cosmos.blocks', {
+            title: '<%= t('widgets.headers.proposers') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.proposer') %>',
+                    type: 'string',
+                    path: 'address.address',
+                    urlCallbackName: 'address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.block_count') %>',
+                    type: 'string',
+                    path: 'count'
+                },
+
+
+                {
+                    title: '<%= t('widgets.titles.first_block_date') %>',
+                    path: 'min_date'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.last_block_date') %>',
+                    path: 'max_date'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+</script>

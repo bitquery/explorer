@@ -407,6 +407,24 @@ Rails.application.routes.draw do
       end
     end
 
+
+
+    BLOCKCHAINS.select{|b| b[:family]=='cosmos' }.each{|blockchain|
+
+      get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow',constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+      get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/height/:height", controller: "#{blockchain[:family]}/height", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+      get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
+
+    }
+
     get "covid", controller: 'covid/covid_dashboard', action: 'index', as: 'covid_index'
     get "covid/:action", controller: 'covid/covid_dashboard'
     get "covid/country/:code/:name", controller: 'covid/covid_country', action: 'index', as: 'covid_country'

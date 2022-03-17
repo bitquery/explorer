@@ -394,6 +394,56 @@ BLOCKCHAINS = [
     icon: 'currency/fantom.png',
     start: Date.parse('2019-12-27')
   },
-]
+
+  {
+    tag: 'cosmoshub',
+    network: 'cosmoshub',
+    name: 'Cosmos Hub Network',
+    family: 'cosmos',
+    platform: 'Cosmos',
+    currency: 'ATOM',
+    icon: 'currency/cosmos-atom-logo.svg'
+  },
+
+  {
+    tag: 'crypto_mainnet',
+    network: 'crypto_mainnet',
+    name: 'Crypto.org Mainnet',
+    family: 'cosmos',
+    platform: 'Cosmos',
+    currency: 'CRO',
+    icon: 'currency/cryptoorg-logo.png'
+  },
+
+  {
+    tag: 'crypto_testnet',
+    network: 'crypto_testnet',
+    name: 'Crypto.org Croeseid Testnet',
+    family: 'cosmos',
+    platform: 'Testnet',
+    currency: 'TCRO',
+    icon: 'currency/cryptoorg-logo.png'
+  },
+
+  {
+    tag: 'heimdall',
+    network: 'heimdall',
+    name: 'Heimdall (Matic Verification Network)',
+    family: 'cosmos',
+    platform: 'Cosmos',
+    currency: 'MATIC',
+    icon: 'currency/matic-logo.png'
+  },
+
+  {
+    tag: 'terra',
+    network: 'terra',
+    name: 'Terra',
+    family: 'cosmos',
+    platform: 'Cosmos',
+    currency: 'LUNA',
+    icon: 'currency/terra-luna-logo.svg'
+  }
+].freeze
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }

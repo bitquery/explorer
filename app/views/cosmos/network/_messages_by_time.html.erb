@@ -1,0 +1,66 @@
+<div class="col-6 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.messages_by_time') %></div>
+    <div class="card-body">
+      <div id="messages_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        var query = new widgets.query(`
+            query ($network: CosmosNetwork!,
+                  $dateFormat: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    cosmos(network: $network ){
+                      messages(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+                        count: countBigInt
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#messages_by_time', query, 'cosmos.messages', {
+            title: '<%= t('widgets.headers.messages_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.messages_count') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': {color: '#28a745'}
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date'},
+                    path: 'date.date'
+                },
+                {
+                    title: {label: '<%= t('widgets.titles.messages_count') %>', type: 'number'},
+                    path: 'count'
+                },
+
+            ]
+        });
+
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+            network: '<%= params['network']['network'] %>'
+        });
+
+
+    });
+</script>

@@ -1410,6 +1410,7 @@ en:
       created_accounts: "Created Accounts"
       latest_topics: "Latest Topics"
       tokens: "Tokens"
+      messages_by_type: "Messages By Type"
     titles:
       instruction_account_index: "Account index in Instruction"
       action: "Action"
@@ -1712,6 +1713,13 @@ en:
       transaction_max_fee: "Transaction Max Fee"
       transaction_fee: "Transaction Fee"
       shard: "Shard"
+      message_index: "Message Index"
+      message_type: "Message Type"
+      transaction_signer: "Transaction Signer"
+      index: "Index"
+      type: "Type"
+      code: "Code"
+      gas_wanted: "Gas Wanted"
   pages:
     home:
       family: "%{family} Platform Explorers"

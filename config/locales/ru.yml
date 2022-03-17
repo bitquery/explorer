@@ -255,9 +255,9 @@ ru:
       latest_blocks_second_shard: "Последние Блоки в Шарде номер 1"
       latest_blocks_third_shard: "Последние Блоки в Шарде номер 2"
       latest_blocks_metachain: "Последние Блоки в Метачейне"
+      messages_by_type: "Сообщения По Типу"
     titles:
       validators_hash: "Хеш валидатора"
-      previous_block_hash: 'Предыдуший хеш блока'
       previous_block_hash: 'Предыдуший хеш блока'
       contract: 'Контракт'
       date: 'Дата'
@@ -350,6 +350,13 @@ ru:
       node: "Получатель"
       transaction_type: "Тип транзакции"
       shard: "Шард"
+      message_index: "Индекс Сообщения"
+      message_type: "Тип Сообщения"
+      transaction_signer: "Подписавший Трназакцию"
+      index: "Индекс"
+      type: "Тип"
+      code: "Код"
+      gas_wanted: "Gas Wanted"
   pages:
     footer:
       built: "Сделано на основе"
