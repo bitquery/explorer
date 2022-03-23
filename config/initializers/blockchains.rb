@@ -222,9 +222,9 @@ BLOCKCHAINS = [
   },
 
   {
-    tag: 'conflux_tethys',
-    network: 'conflux_tethys',
-    name: 'Conflux Tethys',
+    tag: 'conflux_hydra',
+    network: 'conflux_hydra',
+    name: 'Conflux Hydra',
     family: 'conflux',
     platform: 'Smart Contract',
     currency: 'CFX',
