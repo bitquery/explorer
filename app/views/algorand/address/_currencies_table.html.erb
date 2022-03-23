@@ -21,6 +21,7 @@
               algorand(network: $network) {
                 transfers(date: {since: $from, till: $till},
                 amount: {gt: 0}
+                any: [{receiver: {is: $address}}, {sender: {is: $address}}]
                 options: {limit: $limit, offset: $offset, desc: ["count_in","count_out"] asc: "currency.symbol"}){
                     sum_in: amount(calculate: sum,
                       receiver: {is: $address}
