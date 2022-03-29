@@ -6,7 +6,7 @@ ADS={
     # },
     ad: {
       text: 'Download Tax Report',
-      url: 'https://koinly.io/?utm_source=bitquery&utm_medium=navbar_btn'
+      url: 'https://bitquery.io/go/nav_bar_link'
     }
     # platform: {
     #   smart_contract: {
@@ -24,7 +24,7 @@ ADS={
     # },
     ad: {
       text: 'Download Tax Report',
-      url: 'https://koinly.io/?utm_source=bitquery&utm_medium=body_btn'
+      url: 'https://bitquery.io/go/body_btn'
     }
   },
   fixed: {
