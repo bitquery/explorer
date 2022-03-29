@@ -24,3 +24,26 @@
     </p>
   </div>
 </footer>
+
+<% if ad = current_ad(:widgets) %>
+  <script>
+      const adsWidInt = setInterval(function(){
+          let btns = $('.card-body a.open-btn').not('.adcheck');
+          $.each(btns, function(){
+              let btn = $(this);
+              if(btn.html() === 'Open GraphQL IDE'){
+                  let newBtn = btn.clone();
+                  btn.before(newBtn);
+                  newBtn.removeClass('open-btn')
+                      .addClass('open-btn-ad')
+                      .attr({
+                          'href': '<%= ad[:url] %>',
+                          'target': '_blank'
+                      })
+                      .html('<%= ad[:text] %>'+" <sup class='fas fa-ad text-second'></sup>");
+                  btn.addClass('adcheck');
+              }
+          });
+      }, 1000)
+  </script>
+<% end %>

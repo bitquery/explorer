@@ -1,9 +1,13 @@
 ADS={
   tab: {
+    # ad: {
+    #   text: 'Buy this ad',
+    #   url: 'https://bitquery.io/forms/ads'
+    # },
     ad: {
       text: 'Buy this ad',
       url: 'https://bitquery.io/forms/ads'
-    },
+    }
     # platform: {
     #   smart_contract: {
     #     ad: {
@@ -13,12 +17,22 @@ ADS={
     #   }
     # }
   },
-  fixed: {
+  widgets: {
+    # ad: {
+    #   text: 'Buy this ad',
+    #   url: 'https://bitquery.io/forms/ads'
+    # },
     ad: {
-      tag: "",
       text: 'Buy this ad',
       url: 'https://bitquery.io/forms/ads'
-    },
+    }
+  },
+  fixed: {
+    # ad: {
+    #   tag: "",
+    #   text: 'Buy this ad',
+    #   url: 'https://bitquery.io/forms/ads'
+    # },
     # platform: {
     #   smart_contract: {
     #     ad: {

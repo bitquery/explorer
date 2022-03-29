@@ -20,15 +20,18 @@ module ApplicationHelper
     render file: layout
   end
 
-  def tab_ad(html_class = 'nav-item nav-item-ad')
+  def current_ad tag
     ads_path = ADS
-    ad = "tab#{request.fullpath}".split('/').collect{|p|
+    "#{tag}#{request.fullpath}".split('/').collect{|p|
       next unless ads_path[p.to_sym]
       ad = ads_path[p.to_sym][:ad]
       ads_path = ads_path[p.to_sym]
       ad
     }.compact.reverse.first
-    if ad
+  end
+
+  def tab_ad(html_class = 'nav-item nav-item-ad')
+    if ad = current_ad(:tab)
       tag.li(class: html_class) do
         link_to ad[:url], class: "nav-link nav-link-ad", target: :blank do
           "#{ad[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
