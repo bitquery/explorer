@@ -5,8 +5,8 @@ ADS={
     #   url: 'https://bitquery.io/forms/ads'
     # },
     ad: {
-      text: 'Buy this ad',
-      url: 'https://bitquery.io/forms/ads'
+      text: 'Download Tax Report',
+      url: 'https://koinly.io/?utm_source=bitquery&utm_medium=navbar_btn'
     }
     # platform: {
     #   smart_contract: {
@@ -23,8 +23,8 @@ ADS={
     #   url: 'https://bitquery.io/forms/ads'
     # },
     ad: {
-      text: 'Buy this ad',
-      url: 'https://bitquery.io/forms/ads'
+      text: 'Download Tax Report',
+      url: 'https://koinly.io/?utm_source=bitquery&utm_medium=body_btn'
     }
   },
   fixed: {
