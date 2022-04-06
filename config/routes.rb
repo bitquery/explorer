@@ -424,6 +424,29 @@ Rails.application.routes.draw do
       get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: {network: blockchain}
 
     }
+    BLOCKCHAINS.select { |b| b[:family] == 'flow' }.each do |blockchain|
+      constraints(blockchain: blockchain[:network]) do
+        defaults network: blockchain do
+          get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks'
+
+          get ":blockchain/:action", controller: "#{blockchain[:family]}/network"
+
+          get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show'
+          get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block"
+
+          get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
+
+          get ":blockchain/collections/:hash", controller: "#{blockchain[:family]}/collections", action: 'show'
+          get ":blockchain/collections/:hash/:action", controller: "#{blockchain[:family]}/collections"
+
+          get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
+          get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
+
+          get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+        end
+      end
+    end
 
     get "covid", controller: 'covid/covid_dashboard', action: 'index', as: 'covid_index'
     get "covid/:action", controller: 'covid/covid_dashboard'

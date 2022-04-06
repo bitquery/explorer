@@ -443,6 +443,16 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'LUNA',
     icon: 'currency/terra-luna-logo.svg'
+  },
+  {
+    tag: 'flow',
+    network: 'flow',
+    name: 'Flow',
+    family: 'flow',
+    platform: 'Smart Contract',
+    currency: 'FLOW',
+    icon: 'currency/flow.png',
+    start: Date.parse('2020-09-23')
   }
 ].freeze
 

@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_collections') %></div>
+      <div class="card-body">
+        <div id="latest_collections"><%= t('loading') %></div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        flow(network: $network) {
+          collections(
+            options: {desc: "time.time", limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+          ) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            block{
+              height
+            }
+            id
+            transactionsCount
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#latest_collections', query, 'flow.collections', {
+      title: '<%= t('widgets.headers.latest_collections') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'time.time'
+        },
+        {
+          title: '<%= t('widgets.titles.block') %>',
+          type: 'string',
+          path: 'block.height',
+          urlCallbackName: 'block_by_height'
+        },
+        {
+          title: '<%= t('widgets.titles.collection_id') %>',
+          type: 'string',
+          path: 'id',
+          urlCallbackName: 'main_collection_by_id'
+        },
+        {
+          title: '<%= t('widgets.titles.transactions_count') %>',
+          type: 'string',
+          path: 'transactionsCount'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+

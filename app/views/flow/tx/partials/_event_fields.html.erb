@@ -1,0 +1,81 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_events') %></div>
+      <div class="card-body">
+        <div id="latest_events"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: FlowNetwork!) {
+        flow(network: $network) {
+          eventFields(
+            options: {desc: "time.time", limit: 1000, offset: 0, asc: "eventIndex"}
+            transactionId: {is: "ee8674d3d8c189d6ce028802a9922f0fcc1d6a3119774e52024edbf488f99310"}
+          ) {
+            time {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            eventIndex
+            index
+            field
+            amount: fieldAsFix
+            entity_id: fieldAsInt
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#latest_events', query, 'flow.eventFields', {
+      title: '<%= t('widgets.headers.latest_events') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'time.time'
+        },
+        {
+          title: '<%= t('widgets.titles.event_index') %>',
+          type: 'string',
+          path: 'eventIndex'
+        },
+        {
+          title: '<%= t('widgets.titles.index') %>',
+          type: 'string',
+          path: 'index'
+        },
+        {
+          title: '<%= t('widgets.titles.field') %>',
+          type: 'string',
+          path: 'field'
+        },
+        {
+          title: '<%= t('widgets.titles.amount') %>',
+          type: 'string',
+          path: 'amount'
+        },
+        {
+          title: '<%= t('widgets.titles.entity_id') %>',
+          type: 'string',
+          path: 'entity_id'
+        },
+      ]
+    });
+
+    query.request({
+      id: '<%= @tx_hash %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+
+
+

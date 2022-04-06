@@ -1,0 +1,47 @@
+<script>
+  widgets.callbacks({
+    main_block_by_height: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.height;
+    },
+
+    block_by_height: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.block.height;
+    },
+
+    transaction_by_id: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/' + (item.id || item.transaction.id);
+    },
+
+    main_collection_by_id: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/collections/' + item.id;
+    },
+
+    collection_by_id: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/collections/' + item.collectionId;
+    },
+
+    address: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.address.address;
+    },
+
+    smart_contract_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.smartContractAddress.address);
+    },
+
+    property_value_path: function(item){
+      link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
+
+      if (item.block){
+        return `${link_prefix}/block/` + item.block;
+      }
+      else if (item.collection) {
+        return `${link_prefix}/collections/` + item.collection;
+      }
+      else if (item.address) {
+        return `${link_prefix}/address/` + item.address;
+      }
+
+      return null
+    }
+  });
+</script>
