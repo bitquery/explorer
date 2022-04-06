@@ -1,5 +1,5 @@
-
-
+module Flow
+  class BlockController < NetworkController
     def transactions; end
 
     private

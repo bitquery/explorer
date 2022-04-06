@@ -1,2 +1,7 @@
 <%= render 'flow/network/transactions/latest_transactions' %>
-<%= render 'flow/network/transactions/transactions_by_data' %>
+<%= render 'flow/network/transactions/transactions_by_date' %>
+
+<div class="row">
+  <%= render 'flow/network/transactions/succeeded_transactions_by_date' %>
+  <%= render 'flow/network/transactions/failed_transactions_by_date' %>
+</div>

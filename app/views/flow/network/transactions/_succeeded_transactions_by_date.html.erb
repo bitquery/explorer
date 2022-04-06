@@ -1,0 +1,61 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.succeeded_transactions_by_date') %></div>
+
+    <div class="card-body">
+      <div id="succeeded_transactions_by_date"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+
+    const graphql_query =
+    `
+      query ($network: FlowNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+        flow(network: $network){
+          transactions(options:{asc: "date.date"}, date: { since: $from, till: $till}, statusCode: {is: 0}) {
+            date {
+              date(format: $dateFormat)
+            }
+            countBigInt
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(graphql_query);
+
+    new widgets.chartByTime('#succeeded_transactions_by_date', query, 'flow.transactions', {
+      title: '<%= t('widgets.headers.succeeded_transactions_by_date') %>',
+      chartOptions: {
+        vAxes: {
+          '0': {
+            title: '<%= t('widgets.titles.transactions_count') %>'
+          }
+        },
+        seriesType: 'bars',
+        series: {
+          '0': { color: '#27aeef' }
+        },
+      },
+      dataOptions: [
+        {
+          title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          path: 'date.date'
+        },
+        {
+          title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number' },
+          path: 'countBigInt'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      network: '<%= params['network']['network'] %>'
+    });
+
+  });
+</script>
+

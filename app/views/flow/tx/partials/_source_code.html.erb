@@ -1,0 +1,41 @@
+<div class="card">
+  <div class="card-header"><%= t('widgets.headers.transaction_source_code') %></div>
+  <div class="card-body">
+
+    <pre>
+      <div id="transaction_source_code"><%= t('loading') %></div>
+    </pre>
+
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    var query = new widgets.query(`
+      query ($network: FlowNetwork!, $id: String!) {
+        flow(network: $network) {
+          transactions(
+            transactionId: {is: $id}
+          ) {
+            script
+          }
+        }
+      }
+    `);
+
+
+    new widgets.text('#transaction_source_code', query, 'flow.transactions', {
+      dataOptions:
+        {
+          type: 'string',
+          path: 'script'
+        }
+    });
+
+    query.request({
+      network: '<%= @network[:network] %>',
+      id: '<%= @tx_hash %>'
+    });
+  });
+</script>
+

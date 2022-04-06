@@ -746,6 +746,16 @@ en:
         title: "Block %{height} Collections on %{network} Explorer"
         description: "List of collections"
         keywords: "%{network} Collections"
+      inputs:
+        name: "Inputs"
+        title: "Money Inflow on %{network} Explorer, block %{height}"
+        description: "Money inflow %{network} Explorer, block %{height}"
+        keywords: "%{network} Inputs"
+      outputs:
+        name: "Outputs"
+        title: "Money Outflow on %{network} Explorer, block %{height}"
+        description: "Money Outflow %{network} Explorer, block %{height}"
+        keywords: "%{network} Outputs"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -985,6 +995,11 @@ en:
         title: "Shards on %{network} Explorer"
         description: "Shards"
         keywords: "%{network} Shards"
+      collections:
+        name: "Collections"
+        title: "Collections on %{network} Explorer"
+        description: "Collections on  %{network}"
+        keywords: "%{network} Collections"
     home:
       index:
         name: "All"
@@ -1513,6 +1528,7 @@ en:
       collection_id: "Collection ID"
       block_seal_id: "Block Seal ID"
       execution_receipt_Id: "Execution Receipt ID"
+      nft_id: "NFT ID"
       proposal_key_sequence_number: "Proposal Key Sequence Number"
       block: 'Block'
       height: 'Height'
@@ -1750,6 +1766,7 @@ en:
       transaction_max_fee: "Transaction Max Fee"
       transaction_fee: "Transaction Fee"
       shard: "Shard"
+      transfer_reason: "Transfer Reason"
   pages:
     home:
       family: "%{family} Platform Explorers"

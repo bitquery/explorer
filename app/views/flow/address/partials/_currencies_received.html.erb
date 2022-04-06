@@ -1,0 +1,67 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.currencies_received') %></div>
+    <div class="card-body">
+      <div id="currencies_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $address: String!) {
+        flow(network: $network) {
+          outputs(
+            options: {limit: $limit, offset: $offset, desc: "count"}
+            date: {since: $from, till: $till}
+            address: {is: $address}
+          ) {
+            amount(calculate: sum, address: {is: $address})
+            count: countBigInt(address: {is: $address})
+            currency {
+              address
+              symbol
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#currencies_table', query, 'flow.outputs', {
+      title: '<%= t('widgets.headers.currencies_received') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.currency') %>',
+          type: 'string',
+          path: 'currency.symbol'
+        },
+        {
+          title: '<%= t('widgets.titles.smart_contract_address') %>',
+          type: 'string',
+          path: 'currency.address'
+        },
+        {
+          title: '<%= t('widgets.titles.amount') %>',
+          type: 'amount',
+          path: 'amount'
+        },
+        {
+          title: '<%#= t('widgets.titles.txs') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+      address: '<%= @address %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+
+

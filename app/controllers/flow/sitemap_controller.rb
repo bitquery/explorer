@@ -1,26 +1,28 @@
-module Elrond
+module Flow
   class SitemapController < NetworkController
     QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
-      query ($network: ElrondNetwork!, $from: ISO8601DateTime, $limit: Int!) {
-        senders: elrond(network: $network) {
-          transfers(options: {desc: "count", limit: $limit}, date: {since: $from}) {
-            sender {
+      query ($network: FlowNetwork!, $from: ISO8601DateTime, $limit: Int!) {
+        proposers: flow(network: $network) {
+          transactions(options: {desc: "count", limit: $limit}, date: {since: $from}) {
+            proposer {
               address
             }
             count
           }
         }
-        receiver: elrond(network: $network) {
-          transfers(options: {desc: "count", limit: $limit}, date: {since: $from}) {
-            receiver {
+
+        senders: flow(network: $network) {
+          inputs(options: {desc: "count", limit: $limit}, date: {since: $from}) {
+            address {
               address
             }
             count
           }
         }
-        calls: elrond(network: $network) {
-          calls(options: {desc: "count", limit: $limit}, date: {since: $from}) {
-            smartContractAddress{
+
+        receivers: flow(network: $network) {
+          outputs(options: {desc: "count", limit: $limit}, date: {since: $from}) {
+            address {
               address
             }
             count
@@ -35,8 +37,6 @@ module Elrond
         network: @network[:network],
         from: Date.today
       }
-
-
 
        @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data
     end

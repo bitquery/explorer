@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_outputs') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_inputs') %></div>
       <div class="card-body">
-        <div id="latest_outputs"><%= t('loading') %></div>
+        <div id="latest_inputs"><%= t('loading') %></div>
       </div>
     </div> 
   </div>
@@ -12,19 +12,20 @@
 <script>
   $( document ).ready(function() {
     const qraphql_query = `
-      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $id: String!) {
+      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $height: Int!) {
         flow(network: $network) {
-          outputs(
+          inputs(
             options: {desc: "time.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
-            transactionId: {is: $id}
+            height: {is: $height}
           ) {
             time {
               time(format: "%Y-%m-%d %H:%M:%S")
             }
-            address {
-              address
+            transaction {
+              id
             }
+            address
             currency {
               symbol
             }
@@ -43,8 +44,8 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#latest_outputs', query, 'flow.outputs', {
-      title: '<%= t('widgets.headers.latest_outputs') %>',
+    new widgets.table('#latest_inputs', query, 'flow.inputs', {
+      title: '<%= t('widgets.headers.latest_inputs') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
@@ -52,14 +53,20 @@
           path: 'time.time'
         },
         {
+          title: '<%= t('widgets.titles.transaction_id') %>',
+          type: 'string',
+          path: 'transaction.id',
+          urlCallbackName: 'transaction_by_id',
+        },
+        {
           title: '<%= t('widgets.titles.event_index') %>',
           type: 'string',
           path: 'eventIndex'
         },
         {
-          title: '<%= t('widgets.titles.receiver') %>',
+          title: '<%= t('widgets.titles.sender') %>',
           type: 'string',
-          path: 'address.address',
+          path: 'address',
           urlCallbackName: 'address',
         },
         {
@@ -91,8 +98,11 @@
     });
 
     query.request({
-      id: '<%= @tx_hash %>',
+      height: <%= @height %>,
       network: '<%= params['network']['network'] %>'
     });
   });
 </script>
+
+
+

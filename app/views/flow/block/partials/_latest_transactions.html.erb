@@ -26,6 +26,7 @@
             indexInCollection
             collectionId
             eventsCount
+            statusCode
           }
         }
       }
@@ -62,6 +63,11 @@
           title: '<%= t('widgets.titles.events_count') %>',
           type: 'string',
           path: 'eventsCount'
+        },
+        {
+          title: '<%= t('widgets.titles.status_code') %>',
+          type: 'string',
+          path: 'statusCode'
         },
       ]
     });

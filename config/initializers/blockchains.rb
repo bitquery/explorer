@@ -391,7 +391,7 @@ BLOCKCHAINS = [
     family: 'flow',
     platform: 'Smart Contract',
     currency: 'FLOW',
-    icon: 'currency/avalanche.png',
+    icon: 'currency/flow.png',
     start: Date.parse('2020-09-23')
   },
 ]

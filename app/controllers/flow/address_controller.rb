@@ -1,4 +1,4 @@
-module Elrond
+module Flow
   class AddressController < NetworkController
     layout 'tabs'
 
@@ -8,11 +8,11 @@ module Elrond
     before_action :breadcrumb
 
     QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
-      query ($network: ElrondNetwork!, $address: String!) {
-        elrond(network: $network) {
-          outflow: transfers(
+      query ($network: FlowNetwork!, $address: String!) {
+        flow(network: $network) {
+          outflow: inputs(
             options: {desc: "count", limit: 100}
-            transferSender: {is: $address}
+            address: {is: $address}
           ) {
             currency {
               address
@@ -21,9 +21,9 @@ module Elrond
             }
             count
           }
-          inflow: transfers(
+          inflow: outputs(
             options: {desc: "count", limit: 100}
-            transferReceiver: {is: $address}
+            address: {is: $address}
           ) {
             currency {
               address
@@ -51,7 +51,7 @@ module Elrond
     def query_graphql
       result = BitqueryGraphql.instance.query_with_retry(QUERY,
                                              variables: { network: @network[:network],
-                                                          address: @address }).data.elrond
+                                                          address: @address }).data.flow
       all_currencies = result.outflow + result.inflow
       @currencies = all_currencies.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
     end

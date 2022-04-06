@@ -417,16 +417,16 @@ Rails.application.routes.draw do
           get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show'
           get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block"
 
-          get ":blockchain/tx/:id", controller: "#{blockchain[:family]}/tx", action: 'show'
-          get ":blockchain/tx/:id/:action", controller: "#{blockchain[:family]}/tx"
+          get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
 
           get ":blockchain/collections/:hash", controller: "#{blockchain[:family]}/collections", action: 'show'
           get ":blockchain/collections/:hash/:action", controller: "#{blockchain[:family]}/collections"
 
-#           get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
-#           get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
+          get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
+          get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
 
-#           get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+          get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end
       end
     end

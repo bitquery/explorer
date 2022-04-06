@@ -12,19 +12,20 @@
 <script>
   $( document ).ready(function() {
     const qraphql_query = `
-      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $id: String!) {
+      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $height: Int!) {
         flow(network: $network) {
           outputs(
             options: {desc: "time.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
-            transactionId: {is: $id}
+            height: {is: $height}
           ) {
             time {
               time(format: "%Y-%m-%d %H:%M:%S")
             }
-            address {
-              address
+            transaction {
+              id
             }
+            address
             currency {
               symbol
             }
@@ -52,6 +53,12 @@
           path: 'time.time'
         },
         {
+          title: '<%= t('widgets.titles.transaction_id') %>',
+          type: 'string',
+          path: 'transaction.id',
+          urlCallbackName: 'transaction_by_id',
+        },
+        {
           title: '<%= t('widgets.titles.event_index') %>',
           type: 'string',
           path: 'eventIndex'
@@ -59,7 +66,7 @@
         {
           title: '<%= t('widgets.titles.receiver') %>',
           type: 'string',
-          path: 'address.address',
+          path: 'address',
           urlCallbackName: 'address',
         },
         {
@@ -91,8 +98,11 @@
     });
 
     query.request({
-      id: '<%= @tx_hash %>',
+      height: <%= @height %>,
       network: '<%= params['network']['network'] %>'
     });
   });
 </script>
+
+
+

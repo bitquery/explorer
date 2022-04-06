@@ -21,12 +21,12 @@
   </div>
   <script>
     const query = new graphs.query(`
-      query ($network: ElrondNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-        elrond(network: $network) {
+      query ($network: FlowNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        flow(network: $network) {
           inbound: coinpath(
             initialAddress: {is: $address}
             depth: {lteq: $inboundDepth}
-            options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
+            options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit, offset: $offset}}
             date: {since: $from, till: $till}
           ) {
             sender {
@@ -47,7 +47,7 @@
           outbound: coinpath(
             initialAddress: {is: $address}
             depth: {lteq: $outboundDepth}
-            options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
+            options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit, offset: $offset}}
             date: {since: $from, till: $till}
           ) {
             sender {

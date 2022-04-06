@@ -31,10 +31,14 @@
             eventsCount
             errorMessage
             indexInCollection
-            payer
+            payer {
+              address
+            }
             proposalKeyId
             proposalKeySequenceNumber
-            proposer
+            proposer {
+              address
+            }
             referenceBlockId
             statusCode
           }
@@ -58,10 +62,10 @@
             {name: '<%= t('widgets.titles.reference_block_Id') %>', value: item.referenceBlockId},
             {name: '<%= t('widgets.titles.events_count') %>', value: item.eventsCount},
             {name: '<%= t('widgets.titles.index_in_collection') %>', value: item.indexInCollection},
-            {name: '<%= t('widgets.titles.payer') %>', value: item.payer, address: item.payer },
+            {name: '<%= t('widgets.titles.payer') %>', value: item.payer.address, address: item.payer.address },
             {name: '<%= t('widgets.titles.proposal_key_id') %>', value: item.proposalKeyId},
             {name: '<%= t('widgets.titles.proposal_key_sequence_number') %>', value: item.proposalKeySequenceNumber},
-            {name: '<%= t('widgets.titles.proposer') %>', value: item.proposer, address: item.proposer},
+            {name: '<%= t('widgets.titles.proposer') %>', value: item.proposer.address, address: item.proposer.address},
             {name: '<%= t('widgets.titles.error_message') %>', value: item.errorMessage},
             {name: '<%= t('widgets.titles.status_code') %>', value: item.statusCode},
           ];
@@ -84,7 +88,7 @@
     });
 
     query.request({
-      id: "<%= @tx_id %>",
+      id: "<%= @tx_hash %>",
       network: '<%= @network[:network] %>'
     });
   });

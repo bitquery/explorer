@@ -22,12 +22,10 @@
             time {
               time(format: "%Y-%m-%d %H:%M:%S")
             }
-            block {
-              height
-            }
             id
             indexInCollection
             eventsCount
+            statusCode
           }
         }
       }
@@ -44,10 +42,10 @@
           path: 'time.time'
         },
         {
-          title: '<%= t('widgets.titles.block') %>',
+          title: '<%= t('widgets.titles.transaction_id') %>',
           type: 'string',
-          path: 'block.height',
-          urlCallbackName: 'block_by_height'
+          path: 'id',
+          urlCallbackName: 'transaction_by_id'
         },
         {
           title: '<%= t('widgets.titles.index_in_collection') %>',
@@ -55,15 +53,14 @@
           path: 'indexInCollection'
         },
         {
-          title: '<%= t('widgets.titles.transaction_id') %>',
-          type: 'string',
-          path: 'id',
-          urlCallbackName: 'transaction_by_id'
-        },
-        {
           title: '<%= t('widgets.titles.events_count') %>',
           type: 'string',
           path: 'eventsCount'
+        },
+        {
+          title: '<%= t('widgets.titles.status_code') %>',
+          type: 'string',
+          path: 'statusCode'
         },
       ]
     });

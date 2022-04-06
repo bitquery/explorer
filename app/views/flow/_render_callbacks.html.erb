@@ -1,7 +1,11 @@
 <script>
   widgets.callbacks({
+    main_block_by_height: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.height;
+    },
+
     block_by_height: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ (item.height || item.block.height);
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.block.height;
     },
 
     transaction_by_id: function(item){
@@ -17,14 +21,7 @@
     },
 
     address: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.address;
-    },
-
-    sender_block_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.senderBlock.hash;
-    },
-    receiver_block_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.receiverBlockHash;
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.address.address;
     },
 
     smart_contract_address_path: function(item){

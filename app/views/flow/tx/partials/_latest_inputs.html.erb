@@ -5,7 +5,7 @@
       <div class="card-body">
         <div id="latest_inputs"><%= t('loading') %></div>
       </div>
-    </div>
+    </div> 
   </div>
 </div>
 
@@ -15,25 +15,30 @@
       query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $id: String!) {
         flow(network: $network) {
           inputs(
-            options: {desc: "time.time", limit: $limit, offset: $offset, asc: "eventIndex"}
+            options: {desc: "time.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
             transactionId: {is: $id}
           ) {
             time {
               time(format: "%Y-%m-%d %H:%M:%S")
             }
+            address {
+              address
+            }
             currency {
               symbol
             }
-            address
             entityId
             amount
+            smartContractMethod {
+              signature
+            }
             eventIndex
             transferReason
-            type
           }
         }
       }
+
     `.trim();
 
     const query = new widgets.query(qraphql_query);
@@ -44,7 +49,6 @@
         {
           title: '<%= t('widgets.titles.timestamp') %>',
           type: 'string',
-          style: 'width: 180px',
           path: 'time.time'
         },
         {
@@ -53,13 +57,13 @@
           path: 'eventIndex'
         },
         {
-          title: '<%= t('widgets.titles.address') %>',
+          title: '<%= t('widgets.titles.sender') %>',
           type: 'string',
-          path: 'address',
+          path: 'address.address',
           urlCallbackName: 'address',
         },
         {
-          title: '<%= t('widgets.titles.entity_id') %>',
+          title: '<%= t('widgets.titles.nft_id') %>',
           type: 'string',
           path: 'entityId'
         },
@@ -69,23 +73,26 @@
           path: 'amount'
         },
         {
-          title: '<%= t('widgets.titles.type') %>',
+          title: '<%= t('widgets.titles.currency') %>',
           type: 'string',
-          path: 'type'
+          path: 'currency.symbol'
         },
         {
           title: '<%= t('widgets.titles.transfer_reason') %>',
           type: 'string',
           path: 'transferReason'
         },
+        {
+          title: '<%= t('widgets.titles.method') %>',
+          type: 'string',
+          path: 'smartContractMethod.signature'
+        },
       ]
     });
 
     query.request({
-      id: '<%= @tx_id %>',
+      id: '<%= @tx_hash %>',
       network: '<%= params['network']['network'] %>'
     });
   });
 </script>
-
-
