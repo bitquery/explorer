@@ -20,7 +20,7 @@
     "jquery": "^3.4.1",
     "lightweight-charts": "^3.6.1",
     "micromark": "^3.0.7",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "numeral": "^2.0.6",
     "popper.js": "^1.16.1",
     "sockjs": "^0.3.21",
