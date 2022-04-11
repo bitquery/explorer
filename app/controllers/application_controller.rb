@@ -28,23 +28,19 @@ class ApplicationController < ActionController::Base
     @theme == 'dark'
   end
 
+  def date?(string)
+    string =~ /(\d{4}-\d{2}-\d{2})/
+  end
+
   def set_date
-    if params[:from] && !params[:from].empty?
-      @from = "\"#{params[:from]}\""
-    else
-      @from = 'null'
-    end
+    @from = nil unless date?(params[:from])
+    @till = nil unless date?(params[:till])
 
-    if params[:till] && !params[:till].empty?
-      @till = "\"#{params[:till]}\""
-    else
-      @till = 'null'
-    end
+    @from = "\"#{params[:from]}\"" if @from.present?
+    @till = "\"#{params[:till]}\"" if @till.present?
 
-    if params[:from].blank? && params[:till].blank?
-      @from = "\"#{(Time.now - 7.days).strftime('%Y-%m-%d')}\""
-      @till = "\"#{Time.now.strftime('%Y-%m-%d')}\""
-    end
+    @from = "\"#{(Time.now - 7.days).strftime('%Y-%m-%d')}\"" if @from.blank?
+    @till = "\"#{Time.now.strftime('%Y-%m-%d')}\"" if @till.blank?
   end
 
   def set_locale
