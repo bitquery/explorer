@@ -29,15 +29,19 @@ class ApplicationController < ActionController::Base
   end
 
   def date?(string)
-    string =~ /(\d{4}-\d{2}-\d{2})/
+    # YYYY-MM-DD
+    !!(string =~ /^\d{4}-\d{2}-\d{2}$/)
   end
 
   def set_date
-    @from = nil unless date?(params[:from])
-    @till = nil unless date?(params[:till])
+    @from = params[:from]
+    @till = params[:till]
 
-    @from = "\"#{params[:from]}\"" if @from.present?
-    @till = "\"#{params[:till]}\"" if @till.present?
+    @from = nil unless date?(@from)
+    @till = nil unless date?(@till)
+
+    @from = "\"#{@from}\"" if @from.present?
+    @till = "\"#{@till}\"" if @till.present?
 
     @from = "\"#{(Time.now - 7.days).strftime('%Y-%m-%d')}\"" if @from.blank?
     @till = "\"#{Time.now.strftime('%Y-%m-%d')}\"" if @till.blank?
