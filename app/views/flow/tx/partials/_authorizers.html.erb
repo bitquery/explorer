@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.authorizers') %></div>
+      <div class="card-body">
+        <div id="authorizers"><%= t('loading') %></div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $id: String!) {
+        flow(network: $network) {
+          transactionAuthorizers(
+            options: {limit: $limit, offset: $offset}
+            transactionId: {is: $id}
+          ) {
+            authorizer
+          }
+        }
+      }
+
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#authorizers', query, 'flow.transactionAuthorizers', {
+      title: '<%= t('widgets.headers.authorizers') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.athorizer') %>',
+          type: 'string',
+          path: 'authorizer',
+          urlCallbackName: 'authorizer'
+        }
+      ]
+    });
+
+    query.request({
+      id: '<%= @tx_hash %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
