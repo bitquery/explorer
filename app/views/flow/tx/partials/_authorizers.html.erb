@@ -18,7 +18,9 @@
             options: {limit: $limit, offset: $offset}
             transactionId: {is: $id}
           ) {
-            authorizer
+            authorizer {
+              address
+            }
           }
         }
       }
@@ -33,7 +35,7 @@
         {
           title: '<%= t('widgets.titles.athorizer') %>',
           type: 'string',
-          path: 'authorizer',
+          path: 'authorizer.address',
           urlCallbackName: 'authorizer'
         }
       ]

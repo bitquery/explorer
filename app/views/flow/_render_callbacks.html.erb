@@ -24,7 +24,7 @@
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.address.address;
     },
     authorizer: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.authorizer;
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.authorizer.address;
     },
 
     smart_contract_address_path: function(item){
