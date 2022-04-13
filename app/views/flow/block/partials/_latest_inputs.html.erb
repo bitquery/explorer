@@ -25,7 +25,9 @@
             transaction {
               id
             }
-            address
+            address {
+              address
+            }
             currency {
               symbol
             }
@@ -66,7 +68,7 @@
         {
           title: '<%= t('widgets.titles.sender') %>',
           type: 'string',
-          path: 'address',
+          path: 'address.address',
           urlCallbackName: 'address',
         },
         {
