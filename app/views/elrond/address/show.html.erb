@@ -1,4 +1,9 @@
 <div class="row">
   <%= render 'elrond/address/partials/currencies_table' %>
+  <%= render 'elrond/address/partials/address_statistics' %>
 </div>
 
+<div class="row">
+  <%= render partial: 'elrond/address/partials/in_out_transfers_by_time' %>
+  <%= render partial: 'elrond/address/partials/calls_by_time' %>
+</div>

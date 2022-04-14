@@ -1,0 +1,86 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.address_statistics') %></div>
+    <div class="card-body">
+      <div id="address_statistics"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+      var query = new widgets.query(
+        `
+          query ($network: ElrondNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+            elrond(network: $network) {
+              inputs: transfers(date: {since: $from, till: $till}, transferSender: {is: $address}) {
+                count
+                amount
+                min_date: minimum(of: date)
+                max_date: maximum(of: date)
+                currency{
+                  symbol
+                }
+              }
+              outputs: transfers(date: {since: $from, till: $till}, transferReceiver: {is: $address}) {
+                count
+                amount
+                min_date: minimum(of: date)
+                max_date: maximum(of: date)
+                currency{
+                  symbol
+                }
+              }
+            }
+          }
+        `);
+
+        new widgets.table('#address_statistics', query, 'elrond', {
+            title: '<%= t('widgets.headers.address_statistics') %>',
+            renderData: function (data) {
+                let inputs = data.inputs[0];
+                let outputs = data.outputs[0];
+                return  [
+                    {name: '<%= t('widgets.titles.inputs_to_address_count') %>', value: inputs.count },
+                    {name: '<%= t('widgets.titles.outputs_from_address_count') %>', value: outputs.count },
+
+                    {name: '<%= t('widgets.titles.first_transaction_date') %>', value: outputs.min_date },
+                    {name: '<%= t('widgets.titles.last_transaction_date') %>', value: ((inputs.max_date > outputs.max_date) ? inputs.max_date : outputs.max_date)},
+
+                    {name: '<%= t('widgets.titles.value_to_address') %>', value: outputs.amount + ' <%= @network[:currency] %>'},
+                    {name: '<%= t('widgets.titles.value_from_address') %>', value: inputs.amount + ' <%= @network[:currency] %>'},
+
+
+                    {name: '<%= t('widgets.titles.unspent_value') %>',
+                        value: (parseInt(parseFloat(outputs.amount)*1.0e8)-parseInt(parseFloat(inputs.amount)*1.0e8)) / 1.0e8
+                            + ' <%= @network[:currency] %>'},
+
+
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.metric') %>',
+                    type: 'string-ellipsis',
+                    path: 'name',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= @network[:network] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>
