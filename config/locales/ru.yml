@@ -56,6 +56,11 @@ ru:
         name: 'Graph'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+      balance_effects:
+        name: 'Эффекты баланса'
+        title: "Эффекты баланса %{address} в %{network}"
+        description: "%Эффекты баланса %{address} в %{network}"
+        keywords: "Эффекты баланса %{address}, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       show:
@@ -256,6 +261,9 @@ ru:
       latest_blocks_third_shard: "Последние Блоки в Шарде номер 2"
       latest_blocks_metachain: "Последние Блоки в Метачейне"
       messages_by_type: "Сообщения По Типу"
+      currencies_sent: "Отпраленная валюта"
+      currencies_received: "Полученная валюта"
+      balance_effects: "Эффекты баланса"
     titles:
       validators_hash: "Хеш валидатора"
       previous_block_hash: 'Предыдуший хеш блока'
@@ -357,6 +365,21 @@ ru:
       type: "Тип"
       code: "Код"
       gas_wanted: "Gas Wanted"
+      total_coins: "Всего монет"
+      max_fee: "Максимальная комиссия"
+      memo_type: "Тип Мемо"
+      memos: "Мемо"
+      transaction_sender: "Отправитель Транзакции"
+      time_bounds: "Временные Рамки"
+      amount_from: "Отправленная сумма"
+      currency_from: "Отправленная Валюта"
+      amount_to: "Отправленная Сумма"
+      currency_to: "Отправленная Валюта"
+      direction: "Назначение"
+      operation_index: "Индекс Операции"
+      operation_name: "Название Операции"
+      effect_index: "Индекс эффекта"
+      order: "Порядок"
   pages:
     footer:
       built: "Сделано на основе"

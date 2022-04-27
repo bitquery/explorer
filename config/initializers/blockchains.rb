@@ -443,7 +443,18 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'LUNA',
     icon: 'currency/terra-luna-logo.svg'
+  },
+
+  {
+    tag: 'stellar',
+    network: 'stellar',
+    name: 'Stellar Ledger',
+    family: 'stellar',
+    platform: 'Ripple',
+    currency: 'XLM',
+    icon: 'currency/stellar-xlm-logo.svg'
   }#,
+
   # {
   #   tag: 'flow',
   #   network: 'flow',

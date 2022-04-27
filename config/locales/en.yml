@@ -244,6 +244,11 @@ en:
         title: "%{address} money flow in %{network}"
         description: "Money Flow by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money flow, %{network} %{address} money flow"
+      balance_effects:
+        name: 'Balance Effects'
+        title: "%{address} balance effects in %{network}"
+        description: "%{address} balance effects in %{network}"
+        keywords: "%{address} balance effects, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -1453,6 +1458,9 @@ en:
       latest_topics: "Latest Topics"
       tokens: "Tokens"
       messages_by_type: "Messages By Type"
+      currencies_sent: "Currencies sent"
+      currencies_received: "Currencies received"
+      balance_effects: "Balance Effects"
     titles:
       instruction_account_index: "Account index in Instruction"
       action: "Action"
@@ -1775,6 +1783,22 @@ en:
       code: "Code"
       gas_wanted: "Gas Wanted"
       transfer_reason: "Transfer Reason"
+      total_coins: "Total Coins"
+      max_fee: "Max Fee"
+      memo_type: "Memo Type"
+      memos: "Memos"
+      transaction_sender: "Transaction Sender"
+      time_bounds: "Time Bounds"
+      amount_from: "Amount From"
+      currency_from: "Currency From"
+      amount_to: "Amount To"
+      currency_to: "Currency To"
+      direction: "Direction"
+      operation_index: "Operation Index"
+      operation_name: "Operation Name"
+      issuer: "Issuer"
+      effect_index: "Effect Index"
+      order: "Order"
   pages:
     home:
       family: "%{family} Platform Explorers"
