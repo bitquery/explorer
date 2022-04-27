@@ -446,6 +446,17 @@ BLOCKCHAINS = [
   },
 
   {
+    tag: 'flow',
+    network: 'flow',
+    name: 'Flow Mainnet',
+    family: 'flow',
+    platform: 'Smart Contract',
+    currency: 'FLOW',
+    icon: 'currency/flow.png',
+    start: Date.parse('2020-09-23')
+  },
+
+  {
     tag: 'stellar',
     network: 'stellar',
     name: 'Stellar Ledger',
@@ -453,18 +464,7 @@ BLOCKCHAINS = [
     platform: 'Ripple',
     currency: 'XLM',
     icon: 'currency/stellar-xlm-logo.svg'
-  }#,
-
-  # {
-  #   tag: 'flow',
-  #   network: 'flow',
-  #   name: 'Flow',
-  #   family: 'flow',
-  #   platform: 'Smart Contract',
-  #   currency: 'FLOW',
-  #   icon: 'currency/flow.png',
-  #   start: Date.parse('2020-09-23')
-  # }
+  }
 ].freeze
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }

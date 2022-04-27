@@ -13,6 +13,7 @@
         elrond(network: $network) {
           transfers(
             options: {limit: $limit, offset: $offset, desc: ["count_in", "count_out"]}
+            any: [{transferReceiver: {is: $address}}, {transferSender: {is: $address}}]
             date: {since: $from, till: $till}
           ) {
             sum_in: amount(calculate: sum, transferReceiver: {is: $address})
