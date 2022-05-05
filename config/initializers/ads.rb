@@ -1,13 +1,13 @@
 ADS={
   tab: {
-    # ad: {
-    #   text: 'Buy this ad',
-    #   url: 'https://bitquery.io/forms/ads'
-    # },
     ad: {
-      text: 'Download Tax Report',
-      url: 'https://bitquery.io/go/nav_bar_link'
-    }
+      text: 'Buy this ad',
+      url: 'https://bitquery.io/forms/ads'
+    },
+    # ad: {
+    #   text: 'Download Tax Report',
+    #   url: 'https://bitquery.io/go/nav_bar_link'
+    # }
     # platform: {
     #   smart_contract: {
     #     ad: {
@@ -22,10 +22,10 @@ ADS={
     #   text: 'Buy this ad',
     #   url: 'https://bitquery.io/forms/ads'
     # },
-    ad: {
-      text: 'Download Tax Report',
-      url: 'https://bitquery.io/go/body_btn'
-    }
+    # ad: {
+    #   text: 'Download Tax Report',
+    #   url: 'https://bitquery.io/go/body_btn'
+    # }
   },
   fixed: {
     # ad: {
