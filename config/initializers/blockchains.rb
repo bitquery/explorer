@@ -444,6 +444,7 @@ BLOCKCHAINS = [
     currency: 'LUNA',
     icon: 'currency/terra-luna-logo.svg'
   },
+
   {
     tag: 'flow',
     network: 'flow',
@@ -453,6 +454,16 @@ BLOCKCHAINS = [
     currency: 'FLOW',
     icon: 'currency/flow.png',
     start: Date.parse('2020-09-23')
+  },
+
+  {
+    tag: 'stellar',
+    network: 'stellar',
+    name: 'Stellar Ledger',
+    family: 'stellar',
+    platform: 'Ripple',
+    currency: 'XLM',
+    icon: 'currency/stellar-xlm-logo.svg'
   }
 ].freeze
 
