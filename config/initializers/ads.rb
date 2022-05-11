@@ -1,13 +1,14 @@
 ADS={
   tab: {
-    ad: {
-      text: 'Buy this ad',
-      url: 'https://bitquery.io/forms/ads'
-    },
     # ad: {
-    #   text: 'Download Tax Report',
-    #   url: 'https://bitquery.io/go/nav_bar_link'
-    # }
+    #   text: 'Buy this ad',
+    #   url: 'https://bitquery.io/forms/ads'
+    # },
+    ad: {
+      text: 'Swap Crypto',
+      url: 'https://bitquery.io/go/nav_bar_ad_2',
+      bgcolor: '#9acd32'
+    },
     # platform: {
     #   smart_contract: {
     #     ad: {
