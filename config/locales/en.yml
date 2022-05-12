@@ -669,7 +669,7 @@ en:
       instructions:
         name: "Instructions"
         title: "%{network} Instructions for %{hash} transaction"
-        description: "Single program, a subset of the transaction's accounts that should be passed to the progam."
+        description: "Single program, a subset of the transaction's accounts that should be passed to the program."
         keywords: "%{network} Instructions"
       accounts:
         name: "Accounts"
