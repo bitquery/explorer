@@ -668,7 +668,7 @@ en:
         keywords: "%{network} DEX Trades"
       instructions:
         name: "Instructions"
-        title: "%{network} Instuctions for %{hash} transaction"
+        title: "%{network} Instructions for %{hash} transaction"
         description: "Single program, a subset of the transaction's accounts that should be passed to the progam."
         keywords: "%{network} Instructions"
       accounts:
