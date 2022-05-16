@@ -13,6 +13,7 @@
         solana(network: $network) {
           transfers(
             date: {since: $from, till: $till}
+            any: [{receiverAddress: {is: $address}}, {senderAddress: {is: $address}}]
             options: {limit: $limit, offset: $offset, desc: ["count_in", "count_out"], asc: "currency.symbol"}
           ) {
             sum_in: amount(calculate: sum, receiverAddress: {is: $address})

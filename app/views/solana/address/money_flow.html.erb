@@ -21,13 +21,17 @@
   </div>
   <script>
     const query = new graphs.query(`
-      query ($network: SolanaNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+      query ($network: SolanaNetwork!, $address: String!, $inboundDepth: Int!, 
+        $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime,
+        $currency: String!
+       ) {
         solana(network: $network) {
           inbound: coinpath(
             initialAddress: {is: $address}
             depth: {lteq: $inboundDepth}
             options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
             date: {since: $from, till: $till}
+            currency: { is: $currency }
           ) {
             sender {
               address
@@ -40,6 +44,7 @@
             amount
             currency {
               symbol
+              name
             }
             depth
             count
@@ -49,6 +54,7 @@
             depth: {lteq: $outboundDepth}
             options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
             date: {since: $from, till: $till}
+            currency: { is: $currency }
           ) {
             sender {
               address
@@ -61,6 +67,7 @@
             amount
             currency {
               symbol
+              name
             }
             depth
             count
@@ -68,6 +75,7 @@
         }
       }
   `)
+
   new graphs.address_graph('#graph', query, {
       theme: '<%= @theme %>',
   })
@@ -76,15 +84,8 @@
       theme: '<%= @theme %>',
       currencies: [
         <%= @currencies.collect do |cur|
-          value = cur.address === '-' ? cur.symbol : cur.address
-          has_name = cur.name != ''
-
-          if has_name
-            name = cur.name
-            value = cur.symbol
-          else
-            name = value = cur.address
-          end
+          value = cur.address === '' ? cur.symbol : cur.address
+          name = cur.name === '' ? cur.address : cur.name
 
           "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{name}\",search:\"#{value}\"}"
         end.join(',').html_safe %>
@@ -99,15 +100,8 @@
       theme: '<%= @theme %>',
       currencies: [
         <%= @currencies.collect do |cur|
-          value = cur.address === '-' ? cur.symbol : cur.address
-          has_name = cur.name != ''
-
-          if has_name
-            name = cur.name
-            value = cur.symbol
-          else
-            name = value = cur.address
-          end
+          value = cur.address === '' ? cur.symbol : cur.address
+          name = cur.name === '' ? cur.address : cur.name
 
           "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{name}\",search:\"#{value}\"}"
         end.join(',').html_safe %>
@@ -120,7 +114,8 @@
       "limit": 10,
       "offset": 0,
       "network": "<%= params['network']['network'] %>",
-      "address": "<%= @address %>"
+      "address": "<%= @address %>",
+      "currency": "<%= @currencies.first && (@currencies.first.address == '' ? @currencies.first.symbol : @currencies.first.address) %>"
   })
   </script>
 </div>
