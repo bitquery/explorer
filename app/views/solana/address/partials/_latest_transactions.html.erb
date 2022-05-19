@@ -14,11 +14,11 @@
   $( document ).ready(function() {
 
       var query = new widgets.query(`
-        query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $date: ISO8601DateTime, $signer: String) {
+        query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $signer: String) {
           solana(network: $network) {
             transactions(
               options: {limit: $limit, offset: $offset}
-              date: {is: $date}
+              date: {since: $from, till: $till}
               signer: {is: $signer}
             ) {
               signature
