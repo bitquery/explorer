@@ -7,24 +7,30 @@ COPY Gemfile Gemfile.lock package.json yarn.lock ./
 RUN apk -U upgrade && \
     apk add --no-cache build-base git nodejs yarn
 
-ENV RAILS_ENV="production"
+ENV RAILS_ENV="production" \
+    NODE_ENV="production" \
+    BUNDLE_PATH="vendor/bundle" \
+    BUNDLE_JOBS=6
 
-RUN if [[ "$RAILS_ENV" == "production" ]]; then bundle install --no-cache --without 'development test'; else bundle install --no-cache; fi
+RUN if [[ "$RAILS_ENV" == "production" ]]; then bundle config set --local without 'development test'; fi && \
+    bundle install --no-cache && \
+    mkdir -p tmp/pids && \
+    rm -rf $GEM_HOME/cache/*
 
-RUN gem install --no-document tzinfo-data && \
-    yarn --check-files --silent --production && \
+RUN yarn --check-files --silent --production && \
     yarn cache clean
 
 COPY . ./
 
-RUN bundle exec rails webpacker:compile assets:clean
+RUN bundle exec rails webpacker:compile && \
+    bundle exec rake assets:precompile
 
 
 
 FROM ruby:2.6.3-alpine AS runner
 
-ENV RAILS_SERVE_STATIC_FILES="true" \
-    ANALYTICS="true" \
+ENV RAILS_SERVE_STATIC_FILES=true \
+    ANALYTICS=true \
     SECRET_KEY_BASE="" \
     EXPLORER_API_KEY="" \
     BITQUERY_PROJECT_URL="https://bitquery.io" \
@@ -34,16 +40,17 @@ ENV RAILS_SERVE_STATIC_FILES="true" \
     RAILS_MAX_THREADS="1" \
     WEB_CONCURRENCY="12" \
     PORT="3000" \
-    RAILS_ENV="production"
+    RAILS_ENV="production" \
+    BUNDLE_PATH="vendor/bundle" \
+    RAILS_LOG_TO_STDOUT="true"
 
-# Add a script to be executed every time the container starts.
-RUN apk add --no-cache bash net-tools tzdata
-
-RUN adduser -h /app -H -s /bin/bash -D appuser
+RUN apk add --no-cache bash net-tools tzdata && \
+    adduser -h /app -H -s /bin/bash -D appuser && \
+    rm -rf /var/cache/apk/*
 
 COPY --from=builder --chown=appuser /app /app
 
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+#RUN rm -rf node_modules tmp/cache  lib/assets
 
 RUN chmod +x /app/entrypoint.sh
 
@@ -55,6 +62,5 @@ WORKDIR /app
 
 ENTRYPOINT ["./entrypoint.sh"]
 
-# Configure the main process to run when running the image
-CMD ["bundle", "exec", "pumactl", "-F", "config/puma.production.rb", "-P", "/run/app.pid", "start"]
+CMD ["bundle", "exec", "pumactl", "-F", "config/puma.production.rb", "-P", "tmp/pids/app.pid", "start"]
 
