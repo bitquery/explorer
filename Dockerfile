@@ -16,6 +16,9 @@ RUN apk -U upgrade && \
 
 RUN if [[ "$RAILS_ENV" == "production" ]]; then bundle config set --local without 'development test'; fi && \
     bundle install --no-cache && \
+    rm -rf /app/vendor/bundle/cache/*.gem && \
+    find /app/vendor/bundle/gems/ -name "*.c" -delete && \
+    find /app/vendor/bundle/gems/ -name "*.o" -delete && \
     mkdir -p tmp/pids
 
 RUN yarn --check-files --silent --production && \
