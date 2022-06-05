@@ -47,7 +47,7 @@ ENV RAILS_ENV="production" \
     BITQUERY_IDE_API="https://graphql.bitquery.io/ide/api" \
     BUNDLE_PATH="vendor/bundle"
 
-RUN apk add --no-cache bash net-tools tzdata && \
+RUN apk add --no-cache bash net-tools bind-tools tzdata && \
     adduser -h /app -H -s /bin/bash -D appuser && \
     rm -rf /var/cache/apk/*
 
