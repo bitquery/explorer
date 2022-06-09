@@ -238,6 +238,8 @@ GEM
     tilt (2.0.10)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2022.1)
+      tzinfo (>= 1.0.0)
     unicode-display_width (2.1.0)
     web-console (4.1.0)
       actionview (>= 6.0.0)
@@ -281,7 +283,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sshkit-sudo
-  tzinfo-data (>= 1.2022.1)
+  tzinfo-data
   web-console (>= 3.3.0)
   webpacker (~> 4.0)
 

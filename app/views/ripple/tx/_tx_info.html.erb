@@ -1,0 +1,94 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.tx_info') %></div>
+    <div class="card-body">
+      <div id="tx_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+
+       var query = new widgets.query(`
+                        query ($network: RippleNetwork!,
+                              $hash: String!){
+                          ripple(network: $network){
+                            transactions(hash: {is: $hash}
+                          ){
+                              index
+                              hash
+                              block
+                              timestamp {
+                                time
+                              }
+                              sender {
+                                address
+                                annotation
+                              }
+                              type
+                              fee
+                              result
+                              flags
+                              lastLedgerSequence
+                              memos
+                              sequence
+                              sourceTag
+                              success
+                              txSigners
+                              accountTxnId
+                           }
+                          }
+                        }`);
+
+
+        new widgets.table('#tx_info', query, 'ripple.transactions', {
+            title: '<%= t('widgets.headers.tx_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.index') %>', value: item.index},
+                    {name: '<%= t('widgets.titles.block') %>', value: item.block, block: item.block},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+                    {name: '<%= t('widgets.titles.type') %>', value: item.type },
+                    {name: '<%= t('widgets.titles.transaction_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
+                    {name: '<%= t('widgets.titles.fee') %>', value: item.fee },
+                    {name: '<%= t('widgets.titles.result') %>', value: item.result },
+                    {name: '<%= t('widgets.titles.flags') %>', value: item.flags },
+                    {name: '<%= t('widgets.titles.last_ledger_sequence') %>', value: item.lastLedgerSequence },
+                    {name: '<%= t('widgets.titles.memos') %>', value: item.memos },
+                    {name: '<%= t('widgets.titles.sequence') %>', value: item.sequence },
+                    {name: '<%= t('widgets.titles.sourceTag') %>', value: item.sourceTag },
+                    {name: '<%= t('widgets.titles.success') %>', value: item.success },
+                    {name: '<%= t('widgets.titles.tx_signers') %>', value: item.txSigners },
+                    {name: '<%= t('widgets.titles.account_txn_id') %>', value: item.accountTxnId },
+
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 110px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+</script>
