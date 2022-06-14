@@ -91,9 +91,13 @@ class ApplicationController < ActionController::Base
     title = random_item.title
     link = random_item.url
 
-    @bitquery_feed_item = {
-      title: title,
-      link: link
-    }
+    @bitquery_feed_item = [{
+                             title: title,
+                             link: link
+                           },
+                           {
+                             title: "Crypto News",
+                             link: "https://coincodecap.com/?utm_source=bitquery"
+                           }].sample
   end
 end

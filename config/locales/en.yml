@@ -1810,7 +1810,8 @@ en:
       by: "by"
       built: "Built with"
       widgets: "Widgets"
-      feel_free: "Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphQL button!"
+      #"Feel free to use any widget from this page, press JS button and copy/paste the code. Check API using GraphQL button!"
+      feel_free: "Check our Blockchain GrpahQL APIs by clicking on the “Open GraphQL IDE“ button!"
     address:
       description:
         part1: "Address %{address} is"
