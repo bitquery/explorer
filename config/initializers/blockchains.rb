@@ -464,6 +464,26 @@ BLOCKCHAINS = [
     platform: 'Ripple',
     currency: 'XLM',
     icon: 'currency/stellar-xlm-logo.svg'
+  },
+
+  {
+    tag: 'ripple',
+    network: 'ripple',
+    name: 'Ripple XRP Ledger',
+    family: 'ripple',
+    platform: 'Ripple',
+    currency: 'XRP',
+    icon: 'currency/ripple-logo.svg'
+  },
+
+  {
+    tag: 'tezos',
+    network: 'tezos',
+    name: 'Tezos',
+    family: 'tezos',
+    platform: 'Tezos',
+    currency: 'XTZ',
+    icon: 'currency/tezos-xtz-logo.svg'
   }
 ].freeze
 

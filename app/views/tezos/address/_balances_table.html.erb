@@ -1,0 +1,107 @@
+<div class="col-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.balance_effects') %></div>
+    <div class="card-body">
+      <div id="currencies_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query($network: TezosNetwork!,
+                  $address: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime,
+                  $limit: Int!,
+                  $offset: Int!){
+              tezos(network: $network) {
+                balances(date: {since: $from, till: $till},
+                account: {is: $address},
+                options: {limit: $limit, offset: $offset, desc: ["block", "transaction.index"]}){
+                  transaction {
+                    hash
+                    index
+                    sender
+                    type
+                  }
+                  timestamp {
+                    time
+                  }
+                  prevLedgerSequence
+                  prevBalance
+                  operation
+                  issuer {
+                    address
+                    annotation
+                  }
+                  flags
+                  date {
+                    date
+                  }
+                  currency {
+                    address
+                    decimals
+                    name
+                    symbol
+                    tokenId
+                    tokenType
+                  }
+                  block
+                  balance
+                  account {
+                    address
+                    annotation
+                  }
+                }
+              }
+            }`);
+
+        new widgets.table('#currencies_table', query, 'tezos.balances', {
+            title: '<%= t('widgets.headers.balance_effects') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.block') %>',
+                    path: 'block',
+                    urlCallbackName: 'height_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction_index') %>',
+                    path: 'transaction.index',
+                    urlCallbackName: 'transaction_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.operation_name') %>',
+                    path: 'operation'
+                },
+                {
+                    title: '<%= t('widgets.titles.previous_balance') %>',
+                    path: 'prevBalance'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.balance') %>',
+                    path: 'balance'
+                },
+                {
+                    title: '<%= t('widgets.titles.issuer') %>',
+                    path: 'issuer.address'
+                }
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

@@ -1,0 +1,90 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <div class="choice-view">
+          <input class="choice-view__radio" type="radio" name="view" id="graph-radio" value="graph" onclick="$('#graph').parents('.card-body').show();$('#sankey-graph').parents('.card-body').hide()" checked>
+          <label class="choice-view__label" for="graph-radio">Graph</label>
+        </div>
+        <div class="choice-view">
+          <input class="choice-view__radio" type="radio" name="view" id="sankey-radio" value="sankey" onclick="$('#sankey-graph').parents('.card-body').show();$('#graph').parents('.card-body').hide()">
+          <label class="choice-view__label" for="sankey-radio">Sankey</label>
+        </div>
+      </div>
+      <div class="card-body" style="padding: 0">
+        <div id="graph" style="width: 100%;"></div>
+      </div>
+      <div class="card-body" style="padding: 0; display: none;">
+        <div id="sankey-graph" style="width: 100%;"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+      const query = new graphs.query(`
+query ($network: TezosNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+  tezos(network: $network) {
+    inbound: coinpath(initialAddress: {is: $address} depth: {lteq: $inboundDepth}, options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
+      sender {
+        address
+        annotation
+      }
+      receiver {
+        address
+        annotation
+      }
+      amount
+      depth
+      count
+      currency{
+        symbol
+      }
+    }
+    outbound: coinpath(initialAddress: {is: $address}, depth: {lteq: $outboundDepth}, options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
+      sender {
+        address
+        annotation
+      }
+      receiver {
+        address
+        annotation
+      }
+      amount
+      depth
+      count
+      currency{
+        symbol
+      }
+    }
+  }
+}
+`)
+
+      new graphs.address_graph('#graph', query, {
+          theme: '<%= @theme %>',
+          currency: "<%= params['network']['currency'] %>",
+      })
+
+      new graphs.addControls('#graph', query, {
+          theme: '<%= @theme %>',
+      })
+
+      new graphs.address_sankey('#sankey-graph', query, {
+          theme: '<%= @theme %>',
+          currency: "<%= params['network']['currency'] %>",
+      })
+
+      new graphs.addControls('#sankey-graph', query, {
+          theme: '<%= @theme %>',
+      })
+
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+          "inboundDepth": 1,
+          "outboundDepth": 1,
+          "limit": 10,
+          "offset": 0,
+          "network": "<%= params['network']['network'] %>",
+          "address": "<%= @address %>",
+      })
+
+  </script>
+</div>

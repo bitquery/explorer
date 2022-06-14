@@ -61,6 +61,11 @@ ru:
         title: "Эффекты баланса %{address} в %{network}"
         description: "%Эффекты баланса %{address} в %{network}"
         keywords: "Эффекты баланса %{address}, %{network}"
+      balances:
+        name: 'Изменения баланса'
+        title: "Изменения баланса %{address} в %{network}"
+        description: "%Изменения баланса %{address} в %{network}"
+        keywords: "Изменения баланса %{address}, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       show:
@@ -380,6 +385,15 @@ ru:
       operation_name: "Название Операции"
       effect_index: "Индекс эффекта"
       order: "Порядок"
+      baker: "Пекарь"
+      previous_balance: "Предыдущий баланс"
+      source: "Источник"
+      internal: "Внутренняя"
+      destination_contract: "Контракт назначения"
+      allocated_destination_contract: "Контракт с назначенным местом назначения"
+      storage_size: "Размер хранилица"
+      transaction_receiver: "Получатель транзакции"
+      proto: "Прото"
   pages:
     footer:
       built: "Сделано на основе"

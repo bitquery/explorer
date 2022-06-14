@@ -249,6 +249,11 @@ en:
         title: "%{address} balance effects in %{network}"
         description: "%{address} balance effects in %{network}"
         keywords: "%{address} balance effects, %{network}"
+      balances:
+        name: 'Balances'
+        title: "%{address} balances in %{network}"
+        description: "%{address} balances in %{network}"
+        keywords: "%{address} balances, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -1799,6 +1804,20 @@ en:
       issuer: "Issuer"
       effect_index: "Effect Index"
       order: "Order"
+      baker: "Baker"
+      previous_balance: "Previous Balance"
+      source: "Source"
+      internal: "Internal"
+      destination_contract: "Destination contract"
+      allocated_destination_contract: "Allocated destination contract"
+      storage_size: "Storage size"
+      transaction_receiver: "Transaction receiver"
+      proto: "Proto"
+      paid_storage_size_diff: "Paid storage size diff"
+      paid_storage_amount: "Paid storage amount"
+      op_path: "Op path"
+      consumed_gas: "Consumed gas"
+      burn_amount: "Burn amount"
   pages:
     home:
       family: "%{family} Platform Explorers"

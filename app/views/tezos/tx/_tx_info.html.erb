@@ -1,0 +1,114 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.tx_info') %></div>
+    <div class="card-body">
+      <div id="tx_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+
+       var query = new widgets.query(`
+                        query ($network: TezosNetwork!,
+                              $hash: String!){
+                          tezos(network: $network){
+                            transactions(hash: {is: $hash}
+                          ){
+                              success
+                              storageSize
+                              status
+                              source {
+                                address
+                                annotation
+                              }
+                              sender {
+                                address
+                                annotation
+                              }
+                              receiver {
+                                address
+                                annotation
+                              }
+                              protocol
+                              proto
+                              paidStorageSizeDiff
+                              paidStorageAmount
+                              opPath
+                              internal
+                              hash
+                              gasLimit
+                              fee
+                              destinationContract
+                              timestamp {
+                                time
+                              }
+                              consumedGas
+                              burnAmount
+                              block {
+                                height
+                                hash
+                              }
+                              amount
+                              allocatedDestinationContract
+                           }
+                          }
+                        }`);
+
+
+        new widgets.table('#tx_info', query, 'tezos.transactions', {
+            title: '<%= t('widgets.headers.tx_info') %>',
+            renderData: function (data) {
+                item = data[0];
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block.height},
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+                    {name: '<%= t('widgets.titles.protocol') %>', value: item.protocol },
+                    {name: '<%= t('widgets.titles.proto') %>', value: item.proto },
+                    {name: '<%= t('widgets.titles.transaction_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
+                    {name: '<%= t('widgets.titles.transaction_receiver') %>', value: (item.receiver.annotation || item.receiver.address), address: item.receiver},
+                    {name: '<%= t('widgets.titles.source') %>', value: (item.source.annotation || item.source.address), address: item.source},
+                    {name: '<%= t('widgets.titles.fee') %>', value: item.fee },
+                    {name: '<%= t('widgets.titles.consumed_gas') %>', value: item.consumedGas },
+                    {name: '<%= t('widgets.titles.amount') %>', value: item.amount },
+                    {name: '<%= t('widgets.titles.burn_amount') %>', value: item.burnAmount },
+                    {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit },
+                    {name: '<%= t('widgets.titles.status') %>', value: item.status },
+                    {name: '<%= t('widgets.titles.storage_size') %>', value: item.storageSize },
+                    {name: '<%= t('widgets.titles.paid_storage_size_diff') %>', value: item.paidStorageSizeDiff },
+                    {name: '<%= t('widgets.titles.paid_storage_amount') %>', value: item.paidStorageAmount },
+                    {name: '<%= t('widgets.titles.op_path') %>', value: item.opPath },
+                    {name: '<%= t('widgets.titles.success') %>', value: item.success },
+                    {name: '<%= t('widgets.titles.internal') %>', value: item.internal },
+                    {name: '<%= t('widgets.titles.destination_contract') %>', value: item.destinationContract },
+                    {name: '<%= t('widgets.titles.allocated_destination_contract') %>', value: item.allocatedDestinationContract },
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 110px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+</script>
