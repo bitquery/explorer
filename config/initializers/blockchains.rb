@@ -394,6 +394,16 @@ BLOCKCHAINS = [
     icon: 'currency/fantom.png',
     start: Date.parse('2019-12-27')
   },
+  {
+    tag: 'moonbeam',
+    network: 'moonbeam',
+    name: 'Moonbeam Mainnet',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'GLMR',
+    icon: 'currency/moonbeam.png',
+    start: Date.parse('2021-12-18')
+  },
 
   {
     tag: 'cosmoshub',
