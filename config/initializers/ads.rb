@@ -6,7 +6,7 @@ ADS={
     # },
     ad: {
       text: 'Swap Crypto',
-      url: 'https://bitquery.io/go/nav_bar_ad_2',
+      url: 'https://simpleswap.io/cryptoexchange/?ref=e11e6b4d3b3d',
       bgcolor: '#9acd32'
     },
     # platform: {

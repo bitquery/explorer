@@ -38,7 +38,7 @@
                           }
                           hash
                           gasValue
-
+                          gas_value_usd: gasValue(in: USD)
                       }
                     }
                   }`);
@@ -79,6 +79,12 @@
                     path: 'gasValue',
                     style: 'width: 110px;'
                 },
+                {
+                    title: '',
+                    data: '',
+                    style: 'width: 110px;'
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd', } %>
+                }
             ]
         });
 
