@@ -48,6 +48,8 @@
                           }
 
                           amount
+                          amount_usd: amount(in: USD)
+
 
                           transaction {
                             hash
@@ -102,7 +104,8 @@
                     title: '<%= t('widgets.titles.currency') %>',
                     type: 'string',
                     path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
+                    urlCallbackName: 'token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {precision: 4} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transfer_type') %>',

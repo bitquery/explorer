@@ -54,6 +54,8 @@
 
                           amount: baseAmount
                           baseCurrency{symbol}
+                          amount_usd: baseAmount(in: USD)
+                          currency: baseCurrency{symbol}
                       }
                     }
                   }`);
@@ -84,9 +86,15 @@
                 },
                 {
                     title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
                     path: 'amount'
                 },
-
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string',
+                    path: 'currency.symbol',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
+                }
             ]
         });
 

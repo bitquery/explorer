@@ -40,6 +40,7 @@
                           type
 
                           fee
+                          fee_usd: fee(in: USD)
 
                            currency {
                             tokenId
@@ -87,7 +88,8 @@
                     title: '<%= t('widgets.titles.currency') %>',
                     type: 'string',
                     path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
+                    urlCallbackName: 'token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {amount: 'item.fee_usd', precision: 4} %>
                 },
                 {
                     title: '<%= t('widgets.titles.hash') %>',

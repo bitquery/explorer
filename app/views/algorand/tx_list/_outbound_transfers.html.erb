@@ -1,4 +1,4 @@
-x<div class="row">
+<div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.outbound_transfers') %></div>
@@ -48,6 +48,7 @@ x<div class="row">
                           symbol
                         }
                         amount
+                        amount_usd: amount(in: USD)
                         transaction {
                           hash
                         }
@@ -80,7 +81,8 @@ x<div class="row">
                     title: '<%= t('widgets.titles.currency') %>',
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
+                    urlCallbackName: 'token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {precision: 4} %>
                 },
                 {
                     title: '',

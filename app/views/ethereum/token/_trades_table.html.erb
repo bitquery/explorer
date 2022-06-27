@@ -52,12 +52,14 @@
                             address
                             symbol
                           }
+                          base_amount_usd: baseAmount(in: USD)
 
                           quoteAmount
                           quoteCurrency {
                             address
                             symbol
                           }
+                          quote_amount_usd: quoteAmount(in: USD)
 
                           transaction {
                             hash
@@ -93,7 +95,8 @@
                     title: '<%= t('widgets.titles.base_currency') %>',
                     type: 'string',
                     path: 'baseCurrency.symbol',
-                    urlCallbackName: 'base_token_path'
+                    urlCallbackName: 'base_token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.baseCurrency.symbol', amount: 'item.base_amount_usd'} %>
                 },
                 {
                     title: '',
@@ -111,7 +114,8 @@
                     title: '<%= t('widgets.titles.quote_currency') %>',
                     type: 'string',
                     path: 'quoteCurrency.symbol',
-                    urlCallbackName: 'quote_token_path'
+                    urlCallbackName: 'quote_token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.quoteCurrency.symbol', amount: 'item.quote_amount_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.protocol') %>',

@@ -34,6 +34,7 @@
 
                       count
                       amount
+                      amount_usd: amount(in: USD)
                       max_date: maximum(of: date)
 
                       currency {
@@ -64,7 +65,8 @@
                     title: '',
                     type: 'string',
                     data: '<%= @network[:currency] %>',
-                    style: 'width: 80px'
+                    style: 'width: 130px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
                 },
                 {
                     title: '<%= t('widgets.titles.max_date') %>',

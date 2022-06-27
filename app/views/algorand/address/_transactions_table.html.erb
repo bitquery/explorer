@@ -37,6 +37,7 @@
                           type
 
                           fee
+                          fee_usd: fee(in: USD)
 
                           currency {
                             tokenId
@@ -70,6 +71,11 @@
                     type: 'amount',
                     path: 'fee',
                     style: 'width: 110px;'
+                },
+                {
+                    title: '',
+                    data: '',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd', precision: 4} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transaction_type') %>',

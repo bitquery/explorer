@@ -32,6 +32,7 @@
 
                           count
                           reward
+                          reward_usd: reward(in: USD)
 
                           min_date: minimum(of: date)
                           max_date: maximum(of: date)
@@ -71,6 +72,11 @@
                     type: 'amount',
                     path: 'reward'
                 },
+                {
+                    title: '',
+                    data: '',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.reward_usd'} %>
+                }
             ]
         });
 

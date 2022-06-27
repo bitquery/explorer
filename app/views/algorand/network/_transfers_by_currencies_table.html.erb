@@ -42,6 +42,8 @@
                           till_date: maximum(of: date)
 
                           amount(transferType: {notIn: [create, genesis]})
+                          amount_usd: amount(in: USD, transferType: {notIn: [create, genesis]})
+
                           created_amount: amount(transferType: {in: [create, genesis]})
                       }
                     }
@@ -84,7 +86,12 @@
                 {
                     title: '<%= t('widgets.titles.transfer_amount') %>',
                     path: 'amount',
-                    type: 'amount'
+                    type: 'amount',
+                },
+                {
+                    title: '',
+                    data: '',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.issued_amount') %>',

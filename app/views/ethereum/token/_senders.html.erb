@@ -48,6 +48,8 @@
                                 symbol
                               }
                               amount
+                              amount_usd: amount(in: USD)
+
                               count
                               receiver_count: count(uniq: receivers)
                               max_amount: maximum(of: amount, get: amount)
@@ -73,7 +75,8 @@
                 {
                     title: '',
                     type: 'string',
-                    path: 'currency.symbol'
+                    path: 'currency.symbol',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
                 },
                 {
                     title: '<%= t('widgets.titles.max_amount') %>',

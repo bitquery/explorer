@@ -35,6 +35,8 @@
                             count
                             amount
 
+                            amount_usd: amount(in: USD)
+
                             currency {
                               tokenId
                               symbol
@@ -58,6 +60,12 @@
                     type: 'amount',
                     path: 'amount',
                     style: 'width: 100px'
+                },
+                {
+                    title: '',
+                    data: '',
+                    style: 'width: 100px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', precision: 4} %>
                 },
                 {
                     title: '<%= t('widgets.titles.currency') %>',

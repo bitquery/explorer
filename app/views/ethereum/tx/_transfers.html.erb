@@ -35,6 +35,7 @@
                                   }
 
                                   amount
+                                  amount_usd: amount(in: USD)
 
                                   currency {
                                     symbol
@@ -78,7 +79,8 @@
                     title: '<%= t('widgets.titles.currency') %>',
                     type: 'string',
                     path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
+                    urlCallbackName: 'token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
                 },
                 {
                     title: '<%= t('widgets.titles.external') %>',

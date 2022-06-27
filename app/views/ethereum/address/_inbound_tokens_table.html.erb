@@ -35,6 +35,7 @@
 
                             count
                             amount
+                            amount_usd: amount(in: USD)
 
                             currency {
                               address
@@ -66,7 +67,8 @@
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path',
-                    style: 'width: 100px'
+                    style: 'width: 130px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
                 },
                 {
                     title: '<%= t('widgets.titles.max_date') %>',
