@@ -36,8 +36,10 @@
                                       }
 
                                       fee
+                                      fee_usd: fee(in: USD)
                                       feeLimit
                                       netFee
+                                      net_fee_usd: netFee(in: USD)
                                       energyFee
                            }
                           }
@@ -53,8 +55,8 @@
                     {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
                     {name: '<%= t('widgets.titles.smart_contract') %>', value: (item.contractAddress.annotation || item.contractAddress.address), address: item.contractAddress},
-                    {name: '<%= t('widgets.titles.fee') %>', value: item.fee},
-                    {name: '<%= t('widgets.titles.netfee') %>', value: item.netFee},
+                    {name: '<%= t('widgets.titles.fee') %>', value: item.fee + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.fee_usd'} %>},
+                    {name: '<%= t('widgets.titles.netfee') %>', value: item.netFee + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.net_fee_usd'} %>},
                     {name: '<%= t('widgets.titles.energyfee') %>', value: item.energyFee},
                     {name: '<%= t('widgets.titles.feelimit') %>', value: item.feeLimit},
                     {name: '<%= t('widgets.titles.success') %>', value: item.success + ' ' + item.error },

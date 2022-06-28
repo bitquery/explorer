@@ -44,6 +44,7 @@
                                         txHash
                                         external
                                         fee
+                                        fee_usd: fee(in: USD)
                                             }
                                           }
                                         }`);
@@ -84,6 +85,10 @@
                     type: 'amount',
                     path: 'fee',
                     style: 'width: 100px'
+                },
+                {
+                    style: 'width: 100px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',

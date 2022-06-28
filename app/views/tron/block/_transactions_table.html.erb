@@ -28,6 +28,7 @@
                           index
                           hash
                           fee
+                          fee_usd: fee(in: USD)
 
                       }
                     }
@@ -55,6 +56,12 @@
                     path: 'fee',
                     style: 'width: 110px;'
                 },
+                {
+                    title: '',
+                    data: '',
+                    style: 'width: 110px;',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd', } %>
+                }
             ]
         });
 

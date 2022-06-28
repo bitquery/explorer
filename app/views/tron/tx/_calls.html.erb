@@ -46,7 +46,9 @@
 
                     success
                     amount
+                    amount_usd: amount(in: USD)
                     fee
+                    fee_usd: fee(in: USD)
 
                     callDepth
 
@@ -96,6 +98,9 @@
                     path: 'amount'
                 },
                 {
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""'} %>
+                },
+                {
                     title: '<%= t('widgets.titles.success') %>',
                     type: 'string',
                     path: 'success'
@@ -106,6 +111,9 @@
                     type: 'amount',
                     path: 'fee'
                 },
+                {
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd'} %>
+                }
             ]
         });
 

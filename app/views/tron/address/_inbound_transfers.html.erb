@@ -44,6 +44,7 @@
                           tokenType
                         }
                         amount
+                        amount_usd: amount(in: USD)
                         txHash
                       }
                     }
@@ -89,7 +90,8 @@
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path',
-                    style: 'width: 80px'
+                    style: 'width: 130px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {amount: 'item.amount_usd', } %>
                 },
                 {
                     title: '<%= t('widgets.titles.token_type') %>',

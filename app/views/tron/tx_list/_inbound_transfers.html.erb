@@ -44,10 +44,10 @@
                           symbol
                         }
                         amount
-                        transaction {
-                          hash
-                        }
-                        external
+                        amount_usd: amount(in: USD)
+
+                        txHash
+                        
                       }
                     }
                   }`);
@@ -88,7 +88,8 @@
                     title: '<%= t('widgets.titles.currency') %>',
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
+                    urlCallbackName: 'token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {amount: 'item.amount_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',

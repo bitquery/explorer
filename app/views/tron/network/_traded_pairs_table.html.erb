@@ -33,6 +33,7 @@
                           }
 
                           sellAmount
+                          sell_amount_usd: sellAmount(in: USD)
 
                           buyCurrency {
                             symbol
@@ -41,6 +42,7 @@
                           }
 
                           buyAmount
+                          buy_amount_usd: buyAmount(in: USD)
 
                           count
                           median_price: price(calculate: median)
@@ -69,7 +71,8 @@
                     title: '<%= t('widgets.titles.sell_currency') %>',
                     type: 'string',
                     path: 'sellCurrency.symbol',
-                    urlCallbackName: 'sell_token_path'
+                    urlCallbackName: 'sell_token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.sellCurrency.symbol', amount: 'item.sell_amount_usd', } %>
                 },
                 {
                     title: '',
@@ -87,7 +90,8 @@
                     title: '<%= t('widgets.titles.buy_currency') %>',
                     type: 'string',
                     path: 'buyCurrency.symbol',
-                    urlCallbackName: 'buy_token_path'
+                    urlCallbackName: 'buy_token_path',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.buyCurrency.symbol', amount: 'item.buy_amount_usd', } %>
                 },
 
                 {

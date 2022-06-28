@@ -31,6 +31,7 @@
                                       max_date: maximum(of: date)
 
                                       fee(calculate: sum)
+                                      fee_usd: fee(in: USD, calculate: sum)
                                       count
                                     }
                                   }
@@ -53,7 +54,10 @@
                 {
                     title: '<%= t('widgets.titles.fee') %>',
                     type: 'amount',
-                    path: 'gasValue'
+                    path: 'fee'
+                },
+                {
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.calls_count') %>',
