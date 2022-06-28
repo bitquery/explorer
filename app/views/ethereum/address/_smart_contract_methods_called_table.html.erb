@@ -33,6 +33,7 @@
                                 count
                                 uniq_contracts: count(uniq: smart_contracts)
                                 gasValue(calculate: average)
+                                gas_value_usd: gasValue(in: USD, calculate: average)
 
                               }
                             }
@@ -56,6 +57,9 @@
                     title: '<%= t('widgets.titles.avg_gas_value') %>',
                     type: 'amount',
                     path: 'gasValue'
+                },
+                {
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.uniq_contracts') %>',

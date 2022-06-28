@@ -51,6 +51,7 @@
                         senders: count(uniq:senders)
                         txs: count(uniq: txs)
                         gasValue(calculate:average)
+                        gas_value_usd: gasValue(in: USD, calculate:average)
                         max_date:maximum(of: date)
                       }
                     }
@@ -75,6 +76,9 @@ new widgets.table('#smart_contract_methods_table', query, 'ethereum.smartContrac
             title: '<%= t('widgets.titles.avg_gas_value') %>',
             type: 'amount',
             path: 'gasValue'
+        },
+        {
+            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
         },
         {
             title: '<%= t('widgets.titles.max_date') %>',

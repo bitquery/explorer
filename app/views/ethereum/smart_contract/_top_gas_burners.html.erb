@@ -31,6 +31,7 @@
                                       max_date: maximum(of: date)
 
                                       gasValue(calculate: sum)
+                                      gas_value_usd: gasValue(in: USD, calculate: sum)
                                       count
                                     }
                                   }
@@ -54,6 +55,9 @@
                     title: '<%= t('widgets.titles.gas_value') %>',
                     type: 'amount',
                     path: 'gasValue'
+                },
+                {
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.calls_count') %>',

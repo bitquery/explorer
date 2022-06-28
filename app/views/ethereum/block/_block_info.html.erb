@@ -31,6 +31,7 @@
                                 uncleCount
                                 size
                                 reward
+                                reward_usd: reward(in: USD)
                                 parentHash
 
                                 rewardCurrency {
@@ -50,7 +51,7 @@
                 return !item ? [] : [
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
                     {name: '<%= t('widgets.titles.miner') %>', value: (item.miner.annotation || item.miner.address), address: item.miner},
-                    {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' '+ item.rewardCurrency.symbol },
+                    {name: '<%= t('widgets.titles.block_reward') %>', value: item.reward + ' '+ item.rewardCurrency.symbol + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.reward_usd'} %> },
                     {name: '<%= t('widgets.titles.transactions_count') %>', value: item.transactionCount},
                     {name: '<%= t('widgets.titles.uncle_count') %>', value: item.uncleCount},
                     {name: '<%= t('widgets.titles.size') %>', value: item.size},
