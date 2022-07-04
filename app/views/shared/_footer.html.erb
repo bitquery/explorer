@@ -26,6 +26,32 @@
 
     </p>
   </div>
+  <% if ad = current_ad(:fixed) %>
+    <div class="card shadow ad-fixed" style="position: fixed; left: 10px; bottom: 10px; z-index: 10000; width: <%= ad[:width] %>; background-color: #ffffffdd">
+      <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-7">
+              <h5 class="card-title"><%= ad[:title] %></h5>
+              <p class="card-text"><%= ad[:text] %></p>
+            </div>
+            <div class="col-5 text-right">
+              <%= image_tag ad[:image], class: 'img-fluid' %>
+            </div>
+          </div>
+        </div>
+      </a>
+      <div class="position-absolute ad-close" style="top: 0; right: 5px"><i class="fa fa-times text-secondary"></i></div>
+      <div class="position-absolute" style="bottom: -1px; right: 5px">
+        <small class="text-secondary"><i class="fas fa-ad"></i></small>
+      </div>
+    </div>
+    <script>
+      $('body').on('click','.ad-fixed .ad-close', function (){
+          $('.ad-fixed').addClass('d-none');
+      })
+    </script>
+  <% end %>
 </footer>
 
 <% if ad = current_ad(:widgets) %>
