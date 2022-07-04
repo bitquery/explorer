@@ -17,6 +17,7 @@
               inputs: transfers(date: {since: $from, till: $till}, transferSender: {is: $address}) {
                 count
                 amount
+                <%#= TODO amount_usd: amount(in: USD) %>
                 min_date: minimum(of: date)
                 max_date: maximum(of: date)
                 currency{
@@ -26,6 +27,7 @@
               outputs: transfers(date: {since: $from, till: $till}, transferReceiver: {is: $address}) {
                 count
                 amount
+                <%#= TODO amount_usd: amount(in: USD) %>
                 min_date: minimum(of: date)
                 max_date: maximum(of: date)
                 currency{
@@ -48,13 +50,13 @@
                     {name: '<%= t('widgets.titles.first_transaction_date') %>', value: outputs.min_date },
                     {name: '<%= t('widgets.titles.last_transaction_date') %>', value: ((inputs.max_date > outputs.max_date) ? inputs.max_date : outputs.max_date)},
 
-                    {name: '<%= t('widgets.titles.value_to_address') %>', value: outputs.amount + ' <%= @network[:currency] %>'},
-                    {name: '<%= t('widgets.titles.value_from_address') %>', value: inputs.amount + ' <%= @network[:currency] %>'},
+                    {name: '<%= t('widgets.titles.value_to_address') %>', value: outputs.amount + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'outputs.amount_usd'} %>},
+                    {name: '<%= t('widgets.titles.value_from_address') %>', value: inputs.amount + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'inputs.amount_usd'} %>},
 
 
                     {name: '<%= t('widgets.titles.unspent_value') %>',
                         value: (parseInt(parseFloat(outputs.amount)*1.0e8)-parseInt(parseFloat(inputs.amount)*1.0e8)) / 1.0e8
-                            + ' <%= @network[:currency] %>'},
+                            + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'outputs.amount_usd - inputs.amount_usd'} %>},
 
 
                 ];

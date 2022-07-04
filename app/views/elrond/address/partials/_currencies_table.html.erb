@@ -17,7 +17,9 @@
             date: {since: $from, till: $till}
           ) {
             sum_in: amount(calculate: sum, transferReceiver: {is: $address})
+            <%#= TODO sum_in_usd: amount(in: USD, calculate: sum, transferReceiver: {is: $address}) %>
             sum_out: amount(calculate: sum, transferSender: {is: $address})
+            <%#= TODO sum_out_usd: amount(in: USD, calculate: sum, transferSender: {is: $address}) %>
             count_in: countBigInt(transferReceiver: {is: $address})
             count_out: countBigInt(transferSender: {is: $address})
             currency {
@@ -50,6 +52,9 @@
           type: 'amount',
           path: 'sum_in'
         },
+          {
+              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.sum_in_usd'} %>
+          },
         {
           title: '<%= t('widgets.titles.txs') %>',
           type: 'count',
@@ -62,6 +67,9 @@
           type: 'amount',
           path: 'sum_out'
         },
+          {
+              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.sum_out_usd'} %>
+          },
         {
           title: '',
           type: 'string',

@@ -802,7 +802,7 @@ en:
         keywords: "%{network} miniblock, %{network} latest miniblocks"
       miniblocks:
         name: "Miniblocks"
-        title: "Shard %{collection_id} Miniblocks on %{network} Explorer"
+        title: "Shard %{shard_id} Miniblocks on %{network} Explorer"
         description: "Сross-shard transactions which enable communicate between shards and the metachain"
         keywords: "%{network} miniblocks, %{network} cross-shard transaction in shard %{shard_id}"
       transactions:
