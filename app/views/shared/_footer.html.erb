@@ -31,17 +31,20 @@
       <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
         <div class="card-body">
           <div class="row">
-            <div class="col-7">
-              <h5 class="card-title"><%= ad[:title] %></h5>
-              <p class="card-text"><%= ad[:text] %></p>
+            <div class="col-7 position-relative">
+              <% unless ad[:title].blank? %><h5 class="card-title"><%= ad[:title] %></h5><% end %>
+              <% unless ad[:text].blank? %><p class="card-text"><%= ad[:text] %></p><% end %>
+              <% unless ad[:button_text].blank? %><a href='<%= ad[:url].html_safe %>' class="btn <%= ad[:button_class] %> position-absolute" style="bottom: 0; background-color: <%= ad[:button_bg] %>;color: <%= ad[:button_color] %>"><%= ad[:button_text] %></a><% end %>
             </div>
             <div class="col-5 text-right">
-              <%= image_tag ad[:image], class: 'img-fluid' %>
+              <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
+                <%= image_tag ad[:image], class: 'img-fluid rounded' %>
+              </a>
             </div>
           </div>
         </div>
       </a>
-      <div class="position-absolute ad-close" style="top: 0; right: 5px"><i class="fa fa-times text-secondary"></i></div>
+      <div class="position-absolute ad-close" style="top: 0; right: 5px; cursor: pointer"><i class="fa fa-times text-secondary"></i></div>
       <div class="position-absolute" style="bottom: -1px; right: 5px">
         <small class="text-secondary"><i class="fas fa-ad"></i></small>
       </div>
