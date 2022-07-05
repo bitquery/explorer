@@ -30,10 +30,10 @@ ADS={
   },
   fixed: {
     ad: {
-      title: 'Crypto tax made easy',
-      text: "Koinly® - Australia's Most Trusted Crypto Tax Calculator.",
+      title: 'Koinly: The #1 Crypto Tax Tool',
+      text: '',#'Calculate Your Crypto, DeFi and NFT Taxes in Minutes.',
       image: 'koinly_400x400.jpg',
-      url: 'https://koinly.io/utm_source=bitquery&utm_medium=fixed_bottom',
+      url: 'https://koinly.io/au?via=BITQUERY&utm_source=paid-media-au&utm_medium=affiliates&utm_campaign=blockchain-explorer&utm_content=ad&utm_term=BITQUERY',
       width: '25rem'
     },
     # platform: {
