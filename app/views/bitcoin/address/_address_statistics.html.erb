@@ -23,6 +23,7 @@
               ){
                 count
                 value
+                value_usd: value(in: USD)
 
                 min_date: minimum(of: date)
                 max_date: maximum(of: date)
@@ -36,6 +37,7 @@
               ){
                 count
                 value
+                value_usd: value(in: USD)
 
                 min_date: minimum(of: date)
                 max_date: maximum(of: date)
@@ -60,8 +62,8 @@
                     {name: '<%= t('widgets.titles.first_transaction_date') %>', value: outputs.min_date },
                     {name: '<%= t('widgets.titles.last_transaction_date') %>', value: ((inputs.max_date > outputs.max_date) ? inputs.max_date : outputs.max_date)},
 
-                    {name: '<%= t('widgets.titles.value_to_address') %>', value: outputs.value + ' <%= @network[:currency] %>'},
-                    {name: '<%= t('widgets.titles.value_from_address') %>', value: inputs.value + ' <%= @network[:currency] %>'},
+                    {name: '<%= t('widgets.titles.value_to_address') %>', value: outputs.value + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'outputs.value_usd'} %>},
+                    {name: '<%= t('widgets.titles.value_from_address') %>', value: inputs.value + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'inputs.value_usd'} %>},
 
 
                     {name: '<%= t('widgets.titles.unspent_value') %>',

@@ -38,6 +38,8 @@
 
 
                       reward: value
+                      reward_usd: value(in: USD)
+
                       count(uniq: blocks)
 
                       min_date: minimum(of: date)
@@ -75,9 +77,12 @@
 
                 {
                     title: '<%= t('widgets.titles.block_reward') %>, <%= @network[:currency] %>',
-                    type: 'number',
+                    type: 'amount',
                     path: 'reward'
                 },
+                {
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.reward_usd'} %>
+                }
             ]
         });
 

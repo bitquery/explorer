@@ -27,6 +27,7 @@
 
 
               inputValue
+              input_value_usd: inputValue(in: USD)
               outputCount
               inputCount
 
@@ -34,6 +35,7 @@
 
               hash
               feeValue
+              fee_value_usd: feeValue(in: USD)
 
           }
         }
@@ -70,11 +72,19 @@
                   style: 'width: 80px;'
               },
               {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_value_usd'} %>
+              },
+              {
                   title: '<%= t('widgets.titles.input_value') %>, <%= @network[:currency] %>',
-                  type: 'number',
+                  type: 'amount',
                   path: 'inputValue',
                   style: 'width: 110px;'
               },
+              {
+                  style: 'width: 110px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.input_value_usd'} %>
+              }
 
 
 
