@@ -3,7 +3,7 @@ ADS={
     ad: {
       text: 'DEX Trade',
       url: 'https://jn3rg.app.link/Bitquery_1inch',
-      bgcolor: '#40d102'
+      bgcolor: '#0570f2'
     }
   },
   tab: {
