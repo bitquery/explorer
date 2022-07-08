@@ -36,6 +36,7 @@
 
                 currency{symbol}
                 value
+                value_usd: value(in: USD)
             }
           }
           }`);
@@ -66,14 +67,15 @@
 
                 {
                     title: '<%= t('widgets.titles.value') %>',
-                    type: 'number',
+                    type: 'amount',
                     path: 'value',
                     style: 'width: 80px;'
                 },
                 {
                     title: '<%= t('widgets.titles.currency') %>',
                     path: 'currency.symbol',
-                    style: 'width: 110px;'
+                    style: 'width: 150px;',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {amount: 'item.value_usd'} %>
                 },
 
 

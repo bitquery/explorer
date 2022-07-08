@@ -43,6 +43,7 @@
                               outputDirection
 
                               value
+                              value_usd: value(in: USD)
                               currency {symbol}
                             }
 
@@ -68,7 +69,7 @@
                 },
                 {
                     title: '<%= t('widgets.titles.amount') %>',
-                    type: 'number',
+                    type: 'amount',
                     path: 'value',
                     style: 'width: 100px'
                 },
@@ -76,7 +77,8 @@
                     title: '<%= t('widgets.titles.currency') %>',
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
-                    style: 'width: 80px'
+                    style: 'width: 120px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {amount: 'item.value_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transfer_type') %>',

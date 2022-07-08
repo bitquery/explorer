@@ -39,10 +39,15 @@
                               inputCount
                               outputCount
                               inputValue
+                              input_value_usd: inputValue(in: USD)
                               outputValue
+                              output_value_usd: outputValue(in: USD)
                               feeValue
+                              fee_value_usd: feeValue(in: USD)
 
                               depositValue
+                              deposit_value_usd: depositValue(in: USD)
+
                               includedAt {
                                 time (format: "%Y-%m-%d %H:%M:%S")
                               }
@@ -74,13 +79,13 @@
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
                     {name: '<%= t('widgets.titles.transaction_index') %>', value: item.index},
 
-                    {name: '<%= t('widgets.titles.input_value') %>', value: item.inputValue + ' <%= @network[:currency] %>'} ,
-                    {name: '<%= t('widgets.titles.output_value') %>', value: item.outputValue + ' <%= @network[:currency] %>'} ,
-                    {name: '<%= t('widgets.titles.deposit_value') %>', value: item.depositValue + ' <%= @network[:currency] %>'} ,
+                    {name: '<%= t('widgets.titles.input_value') %>', value: item.inputValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.input_value_usd'} %>} ,
+                    {name: '<%= t('widgets.titles.output_value') %>', value: item.outputValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.output_value_usd'} %>} ,
+                    {name: '<%= t('widgets.titles.deposit_value') %>', value: item.depositValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.deposit_value_usd'} %>} ,
 
 
 
-                    {name: '<%= t('widgets.titles.fee') %>', value: item.feeValue + ' <%= @network[:currency] %>'} ,
+                    {name: '<%= t('widgets.titles.fee') %>', value: item.feeValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.fee_value_usd'} %>} ,
 
                 ];
             },
