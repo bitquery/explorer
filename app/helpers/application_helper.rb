@@ -30,8 +30,8 @@ module ApplicationHelper
     }.compact.reverse.first
   end
 
-  def tab_ad(html_class = 'nav-item nav-item-ad')
-    if ad = current_ad(:tab)
+  def tab_ad(ad_tag = 'tab', html_class = 'nav-item nav-item-ad')
+    if ad = current_ad(ad_tag)
       tag.li(class: html_class) do
         link_to ad[:url], class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ''), target: :blank do
           "#{ad[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
