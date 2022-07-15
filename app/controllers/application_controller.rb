@@ -43,8 +43,13 @@ class ApplicationController < ActionController::Base
     @from = "\"#{@from}\"" if @from.present?
     @till = "\"#{@till}\"" if @till.present?
 
-    @from = "\"#{(Time.now - 7.days).strftime('%Y-%m-%d')}\"" if @from.blank?
-    @till = "\"#{Time.now.strftime('%Y-%m-%d')}\"" if @till.blank?
+    if params['network'] && DATE_LIMITS[params["network"]["tag"]] && DATE_LIMITS[params["network"]["tag"]][params[:controller]] && DATE_LIMITS[params["network"]["tag"]][params[:controller]][params[:action]]
+      @from = "\"#{(Date.today - DATE_LIMITS[params["network"]["tag"]][params[:controller]][params[:action]]).strftime('%Y-%m-%d')}\"" if @from.blank?
+      @till = "\"#{Time.now.strftime('%Y-%m-%d')}\"" if @till.blank?
+    else
+      @from = "\"#{(Time.now - 7.days).strftime('%Y-%m-%d')}\"" if @from.blank?
+      @till = "\"#{Time.now.strftime('%Y-%m-%d')}\"" if @till.blank?
+    end
   end
 
   def set_locale
