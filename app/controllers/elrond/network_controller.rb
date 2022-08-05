@@ -10,8 +10,6 @@ module Elrond
 
     def transfers; end
 
-    def calls; end
-
     private
 
     def breadcrumb
