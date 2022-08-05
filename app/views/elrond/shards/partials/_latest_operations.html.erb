@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.tx_calls') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_operations') %></div>
       <div class="card-body">
-        <div id="tx_calls"><%= t('loading') %></div>
+        <div id="latest_operations"><%= t('loading') %></div>
       </div>
     </div> </div>
 </div>
@@ -13,28 +13,28 @@
     const qraphql_query = `
       query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: BigInt!) {
         elrond(network: $network) {
-          calls(
+          operations(
             options: {desc: "time.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
-            txReceiverShard: {is: $shard_id}
+            shard: {is: $shard_id}
           ) {
             time {
               time(format: "%Y-%m-%d %H:%M:%S")
             }
-            senderBlock {
+            senderBlock{
               hash
             }
-            smartContractAddress {
+            sender{
               address
               annotation
             }
-            smartContractMethod {
-              name
-              signatureHash
+            receiver{
+              address
+              annotation
             }
-            transaction {
-              hash
-            }
+            type
+            action
+            data
           }
         }
       }
@@ -42,38 +42,53 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#tx_calls', query, 'elrond.calls', {
-      title: '<%= t('widgets.headers.tx_calls') %>',
+    new widgets.table('#latest_operations', query, 'elrond.operations', {
+      title: '<%= t('widgets.headers.latest_operations') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
           type: 'string',
-          style: 'width: 180px',
           path: 'time.time',
+          style: 'width: 170px;'
         },
         {
           title: '<%= t('widgets.titles.block_hash') %>',
           type: 'string-ellipsis',
-          style: 'width: 170px;',
           path: 'senderBlock.hash',
           urlCallbackName: 'sender_block_path'
         },
         {
-          title: '<%= t('widgets.titles.smart_contract_address') %>',
+          title: '<%= t('widgets.titles.sender') %>',
           type: 'string-ellipsis',
-          path: ['smartContractAddress.annotation','smartContractAddress.address'],
-          urlCallbackName: 'smart_contract_address_path'
+          path: ['sender.annotation','sender.address'],
+          urlCallbackName: 'sender_address_path'
         },
         {
-          title: '<%= t('widgets.titles.method') %>',
+          title: '',
           type: 'string',
-          path: ['smartContractMethod.name','smartContractMethod.signatureHash']
+          data: '<i class="fa fa-sign-in text-success"></i>',
+          html_class: 'text-center'
         },
         {
-          title: '<%= t('widgets.titles.transaction_hash') %>',
+          title: '<%= t('widgets.titles.receiver') %>',
           type: 'string-ellipsis',
-          path: 'transaction.hash',
-          urlCallbackName: 'transaction_path',
+          path: ['receiver.annotation','receiver.address'],
+          urlCallbackName: 'receiver_address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.type') %>',
+          type: 'string',
+          path: 'type'
+        },
+        {
+          title: '<%= t('widgets.titles.action') %>',
+          type: 'string',
+          path: 'action'
+        },
+        {
+          title: '<%= t('widgets.titles.data') %>',
+          type: 'string',
+          path: 'data'
         },
       ]
     });
@@ -84,5 +99,4 @@
     });
   });
 </script>
-
 

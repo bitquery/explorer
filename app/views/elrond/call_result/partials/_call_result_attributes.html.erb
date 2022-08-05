@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transaction_info') %></div>
+      <div class="card-header"><%= t('widgets.headers.call_result_info') %></div>
       <div class="card-body">
-        <div id="transaction_info"><%= t('loading') %></div>
+        <div id="call_result_info"><%= t('loading') %></div>
       </div>
     </div> 
   </div>
@@ -14,42 +14,39 @@
     const qraphql_query = `
       query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $hash: String!) {
         elrond(network: $network) {
-          transactions(
+          callResults(
             options: {desc: "time.time", limit: $limit, offset: $offset}
-            txHash: {is: $hash}
+            miniblockHash: {is: $hash}
           ) {
             time {
               time(format: "%Y-%m-%d %H:%M:%S")
             }
-            hash
-            status
             senderBlock{
               height
               hash
             }
+            hash
             miniblock{
               hash
             }
-            sender{
+            transaction {
+              hash
+            }
+            sender {
               address
               annotation
             }
-            senderShard
-            receiver{
+            receiver {
               address
               annotation
             }
-            receiverShard
             value
-            value_usd: value(in: USD)
-            fee
-            fee_usd: fee(in: USD)
             gasLimit
-            gasUsed
             gasPrice
             nonce
             data
-            signature
+            returnMessage
+            index
           }
         }
       }
@@ -57,49 +54,46 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#transaction_info', query, 'elrond.transactions', {
-      title: '<%= t('widgets.headers.transaction_info') %>',
+    new widgets.table('#call_result_info', query, 'elrond.callResults', {
+      title: '<%= t('widgets.headers.call_result_info') %>',
       renderData: function (data) {
         item = data[0];
         return !item ? [] : [
             {name: '<%= t('widgets.titles.timestamp') %>', value: item.time.time},
-            {name: '<%= t('widgets.titles.height') %>', value: item.senderBlock.height},
+            { name: '<%= t('widgets.titles.height') %>', value: item.senderBlock.height, },
             {
               name: '<%= t('widgets.titles.block_hash') %>',
               value: item.senderBlock.hash,
               senderBlockHash: item.senderBlock.hash
             },
             {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
-            {name: '<%= t('widgets.titles.status') %>', value: item.status},
             {
-                name: '<%= t('widgets.titles.miniblock_hash') %>',
-                value: item.miniblock.hash,
-                miniblockHash: item.miniblock.hash
-              },
+              name: '<%= t('widgets.titles.miniblock_hash') %>',
+              value: item.miniblock.hash,
+              miniblockHash: item.miniblock.hash
+            },
             {
-              name: '<%= t('widgets.titles.sender') %>', value: item.sender.address,
+              name: '<%= t('widgets.titles.tx_hash') %>', value: item.transaction.hash,
+              txHash: item.transaction.hash
+            },
+            {
+              name: '<%= t('widgets.titles.sender') %>',
+              value: item.sender.address,
               address: item.sender.address
             },
             {
-              name: '<%= t('widgets.titles.sender_shard') %>', value: item.senderShard,
-              shard_id: item.senderShard
+              name: '<%= t('widgets.titles.receiver') %>',
+              value: item.receiver.address,
+              address: item.receiver.address
             },
-            {
-              name: '<%= t('widgets.titles.receiver') %>', value: item.receiver.address,
-              address: item.sender.address
-            },
-            {
-              name: '<%= t('widgets.titles.receiver_shard') %>', value: item.receiverShard,
-              shard_id: item.receiverShard
-            },
+            {name: '<%= t('widgets.titles.index_in_transaction') %>', value: item.index},
             {name: '<%= t('widgets.titles.value') %>', value: item.value + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {currency: 'item.amount'} %>},
-            {name: '<%= t('widgets.titles.fee') %>', value: item.fee + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {currency: 'item.fee', amount: 'item.fee_usd'} %>},
             {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit},
             {name: '<%= t('widgets.titles.gas_price') %>', value: item.gasPrice},
-            {name: '<%= t('widgets.titles.gas_used') %>', value: item.gasUsed},
             {name: '<%= t('widgets.titles.nonce') %>', value: item.nonce},
+            {name: '<%= t('widgets.titles.message') %>', value: item.returnMessage},
             {name: '<%= t('widgets.titles.data') %>', value: item.data},
-            {name: '<%= t('widgets.titles.signature') %>', value: item.signature},
+            {name: '<%= t('widgets.titles.data_operation') %>', value: item.dataOperation},
           ];
         },
         dataOptions: [
@@ -120,9 +114,10 @@
     });
 
     query.request({
-      hash: "<%= @tx_hash %>",
+      hash: "<%= @hash %>",
       network: '<%= @network[:network] %>'
     });
   });
 </script>
+
 

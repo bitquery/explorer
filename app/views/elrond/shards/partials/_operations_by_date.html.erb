@@ -1,9 +1,9 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.transactions_by_time') %></div>
+    <div class="card-header"><%= t('widgets.headers.operations_by_time') %></div>
 
     <div class="card-body">
-      <div id="transactions_by_time"><%= t('loading') %></div>
+      <div id="operations_by_time"><%= t('loading') %></div>
     </div>
   </div>
 </div>
@@ -13,9 +13,15 @@
 
     const graphql_query =
     `
-      query ($network: ElrondNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: BigInt!){
+     query (
+       $network: ElrondNetwork!,
+       $dateFormat: String!,
+       $from: ISO8601DateTime,
+       $till: ISO8601DateTime,
+       $shard_id: BigInt!
+       ){
         elrond(network: $network){
-           transactions(options:{asc: "date.date"}, date: { since: $from, till: $till}, shard: {is: $shard_id}) {
+         operations(options:{asc: "date.date"}, date: { since: $from, till: $till}, shard: {is: $shard_id}) {
             date {
               date(format: $dateFormat)
             }
@@ -27,12 +33,12 @@
 
     const query = new widgets.query(graphql_query);
 
-    new widgets.chartByTime('#transactions_by_time', query, 'elrond.transactions', {
-      title: '<%= t('widgets.headers.transactions_by_time') %>',
+    new widgets.chartByTime('#operations_by_time', query, 'elrond.operations', {
+      title: '<%= t('widgets.headers.operations_by_time') %>',
       chartOptions: {
         vAxes: {
           '0': {
-            title: '<%= t('widgets.titles.transactions_count') %>'
+            title: '<%= t('widgets.titles.operations_count') %>'
           }
         },
         seriesType: 'bars',
@@ -46,7 +52,7 @@
           path: 'date.date'
         },
         {
-          title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number' },
+          title: {label: '<%= t('widgets.titles.operations_count') %>', type: 'number' },
           path: 'countBigInt'
         },
       ]

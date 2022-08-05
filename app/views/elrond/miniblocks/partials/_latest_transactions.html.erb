@@ -91,7 +91,7 @@
       ]
     });
 
-    query.request({
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
       miniblockHash: '<%= @miniblock_hash %>',
       network: '<%= params['network']['network'] %>'
     });
