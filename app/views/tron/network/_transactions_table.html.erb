@@ -34,6 +34,7 @@
 
                           hash
                           fee
+                          fee_usd: fee(in: USD)
 
                       }
                     }
@@ -61,13 +62,19 @@
                     path: 'hash',
                     urlCallbackName: 'transaction_path'
                 },
-
                 {
                     title: '<%= t('widgets.titles.fee') %>, <%= @network[:currency] %>',
                     type: 'amount',
                     path: 'fee',
                     style: 'width: 110px;'
                 },
+                {
+                    title: '',
+                    type: 'string',
+                    path: 'fee_usd',
+                    style: 'width: 90px;',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd', precision: 4} %>
+                }
             ]
         });
 
