@@ -380,6 +380,9 @@ Rails.application.routes.draw do
           get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
           get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
 
+          get ":blockchain/call_result/:hash", controller: "#{blockchain[:family]}/call_result", action: 'show'
+          get ":blockchain/call_result/:hash/:action", controller: "#{blockchain[:family]}/call_result"
+
           get ":blockchain/block/:hash", controller: "#{blockchain[:family]}/block", action: 'show'
           get ":blockchain/block/:hash/:action", controller: "#{blockchain[:family]}/block"
 

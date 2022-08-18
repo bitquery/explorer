@@ -600,6 +600,14 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+    call_result:
+      icon: 'fas fa-bolt'
+      header: "%{network} call result %{hash}"
+      show:
+        name: 'Call Result'
+        title: "Call Result %{hash} | %{network}"
+        description: "Call Result %{hash} in %{network}"
+        keywords: "%{network} Call Result, %{network} Call Result explorer, %{network} explorer, %{network} call result analytics"
     tx:
       icon: 'fas fa-bolt'
       header: "%{network} transaction %{hash}"
@@ -616,6 +624,11 @@ en:
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
         keywords: "%{network} transfer, %{network} transaction value"
+      operations:
+        name: 'Operations'
+        title: "Operations %{network} %{hash}"
+        description: "Operations in transaction %{hash} in %{network}"
+        keywords: "%{network} operations, %{network} operations value"
       inputs:
         name: 'Inputs'
         title: "Inputs %{network} %{hash}"
@@ -636,6 +649,11 @@ en:
         title: "Calls %{network} %{hash}"
         description: "Smart Contract Calls in transaction %{hash} in %{network}"
         keywords: "%{network} transaction calls, %{network} transaction calls analytics"
+      call_results:
+        name: 'Call Results'
+        title: "Call results %{network} %{hash}"
+        description: "Smart Contract Call results in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction call results, %{network} transaction call result analytics"
       events:
         name: 'Events'
         title: "Events %{network} %{hash}"
@@ -736,6 +754,11 @@ en:
         title: "Block %{height} Miniblocks on %{network} Explorer"
         description: "Сross-shard transactions which enable communicate between shards and the metachain"
         keywords: "%{network} miniblocks, %{network} cross-shard transaction"
+      call_results:
+        name: "Call Results"
+        title: "Block %{height} Call results on %{network} Explorer"
+        description: "Block %{height} Call results on %{network} Explorer"
+        keywords: "%{network} call results"
       validators:
         name: "Validators"
         title: "Block %{height} Validators on %{network} Explorer"
@@ -792,6 +815,19 @@ en:
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
           %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
           %{network} smart contract users for miniblock %{miniblock_hash}"
+      operations:
+        name: "Operations"
+        title: "Operations on %{network} Explorer in miniblock"
+        description: "Operations on %{network} Explorer in miniblock"
+        keywords: "%{network} operations"
+      call_results:
+        name: "Call Results"
+        title: "Call Results on %{network} Explorer in miniblock"
+        description: "Check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users
+          for miniblock %{miniblock_hash}"
+        keywords: "%{network} smart contracts calls results, latest %{network} smart contracts results,
+          %{network} smart contracts calls analytics, %{network} smart contracts results methods analytics,
+          %{network} smart contract users for miniblock %{miniblock_hash}"
     shards:
       icon: 'fas fa-cube'
       header: "%{network} Shard %{shard_id}"
@@ -823,6 +859,11 @@ en:
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
           %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
           %{network} smart contract users for shard %{shard_id}"
+      operations:
+        name: "Operations"
+        title: "Operations on %{network} Explorer in operation %{shard_id}"
+        description: "Shards %{shard_id} operations"
+        keywords: "%{network} operations, shards %{shard_id} operations"
     validators:
       icon: 'fas fa-cube'
       header: "%{network} Validator %{validator_hash}"
@@ -1468,6 +1509,7 @@ en:
       balance_effects: "Balance Effects"
     titles:
       instruction_account_index: "Account index in Instruction"
+      operations_count: "Operations Count"
       action: "Action"
       data_hex: "Data in Hex"
       program: "Program"
@@ -1712,6 +1754,7 @@ en:
       transaction_index: "Index in Block"
       collection_index: "Index in Block"
       index_in_block: "Index in Block"
+      index_in_transaction: "Index in Transaction"
       miniblock_index: "Index in Miniblock"
       index_in_collection: "Index in Collection"
       transaction_code: "Result Code"

@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_transfers') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_operations') %></div>
       <div class="card-body">
-        <div id="latest_transfers"><%= t('loading') %></div>
+        <div id="latest_operations"><%= t('loading') %></div>
       </div>
     </div> </div>
 </div>
@@ -11,11 +11,12 @@
 <script>
   $( document ).ready(function() {
     const qraphql_query = `
-      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+      query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $tx_hash: String!) {
         elrond(network: $network) {
-          transfers(
-            options: {desc: "time.time", limit: $limit, offset: $offset}
+          operations(
+            options: {asc: "index", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
+            txHash: {is: $tx_hash}
           ) {
             time {
               time(format: "%Y-%m-%d %H:%M:%S")
@@ -28,15 +29,10 @@
               address
               annotation
             }
-            amount
-            <%# TODO amount_usd: amount(in: USD) %>
-            currency{
-              symbol
-            }
-            transaction{
-              hash
-            }
-           action
+            index
+            type
+            action
+            data
           }
         }
       }
@@ -44,8 +40,8 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#latest_transfers', query, 'elrond.transfers', {
-      title: '<%= t('widgets.headers.latest_transfers') %>',
+    new widgets.table('#latest_operations', query, 'elrond.operations', {
+      title: '<%= t('widgets.headers.latest_operations') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
@@ -54,10 +50,10 @@
           style: 'width: 170px;'
         },
         {
-          title: '<%= t('widgets.titles.transaction_hash') %>',
-          type: 'string-ellipsis',
-          path: 'transaction.hash',
-          urlCallbackName: 'transaction_path'
+          title: '<%= t('widgets.titles.index') %>',
+          type: 'string',
+          path: 'index',
+          style: 'width: 170px;'
         },
         {
           title: '<%= t('widgets.titles.sender') %>',
@@ -78,25 +74,25 @@
           urlCallbackName: 'receiver_address_path'
         },
         {
-          title: '<%= t('widgets.titles.amount') %>',
-          type: 'amount',
-          path: 'amount'
-        },
-        {
-          title: '<%= t('widgets.titles.currency') %>',
+          title: '<%= t('widgets.titles.type') %>',
           type: 'string',
-          path: 'currency.symbol',
-            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {} %>
+          path: 'type'
         },
         {
           title: '<%= t('widgets.titles.action') %>',
-          type: 'string-ellipsis',
+          type: 'string',
           path: 'action'
+        },
+        {
+          title: '<%= t('widgets.titles.data') %>',
+          type: 'string',
+          path: 'data'
         },
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+    query.request({
+      tx_hash: '<%= @tx_hash %>',
       network: '<%= params['network']['network'] %>'
     });
   });

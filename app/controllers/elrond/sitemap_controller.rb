@@ -18,14 +18,6 @@ module Elrond
             count
           }
         }
-        calls: elrond(network: $network) {
-          calls(options: {desc: "count", limit: $limit}, date: {since: $from}) {
-            smartContractAddress{
-              address
-            }
-            count
-          }
-        }
       }
     GRAPHQL
 

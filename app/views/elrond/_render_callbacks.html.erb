@@ -16,6 +16,14 @@
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/' + (item.hash || item.transaction.hash);
     },
 
+    transaction_path_by_hash: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/' + item.transaction.hash;
+    },
+
+    call_result_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/call_result/' + (item.hash);
+    },
+
     sender_block_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.senderBlock.hash;
     },
@@ -52,5 +60,29 @@
     sender_shard_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/shards/'+ item.senderBlock.shard;
     },
+
+    property_value_path: function(item){
+      link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
+
+      if (item.senderBlockHash){
+          return `${link_prefix}/block/` + item.senderBlockHash;
+      }
+      if (item.blockHash){
+          return `${link_prefix}/block/` + item.blockHash;
+      }
+      else if (item.miniblockHash) {
+        return `${link_prefix}/miniblocks/` + item.miniblockHash;
+      }
+      else if (item.address) {
+        return `${link_prefix}/address/` + item.address;
+      }
+      else if (item.txHash) {
+        return `${link_prefix}/tx/` + item.txHash;
+      }
+      else if (item.shard_id) {
+        return `${link_prefix}/shards/` + item.shard_id;
+      }
+      return null
+    }
   });
 </script>

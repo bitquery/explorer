@@ -46,7 +46,11 @@
             {name: '<%= t('widgets.titles.height') %>', value: item.height},
             {name: '<%= t('widgets.titles.hash') %>', value: item.hash},
 
-            {name: '<%= t('widgets.titles.previous_block_hash') %>', value: item.previousBlockHash},
+            {
+              name: '<%= t('widgets.titles.previous_block_hash') %>',
+              value: item.previousBlockHash,
+              blockHash: item.previousBlockHash,
+            },
             {name: '<%= t('widgets.titles.transactions_count') %>', value: item.transactionCount},
 
             {name: '<%= t('widgets.titles.epoch') %>', value: item.epoch},
@@ -69,7 +73,8 @@
           {
             title: '<%= t('widgets.titles.property_value') %>',
             type: 'string-ellipsis',
-            path: 'value'
+            path: 'value',
+            urlCallbackName: 'property_value_path'
           },
         ]
     });
