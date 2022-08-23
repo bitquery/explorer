@@ -21,9 +21,9 @@
 
 <script>
 
-  $(document).ready(function() {
+    $(document).ready(function() {
 
-    const graphql_query = `
+        const graphql_query = `
       query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
         hedera(network: $network) {
           outputs(
@@ -37,54 +37,60 @@
               address
             }
             transactionFee
+            transaction_fee_usd: transactionFee(in: USD)
           }
         }
       }
     `.trim();
 
-    const query = new widgets.query(graphql_query);
+        const query = new widgets.query(graphql_query);
 
-    new widgets.table('#top_accounts_by_outputs_transaction_fee_spent_table', query, 'hedera.outputs', {
-      title: '<%= t('widgets.headers.top_accounts_by_outputs_transactions_fee_spent_count') %>',
-      dataOptions: [
-        {
-          title: '<%= t('widgets.titles.account') %>',
-          path: 'account.id',
-          urlCallbackName: 'account_path',
-          style: 'width: 70px;'
-        },
-        {
-          title: '<%= t('widgets.titles.transaction_fee') %>, <%= @network[:currency] %>',
-          path: 'transactionFee',
-          style: 'width: 70px;'
-        },
-      ]
+        new widgets.table('#top_accounts_by_outputs_transaction_fee_spent_table', query, 'hedera.outputs', {
+            title: '<%= t('widgets.headers.top_accounts_by_outputs_transactions_fee_spent_count') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.account') %>',
+                    path: 'account.id',
+                    urlCallbackName: 'account_path',
+                    style: 'width: 70px;'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction_fee') %>, <%= @network[:currency] %>',
+                    type: 'amount',
+                    path: 'transactionFee',
+                },
+                {
+                    title: '',
+                    style: 'width: 120px;',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.transaction_fee_usd'} %>
+                },
+            ]
+        });
+
+        new widgets.chart('#top_accounts_by_outputs_transaction_fee_spent_pie', query, 'hedera.outputs', {
+            title: '<%= t('widgets.headers.top_accounts_by_outputs_transactions_fee_spent_count') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: { position: 'right' },
+                chartArea: { left: '0', right: '15%', top: 0, bottom: 0 }
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.account') %>',
+                    path: 'account.id'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction_fee') %>',
+                    path: 'transactionFee'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+            network: '<%= params['network']['network'] %>'
+        });
+
     });
-
-    new widgets.chart('#top_accounts_by_outputs_transaction_fee_spent_pie', query, 'hedera.outputs', {
-      title: '<%= t('widgets.headers.top_accounts_by_outputs_transactions_fee_spent_count') %>',
-      chartType: 'PieChart',
-      chartOptions: {
-        pieSliceText: 'label',
-        pieHole: 0.4,
-        legend: { position: 'right' },
-        chartArea: { left: '0', right: '15%', top: 0, bottom: 0 }
-      },
-      dataOptions: [
-        {
-          title: '<%= t('widgets.titles.account') %>',
-          path: 'account.id'
-        },
-        {
-          title: '<%= t('widgets.titles.transaction_fee') %>',
-          path: 'transactionFee'
-        },
-      ]
-    });
-
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
-      network: '<%= params['network']['network'] %>'
-    });
-
-  });
 </script>

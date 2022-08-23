@@ -26,7 +26,13 @@
                     sum_in: amount(calculate: sum,
                       receiver: {is: $address}
                     )
+                    sum_in_usd: amount(in: USD, calculate: sum,
+                      receiver: {is: $address}
+                    )
                     sum_out: amount(calculate: sum,
+                      sender: {is: $address}
+                    )
+                    sum_out_usd: amount(in: USD, calculate: sum,
                       sender: {is: $address}
                     )
                     count_in: count(
@@ -65,6 +71,12 @@
                     path: 'sum_in'
                 },
                 {
+                    title: '',
+                    type: 'string',
+                    path: 'sum_in_usd',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.sum_in_usd'} %>
+                },
+                {
                     title: '<%= t('widgets.titles.txs') %>',
                     type: 'count',
                     path: 'count_in',
@@ -75,6 +87,12 @@
                     title: '<%= t('widgets.titles.send') %>',
                     type: 'amount',
                     path: 'sum_out'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    path: 'sum_out_usd',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.sum_out_usd'} %>
                 },
                 {
                     title: '',

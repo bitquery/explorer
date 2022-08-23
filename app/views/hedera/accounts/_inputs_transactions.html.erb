@@ -23,6 +23,7 @@
             }
             memo
             amount
+            amount_usd: amount(in:USD)
             currency {
               name
             }
@@ -52,6 +53,10 @@
           path: 'amount',
           style: 'width: 30px;'
         },
+          {
+              style: 'width: 30px;',
+              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', precision: 6} %>
+          },
         {
           title: '<%= t('widgets.titles.transaction_result') %>',
           path: 'result.name',

@@ -18,6 +18,7 @@
               id
             }
             amount
+            amount_usd: amount(in: USD)
             currency {
               address
               name
@@ -49,7 +50,8 @@
         {
             title: '<%= t('widgets.titles.symbol') %>',
             path: 'currency.symbol',
-            style: 'width: 100px;'
+            style: 'width: 150px;',
+            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {precision: 4} %>
         }
       ]
     });

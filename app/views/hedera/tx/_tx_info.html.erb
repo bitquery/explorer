@@ -15,7 +15,9 @@
         hedera(network: $network) {
           transactions(transactionHash:{is: $hash}) {
             maxFee
+            max_fee_usd: maxFee(in: USD)
             transactionFee
+            transaction_fee_usd: transactionFee(in: USD)
             feeCurrency {
               name
             }
@@ -54,8 +56,8 @@
           { name: '<%= t('widgets.titles.result') %>', value: item.result.name },
           { name: '<%= t('widgets.titles.memo') %>', value: item.memo },
           { name: '<%= t('widgets.titles.transaction_id') %>', value: `${item.payerAccount.id}-${item.consensusTimestamp.nanoseconds}` },
-          { name: '<%= t('widgets.titles.transaction_max_fee') %>', value: item.maxFee + ' <%= @network[:currency] %>' },
-          { name: '<%= t('widgets.titles.transaction_fee') %>', value: item.transactionFee + ' <%= @network[:currency] %>'},
+          { name: '<%= t('widgets.titles.transaction_max_fee') %>', value: item.maxFee + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.max_fee_usd', precision: 4} %>  },
+          { name: '<%= t('widgets.titles.transaction_fee') %>', value: item.transactionFee + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.transaction_fee_usd', precision: 4} %>},
         ];
       },
       dataOptions: [

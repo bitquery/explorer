@@ -42,6 +42,7 @@
                         }
 
                         gasValue
+                        gas_value_usd: gasValue(in: USD)
                         gasCurrency {
                           symbol
                         }
@@ -84,6 +85,13 @@
                     type: 'amount',
                     path: 'gasValue',
                     style: 'width: 90px'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    path: 'gas_value_usd',
+                    style: 'width: 90px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.success') %>',
