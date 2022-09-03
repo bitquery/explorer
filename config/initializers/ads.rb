@@ -36,17 +36,17 @@ ADS={
     # }
   },
   fixed: {
-    ad: {
-      title: 'Koinly: The #1 Crypto Tax Tool',
-      text: '',
-      button_text: 'Get Started For Free',
-      button_class: 'btn-primary',
-      # button_bg: '#335EEA',
-      # button_color: '#fff',
-      image: 'koinly_400x400.jpg',
-      url: 'https://koinly.io/au?via=BITQUERY&utm_source=paid-media-au&utm_medium=affiliates&utm_campaign=blockchain-explorer&utm_content=ad&utm_term=BITQUERY',
-      width: '25rem'
-    },
+    # ad: {
+    #   title: 'Koinly: The #1 Crypto Tax Tool',
+    #   text: '',
+    #   button_text: 'Get Started For Free',
+    #   button_class: 'btn-primary',
+    #   # button_bg: '#335EEA',
+    #   # button_color: '#fff',
+    #   image: 'koinly_400x400.jpg',
+    #   url: 'https://koinly.io/au?via=BITQUERY&utm_source=paid-media-au&utm_medium=affiliates&utm_campaign=blockchain-explorer&utm_content=ad&utm_term=BITQUERY',
+    #   width: '25rem'
+    # },
     # platform: {
     #   smart_contract: {
     #     ad: {
