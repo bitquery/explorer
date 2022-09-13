@@ -85,6 +85,7 @@ class dataSourceWidget {
 					headers: {
 						Accept: 'application/json',
 						'Content-Type': 'application/json',
+                        'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
 					},
 					body: JSON.stringify({query: this.query, variables: this.variables}),
 					credentials: 'same-origin',
