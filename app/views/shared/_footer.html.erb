@@ -26,56 +26,6 @@
 
     </p>
   </div>
-  <% if ad = current_ad(:fixed) %>
-    <div class="card shadow ad-fixed" style="position: fixed; left: 10px; bottom: 10px; z-index: 10000; width: <%= ad[:width] %>; background-color: #ffffffdd">
-      <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-7 position-relative">
-              <% unless ad[:title].blank? %><h5 class="card-title"><%= ad[:title] %></h5><% end %>
-              <% unless ad[:text].blank? %><p class="card-text"><%= ad[:text] %></p><% end %>
-              <% unless ad[:button_text].blank? %><a href='<%= ad[:url].html_safe %>' class="btn <%= ad[:button_class] %> position-absolute" style="bottom: 0; background-color: <%= ad[:button_bg] %>;color: <%= ad[:button_color] %>"><%= ad[:button_text] %></a><% end %>
-            </div>
-            <div class="col-5 text-right">
-              <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
-                <%= image_tag ad[:image], class: 'img-fluid rounded' %>
-              </a>
-            </div>
-          </div>
-        </div>
-      </a>
-      <div class="position-absolute ad-close" style="top: 0; right: 5px; cursor: pointer"><i class="fa fa-times text-secondary"></i></div>
-      <div class="position-absolute" style="bottom: -1px; right: 5px">
-        <small class="text-secondary"><i class="fas fa-ad"></i></small>
-      </div>
-    </div>
-    <script>
-      $('body').on('click','.ad-fixed .ad-close', function (){
-          $('.ad-fixed').addClass('d-none');
-      })
-    </script>
-  <% end %>
+  <%= render partial: 'shared/ads/fixed' %>
 </footer>
-
-<% if ad = current_ad(:widgets) %>
-  <script>
-      const adsWidInt = setInterval(function(){
-          let btns = $('.card-body a.open-btn').not('.adcheck');
-          $.each(btns, function(){
-              let btn = $(this);
-              if(btn.html() === 'Open GraphQL IDE'){
-                  let newBtn = btn.clone();
-                  btn.before(newBtn);
-                  newBtn.removeClass('open-btn')
-                      .addClass('open-btn-ad')
-                      .attr({
-                          'href': '<%= ad[:url].html_safe %>',
-                          'target': '_blank'
-                      })
-                      .html('<%= ad[:text] %>'+" <sup class='fas fa-ad text-second'></sup>");
-                  btn.addClass('adcheck');
-              }
-          });
-      }, 1000)
-  </script>
-<% end %>
+<%= render partial: 'shared/ads/widgets' %>

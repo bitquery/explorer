@@ -36,17 +36,19 @@ ADS={
     # }
   },
   fixed: {
-    # ad: {
-    #   title: 'Koinly: The #1 Crypto Tax Tool',
-    #   text: '',
-    #   button_text: 'Get Started For Free',
-    #   button_class: 'btn-primary',
-    #   # button_bg: '#335EEA',
-    #   # button_color: '#fff',
-    #   image: 'koinly_400x400.jpg',
-    #   url: 'https://koinly.io/au?via=BITQUERY&utm_source=paid-media-au&utm_medium=affiliates&utm_campaign=blockchain-explorer&utm_content=ad&utm_term=BITQUERY',
-    #   width: '25rem'
-    # },
+    ad: {
+      title: 'Swap at the best rates!',
+      title_color: '#000000',
+      text: 'The most efficient DEX Aggregator. Get up to 95% gas cost refund.',
+      text_color: '#000000',
+      button_text: 'Swap now!',
+      button_class: 'btn-primary',
+      # button_bg: '#2F8AF5',
+      # button_color: '#000',
+      image: '1inch.jpg',
+      url: 'https://jn3rg.app.link/Bitquery_1inch_FixedBanner',
+      width: '28rem'
+    },
     # platform: {
     #   smart_contract: {
     #     ad: {
