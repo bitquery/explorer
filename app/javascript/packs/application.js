@@ -134,7 +134,7 @@ global.createDashboard = function (dashboard_url, container_id, argsReplace) {
         dashboard_container.style.height = `${container_height}px`
         data.widgets.forEach(widget => {
             createLayout(dashboard_container, unit, layout.find(item => item.i===widget.query_index), widget.name || '')
-            let args = JSON.parse(widget.arguments)
+            let args = JSON.parse(widget.variables)
             if (argsReplace && widget.widget_id !== 'block.content') {
                 for (let arg in argsReplace) {
                     args[arg] = argsReplace[arg]
