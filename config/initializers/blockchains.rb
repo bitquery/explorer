@@ -72,6 +72,17 @@ BLOCKCHAINS = [
   },
 
   {
+    tag: 'ethpow',
+    network: 'ethpow',
+    name: 'Ethereum PoW',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'ETHW',
+    icon: 'currency/ethpow.png',
+    start: Date.parse('2022-09-15')
+
+  },
+  {
     tag: 'zcash',
     network: 'zcash',
     name: 'ZCash',

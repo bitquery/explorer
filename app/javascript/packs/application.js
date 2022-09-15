@@ -427,7 +427,7 @@ global.dateRangeReportFormat = function (from, till, network) {
 };
 
 global.networksLimitedDates = function (network) {
-    return ['celo_alfajores', 'celo_baklava', 'celo_rc1', 'medalla', 'eth2'].indexOf(network) >= 0;
+    return ['celo_alfajores', 'celo_baklava', 'celo_rc1', 'medalla', 'eth2', 'ethpow'].indexOf(network) >= 0;
 };
 
 global.queryWithTimeRange = function (rr, query, from, till, params) {
