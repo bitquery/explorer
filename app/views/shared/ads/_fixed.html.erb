@@ -1,5 +1,10 @@
 <% if ad = current_ad(:fixed) %>
   <div class="card shadow ad-fixed" style="position: fixed; left: 10px; bottom: 10px; z-index: 10000; width: <%= ad[:width] %>; background-color: #ffffffdd">
+    <script>
+      if (sessionStorage['adFixed'] === 'hide'){
+          $('.ad-fixed').addClass('d-none');
+      }
+    </script>
     <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
       <div class="card-body">
         <div class="row">
@@ -24,6 +29,7 @@
   <script>
       $('body').on('click','.ad-fixed .ad-close', function (){
           $('.ad-fixed').addClass('d-none');
+          sessionStorage['adFixed'] = 'hide';
       })
   </script>
 <% end %>
