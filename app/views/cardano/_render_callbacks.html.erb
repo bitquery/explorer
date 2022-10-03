@@ -1,14 +1,14 @@
 <script>
     widgets.callbacks({
         token_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.symbol;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
         },
         transfer_to_path: function(item){
             if(item.count_in==0) {
                 return null;
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
-                    item.currency.symbol +
+                    escapeHtml(item.currency.symbol) +
                     (item.address ? '&sender='+item.address.address : '');
             }
         },
@@ -17,7 +17,7 @@
                 return null;
             }else {
                 return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
-                    item.currency.symbol +
+                    escapeHtml(item.currency.symbol) +
                     (item.address ? '&receiver='+item.address.address : '');
             }
         },

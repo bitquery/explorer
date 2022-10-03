@@ -39,9 +39,9 @@
             renderData: function(data){
                 item = data[0];
                 return !item ? [] : [
-                    {name: '<%= t('widgets.headers.token_symbol') %>', value: item.smartContract.currency.symbol},
+                    {name: '<%= t('widgets.headers.token_symbol') %>', value: escapeHtml(item.smartContract.currency.symbol)},
                     {name: '<%= t('widgets.headers.token_type') %>', value: item.smartContract.currency.tokenType},
-                    {name: '<%= t('widgets.headers.token_name') %>', value: item.smartContract.currency.name},
+                    {name: '<%= t('widgets.headers.token_name') %>', value: escapeHtml(item.smartContract.currency.name)},
                     {name: '<%= t('widgets.headers.token_decimals') %>', value: item.smartContract.currency.decimals},
                     {name: '<%= t('widgets.headers.annotation') %>', value: item.annotation}
                 ];

@@ -74,7 +74,7 @@
                     {name: '<%= t('widgets.titles.tx_creates') %>', value: (item.creates.annotation || item.creates.address ||
                             '-'), address: item.creates },
 
-                    {name: '<%= t('widgets.titles.amount') %>', value: item.amount + ' '+ item.currency.symbol },
+                    {name: '<%= t('widgets.titles.amount') %>', value: item.amount + ' '+ escapeHtml(item.currency.symbol) },
                     {name: '<%= t('widgets.titles.gas_value') %>', value: item.gasValue + ' '+ item.gasCurrency.symbol },
                     {name: '<%= t('widgets.titles.gas_price') %>', value: item.gasPrice/1.0e9 + ' GWei' },
                     {name: '<%= t('widgets.titles.gas_used') %>', value: item.gas },

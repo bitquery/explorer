@@ -54,10 +54,10 @@ $( document ).ready(function() {
                 {name: '<%= t('widgets.titles.uniq_senders') %>', value: item.sender_count},
                 {name: '<%= t('widgets.titles.uniq_receivers') %>', value:item.receiver_count},
 
-                {name: '<%= t('widgets.titles.total_amount') %>', value: item.amount+' '+item.currency.symbol},
+                {name: '<%= t('widgets.titles.total_amount') %>', value: item.amount+' '+escapeHtml(item.currency.symbol)},
 
-                {name: '<%= t('widgets.titles.median_amount') %>', value: item.median+' '+item.currency.symbol},
-                {name: '<%= t('widgets.titles.average_amount') %>', value: item.average+' '+item.currency.symbol},
+                {name: '<%= t('widgets.titles.median_amount') %>', value: item.median+' '+escapeHtml(item.currency.symbol)},
+                {name: '<%= t('widgets.titles.average_amount') %>', value: item.average+' '+escapeHtml(item.currency.symbol)},
 
 
                 {name: '<%= t('widgets.titles.first_transfer_date') %>', value: item.min_date},

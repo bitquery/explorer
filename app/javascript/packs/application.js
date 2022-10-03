@@ -42,6 +42,15 @@ global.vis = vis;
 global.numeral = numeral;
 global.m = moment;
 
+global.escapeHtml = function(unsafe)
+{
+    return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
 
 $('document').ready(function () {
     new ClipboardJS('.to-clipboard');

@@ -59,10 +59,10 @@ $( document ).ready(function() {
         renderData: function (data) {
             item = data[0];
             return !item ? [] : [
-                {name: '<%= t('widgets.titles.symbol') %>', value: item.currency.symbol},
-                {name: '<%= t('widgets.titles.name') %>', value: item.currency.name},
+                {name: '<%= t('widgets.titles.symbol') %>', value: escapeHtml(item.currency.symbol)},
+                {name: '<%= t('widgets.titles.name') %>', value: escapeHtml(item.currency.name)},
                 {name: '<%= t('widgets.titles.asset_id') %>', value: item.currency.tokenId},
-                {name: '<%= t('widgets.titles.issued_amount') %>', value: item.issued_amount+' '+item.currency.symbol},
+                {name: '<%= t('widgets.titles.issued_amount') %>', value: item.issued_amount+' '+escapeHtml(item.currency.symbol)},
                 {name: '<%= t('widgets.titles.issued_at') %>', value: item.issued_at},
                 {name: '<%= t('widgets.titles.issue_hash') %>', value: item.issue_hash, tx_hash: item.issue_hash},
                 {name: '<%= t('widgets.titles.issue_sender') %>', value: item.issue_sender, address: item.issue_sender},
@@ -72,10 +72,10 @@ $( document ).ready(function() {
                 {name: '<%= t('widgets.titles.uniq_senders') %>', value: item.sender_count},
                 {name: '<%= t('widgets.titles.uniq_receivers') %>', value:item.receiver_count},
 
-                {name: '<%= t('widgets.titles.total_amount') %>', value: item.amount+' '+item.currency.symbol},
+                {name: '<%= t('widgets.titles.total_amount') %>', value: item.amount+' '+escapeHtml(item.currency.symbol)},
 
-                {name: '<%= t('widgets.titles.median_amount') %>', value: item.median+' '+item.currency.symbol},
-                {name: '<%= t('widgets.titles.average_amount') %>', value: item.average+' '+item.currency.symbol},
+                {name: '<%= t('widgets.titles.median_amount') %>', value: item.median+' '+escapeHtml(item.currency.symbol)},
+                {name: '<%= t('widgets.titles.average_amount') %>', value: item.average+' '+escapeHtml(item.currency.symbol)},
 
 
                 {name: '<%= t('widgets.titles.first_transfer_date') %>', value: item.min_date},

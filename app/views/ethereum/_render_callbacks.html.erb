@@ -13,7 +13,7 @@
         },
         token_path: function(item){
             if(item.currency.address=='-'){
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.symbol;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.address;
             }
@@ -21,7 +21,7 @@
         },
         buy_token_path: function(item){
             if(item.buyCurrency.address=='-'){
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.buyCurrency.symbol;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.buyCurrency.symbol);
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.buyCurrency.address;
             }
@@ -29,7 +29,7 @@
         },
         sell_token_path: function(item){
             if(item.sellCurrency.address=='-'){
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.sellCurrency.symbol;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.sellCurrency.symbol);
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.sellCurrency.address;
             }
@@ -40,7 +40,7 @@
                 return null;
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
-                    (item.currency.address=='-' ? item.currency.symbol : item.currency.address ) +
+                    (item.currency.address=='-' ? escapeHtml(item.currency.symbol) : item.currency.address ) +
                     (item.address ? '&sender='+item.address.address : '');
             }
         },
@@ -49,7 +49,7 @@
                 return null;
             }else {
                 return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
-                    (item.currency.address=='-' ? item.currency.symbol : item.currency.address ) +
+                    (item.currency.address=='-' ? escapeHtml(item.currency.symbol) : item.currency.address ) +
                     (item.address ? '&receiver='+item.address.address : '');
             }
         },
