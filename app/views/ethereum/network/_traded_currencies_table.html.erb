@@ -49,7 +49,7 @@
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.pair') %>',
-                    type: 'string',
+                    type: 'string-safe',
                     path: 'buyCurrency.symbol',
                     renderCallback: function(item){
                         return item.buyCurrency.symbol + ' / ' + item.sellCurrency.symbol;
