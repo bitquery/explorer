@@ -1813,6 +1813,12 @@ en:
       consumed: "Consumed"
       total_gas: "Total Gas"
       result: "Result"
+      flags: 'Flags'
+      last_ledger_sequence: 'Last Ledger Sequence'
+      sequence: 'Sequence'
+      sourceTag: 'Source Tag'
+      tx_signers: 'Tx Signers'
+      account_txn_id: 'Account Txn Id'
       description: "Descrition"
       memo: "Memo"
       account: "Account"
@@ -1864,6 +1870,12 @@ en:
       op_path: "Op path"
       consumed_gas: "Consumed gas"
       burn_amount: "Burn amount"
+      txCoinbase: "Tx Coinbase"
+      txSize: "Tx Size"
+      txVsize: "Tx Vsize"
+      txWeight: "Tx Weight"
+      txVersion: "Tx Version"
+      txLocktime: "Tx Locktime"
   pages:
     home:
       family: "%{family} Platform Explorers"
