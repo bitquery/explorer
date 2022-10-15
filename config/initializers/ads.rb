@@ -11,11 +11,11 @@ ADS={
     #   text: 'Buy this ad',
     #   url: 'https://bitquery.io/forms/ads'
     # },
-    ad: {
-      text: 'Swap Crypto',
-      url: 'https://simpleswap.io/crypto/?ref=e11e6b4d3b3d',
-      bgcolor: '#9acd32'
-    },
+    # ad: {
+    #   text: 'Swap Crypto',
+    #   url: 'https://simpleswap.io/crypto/?ref=e11e6b4d3b3d',
+    #   bgcolor: '#9acd32'
+    # },
     # platform: {
     #   smart_contract: {
     #     ad: {

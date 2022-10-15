@@ -405,7 +405,7 @@ ru:
       by: "от"
       created: "Bitquery.io"
       #feel_free: "Не стесняйтесь использовать любой виджет с этой страницы, нажмите кнопку JS и скопируйте / вставьте код. Попробуйте API с помощью кнопки GraphQL!"
-      feel_free: "Проверь наш Blockchain GrpahQL APIs нажав на кнопку “Open GraphQL IDE“!"
+      feel_free: "Проверь наш Blockchain GraphQL APIs нажав на кнопку “Open GraphQL IDE“!"
     address:
       description:
         part1: "Адрес %{address} - это "
