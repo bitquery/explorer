@@ -67,3 +67,6 @@ group :development, :test do
   gem 'dotenv-rails', '~> 2.7', '>= 2.7.6'
   gem 'sshkit-sudo'
 end
+
+# Find all missing translations
+gem 'i18n-tasks', '~> 1.0.12'
