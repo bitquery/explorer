@@ -69,4 +69,4 @@ group :development, :test do
 end
 
 # Find all missing translations
-gem 'i18n-tasks', '~> 1.0.12'
+# gem 'i18n-tasks', '~> 1.0.12'
