@@ -30,7 +30,7 @@
   <script>
       $('body').on('click','.ad-fixed .ad-close', function (){
           $('.ad-fixed').addClass('d-none');
-          sessionStorage['adFixed'] = 'hide';
+          document.cookie = "adFixed=hide; path=/";
       })
   </script>
 <% end %>
