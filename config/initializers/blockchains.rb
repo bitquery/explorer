@@ -388,7 +388,7 @@ BLOCKCHAINS = [
   {
     tag: 'avalanche',
     network: 'avalanche',
-    name: 'Avalance  C-chain',
+    name: 'Avalanche  C-chain',
     family: 'ethereum',
     platform: 'Smart Contract',
     currency: 'AVAX',
