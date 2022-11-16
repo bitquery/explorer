@@ -417,6 +417,16 @@ BLOCKCHAINS = [
   },
 
   {
+    tag: 'cronos',
+    network: 'cronos',
+    name: 'Cronos Mainnet',
+    family: 'ethereum',
+    platform: 'Smart Contract',
+    currency: 'CRO',
+    icon: 'currency/cronos-cro-logo.svg'
+  },
+
+  {
     tag: 'cosmoshub',
     network: 'cosmoshub',
     name: 'Cosmos Hub Network',
