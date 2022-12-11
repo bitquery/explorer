@@ -515,6 +515,16 @@ BLOCKCHAINS = [
     platform: 'Tezos',
     currency: 'XTZ',
     icon: 'currency/tezos-xtz-logo.svg'
+  },
+
+  {
+    tag: 'everscale',
+    network: 'everscale',
+    name: 'Everscale',
+    family: 'everscale',
+    platform: 'Smart Contract',
+    currency: 'EVER',
+    icon: 'currency/everscale-logo.svg'
   }
 ].freeze
 

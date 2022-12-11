@@ -494,6 +494,42 @@ Rails.application.routes.draw do
 
     }
 
+    BLOCKCHAINS.select { |b| b[:family] == 'everscale' }.each do |blockchain|
+      constraints(blockchain: blockchain[:network]) do
+        defaults network: blockchain do
+          get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks'
+
+          get ":blockchain/:action", controller: "#{blockchain[:family]}/network"
+
+          get ":blockchain/block/:hash", controller: "#{blockchain[:family]}/block", action: 'show'
+          get ":blockchain/block/:hash/:action", controller: "#{blockchain[:family]}/block"
+
+          get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx"
+
+          get ":blockchain/message/:hash", controller: "#{blockchain[:family]}/message", action: 'show'
+          get ":blockchain/message/:hash/:action", controller: "#{blockchain[:family]}/message"
+
+          # get ":blockchain/call_result/:hash", controller: "#{blockchain[:family]}/call_result", action: 'show'
+          # get ":blockchain/call_result/:hash/:action", controller: "#{blockchain[:family]}/call_result"
+
+          # get ":blockchain/miniblocks/:hash", controller: "#{blockchain[:family]}/miniblocks", action: 'show'
+          # get ":blockchain/miniblocks/:hash/:action", controller: "#{blockchain[:family]}/miniblocks"
+
+          # get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
+          # get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
+
+          # get ":blockchain/validators/:hash", controller: "#{blockchain[:family]}/validators", action: 'show'
+          # get ":blockchain/validators/:hash/:action", controller: "#{blockchain[:family]}/validators"
+
+          # get ":blockchain/shards/:id", controller: "#{blockchain[:family]}/shards", action: 'show'
+          # get ":blockchain/shards/:id/:action", controller: "#{blockchain[:family]}/shards"
+
+          # get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+        end
+      end
+    end
+
     # get "covid", controller: 'covid/covid_dashboard', action: 'index', as: 'covid_index'
     # get "covid/:action", controller: 'covid/covid_dashboard'
     # get "covid/country/:code/:name", controller: 'covid/covid_country', action: 'index', as: 'covid_country'

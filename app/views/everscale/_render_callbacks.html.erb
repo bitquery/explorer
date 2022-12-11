@@ -1,0 +1,42 @@
+<script>
+  widgets.callbacks({
+    block_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.block)
+    },
+
+    sharded_block_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ (item.shardedBlock.hash);
+    },
+
+    transaction_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.hash
+    },
+
+    transaction_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + (item.transactions.hash)
+    },
+
+    message_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/message/' + item.hash
+    },
+
+    message_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/message/' + (item.messages.hash)
+    },
+
+    property_value_path: function(item){
+      link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
+
+      if (item.txHash) {
+        return `${link_prefix}/tx/` + item.txHash;
+      }
+      else if (item.address_path) {
+        return `${link_prefix}/address/` + item.address_path;
+      }
+      else if (item.tx_path) {
+        return `${link_prefix}/tx/` + item.tx_path;
+      }
+      return null
+    }
+  });
+</script>

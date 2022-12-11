@@ -85,6 +85,16 @@ en:
         title: "Scripts for output %{hash} in %{network}"
         description: "Output scripts in transaction %{hash} in %{network}"
         keywords: "%{network} transaction output script"
+      calls:
+        name: 'Calls'
+        title: "Calls for message %{hash} in %{network}"
+        description: "Calls in message %{hash} in %{network}"
+        keywords: "%{network} message calls"
+      events:
+        name: 'Events'
+        title: "Events for message %{hash} in %{network}"
+        description: "Events in message %{hash} in %{network}"
+        keywords: "%{network} message events"
     nodes:
       icon: 'far fa-address-card'
       header: "%{network} Node %{node_account}"
@@ -699,6 +709,16 @@ en:
         title: "%{network} Accounts for %{hash} transaction"
         description: "Account addressed for %{network} transaction"
         keywords: "%{network} Accounts"
+      messages:
+        name: "Messages"
+        title: "%{network} Messages %{hash} transaction"
+        description: "Messages for in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction messages"
+      phases:
+        name: "Phases"
+        title: "%{network} Phases %{hash} transaction"
+        description: "Phases for in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction phases"
     height:
       icon: 'fas fa-cube'
       header: "%{network} Height %{height}"
@@ -1289,6 +1309,8 @@ en:
     headers:
       notarized_blocks: "Notarized Blocks"
       transaction_info: "Transaction Info"
+      message_internal_info: "Internal Message Info"
+      message_external_info: "External Message Info"
       account_summery: "Account Summery"
       transaction_by_time: 'Activities by date'
       transactions_count: "Transactions Count"
@@ -1425,6 +1447,8 @@ en:
       top_accounts_by_outputs_transactions_fee_spent_count: "Top Accounts by Outputs Transactions Fee Spent"
       created_accounts_by_date: "Created Account by Date"
       latest_mints: "Latest Mints"
+      latest_master_blocks: "Latest Master Blocks"
+      latest_sharded_blocks: "Latest Sharded Blocks"
       contracts_by_time: "Unique Smart Contracts"
       contract_callers_by_time: "Unique Smart Contracts Callers"
       contract_methods_by_time: "Unique Smart Contracts Methods Called"
@@ -1523,6 +1547,35 @@ en:
       receiver_block_hash: "Receiver Block Hash"
       receiver_shard: "Receiver Shard"
       previous_block_hash: 'Previous Block Hash'
+      previous_block: 'Previous Block'
+      logical_time: 'Logical Time'
+      in_message_bounce_flag: 'In Message Bounce Flag set'
+      aborted: 'aborted'
+      original_status: 'Original Status'
+      end_status: 'End Status'
+      destroyed: 'Destroyed'
+      boc: 'Boc'
+      old_hash: 'Old Hash'
+      new_hash: 'New Hash'
+      out_messages_count: 'Out Messages Count'
+      ext_in_and_ihr_in_fees: 'Ext In And Ihr In Fees'
+      credit_first: 'Credit First'
+      previous_tx_hash: 'Previous Tx Hash'
+      previous_tx_logical_time: 'Previous Tx Logical Time'
+      tx_type: 'Tx Type'
+      tx_account: 'Tx Account'
+      tx_aborted: 'Tx Aborted'
+      tx_original_status: 'Tx Original Status'
+      tx_end_status: 'Tx End Status'
+      created_logical_time: 'Created Logical Time'
+      ihr_disables: 'Ihr Disables'
+      ihr_fee: 'Ihr Fee'
+      fwd_fee: 'Fwd Fee'
+      bounce: 'Bounce'
+      bounced: 'Bounced'
+      body: 'Body'
+      body_hash: 'Body Hash'
+      data_hash: 'Data Hash'
       contract: 'Contract'
       date: 'Date'
       month: 'Month'
@@ -1575,6 +1628,14 @@ en:
       transaction: 'Transaction'
       transaction_id: 'Transaction ID'
       block_id: 'Block ID'
+      master_block_height: 'Master Block Height'
+      master_block_hash: 'Master Block Hash'
+      master_block_shard: 'Master Block Shard'
+      master_block_workchain: 'Master Block Workchain'
+      sharded_block_height: 'Sharded Block Height'
+      sharded_block_hash: 'Sharded Block Hash'
+      sharded_block_shard: 'Sharded Block Shard'
+      sharded_block_workchain: 'Sharded Block Workchain'
       asset_id: "Asset ID"
       reference_block_Id: 'Reference Block ID'
       token_id: "Token Id"
@@ -1610,7 +1671,7 @@ en:
       athorizer: 'Athorizer'
       block_signatures: 'Block Signatures'
       collectionsCount: 'Collections Count'
-      data: 'data'
+      data: 'Data'
       data_operation: 'Data Operation'
       contracts: 'Contracts'
       dex_tradex_by_protocol: 'DEX Tradex By Protocol'

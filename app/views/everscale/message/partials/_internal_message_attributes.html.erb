@@ -1,0 +1,240 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.internal_message_info') %></div>
+      <div class="card-body">
+        <div id="internal_message_info"><%= t('loading') %></div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $message_hash: String!) {
+        everscale(network: $network) {
+          messages(
+            options: {desc: "timestamp.time", limit: $limit, offset: $offset}
+            messageHash: {is: $message_hash}
+            messageDirection: {is: in}
+          ) {
+            timestamp {
+              time
+            }
+            height
+            blockHash
+            blockShard
+            blockWorkchain
+            shardedBlock {
+              height
+              hash
+              shard
+              workchain
+            }
+            previousBlock
+            transactions{
+              hash
+              type
+              account
+              aborted
+              originalStatus
+              endStatus
+            }
+            hash
+            typeName
+            direction
+            index
+            sender{
+              address
+            }
+            receiver{
+              address
+            }
+            value
+            value_usd: value(in: USD)
+            createdLogicalTime
+            ihrDisabled
+            ihrFee
+            fwdFee
+            bounce
+            bounced
+            body
+            bodyHash
+            data
+            dataHash
+            boc
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#internal_message_info', query, 'everscale.messages', {
+      title: '<%= t('widgets.headers.internal_message_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+            {name: '<%= t('widgets.titles.master_block_height') %>', value: item.height},
+            {
+              name: '<%= t('widgets.titles.master_block_hash') %>',
+              value: item.blockHash
+            },
+            {
+              name: '<%= t('widgets.titles.master_block_shard') %>',
+              value: item.blockShard
+            },
+            {
+              name: '<%= t('widgets.titles.master_block_workchain') %>',
+              value: item.blockWorkchain
+            },
+            {
+              name: '<%= t('widgets.titles.sharded_block_hash') %>',
+              value: item.shardedBlock.hash
+            },
+            {
+              name: '<%= t('widgets.titles.sharded_block_height') %>',
+              value: item.shardedBlock.height
+            },
+            {
+              name: '<%= t('widgets.titles.sharded_block_shard') %>',
+              value: item.shardedBlock.shard
+            },
+            {
+              name: '<%= t('widgets.titles.sharded_block_workchain') %>',
+              value: item.shardedBlock.workchain
+            },
+            {
+              name: '<%= t('widgets.titles.previous_block') %>',
+              value: item.previousBlock
+            },
+            {
+              name: '<%= t('widgets.titles.tx_hash') %>',
+              value: item.transactions.hash,
+              tx_path: item.transactions.hash
+            },
+            {
+              name: '<%= t('widgets.titles.tx_type') %>',
+              value: item.transactions.type
+            },
+            {
+              name: '<%= t('widgets.titles.tx_account') %>',
+              value: item.transactions.account,
+              address_path: item.transactions.account
+            },
+            {
+              name: '<%= t('widgets.titles.tx_aborted') %>',
+              value: item.transactions.aborted
+            },
+            {
+              name: '<%= t('widgets.titles.tx_original_status') %>',
+              value: item.transactions.originalStatus
+            },
+            {
+              name: '<%= t('widgets.titles.tx_end_status') %>',
+              value: item.transactions.endStatus
+            },
+            {
+              name: '<%= t('widgets.titles.sender') %>',
+              value: item.sender.address,
+              address_path: item.sender.address
+            },
+            {
+              name: '<%= t('widgets.titles.receiver') %>',
+              value: item.receiver.address,
+              address_path: item.receiver.address
+            },
+            {
+              name: '<%= t('widgets.titles.value') %>',
+              value: item.value + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {currency: 'item.value_usd'} %>
+            },
+            {
+              name: '<%= t('widgets.titles.hash') %>',
+              value: item.hash,
+            },
+            {
+              name: '<%= t('widgets.titles.type') %>',
+              value: item.typeName
+            },
+            {
+              name: '<%= t('widgets.titles.direction') %>',
+              value: item.direction
+            },
+            {
+              name: '<%= t('widgets.titles.index') %>',
+              value: item.index
+            },
+            {
+              name: '<%= t('widgets.titles.created_logical_time') %>',
+              value: item.createdLogicalTime
+            },
+            {
+              name: '<%= t('widgets.titles.ihr_disables') %>',
+              value: item.ihrDisabled
+            },
+            {
+              name: '<%= t('widgets.titles.ihr_fee') %>',
+              value: item.ihrFee
+            },
+            {
+              name: '<%= t('widgets.titles.fwd_fee') %>',
+              value: item.fwdFee
+            },
+            {
+              name: '<%= t('widgets.titles.bounce') %>',
+              value: item.bounce
+            },
+            {
+              name: '<%= t('widgets.titles.bounced') %>',
+              value: item.bounced
+            },
+            {
+              name: '<%= t('widgets.titles.body') %>',
+              value: item.body
+            },
+            {
+              name: '<%= t('widgets.titles.body_hash') %>',
+              value: item.bodyHash
+            },
+            {
+              name: '<%= t('widgets.titles.data') %>',
+              value: item.data
+            },
+            {
+              name: '<%= t('widgets.titles.data_hash') %>',
+              value: item.dataHash
+            },
+            {
+              name: '<%= t('widgets.titles.boc') %>',
+              value: item.boc
+            },
+          ];
+        },
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.attribute') %>',
+            type: 'string',
+            path: 'name',
+            style: 'width: 250px',
+            html_class: 'text-info font-weight-bold'
+          },
+          {
+            title: '<%= t('widgets.titles.property_value') %>',
+            type: 'string-ellipsis',
+            escape: false,
+            path: 'value',
+            urlCallbackName: 'property_value_path'
+          },
+        ]
+    });
+
+    query.request({
+      message_hash: "<%= @message_hash %>",
+      network: '<%= @network[:network] %>'
+    });
+  });
+</script>
+
+

@@ -258,6 +258,8 @@ ru:
       latest_accounts: "Последние Аккаунты"
       created_accounts: "Созданные Аккаунты"
       latest_contracts: "Последние Контракты"
+      latest_master_blocks: "Последние Мастер Блоки"
+      latest_sharded_blocks: "Последние Шард Блоки"
       latest_miniblocks: "Последние Миниблоки"
       latest_miniblocks_sender: "Последние Миниблоки, где Блок является отправителем"
       latest_miniblocks_receiver: "Последние Миниблоки, где Блок является получаетелем"
