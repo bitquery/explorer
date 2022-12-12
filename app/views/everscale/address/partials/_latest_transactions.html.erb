@@ -11,12 +11,14 @@
 
 <script>
   $( document ).ready(function() {
+
     const qraphql_query = `
-      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $address: String!) {
         everscale(network: $network) {
           transactions(
             options: {desc: "timestamp.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
+            txAccount: {is: $address}
           ) {
             timestamp {
               time(format: "%Y-%m-%d %H:%M:%S")
@@ -58,19 +60,14 @@
         {
           title: '<%= t('widgets.titles.block_hash') %>',
           type: 'string-ellipsis',
-          path: 'shardedBlock.hash'
+          path: 'shardedBlock.hash',
+          urlCallbackName: 'sharded_hash_path'
         },
         {
           title: '<%= t('widgets.titles.transaction_hash') %>',
           type: 'string',
           path: 'hash',
           urlCallbackName: 'transaction_path'
-        },
-        {
-          title: '<%= t('widgets.titles.account') %>',
-          type: 'string-ellipsis',
-          path: 'account',
-          urlCallbackName: 'account_path'
         },
         {
           title: '<%= t('widgets.titles.account') %>',
@@ -81,6 +78,7 @@
     });
 
     queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+      address: '<%= @address %>',
       network: '<%= params['network']['network'] %>'
     });
   });

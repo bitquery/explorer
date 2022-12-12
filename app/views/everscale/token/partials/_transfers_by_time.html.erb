@@ -1,0 +1,64 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.transfers_by_time') %></div>
+    <div class="card-body">
+      <div id="transfers_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+      const qraphql_query = `
+        query ($network: EverscaleNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $currency: String!) {
+          everscale(network: $network) {
+            transfers(
+              options: {asc: "date.date"}
+              date: {since: $from, till: $till}
+              currency: {is: $currency}
+            ) {
+              date{
+                date(format: $dateFormat)
+              }
+              count: countBigInt
+            }
+          }
+        }
+      `.trim();
+
+      const query = new widgets.query(qraphql_query);
+
+      new widgets.chartByTime('#transfers_by_time', query, 'everscale.transfers', {
+          title: '<%= t('widgets.headers.transfers_by_time') %>',
+          chartOptions: {
+            vAxes: {
+              '0': {
+                  title: '<%= t('widgets.titles.transfer_count') %>'
+              }
+            },
+            seriesType: 'bars',
+            series: {
+              '0': { color: '#28a745' }
+            },
+          },
+          dataOptions: [
+            {
+              title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+              path: 'date.date'
+            },
+            {
+              title: {label: '<%= t('widgets.titles.transfer_count') %>', type: 'number' },
+              path: 'count'
+            },
+          ]
+      });
+
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+          currency: "<%= @token %>",
+          network: '<%= params['network']['network'] %>'
+      });
+    });
+</script>

@@ -1,29 +1,34 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.internal_messages') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_messages') %></div>
       <div class="card-body">
-        <div id="internal_messages"><%= t('loading') %></div>
+        <div id="latest_messages"><%= t('loading') %></div>
       </div>
-    </div> </div>
+    </div> 
+  </div>
 </div>
 
 <script>
   $( document ).ready(function() {
+    let graphql_fields = "<%= @graphql_fields %>"
+
     const qraphql_query = `
-      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $tx_hash: String!) {
+      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $hash: String!) {
         everscale(network: $network) {
           messages(
-            options: {asc: "timestamp.time", limit: $limit, offset: $offset}
+            options: {desc: "timestamp.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
-            txHash: {is: $tx_hash}
-            messageDirection: {is: in}
+            ${graphql_fields}
           ) {
+            timestamp {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
             shardedBlock {
               hash
             }
-            timestamp {
-              time
+            transactions{
+              hash
             }
             hash
             sender{
@@ -32,6 +37,7 @@
             receiver{
               address
             }
+            direction
             typeName
           }
         }
@@ -40,27 +46,25 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#internal_messages', query, 'everscale.messages', {
-      title: '<%= t('widgets.headers.internal_messages') %>',
+    new widgets.table('#latest_messages', query, 'everscale.messages', {
+      title: '<%= t('widgets.headers.latest_messages') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
           type: 'string',
-          path: 'timestamp.time',
-          style: 'width: 170px;'
+          path: 'timestamp.time'
         },
         {
-          title: '<%= t('widgets.titles.block_hash') %>',
+          title: '<%= t('widgets.titles.transaction_hash') %>',
           type: 'string-ellipsis',
-          path: 'shardedBlock.hash',
-          urlCallbackName: 'sharded_hash_path'
+          path: 'transactions.hash',
+          urlCallbackName: 'transaction_hash_path'
         },
         {
           title: '<%= t('widgets.titles.message_hash') %>',
           type: 'string',
           path: 'hash',
-          urlCallbackName: 'message_path',
-          style: 'width: 80px;'
+          urlCallbackName: 'message_path'
         },
         {
           title: '<%= t('widgets.titles.sender') %>',
@@ -81,7 +85,12 @@
           urlCallbackName: 'receiver_address_path'
         },
         {
-          title: '<%= t('widgets.titles.type') %>',
+          title: '<%= t('widgets.titles.direction') %>',
+          type: 'string',
+          path: 'direction'
+        },
+        {
+          title: '<%= t('widgets.titles.type_name') %>',
           type: 'string',
           path: 'typeName'
         },
@@ -89,7 +98,7 @@
     });
 
     query.request({
-      tx_hash: '<%= @tx_hash %>',
+      hash: "<%= @hash %>",
       network: '<%= params['network']['network'] %>'
     });
   });

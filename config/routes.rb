@@ -510,20 +510,11 @@ Rails.application.routes.draw do
           get ":blockchain/message/:hash", controller: "#{blockchain[:family]}/message", action: 'show'
           get ":blockchain/message/:hash/:action", controller: "#{blockchain[:family]}/message"
 
-          # get ":blockchain/call_result/:hash", controller: "#{blockchain[:family]}/call_result", action: 'show'
-          # get ":blockchain/call_result/:hash/:action", controller: "#{blockchain[:family]}/call_result"
+          get ":blockchain/token/:symbol", controller: "#{blockchain[:family]}/token", action: 'show'
+          get ":blockchain/token/:symbol/:action", controller: "#{blockchain[:family]}/token"
 
-          # get ":blockchain/miniblocks/:hash", controller: "#{blockchain[:family]}/miniblocks", action: 'show'
-          # get ":blockchain/miniblocks/:hash/:action", controller: "#{blockchain[:family]}/miniblocks"
-
-          # get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
-          # get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
-
-          # get ":blockchain/validators/:hash", controller: "#{blockchain[:family]}/validators", action: 'show'
-          # get ":blockchain/validators/:hash/:action", controller: "#{blockchain[:family]}/validators"
-
-          # get ":blockchain/shards/:id", controller: "#{blockchain[:family]}/shards", action: 'show'
-          # get ":blockchain/shards/:id/:action", controller: "#{blockchain[:family]}/shards"
+          get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
+          get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
 
           # get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end

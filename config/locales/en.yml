@@ -264,6 +264,11 @@ en:
         title: "%{address} balances in %{network}"
         description: "%{address} balances in %{network}"
         keywords: "%{address} balances, %{network}"
+      messages:
+        name: 'Messages'
+        title: "%{address} message in %{network}"
+        description: "%{address} message in %{network}"
+        keywords: "%{address} message, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -809,6 +814,11 @@ en:
         title: "Money Outflow on %{network} Explorer, block %{height}"
         description: "Money Outflow %{network} Explorer, block %{height}"
         keywords: "%{network} Outputs"
+      messages:
+        name: "Messages"
+        title: "Messages on %{network} Explorer, block %{height}"
+        description: "Messages %{network} Explorer, block %{height}"
+        keywords: "%{network} Messages"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1549,6 +1559,30 @@ en:
       previous_block_hash: 'Previous Block Hash'
       previous_block: 'Previous Block'
       logical_time: 'Logical Time'
+      logical_time_start: 'Logical Time Start'
+      logical_time_end: 'Logical Time End'
+      workchain: 'Workchain'
+      global_id: 'Global ID'
+      after_merge: 'Global ID'
+      after_split: 'After Split'
+      before_split: 'Before Split'
+      want_merge: 'Want Merge'
+      want_split: 'Want Split'
+      vertical_seq_no: 'Vertical Seqno'
+      general_catchain_seqno: 'General catchain seqno'
+      general_software_capabilities: 'General software capabilities'
+      general_software_version: 'General Software Version'
+      general_validator_list_hash_short: 'General Validator List hash Short'
+      minimal_reference_masterchain_block: 'Minimal Reference Masterchain Block'
+      random_seed: 'Random Seed'
+      value_form_previous_block: 'Value Form Previous Block'
+      value_to_next_block: 'Value To Next Block'
+      value_imported: 'Value Imported'
+      value_exported: 'Value Exported'
+      value_fees_collected: 'Value Fees Collected'
+      value_fees_imported: 'Value Fees Imported'
+      value_created: 'Value Created'
+      value_minted: 'Value Minted'
       in_message_bounce_flag: 'In Message Bounce Flag set'
       aborted: 'aborted'
       original_status: 'Original Status'

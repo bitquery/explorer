@@ -52,13 +52,14 @@
         {
           title: '<%= t('widgets.titles.block_hash') %>',
           type: 'string-ellipsis',
-          path: 'shardedBlock.hash'
+          path: 'shardedBlock.hash',
+          urlCallbackName: 'sharded_hash_path'
         },
         {
           title: '<%= t('widgets.titles.message_hash') %>',
           type: 'string',
           path: 'hash',
-          urlCallbackName: 'call_result_path',
+          urlCallbackName: 'message_path',
           style: 'width: 80px;'
         },
         {

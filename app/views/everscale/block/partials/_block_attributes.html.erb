@@ -1,0 +1,232 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+      <div class="card-body">
+        <div id="block_info"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    let graphql_fields = "<%= @graphql_fields %>"
+
+    const qraphql_query = `
+      query ($network: EverscaleNetwork!, $hash: String!) {
+        everscale(network: $network) {
+          blocks(
+            ${graphql_fields}
+          ) {
+            timestamp {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            height
+            hash
+            shard
+            workchain
+            shardedBlock{
+              hash
+              height
+              shard
+              workchain
+            }
+            previousBlock
+            txCount
+            globalId
+            logicalTimeStart
+            logicalTimeEnd
+            version
+            afterMerge
+            afterSplit
+            beforeSplit
+            wantMerge
+            wantSplit
+            verticalSeqNo
+            minimalReferenceMasterchainBlock
+            general{
+              catchainSeqno
+              softwareCapabilities
+              softwareVersion
+              validatorListHashShort
+            }
+            randomSeed
+            value{
+              fromPreviousBlock
+              toNextBlock
+              imported
+              exported
+              feesCollected
+              feesImported
+              created
+              minted
+            }
+          }
+        }
+      }
+    `.trim();
+
+    console.log(qraphql_query);
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#block_info', query, 'everscale.blocks', {
+      title: '<%= t('widgets.headers.block_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+            {name: '<%= t('widgets.titles.height') %>', value: item.height},
+            {
+              name: '<%= t('widgets.titles.hash') %>', value: item.hash,
+              master_hash_path: item.hash,
+            },
+            {name: '<%= t('widgets.titles.shard') %>', value: item.shard},
+            {name: '<%= t('widgets.titles.workchain') %>', value: item.workchain},
+            {
+              name: '<%= t('widgets.titles.sharded_block_hash') %>',
+              value: item.shardedBlock.hash,
+              sharded_hash_path: item.shardedBlock.hash,
+            },
+            {
+              name: '<%= t('widgets.titles.sharded_block_height') %>',
+              value: item.shardedBlock.height
+            },
+            {
+              name: '<%= t('widgets.titles.sharded_block_shard') %>',
+              value: item.shardedBlock.shard
+            },
+            {
+              name: '<%= t('widgets.titles.sharded_block_workchain') %>',
+              value: item.shardedBlock.workchain
+            },
+            {
+              name: '<%= t('widgets.titles.previous_block') %>',
+              value: item.previousBlock
+            },
+            {
+              name: '<%= t('widgets.titles.tx_count') %>',
+              value: item.txCount
+            },
+            {
+              name: '<%= t('widgets.titles.global_id') %>',
+              value: item.globalId
+            },
+            {
+              name: '<%= t('widgets.titles.logical_time_start') %>',
+              value: item.logicalTimeStart
+            },
+            {
+              name: '<%= t('widgets.titles.logical_time_end') %>',
+              value: item.logicalTimeEnd
+            },
+            {
+              name: '<%= t('widgets.titles.version') %>',
+              value: item.version
+            },
+            {
+              name: '<%= t('widgets.titles.after_merge') %>',
+              value: item.afterMerge
+            },
+            {
+              name: '<%= t('widgets.titles.after_split') %>',
+              value: item.afterSplit
+            },
+            {
+              name: '<%= t('widgets.titles.before_split') %>',
+              value: item.beforeSplit
+            },
+            {
+              name: '<%= t('widgets.titles.want_merge') %>',
+              value: item.wantMerge
+            },
+            {
+              name: '<%= t('widgets.titles.want_split') %>',
+              value: item.wantSplit
+            },
+            {
+              name: '<%= t('widgets.titles.vertical_seq_no') %>',
+              value: item.verticalSeqNo
+            },
+            {
+              name: '<%= t('widgets.titles.minimal_reference_masterchain_block') %>',
+              value: item.minimalReferenceMasterchainBlock
+            },
+            {
+              name: '<%= t('widgets.titles.general_catchain_seqno') %>',
+              value: item.general.catchainSeqno
+            },
+            {
+              name: '<%= t('widgets.titles.general_software_capabilities') %>',
+              value: item.general.softwareCapabilities
+            },
+            {
+              name: '<%= t('widgets.titles.general_software_version') %>',
+              value: item.general.softwareVersion
+            },
+            {
+              name: '<%= t('widgets.titles.general_validator_list_hash_short') %>',
+              value: item.general.validatorListHashShort
+            },
+            {
+              name: '<%= t('widgets.titles.random_seed') %>',
+              value: item.randomSeed
+            },
+            {
+              name: '<%= t('widgets.titles.value_form_previous_block') %>',
+              value: item.value.fromPreviousBlock
+            },
+            {
+              name: '<%= t('widgets.titles.value_to_next_block') %>',
+              value: item.value.toNextBlock
+            },
+            {
+              name: '<%= t('widgets.titles.value_imported') %>',
+              value: item.value.imported
+            },
+            {
+              name: '<%= t('widgets.titles.value_exported') %>',
+              value: item.value.exported
+            },
+            {
+              name: '<%= t('widgets.titles.value_fees_collected') %>',
+              value: item.value.feesCollected
+            },
+            {
+              name: '<%= t('widgets.titles.value_fees_imported') %>',
+              value: item.value.feesImported
+            },
+            {
+              name: '<%= t('widgets.titles.value_created') %>',
+              value: item.value.created
+            },
+            {
+              name: '<%= t('widgets.titles.value_minted') %>',
+              value: item.value.minted
+            },
+          ];
+        },
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.attribute') %>',
+            type: 'string',
+            path: 'name',
+            style: 'width: 250px',
+            html_class: 'text-info font-weight-bold'
+          },
+          {
+            title: '<%= t('widgets.titles.property_value') %>',
+            type: 'string-ellipsis',
+            path: 'value',
+            urlCallbackName: 'property_value_path'
+          },
+        ]
+    });
+
+    query.request({
+      hash: "<%= @hash %>",
+      network: '<%= @network[:network] %>'
+    });
+  });
+</script>
+

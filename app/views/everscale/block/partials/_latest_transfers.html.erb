@@ -1,38 +1,44 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.internal_messages') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_transfers') %></div>
       <div class="card-body">
-        <div id="internal_messages"><%= t('loading') %></div>
+        <div id="latest_transfers"><%= t('loading') %></div>
       </div>
     </div> </div>
 </div>
 
 <script>
   $( document ).ready(function() {
+    let graphql_fields = "<%= @graphql_fields %>"
+
     const qraphql_query = `
-      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $tx_hash: String!) {
+      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $hash: String!) {
         everscale(network: $network) {
-          messages(
-            options: {asc: "timestamp.time", limit: $limit, offset: $offset}
+          transfers(
+            options: {desc: "timestamp.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
-            txHash: {is: $tx_hash}
-            messageDirection: {is: in}
+            ${graphql_fields}
           ) {
-            shardedBlock {
+            timestamp {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            transactions{
               hash
             }
-            timestamp {
-              time
+            messages {
+              hash
             }
-            hash
-            sender{
+            sender {
               address
             }
-            receiver{
+            receiver {
               address
             }
-            typeName
+            amount
+            currency {
+              symbol
+            }
           }
         }
       }
@@ -40,8 +46,8 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#internal_messages', query, 'everscale.messages', {
-      title: '<%= t('widgets.headers.internal_messages') %>',
+    new widgets.table('#latest_transfers', query, 'everscale.transfers', {
+      title: '<%= t('widgets.headers.latest_transfers') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
@@ -50,17 +56,16 @@
           style: 'width: 170px;'
         },
         {
-          title: '<%= t('widgets.titles.block_hash') %>',
+          title: '<%= t('widgets.titles.transaction_hash') %>',
           type: 'string-ellipsis',
-          path: 'shardedBlock.hash',
-          urlCallbackName: 'sharded_hash_path'
+          path: 'transactions.hash',
+          urlCallbackName: 'transaction_hash_path'
         },
         {
           title: '<%= t('widgets.titles.message_hash') %>',
           type: 'string',
-          path: 'hash',
-          urlCallbackName: 'message_path',
-          style: 'width: 80px;'
+          path: 'messages.hash',
+          urlCallbackName: 'message_hash_path'
         },
         {
           title: '<%= t('widgets.titles.sender') %>',
@@ -81,15 +86,21 @@
           urlCallbackName: 'receiver_address_path'
         },
         {
-          title: '<%= t('widgets.titles.type') %>',
+          title: '<%= t('widgets.titles.amount') %>',
+          type: 'amount',
+          path: 'amount'
+        },
+        {
+          title: '<%= t('widgets.titles.currency') %>',
           type: 'string',
-          path: 'typeName'
+          path: 'currency.symbol',
+            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {} %>
         },
       ]
     });
 
     query.request({
-      tx_hash: '<%= @tx_hash %>',
+      hash: '<%= @hash %>',
       network: '<%= params['network']['network'] %>'
     });
   });

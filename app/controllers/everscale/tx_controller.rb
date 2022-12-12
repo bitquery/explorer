@@ -18,5 +18,3 @@ module Everscale
     end
   end
 end
-
-

@@ -67,7 +67,8 @@
             {name: '<%= t('widgets.titles.master_block_height') %>', value: item.height},
             {
               name: '<%= t('widgets.titles.master_block_hash') %>',
-              value: item.blockHash
+              value: item.blockHash,
+              master_hash_path: item.blockHash
             },
             {
               name: '<%= t('widgets.titles.master_block_shard') %>',
@@ -79,7 +80,8 @@
             },
             {
               name: '<%= t('widgets.titles.sharded_block_hash') %>',
-              value: item.shardedBlock.hash
+              value: item.shardedBlock.hash,
+              sharded_hash_path: item.shardedBlock.hash
             },
             {
               name: '<%= t('widgets.titles.sharded_block_height') %>',
@@ -108,7 +110,7 @@
             {
               name: '<%= t('widgets.titles.account') %>',
               value: item.account,
-              txAccount: item.account
+              address_path: item.account
             },
             {
               name: '<%= t('widgets.titles.logical_time') %>',
