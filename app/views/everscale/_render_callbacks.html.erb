@@ -1,0 +1,64 @@
+<script>
+  widgets.callbacks({
+    master_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.blockHash || item.hash) + '?blockType=master'
+    },
+
+    sharded_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.shardedBlock.hash) + '?blockType=sharded'
+    },
+
+    transaction_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.hash
+    },
+
+    transaction_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + (item.transactions.hash)
+    },
+
+    message_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/message/' + item.hash
+    },
+
+    message_hash_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/message/' + (item.messages.hash)
+    },
+
+    token_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/token/' + (item.currency.symbol)
+    },
+
+    account_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.account)
+    },
+
+    sender_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.sender.address)
+    },
+
+    receiver_address_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.receiver.address)
+    },
+
+    property_value_path: function(item){
+      link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
+
+      if (item.txHash) {
+        return `${link_prefix}/tx/` + item.txHash;
+      }
+      else if (item.address_path) {
+        return `${link_prefix}/address/` + item.address_path;
+      }
+      else if (item.tx_path) {
+        return `${link_prefix}/tx/` + item.tx_path;
+      }
+      else if (item.master_hash_path) {
+        return `${link_prefix}/block/` + item.master_hash_path + '?blockType=master';
+      }
+      else if (item.sharded_hash_path) {
+        return `${link_prefix}/block/` + item.sharded_hash_path + '?blockType=sharded';
+      }
+      return null
+    }
+  });
+</script>
