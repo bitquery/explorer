@@ -28,8 +28,8 @@ services:
       - WEB_CONCURRENCY=${LC_COMPOSE_WEB_CONCURRENCY:-12}
       - BITQUERY_PROJECT_URL=https://bitquery.io
       - BITQUERY_IMAGES=https://bitquery.io/wp-content/uploads/2020/09
-      - BITQUERY_GRAPHQL=http://graphql-internal.api-cluster.local
-      - BITQUERY_IDE_API=https://${LC_COMPOSE_IDE_DOMAIN}/api
+      - BITQUERY_GRAPHQL=https://${LC_COMPOSE_IDE_DOMAIN}/graphql
+      - BITQUERY_IDE_API=https://${LC_COMPOSE_IDE_DOMAIN}/graphql
     <<: *common-dns
     <<: *common-network
     <<: *common-restart
