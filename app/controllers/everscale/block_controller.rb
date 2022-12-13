@@ -15,14 +15,14 @@ module Everscale
       block_type = params[:blockType]
 
       if block_type == 'master'
-        return 'hash: {is: $hash} shardedBlockHash: {is: $hash}'
+        return 'blockHash: {is: $hash} shardedBlockHash: {is: $hash}'
       end
 
       if block_type == 'sharded'
         return 'shardedBlockHash: {is: $hash}'
       end
 
-      'hash: {is: $hash} shardedBlockHash: {is: $hash}'
+      'blockHash: {is: $hash} shardedBlockHash: {is: $hash}'
     end
 
     def breadcrumb

@@ -819,6 +819,11 @@ en:
         title: "Messages on %{network} Explorer, block %{height}"
         description: "Messages %{network} Explorer, block %{height}"
         keywords: "%{network} Messages"
+      sharded_blocks:
+        name: "Sharded Blocks"
+        title: "Sharded Blocks on %{network} Explorer, block %{height}"
+        description: "Sharded Blocks %{network} Explorer, block %{height}"
+        keywords: "%{network} Sharded Blocks"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"

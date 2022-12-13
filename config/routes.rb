@@ -516,7 +516,7 @@ Rails.application.routes.draw do
           get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
           get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"
 
-          # get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
+          get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index'
         end
       end
     end
