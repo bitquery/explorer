@@ -37,7 +37,7 @@ module Everscale
       variables = {
         limit: 100,
         network: @network[:network],
-        from: '2022-11-25'
+        from: Date.today
       }
 
       @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data
