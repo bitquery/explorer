@@ -524,7 +524,7 @@ BLOCKCHAINS = [
     family: 'everscale',
     platform: 'Smart Contract',
     currency: 'EVER',
-    icon: 'currency/everscale-logo.svg'
+    icon: 'currency/everscale-logo.png'
   }
 ].freeze
 
