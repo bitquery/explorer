@@ -1066,6 +1066,11 @@ en:
         title: "Attester Slashings on %{network} Explorer"
         description: "Attester Slashings on %{network}"
         keywords: "%{network} attester slashings"
+      validators:
+        name: "Top Validators"
+        title: "Top Validators on %{network} Explorer"
+        description: "Top Validators on %{network}"
+        keywords: "%{network} top validators"
       attestations:
         name: "Attestations"
         title: "Attestations on %{network} Explorer"
@@ -1438,7 +1443,9 @@ en:
       transaction_gas_price_by_time: "Gas Unit Price By Date, GWei"
       transaction_gas_avg_cost_by_time: "Transaction Average Cost"
       transaction_gas_price_by_time_log: "Gas Price By Date ( Median, Average, Maximum) in Log scale, GWei"
+      validator_balance_change: "Validator Balance Change"
       latest_blocks: "Latest Blocks"
+      top_validators: "Top Validators"
       latest_blocks_first_shard: "Latest Blocks in Shard 0"
       latest_blocks_second_shard: "Latest Blocks in Shard 1"
       latest_blocks_third_shard: "Latest Blocks in Shard 2"
@@ -1501,6 +1508,7 @@ en:
       attester_slashings_by_time: "Attester Slashings By Date"
       exits_by_time: "Voluntary Exits By Date"
       validators: "Validators"
+      attestation_validators: "Attestation Validators"
       proposers: "Proposers"
       top_deposit_validators: "Top Validators By Deposited Amount"
       top_block_proposers: "Top Proposers By Blocks"
@@ -1553,6 +1561,7 @@ en:
       data_hex: "Data in Hex"
       program: "Program"
       program_name: "Program Name"
+      balance_change: "Balance Change"
       validators_hash: "Validator Hash"
       miniblock_hash: "Miniblock Hash"
       miniblock_type: "Miniblock Type"
@@ -1689,6 +1698,16 @@ en:
       block: 'Block'
       height: 'Height'
       epoch: 'Epoch'
+      block_root: 'Block Root'
+      proposer_index: 'Proposer Index'
+      proposer_pubkey: 'Proposer Public Key'
+      parent_root: 'Parent Root'
+      state_root: 'State Root'
+      attestations_count: 'Attestations Count'
+      proposer_slashings_count: 'Proposer Slashings Count'
+      attester_slashings_count: 'Attester Slashings Count'
+      voluntary_exits_count: 'Voluntary Exits Count'
+      deposits_count: 'Deposits Count'
       slot: 'Slot'
       error_message: 'Error Message'
       slot_in_epoch: 'Slot In  Epoch'
@@ -1817,6 +1836,7 @@ en:
       miner: "Miner"
       witness: "Witness"
       proposer: "Proposer"
+      attestation_count: "Attestation Count"
       committee_index: "Committee Index"
       committee_count: "Committee Count"
       producer: "Producer"

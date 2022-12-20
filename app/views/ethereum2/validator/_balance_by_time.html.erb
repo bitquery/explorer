@@ -1,0 +1,80 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.validator_balance_change') %></div>
+      <div class="card-body">
+        <div id="validator_balance_by_time_log"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: Ethereum2Network!,
+                  $dateFormat: String!,
+                  $index: Int!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    ethereum2(network: $network ){
+                      validatorUpdates(options:{asc: "date.date"}, date: {
+                        since: $from
+                        till: $till}
+                        validatorIndex: {is: $index}
+                      ) {
+                        date: date{
+                          date(format: $dateFormat)
+                        }
+                        change: validatorBalanceChange
+                        balance: maximum(of: validator_balance)
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#validator_balance_by_time_log', query, 'ethereum2.validatorUpdates', {
+            title: '<%= t('widgets.headers.validator_balance_change') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.balance') %>',
+                        scaleType: 'log'
+                    }
+                },
+                series: {
+                    '0': { color: '#28a745', type: 'line' },
+                    '1': { color: '#ffc107', type: 'bar' }
+                },
+                // seriesType: 'lines',
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.balance') %>',
+                    path: 'balance',
+                    renderCallback: function(item) {
+                        return parseFloat(item.balance);
+                    }
+                },
+                {
+                   title: '<%= t('widgets.titles.balance_change') %>',
+                   path: 'change'
+                }
+
+            ]
+        });
+
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            index: <%= @index %>
+        });
+
+
+    });
+</script>

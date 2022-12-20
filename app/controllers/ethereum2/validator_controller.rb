@@ -1,7 +1,7 @@
 class Ethereum2::ValidatorController < NetworkController
   layout 'tabs'
 
-  before_action :get_index
+  before_action :get_index, :breadcrumb
 
   private
 

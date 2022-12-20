@@ -55,6 +55,9 @@ Rails.application.routes.draw do
       get ":blockchain/validator/:index/:action", controller: "#{blockchain[:family]}/validator", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/validator/:index", controller: "#{blockchain[:family]}/validator", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
+      get ":blockchain/block/:block", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/block/:block/:action", controller: "#{blockchain[:family]}/block", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+
     }
 
     BLOCKCHAINS.select { |b| b[:family] == 'tron' }.each { |blockchain|
