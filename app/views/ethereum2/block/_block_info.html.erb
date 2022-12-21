@@ -1,0 +1,88 @@
+<div class="row">
+<div class="col-12 col-lg-12 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+    <div class="card-body">
+      <div id="block_info"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query ($network: Ethereum2Network!,
+                              $height: Int!){
+                          ethereum2(network: $network) {
+                              blocks(height: {is: $height}){
+                                  timestamp {
+                                    time (format: "%Y-%m-%d %H:%M:%S")
+                                  }
+                                  epoch
+                                  blockRoot
+                                  proposer{
+                                    index
+                                    pubkey
+                                  }
+                                  parentRoot
+                                  stateRoot
+                                  signature
+                                  attestationsCount
+                                  proposerSlashingsCount
+                                  attesterSlashingsCount
+                                  voluntaryExitsCount
+                                  depositsCount
+                              }
+                            }
+                        }`);
+
+
+
+        new widgets.table('#block_info', query, 'ethereum2.blocks', {
+            title: '<%= t('widgets.headers.block_info') %>',
+            renderData: function (data) {
+                item = data[0];
+
+                return !item ? [] : [
+                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+                    {name: '<%= t('widgets.titles.epoch') %>', value: item.epoch},
+                    {name: '<%= t('widgets.titles.block_root') %>', value: item.blockRoot},
+                    {name: '<%= t('widgets.titles.proposer_index') %>', value: item.proposer.index},
+                    {name: '<%= t('widgets.titles.proposer_pubkey') %>', value: item.proposer.pubkey},
+                    {name: '<%= t('widgets.titles.parent_root') %>', value: item.parentRoot},
+                    {name: '<%= t('widgets.titles.state_root') %>', value: item.stateRoot},
+                    {name: '<%= t('widgets.titles.signature') %>', value: item.signature},
+                    {name: '<%= t('widgets.titles.attestations_count') %>', value: item.attestationsCount},
+                    {name: '<%= t('widgets.titles.deposit_value') %>', value: item.max},
+                    {name: '<%= t('widgets.titles.proposer_slashings_count') %>', value: item.proposerSlashingsCount},
+                    {name: '<%= t('widgets.titles.attester_slashings_count') %>', value: item.attesterSlashingsCount},
+                    {name: '<%= t('widgets.titles.voluntary_exits_count') %>', value: item.voluntaryExitsCount},
+                    {name: '<%= t('widgets.titles.deposits_count') %>', value: item.depositsCount},
+                ];
+            },
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.attribute') %>',
+                    type: 'string',
+                    path: 'name',
+                    style: 'width: 110px',
+                    html_class: 'text-info font-weight-bold'
+                },
+                {
+                    title: '<%= t('widgets.titles.property_value') %>',
+                    type: 'string-ellipsis',
+                    escape: false,
+                    path: 'value',
+                    urlCallbackName: 'property_value_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            height: <%= @height %>
+        });
+
+    });
+</script>

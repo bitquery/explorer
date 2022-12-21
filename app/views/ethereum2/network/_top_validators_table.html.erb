@@ -1,0 +1,65 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.top_validators') %></div>
+      <div class="card-body">
+        <div id="top_validators"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: Ethereum2Network!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    ethereum2(network: $network){
+                      validatorUpdates(options:{desc: "max", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+                        ) {
+                          validator{
+                            index
+                            pubkey
+                          }
+                          max: maximum(of: time, get: validator_balance)
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#top_validators', query, 'ethereum2.validatorUpdates', {
+            title: '<%= t('widgets.headers.top_validators') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.index') %>',
+                    type: 'string',
+                    path: 'validator.index',
+                    urlCallbackName: 'validator_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.public_key') %>',
+                    type: 'string',
+                    path: 'validator.pubkey'
+                },
+                {
+                    title: '<%= t('widgets.titles.balance') %>',
+                    type: 'number',
+                    path: 'max'
+                }
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+    });
+
+</script>
