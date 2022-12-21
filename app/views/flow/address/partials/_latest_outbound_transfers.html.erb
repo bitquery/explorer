@@ -13,7 +13,7 @@
     const qraphql_query = `
       query ($network: FlowNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $address: String!) {
         flow(network: $network) {
-          inputs(
+          outputs(
             options: {desc: "time.time", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
             address: {is: $address}
@@ -41,7 +41,7 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#outbound_transfers', query, 'flow.inputs', {
+    new widgets.table('#outbound_transfers', query, 'flow.outputs', {
       title: '<%= t('widgets.headers.outbound_transfers') %>',
       dataOptions: [
         {
@@ -94,5 +94,4 @@
     });
   });
 </script>
-
 
