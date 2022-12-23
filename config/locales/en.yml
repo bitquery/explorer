@@ -1445,7 +1445,7 @@ en:
       transaction_gas_price_by_time_log: "Gas Price By Date ( Median, Average, Maximum) in Log scale, GWei"
       validator_balance_change: "Validator Balance Change"
       latest_blocks: "Latest Blocks"
-      top_validators: "Top Validators"
+      top_validators: "Top Balance Change Validators"
       latest_blocks_first_shard: "Latest Blocks in Shard 0"
       latest_blocks_second_shard: "Latest Blocks in Shard 1"
       latest_blocks_third_shard: "Latest Blocks in Shard 2"
