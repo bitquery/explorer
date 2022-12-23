@@ -21,14 +21,16 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     ethereum2(network: $network){
-                      validatorUpdates(options:{desc: "max", limit: $limit, offset: $offset},
+                      validatorUpdates(options:{desc: "validatorBalanceChange", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
                         ) {
                           validator{
                             index
                             pubkey
                           }
-                          max: maximum(of: time, get: validator_balance)
+
+                          validatorBalanceChange
+                          amount_usd: validatorBalanceChange(in: USD)
                       }
                     }
                   }`);
@@ -48,9 +50,16 @@
                     path: 'validator.pubkey'
                 },
                 {
-                    title: '<%= t('widgets.titles.balance') %>',
-                    type: 'number',
-                    path: 'max'
+                    title: '<%= t('widgets.titles.balance_change') %>, ETH',
+                    type: 'amount',
+                    path: 'validatorBalanceChange'
+                }
+                ,
+                {
+                    title: '',
+                    type: '',
+                    path: '',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: "''"} %>
                 }
 
             ]

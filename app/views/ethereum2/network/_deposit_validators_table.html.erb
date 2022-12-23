@@ -32,6 +32,7 @@
 
                         count: count
                         amount
+                        amount_usd: amount(in: USD)
 
                           min_date: minimum(of: date)
                           max_date: maximum(of: date)
@@ -69,6 +70,14 @@
                     type: 'amount',
                     path: 'amount'
                 },
+                {
+                    title: '',
+                    type: '',
+                    path: '',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: "''"} %>
+                },
+
+
             ]
         });
 
