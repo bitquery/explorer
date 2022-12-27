@@ -1,22 +1,25 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_events') %></div>
+      <div class="card-header"><%= t('widgets.headers.events_arguments') %></div>
       <div class="card-body">
-        <div id="latest_events"><%= t('loading') %></div>
+        <div id="events_arguments"><%= t('loading') %></div>
       </div>
     </div> </div>
 </div>
 
 <script>
   $( document ).ready(function() {
+    let graphql_fields = "<%= @graphql_fields %>"
+
     const qraphql_query = `
-      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $tx_hash: String!) {
+      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $hash: String!) {
         everscale(network: $network) {
-          events(
-            options: {asc: "timestamp.time", limit: $limit, offset: $offset}
+          arguments(
+            options: {limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
-            txHash: {is: $tx_hash}
+            argumentType: {is: event}
+            ${graphql_fields}
           ) {
             timestamp {
               time
@@ -24,14 +27,17 @@
             messages{
               hash
             }
+            smartContractAddress {
+              address
+              annotation
+            }
             smartContractMethod {
               name
               signature
             }
-            smartContractAddress{
-              address
-              annotation
-            }
+            index
+            field
+            value
           }
         }
       }
@@ -39,8 +45,8 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#latest_events', query, 'everscale.events', {
-      title: '<%= t('widgets.headers.latest_events') %>',
+    new widgets.table('#events_arguments', query, 'everscale.arguments', {
+      title: '<%= t('widgets.headers.events_arguments') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
@@ -49,13 +55,13 @@
           style: 'width: 170px;'
         },
         {
-          title: '<%= t('widgets.titles.message_hash') %>',
+          title: '<%= t('widgets.titles.messege_hash') %>',
           type: 'string-ellipsis',
           path: 'messages.hash',
           urlCallbackName: 'message_hash_path'
         },
         {
-          title: '<%= t('widgets.titles.smart_contract_address') %>',
+          title: '<%= t('widgets.titles.smart_contract') %>',
           type: 'string-ellipsis',
           path: ['smartContractAddress.annotation', 'smartContractAddress.address'],
           urlCallbackName: 'smart_contract_path'
@@ -66,15 +72,25 @@
           path: 'smartContractMethod.name'
         },
         {
-          title: '<%= t('widgets.titles.function') %>',
+          title: '<%= t('widgets.titles.index') %>',
           type: 'string',
-          path: 'smartContractMethod.signature'
+          path: 'index'
+        },
+        {
+          title: '<%= t('widgets.titles.field') %>',
+          type: 'string',
+          path: 'field'
+        },
+        {
+          title: '<%= t('widgets.titles.value') %>',
+          type: 'string',
+          path: 'value'
         },
       ] 
     });
 
     query.request({
-      tx_hash: '<%= @tx_hash %>',
+      hash: '<%= @hash %>',
       network: '<%= params['network']['network'] %>'
     });
   });

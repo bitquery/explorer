@@ -269,6 +269,16 @@ en:
         title: "%{address} message in %{network}"
         description: "%{address} message in %{network}"
         keywords: "%{address} message, %{network}"
+      events:
+        name: 'Events'
+        title: "%{address} events in %{network}"
+        description: "%{address} events in %{network}"
+        keywords: "%{address} events, %{network}"
+      arguments:
+        name: 'Arguments'
+        title: "%{address} arguments in %{network}"
+        description: "%{address} arguments in %{network}"
+        keywords: "%{address} arguments, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -824,6 +834,16 @@ en:
         title: "Sharded Blocks on %{network} Explorer, block %{height}"
         description: "Sharded Blocks %{network} Explorer, block %{height}"
         keywords: "%{network} Sharded Blocks"
+      events:
+        name: "Events"
+        title: "Events on %{network} Explorer, block %{height}"
+        description: "Events %{network} Explorer, block %{height}"
+        keywords: "%{network} Events"
+      arguments:
+        name: "Arguments"
+        title: "Arguments on %{network} Explorer, block %{height}"
+        description: "Arguments %{network} Explorer, block %{height}"
+        keywords: "%{network} Arguments"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1091,6 +1111,16 @@ en:
         title: "Collections on %{network} Explorer"
         description: "Collections on  %{network}"
         keywords: "%{network} Collections"
+      events:
+        name: "Events"
+        title: "Events on %{network} Explorer"
+        description: "Events on  %{network}"
+        keywords: "%{network} Events"
+      arguments:
+        name: "Arguments"
+        title: "Arguments on %{network} Explorer"
+        description: "Arguments on  %{network}"
+        keywords: "%{network} Arguments"
     home:
       index:
         name: "All"
@@ -1347,6 +1377,7 @@ en:
       mints_by_time: 'Mints by date'
       minters_by_time: 'Minters by date'
       calls_by_time: 'Smart contract calls ( including internal ) by date'
+      events_by_time: 'Events by date'
       currencies_sent_received: 'Currencies sent/received'
       currencies_balances: 'Address balance by currencies'
       calls_smart_contracts: 'Calls smart contracts'
@@ -1399,6 +1430,7 @@ en:
       token_name: "Name"
       token_type: "Token Type"
       token_symbol: "Symbol"
+      token_address: "Address"
       token_decimals: "Number of Decimals"
       annotation: "Annotation"
       latest_token_transfers: "Latest Token Transfers"
@@ -1472,6 +1504,7 @@ en:
       latest_master_blocks: "Latest Master Blocks"
       latest_sharded_blocks: "Latest Sharded Blocks"
       contracts_by_time: "Unique Smart Contracts"
+      events_unique: "Unique Events"
       contract_callers_by_time: "Unique Smart Contracts Callers"
       contract_methods_by_time: "Unique Smart Contracts Methods Called"
       miners: "Miners"
@@ -1598,7 +1631,7 @@ en:
       value_created: 'Value Created'
       value_minted: 'Value Minted'
       in_message_bounce_flag: 'In Message Bounce Flag set'
-      aborted: 'aborted'
+      aborted: 'Aborted'
       original_status: 'Original Status'
       end_status: 'End Status'
       destroyed: 'Destroyed'

@@ -31,8 +31,10 @@
               address
             }
             amount
+            amount_usd: amount(in: USD)
             currency {
               symbol
+              address
             }
           }
         }
@@ -80,10 +82,14 @@
           path: 'amount'
         },
         {
+          style: 'width: 80px;',
+          renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_usd'} %>
+        },
+        {
           title: '<%= t('widgets.titles.currency') %>',
           type: 'string',
           path: 'currency.symbol',
-            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {} %>
+          urlCallbackName: 'token_path'
         },
       ]
     });

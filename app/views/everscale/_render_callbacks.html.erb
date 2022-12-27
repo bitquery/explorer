@@ -25,7 +25,11 @@
     },
 
     token_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/token/' + (item.currency.symbol)
+      if(item.currency.address=='-'){
+          return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
+      }else{
+          return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.address;
+      }
     },
 
     account_path: function(item){
@@ -38,6 +42,10 @@
 
     receiver_address_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.receiver.address)
+    },
+
+    smart_contract_path: function(item){
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.smartContractAddress.address)
     },
 
     property_value_path: function(item){

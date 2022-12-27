@@ -28,7 +28,10 @@
               name
               signature
             }
-            smartContractAddress
+            smartContractAddress {
+              address
+              annotation
+            }
           }
         }
       }
@@ -52,6 +55,12 @@
           urlCallbackName: 'transaction_hash_path'
         },
         {
+          title: '<%= t('widgets.titles.smart_contract_address') %>',
+          type: 'string',
+          path: ['smartContractAddress.annotation', 'smartContractAddress.address'],
+          urlCallbackName: 'smart_contract_path'
+        },
+        {
           title: '<%= t('widgets.titles.method') %>',
           type: 'string',
           path: 'smartContractMethod.name'
@@ -60,12 +69,6 @@
           title: '<%= t('widgets.titles.function') %>',
           type: 'string',
           path: 'smartContractMethod.signature'
-        },
-        {
-          title: '<%= t('widgets.titles.smart_contract_addess') %>',
-          type: 'string',
-          path: 'smartContractAddress',
-          urlCallbackName: 'sender_address_path'
         },
       ]
     });

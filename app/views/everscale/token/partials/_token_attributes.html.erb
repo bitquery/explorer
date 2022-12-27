@@ -17,6 +17,7 @@
           ) {
             currency{
               symbol
+              address
               name
               decimals
               tokenType
@@ -34,6 +35,7 @@
           item = data[0];
           return !item ? [] : [
             {name: '<%= t('widgets.headers.token_symbol') %>', value: escapeHtml(item.currency.symbol)},
+            {name: '<%= t('widgets.headers.token_address') %>', value: escapeHtml(item.currency.address)},
             {name: '<%= t('widgets.headers.token_type') %>', value: item.currency.tokenType},
             {name: '<%= t('widgets.headers.token_name') %>', value: escapeHtml(item.currency.name)},
             {name: '<%= t('widgets.headers.token_decimals') %>', value: item.currency.decimals}

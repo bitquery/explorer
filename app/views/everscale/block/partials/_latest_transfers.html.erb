@@ -39,6 +39,7 @@
             amount_usd: amount(in: USD)
             currency {
               symbol
+              address
             }
           }
         }
@@ -98,7 +99,8 @@
         {
           title: '<%= t('widgets.titles.currency') %>',
           type: 'string',
-          path: 'currency.symbol'
+          path: 'currency.symbol',
+          urlCallbackName: 'token_path'
         },
       ]
     });

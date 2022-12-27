@@ -1,0 +1,59 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.calls_by_time') %></div>
+    <div class="card-body">
+      <div id="calls_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+  $( document ).ready(function() {
+
+      var query = new widgets.query(`
+          query($network: EverscaleNetwork!,
+                $dateFormat: String!,
+                $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+            everscale(network: $network) {
+              calls(date: {since: $from, till: $till}, smartContractAddress: {is: $address}){
+                count: countBigInt
+                date{
+                  date(format: $dateFormat)
+                }
+              }
+            }
+          }`);
+
+      new widgets.chartByTime('#calls_by_time', query, 'everscale.calls', {
+        title: '<%= t('widgets.headers.calls_by_time') %>',
+        chartOptions: {
+          vAxes: {
+            '0': {
+              title: '<%= t('widgets.titles.calls_count') %>'
+            }
+          },
+          seriesType: 'bars',
+          series: {
+            '0': { color: '#7aad64' },
+          }
+        },
+        dataOptions: [
+          {
+            title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+            path: 'date.date'
+          },
+          {
+            title: {label: '<%= t('widgets.titles.calls_count') %>', type: 'number' },
+            path: 'count'
+          }
+        ]
+      });
+
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>, {
+        network: '<%= params['network']['network'] %>',
+        address: '<%= @address %>'
+      });
+
+  });
+</script>

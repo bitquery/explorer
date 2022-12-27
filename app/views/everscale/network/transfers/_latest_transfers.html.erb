@@ -24,6 +24,7 @@
             amount_usd: amount(in: USD)
             currency{
               symbol
+              address
             }
             transactions{
               hash
@@ -88,6 +89,7 @@
           title: '<%= t('widgets.titles.currency') %>',
           type: 'string',
           path: 'currency.symbol',
+          urlCallbackName: 'token_path'
         },
         {
           title: '<%= t('widgets.titles.transfer_type') %>',

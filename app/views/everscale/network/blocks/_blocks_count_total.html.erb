@@ -1,0 +1,59 @@
+<div class="col-lg-4 mb-4">
+  <div class="card border-warning">
+    <div class="card-header"><%= t('widgets.titles.total_blocks_count') %></div>
+    <div class="card-body">
+      <div id="total_blocks_count"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-4 mb-4">
+  <div class="card border-success">
+    <div class="card-header"><%= t('widgets.titles.master_blocks_count') %></div>
+    <div class="card-body">
+      <div id="master_blocks_count"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+$( document ).ready(function() {
+
+  const query = new widgets.query(`
+    query (
+      $network: EverscaleNetwork!,
+      $from: ISO8601DateTime,
+      $till: ISO8601DateTime
+    ){
+      everscale(network: $network) {
+        blocks(date: { since: $from till: $till }) {
+          total_blocks: count
+          master_blocks_count: count(uniq: height)
+        }
+      }
+    }`
+  );
+
+  new widgets.text('#total_blocks_count', query, 'everscale.blocks', {
+      html_class: 'fontsize35rem text-center text-warning',
+      dataOptions: {
+          type: 'string',
+          path: 'total_blocks'
+      }
+
+  });
+
+  new widgets.text('#master_blocks_count', query, 'everscale.blocks', {
+    html_class: 'fontsize35rem text-center text-success',
+    dataOptions: {
+      type: 'string',
+      path: 'master_blocks_count'
+    }
+  });
+
+  queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+    network: '<%= params['network']['network'] %>'
+  });
+});
+
+</script>
