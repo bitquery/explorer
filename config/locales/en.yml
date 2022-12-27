@@ -279,6 +279,11 @@ en:
         title: "%{address} arguments in %{network}"
         description: "%{address} arguments in %{network}"
         keywords: "%{address} arguments, %{network}"
+      calls:
+        name: 'Calls'
+        title: "%{address} calls in %{network}"
+        description: "%{address} calls in %{network}"
+        keywords: "%{address} calls, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"

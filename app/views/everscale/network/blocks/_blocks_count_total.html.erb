@@ -1,17 +1,28 @@
-<div class="col-lg-4 mb-4">
-  <div class="card border-warning">
-    <div class="card-header"><%= t('widgets.titles.total_blocks_count') %></div>
-    <div class="card-body">
-      <div id="total_blocks_count"><%= t('loading') %></div>
+<div class="row">
+  <div class="col-lg-4 mb-4">
+    <div class="card border-warning">
+      <div class="card-header"><%= t('widgets.titles.total_blocks_count') %></div>
+      <div class="card-body">
+        <div id="total_blocks_count"><%= t('loading') %></div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="col-lg-4 mb-4">
-  <div class="card border-success">
-    <div class="card-header"><%= t('widgets.titles.master_blocks_count') %></div>
-    <div class="card-body">
-      <div id="master_blocks_count"><%= t('loading') %></div>
+  <div class="col-lg-4 mb-4">
+    <div class="card border-success">
+      <div class="card-header"><%= t('widgets.titles.master_blocks_count') %></div>
+      <div class="card-body">
+        <div id="master_blocks_count"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4 mb-4">
+    <div class="card border-info">
+      <div class="card-header"><%= t('widgets.titles.sharded_blocks_count') %></div>
+      <div class="card-body">
+        <div id="sharded_blocks_count"><%= t('loading') %></div>
+      </div>
     </div>
   </div>
 </div>
@@ -28,7 +39,8 @@ $( document ).ready(function() {
       everscale(network: $network) {
         blocks(date: { since: $from till: $till }) {
           total_blocks: count
-          master_blocks_count: count(uniq: height)
+          master_blocks_count: count(shardedBlockWorkchain:{is: -1})
+          sharded_blocks_count: count(shardedBlockWorkchain:{not: -1})
         }
       }
     }`
@@ -48,6 +60,14 @@ $( document ).ready(function() {
     dataOptions: {
       type: 'string',
       path: 'master_blocks_count'
+    }
+  });
+
+  new widgets.text('#sharded_blocks_count', query, 'everscale.blocks', {
+    html_class: 'fontsize35rem text-center text-info',
+    dataOptions: {
+      type: 'string',
+      path: 'sharded_blocks_count'
     }
   });
 
