@@ -423,7 +423,7 @@ BLOCKCHAINS = [
     family: 'ethereum',
     platform: 'Smart Contract',
     currency: 'CRO',
-    icon: 'currency/cronos-cro-logo.svg'
+    icon: 'currency/cronos.png',
   },
 
   {
