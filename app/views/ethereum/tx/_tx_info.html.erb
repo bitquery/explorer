@@ -58,6 +58,11 @@
 
                                       gasValue
                                       gas_value_usd: gasValue(in: USD)
+
+                                      <% if @network[:network] == 'klaytn' %>
+                                      txType
+                                      feePayer
+                                      <% end %>
                            }
                           }
                         }`);
@@ -80,6 +85,10 @@
                     {name: '<%= t('widgets.titles.gas_value') %>', value: item.gasValue + ' '+ item.gasCurrency.symbol + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {amount: 'item.gas_value_usd'} %> },
                     {name: '<%= t('widgets.titles.gas_price') %>', value: item.gasPrice/1.0e9 + ' GWei' },
                     {name: '<%= t('widgets.titles.gas_used') %>', value: item.gas },
+                    <% if @network[:network] == 'klaytn' %>
+                    {name: '<%= t('widgets.titles.tx_type') %>', value: item.txType},
+                    {name: '<%= t('widgets.titles.fee_payer') %>', value: item.feePayer},
+                    <% end %>
                     {name: '<%= t('widgets.titles.success') %>', value: item.success + ' ' + item.error },
 
                 ];
