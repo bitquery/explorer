@@ -513,8 +513,8 @@ Rails.application.routes.draw do
           get ":blockchain/message/:hash", controller: "#{blockchain[:family]}/message", action: 'show'
           get ":blockchain/message/:hash/:action", controller: "#{blockchain[:family]}/message"
 
-          get ":blockchain/token/:symbol", controller: "#{blockchain[:family]}/token", action: 'show'
-          get ":blockchain/token/:symbol/:action", controller: "#{blockchain[:family]}/token"
+          get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show'
+          get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token"
 
           get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show'
           get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address"

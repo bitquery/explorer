@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_call_results') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_calls') %></div>
       <div class="card-body">
-        <div id="latest_call_results"><%= t('loading') %></div>
+        <div id="latest_calls"><%= t('loading') %></div>
       </div>
     </div> </div>
 </div>
@@ -28,7 +28,10 @@
               name
               signature
             }
-            smartContractAddress
+            smartContractAddress{
+              address
+              annotation
+            }
           }
         }
       }
@@ -36,8 +39,8 @@
 
     const query = new widgets.query(qraphql_query);
 
-    new widgets.table('#latest_call_results', query, 'everscale.calls', {
-      title: '<%= t('widgets.headers.latest_call_results') %>',
+    new widgets.table('#latest_calls', query, 'everscale.calls', {
+      title: '<%= t('widgets.headers.latest_calls') %>',
       dataOptions: [
         {
           title: '<%= t('widgets.titles.timestamp') %>',
@@ -49,7 +52,13 @@
           title: '<%= t('widgets.titles.message_hash') %>',
           type: 'string-ellipsis',
           path: 'messages.hash',
-          urlCallbackName: 'message_path'
+          urlCallbackName: 'message_hash_path'
+        },
+        {
+          title: '<%= t('widgets.titles.smart_contract_address') %>',
+          type: 'string-ellipsis',
+          path: ['smartContractAddress.annotation', 'smartContractAddress.address'],
+          urlCallbackName: 'smart_contract_path'
         },
         {
           title: '<%= t('widgets.titles.method') %>',
@@ -60,12 +69,6 @@
           title: '<%= t('widgets.titles.function') %>',
           type: 'string',
           path: 'smartContractMethod.signature'
-        },
-        {
-          title: '<%= t('widgets.titles.smart_contract_addess') %>',
-          type: 'string',
-          path: 'smartContractAddress',
-          urlCallbackName: 'sender_address_path'
         },
       ]
     });

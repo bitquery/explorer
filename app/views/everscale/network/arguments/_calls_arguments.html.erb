@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.calls_arguments') %></div>
+      <div class="card-body">
+        <div id="calls_arguments"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        everscale(network: $network) {
+          arguments(
+            options: {limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+            argumentType: {is: call}
+          ) {
+            timestamp {
+              time
+            }
+            shardedBlock{
+              hash
+            }
+            messages{
+              hash
+            }
+            smartContractMethod {
+              name
+              signature
+            }
+            index
+            field
+            value
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#calls_arguments', query, 'everscale.arguments', {
+      title: '<%= t('widgets.headers.calls_arguments') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'timestamp.time',
+          style: 'width: 170px;'
+        },
+        {
+          title: '<%= t('widgets.titles.block_hash') %>',
+          type: 'string-ellipsis',
+          path: 'shardedBlock.hash',
+          urlCallbackName: 'sharded_hash_path'
+        },
+        {
+          title: '<%= t('widgets.titles.message_hash') %>',
+          type: 'string-ellipsis',
+          path: 'messages.hash',
+          urlCallbackName: 'message_hash_path'
+        },
+        {
+          title: '<%= t('widgets.titles.method') %>',
+          type: 'string',
+          path: 'smartContractMethod.name'
+        },
+        {
+          title: '<%= t('widgets.titles.index') %>',
+          type: 'string',
+          path: 'index'
+        },
+        {
+          title: '<%= t('widgets.titles.field') %>',
+          type: 'string',
+          path: 'field'
+        },
+        {
+          title: '<%= t('widgets.titles.value') %>',
+          type: 'string',
+          path: 'value'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+

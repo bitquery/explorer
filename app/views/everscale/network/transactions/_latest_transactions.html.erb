@@ -28,7 +28,6 @@
             }
             hash
             account
-            account
             aborted
           }
         }
@@ -58,7 +57,8 @@
         {
           title: '<%= t('widgets.titles.block_hash') %>',
           type: 'string-ellipsis',
-          path: 'shardedBlock.hash'
+          path: 'shardedBlock.hash',
+          urlCallbackName: 'sharded_hash_path'
         },
         {
           title: '<%= t('widgets.titles.transaction_hash') %>',
@@ -73,7 +73,7 @@
           urlCallbackName: 'account_path'
         },
         {
-          title: '<%= t('widgets.titles.account') %>',
+          title: '<%= t('widgets.titles.aborted') %>',
           type: 'bool',
           path: 'aborted'
         },
