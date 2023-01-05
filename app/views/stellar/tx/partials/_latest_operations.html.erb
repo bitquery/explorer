@@ -23,7 +23,7 @@
                       $hash: String!){
           stellar(network: $network){
             operations(
-                options:{desc: "index", limit: $limit, offset: $offset},
+                options:{asc: "index", limit: $limit, offset: $offset},
                 date: {since: $from till: $till },
                 transactionHash: {is: $hash}
               ) {
