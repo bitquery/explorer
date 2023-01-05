@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_operations') %></div>
+      <div class="card-body">
+        <div id="latest_operations"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query (
+          $network: StellarNetwork!,
+          $limit: Int!,
+          $offset: Int!,
+          $from: ISO8601DateTime,
+          $till: ISO8601DateTime,
+          $address: String!
+        ) {
+        stellar(network: $network) {
+          operations(
+            options: {desc: "block", limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+            sourceAccount: {is: $address}
+          ) {
+            timestamp {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            block
+            transaction {
+              hash
+              index
+            }
+            index
+            operation
+            success
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#latest_operations', query, 'stellar.operations', {
+      title: '<%= t('widgets.headers.latest_operations') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'timestamp.time',
+          style: 'width: 170px;'
+        },
+        {
+          title: '<%= t('widgets.titles.height') %>',
+          type: 'string',
+          path: 'block',
+          urlCallbackName: 'height_path',
+          style: 'width: 80px;'
+        },
+        {
+          title: '<%= t('widgets.titles.tx_index') %>',
+          type: 'string',
+          path: 'transaction.index'
+        },
+        {
+          title: '<%= t('widgets.titles.tx_hash') %>',
+          type: 'string-',
+          path: 'transaction.hash',
+          urlCallbackName: 'transaction_hash_path'
+        },
+        {
+          title: '<%= t('widgets.titles.operation_index') %>',
+          type: 'string',
+          path: 'index'
+        },
+        {
+          title: '<%= t('widgets.titles.operation') %>',
+          type: 'string',
+          path: 'operation'
+        },
+        {
+          title: '<%= t('widgets.titles.success') %>',
+          type: 'string',
+          path: 'success'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      address: '<%= @address %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+

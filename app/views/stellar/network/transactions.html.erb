@@ -1,3 +1,9 @@
-<%= render partial: 'stellar/network/transactions_table' %>
+<div class="row">
+  <%= render 'stellar/network/transactions/transactions_count' %>
+  <%= render 'stellar/network/transactions/transactions_success_count' %>
+  <%= render 'stellar/network/transactions/transactions_failed_count' %>
+</div>
 
-<%= render partial: 'stellar/network/transactions_by_time' %>
+<%= render partial: 'stellar/network/transactions/transactions_table' %>
+
+<%= render partial: 'stellar/network/transactions/transactions_by_time' %>

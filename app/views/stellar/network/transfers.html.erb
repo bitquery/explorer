@@ -1,1 +1,7 @@
-<%= render partial: 'stellar/network/transfers_table' %>
+<%= render partial: 'stellar/network/transfers/transfers_table' %>
+
+<div class="row">
+  <%= render 'stellar/network/transfers/transfers_by_time' %>
+  <%= render 'stellar/network/transfers/transfers_by_currencies_from' %>
+  <%= render 'stellar/network/transfers/transfers_by_currencies_to' %>
+</div>

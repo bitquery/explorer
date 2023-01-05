@@ -1,0 +1,41 @@
+<div class="col-lg-4 mb-4">
+  <div class="card border-success">
+    <div class="card-header"><%= t('widgets.titles.transactions_success_count') %></div>
+    <div class="card-body">
+      <div id="transactions_success_count"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+$( document ).ready(function() {
+
+  const query = new widgets.query(`
+    query (
+      $network: StellarNetwork!,
+      $from: ISO8601DateTime,
+      $till: ISO8601DateTime
+    ){
+      stellar(network: $network) {
+        transactions(date: { since: $from till: $till }, success: {is: true}) {
+          count: countBigInt
+        }
+      }
+    }`
+  );
+
+  new widgets.text('#transactions_success_count', query, 'stellar.transactions', {
+      html_class: 'fontsize35rem text-center text-success',
+      dataOptions: {
+          type: 'string',
+          path: 'count'
+      }
+
+  });
+
+  queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+    network: '<%= params['network']['network'] %>'
+  });
+});
+
+</script>

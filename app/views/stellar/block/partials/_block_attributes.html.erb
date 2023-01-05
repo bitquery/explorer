@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.block_info') %></div>
+      <div class="card-body">
+        <div id="block_info"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: StellarNetwork!, $height: Int!) {
+        stellar(network: $network){
+          blocks(height:{is: $height}){
+            timestamp{
+              time
+            }
+            height
+            hash
+            totalCoins
+            feePool
+            baseFee
+            baseReserve
+            maxTxSetSize
+            protocolVersion
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#block_info', query, 'stellar.blocks', {
+      title: '<%= t('widgets.headers.block_info') %>',
+      renderData: function (data) {
+        item = data[0];
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
+            {name: '<%= t('widgets.titles.height') %>', value: item.height},
+            {name: '<%= t('widgets.titles.total_coints') %>', value: item.totalCoins},
+            {name: '<%= t('widgets.titles.fee_pool') %>', value: item.feePool},
+            {name: '<%= t('widgets.titles.base_fee') %>', value: item.baseFee},
+            {name: '<%= t('widgets.titles.base_reserve') %>', value: item.baseReserve},
+            {name: '<%= t('widgets.titles.max_tx_set_size') %>', value: item.maxTxSetSize},
+            {name: '<%= t('widgets.titles.protocol_version') %>', value: item.protocolVersion},
+          ];
+        },
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.attribute') %>',
+            type: 'string',
+            path: 'name',
+            style: 'width: 250px',
+            html_class: 'text-info font-weight-bold'
+          },
+          {
+            title: '<%= t('widgets.titles.property_value') %>',
+            type: 'string-wrap',
+            path: 'value',
+            urlCallbackName: 'property_value_path'
+          },
+        ]
+    });
+
+    query.request({
+      height: <%= @height %>,
+      network: '<%= @network[:network] %>'
+    });
+  });
+</script>
+
+

@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_token_trades') %></div>
+      <div class="card-body">
+        <div id="latest_token_trades"><%= t('loading') %></div>
+      </div>
+    </div> </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: StellarNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        stellar(network: $network) {
+          tradeEffects(
+            options: {desc: ["block","transaction.index"], limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+          ) {
+            timestamp {
+              time(format: "%Y-%m-%d %H:%M:%S")
+            }
+            block
+            transaction {
+              hash
+              index
+            }
+            sellAmount
+            sell_amount_usd: sellAmount(in: USD)
+            sellCurrency {
+              symbol
+              name
+            }
+            sellIssuer {
+              address
+              annotation
+            }
+            buyAmount
+            buy_amount_usd: buyAmount(in: USD)
+            buyCurrency {
+              symbol
+              name
+            }
+            buyIssuer {
+              address
+              annotation
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#latest_token_trades', query, 'stellar.tradeEffects', {
+      title: '<%= t('widgets.headers.latest_token_trades') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'timestamp.time',
+          style: 'width: 170px;'
+        },
+        {
+          title: '<%= t('widgets.titles.height') %>',
+          type: 'string',
+          path: 'block',
+          urlCallbackName: 'height_path',
+          style: 'width: 80px;'
+        },
+        {
+          title: '<%= t('widgets.titles.tx_index') %>',
+          type: 'string',
+          path: 'transaction.index'
+        },
+        {
+          title: '<%= t('widgets.titles.tx_hash') %>',
+          type: 'string-',
+          path: 'transaction.hash',
+          urlCallbackName: 'transaction_hash_path'
+        },
+        {
+          title: '<%= t('widgets.titles.sell_issuer') %>',
+          type: 'string-ellipsis',
+          path: ['sellIssuer.address', 'sellIssuer.annotation'],
+          urlCallbackName: 'sell_issuer_path'
+        },
+        {
+          title: '<%= t('widgets.titles.sell_amount') %>',
+          type: 'amount',
+          path: 'sellAmount'
+        },
+        {
+          title: '<%= t('widgets.titles.sell_currency') %>',
+          type: 'string',
+          path: 'sellCurrency.symbol',
+          urlCallbackName: 'token_sell_path'
+        },
+        {
+          style: 'width: 80px;',
+          renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.sell_amount_usd'} %>
+        },
+        {
+          title: '',
+          type: 'string',
+          data: '<i class="fa fa-sign-in text-success"></i>',
+          html_class: 'text-center'
+        },
+        {
+          title: '<%= t('widgets.titles.buyIssuer') %>',
+          type: 'string-ellipsis',
+          path: ['buyIssuer.address', 'buyIssuer.annotation'],
+          urlCallbackName: 'buy_issuer_path'
+        },
+        {
+          title: '<%= t('widgets.titles.buy_amount') %>',
+          type: 'amount',
+          path: 'buyAmount'
+        },
+        {
+          title: '<%= t('widgets.titles.buy_currency') %>',
+          type: 'string',
+          path: 'buyCurrency.symbol',
+          urlCallbackName: 'token_buy_path'
+        },
+        {
+          style: 'width: 80px;',
+          renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.buy_amount_usd'} %>
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>
+
+

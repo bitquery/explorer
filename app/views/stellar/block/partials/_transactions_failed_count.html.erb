@@ -1,0 +1,43 @@
+<div class="col-lg-4 mb-4">
+  <div class="card border-danger">
+    <div class="card-header"><%= t('widgets.titles.transactions_failed_count') %></div>
+    <div class="card-body">
+      <div id="transactions_failed_count"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+$( document ).ready(function() {
+
+  const query = new widgets.query(`
+    query (
+      $network: StellarNetwork!,
+      $from: ISO8601DateTime,
+      $till: ISO8601DateTime,
+      $height: Int!
+    ){
+      stellar(network: $network) {
+        transactions(date: { since: $from till: $till }, success: {is: false}, block: {is: $height}) {
+          count: countBigInt
+        }
+      }
+    }`
+  );
+
+  new widgets.text('#transactions_failed_count', query, 'stellar.transactions', {
+      html_class: 'fontsize35rem text-center text-danger',
+      dataOptions: {
+          type: 'string',
+          path: 'count'
+      }
+
+  });
+
+  query.request({
+    height: <%= @height %>,
+    network: '<%= params['network']['network'] %>'
+  });
+});
+
+</script>

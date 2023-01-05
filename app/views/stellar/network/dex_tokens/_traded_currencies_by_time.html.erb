@@ -1,0 +1,66 @@
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.traded_currencies_by_time') %></div>
+      <div class="card-body">
+        <div id="traded_currencies_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query ($network: StellarNetwork!,
+                  $dateFormat: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime){
+                    stellar(network: $network ){
+                      tradeEffects(
+                        options:{asc: "date.date"},
+                        date: {since: $from till: $till}
+                      ) {
+                        date: date {
+                          date(format: $dateFormat)
+                        }
+                        currencies: count(uniq: buyCurrencySymbols)
+                      }
+                    }
+                  }`);
+
+        new widgets.chartByTime('#traded_currencies_by_time', query, 'stellar.tradeEffects', {
+            title: '<%= t('widgets.headers.traded_currencies_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.currencies') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745' }
+                },
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: {label: '<%= t('widgets.titles.currencies') %>', type: 'number' },
+                    path: 'currencies'
+                },
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+
+
+    });
+</script>

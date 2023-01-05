@@ -284,6 +284,31 @@ en:
         title: "%{address} calls in %{network}"
         description: "%{address} calls in %{network}"
         keywords: "%{address} calls, %{network}"
+      transfers:
+        name: 'Transfers'
+        title: "%{address} transfers in %{network}"
+        description: "%{address} transfers in %{network}"
+        keywords: "%{address} transfers, %{network}"
+      operations:
+        name: 'Operations'
+        title: "%{address} operations in %{network}"
+        description: "%{address} operations in %{network}"
+        keywords: "%{address} operations, %{network}"
+      effects:
+        name: 'Effects'
+        title: "%{address} effects in %{network}"
+        description: "%{address} effects in %{network}"
+        keywords: "%{address} effects, %{network}"
+      effect_arguments:
+        name: 'Effects Arguments'
+        title: "%{address} effects arguments in %{network}"
+        description: "%{address} effects arguments in %{network}"
+        keywords: "%{address} effects arguments, %{network}"
+      payments:
+        name: 'Payments'
+        title: "%{address} payments in %{network}"
+        description: "%{address} payments in %{network}"
+        keywords: "%{address} payments, %{network}"
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -739,6 +764,16 @@ en:
         title: "%{network} Phases %{hash} transaction"
         description: "Phases for in transaction %{hash} in %{network}"
         keywords: "%{network} transaction phases"
+      payments:
+        name: "Payments"
+        title: "%{network} Payments %{hash} transaction"
+        description: "Payments for in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction payments"
+      effects:
+        name: "Effects"
+        title: "%{network} Effects %{hash} transaction"
+        description: "Effects for in transaction %{hash} in %{network}"
+        keywords: "%{network} transaction effects"
     height:
       icon: 'fas fa-cube'
       header: "%{network} Height %{height}"
@@ -849,6 +884,26 @@ en:
         title: "Arguments on %{network} Explorer, block %{height}"
         description: "Arguments %{network} Explorer, block %{height}"
         keywords: "%{network} Arguments"
+      operations:
+        name: "Operations"
+        title: "Operations on %{network} Explorer, block %{height}"
+        description: "Operations %{network} Explorer, block %{height}"
+        keywords: "%{network} Operations"
+      dex_trades:
+        name: "DEX Trades"
+        title: "DEX Trades on %{network} Explorer, block %{height}"
+        description: "DEX Trades %{network} Explorer, block %{height}"
+        keywords: "%{network} DEX Trades"
+      payments:
+        name: "Payments"
+        title: "Payments on %{network} Explorer, block %{height}"
+        description: "Payments %{network} Explorer, block %{height}"
+        keywords: "%{network} Payments"
+      effects:
+        name: "Effects"
+        title: "Effects on %{network} Explorer, block %{height}"
+        description: "Effects %{network} Explorer, block %{height}"
+        keywords: "%{network} Effects"
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1126,6 +1181,21 @@ en:
         title: "Arguments on %{network} Explorer"
         description: "Arguments on  %{network}"
         keywords: "%{network} Arguments"
+      operations:
+        name: "Operations"
+        title: "Operations on %{network} Explorer"
+        description: "Operations on  %{network}"
+        keywords: "%{network} Operations"
+      effects:
+        name: "Effects"
+        title: "Effects on %{network} Explorer"
+        description: "Effects on  %{network}"
+        keywords: "%{network} Effects"
+      payments:
+        name: "Payments"
+        title: "Payments on %{network} Explorer"
+        description: "Payments on  %{network}"
+        keywords: "%{network} Payments"
     home:
       index:
         name: "All"
@@ -1456,6 +1526,8 @@ en:
       token_receivers_by_time: "Unique Receivers By Time"
       token_median_receiver_amount_by_time: "Median Received Amount"
       token_statistics: "Token transfer statistics"
+      token_received_statistics: "Token received transfer statistics"
+      token_sent_statistics: "Token sent transfer statistics"
       smart_contract_statitics: "Smart Contract Statistics"
       tx_transfers: "Token Transfers in Transaction"
       tx_calls: "Smart Contract Calls in Transaction"
@@ -1593,6 +1665,12 @@ en:
       currencies_received: "Currencies received"
       balance_effects: "Balance Effects"
     titles:
+      total_coints: 'Total Coints'
+      fee_pool: 'Fee Pool'
+      base_fee: 'Base Fee'
+      base_reserve: 'Base Reserve'
+      max_tx_set_size: 'Max Tx Set Size'
+      protocol_version: 'Protocol Version'
       instruction_account_index: "Account index in Instruction"
       operations_count: "Operations Count"
       action: "Action"
@@ -1820,6 +1898,7 @@ en:
       argument: "Argument"
       argindex: "Argument Index"
       argvalue: "Argument Value"
+      argname: "Argument Name"
       event: "Event"
       events_count: "Event Count"
       max_amount: "Max Transfer Amount"

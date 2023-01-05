@@ -1,0 +1,66 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.token_attributes') %></div>
+    <div class="card-body">
+      <div id="token_attributes"><%= t('loading') %></div>
+    </div>
+  </div> 
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: StellarNetwork!, $currency: String!) {
+        stellar(network: $network) {
+          transfers(
+            currencyToName: {is: $currency}
+          ) {
+            currencyTo{
+              symbol
+              address
+              name
+              decimals
+              tokenType
+            }
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#token_attributes', query, 'stellar.transfers', {
+      title: '<%= t('widgets.headers.token_attributes') %>',
+      renderData: function (data) {
+          item = data[0];
+          return !item ? [] : [
+            {name: '<%= t('widgets.headers.token_symbol') %>', value: escapeHtml(item.currencyTo.symbol)},
+            {name: '<%= t('widgets.headers.token_address') %>', value: escapeHtml(item.currencyTo.address)},
+            {name: '<%= t('widgets.headers.token_type') %>', value: item.currencyTo.tokenType},
+            {name: '<%= t('widgets.headers.token_name') %>', value: escapeHtml(item.currencyTo.name)},
+            {name: '<%= t('widgets.headers.token_decimals') %>', value: item.currencyTo.decimals}
+          ];
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.metric') %>',
+          type: 'string-ellipsis',
+          path: 'name',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          escape: false,
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+      currency: "<%= @token %>",
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>

@@ -1,0 +1,70 @@
+<div class="col-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.currencies_received') %></div>
+    <div class="card-body">
+      <div id="currencies_table_received"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+            query($network: StellarNetwork!,
+                  $address: String!,
+                  $from: ISO8601DateTime,
+                  $till: ISO8601DateTime,
+                  $limit: Int!,
+                  $offset: Int!){
+              stellar(network: $network) {
+                transfers(date: {since: $from, till: $till},
+                receiver: {is: $address},
+                options: {limit: $limit, offset: $offset, desc: "count_in"}){
+                  sum_in: amountTo(calculate: sum)
+                  count_in: count
+                  currencyTo {
+                    name
+                  }
+                }
+              }
+            }`);
+
+        new widgets.table('#currencies_table_received', query, 'stellar.transfers', {
+            title: '<%= t('widgets.headers.currencies_received') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    path: 'currencyTo.name',
+                    urlCallbackName: 'token_to_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.receive') %>',
+                    type: 'amount',
+                    path: 'sum_in'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    data: '<i class="fa fa-sign-out text-warning"></i>',
+                },
+                {
+                    title: '<%#= t('widgets.titles.txs') %>',
+                    type: 'count',
+                    path: 'count_in',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'transfer_from_path'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>
