@@ -23,7 +23,7 @@
                       $hash: String!){
           stellar(network: $network){
             operations(
-                options:{desc: "timestamp.time", limit: $limit, offset: $offset},
+                options:{desc: "index", limit: $limit, offset: $offset},
                 date: {since: $from till: $till },
                 transactionHash: {is: $hash}
               ) {
@@ -36,6 +36,8 @@
                 address
                 annotation
               }
+              operation
+              success
             }
           }
         }
@@ -64,6 +66,17 @@
                     title: '<%= t('widgets.titles.source_account') %>',
                     type: 'string',
                     path: ['sourceAccount.annotation', 'sourceAccount.address'],
+                    urlCallbackName: 'source_account_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.operation') %>',
+                    type: 'string',
+                    path: 'operation'
+                },
+                {
+                    title: '<%= t('widgets.titles.success') %>',
+                    type: 'string',
+                    path: 'success'
                 },
             ]
         });

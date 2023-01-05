@@ -59,7 +59,11 @@
             }
         },
         token_buy_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.buyCurrency.symbol);
+            if(item.sellCurrency.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.buyCurrency.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.buyCurrency.name;
+            }
         },
 
         <%# Tx %>
@@ -74,7 +78,7 @@
             if (item.address) {
                 return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
             } else if (item.block) {
-                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/height/' + item.block.height;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + item.block;
             } else {
                 return null;
             }

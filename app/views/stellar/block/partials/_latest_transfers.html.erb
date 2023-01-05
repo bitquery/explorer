@@ -22,22 +22,29 @@
                                 $till: ISO8601DateTime,
                                 $height: Int!){
                     stellar(network: $network){
-                      transfers(options:{desc: "block", limit: $limit, offset: $offset},
+                      transfers(options:{asc: "transaction.index", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         block: {is: $height}
                         ) {
                           timestamp {
                             time
                           }
-                          block
+                          transaction{
+                            hash
+                            index
+                          }
                           currencyFrom {
                             name
+                            symbol
                           }
                           currencyTo {
                             name
+                            symbol
                           }
                           amountFrom
+                          amount_from_usd: amountFrom(in: USD)
                           amountTo
+                          amount_to_usd: amountTo(in: USD)
                           direction
                           receiver {
                             address
@@ -49,7 +56,6 @@
                           }
                           operation {
                             index
-                            name
                           }
                       }
                     }
@@ -65,11 +71,15 @@
                     style: 'width: 170px;'
                 },
                 {
-                    title: '<%= t('widgets.titles.height') %>',
+                    title: '<%= t('widgets.titles.tx_index') %>',
                     type: 'string',
-                    path: 'block',
-                    urlCallbackName: 'height_path',
-                    style: 'width: 80px;'
+                    path: 'transaction.index'
+                },
+                {
+                    title: '<%= t('widgets.titles.tx_hash') %>',
+                    type: 'string-ellipsis',
+                    path: 'transaction.hash',
+                    urlCallbackName: 'transaction_hash_path'
                 },
                 {
                     title: '<%= t('widgets.titles.sender') %>',
@@ -95,9 +105,14 @@
                     path: 'amountFrom'
                 },
                 {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_from_usd'} %>
+                },
+                {
                     title: '<%= t('widgets.titles.currency_from') %>',
                     type: 'string',
-                    path: 'currencyFrom.name'
+                    path: 'currencyFrom.symbol',
+                    urlCallbackName: 'token_from_path'
                 },
                 {
                     title: '<%= t('widgets.titles.amount_to') %>',
@@ -105,9 +120,14 @@
                     path: 'amountTo'
                 },
                 {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_to_usd'} %>
+                },
+                {
                     title: '<%= t('widgets.titles.currency_to') %>',
                     type: 'string',
-                    path: 'currencyTo.name'
+                    path: 'currencyTo.symbol',
+                    urlCallbackName: 'token_to_path'
                 },
                 {
                     title: '<%= t('widgets.titles.direction') %>',
@@ -116,11 +136,7 @@
                 {
                     title: '<%= t('widgets.titles.operation_index') %>',
                     path: 'operation.index'
-                },
-                {
-                    title: '<%= t('widgets.titles.operation_name') %>',
-                    path: 'operation.name'
-                },
+                }
             ]
         });
 

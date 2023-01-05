@@ -21,30 +21,28 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     stellar(network: $network){
-                      tradeEffects(options:{desc: "count", limit: $limit, offset: $offset},
+                      tradeEffects(
+                        options:{desc: "count", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
+                      ) {
+                        sellCurrency {
+                          symbol
+                          name
+                        }
+                        sellAmount
+                        sell_amount_usd: sellAmount(in: USD)
 
-                        ) {
-                          sellCurrency {
-                            symbol
-                            address
-                          }
-                          sellAmount
-                          sell_amount_usd: sellAmount(in: USD)
+                        buyCurrency {
+                          symbol
+                          name
+                        }
+                        buyAmount
+                        buy_amount_usd: buyAmount(in: USD)
 
-                          buyCurrency {
-                            symbol
-                            address
-                          }
-                          buyAmount
-                          buy_amount_usd: buyAmount(in: USD)
+                        count
 
-                          count
-
-                          dates: count(uniq: dates)
-                          started: minimum(of: date)
-
-
+                        dates: count(uniq: dates)
+                        started: minimum(of: date)
                       }
                     }
                   }`);
@@ -55,7 +53,8 @@
                 {
                     title: '<%= t('widgets.titles.sell_currency') %>',
                     type: 'string',
-                    path: 'sellCurrency.symbol'
+                    path: 'sellCurrency.symbol',
+                    urlCallbackName: 'token_sell_path'
                 },
                 {
                     title: '<%= t('widgets.titles.sell_amount') %>',
@@ -75,7 +74,8 @@
                 {
                     title: '<%= t('widgets.titles.buy_currency') %>',
                     type: 'string',
-                    path: 'buyCurrency.symbol'
+                    path: 'buyCurrency.symbol',
+                    urlCallbackName: 'token_buy_path'
                 },
                 {
                     title: '<%= t('widgets.titles.buy_amount') %>',

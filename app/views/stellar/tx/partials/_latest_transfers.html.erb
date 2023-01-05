@@ -22,7 +22,7 @@
                                 $till: ISO8601DateTime,
                                 $hash: String!){
                     stellar(network: $network){
-                      transfers(options:{desc: "block", limit: $limit, offset: $offset},
+                      transfers(options:{desc: "block", asc: "operation.index", limit: $limit, offset: $offset},
                         date: {since: $from till: $till },
                         transactionHash: {is: $hash}
                         ) {
@@ -101,7 +101,8 @@
                 {
                     title: '<%= t('widgets.titles.currency_from') %>',
                     type: 'string',
-                    path: 'currencyFrom.symbol'
+                    path: 'currencyFrom.symbol',
+                    urlCallbackName: 'token_from_path'
                 },
                 {
                     title: '<%= t('widgets.titles.amount_to') %>',
@@ -111,7 +112,8 @@
                 {
                     title: '<%= t('widgets.titles.currency_to') %>',
                     type: 'string',
-                    path: 'currencyTo.symbol'
+                    path: 'currencyTo.symbol',
+                    urlCallbackName: 'token_to_path'
                 },
                 {
                     title: '<%= t('widgets.titles.direction') %>',

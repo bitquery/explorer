@@ -23,7 +23,7 @@
                       $height: Int!){
           stellar(network: $network){
             effects(
-                options:{desc: "timestamp.time", limit: $limit, offset: $offset},
+                options:{desc: "timestamp.time", asc: "transaction.index", limit: $limit, offset: $offset},
                 date: {since: $from till: $till },
                 block: {is: $height}
               ) {

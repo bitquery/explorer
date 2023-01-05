@@ -21,19 +21,23 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                     stellar(network: $network){
-                      transactions(options:{desc: "block", limit: $limit, offset: $offset},
+                      transactions(
+                        options: {desc: "block", asc: "index", limit: $limit, offset: $offset},
                         date: {since: $from till: $till }
-                        ) {
+                      ) {
                         block
                         timestamp {
                           time (format: "%Y-%m-%d %H:%M:%S")
                         }
                         hash
                         index
+                        fee
+                        fee_usd: fee(in: USD)
                         sender{
                           address
                           annotation
                         }
+                        success
                       }
                     }
                   }`);
@@ -68,6 +72,20 @@
                     type: 'string',
                     path: ['sender.annotation', 'sender.address'],
                     urlCallbackName: 'sender_address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.fee') %>',
+                    type: 'string',
+                    path: 'fee'
+                },
+                {
+                    style: 'width: 80px;',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd'} %>
+                },
+                {
+                    title: '<%= t('widgets.titles.success') %>',
+                    type: 'string',
+                    path: 'success'
                 },
             ]
         });

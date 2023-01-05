@@ -21,7 +21,7 @@
         ) {
         stellar(network: $network) {
           operations(
-            options: {desc: "block", limit: $limit, offset: $offset}
+            options: {desc: "block", asc: 'transaction.index', limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
             sourceAccount: {is: $address}
           ) {

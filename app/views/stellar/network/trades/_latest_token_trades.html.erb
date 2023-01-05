@@ -14,7 +14,7 @@
       query ($network: StellarNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
         stellar(network: $network) {
           tradeEffects(
-            options: {desc: ["block","transaction.index"], limit: $limit, offset: $offset}
+            options: {desc: "block", asc: "transaction.index", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
           ) {
             timestamp {

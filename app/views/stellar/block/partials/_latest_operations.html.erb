@@ -23,7 +23,7 @@
                       $height: Int!){
           stellar(network: $network){
             operations(
-                options:{desc: "timestamp.time", limit: $limit, offset: $offset},
+                options:{asc: "transaction.index", limit: $limit, offset: $offset},
                 date: {since: $from till: $till },
                 block: {is: $height}
               ) {
@@ -33,11 +33,14 @@
               index
               transaction{
                 hash
+                index
               }
+              operation
               sourceAccount{
                 address
                 annotation
               }
+              success
             }
           }
         }
@@ -52,9 +55,9 @@
                     path: 'timestamp.time'
                 },
                 {
-                    title: '<%= t('widgets.titles.index') %>',
+                    title: '<%= t('widgets.titles.tx_index') %>',
                     type: 'string',
-                    path: 'index'
+                    path: 'transaction.index'
                 },
                 {
                     title: '<%= t('widgets.titles.tx_hash') %>',
@@ -63,9 +66,25 @@
                     urlCallbackName: 'transaction_hash_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.source_account') %>',
+                    title: '<%= t('widgets.titles.index') %>',
                     type: 'string',
+                    path: 'index'
+                },
+                {
+                    title: '<%= t('widgets.titles.source_account') %>',
+                    type: 'string-ellipsis',
                     path: ['sourceAccount.annotation', 'sourceAccount.address'],
+                    urlCallbackName: 'source_account_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.operation') %>',
+                    type: 'string',
+                    path: 'operation'
+                },
+                {
+                    title: '<%= t('widgets.titles.success') %>',
+                    type: 'string',
+                    path: 'success'
                 },
             ]
         });

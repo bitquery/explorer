@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_transfers_where_receiver') %></div>
+      <div class="card-header"><%= t('widgets.headers.latest_transfers') %></div>
       <div class="card-body">
-        <div id="latest_transfers_where_receiver"><%= t('loading') %></div>
+        <div id="latest_transfers"><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@
                       transfers(
                           options:{desc: "block", limit: $limit, offset: $offset},
                           date: {since: $from till: $till }
-                          receiver: {is: $address}
+                          any: [{sender: {is: $address}}, {receiver: {is: $address}}]
                         ) {
                           timestamp {
                             time
@@ -52,6 +52,10 @@
                             address
                             annotation
                           }
+                          receiver {
+                            address
+                            annotation
+                          }
                           operation {
                             index
                             name
@@ -60,8 +64,8 @@
                     }
                   }`);
 
-        new widgets.table('#latest_transfers_where_receiver', query, 'stellar.transfers', {
-            title: '<%= t('widgets.headers.latest_transfers_where_receiver') %>',
+        new widgets.table('#latest_transfers', query, 'stellar.transfers', {
+            title: '<%= t('widgets.headers.latest_transfers') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',
@@ -98,9 +102,16 @@
                   renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_from_usd'} %>
                 },
                 {
-                    title: '<%= t('widgets.titles.currency_from') %>',
-                    type: 'string',
-                    path: 'currencyFrom.symbol'
+                  title: '<%= t('widgets.titles.currency_from') %>',
+                  type: 'string',
+                  path: 'currencyFrom.symbol',
+                  urlCallbackName: 'token_from_path'
+                },
+                {
+                  title: '<%= t('widgets.titles.receiver') %>',
+                  type: 'string-ellipsis',
+                  path: ['receiver.address'],
+                  urlCallbackName: 'receiver_address_path'
                 },
                 {
                   title: '<%= t('widgets.titles.amount_to') %>',
@@ -114,7 +125,8 @@
                 {
                     title: '<%= t('widgets.titles.currency_to') %>',
                     type: 'string',
-                    path: 'currencyTo.symbol'
+                    path: 'currencyTo.symbol',
+                    urlCallbackName: 'token_to_path'
                 },
                 {
                     title: '<%= t('widgets.titles.direction') %>',

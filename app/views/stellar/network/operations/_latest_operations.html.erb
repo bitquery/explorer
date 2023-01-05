@@ -14,7 +14,7 @@
       query ($network: StellarNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
         stellar(network: $network) {
           operations(
-            options: {desc: "block", limit: $limit, offset: $offset}
+            options: {desc: "block", asc: "transaction.index", limit: $limit, offset: $offset}
             date: {since: $from, till: $till}
           ) {
             timestamp {
@@ -73,7 +73,7 @@
         },
         {
           title: '<%= t('widgets.titles.source_account') %>',
-          type: 'string',
+          type: 'string-ellipsis',
           path: ['sourceAccount.address', 'sourceAccount.annotation'],
           urlCallbackName: 'source_account_path'
         },
