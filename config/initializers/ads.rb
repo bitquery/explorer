@@ -39,7 +39,7 @@ ADS={
     ad: {
       title: 'Swap at the best rates!',
       title_color: '#000000',
-      text: 'The most efficient DEX Aggregator. Get up to 95% gas cost refund.',
+      text: 'No gas fees and MEV protection on 1inch - #1 DEX aggregator. Swap now!',
       text_color: '#000000',
       button_text: 'Swap now!',
       button_class: 'btn-primary',
