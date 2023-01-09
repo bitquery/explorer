@@ -40,7 +40,9 @@
                             symbol
                           }
                           amountFrom
+                          amount_from_usd: amountFrom(in: USD)
                           amountTo
+                          amount_to_usd: amountTo(in: USD)
                           direction
                           receiver {
                             address
@@ -104,6 +106,10 @@
                     path: 'amountFrom'
                 },
                 {
+                    style: 'width: 80px;',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_from_usd'} %>
+                },
+                {
                     title: '<%= t('widgets.titles.currency_from') %>',
                     type: 'string',
                     path: 'currencyFrom.symbol',
@@ -113,6 +119,10 @@
                     title: '<%= t('widgets.titles.amount_to') %>',
                     type: 'amount',
                     path: 'amountTo'
+                },
+                {
+                    style: 'width: 80px;',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_to_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.currency_to') %>',

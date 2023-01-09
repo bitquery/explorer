@@ -1,3 +1,9 @@
-<%= render partial: 'ripple/network/transactions_table' %>
+<div class="row">
+  <%= render 'ripple/network/transactions/transactions_count' %>
+  <%= render 'ripple/network/transactions/transactions_success_count' %>
+  <%= render 'ripple/network/transactions/transactions_failed_count' %>
+</div>
 
-<%= render partial: 'ripple/network/transactions_by_time' %>
+<%= render partial: 'ripple/network/transactions/latest_transactions' %>
+
+<%= render partial: 'ripple/network/transactions/transactions_by_time' %>

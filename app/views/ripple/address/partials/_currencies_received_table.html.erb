@@ -26,6 +26,7 @@
                   count_in: count
                   currencyTo {
                     symbol
+                    name
                   }
                 }
               }
@@ -36,7 +37,8 @@
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.currency') %>',
-                    path: 'currencyTo.symbol'
+                    path: 'currencyTo.symbol',
+                    urlCallbackName: 'token_to_path'
                 },
                 {
                     title: '<%= t('widgets.titles.receive') %>',

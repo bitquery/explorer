@@ -1,0 +1,10 @@
+query ($dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+  chain: ripple{
+    transactions(options:{asc: "date.month"}, date: {since: $from, till: $till }) {
+      date{
+        month: date(format: $dateFormat)
+      }
+      count
+    }
+  }
+}

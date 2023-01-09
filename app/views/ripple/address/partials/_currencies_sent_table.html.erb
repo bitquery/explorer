@@ -17,7 +17,8 @@
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime,
                   $limit: Int!,
-                  $offset: Int!){
+                  $offset: Int!
+                ){
               ripple(network: $network) {
                 transfers(date: {since: $from, till: $till},
                 sender: {is: $address},
@@ -26,17 +27,20 @@
                   count_out: count
                   currencyFrom {
                     symbol
+                    name
                   }
                 }
               }
-            }`);
+            }
+      `);
 
         new widgets.table('#currencies_table_sent', query, 'ripple.transfers', {
             title: '<%= t('widgets.headers.currencies_sent') %>',
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.currency') %>',
-                    path: 'currencyFrom.symbol'
+                    path: 'currencyFrom.symbol',
+                    urlCallbackName: 'token_from_path'
                 },
                 {
                     title: '<%= t('widgets.titles.send') %>',

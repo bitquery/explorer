@@ -1,0 +1,137 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_escrows') %></div>
+      <div class="card-body">
+        <div id="latest_escrows"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+
+        var query = new widgets.query(`
+              query ($network: RippleNetwork!,
+                      $limit: Int!,
+                      $offset: Int!
+                      $from: ISO8601DateTime,
+                      $till: ISO8601DateTime,
+                      $hash: String!
+                    ){
+          ripple(network: $network){
+            escrows(
+                options:{asc: "timestamp.time", limit: $limit, offset: $offset},
+                date: {since: $from till: $till }
+                transactionHash: {is: $hash}
+              ) {
+                block
+                transaction {
+                  index
+                  type
+                }
+                timestamp {
+                  time(format: "%Y-%m-%d %H:%M:%S")
+                }
+                account {
+                  address
+                  annotation
+                }
+                destination {
+                  address
+                  annotation
+                }
+                amount
+                amount_usd: amount(in: USD)
+                currency{
+                  symbol
+                  name
+                }
+                finishAfter
+                cancelAfter
+                operation
+            }
+          }
+        }
+      `);
+
+        new widgets.table('#latest_escrows', query, 'ripple.escrows', {
+            title: '<%= t('widgets.headers.latest_escrows') %>',
+            dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.timestamp') %>',
+                  type: 'string',
+                  path: 'timestamp.time',
+                  style: 'width: 170px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.block') %>',
+                  type: 'string-ellipsis',
+                  path: 'block',
+                  urlCallbackName: 'height_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.tx_index') %>',
+                  type: 'string',
+                  path: 'transaction.index'
+              },
+              {
+                  title: '<%= t('widgets.titles.tx_type') %>',
+                  type: 'string',
+                  path: 'transaction.type'
+              },
+              {
+                  title: '<%= t('widgets.titles.account') %>',
+                  type: 'string',
+                  path: ['account.annotation', 'account.address'],
+                  urlCallbackName: 'account_address_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.destination') %>',
+                  type: 'string',
+                  path: ['destination.annotation', 'destination.address'],
+                  urlCallbackName: 'destination_address_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.amount') %>',
+                  type: 'amount',
+                  path: 'amount'
+              },
+              {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_usd'} %>
+              },
+              {
+                  title: '<%= t('widgets.titles.currency') %>',
+                  type: 'string',
+                  path: 'currency.symbol',
+                  urlCallbackName: 'currency_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.operation') %>',
+                  type: 'string',
+                  path: 'operation'
+              },
+              {
+                  title: '<%= t('widgets.titles.cancel_after') %>',
+                  type: 'string',
+                  path: 'cancelAfter'
+              },
+              {
+                  title: '<%= t('widgets.titles.finish_after') %>',
+                  type: 'string',
+                  path: 'finishAfter'
+              },
+            ] 
+        });
+
+        query.request({
+            hash: '<%= @hash %>',
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+
+</script>

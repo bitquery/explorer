@@ -1,0 +1,41 @@
+<div class="col-lg-4 mb-4">
+  <div class="card border-danger">
+    <div class="card-header"><%= t('widgets.titles.transactions_failed_count') %></div>
+    <div class="card-body">
+      <div id="transactions_failed_count"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+$( document ).ready(function() {
+
+  const query = new widgets.query(`
+    query (
+      $network: RippleNetwork!,
+      $from: ISO8601DateTime,
+      $till: ISO8601DateTime
+    ){
+      ripple(network: $network) {
+        transactions(date: { since: $from till: $till }, success: {is: false}) {
+          count: countBigInt
+        }
+      }
+    }`
+  );
+
+  new widgets.text('#transactions_failed_count', query, 'ripple.transactions', {
+      html_class: 'fontsize35rem text-center text-danger',
+      dataOptions: {
+          type: 'string',
+          path: 'count'
+      }
+
+  });
+
+  queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+    network: '<%= params['network']['network'] %>'
+  });
+});
+
+</script>

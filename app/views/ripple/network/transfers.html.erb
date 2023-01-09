@@ -1,1 +1,7 @@
-<%= render partial: 'ripple/network/transfers_table' %>
+<%= render partial: 'ripple/network/transfers/transfers_table' %>
+
+<div class="row">
+  <%= render 'ripple/network/transfers/transfers_by_time' %>
+  <%= render 'ripple/network/transfers/transfers_by_currencies' %>
+</div>
+

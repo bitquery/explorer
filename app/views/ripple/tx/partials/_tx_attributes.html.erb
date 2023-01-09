@@ -31,6 +31,7 @@
                               }
                               type
                               fee
+                              fee_usd: fee(in: USD)
                               result
                               flags
                               lastLedgerSequence
@@ -56,6 +57,7 @@
                     {name: '<%= t('widgets.titles.type') %>', value: item.type },
                     {name: '<%= t('widgets.titles.transaction_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
                     {name: '<%= t('widgets.titles.fee') %>', value: item.fee },
+                    {name: '<%= t('widgets.titles.fee_usd') %>', value: item.fee_usd },
                     {name: '<%= t('widgets.titles.result') %>', value: item.result },
                     {name: '<%= t('widgets.titles.flags') %>', value: item.flags },
                     {name: '<%= t('widgets.titles.last_ledger_sequence') %>', value: item.lastLedgerSequence },

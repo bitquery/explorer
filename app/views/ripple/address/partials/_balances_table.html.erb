@@ -74,31 +74,33 @@
                     urlCallbackName: 'transaction_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.operation_name') %>',
-                    path: 'operation'
+                    title: '<%= t('widgets.titles.balance') %>',
+                    path: 'balance'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    path: 'currency.symbol',
+                    urlCallbackName: 'currency_path'
                 },
                 {
                     title: '<%= t('widgets.titles.previous_balance') %>',
                     path: 'prevBalance'
                 },
                 {
-                    title: '<%= t('widgets.titles.currency') %>',
-                    path: 'currency.symbol'
-                },
-                {
-                    title: '<%= t('widgets.titles.balance') %>',
-                    path: 'balance'
-                },
-                {
                     title: '<%= t('widgets.titles.issuer') %>',
-                    path: 'issuer.address'
-                }
+                    path: 'issuer.address',
+                    urlCallbackName: 'issuer_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.operation_name') %>',
+                    path: 'operation'
+                },
             ]
         });
 
         queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
+            address: '<%= @address %>',
+            network: '<%= params['network']['network'] %>'
         });
 
 

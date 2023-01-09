@@ -1,30 +1,112 @@
 <script>
     widgets.callbacks({
+        <%# Block %>
         height_path: function (item) {
-            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/height/' + (item.block || item.height || item.block.height);
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.block || item.height || item.block.height);
         },
 
+        <%# Address %>
         sender_address_path: function (item) {
             return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.sender.address;
         },
-
+        tx_sender_address_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.transaction.sender;
+        },
         receiver_address_path: function (item) {
             return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.receiver.address;
         },
-
         address_path: function (item) {
             return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
         },
+        issuer_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.issuer.address;
+        },
+        seller_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.issuer.address;
+        },
+        source_account_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.sourceAccount.address;
+        },
+        destination_address_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.account.address;
+        },
+        account_address_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.account.address;
+        },
+        sell_issuer_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.sellIssuer.address;
+        },
+        buy_issuer_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.buyIssuer.address;
+        },
 
+        <%# Token %>
+        token_from_path: function(item){
+            if(item.currencyFrom.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currencyFrom.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currencyFrom.name;
+            }
+        },
+
+        token_to_path: function(item){
+            if(item.currencyTo.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currencyTo.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currencyTo.name;
+            }
+        },
+
+        amount_currency_path: function(item){
+            if(item.amountCurrency.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.amountCurrency.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.amountCurrency.name;
+            }
+        },
+        amount_currency_path: function(item){
+            if(item.amountCurrency.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.amountCurrency.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.amountCurrency.name;
+            }
+        },
+        currency_path: function(item){
+            if(item.currency.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.name;
+            }
+        },
+
+        taker_gets_currency_path: function(item){
+            if(item.takerGetsCurrency.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.takerGetsCurrency.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.takerGetsCurrency.name;
+            }
+        },
+        taker_pays_currency_path: function(item){
+            if(item.takerPaysCurrency.name=='-'){
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.takerPaysCurrency.symbol);
+            }else{
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.takerPaysCurrency.name;
+            }
+        },
+
+        <%# Tx %>
         transaction_path: function (item) {
             return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.hash;
+        },
+        transaction_hash_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.transaction.hash;
         },
 
         property_value_path: function(item) {
             if (item.address) {
                 return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
             } else if (item.block) {
-                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/height/' + item.block.height;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + item.block;
             } else {
                 return null;
             }
@@ -34,3 +116,5 @@
         });
 
 </script>
+
+

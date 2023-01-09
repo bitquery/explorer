@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_offers') %></div>
+      <div class="card-body">
+        <div id="latest_offers"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+
+        const query = new widgets.query(`
+              query ($network: RippleNetwork!,
+                      $limit: Int!,
+                      $offset: Int!
+                      $from: ISO8601DateTime,
+                      $till: ISO8601DateTime,
+                      $address: String!
+                    ){
+          ripple(network: $network){
+            offers(
+                options:{asc: "timestamp.time", limit: $limit, offset: $offset},
+                date: {since: $from till: $till }
+                account: {is: $address}
+              ) {
+                block
+                transaction {
+                  index
+                  type
+                }
+                timestamp {
+                  time(format: "%Y-%m-%d %H:%M:%S")
+                }
+                account {
+                  address
+                  annotation
+                }
+                takerGetsCurrency {
+                  name
+                  symbol
+                }
+                takerPaysCurrency {
+                  name
+                  symbol
+                }
+                takerGetsAmount
+                taker_gets_amount_usd: takerGetsAmount(in: USD)
+                takerPaysAmount
+                taker_pays_amount_usd: takerPaysAmount(in: USD)
+                operation
+            }
+          }
+        }
+      `);
+
+        new widgets.table('#latest_offers', query, 'ripple.offers', {
+            title: '<%= t('widgets.headers.latest_offers') %>',
+            dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.timestamp') %>',
+                  type: 'string',
+                  path: 'timestamp.time',
+                  style: 'width: 170px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.block') %>',
+                  type: 'string-ellipsis',
+                  path: 'block',
+                  urlCallbackName: 'height_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.tx_index') %>',
+                  type: 'string',
+                  path: 'transaction.index'
+              },
+              {
+                  title: '<%= t('widgets.titles.tx_type') %>',
+                  type: 'string',
+                  path: 'transaction.type'
+              },
+              {
+                  title: '<%= t('widgets.titles.account') %>',
+                  type: 'string',
+                  path: ['account.annotation', 'account.address'],
+                  urlCallbackName: 'account_address_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.taker_gets_amount') %>',
+                  type: 'amount',
+                  path: 'takerGetsAmount'
+              },
+              {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.taker_gets_amount_usd'} %>
+              },
+              {
+                  title: '<%= t('widgets.titles.taker_gets_currency') %>',
+                  type: 'string',
+                  path: 'takerGetsCurrency.symbol',
+                  urlCallbackName: 'taker_gets_currency_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.taker_pays_amount') %>',
+                  type: 'amount',
+                  path: 'takerPaysAmount'
+              },
+              {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.taker_pays_amount_usd'} %>
+              },
+              {
+                  title: '<%= t('widgets.titles.taker_pays_currency') %>',
+                  type: 'string',
+                  path: 'takerPaysCurrency.symbol',
+                  urlCallbackName: 'taker_pays_currency_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.operation') %>',
+                  type: 'string',
+                  path: 'operation'
+              },
+            ] 
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>, {
+            address: '<%= @address %>',
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+
+</script>

@@ -469,22 +469,28 @@ Rails.application.routes.draw do
       end
     end
 
-    BLOCKCHAINS.select { |b| b[:family] == 'ripple' }.each { |blockchain|
+    BLOCKCHAINS.select { |b| b[:family] == 'ripple' }.each do |blockchain|
+      constraints(blockchain: blockchain[:network]) do
+        defaults network: blockchain do
+          get ':blockchain', controller: "#{blockchain[:family]}/network", action: 'blocks'
+          get ':blockchain/:action', controller: "#{blockchain[:family]}/network"
 
-      get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+          get ':blockchain/address/:address', controller: "#{blockchain[:family]}/address", action: 'show'
+          get ':blockchain/address/:address/:action', controller: "#{blockchain[:family]}/address"
 
-      # get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/address/:address/balances", controller: "#{blockchain[:family]}/address", action: 'balances', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+          get ':blockchain/tx/:hash', controller: "#{blockchain[:family]}/tx", action: 'show'
+          get ':blockchain/tx/:hash/:action', controller: "#{blockchain[:family]}/tx"
 
-      get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+          get ':blockchain/block/:block', controller: "#{blockchain[:family]}/block", action: 'show'
+          get ':blockchain/block/:block/:action', controller: "#{blockchain[:family]}/block"
 
-      get ":blockchain/height/:height", controller: "#{blockchain[:family]}/height", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+          get ':blockchain/token/:address', controller: "#{blockchain[:family]}/token", action: 'show'
+          get ':blockchain/token/:address/:action', controller: "#{blockchain[:family]}/token"
 
-      get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-
-    }
+          get ':blockchain/sitemap/index.xml', controller: "#{blockchain[:family]}/sitemap", action: 'index'
+        end
+      end
+    end
 
     BLOCKCHAINS.select { |b| b[:family] == 'tezos' }.each { |blockchain|
 

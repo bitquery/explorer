@@ -22,7 +22,7 @@
             }
             count
             amountFrom 
-            amount_to_usd: amountFrom(in: USD)
+            amount_from_usd: amountFrom(in: USD)
 
             senders_count: count(uniq: senders)
             receivers_count: count(uniq: receivers)
@@ -51,7 +51,7 @@
               {name: '<%= t('widgets.titles.uniq_receivers') %>', value:item.receivers_count},
 
               {name: '<%= t('widgets.titles.total_amount') %>', value: item.amountFrom+' '+escapeHtml(item.currencyFrom.symbol)},
-              {name: '<%= t('widgets.titles.total_amount_usd') %>', value: item.amount_to_usd+' '+'USD'},
+              {name: '<%= t('widgets.titles.total_amount_usd') %>', value: item.amount_from_usd+' '+'USD'},
 
               {name: '<%= t('widgets.titles.median_amount') %>', value: item.median+' '+escapeHtml(item.currencyFrom.symbol)},
               {name: '<%= t('widgets.titles.average_amount') %>', value: item.average+' '+escapeHtml(item.currencyFrom.symbol)},

@@ -214,6 +214,26 @@ en:
         title: "%{address} smart contract | %{network}"
         description: "%{network} Smart Contracts created by address %{address}"
         keywords: "%{address} smart contract, %{network} smart contract creator, %{network} smart contract owner, %{network} smart contract admin"
+      tokens:
+        name: "Tokens"
+        title: "%{address} Tokens | %{network}"
+        description: "%{network} Tokens created by address %{address}"
+        keywords: "%{address} Tokens, %{network} Tokens, %{network} Tokens owner, %{network} Tokens admin"
+      escrows:
+        name: "Escrows"
+        title: "%{address} Escrows | %{network}"
+        description: "%{network} Escrows created by address %{address}"
+        keywords: "%{address} Escrows, %{network} Escrows, %{network} Escrows owner, %{network} Escrows admin"
+      checks:
+        name: "Checks"
+        title: "%{address} Checks | %{network}"
+        description: "%{network} Checks created by address %{address}"
+        keywords: "%{address} Checks, %{network} Checks, %{network} Checks owner, %{network} Checks admin"
+      offers:
+        name: "Offers"
+        title: "%{address} Offers | %{network}"
+        description: "%{network} Offers created by address %{address}"
+        keywords: "%{address} Offers, %{network} Offers, %{network} Offers owner, %{network} Offers admin"
       inflow:
         name: 'Inflow'
         title: "%{network} recieved by %{address}"
@@ -694,6 +714,26 @@ en:
         title: "Outputs %{network} %{hash}"
         description: "Outputs in transaction %{hash} in %{network}"
         keywords: "%{network} outputs, %{network} transaction value"
+      tokens:
+        name: 'Tokens'
+        title: "Tokens %{network} %{hash}"
+        description: "Tokens in transaction %{hash} in %{network}"
+        keywords: "%{network} Tokens, %{network} transaction value"
+      escrows:
+        name: 'Escrows'
+        title: "Escrows %{network} %{hash}"
+        description: "Escrows in transaction %{hash} in %{network}"
+        keywords: "%{network} Escrows, %{network} transaction value"
+      checks:
+        name: 'Checks'
+        title: "Checks %{network} %{hash}"
+        description: "Checks in transaction %{hash} in %{network}"
+        keywords: "%{network} Checks, %{network} transaction value"
+      offers:
+        name: 'Offers'
+        title: "Offers %{network} %{hash}"
+        description: "Offers in transaction %{hash} in %{network}"
+        keywords: "%{network} Offers, %{network} transaction value"
       contracts:
         name: "Contracts"
         title: "Contracts %{network} %{hash}"
@@ -1209,6 +1249,12 @@ en:
         title: "Smart Contract Blockchains"
         description: "Explorers for Smart Contract Blockchains such as Ethereum, Cardano, Algorand, Conflux, Tron, EOS, Celo by Bitquery"
         keywords: "Smart contract blockchains, blockchain transactions, blockchain address, address, balance, eth explorer, cardano explorer, ada explorer, celo explorer, eos explorer, conflux explorer, explorer, address balance, address portfolio, address tokens, coin, crypto, blockchain address analytics, DeFi explorer, smart contract call, explorer,search, currency,address lookup"
+      ripple:
+        name: "Ripple Based Blockchains"
+        header: "Ripple Based Blockchains"
+        title: "Ripple Based Blockchains"
+        description: "Explorers for Ripple Based Blockchains such as Ripple and Stellar by Bitquery"
+        keywords: "Ripple Based Blockchains, blockchain transactions, blockchain address, Ripple,  Stellar"
       bitcoin:
         name: "UTXO Based Blockchains"
         header: "UTXO Based Blockchains"
@@ -1666,8 +1712,10 @@ en:
       balance_effects: "Balance Effects"
     titles:
       total_coints: 'Total Coints'
+      account_hash: 'Account Hash'
       fee_pool: 'Fee Pool'
       base_fee: 'Base Fee'
+      fee_usd: 'Fee USD'
       base_reserve: 'Base Reserve'
       max_tx_set_size: 'Max Tx Set Size'
       protocol_version: 'Protocol Version'

@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transfers_by_currencies') %></div>
+      <div class="card-body">
+        <div id="transfers_by_currencies"><%= t('loading') %></div>
+      </div>
+    </div> 
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    const qraphql_query = `
+      query ($network: RippleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $address: String!) {
+        ripple(network: $network) {
+          transfers(
+            options: {desc: "count", asc: "currencyTo.symbol", limit: $limit, offset: $offset}
+            date: {since: $from, till: $till}
+            any: [{receiver: {is: $address}}, {sender: {is: $address}}]
+          ) {
+            currencyTo {
+              symbol
+              name
+            }
+            currencyFrom {
+              symbol
+              name
+            }
+            count
+            senders: count(uniq: senders)
+            receivers: count(uniq: receivers)
+            days: count(uniq: dates)
+            from_date: minimum(of: date)
+            till_date: maximum(of: date)
+            amountTo
+            amount_to_usd: amountTo(in: USD)
+            amountFrom
+            amount_from_usd: amountFrom(in: USD)
+          }
+        }
+      }
+    `.trim();
+
+    const query = new widgets.query(qraphql_query);
+
+    new widgets.table('#transfers_by_currencies', query, 'ripple.transfers', {
+      title: '<%= t('widgets.headers.transfers_by_currencies') %>',
+      dataOptions: [
+        {
+            title: '<%= t('widgets.titles.currency') %>',
+            type: 'string',
+            path: 'currencyTo.symbol',
+            urlCallbackName: 'token_to_path'
+        },
+        {
+            title: '<%= t('widgets.titles.first_transfer_date') %>',
+            path: 'from_date'
+        },
+        {
+            title: '<%= t('widgets.titles.last_transfer_date') %>',
+            path: 'till_date'
+        },
+        {
+            title: '<%= t('widgets.titles.transfer_days') %>',
+            path: 'days'
+        },
+        {
+            title: '<%= t('widgets.titles.uniq_senders') %>',
+            path: 'senders'
+        },
+        {
+            title: '<%= t('widgets.titles.uniq_receivers') %>',
+            path: 'receivers'
+        },
+        {
+            title: '<%= t('widgets.titles.transfer_to_amount') %>',
+            type: 'amount',
+            path: 'amountTo'
+        },
+        {
+            style: 'width: 80px;',
+            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_to_usd'} %>
+        },
+        {
+            title: '<%= t('widgets.titles.transfer_from_amount') %>',
+            type: 'amount',
+            path: 'amountFrom'
+        },
+        {
+            style: 'width: 80px;',
+            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_from_usd'} %>
+        },
+        {
+            title: '<%= t('widgets.titles.transfer_count') %>',
+            type: 'amount',
+            path: 'count'
+        },
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+      address: '<%= @address %>',
+      network: '<%= params['network']['network'] %>'
+    });
+  });
+</script>

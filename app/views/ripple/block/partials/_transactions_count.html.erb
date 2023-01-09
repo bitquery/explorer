@@ -1,0 +1,43 @@
+<div class="col-lg-4 mb-4">
+  <div class="card border-warning">
+    <div class="card-header"><%= t('widgets.titles.transactions_count') %></div>
+    <div class="card-body">
+      <div id="transactions_count"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+$( document ).ready(function() {
+
+  const query = new widgets.query(`
+    query (
+      $network: RippleNetwork!,
+      $from: ISO8601DateTime,
+      $till: ISO8601DateTime,
+      $height: BigInt!
+    ){
+      ripple(network: $network) {
+        transactions(date: { since: $from till: $till }, block: {is: $height}) {
+          count: countBigInt
+        }
+      }
+    }`
+  );
+
+  new widgets.text('#transactions_count', query, 'ripple.transactions', {
+      html_class: 'fontsize35rem text-center text-warning',
+      dataOptions: {
+          type: 'string',
+          path: 'count'
+      }
+
+  });
+
+  query.request({
+    height: '<%= @height %>',
+    network: '<%= params['network']['network'] %>'
+  });
+});
+
+</script>
