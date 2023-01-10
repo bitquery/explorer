@@ -78,13 +78,15 @@ import Web3 from 'web3';
 
     window.onload = walletSetup
     function walletSetup() {
+        const address = document.querySelector('#address')
+        const walletConnection = document.querySelector('#wallet-connection')
     const checkConnection = () => {
 		if (!walletConnected()) {
 			document.querySelector('#connected').classList.add('d-none')
 			localStorage.setItem('connected', 'false')
 		} else {
 			localStorage.setItem('connected', 'true')
-			document.querySelector('#wallet-connection-text').textContent = 'Disconnect'
+			walletConnection.classList.add('d-none')
 		}
 	}
 
@@ -94,7 +96,6 @@ import Web3 from 'web3';
      ethereum.request({ method: 'eth_chainId' }).then(ci => chainId = ci)
     
 	const chainsSelector = document.querySelector('#chains')
-    console.log(chainsSelector)
 
 	for (const chainID in chainName) {
 		const option = document.createElement('option')
@@ -109,8 +110,7 @@ import Web3 from 'web3';
 		changeChain(web3, chainId)
 	}
 
-	const address = document.querySelector('#address')
-	const walletConnection = document.querySelector('#wallet-connection')
+	
 
 	let account
 
@@ -118,7 +118,7 @@ import Web3 from 'web3';
 		if (walletConnected()) {
 			document.querySelector('#connected').classList.add('d-none')
 			localStorage.setItem('connected', 'false')
-			document.querySelector('#wallet-connection-text').textContent = 'Connect'
+			walletConnection.classList.remove('d-none')
 		} else {
 			ethereum.request({ method: 'eth_requestAccounts' }).then(acc => {
                 account = acc
@@ -126,7 +126,7 @@ import Web3 from 'web3';
             })
 			document.querySelector('#connected').classList.remove('d-none')
 			localStorage.setItem('connected', 'true')
-			document.querySelector('#wallet-connection-text').textContent = 'Disconnect'
+			walletConnection.classList.add('d-none')
 		}
 	}
 
@@ -144,10 +144,10 @@ import Web3 from 'web3';
 	ethereum.on('accountsChanged', (accounts) => {
 		if (!accounts.length) {
 			document.querySelector('#connected').classList.add('d-none')
-			document.querySelector('#wallet-connection-text').textContent = 'Connect'
+			walletConnection.classList.remove('d-none')
 			localStorage.setItem('connected', 'false')
 		} else {
-			document.querySelector('#wallet-connection-text').textContent = 'Disconnect'
+			walletConnection.classList.add('d-none')
 		}
 	});
 
