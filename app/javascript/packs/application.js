@@ -26,6 +26,140 @@ import vis from 'vis'
 import numeral from 'numeral'
 import * as SockJS from 'sockjs-client';
 import Stomp from "stompjs"
+import Web3 from 'web3';
+
+
+	const chainName = {
+		1: 'Ethereum',
+		10: 'Optimism',
+		25: 'Cronos',
+		56: 'BNB Chain',
+		137: 'Poligon'
+	}
+	
+	const rpcURL = {
+		1: ['https://eth.llamarpc.com'],
+		10: ['https://mainnet.optimism.io'],
+		25: ['https://evm.cronos.org'],
+		56: ['https://rpc.ankr.com/bsc'],
+		137: ['https://polygon.llamarpc.com']
+	}
+	
+	const saveChainID = (chainID) => localStorage.setItem('chainID', chainID)
+	
+	const getChainID = () => +localStorage.getItem('chainID')
+	
+	const walletConnected = () => localStorage.getItem('connected') === 'true'
+	
+	const changeChain = async (web3, chainID) => {
+		try {
+			await ethereum.request({
+				method: 'wallet_switchEthereumChain',
+				params: [{ chainId: web3.utils.toHex(chainID) }],
+			});
+		} catch (switchError) {
+			try {
+				await ethereum.request({
+					method: 'wallet_addEthereumChain',
+					params: [
+						{
+							chainId: web3.utils.toHex(chainID),
+							chainName: chainName[chainID],
+							rpcUrls: rpcURL[chainID],
+						},
+					],
+				});
+			} catch (addError) {
+				// handle "add" error
+			}
+		}
+	}
+	const web3 = new Web3(ethereum)
+
+    window.onload = walletSetup
+    function walletSetup() {
+    const checkConnection = () => {
+		if (!walletConnected()) {
+			document.querySelector('#connected').classList.add('d-none')
+			localStorage.setItem('connected', 'false')
+		} else {
+			localStorage.setItem('connected', 'true')
+			document.querySelector('#wallet-connection-text').textContent = 'Disconnect'
+		}
+	}
+
+    checkConnection()
+
+	 let chainId
+     ethereum.request({ method: 'eth_chainId' }).then(ci => chainId = ci)
+    
+	const chainsSelector = document.querySelector('#chains')
+    console.log(chainsSelector)
+
+	for (const chainID in chainName) {
+		const option = document.createElement('option')
+		option.setAttribute('value', chainID)
+		if (+chainID === getChainID()) option.setAttribute('selected', true)
+		option.textContent = chainName[chainID]
+		chainsSelector.appendChild(option)
+	}
+
+	chainsSelector.onchange = ({ target: { value } }) => {
+		chainId = value
+		changeChain(web3, chainId)
+	}
+
+	const address = document.querySelector('#address')
+	const walletConnection = document.querySelector('#wallet-connection')
+
+	let account
+
+	const connectOrDisconnectWallet = async () => {
+		if (walletConnected()) {
+			document.querySelector('#connected').classList.add('d-none')
+			localStorage.setItem('connected', 'false')
+			document.querySelector('#wallet-connection-text').textContent = 'Connect'
+		} else {
+			ethereum.request({ method: 'eth_requestAccounts' }).then(acc => {
+                account = acc
+                address.textContent = account[0]
+            })
+			document.querySelector('#connected').classList.remove('d-none')
+			localStorage.setItem('connected', 'true')
+			document.querySelector('#wallet-connection-text').textContent = 'Disconnect'
+		}
+	}
+
+	walletConnection.addEventListener('click', connectOrDisconnectWallet)
+
+	ethereum.request({ method: 'eth_accounts' }).then(acc => {
+        account = acc
+        if (!account.length) {
+            document.querySelector('#connected').classList.add('d-none')
+        } else {
+            address.textContent = account[0]
+        }
+    })
+
+	ethereum.on('accountsChanged', (accounts) => {
+		if (!accounts.length) {
+			document.querySelector('#connected').classList.add('d-none')
+			document.querySelector('#wallet-connection-text').textContent = 'Connect'
+			localStorage.setItem('connected', 'false')
+		} else {
+			document.querySelector('#wallet-connection-text').textContent = 'Disconnect'
+		}
+	});
+
+	ethereum.on('chainChanged', async (chainID) => {
+		const options = document.querySelectorAll('#chains>option')
+		options.forEach(option => {
+			option.removeAttribute('selected')
+			if (+option.value === web3.utils.hexToNumber(chainID)) option.setAttribute('selected', true)
+		})
+		saveChainID(web3.utils.hexToNumber(chainID))
+	})}
+
 
 global.createChart = createChart
 global.widgetRenderer = {

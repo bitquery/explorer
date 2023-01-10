@@ -29,7 +29,8 @@
     "table-widget": "^1.0.1",
     "turbolinks": "^5.2.0",
     "vega-widgets": "^2.0.3",
-    "vis": "^4.21.0-EOL"
+    "vis": "^4.21.0-EOL",
+    "web3": "^1.8.1"
   },
   "version": "0.1.0",
   "devDependencies": {
