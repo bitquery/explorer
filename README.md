@@ -10,12 +10,12 @@ components. The backend is supplied by the GraphQL interface.
 ## Vision
 
 We are building blockchain explorer. In most extent, all blockchain explorers are similar - they
-all shows blocks, transactions, operations, coin transfers and other technical information of the blockchain state.
-Almost all of them are specific for the blockchain protocol, in rare cases explorer covers blockchain networks
+all show blocks, transactions, operations, coin transfers and other technical information of the blockchain state.
+Almost all of them are specific to the blockchain protocol, in rare cases explorer covers blockchain networks
 with different protocols.
 
-Why are we building just one more blockchain explorer? We believe, that it will give access to much larger amount of
-valuable information, in the manner, that was not possible before. There are many layers of data in a blockchain, as
+Why are we building just one more blockchain explorer? We believe, that it will give access to a much larger amount of
+valuable information, in a manner, that was not possible before. There are many layers of data in a blockchain, such as
 network, block, transaction, transfer, operation, address and others, depending on protocol. Technically giving access
 to all of them seems sufficient, but it is not. To see the full picture, you need to look on information, gathered from 
 several of these layers in combination. Analytical capabilities are the key to our approach.
@@ -24,7 +24,7 @@ We use multi-dimensional (OLAP) analytical database to display most of the infor
 to aggregate data by dimensions as time, block, address, token, and others. Aggregation helps to build graphs,
 diagrams and present data in the way, that allows to see the bigger picture rather than just numbers.
 
-Explorer does not  show the data just in the form of 'database records', or 'tables'. There are more powerfull
+Explorer does not show the data just in the form of 'database records', or 'tables'. There are more powerful
 ways of presenting information, as graphs, diagrams, plots, maps, histograms. The way how we have to present information
 depends on typical ways of working with this kind of information, and very dependent on the problem we want to solve.
 For example, transfers of the address can be presented as the list, table, graph by time period, graph, tree, and in many other
@@ -42,8 +42,8 @@ We are following the following principles to execute the project:
 * we are flexible about the information retrieval and presentation, as it dependent on tasks and problems to solve;
 * explorer is modular, as particular tasks may require specialized view of data, dashboards, or dedicated tools;
 * many blockchains are very similar in protocol or concept, there is no reason to explore them differently;
-* new protocols appear every day, extending the explorer should be easy, as well as integrating this changes into UI;
-* community is open to extendm enhance explorer, or build their open, all presentation components are open sourced.
+* new protocols appear every day, extending the explorer should be easy, as well as integrating these changes into UI;
+* community is open to extend enhance explorer, or build their open, all presentation components are open sourced.
 
 
 ## Features
@@ -155,5 +155,5 @@ sudo systemctl enable explorer
 
 This project is licensed under the terms of the **MIT** license.
 
-You are encouraged to build your ownb explorers, data analytical web sites, embed part of this project on your web site
+You are encouraged to build your own explorers, data analytical websites, embed part of this project on your website
 and more!
