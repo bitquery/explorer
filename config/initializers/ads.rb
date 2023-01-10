@@ -1,7 +1,7 @@
 ADS={
   tab0: {
     ad: {
-      text: 'DEX Trade',
+      text: 'Free DEX Swaps',
       url: 'https://jn3rg.app.link/Bitquery_1inch',
       bgcolor: '#0570f2'
     }
