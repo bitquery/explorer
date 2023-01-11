@@ -38,12 +38,14 @@ class Stellar::AddressController < NetworkController
     result = BitqueryGraphql.instance.query_with_retry(QUERY,
                                            variables: { network: @network[:network],
                                                         address: @address }).data.stellar
-    all_currencies = result.outflow + result.inflow
-    only_currencies = all_currencies.map(&:currency).uniq(&:name)
+    data_tables = result.outflow + result.inflow
 
+    only_currencies = data_tables.map(&:currency)
     native_currency = only_currencies.select { |c| c.symbol == @network[:currency] }
     sorted_currencies = only_currencies.sort_by(&:symbol)
 
-    @currencies = native_currency + sorted_currencies
+    all_currencies = (native_currency + sorted_currencies).uniq(&:name)
+
+    @currencies = all_currencies
   end
 end
