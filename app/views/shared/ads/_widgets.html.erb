@@ -4,7 +4,7 @@
           let btns = $('.card-body a.open-btn').not('.adcheck');
           $.each(btns, function(){
               let btn = $(this);
-              if(btn.html() === 'Open GraphQL IDE'){
+              if(btn.html() === 'Get API'){
                   let newBtn = btn.clone();
                   btn.before(newBtn);
                   newBtn.removeClass('open-btn')
