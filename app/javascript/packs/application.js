@@ -32,11 +32,11 @@ const chainName = {
 	"0x1": 'Ethereum',
 	"0xa": 'Optimism',
 	"0x3b": 'EOS',
-	"0x3d": 'Eth classic',
+	"0x3d": 'Ethclassic',
 	"0x19": 'Cronos',
-	"0x38": 'BNB Chain',
-	"0x89": 'Polygon',
-	"0xfa": 'Opera',
+	"0x38": 'BSC',
+	"0x89": 'Matic',
+	"0xfa": 'Fantom',
 	"0x504": 'Moonbeam',
 	"0x2019": 'Klaytn',
 	"0xa4ec": 'Celo'
@@ -131,7 +131,7 @@ function setupWalletConnection() {
     //You should always disable the button that caused the request to be dispatched, while the request is still pending.
     modalWalletSelection.addEventListener('click', event => {
         const button = event.target
-        const type = event.target.getAttribute('data-value').replace('#', '')
+        const type = event.target.getAttribute('data-value').split(' ').join('').replace('#', '')
         const wallet = new Wallet(type)
         button.setAttribute('disabled', '')
     
@@ -154,7 +154,7 @@ function setupWalletConnection() {
         localStorage.setItem('current-connection', currentConnection)
         const chainId = currentConnection.split('+')[1]
         const address = currentConnection.split('+')[2]
-        location.href = `${chainName[chainId].toLowerCase()}/address/${address}`
+        location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}`
         setupConnectionButton()
     })
     
@@ -170,7 +170,7 @@ function setupWalletConnection() {
             }).finally(() => {
                 const chainId = currentConnection.split('+')[1]
                 const address = currentConnection.split('+')[2]
-                location.href = `${chainName[chainId].toLowerCase()}/address/${address}`
+                location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}`
                 setupConnectionButton()
             })
         }
@@ -187,6 +187,8 @@ function setupWalletConnection() {
         }).catch(error => {
             console.log(error)
         }).finally(() => {
+            const address = currentConnection.split('+')[2]
+            location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}`
             setupConnectionButton()
         })
         //fires when change chain
