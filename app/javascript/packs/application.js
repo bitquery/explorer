@@ -25,140 +25,182 @@ import moment from 'moment'
 import vis from 'vis'
 import numeral from 'numeral'
 import * as SockJS from 'sockjs-client';
-import Stomp from "stompjs"
+import Stomp from "stompjs";
 import Web3 from 'web3';
+import { Wallet } from './walletC';
 
+const chainName = {
+	"0x1": 'Ethereum',
+	"0xa": 'Optimism',
+	"0x3b": 'EOS',
+	"0x3d": 'Eth classic',
+	"0x19": 'Cronos',
+	"0x38": 'BNB Chain',
+	"0x89": 'Polygon',
+	"0xfa": 'Opera',
+	"0x504": 'Moonbeam',
+	"0x2019": 'Klaytn',
+	"0xa4ec": 'Celo'
+}
 
-	const chainName = {
-		1: 'Ethereum',
-		10: 'Optimism',
-		25: 'Cronos',
-		56: 'BNB Chain',
-		137: 'Poligon'
-	}
-	
-	const rpcURL = {
-		1: ['https://eth.llamarpc.com'],
-		10: ['https://mainnet.optimism.io'],
-		25: ['https://evm.cronos.org'],
-		56: ['https://rpc.ankr.com/bsc'],
-		137: ['https://polygon.llamarpc.com']
-	}
-	
-	const saveChainID = (chainID) => localStorage.setItem('chainID', chainID)
-	
-	const getChainID = () => +localStorage.getItem('chainID')
-	
-	const walletConnected = () => localStorage.getItem('connected') === 'true'
-	
-	const changeChain = async (web3, chainID) => {
-		try {
-			await ethereum.request({
-				method: 'wallet_switchEthereumChain',
-				params: [{ chainId: web3.utils.toHex(chainID) }],
-			});
-		} catch (switchError) {
-			try {
-				await ethereum.request({
-					method: 'wallet_addEthereumChain',
-					params: [
-						{
-							chainId: web3.utils.toHex(chainID),
-							chainName: chainName[chainID],
-							rpcUrls: rpcURL[chainID],
-						},
-					],
-				});
-			} catch (addError) {
-				// handle "add" error
-			}
-		}
-	}
-	const web3 = new Web3(ethereum)
+const rpcURL = {
+	1: ['https://eth.llamarpc.com'],
+	10: ['https://mainnet.optimism.io'],
+	25: ['https://evm.cronos.org'],
+	56: ['https://rpc.ankr.com/bsc'],
+	137: ['https://polygon.llamarpc.com']
+}
 
-    window.onload = walletSetup
-    function walletSetup() {
-        const address = document.querySelector('#address')
-        const walletConnection = document.querySelector('#wallet-connection')
-    const checkConnection = () => {
-		if (!walletConnected()) {
-			document.querySelector('#connected').classList.add('d-none')
-			localStorage.setItem('connected', 'false')
-		} else {
-			localStorage.setItem('connected', 'true')
-			walletConnection.classList.add('d-none')
-		}
-	}
+const WALLET = {
+	METAMASK: 'metamask',
+	PAHNTOM: 'phantom',
+	EXODUS: 'exodus'
+}
+function setupWalletConnection() {
 
-    checkConnection()
-
-	 let chainId
-     ethereum.request({ method: 'eth_chainId' }).then(ci => chainId = ci)
-    
-	const chainsSelector = document.querySelector('#chains')
-
-	for (const chainID in chainName) {
-		const option = document.createElement('option')
-		option.setAttribute('value', chainID)
-		if (+chainID === getChainID()) option.setAttribute('selected', true)
-		option.textContent = chainName[chainID]
-		chainsSelector.appendChild(option)
-	}
-
-	chainsSelector.onchange = ({ target: { value } }) => {
-		chainId = value
-		changeChain(web3, chainId)
-	}
-
-	
-
-	let account
-
-	const connectOrDisconnectWallet = async () => {
-		if (walletConnected()) {
-			document.querySelector('#connected').classList.add('d-none')
-			localStorage.setItem('connected', 'false')
-			walletConnection.classList.remove('d-none')
-		} else {
-			ethereum.request({ method: 'eth_requestAccounts' }).then(acc => {
-                account = acc
-                address.textContent = account[0]
-            })
-			document.querySelector('#connected').classList.remove('d-none')
-			localStorage.setItem('connected', 'true')
-			walletConnection.classList.add('d-none')
-		}
-	}
-
-	walletConnection.addEventListener('click', connectOrDisconnectWallet)
-
-	ethereum.request({ method: 'eth_accounts' }).then(acc => {
-        account = acc
-        if (!account.length) {
-            document.querySelector('#connected').classList.add('d-none')
-        } else {
-            address.textContent = account[0]
+    const setupConnectionButton = () => {
+        if (connectionList.length) {
+            //option setup
+            const woWallet = currentConnection.split('+')[0]
+            const woNetwork = currentConnection.split('+')[1]
+            const woAddress = currentConnection.split('+')[2]
+            walletOptions.textContent = ''
+            const woIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+            woIcon.classList.add('wallet-icon')
+            const woUseElem = document.createElementNS('http://www.w3.org/2000/svg', 'use')
+            woUseElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#${woWallet}`)
+            woIcon.appendChild(woUseElem)
+            const network = document.createElement('div')
+            network.classList.add('network')
+            network.textContent = chainName[woNetwork]
+            const address = document.createElement('div')
+            address.classList.add('address', 'ml-2')
+            address.textContent = woAddress
+            walletOptions.appendChild(woIcon)
+            walletOptions.appendChild(network)
+            walletOptions.appendChild(address)
+            //end
+            walletDrowdownMenu.textContent = ''
+            const walletConnectionButton = document.querySelector('#wallet-connection')
+            walletConnectionButton.classList.add('d-none')
+            const dropdown = document.querySelector('.dropdown')
+            dropdown.classList.remove('d-none')
+            for (const connection of connectionList) {
+                const icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+                icon.classList.add('wallet-icon')
+                const useElem = document.createElementNS('http://www.w3.org/2000/svg', 'use')
+                useElem.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', `#${connection.wallet}`)
+                icon.appendChild(useElem)
+                const network = document.createElement('div')
+                network.classList.add('network')
+                network.textContent = chainName[connection.network]
+                const address = document.createElement('div')
+                address.classList.add('address', 'ml-2')
+                address.textContent = connection.address
+                const button = document.createElement('button')
+                button.classList.add('dropdown-item', 'd-flex', 'justify-content-between', 'align-items-center')
+                button.appendChild(icon)
+                button.appendChild(network)
+                button.appendChild(address)
+                button.id = `${connection.wallet}+${connection.network}+${connection.address}`
+                walletDrowdownMenu.appendChild(button)
+            }
+            /* const addNewConnectionButton = document.createElement('div')
+            addNewConnectionButton.classList.add('btn', 'btn-primary', 'add-connection', 'wallet-modal-trigger')
+            addNewConnectionButton.textContent = 'Add connection'
+            addNewConnectionButton.addEventListener('click', e => {
+                $('#exampleModal').modal('toggle')})
+            walletDrowdownMenu.appendChild(addNewConnectionButton) */
         }
+    }
+    
+    const walletDrowdownMenu = document.querySelector('.wallet-dropdown-menu')
+    const modalWalletSelection = document.querySelector('.modal-body-wallets')
+    const walletModalButton = document.querySelectorAll('.wallet-modal-trigger')
+    const walletOptions = document.querySelector('.wallet-options')
+    
+    walletModalButton.forEach(el => {
+        el.addEventListener('click', e => {
+            $('#exampleModal').modal('toggle')
+    })})
+    
+    const web3 = new Web3(ethereum)
+    
+    let connectionList = localStorage.getItem('connection-list') ? JSON.parse(localStorage.getItem('connection-list')) : []
+    let currentConnection = localStorage.getItem('current-connection')
+    setupConnectionButton()
+    
+    
+    //You should always disable the button that caused the request to be dispatched, while the request is still pending.
+    modalWalletSelection.addEventListener('click', event => {
+        const button = event.target
+        const type = event.target.getAttribute('data-value').replace('#', '')
+        const wallet = new Wallet(type)
+        button.setAttribute('disabled', '')
+    
+        wallet.connect().then(([ci, cc]) => {
+            connectionList = ci
+            currentConnection = cc
+        }).catch(error => {
+            console.log(error)
+        }).finally(() => {
+            setupConnectionButton()
+            button.removeAttribute('disabled')
+            $('#exampleModal').modal('toggle')
+        })
+    
     })
+    
+    walletDrowdownMenu.addEventListener('click', event => {
+        const target = event.target.id
+        currentConnection = target
+        localStorage.setItem('current-connection', currentConnection)
+        const chainId = currentConnection.split('+')[1]
+        const address = currentConnection.split('+')[2]
+        location.href = `${chainName[chainId].toLowerCase()}/address/${address}`
+        setupConnectionButton()
+    })
+    
+    ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length) {
+            const wallet = new Wallet(WALLET.METAMASK)
+        
+            wallet.connect().then(([ci, cc]) => {
+                connectionList = ci
+                currentConnection = cc
+            }).catch(error => {
+                console.log(error)
+            }).finally(() => {
+                const chainId = currentConnection.split('+')[1]
+                const address = currentConnection.split('+')[2]
+                location.href = `${chainName[chainId].toLowerCase()}/address/${address}`
+                setupConnectionButton()
+            })
+        }
+        //fires when connect wallet or change account
+        // Handle the new accounts, or lack thereof.
+        // "accounts" will always be an array, but it can be empty.
+      });
+      
+    ethereum.on('chainChanged', (chainId) => {
+        const wallet = new Wallet(WALLET.METAMASK)
+        wallet.connect().then(([ci, cc]) => {
+            connectionList = ci
+            currentConnection = cc
+        }).catch(error => {
+            console.log(error)
+        }).finally(() => {
+            setupConnectionButton()
+        })
+        //fires when change chain
+    // Handle the new chain.
+    // Correctly handling chain changes can be complicated.
+    // We recommend reloading the page unless you have good reason not to.
+    // window.location.reload();
+    });
+}
 
-	ethereum.on('accountsChanged', (accounts) => {
-		if (!accounts.length) {
-			document.querySelector('#connected').classList.add('d-none')
-			walletConnection.classList.remove('d-none')
-			localStorage.setItem('connected', 'false')
-		} else {
-			walletConnection.classList.add('d-none')
-		}
-	});
-
-	ethereum.on('chainChanged', async (chainID) => {
-		const options = document.querySelectorAll('#chains>option')
-		options.forEach(option => {
-			option.removeAttribute('selected')
-			if (+option.value === web3.utils.hexToNumber(chainID)) option.setAttribute('selected', true)
-		})
-		saveChainID(web3.utils.hexToNumber(chainID))
-	})}
+window.onload = setupWalletConnection
 
 
 global.createChart = createChart
