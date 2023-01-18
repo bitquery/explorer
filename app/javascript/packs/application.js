@@ -26,7 +26,6 @@ import vis from 'vis'
 import numeral from 'numeral'
 import * as SockJS from 'sockjs-client';
 import Stomp from "stompjs";
-import Web3 from 'web3';
 import { Wallet } from './walletC';
 
 const chainName = {
@@ -123,9 +122,7 @@ function setupWalletConnection() {
         el.addEventListener('click', e => {
             $('#exampleModal').modal('toggle')
     })})
-    
-    const web3 = new Web3(ethereum)
-    
+        
     let connectionList = localStorage.getItem('connection-list') ? JSON.parse(localStorage.getItem('connection-list')) : []
     let currentConnection = localStorage.getItem('current-connection')
     setupConnectionButton()
