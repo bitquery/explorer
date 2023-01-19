@@ -58,7 +58,7 @@ const WALLET = {
 function setupWalletConnection() {
 
     const setupHref = (chainId, address) => {
-        location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}?from=${new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0]}&till=${new Date().toISOString().split('T')[0]}`
+        location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}?from=${new Date(new Date().setDate(new Date().getDate() - 1825)).toISOString().split('T')[0]}&till=${new Date().toISOString().split('T')[0]}`
     }
 
     const setupConnectionButton = () => {
