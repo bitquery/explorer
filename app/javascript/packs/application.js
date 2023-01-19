@@ -57,9 +57,13 @@ const WALLET = {
 }
 function setupWalletConnection() {
 
+    const setupHref = (chainId, address) => {
+        location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}?from=${new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0]}&till=${new Date().toISOString().split('T')[0]}`
+    }
+
     const setupConnectionButton = () => {
         if (connectionList.length) {
-            //option setup
+            // option setup
             const woWallet = currentConnection.split('+')[0]
             const woNetwork = currentConnection.split('+')[1]
             const woAddress = currentConnection.split('+')[2]
@@ -126,8 +130,7 @@ function setupWalletConnection() {
     let connectionList = localStorage.getItem('connection-list') ? JSON.parse(localStorage.getItem('connection-list')) : []
     let currentConnection = localStorage.getItem('current-connection')
     setupConnectionButton()
-    
-    
+        
     //You should always disable the button that caused the request to be dispatched, while the request is still pending.
     modalWalletSelection.addEventListener('click', event => {
         const button = event.target
@@ -154,7 +157,7 @@ function setupWalletConnection() {
         localStorage.setItem('current-connection', currentConnection)
         const chainId = currentConnection.split('+')[1]
         const address = currentConnection.split('+')[2]
-        location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}`
+        setupHref(chainId, address)
         setupConnectionButton()
     })
     
@@ -170,7 +173,7 @@ function setupWalletConnection() {
             }).finally(() => {
                 const chainId = currentConnection.split('+')[1]
                 const address = currentConnection.split('+')[2]
-                location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}`
+                setupHref(chainId, address)
                 setupConnectionButton()
             })
         }
@@ -188,7 +191,7 @@ function setupWalletConnection() {
             console.log(error)
         }).finally(() => {
             const address = currentConnection.split('+')[2]
-            location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}`
+            setupHref(chainId, address)
             setupConnectionButton()
         })
         //fires when change chain
@@ -199,8 +202,7 @@ function setupWalletConnection() {
     });
 }
 
-window.onload = setupWalletConnection
-
+document.addEventListener('DOMContentLoaded', setupWalletConnection)
 
 global.createChart = createChart
 global.widgetRenderer = {
