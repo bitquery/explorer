@@ -9,4 +9,39 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts'
 //@import '~@bitquery/graph/dist/graphs.min'
 @import "../../assets/stylesheets/application"
 
+.dropdown:has(.wallet-options)
+  min-width: 320px
 
+.wallet-options
+  width: 100%
+
+svg[visibility="hidden"] 
+  position: absolute
+  width: 0
+  height: 0
+
+.address 
+  background-color: #888
+  padding: 5px
+  border-radius: 10px
+  max-width: 150px
+  overflow: hidden
+  text-overflow: ellipsis
+  color: #efefef
+  font-weight: bold
+
+#chains 
+  padding: 10px
+  min-width: 300px
+  cursor: pointer
+
+.add-connection 
+  margin: 0.25rem 1.5rem
+
+.wallet-icon 
+  width: 30px
+  height: 30px
+  margin-right: .5rem
+
+.modal-body-wallets use, .modal-body-wallets svg, .wallet-dropdown-menu .dropdown-item > * 
+  pointer-events: none
