@@ -188,6 +188,9 @@ function setupWalletConnection() {
         }).catch(error => {
             console.log(error)
         }).finally(() => {
+            const chainId = currentConnection.split('+')[1]
+            const address = currentConnection.split('+')[2]
+            setupHref(chainId, address)
             setupConnectionButton()
         })
     }  
