@@ -3,31 +3,31 @@ class Conflux::TokenController < Conflux::AddressController
   before_action :is_native
 
   def smart_contract
-    render 'ethereum/smart_contract/show'
+    render 'conflux/smart_contract/show'
   end
 
   def methods
-    render 'ethereum/smart_contract/methods'
+    render 'conflux/smart_contract/methods'
   end
 
   def events
-    render 'ethereum/smart_contract/events'
+    render 'conflux/smart_contract/events'
   end
 
   def transactions
-    render 'ethereum/smart_contract/transactions'
+    render 'conflux/smart_contract/transactions'
   end
 
   def inflow
-    render 'ethereum/address/inflow'
+    render 'conflux/address/inflow'
   end
 
   def outflow
-    render 'ethereum/address/outflow'
+    render 'conflux/address/outflow'
   end
 
   def calls_contracts
-    render 'ethereum/address/calls_contracts'
+    render 'conflux/address/calls_contracts'
   end
 
   private
@@ -45,9 +45,9 @@ class Conflux::TokenController < Conflux::AddressController
   def redirect_by_type
     return if native_token?
     if !(sc = @info.try(:smart_contract))
-      change_controller!  'ethereum/address'
+      change_controller!  'conflux/address'
     elsif !sc.try(:currency)
-      change_controller! 'ethereum/smart_contract'
+      change_controller! 'conflux/smart_contract'
     end
   end
 

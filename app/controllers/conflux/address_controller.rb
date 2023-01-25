@@ -60,7 +60,7 @@ class Conflux::AddressController < NetworkController
   def query_graphql
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    if @address.starts_with?('0x')
+    if @address.starts_with?('cfx:')
         result = BitqueryGraphql.instance.query_with_retry(query, variables: { network: @network[:network], address: @address }).data.conflux
         @info = result.address.first
         @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
