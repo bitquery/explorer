@@ -85,6 +85,28 @@
             d="M15.7946 15L14.2585 19.769L15.1102 24.9856L14.5171 25.3252L15.3688 26.1123L14.6844 26.7142L15.6273 27.5785L15.0342 28.1032L16.403 29.8318L22.8212 27.8409C25.9542 25.2943 27.5055 23.9979 27.4447 23.9361C27.3838 23.8744 23.5056 20.8957 15.7946 15Z"
             fill="#8E5A30" />
         </symbol>
+        <symbol id="phantom" viewBox="0 0 128 128">
+          <circle cx="64" cy="64" r="64" fill="url(#paint0_linear)" />
+          <path
+            d="M110.584 64.9142H99.142C99.142 41.7651 80.173 23 56.7724 23C33.6612 23 14.8716 41.3057 14.4118 64.0583C13.936 87.577 36.241 108 60.0186 108H63.0094C83.9723 108 112.069 91.7667 116.459 71.9874C117.27 68.3413 114.358 64.9142 110.584 64.9142ZM39.7689 65.9454C39.7689 69.0411 37.2095 71.5729 34.0802 71.5729C30.9509 71.5729 28.3916 69.0399 28.3916 65.9454V56.8414C28.3916 53.7457 30.9509 51.2139 34.0802 51.2139C37.2095 51.2139 39.7689 53.7457 39.7689 56.8414V65.9454ZM59.5224 65.9454C59.5224 69.0411 56.9631 71.5729 53.8338 71.5729C50.7045 71.5729 48.1451 69.0399 48.1451 65.9454V56.8414C48.1451 53.7457 50.7056 51.2139 53.8338 51.2139C56.9631 51.2139 59.5224 53.7457 59.5224 56.8414V65.9454Z"
+            fill="url(#paint1_linear)" />
+          <defs>
+            <linearGradient id="paint0_linear" x1="64" y1="0" x2="64" y2="128" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#534BB1" />
+              <stop offset="1" stop-color="#551BF9" />
+            </linearGradient>
+            <linearGradient id="paint1_linear" x1="65.4998" y1="23" x2="65.4998" y2="108" gradientUnits="userSpaceOnUse">
+              <stop stop-color="white" />
+              <stop offset="1" stop-color="white" stop-opacity="0.82" />
+            </linearGradient>
+          </defs>
+        </symbol>
+        <symbol id="coinbase" viewBox="0 0 1024 1024">
+          <rect width="1024" height="1024" fill="#0052FF" />
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M152 512C152 710.823 313.177 872 512 872C710.823 872 872 710.823 872 512C872 313.177 710.823 152 512 152C313.177 152 152 313.177 152 512ZM420 396C406.745 396 396 406.745 396 420V604C396 617.255 406.745 628 420 628H604C617.255 628 628 617.255 628 604V420C628 406.745 617.255 396 604 396H420Z"
+            fill="white" />
+        </symbol>
       </svg>
       <button type="button" class="btn btn-primary btn-sm wallet-modal-trigger" id="wallet-connection">
         <span id="wallet-connection-text">Connect wallet</span>
@@ -106,22 +128,22 @@
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body modal-body-wallets">
+            <div class="modal-body modal-body-wallets d-flex justify-content-center">
               <button class="btn modal-wallet-selection" data-value="#metamask">
                 <svg width="75" height="75">
                   <use xlink:href="#metamask"></use>
                 </svg>
               </button>
-              <!-- <button class="btn modal-wallet-selection" data-value="#phantom">
+              <button class="btn modal-wallet-selection" data-value="#phantom">
                 <svg width="75" height="75">
                   <use xlink:href="#phantom"></use>
                 </svg>
               </button>
-              <button class="btn modal-wallet-selection" data-value="#exodus">
+              <button class="btn modal-wallet-selection" data-value="#coinbase">
                 <svg width="75" height="75">
-                  <use xlink:href="#exodus"></use>
+                  <use xlink:href="#coinbase"></use>
                 </svg>
-              </button> -->
+              </button>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary wallet-modal-trigger">Close</button>

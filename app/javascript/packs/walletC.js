@@ -1,24 +1,43 @@
 const WALLET = {
 	METAMASK: 'metamask',
-	PAHNTOM: 'phantom',
-	EXODUS: 'exodus'
+	PHANTOM: 'phantom',
+	EXODUS: 'exodus',
+	COINBASE: 'coinbase'
 }
-const chainName = {
-	0x1: 'Ethereum',
-	10: 'Optimism',
-	25: 'Cronos',
-	56: 'BNB Chain',
-	137: 'Poligon'
+
+const getProvider = (type) => {
+	let phantom = undefined
+	if (window?.phantom?.solana.isPhantom && type === WALLET.PHANTOM) {
+		phantom = window.phantom.solana
+	} else {
+		if (window?.coinbaseSolana && type === WALLET.COINBASE) {
+			phantom = window.coinbaseSolana
+		}
+	}
+	let ethereum = undefined
+	if (window.ethereum?.providers?.length) {
+		window.ethereum.providers.forEach(async p => {
+			if (p.isMetaMask && type === WALLET.METAMASK) {
+				ethereum = p
+			}
+			if (p.isCoinbaseWallet && type === WALLET.COINBASE) {
+				ethereum = p
+			}
+		})
+	}
+	return {
+		phantom, ethereum
+	}
 }
 
 export class Wallet {
 	constructor(type) {
 		if (type === WALLET.METAMASK) {
 			return new MetamaskWallet()
-		} else if (type === WALLET.PAHNTOM) {
+		} else if (type === WALLET.PHANTOM) {
 			return new PhantomWallet()
-		} else if (type === WALLET.EXODUS) {
-			return new ExodusWallet()
+		} else if (type === WALLET.COINBASE) {
+			return new CoinbaseWallet()
 		}
 	}
 	connect(wallet, network, address) {
@@ -39,15 +58,43 @@ export class Wallet {
 }
 
 class MetamaskWallet extends Wallet {
+	provider = getProvider(WALLET.METAMASK)
 	async connect() {
 		try {
-			const accounts = await ethereum.request({ method: 'eth_requestAccounts' })
-			const chainID = await ethereum.request({ method: 'eth_chainId' })
+			const accounts = await this.provider.ethereum.request({ method: 'eth_requestAccounts' })
+			const chainID = await this.provider.ethereum.request({ method: 'eth_chainId' })
 			const connectionList = super.connect(WALLET.METAMASK, chainID, accounts[0])
 			return connectionList
 		} catch (error) {
 			throw new Error(error)
 		}
 	}
-	
+}
+
+class PhantomWallet extends Wallet {
+	provider = getProvider(WALLET.PHANTOM)
+	async connect() {
+		try {
+			const resp = await this.provider.phantom.connect()
+			const address = resp.publicKey.toString()
+			const connectionList = super.connect(WALLET.PHANTOM, 'solana', address)
+			return connectionList
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+}
+
+class CoinbaseWallet extends Wallet {
+	provider = getProvider(WALLET.COINBASE)
+	async connect() {
+		try {
+			const accounts = await this.provider.ethereum.request({ method: 'eth_requestAccounts' })
+			const chainID = await this.provider.ethereum.request({ method: 'eth_chainId' })
+			const connectionList = super.connect(WALLET.COINBASE, chainID, accounts[0])
+			return connectionList
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
 }
