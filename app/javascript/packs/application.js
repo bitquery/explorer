@@ -193,10 +193,10 @@ function setupWalletConnection() {
     }  
     
     if (window?.ethereum?.providers?.length) {
-        const walletType = p.isMetaMask ? WALLET.METAMASK : WALLET.COINBASE
         window.ethereum.providers.forEach(p => {
             p.on('accountsChanged', (accounts) => {
                 if (accounts.length) {
+                    const walletType = p.isMetaMask ? WALLET.METAMASK : WALLET.COINBASE
                     connectWallet(walletType)
                 }
                 //fires when connect wallet or change account
@@ -204,6 +204,7 @@ function setupWalletConnection() {
                 // "accounts" will always be an array, but it can be empty.
             });
             p.on('chainChanged', (chainId) => {
+                const walletType = p.isMetaMask ? WALLET.METAMASK : WALLET.COINBASE
                 connectWallet(walletType)
                 //fires when change chain
                 // Handle the new chain.
