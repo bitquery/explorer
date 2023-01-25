@@ -24,6 +24,8 @@ const getProvider = (type) => {
 				ethereum = p
 			}
 		})
+	} else {
+		ethereum = window.ethereum
 	}
 	return {
 		phantom, ethereum

@@ -58,7 +58,22 @@ const WALLET = {
 	COINBASE: 'coinbase'
 }
 function setupWalletConnection() {
-
+    
+    if (!window?.phantom?.solana?.isPhantom) {
+        const button = document.querySelector('button[data-value="#phantom"]')
+        button.setAttribute('disabled', '')
+    }
+    if (!window?.ethereum?.providers?.length) {
+        if (!window?.ethereum?.isMetaMask) {
+            const button = document.querySelector('button[data-value="#metamask"]')
+            button.setAttribute('disabled', '')
+        }
+        if (!window?.ethereum?.isCoinbaseWallet) {
+            const button = document.querySelector('button[data-value="#coinbase"]')
+            button.setAttribute('disabled', '')
+        }
+    }
+ 
     const setupHref = (chainId, address) => {
         location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}?from=${new Date(new Date().setDate(new Date().getDate() - 1825)).toISOString().split('T')[0]}&till=${new Date().toISOString().split('T')[0]}`
     }
@@ -132,7 +147,7 @@ function setupWalletConnection() {
     let connectionList = localStorage.getItem('connection-list') ? JSON.parse(localStorage.getItem('connection-list')) : []
     let currentConnection = localStorage.getItem('current-connection')
     setupConnectionButton()
-        
+    
     //You should always disable the button that caused the request to be dispatched, while the request is still pending.
     modalWalletSelection.addEventListener('click', event => {
         const button = event.target
