@@ -45,3 +45,11 @@ svg[visibility="hidden"]
 
 .modal-body-wallets use, .modal-body-wallets svg, .wallet-dropdown-menu .dropdown-item > * 
   pointer-events: none
+
+.modal-wallet-selection
+  display: flex
+  align-items: center
+  &:disabled
+    filter: grayscale(100%) blur(3px)
+  &:hover:enabled
+    background-color: #ccc

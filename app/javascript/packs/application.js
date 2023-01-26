@@ -39,7 +39,8 @@ const chainName = {
 	"0xfa": 'Fantom',
 	"0x504": 'Moonbeam',
 	"0x2019": 'Klaytn',
-	"0xa4ec": 'Celo'
+	"0xa4ec": 'Celo',
+    "solana": 'Solana'
 }
 
 const rpcURL = {
@@ -52,11 +53,27 @@ const rpcURL = {
 
 const WALLET = {
 	METAMASK: 'metamask',
-	PAHNTOM: 'phantom',
-	EXODUS: 'exodus'
+	PHANTOM: 'phantom',
+	EXODUS: 'exodus',
+	COINBASE: 'coinbase'
 }
 function setupWalletConnection() {
-
+    
+    if (!window?.phantom?.solana?.isPhantom) {
+        const button = document.querySelector('button[data-value="#phantom"]')
+        button.setAttribute('disabled', '')
+    }
+    if (!window?.ethereum?.providers?.length) {
+        if (!window?.ethereum?.isMetaMask) {
+            const button = document.querySelector('button[data-value="#metamask"]')
+            button.setAttribute('disabled', '')
+        }
+        if (!window?.ethereum?.isCoinbaseWallet) {
+            const button = document.querySelector('button[data-value="#coinbase"]')
+            button.setAttribute('disabled', '')
+        }
+    }
+ 
     const setupHref = (chainId, address) => {
         location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}?from=${new Date(new Date().setDate(new Date().getDate() - 1825)).toISOString().split('T')[0]}&till=${new Date().toISOString().split('T')[0]}`
     }
@@ -108,12 +125,12 @@ function setupWalletConnection() {
                 button.id = `${connection.wallet}+${connection.network}+${connection.address}`
                 walletDrowdownMenu.appendChild(button)
             }
-            /* const addNewConnectionButton = document.createElement('div')
+            const addNewConnectionButton = document.createElement('div')
             addNewConnectionButton.classList.add('btn', 'btn-primary', 'add-connection', 'wallet-modal-trigger')
             addNewConnectionButton.textContent = 'Add connection'
             addNewConnectionButton.addEventListener('click', e => {
                 $('#exampleModal').modal('toggle')})
-            walletDrowdownMenu.appendChild(addNewConnectionButton) */
+            walletDrowdownMenu.appendChild(addNewConnectionButton)
         }
     }
     
@@ -130,7 +147,7 @@ function setupWalletConnection() {
     let connectionList = localStorage.getItem('connection-list') ? JSON.parse(localStorage.getItem('connection-list')) : []
     let currentConnection = localStorage.getItem('current-connection')
     setupConnectionButton()
-        
+    
     //You should always disable the button that caused the request to be dispatched, while the request is still pending.
     modalWalletSelection.addEventListener('click', event => {
         const button = event.target
@@ -153,52 +170,66 @@ function setupWalletConnection() {
     
     walletDrowdownMenu.addEventListener('click', event => {
         const target = event.target.id
-        currentConnection = target
-        localStorage.setItem('current-connection', currentConnection)
-        const chainId = currentConnection.split('+')[1]
-        const address = currentConnection.split('+')[2]
-        setupHref(chainId, address)
-        setupConnectionButton()
-    })
-    
-    ethereum.on('accountsChanged', (accounts) => {
-        if (accounts.length) {
-            const wallet = new Wallet(WALLET.METAMASK)
-        
-            wallet.connect().then(([ci, cc]) => {
-                connectionList = ci
-                currentConnection = cc
-            }).catch(error => {
-                console.log(error)
-            }).finally(() => {
-                const chainId = currentConnection.split('+')[1]
-                const address = currentConnection.split('+')[2]
-                setupHref(chainId, address)
-                setupConnectionButton()
-            })
+        if (target) {
+            currentConnection = target
+            localStorage.setItem('current-connection', currentConnection)
+            const chainId = currentConnection.split('+')[1]
+            const address = currentConnection.split('+')[2]
+            setupHref(chainId, address)
+            setupConnectionButton()
         }
-        //fires when connect wallet or change account
-        // Handle the new accounts, or lack thereof.
-        // "accounts" will always be an array, but it can be empty.
-      });
-      
-    ethereum.on('chainChanged', (chainId) => {
-        const wallet = new Wallet(WALLET.METAMASK)
+    })
+
+    const connectWallet = (walletType) => {
+        const wallet = new Wallet(walletType)
         wallet.connect().then(([ci, cc]) => {
             connectionList = ci
             currentConnection = cc
         }).catch(error => {
             console.log(error)
         }).finally(() => {
+            const chainId = currentConnection.split('+')[1]
             const address = currentConnection.split('+')[2]
             setupHref(chainId, address)
             setupConnectionButton()
         })
-        //fires when change chain
-    // Handle the new chain.
-    // Correctly handling chain changes can be complicated.
-    // We recommend reloading the page unless you have good reason not to.
-    // window.location.reload();
+    }  
+    
+    if (window?.ethereum?.providers?.length) {
+        window.ethereum.providers.forEach(p => {
+            p.on('accountsChanged', (accounts) => {
+                if (accounts.length) {
+                    const walletType = p.isMetaMask ? WALLET.METAMASK : WALLET.COINBASE
+                    connectWallet(walletType)
+                }
+                //fires when connect wallet or change account
+                // Handle the new accounts, or lack thereof.
+                // "accounts" will always be an array, but it can be empty.
+            });
+            p.on('chainChanged', (chainId) => {
+                const walletType = p.isMetaMask ? WALLET.METAMASK : WALLET.COINBASE
+                connectWallet(walletType)
+                //fires when change chain
+                // Handle the new chain.
+                // Correctly handling chain changes can be complicated.
+                // We recommend reloading the page unless you have good reason not to.
+                // window.location.reload();
+            });
+        })
+    } else {
+        const walletType = ethereum.isMetaMask ? WALLET.METAMASK : WALLET.COINBASE
+        ethereum.on('accountsChanged', (accounts) => {
+            if (accounts.length) {
+                connectWallet(walletType)
+            }
+        });
+        ethereum.on('chainChanged', (chainId) => {
+            connectWallet(walletType)
+        });
+    }
+
+    phantom?.solana.on('accountChanged', (publicKey) => {
+        connectWallet(WALLET.PHANTOM)
     });
 }
 
