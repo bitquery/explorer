@@ -7,7 +7,7 @@ const WALLET = {
 
 const getProvider = (type) => {
 	let phantom = undefined
-	if (window?.phantom?.solana.isPhantom && type === WALLET.PHANTOM) {
+	if (window?.phantom?.solana?.isPhantom && type === WALLET.PHANTOM) {
 		phantom = window.phantom.solana
 	} else {
 		if (window?.coinbaseSolana && type === WALLET.COINBASE) {
