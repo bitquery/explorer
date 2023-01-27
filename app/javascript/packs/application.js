@@ -216,7 +216,7 @@ function setupWalletConnection() {
                 // window.location.reload();
             });
         })
-    } else {
+    } else if (window.ethereum) {
         const walletType = ethereum.isMetaMask ? WALLET.METAMASK : WALLET.COINBASE
         ethereum.on('accountsChanged', (accounts) => {
             if (accounts.length) {
@@ -228,9 +228,11 @@ function setupWalletConnection() {
         });
     }
 
-    phantom?.solana.on('accountChanged', (publicKey) => {
-        connectWallet(WALLET.PHANTOM)
-    });
+    if (window.phantom) {
+        phantom?.solana.on('accountChanged', (publicKey) => {
+            connectWallet(WALLET.PHANTOM)
+        });
+    }
 }
 
 document.addEventListener('DOMContentLoaded', setupWalletConnection)
