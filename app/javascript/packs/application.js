@@ -228,8 +228,8 @@ function setupWalletConnection() {
         });
     }
 
-    if (window.phantom) {
-        phantom?.solana.on('accountChanged', (publicKey) => {
+    if (window?.phantom?.solana) {
+        phantom.solana.on('accountChanged', (publicKey) => {
             connectWallet(WALLET.PHANTOM)
         });
     }
