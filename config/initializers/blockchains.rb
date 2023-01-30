@@ -379,11 +379,11 @@ BLOCKCHAINS = [
   {
     tag: 'elrond',
     network: 'elrond',
-    name: 'Elrond Mainnet',
+    name: 'The MultiversX (Elrond) Mainnet',
     family: 'elrond',
     platform: 'Smart Contract',
     currency: 'EGLD',
-    icon: 'currency/elrond-egld.svg'
+    icon: 'currency/egld-token-logo.svg'
   },
   {
     tag: 'avalanche',
