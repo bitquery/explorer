@@ -141,7 +141,7 @@ cap production deploy
 
 ### Puma run as service
 
-Look [scripts/explorer.service](explorer.service) for details
+Look [scripts/explorer.service](scripts/explorer.service) for details
 
 Replace `<PUT YOUR SECRET HERE>` with the secret for service.
 
