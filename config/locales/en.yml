@@ -1478,6 +1478,7 @@ en:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
+      method_info: "Method Information"
       notarized_blocks: "Notarized Blocks"
       transaction_info: "Transaction Info"
       message_internal_info: "Internal Message Info"
@@ -1711,6 +1712,10 @@ en:
       currencies_received: "Currencies received"
       balance_effects: "Balance Effects"
     titles:
+      method_name: 'Method Name'
+      method_signature: 'Signature'
+      signature_hash: 'Signature Hash'
+      method_transactions: 'Method Transactions'
       total_coints: 'Total Coints'
       account_hash: 'Account Hash'
       fee_pool: 'Fee Pool'
