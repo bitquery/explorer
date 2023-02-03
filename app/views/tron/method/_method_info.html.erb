@@ -1,0 +1,69 @@
+<%
+  method_info_header = t('widgets.headers.method_info')
+  method_name_title = t('widgets.titles.method_name')
+  method_signature_title = t('widgets.titles.method_signature')
+  signature_hash_title = t('widgets.titles.signature_hash')
+  loading = t('loading')
+%>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= method_info_header %></div>
+      <div class="card-body">
+        <div id="method_info"><%= loading %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $( document ).ready(function() {
+    const signatureValue = "<%= @signature %>";
+      var query = new widgets.query(`query ($method: String!) {
+    tron {
+  smartContractCalls(smartContractMethod: {is: $method}, options: {limit: 1}) {
+    smartContractMethod {
+      name
+      signature
+      signatureHash
+    }
+  }
+    }
+  }
+  `);
+
+
+
+      new widgets.table('#method_info', query, 'ethereum.transactions', {
+          title: '<%= t('widgets.headers.method_info') %>',
+          renderData: function (data) {
+              let methodInfo = data.tron.smartContractCalls[0].smartContractMethod
+              return !methodInfo ? [] : [
+                  {name: '<%= t('widgets.titles.method_name') %>', value: methodInfo.name},
+                  {name: '<%= t('widgets.titles.method_signature') %>', value: methodInfo.signature},
+                  {name: '<%= t('widgets.titles.signature_hash') %>', value: methodInfo.signatureHash},
+              ];
+          },
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.attribute') %>',
+                  type: 'string',
+                  path: 'name',
+                  style: 'width: 110px',
+                  html_class: 'text-info font-weight-bold'
+              },
+              {
+                  title: '<%= t('widgets.titles.property_value') %>',
+                  type: 'string-ellipsis',
+                  escape: false,
+                  path: 'value',
+                  urlCallbackName: 'property_value_path'
+              },
+          ]
+      });
+
+      query.request({
+          method: signatureValue
+      });
+
+  });
+</script>
