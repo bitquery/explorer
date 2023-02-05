@@ -5,6 +5,7 @@
                icon: 'fas fa-search text-default'
            } %>
 <%= content_for :title,  header %>
+<%= @query = @query.strip %>
 <div class="row">
   <div class="col mb-4">
     <div id="search"><%= t('loading') %></div>
@@ -78,7 +79,6 @@ $( document ).ready(function() {
             type: 'string',
             renderCallback: function(item){
                 let a_type = item_type(item);
-                console.log(a_type);
                 var item_name, item_icon = '';
                 switch (a_type) {
                   case 'address':
