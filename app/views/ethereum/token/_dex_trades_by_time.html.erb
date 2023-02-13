@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.trades_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.currency_trades_by_time', token_name: @token_info.name, token_symbol: @token_info.symbol) %></div>
       <div class="card-body">
         <div id="trades_by_time"><%= t('loading') %></div>
       </div>
@@ -10,7 +10,7 @@
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.trade_amount_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.trade_currency_amount_by_time', token_name: @token_info.name, token_symbol: @token_info.symbol) %></div>
       <div class="card-body">
         <div id="trade_amount_by_time"><%= t('loading') %></div>
       </div>
@@ -21,7 +21,7 @@
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.unique_currencies_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.unique_currencies_currency_by_time', token_name: @token_info.name, token_symbol: @token_info.symbol) %></div>
       <div class="card-body">
         <div id="unique_currencies_by_time"><%= t('loading') %></div>
       </div>
@@ -30,7 +30,7 @@
 
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.unique_dex_smart_contracts_by_time') %></div>
+      <div class="card-header"><%= t('widgets.headers.unique_currency_dex_smart_contracts_by_time', token_name: @token_info.name, token_symbol: @token_info.symbol) %></div>
       <div class="card-body">
         <div id="unique_dex_smart_contracts_by_time"><%= t('loading') %></div>
       </div>

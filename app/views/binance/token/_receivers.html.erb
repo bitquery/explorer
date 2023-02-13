@@ -2,7 +2,7 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.token_receivers_diagram') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_currency_receivers_diagram', token_name: @token, token_symbol: "") %></div>
       <div class="card-body">
         <div id="token_receivers_diagram"><%= t('loading') %></div>
       </div>
@@ -13,7 +13,7 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.token_receivers_table') %></div>
+      <div class="card-header"><%= t('widgets.headers.token_currency_receivers_table', token_name: @token, token_symbol: "") %></div>
       <div class="card-body">
         <div id="token_receivers_table"><%= t('loading') %></div>
       </div>

@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.latest_token_trades') %></div>
+<%= t('widgets.headers.currency_latest_token_trades', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
       <div class="card-body">
         <div id="latest_token_trades"><%= t('loading') %></div>
       </div>

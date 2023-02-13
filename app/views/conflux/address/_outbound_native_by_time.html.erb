@@ -1,6 +1,12 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.outbound_native_by_time', currency: @network[:currency]) %></div>
+      <div class="card-header">
+        <% if @token_info %>
+          <%= t('widgets.headers.currency_outbound_native_by_time',  currency: @network[:currency], token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+        <% else %>
+          <%= t('widgets.headers.outbound_native_by_time', currency: @network[:currency]) %>
+        <% end %>
+      </div>
     <div class="card-body">
       <div id="outbound_native_by_time"><%= t('loading') %></div>
     </div>

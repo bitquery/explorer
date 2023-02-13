@@ -1,6 +1,12 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.currencies_sent_received') %></div>
+    <div class="card-header">
+        <% if @token_info %>
+          <%= t('widgets.headers.currency_currencies_sent_received', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+        <% else %>
+          <%= t('widgets.headers.currencies_sent_received') %>
+        <% end %>
+    </div>
     <div class="card-body">
       <div id="currencies_table"><%= t('loading') %></div>
     </div>
