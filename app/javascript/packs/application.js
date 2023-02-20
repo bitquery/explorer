@@ -16,7 +16,8 @@ require('daterangepicker')
 import barWidgetRenderer from 'vega-widgets/src/components/widgets/barWidgetRenderer'
 import pieWidgetRenderer from 'vega-widgets/src/components/widgets/pieWidgetRenderer'
 import timeChartRenderer from "@bitquery/ide-charts/src/reactComponents/timeChartRenderer";
-import tableWidgetRenderer from "table-widget/src/components/tableWidgetRenderer";
+// import tableWidgetRenderer from "table-widget/src/components/tableWidgetRenderer";
+import tableWidgetRenderer from "./tableWidgetRenderer";
 import tradingViewrenderer from "@bitquery/ide-tradingview/src/tradingViewRenderer";
 import { createChart } from 'lightweight-charts';
 import { micromark } from 'micromark';
@@ -27,6 +28,23 @@ import numeral from 'numeral'
 import * as SockJS from 'sockjs-client';
 import Stomp from "stompjs";
 import { Wallet } from './walletC';
+import { createClient } from "graphql-ws"
+// import jQuery from 'jquery';
+
+global.createChart = createChart
+global.widgetRenderer = {
+    "vega.bar": barWidgetRenderer,
+    "vega.pie": pieWidgetRenderer,
+    "time.chart": timeChartRenderer,
+    "table.widget": tableWidgetRenderer,
+    "tradingview.widget": tradingViewrenderer
+}
+global.Stomp = Stomp
+global.SockJS = SockJS
+global.$ = $
+global.vis = vis;
+global.numeral = numeral;
+global.m = moment;
 
 const chainName = {
 	"0x1": 'Ethereum',
@@ -237,20 +255,7 @@ function setupWalletConnection() {
 
 document.addEventListener('DOMContentLoaded', setupWalletConnection)
 
-global.createChart = createChart
-global.widgetRenderer = {
-    "vega.bar": barWidgetRenderer,
-    "vega.pie": pieWidgetRenderer,
-    "time.chart": timeChartRenderer,
-    "table.widget": tableWidgetRenderer,
-    "tradingview.widget": tradingViewrenderer
-}
-global.Stomp = Stomp
-global.SockJS = SockJS
-global.$ = $;
-global.vis = vis;
-global.numeral = numeral;
-global.m = moment;
+
 
 global.escapeHtml = function(unsafe)
 {
@@ -338,6 +343,60 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
     new_layout_element.style.height = '100%'
     new_layout_element_container.appendChild(new_layout_element)
     dashboard_container.appendChild(new_layout_element_container)
+}
+
+/* {
+    "id": 16762,
+    "account_id": 3,
+    "query": "{\n  EVM(network: eth  dataset: archive) {\n    BalanceUpdates(\n      limit: {count: 25000}\n      orderBy: {descendingByField: \"balance\"}\n      where: {Currency: {SmartContract: {is: \"0x75231f58b43240c9718dd58b4967c5114342a86c\"}}}\n    ) {\n      BalanceUpdate {\n        Address\n      }\n      balance: sum(of: BalanceUpdate_Amount)\n    }\n  }\n}\n",
+    "variables": "{}",
+    "url": "Copy-of-Balances-for-token-holders-as-table",
+    "name": "Copy of Balances for token holders as table",
+    "description": null,
+    "published": 1,
+    "created_at": "2023-02-20T13:39:56.000Z",
+    "deleted": 0,
+    "updated_at": "2023-02-20T13:39:56.000Z",
+    "endpoint_url": "https://streaming.bitquery.io/graphql",
+    "widget_number": 35576,
+    "widget_id": "table.widget",
+    "config": "{\"columns\":[{\"field\":\"BalanceUpdate.Address\",\"title\":\"BalanceUpdate.Address\",\"formatter\":null},{\"field\":\"balance\",\"title\":\"balance\",\"formatter\":null}]}",
+    "displayed_data": "EVM.BalanceUpdates",
+    "data_type": "response"
+} */
+
+global.createWidget = function (url, container_id, argsReplace) {
+    const container = document.getElementById(container_id)
+    let table = null
+    $.get(`/proxy_dbcode/${url}`, function (data) {
+        const сlient = createClient({
+            url: data.endpoint_url.replace('http', 'ws'),
+            shouldRetry: () => false
+        })
+        const payload = {
+            query: data.query,
+            variables: JSON.parse(data.variables)
+        }
+        if (argsReplace) {
+            for (let arg in argsReplace) {
+                payload.variables[arg] = argsReplace[arg]
+            }
+        }
+        const tableConfig = JSON.parse(data.config)
+        const ds = { values: [] }
+        сlient.subscribe(payload, {
+            next: ({ data }) => {
+                ds.values.push(data)
+                if (table) {
+                    table.addData(data, true)
+                } else {
+                    tableWidgetRenderer(ds, tableConfig, container)
+                }
+            },
+            error: () => console.log('error'),
+            complete: () => console.log('complete')
+        })
+    })
 }
 
 global.createDashboard = function (dashboard_url, container_id, argsReplace) {

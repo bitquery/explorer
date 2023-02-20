@@ -8,7 +8,7 @@ class ProxyDbcodeController < ApplicationController
 
     BitqueryLogger.extra_context dashboard_url: dashboard_url
 
-    uri = URI("#{BITQUERY_IDE_API}/dbcode/#{dashboard_url}")
+    uri = URI("#{BITQUERY_IDE_API}/getquery/#{dashboard_url}")
 
     if (uri.scheme=='https')
       http = Net::HTTP.new(uri.host, 443)
