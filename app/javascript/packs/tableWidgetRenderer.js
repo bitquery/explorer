@@ -8,11 +8,13 @@ export default async function tableWidgetRenderer(ds, config, el) {
 	if (!ds.values) {
 		const data = await ds.fetcher()
 		const json = await data.json()
+		console.log(json)
 		values = ds.setupData(json)
 	} else {
 		values = ds.values
 	}
-	let newCol = [...config.columns]
+	console.log(values)
+	// let newCol = [...config.columns]
 	// newCol.forEach(col => col.formatter = col.formatterParams && formatter)
 	cfg = {
 		height: '100%',
@@ -20,9 +22,7 @@ export default async function tableWidgetRenderer(ds, config, el) {
 		...config,
 		data: values,
 	}
-	if (update) {
-		table.addData(values, true)
-	} else {
+	
 		try {
 			if (el) {
 				const table = new Tabulator(`#${el}`, cfg)
@@ -31,5 +31,5 @@ export default async function tableWidgetRenderer(ds, config, el) {
 		} catch (error) {
 			console.log(error)
 		}
-	}
+	
 }

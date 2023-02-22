@@ -1016,6 +1016,13 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@purtuga/esm-webpack-plugin@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@purtuga/esm-webpack-plugin/-/esm-webpack-plugin-1.5.0.tgz#0a01e769ed2e668f9463dfeedb1003cffd845ff5"
+  integrity sha512-v4kKOCQHqS2H8yjlbJBm6km+4Urd21M0uvO5MAMQ7GmqEf745fkQeB4iiPAVUeXxDbB833i5ctv93WGH4mwQLQ==
+  dependencies:
+    webpack-sources "^1.0.0"
+
 "@rails/actioncable@^6.0.2-2":
   version "6.0.4"
   resolved "https://registry.npmjs.org/@rails/actioncable/-/actioncable-6.0.4.tgz"
@@ -3755,10 +3762,10 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2:
   resolved "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.6.tgz"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
 
-graphql-ws@^5.11.3:
-  version "5.11.3"
-  resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.11.3.tgz#eaf8e6baf669d167975cff13ad86abca4ecfe82f"
-  integrity sha512-fU8zwSgAX2noXAsuFiCZ8BtXeXZOzXyK5u1LloCdacsVth4skdBMPO74EG51lBoWSIZ8beUocdpV8+cQHBODnQ==
+graphql-ws@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.0.0.tgz#30f55a649f8dc825c51b6f7cfc05e513688c4f8d"
+  integrity sha512-SSSn5xQB5bDtmIwn2Rkw9WakrNbkDvPP5B7J5pKhFoDfQkF5xs9BaqelsGljoRs4rrdmWq9xw/QVtEXmjImZQA==
 
 hammerjs@^2.0.8:
   version "2.0.8"

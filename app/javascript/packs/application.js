@@ -28,55 +28,64 @@ import numeral from 'numeral'
 import * as SockJS from 'sockjs-client';
 import Stomp from "stompjs";
 import { Wallet } from './walletC';
-import { createClient } from "graphql-ws"
-// import jQuery from 'jquery';
+import { createClient } from "graphql-ws/lib/client";
+// import {createClient} from 'graphql-ws'
+const xs = 1 + 1
+console.log(xs)
+console.log('hi')
+console.log('hi1')
+// console.log(graphqlws)
+// const { createClient } = (await import ("graphql-ws"))
 
-global.createChart = createChart
+// const createClient = graphqlws.createClient.default
+// const createClient1 = graphqlws.createClient.default()
+
+global.createChart = createChart;
 global.widgetRenderer = {
     "vega.bar": barWidgetRenderer,
     "vega.pie": pieWidgetRenderer,
     "time.chart": timeChartRenderer,
     "table.widget": tableWidgetRenderer,
     "tradingview.widget": tradingViewrenderer
-}
-global.Stomp = Stomp
-global.SockJS = SockJS
+};
+global.Stomp = Stomp;
+global.SockJS = SockJS;
 global.$ = $
 global.vis = vis;
 global.numeral = numeral;
 global.m = moment;
 
 const chainName = {
-	"0x1": 'Ethereum',
-	"0xa": 'Optimism',
-	"0x3b": 'EOS',
-	"0x3d": 'Ethclassic',
-	"0x19": 'Cronos',
-	"0x38": 'BSC',
-	"0x89": 'Matic',
-	"0xfa": 'Fantom',
-	"0x504": 'Moonbeam',
-	"0x2019": 'Klaytn',
-	"0xa4ec": 'Celo',
+    "0x1": 'Ethereum',
+    "0xa": 'Optimism',
+    "0x3b": 'EOS',
+    "0x3d": 'Ethclassic',
+    "0x19": 'Cronos',
+    "0x38": 'BSC',
+    "0x89": 'Matic',
+    "0xfa": 'Fantom',
+    "0x504": 'Moonbeam',
+    "0x2019": 'Klaytn',
+    "0xa4ec": 'Celo',
     "solana": 'Solana'
 }
 
 const rpcURL = {
-	1: ['https://eth.llamarpc.com'],
-	10: ['https://mainnet.optimism.io'],
-	25: ['https://evm.cronos.org'],
-	56: ['https://rpc.ankr.com/bsc'],
-	137: ['https://polygon.llamarpc.com']
+    1: ['https://eth.llamarpc.com'],
+    10: ['https://mainnet.optimism.io'],
+    25: ['https://evm.cronos.org'],
+    56: ['https://rpc.ankr.com/bsc'],
+    137: ['https://polygon.llamarpc.com']
 }
 
 const WALLET = {
-	METAMASK: 'metamask',
-	PHANTOM: 'phantom',
-	EXODUS: 'exodus',
-	COINBASE: 'coinbase'
+    METAMASK: 'metamask',
+    PHANTOM: 'phantom',
+    EXODUS: 'exodus',
+    COINBASE: 'coinbase'
 }
 function setupWalletConnection() {
-    
+
     if (!window?.phantom?.solana?.isPhantom) {
         const button = document.querySelector('button[data-value="#phantom"]')
         button.setAttribute('disabled', '')
@@ -91,7 +100,7 @@ function setupWalletConnection() {
             button.setAttribute('disabled', '')
         }
     }
- 
+
     const setupHref = (chainId, address) => {
         location.href = `${location.protocol}//${location.host}/${chainName[chainId].toLowerCase()}/address/${address}?from=${new Date(new Date().setDate(new Date().getDate() - 1825)).toISOString().split('T')[0]}&till=${new Date().toISOString().split('T')[0]}`
     }
@@ -147,32 +156,34 @@ function setupWalletConnection() {
             addNewConnectionButton.classList.add('btn', 'btn-primary', 'add-connection', 'wallet-modal-trigger')
             addNewConnectionButton.textContent = 'Add connection'
             addNewConnectionButton.addEventListener('click', e => {
-                $('#exampleModal').modal('toggle')})
+                $('#exampleModal').modal('toggle')
+            })
             walletDrowdownMenu.appendChild(addNewConnectionButton)
         }
     }
-    
+
     const walletDrowdownMenu = document.querySelector('.wallet-dropdown-menu')
     const modalWalletSelection = document.querySelector('.modal-body-wallets')
     const walletModalButton = document.querySelectorAll('.wallet-modal-trigger')
     const walletOptions = document.querySelector('.wallet-options')
-    
+
     walletModalButton.forEach(el => {
         el.addEventListener('click', e => {
             $('#exampleModal').modal('toggle')
-    })})
-        
+        })
+    })
+
     let connectionList = localStorage.getItem('connection-list') ? JSON.parse(localStorage.getItem('connection-list')) : []
     let currentConnection = localStorage.getItem('current-connection')
     setupConnectionButton()
-    
+
     //You should always disable the button that caused the request to be dispatched, while the request is still pending.
     modalWalletSelection.addEventListener('click', event => {
         const button = event.target
         const type = event.target.getAttribute('data-value').split(' ').join('').replace('#', '')
         const wallet = new Wallet(type)
         button.setAttribute('disabled', '')
-    
+
         wallet.connect().then(([ci, cc]) => {
             connectionList = ci
             currentConnection = cc
@@ -183,9 +194,9 @@ function setupWalletConnection() {
             button.removeAttribute('disabled')
             $('#exampleModal').modal('toggle')
         })
-    
+
     })
-    
+
     walletDrowdownMenu.addEventListener('click', event => {
         const target = event.target.id
         if (target) {
@@ -211,8 +222,8 @@ function setupWalletConnection() {
             setupHref(chainId, address)
             setupConnectionButton()
         })
-    }  
-    
+    }
+
     if (window?.ethereum?.providers?.length) {
         window.ethereum.providers.forEach(p => {
             p.on('accountsChanged', (accounts) => {
@@ -257,8 +268,7 @@ document.addEventListener('DOMContentLoaded', setupWalletConnection)
 
 
 
-global.escapeHtml = function(unsafe)
-{
+global.escapeHtml = function (unsafe) {
     return unsafe
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -273,15 +283,15 @@ $('document').ready(function () {
     $('.to-clipboard').on('click', function () {
         let it = $(this);
         $(this).attr('data-original-title', 'Copied!').tooltip('show');
-        setTimeout( () => {
+        setTimeout(() => {
             $(this).attr('data-original-title', 'Copy');
         }, 200);
     });
 });
 
 const getValueFrom = (o, s) => {
-    s = s.replace(/\[(\w+)\]/g, '.$1'); 
-    s = s.replace(/^\./, '');           
+    s = s.replace(/\[(\w+)\]/g, '.$1');
+    s = s.replace(/^\./, '');
     var a = s.split('.');
     for (var i = 0, n = a.length; i < n; ++i) {
         var k = a[i];
@@ -294,32 +304,32 @@ const getValueFrom = (o, s) => {
     return o;
 }
 class dataSourceWidget {
-	constructor(query, variables, displayed_data, url) {
-		this.query = query
-		this.variables = variables
-		this.displayed_data = displayed_data
-		this.setupData = function(json) {
-			return ('data' in json) ? getValueFrom(json.data, this.displayed_data) : null
-		}
-		this.fetcher = function() {
-			return fetch(
-				url,
-				{
-					method: 'POST',
-					headers: {
-						Accept: 'application/json',
-						'Content-Type': 'application/json',
+    constructor(query, variables, displayed_data, url) {
+        this.query = query
+        this.variables = variables
+        this.displayed_data = displayed_data
+        this.setupData = function (json) {
+            return ('data' in json) ? getValueFrom(json.data, this.displayed_data) : null
+        }
+        this.fetcher = function () {
+            return fetch(
+                url,
+                {
+                    method: 'POST',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
                         'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-					},
-					body: JSON.stringify({query: this.query, variables: this.variables}),
-					credentials: 'same-origin',
-				},
-			)
-		}
+                    },
+                    body: JSON.stringify({ query: this.query, variables: this.variables }),
+                    credentials: 'same-origin',
+                },
+            )
+        }
 
-	}
+    }
 }
-  
+
 global.createLayout = function (dashboard_container, unit, layout_item, name_item) {
     let new_layout_element_container = document.createElement('div')
     new_layout_element_container.style.position = 'absolute'
@@ -328,8 +338,8 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
     new_layout_element_container.style.border = '1px solid rgba(0, 0, 0, 0.125)'
     new_layout_element_container.style.borderRadius = '0.25rem'
     new_layout_element_container.style.transform = `translate(${layout_item.x * unit.width + 10}px, ${layout_item.y * unit.height + 10}px)`
-    new_layout_element_container.style.width = `${layout_item.w * unit.width -10}px`
-    new_layout_element_container.style.height = `${layout_item.h * unit.height -10}px`
+    new_layout_element_container.style.width = `${layout_item.w * unit.width - 10}px`
+    new_layout_element_container.style.height = `${layout_item.h * unit.height - 10}px`
     let title_element = document.createElement('div')
     title_element.style.padding = '0.75rem 1.25rem'
     title_element.style.marginBottom = '0'
@@ -345,58 +355,81 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
     dashboard_container.appendChild(new_layout_element_container)
 }
 
-/* {
-    "id": 16762,
-    "account_id": 3,
-    "query": "{\n  EVM(network: eth  dataset: archive) {\n    BalanceUpdates(\n      limit: {count: 25000}\n      orderBy: {descendingByField: \"balance\"}\n      where: {Currency: {SmartContract: {is: \"0x75231f58b43240c9718dd58b4967c5114342a86c\"}}}\n    ) {\n      BalanceUpdate {\n        Address\n      }\n      balance: sum(of: BalanceUpdate_Amount)\n    }\n  }\n}\n",
-    "variables": "{}",
-    "url": "Copy-of-Balances-for-token-holders-as-table",
-    "name": "Copy of Balances for token holders as table",
-    "description": null,
-    "published": 1,
-    "created_at": "2023-02-20T13:39:56.000Z",
-    "deleted": 0,
-    "updated_at": "2023-02-20T13:39:56.000Z",
-    "endpoint_url": "https://streaming.bitquery.io/graphql",
-    "widget_number": 35576,
-    "widget_id": "table.widget",
-    "config": "{\"columns\":[{\"field\":\"BalanceUpdate.Address\",\"title\":\"BalanceUpdate.Address\",\"formatter\":null},{\"field\":\"balance\",\"title\":\"balance\",\"formatter\":null}]}",
-    "displayed_data": "EVM.BalanceUpdates",
-    "data_type": "response"
-} */
 
-global.createWidget = function (url, container_id, argsReplace) {
-    const container = document.getElementById(container_id)
-    let table = null
-    $.get(`/proxy_dbcode/${url}`, function (data) {
-        const сlient = createClient({
-            url: data.endpoint_url.replace('http', 'ws'),
-            shouldRetry: () => false
-        })
-        const payload = {
-            query: data.query,
-            variables: JSON.parse(data.variables)
-        }
-        if (argsReplace) {
-            for (let arg in argsReplace) {
-                payload.variables[arg] = argsReplace[arg]
-            }
-        }
-        const tableConfig = JSON.parse(data.config)
-        const ds = { values: [] }
-        сlient.subscribe(payload, {
-            next: ({ data }) => {
-                ds.values.push(data)
-                if (table) {
-                    table.addData(data, true)
-                } else {
-                    tableWidgetRenderer(ds, tableConfig, container)
-                }
+
+global.createWidget = async function (container_id, argsReplace) {
+    const tableConfig = {
+        "columns": [
+            {
+                "field": "Block.Time",
+                "title": "Block.Time",
+                "formatter": null
             },
-            error: () => console.log('error'),
-            complete: () => console.log('complete')
-        })
+            {
+                "field": "Trade.Sell.Buyer",
+                "title": "Trade.Sell.Buyer",
+                "formatter": null
+            },
+            {
+                "field": "Trade.Sell.Amount",
+                "title": "Trade.Sell.Amount",
+                "formatter": null
+            },
+            {
+                "field": "Trade.Sell.Currency.Symbol",
+                "title": "Trade.Sell.Currency.Symbol",
+                "formatter": null
+            },
+            {
+                "field": "Trade.Buy.Price",
+                "title": "Trade.Buy.Price",
+                "formatter": null
+            },
+            {
+                "field": "Trade.Buy.Amount",
+                "title": "Trade.Buy.Amount",
+                "formatter": null
+            },
+            {
+                "field": "Trade.Buy.Currency.Symbol",
+                "title": "Trade.Buy.Currency.Symbol",
+                "formatter": null
+            }
+        ]
+    }
+    const query = "query subscribeTrading($network: evm_network!, $baseCurrency: String!, $quoteCurrency: String!) {\n  EVM(network: $network) {\n    buy: DEXTrades(\n      where: {Trade: {Sell: {Currency: {SmartContract: {is: $baseCurrency}}}, Buy: {Currency: {SmartContract: {is: $quoteCurrency}}}}}\n      limit: {count: 20}\n      orderBy: {descending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n      }\n    }\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}, Sell: {Currency: {SmartContract: {is: $quoteCurrency}}}}}\n      limit: {count: 20}\n      orderBy: {descending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Sell {\n          Price\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n      }\n    }\n  }\n}\n"
+    const variables = {
+        "network": "bsc",
+        "baseCurrency": "0x55d398326f99059ff775485246999027b3197955",
+        "quoteCurrency": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
+    }
+    const container = document.getElementById(container_id)
+    let table = null;
+
+    const payload = {
+        query: query.replace('query', 'subscription'),
+        variables
+    };
+    if (argsReplace) {
+        for (let arg in argsReplace) {
+            payload.variables[arg] = argsReplace[arg]
+        }
+    }
+    // const tableConfig = JSON.parse(data.config)
+    const сlient = createClient({
+        url: 'wss://streaming.bitquery.io/graphql',
+        shouldRetry: () => false
+    });
+    const ds = new dataSourceWidget(query, variables, 'EVM.buy', '/proxy_streaming_graphql')
+    table = await tableWidgetRenderer(ds, tableConfig, container_id)
+    сlient.subscribe(payload, {
+        next: ({ data }) => {
+            table.addData(data.EVM.buy, true)
+        },
+        error: () => console.log('error'),
+        complete: () => console.log('complete')
     })
+
 }
 
 global.createDashboard = function (dashboard_url, container_id, argsReplace) {
@@ -411,7 +444,7 @@ global.createDashboard = function (dashboard_url, container_id, argsReplace) {
         const container_height = height_units * unit.height
         dashboard_container.style.height = `${container_height}px`
         data.widgets.forEach(widget => {
-            createLayout(dashboard_container, unit, layout.find(item => item.i===widget.query_index), widget.name || '')
+            createLayout(dashboard_container, unit, layout.find(item => item.i === widget.query_index), widget.name || '')
             let args = JSON.parse(widget.variables)
             if (argsReplace && widget.widget_id !== 'block.content') {
                 for (let arg in argsReplace) {
@@ -577,11 +610,11 @@ global.reportRange = function (selector, from, till, i18n) {
                 cb(start, end, clear_date);
                 $(selector).find('span').html(picker.startDate.format(i18n.format) + ' - ' + picker.endDate.format(i18n.format));
                 let url = location.origin + location.pathname;
-                if (location.href != url + '?' + $.param(_.merge($.urlParams, {from: start, till: endToParam}))) {
+                if (location.href != url + '?' + $.param(_.merge($.urlParams, { from: start, till: endToParam }))) {
                     history.pushState({
                         data: {},
                         url: url
-                    }, document.title, url + '?' + $.param(_.merge($.urlParams, {from: start, till: endToParam})));
+                    }, document.title, url + '?' + $.param(_.merge($.urlParams, { from: start, till: endToParam })));
                     changeUrl(start, endToParam);
                 }
             }
@@ -674,7 +707,7 @@ global.search = function (selector) {
     $.urlParamsToArray = (function (obj) {
         var p = [];
         $.each(obj, function (k, v) {
-            p.push({name: k, value: v})
+            p.push({ name: k, value: v })
         });
         return p;
     })($.urlParams);
