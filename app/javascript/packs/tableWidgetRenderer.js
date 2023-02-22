@@ -8,7 +8,7 @@ export default async function tableWidgetRenderer(ds, config, el) {
 	if (!ds.values) {
 		const data = await ds.fetcher()
 		const json = await data.json()
-		console.log(json)
+		// console.log(json)
 		values = ds.setupData(json)
 	} else {
 		values = ds.values

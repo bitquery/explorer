@@ -1,6 +1,7 @@
 <div class="col-12 col-lg-12 mb-4">
   <div class="card">
-    <div class="card-header">Streaming table</div>
+	<span class="blinker"></span>
+    <div class="card-header">Latest transfers</div>
     <div class="card-body">
       <div id="streaming_table"><%= t('loading') %></div>
     </div>
@@ -8,5 +9,8 @@
 </div>
 
 <script>
-	createWidget('streaming_table')
+	createWidget('streaming_table', {
+        network: '<%= params['network']['network'] %>',
+        baseCurrency: '<%=@token %>',
+    })
 </script>

@@ -359,51 +359,50 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
 
 global.createWidget = async function (container_id, argsReplace) {
     const tableConfig = {
+        "layout": 'fitColumns',
+        "height": "500px",
+        rowFormatter: row => {
+            if (row.getPosition()%2 === 0) {
+                row.getElement().style.backgroundColor = "#f2f2f2"
+            }
+        },
+        headerSort: false,
+        footerElement:"<button class='badge badge-secondary open-btn bg-success'>Get Streaming API</button>",
         "columns": [
             {
-                "field": "Block.Time",
-                "title": "Block.Time",
+                "field": "Transfer.Amount",
+                "title": "Transfer amount",
                 "formatter": null
             },
             {
-                "field": "Trade.Sell.Buyer",
-                "title": "Trade.Sell.Buyer",
-                "formatter": null
+                "field": "Transfer.Currency.Symbol",
+                "title": "Currency",
+                "formatter": "link",
+                formatterParams: {
+                    url: cell => `https://explorer.bitquery.io/${argsReplace.network}/token/${argsReplace.baseCurrency}`
+                }
             },
             {
-                "field": "Trade.Sell.Amount",
-                "title": "Trade.Sell.Amount",
-                "formatter": null
+                "field": "Transfer.Sender",
+                "title": "Sender",
+                "formatter": "link",
+                formatterParams: {
+                    url: cell => `https://explorer.bitquery.io/${argsReplace.network}/address/${cell.getValue()}`
+                }
             },
             {
-                "field": "Trade.Sell.Currency.Symbol",
-                "title": "Trade.Sell.Currency.Symbol",
-                "formatter": null
-            },
-            {
-                "field": "Trade.Buy.Price",
-                "title": "Trade.Buy.Price",
-                "formatter": null
-            },
-            {
-                "field": "Trade.Buy.Amount",
-                "title": "Trade.Buy.Amount",
-                "formatter": null
-            },
-            {
-                "field": "Trade.Buy.Currency.Symbol",
-                "title": "Trade.Buy.Currency.Symbol",
-                "formatter": null
+                "field": "Transfer.Receiver",
+                "title": "Receiver",
+                "formatter": "link",
+                formatterParams: {
+                    url: cell => `https://explorer.bitquery.io/${argsReplace.network}/address/${cell.getValue()}`
+                }
             }
         ]
     }
-    const query = "query subscribeTrading($network: evm_network!, $baseCurrency: String!, $quoteCurrency: String!) {\n  EVM(network: $network) {\n    buy: DEXTrades(\n      where: {Trade: {Sell: {Currency: {SmartContract: {is: $baseCurrency}}}, Buy: {Currency: {SmartContract: {is: $quoteCurrency}}}}}\n      limit: {count: 20}\n      orderBy: {descending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n      }\n    }\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}, Sell: {Currency: {SmartContract: {is: $quoteCurrency}}}}}\n      limit: {count: 20}\n      orderBy: {descending: Block_Time}\n    ) {\n      Block {\n        Time\n      }\n      Trade {\n        Sell {\n          Price\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n      }\n    }\n  }\n}\n"
-    const variables = {
-        "network": "bsc",
-        "baseCurrency": "0x55d398326f99059ff775485246999027b3197955",
-        "quoteCurrency": "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"
-    }
-    const container = document.getElementById(container_id)
+    const query = "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n    ) {\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Amount\n        Receiver\n        Sender\n      }\n    }\n  }\n}\n"
+
+    const variables = {}
     let table = null;
 
     const payload = {
@@ -415,16 +414,15 @@ global.createWidget = async function (container_id, argsReplace) {
             payload.variables[arg] = argsReplace[arg]
         }
     }
-    // const tableConfig = JSON.parse(data.config)
     const сlient = createClient({
         url: 'wss://streaming.bitquery.io/graphql',
         shouldRetry: () => false
     });
-    const ds = new dataSourceWidget(query, variables, 'EVM.buy', '/proxy_streaming_graphql')
+    const ds = new dataSourceWidget(query, variables, 'EVM.Transfers', '/proxy_streaming_graphql')
     table = await tableWidgetRenderer(ds, tableConfig, container_id)
     сlient.subscribe(payload, {
         next: ({ data }) => {
-            table.addData(data.EVM.buy, true)
+            table.addData(data.EVM.Transfers, true)
         },
         error: () => console.log('error'),
         complete: () => console.log('complete')
