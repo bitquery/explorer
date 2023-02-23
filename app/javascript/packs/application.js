@@ -29,16 +29,6 @@ import * as SockJS from 'sockjs-client';
 import Stomp from "stompjs";
 import { Wallet } from './walletC';
 import { createClient } from "graphql-ws/lib/client";
-// import {createClient} from 'graphql-ws'
-const xs = 1 + 1
-console.log(xs)
-console.log('hi')
-console.log('hi1')
-// console.log(graphqlws)
-// const { createClient } = (await import ("graphql-ws"))
-
-// const createClient = graphqlws.createClient.default
-// const createClient1 = graphqlws.createClient.default()
 
 global.createChart = createChart;
 global.widgetRenderer = {
@@ -68,14 +58,6 @@ const chainName = {
     "0x2019": 'Klaytn',
     "0xa4ec": 'Celo',
     "solana": 'Solana'
-}
-
-const rpcURL = {
-    1: ['https://eth.llamarpc.com'],
-    10: ['https://mainnet.optimism.io'],
-    25: ['https://evm.cronos.org'],
-    56: ['https://rpc.ankr.com/bsc'],
-    137: ['https://polygon.llamarpc.com']
 }
 
 const WALLET = {
@@ -355,8 +337,6 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
     dashboard_container.appendChild(new_layout_element_container)
 }
 
-
-
 global.createWidget = async function (container_id, argsReplace) {
     const tableConfig = {
         "layout": 'fitColumns',
@@ -372,7 +352,8 @@ global.createWidget = async function (container_id, argsReplace) {
             {
                 field: "Block.Time",
                 title: "Timestamp",
-                widthGrow: 2
+                widthGrow: 2,
+                formatter: cell => cell.getValue().replace('T', ' ').replace('Z','')
             },
             {
                 field: "Block.Number",
