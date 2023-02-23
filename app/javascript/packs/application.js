@@ -248,8 +248,6 @@ function setupWalletConnection() {
 
 document.addEventListener('DOMContentLoaded', setupWalletConnection)
 
-
-
 global.escapeHtml = function (unsafe) {
     return unsafe
         .replace(/&/g, "&amp;")
@@ -337,7 +335,39 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
     dashboard_container.appendChild(new_layout_element_container)
 }
 
-global.createWidget = async function (container_id, argsReplace) {
+global.createWidget = async function (container_id, argsReplace, transferURL) {
+    const query = "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n    ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n"
+    const variables = {}
+    let table = null
+
+    const getAPIButton = document.createElement('button')
+    getAPIButton.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api')
+    getAPIButton.textContent = 'Get Streaming API'
+    getAPIButton.onclick = () => {
+        let createHiddenField = function(name, value) {
+            let input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', name);
+            input.setAttribute('value', value);
+            return input;
+        }
+
+        let form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', transferURL);
+        form.setAttribute('target', '_blank');
+        form.setAttribute('enctype', 'application/json');
+        form.appendChild(createHiddenField('query', JSON.stringify(query.replace('query', 'subscription'))));
+        form.appendChild(createHiddenField('variables', JSON.stringify(variables)));
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }
+
+    const tabulatorFooter = document.createElement('div')
+    tabulatorFooter.classList.add('tabulator-footer')
+    tabulatorFooter.appendChild(getAPIButton)
+
     const tableConfig = {
         "layout": 'fitColumns',
         "height": "500px",
@@ -347,7 +377,7 @@ global.createWidget = async function (container_id, argsReplace) {
             }
         },
         headerSort: false,
-        footerElement:"<button class='badge badge-secondary open-btn bg-success'>Get Streaming API</button>",
+        footerElement: tabulatorFooter,
         "columns": [
             {
                 field: "Block.Time",
@@ -408,10 +438,6 @@ global.createWidget = async function (container_id, argsReplace) {
             }
         ]
     }
-    const query = "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n    ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n"
-
-    const variables = {}
-    let table = null;
 
     const payload = {
         query: query.replace('query', 'subscription'),

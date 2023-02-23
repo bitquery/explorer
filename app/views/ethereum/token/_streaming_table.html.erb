@@ -15,5 +15,5 @@
 	createWidget('latest-transfers-live', {
         network: '<%= params['network']['network'] %>',
         baseCurrency: '<%=@token %>',
-    })
+    }, '<%= BITQUERY_IDE_API %>/querytransfer')
 </script>
