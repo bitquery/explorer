@@ -1,15 +1,18 @@
-<div class="col-12 col-lg-12 mb-4">
-  <div class="card">
-	<span class="blinker"></span>
-    <div class="card-header">Latest transfers</div>
-    <div class="card-body">
-      <div id="streaming_table"><%= t('loading') %></div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <span class="live-header">Live</span>
+      <span class="blinker"></span>
+      <div class="card-header">Latest transfers</div>
+      <div class="card-body">
+        <div id="latest-transfers-live"><%= t('loading') %></div>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-	createWidget('streaming_table', {
+	createWidget('latest-transfers-live', {
         network: '<%= params['network']['network'] %>',
         baseCurrency: '<%=@token %>',
     })

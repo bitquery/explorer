@@ -370,16 +370,16 @@ global.createWidget = async function (container_id, argsReplace) {
         footerElement:"<button class='badge badge-secondary open-btn bg-success'>Get Streaming API</button>",
         "columns": [
             {
-                "field": "Transfer.Amount",
-                "title": "Transfer amount",
-                "formatter": null
+                field: "Block.Time",
+                title: "Timestamp",
+                widthGrow: 2
             },
             {
-                "field": "Transfer.Currency.Symbol",
-                "title": "Currency",
-                "formatter": "link",
+                field: "Block.Number",
+                title: "Block",
+                formatter: "link",
                 formatterParams: {
-                    url: cell => `https://explorer.bitquery.io/${argsReplace.network}/token/${argsReplace.baseCurrency}`
+                    url: cell => `${window.location.origin}/${argsReplace.network}/block/${cell.getValue()}`
                 }
             },
             {
@@ -387,20 +387,47 @@ global.createWidget = async function (container_id, argsReplace) {
                 "title": "Sender",
                 "formatter": "link",
                 formatterParams: {
-                    url: cell => `https://explorer.bitquery.io/${argsReplace.network}/address/${cell.getValue()}`
+                    url: cell => `${window.location.origin}/${argsReplace.network}/address/${cell.getValue()}`
                 }
+            },
+            {
+                formatter: (cell, formatterParams) => "<i class='fa fa-sign-in text-success'></i>",
+                width: 40,
+                hozAlign: "center"
             },
             {
                 "field": "Transfer.Receiver",
                 "title": "Receiver",
                 "formatter": "link",
                 formatterParams: {
-                    url: cell => `https://explorer.bitquery.io/${argsReplace.network}/address/${cell.getValue()}`
+                    url: cell => `${window.location.origin}/${argsReplace.network}/address/${cell.getValue()}`
+                }
+            },
+            {
+                "field": "Transfer.Amount",
+                "title": "Amount",
+                hozAlign: "right",
+                headerHozAlign: "right",
+                formatter: cell => parseFloat( cell.getValue()).toFixed(4)
+            },
+            {
+                "field": "Transfer.Currency.Symbol",
+                "title": "Currency"
+            },
+            {
+                field: "Transaction.Hash",
+                title: "Transaction",
+                "formatter": (cell, formatterParams) => {
+                    return `<a href="${formatterParams.url(cell)}">${formatterParams.label(cell)}</a>`
+                },
+                formatterParams: {
+                    url: cell => `${window.location.origin}/${argsReplace.network}/tx/${cell.getValue()}`,
+                    label: cell => `<i class="fas fa-share-square text-primary mr-1"></i>${cell.getValue()}`
                 }
             }
         ]
     }
-    const query = "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n    ) {\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Amount\n        Receiver\n        Sender\n      }\n    }\n  }\n}\n"
+    const query = "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n    ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n"
 
     const variables = {}
     let table = null;
@@ -422,7 +449,8 @@ global.createWidget = async function (container_id, argsReplace) {
     table = await tableWidgetRenderer(ds, tableConfig, container_id)
     сlient.subscribe(payload, {
         next: ({ data }) => {
-            table.addData(data.EVM.Transfers, true)
+            const filteredData = data.EVM.Transfers.filter(el => el.Transfer.Sender !== '0x' && el.Transfer.Receiver !== '0x')
+            table.addData(filteredData, true)
         },
         error: () => console.log('error'),
         complete: () => console.log('complete')
