@@ -445,7 +445,8 @@ global.createWidget = async function (container_id, argsReplace, transferURL) {
     };
     if (argsReplace) {
         for (let arg in argsReplace) {
-            payload.variables[arg] = argsReplace[arg]
+
+            payload.variables[arg] = argsReplace[arg] === 'ethereum' ? 'eth' : argsReplace[arg]
         }
     }
     const сlient = createClient({
