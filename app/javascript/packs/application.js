@@ -474,14 +474,20 @@ global.createWidget = async function (widgetType, container_id, argsReplace, tra
                 },
                 {
                     field: "Trade.Buy.Amount",
-                    title: "Base amount",
+                    title: "Quote amount",
                     hozAlign: "right",
                     headerHozAlign: "right",
                     formatter: cell => parseFloat(cell.getValue()).toFixed(4)
                 },
                 {
                     field: "Trade.Buy.Currency.Symbol",
-                    title: "Base currency"
+                    title: "Quote currency"
+                },
+                {
+                    field: "Trade.Buy.Price",
+                    title: "Price",
+                    widthGrow: 2,
+                    formatter: cell => `${parseFloat(cell.getValue()).toFixed(4)} ${cell.getRow().getCell('Trade.Sell.Currency.Symbol').getValue()}`
                 },
                 {
                     formatter: () => "<i class='fa fa-sign-in text-success'></i>",
@@ -490,14 +496,14 @@ global.createWidget = async function (widgetType, container_id, argsReplace, tra
                 },
                 {
                     field: "Trade.Sell.Amount",
-                    title: "Quote amount",
+                    title: "Base amount",
                     hozAlign: "right",
                     headerHozAlign: "right",
                     formatter: cell => parseFloat(cell.getValue()).toFixed(4)
                 },
                 {
                     field: "Trade.Sell.Currency.Symbol",
-                    title: "Quote currency"
+                    title: "Base currency"
                 },
                 {
                     field: "Trade.Dex.ProtocolName",
