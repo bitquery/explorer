@@ -335,16 +335,28 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
     dashboard_container.appendChild(new_layout_element_container)
 }
 
-global.createWidget = async function (container_id, argsReplace, transferURL) {
-    const query = "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n    ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n"
+global.createWidget = async function (widgetType, container_id, argsReplace, transferURL) {
+    const query = {
+        transfers: "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n",
+        token_dex_trades: "query subscribeTrading($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}}}\n      ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n  }\n}\n"
+
+    }
     const variables = {}
+    const dataFunction = {
+        transfers: data => data.EVM.Transfers.filter(el => el.Transfer.Sender !== '0x' && el.Transfer.Receiver !== '0x'),
+        token_dex_trades: data => data.EVM.sell
+    }
+    const displayedData = {
+        transfers: "EVM.Transfers",
+        token_dex_trades: "EVM.sell"
+    }
     let table = null
 
     const getAPIButton = document.createElement('button')
     getAPIButton.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api')
     getAPIButton.textContent = 'Get Streaming API'
     getAPIButton.onclick = () => {
-        let createHiddenField = function(name, value) {
+        let createHiddenField = function (name, value) {
             let input = document.createElement('input');
             input.setAttribute('type', 'hidden');
             input.setAttribute('name', name);
@@ -357,7 +369,7 @@ global.createWidget = async function (container_id, argsReplace, transferURL) {
         form.setAttribute('action', transferURL);
         form.setAttribute('target', '_blank');
         form.setAttribute('enctype', 'application/json');
-        form.appendChild(createHiddenField('query', JSON.stringify(query.replace('query', 'subscription'))));
+        form.appendChild(createHiddenField('query', JSON.stringify(query[widgetType].replace('query', 'subscription'))));
         form.appendChild(createHiddenField('variables', JSON.stringify(variables)));
         document.body.appendChild(form);
         form.submit();
@@ -368,79 +380,143 @@ global.createWidget = async function (container_id, argsReplace, transferURL) {
     tabulatorFooter.classList.add('tabulator-footer')
     tabulatorFooter.appendChild(getAPIButton)
 
-    const tableConfig = {
+    const defaultTableConfig = {
         "layout": 'fitColumns',
         "height": "500px",
         rowFormatter: row => {
-            if (row.getPosition()%2 === 0) {
+            if (row.getPosition() % 2 === 0) {
                 row.getElement().style.backgroundColor = "#f2f2f2"
             }
         },
         headerSort: false,
         footerElement: tabulatorFooter,
-        "columns": [
-            {
-                field: "Block.Time",
-                title: "Timestamp",
-                widthGrow: 2,
-                formatter: cell => cell.getValue().replace('T', ' ').replace('Z','')
-            },
-            {
-                field: "Block.Number",
-                title: "Block",
-                formatter: "link",
-                formatterParams: {
-                    url: cell => `${window.location.origin}/${argsReplace.network}/block/${cell.getValue()}`
-                }
-            },
-            {
-                "field": "Transfer.Sender",
-                "title": "Sender",
-                "formatter": "link",
-                formatterParams: {
-                    url: cell => `${window.location.origin}/${argsReplace.network}/address/${cell.getValue()}`
-                }
-            },
-            {
-                formatter: (cell, formatterParams) => "<i class='fa fa-sign-in text-success'></i>",
-                width: 40,
-                hozAlign: "center"
-            },
-            {
-                "field": "Transfer.Receiver",
-                "title": "Receiver",
-                "formatter": "link",
-                formatterParams: {
-                    url: cell => `${window.location.origin}/${argsReplace.network}/address/${cell.getValue()}`
-                }
-            },
-            {
-                "field": "Transfer.Amount",
-                "title": "Amount",
-                hozAlign: "right",
-                headerHozAlign: "right",
-                formatter: cell => parseFloat( cell.getValue()).toFixed(4)
-            },
-            {
-                "field": "Transfer.Currency.Symbol",
-                "title": "Currency"
-            },
-            {
-                field: "Transaction.Hash",
-                title: "Transaction",
-                "formatter": (cell, formatterParams) => {
-                    return `<a href="${formatterParams.url(cell)}">${formatterParams.label(cell)}</a>`
+    }
+
+    const tableConfig = {
+        transfers: {
+            ...defaultTableConfig,
+            "columns": [
+                {
+                    field: "Block.Time",
+                    title: "Timestamp",
+                    widthGrow: 2,
+                    formatter: cell => cell.getValue().replace('T', ' ').replace('Z', '')
                 },
-                formatterParams: {
-                    url: cell => `${window.location.origin}/${argsReplace.network}/tx/${cell.getValue()}`,
-                    label: cell => `<i class="fas fa-share-square text-primary mr-1"></i>${cell.getValue()}`
+                {
+                    field: "Block.Number",
+                    title: "Block",
+                    formatter: "link",
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/block/${cell.getValue()}`
+                    }
+                },
+                {
+                    "field": "Transfer.Sender",
+                    "title": "Sender",
+                    "formatter": "link",
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/address/${cell.getValue()}`
+                    }
+                },
+                {
+                    formatter: (cell, formatterParams) => "<i class='fa fa-sign-in text-success'></i>",
+                    width: 40,
+                    hozAlign: "center"
+                },
+                {
+                    "field": "Transfer.Receiver",
+                    "title": "Receiver",
+                    "formatter": "link",
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/address/${cell.getValue()}`
+                    }
+                },
+                {
+                    "field": "Transfer.Amount",
+                    "title": "Amount",
+                    hozAlign: "right",
+                    headerHozAlign: "right",
+                    formatter: cell => parseFloat(cell.getValue()).toFixed(4)
+                },
+                {
+                    "field": "Transfer.Currency.Symbol",
+                    "title": "Currency"
+                },
+                {
+                    field: "Transaction.Hash",
+                    title: "Transaction",
+                    "formatter": (cell, formatterParams) => {
+                        return `<a href="${formatterParams.url(cell)}">${formatterParams.label(cell)}</a>`
+                    },
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/tx/${cell.getValue()}`,
+                        label: cell => `<i class="fas fa-share-square text-primary mr-1"></i>${cell.getValue()}`
+                    }
                 }
-            }
-        ]
+            ]
+        },
+        token_dex_trades: {
+            ...defaultTableConfig,
+            columns: [
+                {
+                    field: "Block.Time",
+                    title: "Timestamp",
+                    widthGrow: 2,
+                    formatter: cell => cell.getValue().replace('T', ' ').replace('Z', '')
+                },
+                {
+                    field: "Block.Number",
+                    title: "Block",
+                    formatter: "link",
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/block/${cell.getValue()}`
+                    }
+                },
+                {
+                    field: "Trade.Buy.Amount",
+                    title: "Base amount",
+                    hozAlign: "right",
+                    headerHozAlign: "right",
+                    formatter: cell => parseFloat(cell.getValue()).toFixed(4)
+                },
+                {
+                    field: "Trade.Buy.Currency.Symbol",
+                    title: "Base currency"
+                },
+                {
+                    formatter: () => "<i class='fa fa-sign-in text-success'></i>",
+                    width: 40,
+                    hozAlign: "center"
+                },
+                {
+                    field: "Trade.Sell.Amount",
+                    title: "Quote amount",
+                    hozAlign: "right",
+                    headerHozAlign: "right",
+                    formatter: cell => parseFloat(cell.getValue()).toFixed(4)
+                },
+                {
+                    field: "Trade.Sell.Currency.Symbol",
+                    title: "Quote currency"
+                },
+                {
+                    field: "Trade.Dex.ProtocolName",
+                    title: "Protocol"
+                },
+                {
+                    field: "Trade.Dex.SmartContract",
+                    title: "Smart contract",
+                    formatter: "link",
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/smart_contract/${cell.getValue()}`
+                    }
+                }
+            ]
+        }
     }
 
     const payload = {
-        query: query.replace('query', 'subscription'),
+        query: query[widgetType].replace('query', 'subscription'),
         variables
     };
     if (argsReplace) {
@@ -453,11 +529,11 @@ global.createWidget = async function (container_id, argsReplace, transferURL) {
         url: 'wss://streaming.bitquery.io/graphql',
         shouldRetry: () => false
     });
-    const ds = new dataSourceWidget(query, variables, 'EVM.Transfers', '/proxy_streaming_graphql')
-    table = await tableWidgetRenderer(ds, tableConfig, container_id)
+    const ds = new dataSourceWidget(query[widgetType], variables, displayedData[widgetType], 'https://streaming.bitquery.io/graphql')
+    table = await tableWidgetRenderer(ds, tableConfig[widgetType], container_id)
     сlient.subscribe(payload, {
         next: ({ data }) => {
-            const filteredData = data.EVM.Transfers.filter(el => el.Transfer.Sender !== '0x' && el.Transfer.Receiver !== '0x')
+            const filteredData = dataFunction[widgetType](data)
             table.addData(filteredData, true)
         },
         error: () => console.log('error'),

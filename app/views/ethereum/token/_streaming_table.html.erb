@@ -3,7 +3,7 @@
     <div class="card">
       <span class="live-header">Live</span>
       <span class="blinker"></span>
-      <div class="card-header">Latest transfers</div>
+      <div class="card-header"><%=  params['action'] === 'transfers' ? 'Latest transfers' : 'Latest DEX trades'%></div>
       <div class="card-body">
         <div id="latest-transfers-live"><%= t('loading') %></div>
       </div>
@@ -12,8 +12,8 @@
 </div>
 
 <script>
-	createWidget('latest-transfers-live', {
+	createWidget('<%= params['action']%>', 'latest-transfers-live', {
         network: '<%= params['network']['network'] %>',
-        baseCurrency: '<%=@token %>',
+        baseCurrency: '<%=@token %>'
     }, '<%= BITQUERY_IDE_API %>/querytransfer')
 </script>
