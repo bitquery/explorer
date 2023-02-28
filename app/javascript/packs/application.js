@@ -337,8 +337,8 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
 
 global.createWidget = async function (widgetType, container_id, argsReplace, transferURL) {
     const query = {
-        transfers: "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n",
-        token_dex_trades: "query subscribeTrading($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}}}\n      ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n  }\n}\n"
+        transfers: "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n      ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n",
+        token_dex_trades: "query subscribeTrading($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}}}\n      limit: {count: 100}\n      ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n  }\n}\n"
 
     }
     const variables = {}
@@ -539,8 +539,15 @@ global.createWidget = async function (widgetType, container_id, argsReplace, tra
     table = await tableWidgetRenderer(ds, tableConfig[widgetType], container_id)
     сlient.subscribe(payload, {
         next: ({ data }) => {
+            const tableLength = 50
             const filteredData = dataFunction[widgetType](data)
-            table.addData(filteredData, true)
+            const currentData = table.getData()
+            if (filteredData.length < tableLength) {
+                const newData = [...filteredData, ...currentData.slice(0, tableLength - filteredData.length)]
+                table.replaceData(newData)
+            } else {
+                table.replaceData(filteredData.slice(0, tableLength))
+            }
         },
         error: () => console.log('error'),
         complete: () => console.log('complete')
