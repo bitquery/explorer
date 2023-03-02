@@ -38,8 +38,3 @@ services:
     <<: *common-network
     <<: *common-restart
     <<: *common-logging
-    
-networks:
-  common:
-    external: ${LC_COMPOSE_NETWORK_EXTERNAL:-false}
-    name: "${LC_COMPOSE_NETWORK_ID:-bridge-lan}"
