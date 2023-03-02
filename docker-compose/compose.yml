@@ -2,12 +2,16 @@ x-common-dns: &common-dns
   dns: 10.0.0.254
   dns_search: ${LC_COMPOSE_CLUSTER}.local
 x-common-network: &common-network
-  network_mode: bridge
+  networks:
+    - common
 x-common-restart: &common-restart
   restart: on-failure
-x-graceful-stop: &graceful-stop
-  stop_grace_period: 1m
-  stop_signal: SIGINT
+x-common-logging: &common-logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "100m"
+      max-file: "3"
 
 services:
   rails:
@@ -33,3 +37,9 @@ services:
     <<: *common-dns
     <<: *common-network
     <<: *common-restart
+    <<: *common-logging
+    
+networks:
+  common:
+    external: ${LC_COMPOSE_NETWORK_EXTERNAL:-false}
+    name: "${LC_COMPOSE_NETWORK_ID:-bridge-lan}"
