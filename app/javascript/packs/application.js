@@ -337,18 +337,20 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
 
 global.createWidget = async function (widgetType, container_id, argsReplace, transferURL) {
     const query = {
-        transfers: "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n",
-        token_dex_trades: "query subscribeTrading($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}}}\n      ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n  }\n}\n"
-
+        transfers: "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n      ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n",
+        token_dex_trades: "query subscribeTrading($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}}}\n      limit: {count: 100}\n      ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n  }\n}\n",
+        pair_dex_trades: "query pair(\n  $network: evm_network!\n  $baseCurrency: String!\n  $quoteCurrency: String!\n) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {\n        Trade: {\n          Sell: { Currency: { SmartContract: { is: $baseCurrency } } }\n          Buy: { Currency: { SmartContract: { is: $quoteCurrency } } }\n        }\n      }\n    ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n    \n    \n  }\n}\n"
     }
     const variables = {}
     const dataFunction = {
         transfers: data => data.EVM.Transfers.filter(el => el.Transfer.Sender !== '0x' && el.Transfer.Receiver !== '0x'),
-        token_dex_trades: data => data.EVM.sell
+        token_dex_trades: data => data.EVM.sell,
+        pair_dex_trades: data => data.EVM.sell
     }
     const displayedData = {
         transfers: "EVM.Transfers",
-        token_dex_trades: "EVM.sell"
+        token_dex_trades: "EVM.sell",
+        pair_dex_trades: "EVM.sell"
     }
     let table = null
 
@@ -518,6 +520,70 @@ global.createWidget = async function (widgetType, container_id, argsReplace, tra
                     }
                 }
             ]
+        },
+        pair_dex_trades: {
+            ...defaultTableConfig,
+            columns: [
+                {
+                    field: "Block.Time",
+                    title: "Timestamp",
+                    widthGrow: 2,
+                    formatter: cell => cell.getValue().replace('T', ' ').replace('Z', '')
+                },
+                {
+                    field: "Block.Number",
+                    title: "Block",
+                    formatter: "link",
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/block/${cell.getValue()}`
+                    }
+                },
+                {
+                    field: "Trade.Buy.Amount",
+                    title: "Quote amount",
+                    hozAlign: "right",
+                    headerHozAlign: "right",
+                    formatter: cell => parseFloat(cell.getValue()).toFixed(4)
+                },
+                {
+                    field: "Trade.Buy.Currency.Symbol",
+                    title: "Quote currency"
+                },
+                {
+                    field: "Trade.Buy.Price",
+                    title: "Price",
+                    widthGrow: 2,
+                    formatter: cell => `${parseFloat(cell.getValue()).toFixed(4)} ${cell.getRow().getCell('Trade.Sell.Currency.Symbol').getValue()}`
+                },
+                {
+                    formatter: () => "<i class='fa fa-sign-in text-success'></i>",
+                    width: 40,
+                    hozAlign: "center"
+                },
+                {
+                    field: "Trade.Sell.Amount",
+                    title: "Base amount",
+                    hozAlign: "right",
+                    headerHozAlign: "right",
+                    formatter: cell => parseFloat(cell.getValue()).toFixed(4)
+                },
+                {
+                    field: "Trade.Sell.Currency.Symbol",
+                    title: "Base currency"
+                },
+                {
+                    field: "Trade.Dex.ProtocolName",
+                    title: "Protocol"
+                },
+                {
+                    field: "Trade.Dex.SmartContract",
+                    title: "Smart contract",
+                    formatter: "link",
+                    formatterParams: {
+                        url: cell => `${window.location.origin}/${argsReplace.network}/smart_contract/${cell.getValue()}`
+                    }
+                }
+            ]
         }
     }
 
@@ -539,8 +605,15 @@ global.createWidget = async function (widgetType, container_id, argsReplace, tra
     table = await tableWidgetRenderer(ds, tableConfig[widgetType], container_id)
     сlient.subscribe(payload, {
         next: ({ data }) => {
+            const tableLength = 50
             const filteredData = dataFunction[widgetType](data)
-            table.addData(filteredData, true)
+            const currentData = table.getData()
+            if (filteredData.length < tableLength) {
+                const newData = [...filteredData, ...currentData.slice(0, tableLength - filteredData.length)]
+                table.replaceData(newData)
+            } else {
+                table.replaceData(filteredData.slice(0, tableLength))
+            }
         },
         error: () => console.log('error'),
         complete: () => console.log('complete')

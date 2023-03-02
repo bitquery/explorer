@@ -1,9 +1,9 @@
 x-common-dns: &common-dns
   dns: 10.0.0.254
   dns_search: ${LC_COMPOSE_CLUSTER}.local
-x-common-network: &common-network
-  networks:
-    - common
+#x-common-network: &common-network
+#  networks:
+#    - common
 x-common-restart: &common-restart
   restart: on-failure
 x-common-logging: &common-logging
@@ -35,11 +35,6 @@ services:
       - BITQUERY_GRAPHQL=${LC_COMPOSE_BITQUERY_GRAPHQL}
       - BITQUERY_IDE_API=https://${LC_COMPOSE_IDE_DOMAIN}/api
     <<: *common-dns
-    <<: *common-network
+#    <<: *common-network
     <<: *common-restart
     <<: *common-logging
-    
-networks:
-  common:
-    external: ${LC_COMPOSE_NETWORK_EXTERNAL:-false}
-    name: "${LC_COMPOSE_NETWORK_ID:-bridge-lan}"
