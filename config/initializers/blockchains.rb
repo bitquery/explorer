@@ -46,7 +46,8 @@ BLOCKCHAINS = [
     family: 'ethereum',
     platform: 'Smart Contract',
     currency: 'ETH',
-    icon: 'eth.svg'
+    icon: 'eth.svg',
+    innovation: true
   },
 
   {
@@ -196,7 +197,8 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'BNB',
     icon: 'bnb.svg',
-    start: Date.parse('2020-08-29')
+    start: Date.parse('2020-08-29'),
+    innovation: true
   },
 
   {

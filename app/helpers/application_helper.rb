@@ -11,6 +11,10 @@ module ApplicationHelper
     "<span class=\"copy-text #{html_class}\">#{addr} <a href='javascript:void()' class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\" data-toggle=\"tooltip\" title=\"Copy\"></a></span>".html_safe
   end
 
+  def innovation_in_blockchain?
+    @network && BLOCKCHAIN_BY_NAME[@network['network']][:innovation] == true || false
+  end
+
   def extend_layout(layout, &block)
     layout = layout.to_s
     # If there's no directory component, presume a plain layout name
@@ -54,7 +58,7 @@ module ApplicationHelper
   end
 
   def new_tab name, action, new_tabs = []
-    (new_tabs || []).include?(action) ? tag.span(name) + " " + tag.div(class: "blink blnkr bg-success") : name
+    (new_tabs || []).include?(action) && innovation_in_blockchain? ? tag.span(name) + " " + tag.div(class: "blink blnkr bg-success") : name
   end
 
   def locale_path_prefix

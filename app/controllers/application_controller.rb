@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
     {locale: I18n.locale == I18n.default_locale ? nil : I18n.locale}
   end
 
+  def innovation_in_blockchain?
+    @network && BLOCKCHAIN_BY_NAME[@network['network']]['innovation'] == true || false
+  end
+
   private
 
   def extract_locale_from_accept_language_header
