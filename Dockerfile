@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
-ENV BUNDLER_VERSION="1.17.3" \
+ENV BUNDLER_VERSION="2.1.4" \
     RAILS_ENV="production" \
     NODE_ENV="production" \
     BUNDLE_PATH="vendor/bundle" \
