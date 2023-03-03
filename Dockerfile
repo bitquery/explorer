@@ -15,10 +15,9 @@ RUN apk -U upgrade && \
     gem install bundler:${BUNDLER_VERSION} --no-document
 
 RUN if [[ "$RAILS_ENV" == "production" ]]; then bundle config set --local without 'development test'; fi && \
-    bundle install --no-cache && \
+    bundle config set no-cache 'true' && \
+    bundle install && \
     rm -rf /app/vendor/bundle/cache/*.gem && \
-    find /app/vendor/bundle/gems/ -name "*.c" -delete && \
-    find /app/vendor/bundle/gems/ -name "*.o" -delete && \
     mkdir -p tmp/pids
 
 RUN yarn --check-files --silent --production && \
@@ -53,7 +52,7 @@ RUN apk add --no-cache bash net-tools bind-tools tzdata && \
 
 COPY --from=builder --chown=appuser /app /app
 
-RUN rm -rf node_modules tmp/cache  lib/assets
+RUN rm -rf node_modules vendor tmp/cache  lib/assets
 
 RUN chmod +x /app/entrypoint.sh
 
