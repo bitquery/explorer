@@ -1,4 +1,4 @@
-FROM ruby:2.6.3-alpine AS builder
+FROM ruby:2.7.7-alpine AS builder
 
 WORKDIR /app
 
@@ -30,7 +30,7 @@ RUN bundle exec rails webpacker:compile && \
     bundle exec rake assets:precompile
 
 
-FROM ruby:2.6.3-alpine AS runner
+FROM ruby:2.7.7-alpine AS runner
 
 ENV RAILS_ENV="production" \
     RAILS_SERVE_STATIC_FILES=true \
