@@ -33,6 +33,7 @@
     "vis": "^4.21.0-EOL"
   },
   "version": "0.1.0",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@purtuga/esm-webpack-plugin": "^1.5.0",
     "webpack-dev-server": "^3.10.3"

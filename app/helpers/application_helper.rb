@@ -54,7 +54,7 @@ module ApplicationHelper
   end
 
   def new_tab name, action, new_tabs = []
-    (new_tabs || []).include?(action) ? tag.span(name) + " " + tag.i(class: "fas fa-certificate text-success") : name
+    (new_tabs || []).include?(action) ? tag.span(name) + " " + tag.i(class: "fas fa-circle blink blnkr text-success") : name
   end
 
   def locale_path_prefix

@@ -2,7 +2,7 @@
   <li class="nav-item dropdown d-block d-md-none">
     <% for tab in tabs %>
       <% next if params[:action] != tab %>
-      <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= new_tab t("tabs.#{controller.controller_name}.#{tab}.name"), tab, defined?(new_tabs) %></a>
+      <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= new_tab t("tabs.#{controller.controller_name}.#{tab}.name"), tab, (defined?(new_tabs) && new_tabs || []) %></a>
       <div class="dropdown-menu">
         <% for tab in tabs  %>
           <%= tab_a t("tabs.#{controller.controller_name}.#{tab}.name"), tab, (defined?(new_tabs) && new_tabs || []), 'dropdown-item' %>
