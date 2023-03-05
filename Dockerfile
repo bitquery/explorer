@@ -2,17 +2,18 @@ FROM ruby:2.7.7-alpine AS builder
 
 WORKDIR /app
 
-COPY Gemfile Gemfile.lock package.json yarn.lock ./
-
-ENV BUNDLER_VERSION="2.1.4" \
-    RAILS_ENV="production" \
+ENV RAILS_ENV="production" \
     NODE_ENV="production" \
     BUNDLE_PATH="vendor/bundle" \
+    GEM_HOME="vendor/bundle" \
     BUNDLE_JOBS=6
 
+ENV PATH="$GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH"
+
+COPY Gemfile Gemfile.lock package.json yarn.lock ./
+
 RUN apk -U upgrade && \
-    apk add --no-cache build-base git nodejs yarn && \
-    gem install bundler:${BUNDLER_VERSION} --no-document
+    apk add --no-cache build-base git nodejs yarn
 
 RUN if [[ "$RAILS_ENV" == "production" ]]; then bundle config set --local without 'development test'; fi && \
     bundle config set no-cache 'true' && \
@@ -28,8 +29,13 @@ COPY . ./
 RUN bundle exec rails webpacker:compile && \
     bundle exec rake assets:precompile
 
+#RUN rm -rf node_modules vendor tmp/cache lib/assets
+
+
 
 FROM ruby:2.7.7-alpine AS runner
+
+WORKDIR /app
 
 ENV RAILS_ENV="production" \
     RAILS_SERVE_STATIC_FILES=true \
@@ -44,23 +50,24 @@ ENV RAILS_ENV="production" \
     BITQUERY_IMAGES="https://bitquery.io/wp-content/uploads/2020/09" \
     BITQUERY_GRAPHQL="http://graphql-internal.api-cluster.local" \
     BITQUERY_IDE_API="https://graphql.bitquery.io/ide/api" \
-    BUNDLE_PATH="vendor/bundle"
+    BUNDLE_PATH="vendor/bundle" \
+    GEM_HOME="vendor/bundle"
+
+ENV PATH="$GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH"
 
 RUN apk add --no-cache bash net-tools bind-tools tzdata && \
     adduser -h /app -H -s /bin/bash -D appuser && \
     rm -rf /var/cache/apk/*
 
 COPY --from=builder --chown=appuser /app /app
+COPY --from=builder --chown=appuser /usr/local/bundle /usr/local/bundle
 
-RUN rm -rf node_modules vendor tmp/cache  lib/assets
-
-RUN chmod +x /app/entrypoint.sh
+RUN chown appuser:appuser -R /app \
+   && chmod +x /app/entrypoint.sh
 
 USER appuser
 
 EXPOSE "${PORT}"
-
-WORKDIR /app
 
 ENTRYPOINT ["./entrypoint.sh"]
 
