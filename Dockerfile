@@ -1,12 +1,9 @@
 FROM ruby:2.7.7-alpine AS builder
 
 WORKDIR /app
-
 ENV RAILS_ENV="production" \
-    NODE_ENV="production" \
     BUNDLE_PATH="vendor/bundle" \
-    GEM_HOME="vendor/bundle" \
-    BUNDLE_JOBS=6
+    GEM_HOME="vendor/bundle"
 
 ENV PATH="$GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH"
 
@@ -15,13 +12,16 @@ COPY Gemfile Gemfile.lock package.json yarn.lock ./
 RUN apk -U upgrade && \
     apk add --no-cache build-base git nodejs yarn
 
-RUN if [[ "$RAILS_ENV" == "production" ]]; then bundle config set --local without 'development test'; fi && \
+RUN bundle config set --local without 'development test' && \
     bundle config set no-cache 'true' && \
     bundle install && \
     rm -rf /app/vendor/bundle/cache/*.gem && \
     mkdir -p tmp/pids
 
-RUN yarn --check-files --silent --production && \
+RUN node -v && \
+    yarn version
+
+RUN yarn install --production && \
     yarn cache clean
 
 COPY . ./
@@ -29,7 +29,6 @@ COPY . ./
 RUN bundle exec rails webpacker:compile && \
     bundle exec rake assets:precompile
 
-#RUN rm -rf node_modules vendor tmp/cache lib/assets
 
 
 
@@ -46,10 +45,6 @@ ENV RAILS_ENV="production" \
     ANALYTICS=true \
     SECRET_KEY_BASE="" \
     EXPLORER_API_KEY="" \
-    BITQUERY_PROJECT_URL="https://bitquery.io" \
-    BITQUERY_IMAGES="https://bitquery.io/wp-content/uploads/2020/09" \
-    BITQUERY_GRAPHQL="http://graphql-internal.api-cluster.local" \
-    BITQUERY_IDE_API="https://graphql.bitquery.io/ide/api" \
     BUNDLE_PATH="vendor/bundle" \
     GEM_HOME="vendor/bundle"
 
