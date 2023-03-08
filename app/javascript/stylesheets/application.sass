@@ -53,3 +53,45 @@ svg[visibility="hidden"]
     filter: grayscale(100%) blur(1px)
   &:hover:enabled
     background-color: #ccc
+
+.tabulator
+  font-size: 16px !important
+
+.live-header
+  position: absolute
+  right: 23px
+  top: 15.3px
+  color: green
+  font-wiegh: bold
+
+.blnkr
+  font-size: 5px
+  position: relative
+  top: -2px
+  left: 3px
+  display: inline-block
+  width: 5px
+  height: 5px
+  border-radius: 50%
+
+.blink
+  animation: blinker 1s linear infinite
+
+@keyframes blink
+  50%
+    opacity: 0
+
+.blinker
+  position: absolute
+  right: 58px
+  top: 15px
+  border-radius: 50%
+  transform: translateY(-50%)
+  width: 5px
+  height: 5px
+  background-color: green
+  animation: blinker 1s linear infinite
+
+@keyframes blinker
+  50%
+    opacity: 0
