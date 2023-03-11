@@ -50,7 +50,17 @@
               }
             }`);
 
-        new widgets.table('#currencies_table', query, 'ethereum.transfers', {
+         render('#currencies_table','query_id',{},
+          class {
+            init(){
+                table.new
+            }
+            onData (data) {
+                table.data = data
+            }
+          });
+
+          {
             title: '<%= t('widgets.headers.currencies_sent_received') %>',
             dataOptions: [
                 {

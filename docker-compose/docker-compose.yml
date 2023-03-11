@@ -12,7 +12,7 @@ x-graceful-stop: &graceful-stop
 
 services:
   rails:
-    image: ${LC_COMPOSE_IMAGE}:${LC_COMPOSE_IMAGE_TAG}
+    image: ${LC_APP_IMAGE}:${LC_APP_IMAGE_TAG}
     command: [
       "bundle", "exec", "pumactl",
       "-F", "config/puma.${LC_COMPOSE_RAILS_ENV}.rb",
@@ -30,7 +30,7 @@ services:
       - BITQUERY_PROJECT_URL=${LC_COMPOSE_BITQUERY_PROJECT_URL}
       - BITQUERY_IMAGES=${LC_COMPOSE_BITQUERY_IMAGES}
       - BITQUERY_GRAPHQL=${LC_COMPOSE_BITQUERY_GRAPHQL}
-      - BITQUERY_IDE_API=https://${LC_COMPOSE_IDE_DOMAIN}/api
+      - BITQUERY_IDE_API=${LC_COMPOSE_BITQUERY_IDE_API}
     <<: *common-dns
     <<: *common-network
     <<: *common-restart
