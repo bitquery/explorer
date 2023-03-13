@@ -31,6 +31,7 @@ en:
     search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
+
     payers:
       icon: 'far fa-address-card'
       header: "%{network} Payer %{payer_account}"
