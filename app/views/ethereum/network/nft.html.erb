@@ -90,12 +90,11 @@ class MyBootstrapTableComponent {
     // tfooter.classList.add('tabulator-footer');
     this.tableElement.appendChild(tfooter);
   }
-
   onData = (data, sub) => {
     console.log('onData', data);
     console.log('onData', sub);
     const array = this.config.topElement(data);
-    const maxRows = 50;
+    const maxRows = 10;
 
     array.forEach(rowData => {
       const tr = document.createElement('tr');
@@ -116,6 +115,7 @@ class MyBootstrapTableComponent {
         // tr.appendChild(this.#createResizeEmptySpace('prev'));
       });
     if(sub){
+      //добавляется после prepopulate и суммируется
       this.tbody.insertBefore(tr, this.tbody.firstChild);
       if (this.tbody.childElementCount > maxRows) {
         this.tbody.removeChild(this.tbody.lastChild);
@@ -126,7 +126,6 @@ class MyBootstrapTableComponent {
   
     });
   };
-
 
   #createLinkCellContent(textCell, rowData, column) {
     const link = document.createElement('a');
@@ -313,7 +312,6 @@ async function renderComponent(component, selector, queryId, prePopulateId, api_
     } else {
       renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
     }
-
 }
 
 
@@ -346,7 +344,7 @@ class NFTStartTable extends MyBootstrapTableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers","Laset-Eth-NFT-tansfers" );
+    renderComponent(NFTStartTable, "#component-id", "Laset-Eth-NFT-tansfers");
   }
 )
 // Sub-test-new-table
