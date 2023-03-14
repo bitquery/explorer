@@ -1,3 +1,6 @@
+x-common-dns: &common-dns
+  dns: ${LC_COMPOSE_NAMESERVER}
+  dns_search: ${LC_COMPOSE_CLUSTER}.local
 x-common-network: &common-network
   networks:
     - common
@@ -28,6 +31,7 @@ services:
       - BITQUERY_IMAGES=${LC_COMPOSE_BITQUERY_IMAGES}
       - BITQUERY_GRAPHQL=${LC_COMPOSE_BITQUERY_GRAPHQL}
       - BITQUERY_IDE_API=https://${LC_COMPOSE_IDE_DOMAIN}/api
+    <<: *common-dns
     <<: *common-network
     <<: *common-restart
 
