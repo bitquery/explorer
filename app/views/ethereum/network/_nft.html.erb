@@ -53,7 +53,7 @@ class TableComponent {
 }
 
 
-const GRAPHQL_API = "https://graphql.bitquery.io/api";
+const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
 
 const graphqlQueryExecutor = (url, query, variables, api_key) => {
     console.log(url, query, variables, api_key)
@@ -81,8 +81,8 @@ function renderComponent (queryId, selector, component, api_key, variables){
             const componentObject = new component($(selector), queryMetaData)
             graphqlQueryExecutor(queryMetaData.endpoint_url, queryMetaData.query, queryMetaData.variables, api_key)
               .then( (response) => response.json() )
-              .then( (graphQLResponse) => componentObject(graphQLResponse))
+              .then( (graphQLResponse) => componentObject.onData(graphQLResponse))
         });
 }
-renderComponent("QueryForBlocks","#component_id",TableComponent);
+renderComponent("Native-currency-for-BSC2","#component_id",TableComponent);
 </script>
