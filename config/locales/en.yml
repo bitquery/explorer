@@ -1694,9 +1694,9 @@ en:
       address_statistics: "Address Statistics"
       in_out_transfers_value_by_time: 'In/Outbound %{token} by time'
       inbound_transfers_outputs: "Latest Inbound Transfers from Transaction Outputs"
-      outbound_transfers_inputs: "Latest Oubound Transfers from Transaction Inputs"
+      outbound_transfers_inputs: "Latest Outbound Transfers from Transaction Inputs"
       inbound_top_transfers: "Top Inbound Transfers from Transaction Outputs"
-      outbound_top_transfers: "Top Oubound Transfers from Transaction Inputs"
+      outbound_top_transfers: "Top Outbound Transfers from Transaction Inputs"
       inbound_types: "Inbound Volumes By Output Type"
       inputs: "Transaction Inputs"
       outputs: "Transaction Outputs"
