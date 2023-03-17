@@ -3,26 +3,11 @@
     <div class="card">
       <div class="card-header alert-warning"><%= t('widgets.headers.miners') %></div>
       <div class="card-body">
-   <div class="alert alert-primary" role="alert">
-  This is a primary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
-<div class="alert alert-secondary" role="alert">
-  This is a secondary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
-<div class="alert alert-success" role="alert">
-  This is a success alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
-<div class="alert alert-danger" role="alert">
-  This is a danger alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
-<div class="alert alert-warning" role="alert">
-  This is a warning alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
-<div class="alert alert-info" role="alert">
-  This is a info alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
+
+ 
 <div id='testDiv' class="alert alert-light" role="alert">
   This is a light alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+   <div id="table_div"></div>
 </div>
 <div class="alert alert-dark" role="alert">
   This is a dark alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
@@ -34,7 +19,13 @@
   </div>
 </div>
 
-<script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript"></script>
+
+<script >
+// import { createClient } from "graphql-ws/lib/client";
+
+
 class TableComponent {
 
     #element
@@ -46,43 +37,189 @@ class TableComponent {
    }
 
    onData(data){
-       console.log(this.#queryMetaInfo.name);
-       console.log(data);
+      //  console.log('what is it?',this.#queryMetaInfo);
+      //  console.log('onData is working',data);
    }
 
 }
+class NFTStartTable extends TableComponent {
+renderTable(graphQLResponse,queryMetaData){
+    console.log('data for table', graphQLResponse)
+
+
+  google.charts.load('current', {'packages':['table']});
+      google.charts.setOnLoadCallback(drawTable);
+
+      function drawTable() {
+        const array = graphQLResponse.data.EVM.Transfers
+        console.log('array', array)
+        const data = new google.visualization.DataTable();
+        data.addColumn('string', 'Time');
+        data.addColumn('string', 'ID');
+        data.addColumn('string', 'URI');
+     
+        array.forEach(e => {
+          // console.log(e.Block.Time,e.Transfer.Id);s
+         data.addRows([[e.Block.Time, e.Transfer.Id,e.Transfer.URI]])
+        });
+
+        const options = {
+          allowHtml:true,
+          showRowNumber: true,
+          width: '100%',
+          height: '50%',
+          frozenColumns:1,
+          pageSize:15,
+        }
+        const table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, options);
+        table.getSelection()
+      }
+    }
+}
+
 
 
 const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
 
-const graphqlQueryExecutor = (url, query, variables, api_key) => {
-    console.log(url, query, variables, api_key)
-    let keyHeader = { 'X-API-KEY': api_key }
-    return fetch(
-      url,
-      {
-          method: 'POST',
-          headers: {
-              Accept: 'application/json',
+const graphqlQueryExecutor = async (url, query, variables, api_key) => {
+  let keyHeader = { 'X-API-KEY': api_key };
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        ...keyHeader,
+      },
+      body: JSON.stringify({ query: query, variables: variables }),
+      credentials: "same-origin",
+    });
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    const data = await response.json();
+    if (data.errors) {
+      throw new Error(JSON.stringify(data.errors));
+    }
+    return data;
+  } catch (error) {
+    console.error("graphqlQueryExecutor error:", error);
+    throw error;
+  }
+};
+
+// const client = createClient({
+// 	url: 'wss://streaming.bitquery.io/graphql'
+// });
+// const grapfQuerySubscribe = async (queryMetaData)=> {
+  
+//   client.subscribe(payload, {
+//               next: async (data) => {
+//                     try {
+//                       console.log('here', queryMetaData)
+//                       } catch (error) {
+    
+//                         }
+//               }
+//                 })
+            
+// }
+// const payload = {
+// 	query: `subscription {
+// 				EVM(network: bsc){
+// 					Transfers(Transfer: {Currency: {HasURI: true}}) {
+// 						Transfer {
+// 							Receiver
+// 							Currency {
+// 								Name
+// 							}
+// 							URI
+// 						}
+// 					}
+// 				}
+// 			}`
+// };
+// (async () => {
+// 	const onNext = data => { 
+//         /* handle incoming values */
+//     }
+
+// 	let unsubscribe = () => {
+// 		/* complete the subscription */
+// 	};
+
+// 	await new Promise((resolve, reject) => {
+// 		unsubscribe = client.subscribe(payload, {
+// 			next: onNext,
+// 			error: reject,
+// 			complete: resolve,
+// 		});
+// 	});
+// })();
+
+
+function renderComponent(queryId,selector,component,NFTStartTable,api_key,variables) {
+  try {
+    fetch(GRAPHQL_API + "/getquery/" + queryId)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok.");
+        }
+        return response.json();
+      })
+      .then((queryMetaData) => {
+        const componentObject = new component($(selector), queryMetaData);
+        const componentTable = new NFTStartTable($(selector), queryMetaData);
+        console.log("queryMetaData", queryMetaData);
+        graphqlQueryExecutor(queryMetaData.endpoint_url,queryMetaData.query, queryMetaData.variables,api_key)
+          .then((graphQLResponse) => {
+            componentObject.onData(graphQLResponse);
+            console.log("componentObject.onData:", graphQLResponse);
+            componentTable.onData(graphQLResponse);
+            componentTable.renderTable(graphQLResponse, queryMetaData);
+          })
+          .catch((error) => {
+            console.error("graphqlQueryExecutor error:", error);
+          });
+        // grapfQuerySubscribe(queryMetaData)
+      })
+      .catch((error) => {
+        console.error("fetch error:", error);
+      });
+  } catch (error) {
+    console.error("renderComponent error:", error);
+  }
+}
+
+
+renderComponent("Laset-Eth-NFT-tansfers","#component_id",TableComponent, NFTStartTable);
+</script>
+
+
+<%# const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
+ const graphqlQueryExecutor = (url, query, variables, api_key) => {     // console.log('url,query, variables, apiKey', url, query, variables, api_key)     let keyHeader = { 'X-API-KEY': api_key }     return fetch(       url,
+      {           method: 'POST',
+          headers: {               Accept: 'application/json',
               'Content-Type': 'application/json',
               ...keyHeader
           },
-          body: JSON.stringify({query: query, variables: variables}),
-          credentials: 'same-origin',
-      },
-    )
-}
+          body: JSON.stringify({query: query, variables: variables}),           credentials: 'same-origin',
+      },    ) }
 
-function renderComponent (queryId, selector, component, api_key, variables){
-    console.log(GRAPHQL_API + "/getquery/" + queryId)
-    fetch(GRAPHQL_API + "/getquery/" + queryId)
-        .then( (response) => response.json() )
+function renderComponent (queryId, selector, component, NFTStartTable,  api_key,variables){
+     console.log('link fetch',GRAPHQL_API + "/getquery/" + queryId)
+    fetch(GRAPHQL_API + "/getquery/" + queryId)         .then( (response) => response.json() )
         .then( (queryMetaData) => {
             const componentObject = new component($(selector), queryMetaData)
-            graphqlQueryExecutor(queryMetaData.endpoint_url, queryMetaData.query, queryMetaData.variables, api_key)
-              .then( (response) => response.json() )
-              .then( (graphQLResponse) => componentObject.onData(graphQLResponse))
-        });
-}
-renderComponent("Native-currency-for-BSC2","#component_id",TableComponent);
-</script>
+            const componentTable = new NFTStartTable($(selector), queryMetaData)
+            console.log('queryMetaData',queryMetaData)
+            graphqlQueryExecutor(queryMetaData.endpoint_url, queryMetaData.query, queryMetaData.variables, api_key)               .then( (response) => response.json() )
+              .then( (graphQLResponse) => {componentObject.onData(graphQLResponse)
+         console.log('WHAT ? ', componentObject.onData(graphQLResponse))
+        console.log('data for table', graphQLResponse)
+
+            componentTable.onData(graphQLResponse)
+            componentTable.renderTable(graphQLResponse,queryMetaData)
+            })         });
+} %>
