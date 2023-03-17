@@ -125,38 +125,7 @@ const graphqlQueryExecutor = async (url, query, variables, api_key) => {
 //                 })
             
 // }
-// const payload = {
-// 	query: `subscription {
-// 				EVM(network: bsc){
-// 					Transfers(Transfer: {Currency: {HasURI: true}}) {
-// 						Transfer {
-// 							Receiver
-// 							Currency {
-// 								Name
-// 							}
-// 							URI
-// 						}
-// 					}
-// 				}
-// 			}`
-// };
-// (async () => {
-// 	const onNext = data => { 
-//         /* handle incoming values */
-//     }
 
-// 	let unsubscribe = () => {
-// 		/* complete the subscription */
-// 	};
-
-// 	await new Promise((resolve, reject) => {
-// 		unsubscribe = client.subscribe(payload, {
-// 			next: onNext,
-// 			error: reject,
-// 			complete: resolve,
-// 		});
-// 	});
-// })();
 
 
 function renderComponent(queryId,selector,component,NFTStartTable,api_key,variables) {

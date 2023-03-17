@@ -29,10 +29,9 @@ import * as SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient } from 'graphql-ws/lib/client';
-import { renderAndQuery } from './renderAndQuery';
-console.log('HELLO!');
-console.log('renderAndQuery');
-renderAndQuery();
+
+console.log('sdfsdfsdfsd');
+
 global.createChart = createChart;
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,
