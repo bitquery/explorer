@@ -23,76 +23,55 @@
     <script type="text/javascript"></script>
 
 <script >
-// import { createClient } from "graphql-ws/lib/client";
+
 
 
 class TableComponent {
 
-
    constructor(element, queryMetaInfo) {
-      //  this.#element = element;
-      //  this.#queryMetaInfo = queryMetaInfo;
       console.log(element);
       this.table = new google.visualization.Table(element);
       this.data = new google.visualization.DataTable();
       this.configureTable()
-
    }
 
- configureTable(){
- 
-    this.data.addColumn('string', 'Time');
-    this.data.addColumn('string', 'ID');
-    this.data.addColumn('string', 'URI');
-    this.options = {
-      allowHtml:true,
-      showRowNumber: true,
-      width: '100%',
-      height: '50%',
-      frozenColumns:1,
-      pageSize:15,
-    }
-   
-    this.table.draw(this.data, this.options);
-
- }
    onData(data){
-            data.EVM.Transfers.forEach(e => {
-          // console.log(e.Block.Time,e.Transfer.Id);s
-         this.data.addRows([[e.Block.Time, e.Transfer.Id,e.Transfer.URI]])
+        let rows = []
+        data.EVM.Transfers.forEach(e => {
+          rows.push(this.tableRow(e));
         });
+        console.log(rows)
+        this.data.addRows(rows)
         this.table.draw(this.data, this.options);
-      //  console.log('what is it?',this.#queryMetaInfo);
-      //  console.log('onData is working',data);
    }
 
 }
-// class NFTStartTable extends TableComponent {
 
-  //   configureTable(){
-  //       this.data.addColumn('string', 'Time');
-  //       this.data.addColumn('string', 'ID');
-  //       this.data.addColumn('string', 'URI');
-  //       const options = {
-  //         allowHtml:true,
-  //         showRowNumber: true,
-  //         width: '100%',
-  //         height: '50%',
-  //         frozenColumns:1,
-  //         pageSize:15,
-  //       }
-       
-  //       this.table.draw(this.data, options);
-  //  }
+class NFTStartTable extends TableComponent {
 
-  //  onData(data){
-  //       data.EVM.Transfers.forEach(e => {
-  //         // console.log(e.Block.Time,e.Transfer.Id);s
-  //        this.data.addRows([[e.Block.Time, e.Transfer.Id,e.Transfer.URI]])
-  //       });
-  //  }
+    configureTable(){
+    
+        this.data.addColumn('string', 'Time');
+        this.data.addColumn('string', 'ID');
+        this.data.addColumn('string', 'URI');
+        this.options = {
+          allowHtml:true,
+          showRowNumber: true,
+          width: '100%',
+          height: '50%',
+          frozenColumns:1,
+          pageSize:15,
+        }
+      
+        this.table.draw(this.data, this.options);
 
-// }
+    }
+
+    tableRow(e){
+        return [e.Block.Time, e.Transfer.Id,e.Transfer.URI]
+    }
+
+ }
 
 
 const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
@@ -144,7 +123,6 @@ function renderComponent(queryId,selector,component,api_key,variables) {
           .catch((error) => {
             console.error("graphqlQueryExecutor error:", error);
           });
-        // grapfQuerySubscribe(queryMetaData)
       })
       .catch((error) => {
         console.error("fetch error:", error);
@@ -153,39 +131,14 @@ function renderComponent(queryId,selector,component,api_key,variables) {
     console.error("renderComponent error:", error);
   }
 }
-    google.charts.load('current', {'packages':['table']});
+
+
+google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent("Laset-Eth-NFT-tansfers","#component_id",TableComponent );
+    renderComponent("Laset-Eth-NFT-tansfers","#component_id",NFTStartTable );
   }
 );
 
 </script>
 
-
-<%# const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
- const graphqlQueryExecutor = (url, query, variables, api_key) => {     // console.log('url,query, variables, apiKey', url, query, variables, api_key)     let keyHeader = { 'X-API-KEY': api_key }     return fetch(       url,
-      {           method: 'POST',
-          headers: {               Accept: 'application/json',
-              'Content-Type': 'application/json',
-              ...keyHeader
-          },
-          body: JSON.stringify({query: query, variables: variables}),           credentials: 'same-origin',
-      },    ) }
-
-function renderComponent (queryId, selector, component, NFTStartTable,  api_key,variables){
-     console.log('link fetch',GRAPHQL_API + "/getquery/" + queryId)
-    fetch(GRAPHQL_API + "/getquery/" + queryId)         .then( (response) => response.json() )
-        .then( (queryMetaData) => {
-            const componentObject = new component($(selector), queryMetaData)
-            const componentTable = new NFTStartTable($(selector), queryMetaData)
-            console.log('queryMetaData',queryMetaData)
-            graphqlQueryExecutor(queryMetaData.endpoint_url, queryMetaData.query, queryMetaData.variables, api_key)               .then( (response) => response.json() )
-              .then( (graphQLResponse) => {componentObject.onData(graphQLResponse)
-         console.log('WHAT ? ', componentObject.onData(graphQLResponse))
-        console.log('data for table', graphQLResponse)
-
-            componentTable.onData(graphQLResponse)
-            componentTable.renderTable(graphQLResponse,queryMetaData)
-            })         });
-} %>
