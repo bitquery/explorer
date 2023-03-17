@@ -1,5 +1,5 @@
 x-common-dns: &common-dns
-  dns: 10.0.0.254
+  dns: ${LC_COMPOSE_NAMESERVER}
   dns_search: ${LC_COMPOSE_CLUSTER}.local
 x-common-network: &common-network
   networks:
