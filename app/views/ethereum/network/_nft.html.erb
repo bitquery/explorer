@@ -27,45 +27,18 @@
 
 
 class TableComponent {
-
    constructor(element, queryMetaInfo) {
- 
-    if (!google || !google.visualization) {
-      throw new Error('Google Visualization API not loaded');
-    }
-      if (!element) {
-      throw new Error('element parameter is required');
-    }
-
     this.table = new google.visualization.Table(element);
     this.data = new google.visualization.DataTable();
-
-       
     this.options = {
           allowHtml:true,
-          showRowNumber: true,
+          showRowNumber: false,
           width: '100%',
-          // height: '50%',
-          // pageSize:15,
-          // cssClassNames: {
-          //   'headerRow': 'my-table-header-row',
-          //   'tableRow': 'my-table-row',
-          //   'oddTableRow': 'my-table-row-odd',
-          //   'selectedTableRow': 'my-table-row-selected',
-          //   'hoverTableRow': 'my-table-row-hover',
-          //   'headerCell': 'my-table-header-cell',
-          //   'tableCell': 'my-table-cell',
-          //   },
-          //  style: 'font-family: Arial, sans-serif; background-color: #fff; border: 1px solid #ccc;',
+          height: '100%',
         }
-    
     this.config = this.configuration();
-    this.config.columns.forEach(column => {
-      this.data.addColumn(column.type ? column.type :'string', column.name);
-    });
-
+    this.config.columns.forEach(column => this.data.addColumn(column.type ? column.type :'string', column.name));
     this.table.draw(this.data, this.options);
-
    }
 
     onData = (data) => {
@@ -74,22 +47,17 @@ class TableComponent {
       let rows = []
       array.forEach(rowData => {
         let row = []
-        this.config.columns.forEach(column => {
-          row.push(column.cell(rowData));
-        })
+        this.config.columns.forEach(column => row.push(column.cell(rowData)))
         rows.push(row)
       })
-
       this.data.addRows(rows)
       this.table.draw(this.data, this.options);
   };
 }
 
-
-
 const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
 
-const graphqlQuerySubscriptionExecutor = async (url, query,queryMetaData ,selector, component,variables) =>{
+const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,variables) =>{
    const client = createClient({
       url: 'wss://streaming.bitquery.io/graphql'
         });
@@ -97,15 +65,11 @@ const graphqlQuerySubscriptionExecutor = async (url, query,queryMetaData ,select
       let result;
         client.subscribe(payload, {
             next: async (data) => {
-               result = data
-                   const componentObject = new component(document.querySelector(selector), queryMetaData);
+                result = data
                 componentObject.onData(result.data);
-
-                console.log(result)
                 },
             complete: () => resolve(result)
         })
-        console.log(result)
 }
 
 const graphqlQueryExecutor = async (url, query, variables, api_key = '') => {
@@ -121,62 +85,30 @@ const graphqlQueryExecutor = async (url, query, variables, api_key = '') => {
         body: JSON.stringify({ query: query, variables: variables }),
         credentials: 'same-origin',
       });
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok.');
-      }
-
       const data = await response.json();
-      if (data.errors) {
-        throw new Error(JSON.stringify(data.errors));
-      }
       return data;
     } catch (error) {
       console.error('graphqlQueryExecutor error:', error);
-      throw error;
     }
   };
-
-
-
-
-
-
 
 function renderComponent(queryId,selector,component,api_key,variables) {
   try {
     fetch(`${GRAPHQL_API}/getquery/${queryId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok.");
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((queryMetaData) => {
-        console.log(queryMetaData.endpoint_url);
-        // const componentObject = new component(document.querySelector(selector), queryMetaData);
-        // console.log("queryMetaData", queryMetaData);
-        const isSubscription = queryMetaData.query.trim().startsWith('subscription');
-          if (isSubscription) {
-    
-            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url,queryMetaData.query,queryMetaData ,selector,component, queryMetaData.variables)
-       
-       
-          } else {
         const componentObject = new component(document.querySelector(selector), queryMetaData);
+          if (queryMetaData.query.trim().startsWith('subscription')) {
+            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url,queryMetaData.query,componentObject, queryMetaData.variables)
+          } else {
             graphqlQueryExecutor(queryMetaData.endpoint_url,queryMetaData.query, queryMetaData.variables,api_key)
               .then((graphQLResponse) => {
                 componentObject.onData(graphQLResponse.data);
               })
-              .catch((error) => {
-                console.log("graphqlQueryExecutor error:", error);
-              });
+              .catch((error) => console.log("graphqlQueryExecutor error:", error));
           }
           })
-        .catch((error) => {
-          console.log("fetch error:", error);
-        });
-
+        .catch((error) => console.log("fetch error:", error));
   } catch (error) {
     console.log("renderComponent error:", error);
   }
@@ -186,13 +118,18 @@ function renderComponent(queryId,selector,component,api_key,variables) {
 
 class NFTStartTable extends TableComponent {
      configuration() {
-
       return  {
           topElement: function (response){ return response.EVM.Transfers },
           columns: [
             {
+              name: 'Time', cell: function(row){ return row.Block.Time },
+            },
+            {
               name: 'ID', cell: function(row){ return row.Transfer.Id },
-            }
+            },
+            { 
+              name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol }
+            },
           ]
         }
      }
