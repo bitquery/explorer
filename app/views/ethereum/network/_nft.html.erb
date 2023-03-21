@@ -3,17 +3,8 @@
     <div class="card">
       <div class="card-header alert-warning"><%= t('widgets.headers.miners') %></div>
       <div class="card-body">
-
- 
-<div id='testDiv' class="alert alert-light" role="alert">
-  This is a light alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-   <div id="table_div"></div>
-</div>
-<div class="alert alert-dark" role="alert">
-  This is a dark alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
-</div>
-        <div id="miners"><%= t('loading') %></div>
-        <div id="component_id"><%= t('loading') %></div>
+        <div id="greenButton"></div>
+        <div id="component_id" class='table table-striped table-hover table-sm widgets-table'><%= t('loading') %></div>
       </div>
     </div>
   </div>
@@ -24,36 +15,24 @@
 
 <script >
 
-
-
-class TableComponent {
+class GoogleChartsTableComponent {
    constructor(element, queryMetaInfo) {
     this.table = new google.visualization.Table(element);
     this.data = new google.visualization.DataTable();
-    const cssClassNames = {
-      'headerRow': 'italic-darkblue-font large-font bold-font',
-      'tableRow': '',
-      'oddTableRow': 'beige-background',
-      'selectedTableRow': 'orange-background large-font',
-      'hoverTableRow': '',
-      'headerCell': 'gold-border',
-      'tableCell': '',
-      'rowNumberCell': 'underline-blue-font'};
-
     this.options = {
           allowHtml:true,
           showRowNumber: false,
           width: '100%',
           height: '100%',
-          cssClassNames: cssClassNames,
+          sortColumn: 0,
+          sortAscending: false,
         }
     this.config = this.configuration();
     this.config.columns.forEach(column => this.data.addColumn(column.type ? column.type :'string', column.name));
     this.table.draw(this.data, this.options);
-   }
+    }
 
     onData = (data) => {
-      console.log(data);
       let array = this.config.topElement(data)
       let rows = []
       array.forEach(rowData => {
@@ -63,32 +42,26 @@ class TableComponent {
       })
       this.data.addRows(rows)
       this.table.draw(this.data, this.options);
-  };
+    };
 }
 
 const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
 
 const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,variables) =>{
-let currentUrl =''
-if(url.includes('https:/')){
-   currentUrl = url.replace('https', 'wss')
-}
-if(url.includes('http:/')){
-  currentUrl = url.replace('http', 'ws')
-}
-
-   const client = createClient({
-      url: currentUrl
-        });
-      const payload = {query: query}
-      let result;
-        client.subscribe(payload, {
-            next: async (data) => {
-                result = data
-                componentObject.onData(result.data);
-                },
-            complete: () => resolve(result)
-        })
+  const currentUrl = url.includes('https:/') ? url.replace('https', 'wss') : url.includes('http:/') ? url.replace('http', 'ws') : '';
+  const client = createClient({url: currentUrl});
+  const payload = {query: query}
+  let result;
+  client.subscribe(payload, {
+      next: async (data) => {
+          result = data
+          componentObject.onData(result.data);
+      },
+      error: (error) => {
+        document.querySelector('#component_id').textContent = `${error[0].message}`
+        console.log('error',error)},
+      complete: () => resolve(result)
+  })
 }
 
 const graphqlQueryExecutor = async (url, query, variables, api_key = '') => {
@@ -105,6 +78,9 @@ const graphqlQueryExecutor = async (url, query, variables, api_key = '') => {
         credentials: 'same-origin',
       });
       const data = await response.json();
+      if(data.errors){
+        document.querySelector('#component_id').textContent = `${data.errors[0].message}`
+      }
       return data;
     } catch (error) {
       console.error('graphqlQueryExecutor error:', error);
@@ -118,8 +94,10 @@ function renderComponent(queryId,selector,component,api_key,variables) {
       .then((queryMetaData) => {
         const componentObject = new component(document.querySelector(selector), queryMetaData);
           if (queryMetaData.query.trim().startsWith('subscription')) {
+              document.querySelector('#greenButton').style.display = 'inline-block'
             graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url,queryMetaData.query,componentObject, queryMetaData.variables)
           } else {
+            document.querySelector('#greenButton').style.display = 'none'
             graphqlQueryExecutor(queryMetaData.endpoint_url,queryMetaData.query, queryMetaData.variables,api_key)
               .then((graphQLResponse) => {
                 componentObject.onData(graphQLResponse.data);
@@ -135,7 +113,7 @@ function renderComponent(queryId,selector,component,api_key,variables) {
 
 /////// on page
 
-class NFTStartTable extends TableComponent {
+class NFTStartTable extends GoogleChartsTableComponent {
      configuration() {
       return  {
           topElement: function (response){ return response.EVM.Transfers },
@@ -157,8 +135,8 @@ class NFTStartTable extends TableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent("Sub-Laset-Eth-NFT-tansfers","#component_id",NFTStartTable );
+    renderComponent("Laset-Eth-NFT-tansfers","#component_id",NFTStartTable );
   }
-);
+)
 
 </script>
