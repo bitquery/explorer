@@ -98,26 +98,35 @@ svg[visibility="hidden"]
   50%
     opacity: 0
     
-.bold-green-font 
-  font-weight: bold
-  color: green
+#greenButton
+  background-color: #1c87c9
+  -webkit-border-radius: 60px
+  border-radius: 60px
+  border: none
+  color: #eeeeee
+  display: none
+  font-family: sans-serif
+  font-size: 20px
+  padding: 10px 10px
+  text-align: center
+  text-decoration: none
 
-.bold-font 
-  font-weight: bold
+@keyframes glowing 
+  0% 
+    background-color: #2ba805
+    box-shadow: 0 0 5px #2ba805
+  50% 
+    background-color: #49e819
+    box-shadow: 0 0 20px #49e819
+  100% 
+    background-color: #2ba805
+    box-shadow: 0 0 5px #2ba805
+  
 
-.right-text 
-  text-align: right
 
-.large-font 
-  font-size: 15px
 
-.italic-darkblue-font 
-  font-style: italic
-  color: darkblue
-
-.italic-purple-font 
-  font-style: italic
-  color: purple
+#greenButton
+  animation: glowing 1300ms infinite
 
 .underline-blue-font 
   text-decoration: underline
