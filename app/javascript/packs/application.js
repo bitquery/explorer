@@ -28,11 +28,11 @@ import numeral from 'numeral';
 import * as SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { Wallet } from './walletC';
-import { createClient } from 'graphql-ws/lib/client';
+import { createClient, Client } from 'graphql-ws/lib/client';
 
-console.log('sdfsdfsdfsd');
-
+global.createClient = createClient;
 global.createChart = createChart;
+
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,
   'vega.pie': pieWidgetRenderer,
