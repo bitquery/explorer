@@ -30,13 +30,22 @@ class TableComponent {
    constructor(element, queryMetaInfo) {
     this.table = new google.visualization.Table(element);
     this.data = new google.visualization.DataTable();
+    const cssClassNames = {
+      'headerRow': 'italic-darkblue-font large-font bold-font',
+      'tableRow': '',
+      'oddTableRow': 'beige-background',
+      'selectedTableRow': 'orange-background large-font',
+      'hoverTableRow': '',
+      'headerCell': 'gold-border',
+      'tableCell': '',
+      'rowNumberCell': 'underline-blue-font'};
 
     this.options = {
           allowHtml:true,
           showRowNumber: false,
           width: '100%',
           height: '100%',
-  
+          cssClassNames: cssClassNames,
         }
     this.config = this.configuration();
     this.config.columns.forEach(column => this.data.addColumn(column.type ? column.type :'string', column.name));
@@ -60,8 +69,16 @@ class TableComponent {
 const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
 
 const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,variables) =>{
+let currentUrl =''
+if(url.includes('https:/')){
+   currentUrl = url.replace('https', 'wss')
+}
+if(url.includes('http:/')){
+  currentUrl = url.replace('http', 'ws')
+}
+
    const client = createClient({
-      url: 'wss://streaming.bitquery.io/graphql'
+      url: currentUrl
         });
       const payload = {query: query}
       let result;
