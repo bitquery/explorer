@@ -30,11 +30,13 @@ class TableComponent {
    constructor(element, queryMetaInfo) {
     this.table = new google.visualization.Table(element);
     this.data = new google.visualization.DataTable();
+
     this.options = {
           allowHtml:true,
           showRowNumber: false,
           width: '100%',
           height: '100%',
+  
         }
     this.config = this.configuration();
     this.config.columns.forEach(column => this.data.addColumn(column.type ? column.type :'string', column.name));
@@ -143,4 +145,3 @@ google.charts.setOnLoadCallback(
 );
 
 </script>
- 
