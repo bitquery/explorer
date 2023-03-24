@@ -1,11 +1,9 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
-
       <div class="card-body">
-     
         <div id="greenButton"></div>
-        <div id="component_id" class='table table-striped table-hover table-sm widgets-table'><%= t('loading') %></div>
+        <div id="component_id" class='table table-striped table-hover table-sm widgets-table'></div>
       </div>
     </div>
   </div>
@@ -27,12 +25,55 @@ function errorAllert(selector,error){
   text.classList.add('mb-0');
   element.appendChild(title);
   element.appendChild(text);
-  title.textContent = 'An error occurred while executing the request. Please, try again later'
+  title.textContent = 'An error occurred while executing the request. Please, try again later';
   text.textContent = `Error: ${error[0].message}`;
 }
 
+class myTableComponent {
+  constructor(element) {
+    this.container = element;
+    this.tableElement = document.createElement('table');
+    this.tableElement.classList.add('table', 'table-striped');
+    this.thead = document.createElement('thead');
+    this.tr = document.createElement('tr');
+    this.container.appendChild(this.tableElement);
+    this.tableElement.appendChild(this.thead);
+    this.thead.appendChild(this.tr);
+    this.config = this.configuration();
+    this.config.columns.forEach(column => {
+      const th = document.createElement('th');
+      th.setAttribute('scope', 'col');
+      th.textContent = column.name;
+      this.tr.appendChild(th);
+    });
+  }
+ 
+  onData = (data) => {
+    let array = this.config.topElement(data);
+    let rows = [];
+    array.forEach(rowData => {
+      let row = [];
+      this.config.columns.forEach(column => {
+        row.push(column.cell(rowData));
+      });
+      rows.push(row);
+    });
+    const tbody = document.createElement('tbody');
+    this.tableElement.appendChild(tbody);
+    rows.forEach(row => {
+      const tr = document.createElement('tr');
+      tbody.appendChild(tr);
+      row.forEach(cell => {
+        const td = document.createElement('td');
+        td.textContent = cell;
+        tr.appendChild(td);
+      });
+    });
+  };
+}
+
 class GoogleChartsTableComponent {
-   constructor(element, queryMetaInfo) {
+  constructor(element, queryMetaInfo) {
     this.table = new google.visualization.Table(element);
     this.data = new google.visualization.DataTable();
     this.options = {
@@ -44,7 +85,9 @@ class GoogleChartsTableComponent {
           sortAscending: false,
         }
     this.config = this.configuration();
-    this.config.columns.forEach(column => this.data.addColumn(column.type ? column.type :'string', column.name));
+    this.config.columns.forEach(column => 
+  { this.data.addColumn(column.type ? column.type :'string', column.name);
+  });
     this.table.draw(this.data, this.options);
     }
 
@@ -61,7 +104,7 @@ class GoogleChartsTableComponent {
     };
 }
 
-const GRAPHQL_API = "http://localhost:3000/proxy_graphql_ide";
+const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 
 const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,selector,variables) =>{
   const currentUrl =  url.replace(/^http/, 'ws')  
@@ -96,7 +139,6 @@ const graphqlQueryExecutor = async (url, query, selector,variables, api_key = ''
       const data = await response.json();
       if(data.errors){
         errorAllert(selector,data.errors)
-   
       }
       return data;
     } catch (error) {
@@ -130,8 +172,8 @@ function renderComponent(queryId,selector,component,api_key,variables) {
 
 /////// on page
 
-class NFTStartTable extends GoogleChartsTableComponent {
-     configuration() {
+class NFTStartTable extends myTableComponent {
+    configuration() {
       return  {
           topElement: function (response){ return response.EVM.Transfers },
           columns: [
@@ -146,7 +188,7 @@ class NFTStartTable extends GoogleChartsTableComponent {
             },
           ]
         }
-     }
+    }
 }
 
 google.charts.load('current', {'packages':['table']});
