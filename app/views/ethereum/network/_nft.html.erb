@@ -14,8 +14,7 @@
 
 <script >
   
-function errorAllert(selector,error){
-  const element = document.querySelector(selector);
+function errorAllert(element,error){
   element.textContent = '';
   element.classList.add('alert', 'alert-danger');
   element.setAttribute('role', 'alert');
@@ -29,7 +28,7 @@ function errorAllert(selector,error){
   text.textContent = `Error: ${error[0].message}`;
 }
 
-class myTableComponent {
+class myBootstrapTableComponent {
   constructor(element) {
     this.container = element;
     this.tableElement = document.createElement('table');
@@ -46,26 +45,20 @@ class myTableComponent {
       th.textContent = column.name;
       this.tr.appendChild(th);
     });
+    this.tbody = document.createElement('tbody');
+    this.tableElement.appendChild(this.tbody);
   }
  
   onData = (data) => {
+    console.log(data);
     let array = this.config.topElement(data);
-    let rows = [];
     array.forEach(rowData => {
+      const tr = document.createElement('tr');
+      this.tbody.appendChild(tr);
       let row = [];
       this.config.columns.forEach(column => {
-        row.push(column.cell(rowData));
-      });
-      rows.push(row);
-    });
-    const tbody = document.createElement('tbody');
-    this.tableElement.appendChild(tbody);
-    rows.forEach(row => {
-      const tr = document.createElement('tr');
-      tbody.appendChild(tr);
-      row.forEach(cell => {
         const td = document.createElement('td');
-        td.textContent = cell;
+        td.textContent = column.cell(rowData);
         tr.appendChild(td);
       });
     });
@@ -106,24 +99,24 @@ class GoogleChartsTableComponent {
 
 const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 
-const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,selector,variables) =>{
+const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,element,variables) =>{
   const currentUrl =  url.replace(/^http/, 'ws')  
   const client = createClient({url: currentUrl});
   const payload = {query: query}
-  let result;
+
   client.subscribe(payload, {
       next: async (data) => {
-          result = data
-          componentObject.onData(result.data);
+      
+          componentObject.onData(data.data);
       },
       error: (error) => {
-        errorAllert(selector,error)
-        console.log('error',error)},
-      complete: () => resolve(result)
+        errorAllert(element,error);
+        console.log('graphqlQuerySubscriptionExecutor',error)},
+      complete: () => resolve(data)
   })
 }
 
-const graphqlQueryExecutor = async (url, query, selector,variables, api_key = '') => {
+const graphqlQueryExecutor = async (url, query, element,variables, api_key = '') => {
   let keyHeader = { 'X-API-KEY': api_key };
     try {
       const response = await fetch(url, {
@@ -138,7 +131,7 @@ const graphqlQueryExecutor = async (url, query, selector,variables, api_key = ''
       });
       const data = await response.json();
       if(data.errors){
-        errorAllert(selector,data.errors)
+        errorAllert(element,data.errors)
       }
       return data;
     } catch (error) {
@@ -146,33 +139,47 @@ const graphqlQueryExecutor = async (url, query, selector,variables, api_key = ''
     }
   };
 
-function renderComponent(queryId,selector,component,api_key,variables) {
+function renderComponent(component,selector,queryId,prePopulateId,api_key,variables) {
   try {
     fetch(`${GRAPHQL_API}/getquery/${queryId}`)
       .then((response) => response.json())
       .then((queryMetaData) => {
-        const componentObject = new component(document.querySelector(selector), queryMetaData);
-          if (queryMetaData.query.trim().startsWith('subscription')) {
-              document.querySelector('#greenButton').style.display = 'inline-block'
-            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url,queryMetaData.query,componentObject,selector, queryMetaData.variables)
+          const compElement = document.querySelector(selector);
+          const componentObject = new component(compElement, queryMetaData);
+          const query = queryMetaData.query.trim();
+          const queryVariables = variables; // TODO merge with query
+          if (query.startsWith('subscription')) {
+            renderQueryInComponent(componentObject,prepopulateQuery(query,prePopulateId),compElement,queryVariables, api_key);  
+            document.querySelector('#greenButton').style.display = 'inline-block';
+            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url,query,componentObject,compElement, queryVariables);
           } else {
-            document.querySelector('#greenButton').style.display = 'none'
-            graphqlQueryExecutor(queryMetaData.endpoint_url,queryMetaData.query, selector, queryMetaData.variables,api_key)
-              .then((graphQLResponse) => {
-                componentObject.onData(graphQLResponse.data);
-              })
-              .catch((error) => console.log("graphqlQueryExecutor error:", error));
+            document.querySelector('#greenButton').style.display = 'none';
+            renderQueryInComponent(queryMetaData.endpoint_url,componentObject,query,compElement,queryVariables, api_key);
           }
-          })
-        .catch((error) => console.log("fetch error:", error));
+      })
+      .catch((error) => console.log("fetch error:", error));
   } catch (error) {
     console.log("renderComponent error:", error);
   }
 }
 
+function prepopulateQuery(query, prePopulateId){
+  if (prePopulateId) {
+  } else {
+    // return guery.replace(/^subscription/,'query')
+    return query
+  }
+}
+
+function renderQueryInComponent(endpoint_url,componentObject,query,compElement, selecompElementctor,variables,api_key){
+      graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
+            .then((graphQLResponse) => componentObject.onData(graphQLResponse.data))
+            .catch((error) => console.log("graphqlQueryExecutor error:", error));
+}
+
 /////// on page
 
-class NFTStartTable extends myTableComponent {
+class NFTStartTable extends myBootstrapTableComponent {
     configuration() {
       return  {
           topElement: function (response){ return response.EVM.Transfers },
@@ -194,7 +201,7 @@ class NFTStartTable extends myTableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent("Laset-Eth-NFT-tansfers","#component_id",NFTStartTable );
+    renderComponent(NFTStartTable, "#component_id", "Laset-Eth-NFT-tansfers" );
   }
 )
 
