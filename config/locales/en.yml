@@ -2298,7 +2298,7 @@ en:
         custom: "%{type} smart contract in %{network}"
       token:
         name: "%{name} (%{symbol}) %{token_type} Token"
-        smart_contract: "Token is implemented as %{token_type} smart contract with address"
+        smart_contract: "Smart Contract with address:"
     conflux:
       smart_contract:
         generic: "Smart contract in %{network}"
