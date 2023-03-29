@@ -57,9 +57,19 @@ class myBootstrapTableComponent {
       this.tbody.appendChild(tr);
       let row = [];
       this.config.columns.forEach(column => {
-        const td = document.createElement('td');
-        td.textContent = column.cell(rowData);
-        tr.appendChild(td);
+        if(column.name === 'Reciver' || column.name === 'Sender'){
+            const td = document.createElement('td');
+           const link = document.createElement('a');
+            link.setAttribute('target', '_blank')
+            link.href = `https://explorer.bitquery.io/ethereum/token/${column.cell(rowData)}`
+            link.textContent = column.cell(rowData);
+            td.appendChild(link);
+            tr.appendChild(td);
+        }else{
+          const td = document.createElement('td');
+          td.textContent = column.cell(rowData);
+          tr.appendChild(td);
+        }
       });
     });
   };
@@ -100,25 +110,28 @@ class GoogleChartsTableComponent {
 const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 
 const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,element,variables) =>{
-  const currentUrl =  url.replace(/^http/, 'ws')  
+  const currentUrl =  url.replace(/^http/, 'ws');
   const client = createClient({url: currentUrl});
-  const payload = {query: query}
+const variabls = JSON.parse(variables)
+  // console.log('variables',variabls);
+  const payload = {query,variables:variabls};
 
+  // console.log('payload',payload)
   client.subscribe(payload, {
       next: async (data) => {
         // console.log('componentObject',componentObject)
         componentObject.onData(data.data);
-       
       },
       error: (error) => {
-        errorAllert(element,error);
-        console.log('graphqlQuerySubscriptionExecutor',error)},
-      complete: () => resolve(data)
+        // errorAllert(element,error);
+        console.log('graphqlQuerySubscriptionExecutor',error)
+        },
+      complete: () => console.log('complete'),
   })
 }
 
 const graphqlQueryExecutor = async (url, query, element,variables, api_key = '') => {
-  // console.log('query from graphqlQueryExecutor', query)
+  console.log('query from graphqlQueryExecutor', query)
   let keyHeader = { 'X-API-KEY': api_key };
     try {
       const response = await fetch(url, {
@@ -128,7 +141,7 @@ const graphqlQueryExecutor = async (url, query, element,variables, api_key = '')
           'Content-Type': 'application/json',
           ...keyHeader,
         },
-        body: JSON.stringify({ query: query, variables: variables }),
+        body: JSON.stringify({query, variables }),
         credentials: 'same-origin',
       });
       const data = await response.json();
@@ -146,15 +159,15 @@ function renderComponent(component,selector,queryId,prePopulateId,api_key,variab
     fetch(`${GRAPHQL_API}/getquery/${queryId}`)
       .then((response) => response.json())
       .then((queryMetaData) => {
-
           const compElement = document.querySelector(selector);
           const componentObject = new component(compElement, queryMetaData);
           const query = queryMetaData.query.trim();
-          const queryVariables = variables; // TODO merge with query
+
+          console.log('queryMetaData',queryMetaData);
+          const queryVariables = queryMetaData.variables; // TODO merge with query
           if (query.startsWith('subscription')) {
             document.querySelector('#greenButton').style.display = 'inline-block';
-            // renderQueryInComponent(componentObject,prepopulateQuery(query,prePopulateId),compElement,queryVariables, api_key);
-            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement,query,prePopulateId), componentObject, compElement, queryVariables);
+            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement,query,prePopulateId,api_key), componentObject, compElement, queryVariables);
           } else {
             
             document.querySelector('#greenButton').style.display = 'none';
@@ -167,25 +180,24 @@ function renderComponent(component,selector,queryId,prePopulateId,api_key,variab
   }
 }
 
-function prepopulateQuery(url, componentObject, compElement,query, prePopulateId){
-  console.log('json', JSON.parse(query));
+function prepopulateQuery(url, componentObject, compElement,query, prePopulateId,api_key){
   if (prePopulateId) {
-
-
-    if(!query.includes('limit')){
-        renderQueryInComponent(url, componentObject, query.replace(/^subscription/,'query').replace(/Transfers\(/,'Transfers\(limit: {count: 15}'), compElement)
-        return query.replace(/Transfers\(/,'Transfers\(limit: {count: 15}')
-      }
-    renderQueryInComponent(url, componentObject, query.replace(/^subscription/,'query'), compElement)
-    return query
+    fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`)
+      .then((response) => response.json())
+      .then((queryMetaData) => {
+          const query = queryMetaData.query.trim();
+          const queryVariables = queryMetaData.variables; // TODO merge with query
+            renderQueryInComponent(url,componentObject,query,compElement,queryVariables, api_key);
+          })
+      .catch((error) => console.log("fetch error:", error));
+ 
+  return query
   } else {
-      if(!query.includes('limit')){
-        return query.replace(/Transfers\(/,'Transfers\(limit: {count: 15}')
-        }
-  
+
     return query
   }
 }
+
 
 function renderQueryInComponent(endpoint_url,componentObject,query,compElement,variables,api_key){
       graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
@@ -198,19 +210,28 @@ function renderQueryInComponent(endpoint_url,componentObject,query,compElement,v
 class NFTStartTable extends myBootstrapTableComponent {
     configuration() {
       return  {
-          topElement: function (response){ return response.EVM.Transfers },
+          topElement: function (response){ return response.EVM.Transfers},
           columns: [
             {
-              name: 'Time', cell: function(row){ return row.Block.Time },
+              name: 'Time', cell: function(row){ return row.Block.Time},
             },
             {
-              name: 'Block', cell: function(row){ return row.Block.Number },
+              name: 'Block', cell: function(row){ return row.Block.Number},
             },
             { 
-              name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol }
+              name: 'Sender', cell: function(row){ return row.Transfer.Sender},
             },
             { 
-              name: 'Reciver', cell: function(row){ return row.Reciver}
+              name: 'Reciver', cell: function(row){ return row.Transfer.Receiver},
+            },
+            { 
+              name: 'Amount', cell: function(row){ return Math.round(row.Transfer.Amount * 1000)/1000},
+            },
+            { 
+              name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
+            },
+            { 
+              name: 'Transaction', cell: function(row){ return row.Transaction.Hash},
             },
           ]
         }
@@ -220,8 +241,19 @@ class NFTStartTable extends myBootstrapTableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component_id", "Sub-Laset-Eth-NFT-tansfers", 'Laset-Eth-NFT-tansfers' );
+    renderComponent(NFTStartTable, "#component_id", "Sub-test-new-table", "test-new-table" );
   }
 )
+// Sub-test-new-table
+// Sub-test-new-table_1
+// Sub-Laset-Eth-NFT-tansfers
 
+   // if(!query.includes('limit')){
+    //     renderQueryInComponent(url, componentObject, query.replace(/^subscription/,'query').replace(/Transfers\(/,'Transfers\(limit: {count: 15}'), compElement)
+    //     return query.replace(/Transfers\(/,'Transfers\(limit: {count: 15}')
+    //   }
+    // renderQueryInComponent(url, componentObject, query.replace(/^subscription/,'query'), compElement)
+          // if(!query.includes('limit')){
+      //   return query.replace(/Transfers\(/,'Transfers\(limit: {count: 15}')
+      //   }
 </script>
