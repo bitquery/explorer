@@ -24,18 +24,21 @@ module ApplicationHelper
     render file: layout
   end
 
-  def current_ad tag
+  def current_ad(tag, ad_type = :ad)
     ads_path = ADS
-    "#{tag}#{request.fullpath}".split('/').collect{|p|
+    ad = "#{tag}#{request.fullpath}".split('/').collect { |p|
       next unless ads_path[p.to_sym]
-      ad = ads_path[p.to_sym][:ad]
+  
+      ad = ads_path[p.to_sym]
       ads_path = ads_path[p.to_sym]
       ad
     }.compact.reverse.first
+  
+    ad ? ad[ad_type] : nil
   end
 
   def tab_ad(ad_tag = 'tab', html_class = 'nav-item nav-item-ad')
-    if ad = current_ad(ad_tag)
+    if ad = current_ad(ad_tag, :ad)
       tag.li(class: html_class) do
         link_to ad[:url], class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ''), target: :blank do
           "#{ad[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
@@ -43,7 +46,17 @@ module ApplicationHelper
       end
     end
   end
-
+  
+  def tab_ad1(ad_tag = 'tab0', html_class = 'nav-item nav-item-ad')
+    if ad1 = current_ad(ad_tag, :ad1)
+      tag.li(class: html_class) do
+        link_to ad1[:url], class: "nav-link nav-link-ad", style: (ad1[:bgcolor] ? "background-color: #{ad1[:bgcolor]}" : ''), target: :blank do
+          "#{ad1[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
+        end
+      end
+    end
+  end
+  
   def tab_link(name, action, new_tabs = [], html_class = 'nav-item', data = { changeurl: true })
     tag.li(class: html_class) do
       tab_a(name, action, new_tabs, 'nav-link', data)

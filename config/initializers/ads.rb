@@ -4,7 +4,13 @@ ADS={
       text: 'Free DEX Swaps',
       url: 'https://jn3rg.app.link/Bitquery_1inch',
       bgcolor: '#0570f2'
+    },
+    ad1: {
+      text: 'Verse DEX',
+      url: 'https://verse.bitcoin.com/?utm_source=bitquery&utm_medium=web&utm_campaign=bitquery_explorer',
+      bgcolor: '#0085FF'
     }
+
   },
   tab: {
     # ad: {
