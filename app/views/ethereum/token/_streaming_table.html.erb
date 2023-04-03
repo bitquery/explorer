@@ -32,7 +32,8 @@
   </div>
 
   <script>
-      createWidget('<%= params['action']%>', 'latest-transfers-live', {
+      let action = '<%=@token %>' === 'ETH' ? 'transfersETH' : 'transfers'
+      createWidget(action, 'latest-transfers-live', {
           network: '<%= params['network']['network'] %>',
           baseCurrency: '<%=@token %>'
       }, '<%= BITQUERY_IDE_API %>/querytransfer')
