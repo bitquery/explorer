@@ -338,7 +338,7 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
 global.createWidget = async function (widgetType, container_id, argsReplace, transferURL) {
     const query = {
         transfers: "query transfers($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    Transfers(\n      where: {Transfer: {Currency: {SmartContract: {is: $baseCurrency}}}}\n      limit: {count: 100}\n      ) {\n      Block {\n        Number\n        Time\n      }\n      Transfer {\n        Currency {\n          Symbol\n        }\n        Receiver\n        Sender\n        Amount\n      }\n      Transaction{\n        Hash\n      }\n    }\n  }\n}\n",
-        token_dex_trades: "query subscribeTrading($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}}}\n      limit: {count: 100}\n      ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n  }\n}\n",
+        token_dex_trades: "query subscribeTrading($network: evm_network!, $baseCurrency: String!) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {Trade: {Buy: {Currency: {SmartContract: {is: $baseCurrency}}}}}\n      limit: {count: 100}\n      ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n  SmartContract\n        }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n  }\n}\n",
         pair_dex_trades: "query pair(\n  $network: evm_network!\n  $baseCurrency: String!\n  $quoteCurrency: String!\n) {\n  EVM(network: $network) {\n    sell: DEXTrades(\n      where: {\n        Trade: {\n          Sell: { Currency: { SmartContract: { is: $baseCurrency } } }\n          Buy: { Currency: { SmartContract: { is: $quoteCurrency } } }\n        }\n      }\n    ) {\n      Block {\n        Time\n        Number\n      }\n      Trade {\n        Sell {\n          Buyer\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Buy {\n          Price\n          Amount\n          Currency {\n            Symbol\n          }\n        }\n        Dex {\n          ProtocolName\n          SmartContract\n        }\n      }\n    }\n    \n    \n  }\n}\n"
     }
     const variables = {}
@@ -505,7 +505,14 @@ global.createWidget = async function (widgetType, container_id, argsReplace, tra
                 },
                 {
                     field: "Trade.Sell.Currency.Symbol",
-                    title: "Base currency"
+                    title: "Base currency",
+                    formatter: "link",
+                    formatterParams: {
+                        url: (cell) =>
+                            `${window.location.origin}/${argsReplace.network}/token/${
+                            cell.getData().Trade.Sell.Currency.SmartContract
+                        }`,
+                    },
                 },
                 {
                     field: "Trade.Dex.ProtocolName",
@@ -948,4 +955,3 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
     rr.change(draw);
 
 };
-
