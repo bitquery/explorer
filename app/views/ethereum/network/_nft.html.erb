@@ -3,12 +3,12 @@
     <div class="card">
       <div class="card-body">
         <div id="greenButton"></div>
-        <div id="component_id" class='table table-striped table-hover table-sm widgets-table'></div>
+        <div id="component_id" ></div>
       </div>
     </div>
   </div>
 </div>
-
+<%# class='table table-striped table-hover table-sm widgets-table' %>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript"></script>
 
@@ -31,22 +31,34 @@ function errorAllert(element,error){
 class myBootstrapTableComponent {
   constructor(element) {
     this.container = element;
+    this.wrapper = document.createElement('div');
+    this.wrapper.classList.add('tabulator');
     this.tableElement = document.createElement('table');
     this.tableElement.classList.add('table', 'table-striped');
+
     this.thead = document.createElement('thead');
+    this.thead.classList.add('tabulator-header');
+    this.tfooter = document.createElement('div');
+    this.tfooter.classList.add('tabulator-footer');
     this.tr = document.createElement('tr');
-    this.container.appendChild(this.tableElement);
+    this.tbody = document.createElement('tbody');
+    this.tbody.classList.add('tabulator-tableHolder')
+
+    this.container.appendChild(this.wrapper);
+    this.wrapper.appendChild(this.tableElement);
     this.tableElement.appendChild(this.thead);
+    this.tableElement.appendChild(this.tbody);
+    this.tableElement.appendChild(this.tfooter);
     this.thead.appendChild(this.tr);
     this.config = this.configuration();
     this.config.columns.forEach(column => {
       const th = document.createElement('th');
+      th.classList.add('tabulator-col-title');
       th.setAttribute('scope', 'col');
       th.textContent = column.name;
       this.tr.appendChild(th);
     });
-    this.tbody = document.createElement('tbody');
-    this.tableElement.appendChild(this.tbody);
+
   }
  
   onData = (data) => {
@@ -54,22 +66,67 @@ class myBootstrapTableComponent {
     let array = this.config.topElement(data);
     array.forEach(rowData => {
       const tr = document.createElement('tr');
+      // tr.classList.add('tabulator-row','tabulator-selectable', 'tabulator-row-even')
       this.tbody.appendChild(tr);
       let row = [];
       this.config.columns.forEach(column => {
         if(column.name === 'Reciver' || column.name === 'Sender'){
             const td = document.createElement('td');
-           const link = document.createElement('a');
+            td.classList.add('tabulator-cell');
+            td.setAttribute('role','gridcell');
+            const link = document.createElement('a');
             link.setAttribute('target', '_blank')
             link.href = `https://explorer.bitquery.io/ethereum/token/${column.cell(rowData)}`
             link.textContent = column.cell(rowData);
+            const ico = document.createElement('i')
+            ico.classList.add('fa', 'fa-sign-in', 'text-success')
+            const div1 = document.createElement('div');
+            const div2 = document.createElement('div');
+            div1.classList.add('abulator-col-resize-handle');
+            div2.classList.add('tabulator-col-resize-handle', 'prev');
             td.appendChild(link);
+            
             tr.appendChild(td);
+            td.appendChild(ico)
+            // tr.appendChild(div1)
+            // tr.appendChild(div2)
         }else{
           const td = document.createElement('td');
+            td.classList.add('tabulator-cell');
+            td.setAttribute('role','gridcell');
+            td.setAttribute('tabulator-field','Transfer.Sender');
           td.textContent = column.cell(rowData);
+           const div1 = document.createElement('div');
+            const div2 = document.createElement('div');
+            div1.classList.add('abulator-col-resize-handle');
+            div2.classList.add('tabulator-col-resize-handle', 'prev');
           tr.appendChild(td);
+          // tr.appendChild(div1)
+          // tr.appendChild(div2)
         }
+// <div class="tabulator-row tabulator-selectable tabulator-row-even" role="row" style="padding-left: 0px;">
+// <div class="tabulator-cell" role="gridcell" tabulator-field="Block.Time" title="" style="width: 332px; height: 40px;">2023-04-04 08:01:11
+// <div class="tabulator-col-resize-handle">
+// </div>
+// <div class="tabulator-col-resize-handle prev">
+// </div>
+// </div>
+// <div class="tabulator-cell" role="gridcell" tabulator-field="Block.Number" title="" style="width: 166px; height: 40px;">
+// <a href="https://explorer.bitquery.io/ethereum/block/16974219">16974219</a>
+// <div class="tabulator-col-resize-handle"></div>
+// <div class="tabulator-col-resize-handle prev"></div>
+// </div>
+// <div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Sender" title="" style="width: 166px; height: 40px;"><a href="https://explorer.bitquery.io/ethereum/address/0x0615dbba33fe61a31c7ed131bda6655ed76748b1">0x0615dbba33fe61a31c7ed131bda6655ed76748b1</a>
+// <div class="tabulator-col-resize-handle"></div>
+// <div class="tabulator-col-resize-handle prev"></div>
+// </div>
+// <div class="tabulator-cell" role="gridcell" title="" style="width: 40px; text-align: center; height: 40px;">
+// <i class="fa fa-sign-in text-success"></i>
+// <div class="tabulator-col-resize-handle"></div>
+// <div class="tabulator-col-resize-handle prev"></div>
+// </div>
+
+// <div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Receiver" title="" style="width: 166px; height: 40px;"><a href="https://explorer.bitquery.io/ethereum/address/0xba8da9dcf11b50b03fd5284f164ef5cdef910705">0xba8da9dcf11b50b03fd5284f164ef5cdef910705</a><div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div><div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Amount" title="" style="width: 166px; text-align: right; height: 40px;">0.0942<div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div><div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Currency.Symbol" title="" style="width: 166px; height: 40px;">WETH<div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div><div class="tabulator-cell" role="gridcell" tabulator-field="Transaction.Hash" title="" style="width: 166px; height: 40px;"><a href="https://explorer.bitquery.io/ethereum/tx/0xbf8e36ede1ca8e80cc6f1f63978f9594a80c6192eb0153c18432f25b0ffc84b5"><i class="fas fa-share-square text-primary mr-1"></i>0xbf8e36ede1ca8e80cc6f1f63978f9594a80c6192eb0153c18432f25b0ffc84b5</a><div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div></div>
       });
     });
   };
