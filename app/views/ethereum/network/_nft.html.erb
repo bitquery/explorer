@@ -2,7 +2,6 @@
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-body">
-        <div id="greenButton"></div>
         <div id="component_id" ></div>
       </div>
     </div>
@@ -33,6 +32,8 @@ class myBootstrapTableComponent {
     this.container = element;
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('tabulator');
+    this.wrapper.style.overflow = 'scroll';
+    this.wrapper.style.height = '60vh';
     this.tableElement = document.createElement('table');
     this.tableElement.classList.add('table', 'table-striped');
 
@@ -41,22 +42,31 @@ class myBootstrapTableComponent {
     this.tfooter = document.createElement('div');
     this.tfooter.classList.add('tabulator-footer');
     this.tr = document.createElement('tr');
+    this.tbodyWrapper = document.createElement('div');
+    this.tbodyWrapper.classList.add('tabulator-tableHolder');
     this.tbody = document.createElement('tbody');
-    this.tbody.classList.add('tabulator-tableHolder')
+    this.tbody.classList.add('tabulator-table')
 
     this.container.appendChild(this.wrapper);
     this.wrapper.appendChild(this.tableElement);
     this.tableElement.appendChild(this.thead);
+    // this.tableElement.appendChild(this.tbodyWrapper);
     this.tableElement.appendChild(this.tbody);
     this.tableElement.appendChild(this.tfooter);
     this.thead.appendChild(this.tr);
     this.config = this.configuration();
     this.config.columns.forEach(column => {
-      const th = document.createElement('th');
-      th.classList.add('tabulator-col-title');
-      th.setAttribute('scope', 'col');
-      th.textContent = column.name;
-      this.tr.appendChild(th);
+    this.th = document.createElement('th');
+    this.th.classList.add('tabulator-col-title');
+    this.th.setAttribute('scope', 'col');
+    this.th.textContent = column.name;
+    this.tr.appendChild(this.th);
+    this.div1 = document.createElement('div');
+    this.div2 = document.createElement('div');
+    this.div1.classList.add('abulator-col-resize-handle');
+    this.div2.classList.add('tabulator-col-resize-handle', 'prev');
+    this.tr.appendChild(this.div1)
+    this.tr.appendChild(this.div2)
     });
 
   }
@@ -66,67 +76,43 @@ class myBootstrapTableComponent {
     let array = this.config.topElement(data);
     array.forEach(rowData => {
       const tr = document.createElement('tr');
-      // tr.classList.add('tabulator-row','tabulator-selectable', 'tabulator-row-even')
+      // tr.classList.add('tabulator-row', 'tabulator-selectable', 'tabulator-row-odd')
       this.tbody.appendChild(tr);
       let row = [];
       this.config.columns.forEach(column => {
         if(column.name === 'Reciver' || column.name === 'Sender'){
-            const td = document.createElement('td');
-            td.classList.add('tabulator-cell');
-            td.setAttribute('role','gridcell');
-            const link = document.createElement('a');
-            link.setAttribute('target', '_blank')
-            link.href = `https://explorer.bitquery.io/ethereum/token/${column.cell(rowData)}`
-            link.textContent = column.cell(rowData);
-            const ico = document.createElement('i')
-            ico.classList.add('fa', 'fa-sign-in', 'text-success')
-            const div1 = document.createElement('div');
-            const div2 = document.createElement('div');
-            div1.classList.add('abulator-col-resize-handle');
-            div2.classList.add('tabulator-col-resize-handle', 'prev');
-            td.appendChild(link);
-            
-            tr.appendChild(td);
-            td.appendChild(ico)
-            // tr.appendChild(div1)
-            // tr.appendChild(div2)
+          const td = document.createElement('td');
+          td.classList.add('tabulator-cell');
+          td.setAttribute('role','gridcell');
+          const link = document.createElement('a');
+          link.setAttribute('target', '_blank')
+          link.href = `https://explorer.bitquery.io/ethereum/token/${column.cell(rowData)}`
+          link.textContent = column.cell(rowData);
+          const ico = document.createElement('i')
+          ico.classList.add('fa', 'fa-sign-in', 'text-success')
+          const div1 = document.createElement('div');
+          const div2 = document.createElement('div');
+          div1.classList.add('abulator-col-resize-handle');
+          div2.classList.add('tabulator-col-resize-handle', 'prev');
+          td.appendChild(link);
+          tr.appendChild(td);
+          td.appendChild(ico)
+          tr.appendChild(div1)
+          tr.appendChild(div2)
         }else{
           const td = document.createElement('td');
-            td.classList.add('tabulator-cell');
-            td.setAttribute('role','gridcell');
-            td.setAttribute('tabulator-field','Transfer.Sender');
+          td.classList.add('tabulator-cell');
+          td.setAttribute('role','gridcell');
+          td.setAttribute('tabulator-field','Transfer.Sender');
           td.textContent = column.cell(rowData);
-           const div1 = document.createElement('div');
-            const div2 = document.createElement('div');
-            div1.classList.add('abulator-col-resize-handle');
-            div2.classList.add('tabulator-col-resize-handle', 'prev');
+          const div1 = document.createElement('div');
+          const div2 = document.createElement('div');
+          div1.classList.add('abulator-col-resize-handle');
+          div2.classList.add('tabulator-col-resize-handle', 'prev');
           tr.appendChild(td);
-          // tr.appendChild(div1)
-          // tr.appendChild(div2)
+          tr.appendChild(div1)
+          tr.appendChild(div2)
         }
-// <div class="tabulator-row tabulator-selectable tabulator-row-even" role="row" style="padding-left: 0px;">
-// <div class="tabulator-cell" role="gridcell" tabulator-field="Block.Time" title="" style="width: 332px; height: 40px;">2023-04-04 08:01:11
-// <div class="tabulator-col-resize-handle">
-// </div>
-// <div class="tabulator-col-resize-handle prev">
-// </div>
-// </div>
-// <div class="tabulator-cell" role="gridcell" tabulator-field="Block.Number" title="" style="width: 166px; height: 40px;">
-// <a href="https://explorer.bitquery.io/ethereum/block/16974219">16974219</a>
-// <div class="tabulator-col-resize-handle"></div>
-// <div class="tabulator-col-resize-handle prev"></div>
-// </div>
-// <div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Sender" title="" style="width: 166px; height: 40px;"><a href="https://explorer.bitquery.io/ethereum/address/0x0615dbba33fe61a31c7ed131bda6655ed76748b1">0x0615dbba33fe61a31c7ed131bda6655ed76748b1</a>
-// <div class="tabulator-col-resize-handle"></div>
-// <div class="tabulator-col-resize-handle prev"></div>
-// </div>
-// <div class="tabulator-cell" role="gridcell" title="" style="width: 40px; text-align: center; height: 40px;">
-// <i class="fa fa-sign-in text-success"></i>
-// <div class="tabulator-col-resize-handle"></div>
-// <div class="tabulator-col-resize-handle prev"></div>
-// </div>
-
-// <div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Receiver" title="" style="width: 166px; height: 40px;"><a href="https://explorer.bitquery.io/ethereum/address/0xba8da9dcf11b50b03fd5284f164ef5cdef910705">0xba8da9dcf11b50b03fd5284f164ef5cdef910705</a><div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div><div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Amount" title="" style="width: 166px; text-align: right; height: 40px;">0.0942<div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div><div class="tabulator-cell" role="gridcell" tabulator-field="Transfer.Currency.Symbol" title="" style="width: 166px; height: 40px;">WETH<div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div><div class="tabulator-cell" role="gridcell" tabulator-field="Transaction.Hash" title="" style="width: 166px; height: 40px;"><a href="https://explorer.bitquery.io/ethereum/tx/0xbf8e36ede1ca8e80cc6f1f63978f9594a80c6192eb0153c18432f25b0ffc84b5"><i class="fas fa-share-square text-primary mr-1"></i>0xbf8e36ede1ca8e80cc6f1f63978f9594a80c6192eb0153c18432f25b0ffc84b5</a><div class="tabulator-col-resize-handle"></div><div class="tabulator-col-resize-handle prev"></div></div></div>
       });
     });
   };
@@ -166,10 +152,10 @@ class GoogleChartsTableComponent {
 
 const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 
-const graphqlQuerySubscriptionExecutor = async (url, query,componentObject,element,variables) =>{
+const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables) =>{
   const currentUrl =  url.replace(/^http/, 'ws');
   const client = createClient({url: currentUrl});
-const variabls = JSON.parse(variables)
+  const variabls = JSON.parse(variables)
   // console.log('variables',variabls);
   const payload = {query,variables:variabls};
 
@@ -180,15 +166,15 @@ const variabls = JSON.parse(variables)
         componentObject.onData(data.data);
       },
       error: (error) => {
-        // errorAllert(element,error);
+        errorAllert(element,error);
         console.log('graphqlQuerySubscriptionExecutor',error)
         },
       complete: () => console.log('complete'),
   })
 }
 
-const graphqlQueryExecutor = async (url, query, element,variables, api_key = '') => {
-  console.log('query from graphqlQueryExecutor', query)
+const graphqlQueryExecutor = async (url, query, element, variables, api_key = '') => {
+  // console.log('query from graphqlQueryExecutor', query)
   let keyHeader = { 'X-API-KEY': api_key };
     try {
       const response = await fetch(url, {
@@ -203,15 +189,15 @@ const graphqlQueryExecutor = async (url, query, element,variables, api_key = '')
       });
       const data = await response.json();
       if(data.errors){
-        errorAllert(element,data.errors)
+        errorAllert(element, data.errors)
       }
       return data;
     } catch (error) {
-      console.error('graphqlQueryExecutor error:', error);
+    errorAllert(element,error);
     }
 };
 
-function renderComponent(component,selector,queryId,prePopulateId,api_key,variables) {
+function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
   try {
     fetch(`${GRAPHQL_API}/getquery/${queryId}`)
       .then((response) => response.json())
@@ -219,47 +205,44 @@ function renderComponent(component,selector,queryId,prePopulateId,api_key,variab
           const compElement = document.querySelector(selector);
           const componentObject = new component(compElement, queryMetaData);
           const query = queryMetaData.query.trim();
-
-          console.log('queryMetaData',queryMetaData);
+          // console.log('queryMetaData',queryMetaData);
           const queryVariables = queryMetaData.variables; // TODO merge with query
           if (query.startsWith('subscription')) {
-            document.querySelector('#greenButton').style.display = 'inline-block';
-            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement,query,prePopulateId,api_key), componentObject, compElement, queryVariables);
+            if(prePopulateId){
+              prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, api_key)
+            }
+            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables);
           } else {
-            
-            document.querySelector('#greenButton').style.display = 'none';
-            renderQueryInComponent(queryMetaData.endpoint_url,componentObject,query,compElement,queryVariables, api_key);
+            renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
           }
       })
-      .catch((error) => console.log("fetch error:", error));
+      .catch((error) => {
+        errorAllert(compElement,error);
+        console.log("fetch error:", error)
+        });
   } catch (error) {
+    errorAllert(selector,error);
     console.log("renderComponent error:", error);
   }
 }
 
 function prepopulateQuery(url, componentObject, compElement,query, prePopulateId,api_key){
-  if (prePopulateId) {
     fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`)
       .then((response) => response.json())
       .then((queryMetaData) => {
           const query = queryMetaData.query.trim();
           const queryVariables = queryMetaData.variables; // TODO merge with query
-            renderQueryInComponent(url,componentObject,query,compElement,queryVariables, api_key);
+          renderQueryInComponent(url,componentObject, query, compElement, queryVariables, api_key);
           })
       .catch((error) => console.log("fetch error:", error));
- 
-  return query
-  } else {
-
-    return query
-  }
 }
 
 
-function renderQueryInComponent(endpoint_url,componentObject,query,compElement,variables,api_key){
+function renderQueryInComponent(endpoint_url, componentObject, query, compElement, variables, api_key){
       graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
-            .then((graphQLResponse) => componentObject.onData(graphQLResponse.data))
-            .catch((error) => console.log("graphqlQueryExecutor error:", error));
+          .then((graphQLResponse) =>{ componentObject.onData(graphQLResponse.data);
+          console.log('graphqlQueryExecutor',graphQLResponse)})
+          .catch((error) => console.log("graphqlQueryExecutor error:", error));
 }
 
 //      ****** on page
@@ -298,7 +281,7 @@ class NFTStartTable extends myBootstrapTableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component_id", "Sub-test-new-table", "test-new-table" );
+    renderComponent(NFTStartTable, "#component_id", "Sub-test-new-table", 'test-new-table' );
   }
 )
 // Sub-test-new-table
