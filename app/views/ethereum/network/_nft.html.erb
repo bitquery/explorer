@@ -37,15 +37,15 @@ class MyBootstrapTableComponent {
 
   #createWrapper() {
     this.wrapper = document.createElement('div');
-    this.wrapper.classList.add('tabulator');
-    this.wrapper.style.overflow = 'scroll';
+    this.wrapper.classList.add('table-responsive');
+    // this.wrapper.style.overflow = 'scroll';
     this.wrapper.style.height = '60vh';
     this.container.appendChild(this.wrapper);
   }
 
   #createTable() {
     this.tableElement = document.createElement('table');
-    this.tableElement.classList.add('table', 'table-striped');
+    this.tableElement.classList.add('table', 'table-striped','table-hover' );
     this.wrapper.appendChild(this.tableElement);
 
     this.#createThead();
@@ -68,8 +68,8 @@ class MyBootstrapTableComponent {
       th.textContent = column.name;
       tr.appendChild(th);
 
-      tr.appendChild(this.#createResizeEmptySpace());
-      tr.appendChild(this.#createResizeEmptySpace('prev'));
+      // tr.appendChild(this.#createResizeEmptySpace());
+      // tr.appendChild(this.#createResizeEmptySpace('prev'));
     });
   }
 
@@ -100,18 +100,17 @@ class MyBootstrapTableComponent {
       this.tbody.appendChild(tr);
       this.config.columns.forEach(column => {
         const td = document.createElement('td');
-        td.classList.add('tabulator-cell');
+        td.classList.add('tabulator-cell', 'cellipsis');
         td.setAttribute('role', 'gridcell');
 
-        if (column.name === 'Reciver' || column.name === 'Sender') {
+        if (column.name === 'URL') {
           this.#createLinkCellContent(td, rowData, column);
         } else {
           td.textContent = column.cell(rowData);
         }
-
         tr.appendChild(td);
-        tr.appendChild(this.#createResizeHandle());
-        tr.appendChild(this.#createResizeHandle('prev'));
+        // tr.appendChild(this.#createResizeEmptySpace());
+        // tr.appendChild(this.#createResizeEmptySpace('prev'));
       });
     });
   };
@@ -119,14 +118,14 @@ class MyBootstrapTableComponent {
   #createLinkCellContent(td, rowData, column) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
-    link.href = `https://explorer.bitquery.io/ethereum/token/${column.cell(rowData)}`; // Adjust URL as needed
+    link.href = `${column.cell(rowData)}`; // Change  URL 
     link.textContent = column.cell(rowData);
 
-    const ico = document.createElement('i');
-    ico.classList.add('fa', 'fa-sign-in', 'text-success');
+    // const ico = document.createElement('i');
+    // ico.classList.add('fa', 'fa-sign-in', 'text-success');
 
     td.appendChild(link);
-    td.appendChild(ico);
+    // td.appendChild(ico);
   }
 }
 
@@ -210,6 +209,36 @@ const graphqlQueryExecutor = async (url, query, element, variables, api_key = ''
     }
 };
 
+function renderQueryInComponent(endpoint_url, componentObject, query, compElement, variables, api_key){
+      graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
+          .then((graphQLResponse) =>{ componentObject.onData(graphQLResponse.data);
+          console.log('graphqlQueryExecutor',graphQLResponse)})
+          .catch((error) => console.log("graphqlQueryExecutor error:", error));
+}
+
+function prepopulateQuery(url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) {
+  const startQuery = query;
+  let finalQuery = startQuery;
+
+  if (prePopulateId) {
+    fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`)
+      .then((response) => response.json())
+      .then((queryMetaData) => {
+        finalQuery = queryMetaData.query.trim();
+        queryVariables = queryMetaData.variables; // TODO merge with query
+        renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
+      })
+      .catch((error) => console.log("fetch error:", error));
+  } else {
+    if (!query.includes('limit')) {
+      finalQuery = startQuery.replace(/^subscription/,'query').replace(/Transfers\(/,'Transfers\(limit: {count: 15}');
+      console.log('finalQuery',finalQuery)
+    }
+    renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
+  }
+}
+
+
 function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
   try {
     fetch(`${GRAPHQL_API}/getquery/${queryId}`)
@@ -221,9 +250,7 @@ function renderComponent(component, selector, queryId, prePopulateId, api_key, v
           // console.log('queryMetaData',queryMetaData);
           const queryVariables = queryMetaData.variables; // TODO merge with query
           if (query.startsWith('subscription')) {
-            if(prePopulateId){ //перенести иф с изменением квери внутрь
-              prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, api_key)
-            }
+            prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key)
             graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables);
           } else {
             renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
@@ -239,25 +266,7 @@ function renderComponent(component, selector, queryId, prePopulateId, api_key, v
   }
 }
 
-function prepopulateQuery(url, componentObject, compElement,query, prePopulateId,api_key){
-    fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`)
-      .then((response) => response.json())
-      .then((queryMetaData) => {
-          const query = queryMetaData.query.trim();
-          const queryVariables = queryMetaData.variables; // TODO merge with query
-          renderQueryInComponent(url,componentObject, query, compElement, queryVariables, api_key);
-          })
-      .catch((error) => console.log("fetch error:", error));
 
-}
-
-
-function renderQueryInComponent(endpoint_url, componentObject, query, compElement, variables, api_key){
-      graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
-          .then((graphQLResponse) =>{ componentObject.onData(graphQLResponse.data);
-          console.log('graphqlQueryExecutor',graphQLResponse)})
-          .catch((error) => console.log("graphqlQueryExecutor error:", error));
-}
 
 //      ****** on page
 
@@ -269,23 +278,14 @@ class NFTStartTable extends MyBootstrapTableComponent {
             {
               name: 'Time', cell: function(row){ return row.Block.Time},
             },
-            {
-              name: 'Block', cell: function(row){ return row.Block.Number},
-            },
-            { 
-              name: 'Sender', cell: function(row){ return row.Transfer.Sender},
-            },
-            { 
-              name: 'Reciver', cell: function(row){ return row.Transfer.Receiver},
-            },
-            { 
-              name: 'Amount', cell: function(row){ return Math.round(row.Transfer.Amount * 1000)/1000},
-            },
             { 
               name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
             },
             { 
-              name: 'Transaction', cell: function(row){ return row.Transaction.Hash},
+              name: 'ID', cell: function(row){ return row.Transfer.Id},
+            },
+            { 
+              name: 'URI', cell: function(row){ return row.Transfer.URI},
             },
           ]
         }
@@ -295,7 +295,7 @@ class NFTStartTable extends MyBootstrapTableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component_id", "Sub-test-new-table", 'test-new-table' );
+    renderComponent(NFTStartTable, "#component_id", "Sub-Laset-Eth-NFT-tansfers" );
   }
 )
 // Sub-test-new-table
