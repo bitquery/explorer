@@ -27,96 +27,109 @@ function errorAllert(element,error){
   text.textContent = `Error: ${error[0].message}`;
 }
 
-class myBootstrapTableComponent {
+class MyBootstrapTableComponent {
   constructor(element) {
     this.container = element;
+    this.config = this.configuration();
+    this.#createWrapper();
+    this.#createTable();
+  }
+
+  #createWrapper() {
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('tabulator');
     this.wrapper.style.overflow = 'scroll';
     this.wrapper.style.height = '60vh';
+    this.container.appendChild(this.wrapper);
+  }
+
+  #createTable() {
     this.tableElement = document.createElement('table');
     this.tableElement.classList.add('table', 'table-striped');
-
-    this.thead = document.createElement('thead');
-    this.thead.classList.add('tabulator-header');
-    this.tfooter = document.createElement('div');
-    this.tfooter.classList.add('tabulator-footer');
-    this.tr = document.createElement('tr');
-    this.tbodyWrapper = document.createElement('div');
-    this.tbodyWrapper.classList.add('tabulator-tableHolder');
-    this.tbody = document.createElement('tbody');
-    this.tbody.classList.add('tabulator-table')
-
-    this.container.appendChild(this.wrapper);
     this.wrapper.appendChild(this.tableElement);
-    this.tableElement.appendChild(this.thead);
-    // this.tableElement.appendChild(this.tbodyWrapper);
-    this.tableElement.appendChild(this.tbody);
-    this.tableElement.appendChild(this.tfooter);
-    this.thead.appendChild(this.tr);
-    this.config = this.configuration();
-    this.config.columns.forEach(column => {
-    this.th = document.createElement('th');
-    this.th.classList.add('tabulator-col-title');
-    this.th.setAttribute('scope', 'col');
-    this.th.textContent = column.name;
-    this.tr.appendChild(this.th);
-    this.div1 = document.createElement('div');
-    this.div2 = document.createElement('div');
-    this.div1.classList.add('abulator-col-resize-handle');
-    this.div2.classList.add('tabulator-col-resize-handle', 'prev');
-    this.tr.appendChild(this.div1)
-    this.tr.appendChild(this.div2)
-    });
 
+    this.#createThead();
+    this.#createTbody();
+    this.#createTfooter();
   }
- 
+
+  #createThead() {
+    const thead = document.createElement('thead');
+    thead.classList.add('tabulator-header');
+    this.tableElement.appendChild(thead);
+
+    const tr = document.createElement('tr');
+    thead.appendChild(tr);
+
+    this.config.columns.forEach(column => {
+      const th = document.createElement('th');
+      th.classList.add('tabulator-col-title');
+      th.setAttribute('scope', 'col');
+      th.textContent = column.name;
+      tr.appendChild(th);
+
+      tr.appendChild(this.#createResizeEmptySpace());
+      tr.appendChild(this.#createResizeEmptySpace('prev'));
+    });
+  }
+
+  #createResizeEmptySpace(extraClass) {
+    const div = document.createElement('div');
+    div.classList.add('tabulator-col-resize-handle');
+    if (extraClass) div.classList.add(extraClass);
+    return div;
+  }
+
+  #createTbody() {
+    this.tbody = document.createElement('tbody');
+    this.tbody.classList.add('tabulator-table');
+    this.tableElement.appendChild(this.tbody);
+  }
+
+  #createTfooter() {
+    const tfooter = document.createElement('div');
+    tfooter.classList.add('tabulator-footer');
+    this.tableElement.appendChild(tfooter);
+  }
+
   onData = (data) => {
-    console.log('onData',data);
-    let array = this.config.topElement(data);
+    console.log('onData', data);
+    const array = this.config.topElement(data);
     array.forEach(rowData => {
       const tr = document.createElement('tr');
-      // tr.classList.add('tabulator-row', 'tabulator-selectable', 'tabulator-row-odd')
       this.tbody.appendChild(tr);
-      let row = [];
       this.config.columns.forEach(column => {
-        if(column.name === 'Reciver' || column.name === 'Sender'){
-          const td = document.createElement('td');
-          td.classList.add('tabulator-cell');
-          td.setAttribute('role','gridcell');
-          const link = document.createElement('a');
-          link.setAttribute('target', '_blank')
-          link.href = `https://explorer.bitquery.io/ethereum/token/${column.cell(rowData)}`
-          link.textContent = column.cell(rowData);
-          const ico = document.createElement('i')
-          ico.classList.add('fa', 'fa-sign-in', 'text-success')
-          const div1 = document.createElement('div');
-          const div2 = document.createElement('div');
-          div1.classList.add('abulator-col-resize-handle');
-          div2.classList.add('tabulator-col-resize-handle', 'prev');
-          td.appendChild(link);
-          tr.appendChild(td);
-          td.appendChild(ico)
-          tr.appendChild(div1)
-          tr.appendChild(div2)
-        }else{
-          const td = document.createElement('td');
-          td.classList.add('tabulator-cell');
-          td.setAttribute('role','gridcell');
-          td.setAttribute('tabulator-field','Transfer.Sender');
+        const td = document.createElement('td');
+        td.classList.add('tabulator-cell');
+        td.setAttribute('role', 'gridcell');
+
+        if (column.name === 'Reciver' || column.name === 'Sender') {
+          this.#createLinkCellContent(td, rowData, column);
+        } else {
           td.textContent = column.cell(rowData);
-          const div1 = document.createElement('div');
-          const div2 = document.createElement('div');
-          div1.classList.add('abulator-col-resize-handle');
-          div2.classList.add('tabulator-col-resize-handle', 'prev');
-          tr.appendChild(td);
-          tr.appendChild(div1)
-          tr.appendChild(div2)
         }
+
+        tr.appendChild(td);
+        tr.appendChild(this.#createResizeHandle());
+        tr.appendChild(this.#createResizeHandle('prev'));
       });
     });
   };
+
+  #createLinkCellContent(td, rowData, column) {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.href = `https://explorer.bitquery.io/ethereum/token/${column.cell(rowData)}`; // Adjust URL as needed
+    link.textContent = column.cell(rowData);
+
+    const ico = document.createElement('i');
+    ico.classList.add('fa', 'fa-sign-in', 'text-success');
+
+    td.appendChild(link);
+    td.appendChild(ico);
+  }
 }
+
 
 class GoogleChartsTableComponent {
   constructor(element, queryMetaInfo) {
@@ -208,7 +221,7 @@ function renderComponent(component, selector, queryId, prePopulateId, api_key, v
           // console.log('queryMetaData',queryMetaData);
           const queryVariables = queryMetaData.variables; // TODO merge with query
           if (query.startsWith('subscription')) {
-            if(prePopulateId){
+            if(prePopulateId){ //перенести иф с изменением квери внутрь
               prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, api_key)
             }
             graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables);
@@ -235,6 +248,7 @@ function prepopulateQuery(url, componentObject, compElement,query, prePopulateId
           renderQueryInComponent(url,componentObject, query, compElement, queryVariables, api_key);
           })
       .catch((error) => console.log("fetch error:", error));
+
 }
 
 
@@ -247,7 +261,7 @@ function renderQueryInComponent(endpoint_url, componentObject, query, compElemen
 
 //      ****** on page
 
-class NFTStartTable extends myBootstrapTableComponent {
+class NFTStartTable extends MyBootstrapTableComponent {
     configuration() {
       return  {
           topElement: function (response){ return response.EVM.Transfers},
