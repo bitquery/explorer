@@ -2,20 +2,6 @@
 
 
 <script >
-  
-function errorAlert(element,error){
-  element.textContent = '';
-  element.classList.add('alert', 'alert-danger');
-  element.setAttribute('role', 'alert');
-  const title = document.createElement('h4');
-  title.classList.add('alert-heading');
-  const text = document.createElement('p')
-  text.classList.add('mb-0');
-  element.appendChild(title);
-  element.appendChild(text);
-  title.textContent = 'An error occurred while executing the request. Please, try again later';
-  text.textContent = `Error: ${error[0].message}`;
-}
 
 class GoogleChartsTableComponent {
   constructor(element, queryMetaInfo) {
@@ -49,57 +35,74 @@ class GoogleChartsTableComponent {
     };
 }
 
-const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
+class NFTStartTable extends MyBootstrapTableComponent {
+    configuration() {
+      return  {
+          topElement: function (response){ return response.EVM.Transfers},
+          columns: [
+            {
+              name: 'Time', cell: function(row){ return row.Block.Time}, 
+            },
+            { 
+              name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
+            },
+            { 
+              name: 'ID', cell: function(row){ return row.Transfer.Id},
+            },
+            { 
+              name: 'URI', cell: function(row){ return row.Transfer.URI},type :'link',
+            },
+          ]
+        }
+    }
+} 
 
-const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, widgetFrame,  variables) =>{
-  const currentUrl =  url.replace(/^http/, 'ws');
-  const client = createClient({url: currentUrl});
 
-  const payload = {query,variables:variables};
+const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables, onerror) =>{
+	const currentUrl =  url.replace(/^http/, 'ws');
+	const client = createClient({url: currentUrl});
+	const payload = {query,variables:variables};
 
-  // console.log('payload',payload)
-  client.subscribe(payload, {
-      next: async (data) => {
+	client.subscribe(payload, {
+		next: (data) => {
 			const sub = 'subscription'
-        console.log('data',data)
-        componentObject.onData(data.data,sub);
-      },
-      error: (error) => {
-        errorAlert(element, error);
-        console.log('graphqlQuerySubscriptionExecutor',error)
-        },
-      complete: () => console.log('complete'),
-  })
+			componentObject.onData(data.data, sub);
+		},
+		error: (error) => {
+			onerror(error);
+			console.log('graphqlQuerySubscriptionExecutor',error)
+		},
+		complete: () => console.log('complete'),
+	})
 }
 
 const graphqlQueryExecutor = async (url, query, element, variables, api_key = '') => {
-  // console.log('query from graphqlQueryExecutor', query)
-  let keyHeader = { 'X-API-KEY': api_key };
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          ...keyHeader,
-        },
-        body: JSON.stringify({query, variables }),
-        credentials: 'same-origin',
-      });
-      const data = await response.json();
-      if(data.errors){
-        errorAlert(element, data.errors)
-      }
-      return data;
-    } catch (error) {
-    errorAlert(element,error);
-    }
+	let keyHeader = { 'X-API-KEY': api_key };
+	const response = await fetch(url, {
+		method: 'POST',
+		headers: {
+		Accept: 'application/json',
+		'Content-Type': 'application/json',
+		...keyHeader,
+		},
+		body: JSON.stringify({query, variables }),
+		credentials: 'same-origin',
+	});
+	if (response.status !== 200) {
+		throw new Error(response.error)
+	}
+	const data = await response.json();
+	if(data.errors){
+		throw new Error(data.errors[0].message)
+	}
+	return data;
 };
 
 const renderQueryInComponent = async (endpoint_url, componentObject, query, compElement, variables, api_key) => {
     const graphQLResponse = await graphqlQueryExecutor(endpoint_url, query, compElement, variables, api_key);
     componentObject.onData(graphQLResponse.data);
 }
+
 
  const prepopulateQuery = async (url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) => {
   const startQuery = query;
@@ -113,7 +116,7 @@ const renderQueryInComponent = async (endpoint_url, componentObject, query, comp
 			throw new Error(response.error)
 		}
 		finalQuery = queryMetaData.query.trim();
-		// queryVariables = queryMetaData.variables; 
+		queryVariables = queryMetaData.variables; // TODO merge with query
   } else {
 	if (!query.includes('limit')) {
 		// getLimit(query)
@@ -146,6 +149,26 @@ const createWidgetFrame = (selector, queryId) => {
 	getAPIButton.setAttribute('target', '_blank')
 	getAPIButton.textContent = 'Get Streaming API'
 	getAPIButton.setAttribute('href', `https://ide.bitquery.io/${queryId}`)
+	getAPIButton.onclick = () => {
+        let createHiddenField = function (name, value) {
+            let input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', name);
+            input.setAttribute('value', value);
+            return input;
+        }
+        let form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', `${GRAPHQL_API}/widgetconfig`);
+        form.setAttribute('enctype', 'application/json');
+        form.setAttribute('target', '_blank');
+        form.appendChild(createHiddenField('base', serialize(MyBootstrapTableComponent)));
+        form.appendChild(createHiddenField('widget', serialize(NFTStartTable)));
+        form.appendChild(createHiddenField('url', queryId));
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+    }
 	tableFooter.style.textAlign = 'right'
 	tableFooter.appendChild(getAPIButton)
 	widgetHeader.classList.add('card-header')
@@ -232,11 +255,11 @@ async function renderComponent(component, selector, queryId, prePopulateId, api_
 		const componentObject = new component(compElement, queryMetaData);
 		console.log('componentObject', componentObject);
 		const query = queryMetaData.query.trim();
-		const queryVariables = {...JSON.parse(queryMetaData.variables), ...variables}; 
+		const queryVariables = {...JSON.parse(queryMetaData.variables), ...variables}
 		widgetFrame.onquerystarted()
 		if (query.startsWith('subscription')) {
 			await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key);
-			graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement,  widgetFrame.onerror, queryVariables);
+			graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
 		} else {
 			await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
 		}
@@ -246,39 +269,9 @@ async function renderComponent(component, selector, queryId, prePopulateId, api_
 	}
 	
 }
-
-
-
 //      ****** on page
+renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers","Laset-Eth-NFT-tansfers" );
 
-class NFTStartTable extends MyBootstrapTableComponent {
-    configuration() {
-      return  {
-          topElement: function (response){ return response.EVM.Transfers},
-          columns: [
-            {
-              name: 'Time', cell: function(row){ return row.Block.Time}, type :'date',
-            },
-            { 
-              name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
-            },
-            { 
-              name: 'ID', cell: function(row){ return row.Transfer.Id},
-            },
-            { 
-              name: 'URI', cell: function(row){ return row.Transfer.URI},type :'link',
-            },
-          ]
-        }
-    }
-} 
-
-// google.charts.load('current', {'packages':['table']});
-// google.charts.setOnLoadCallback(
-//   function draw(){
-    renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers");
-//   }
-// )
 // Sub-test-new-table
 // Sub-test-new-table_1
 // Sub-Laset-Eth-NFT-tansfers
