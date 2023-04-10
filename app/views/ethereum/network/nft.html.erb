@@ -109,6 +109,9 @@ class MyBootstrapTableComponent {
         } else {
           textCell.textContent = column.cell(rowData);
         }
+        if (column.type === 'date') {
+          this.#createDateCellContent(textCell, rowData, column);
+        } 
         tr.appendChild(td);
         td.appendChild(textCell);
         // tr.appendChild(this.#createResizeEmptySpace());
@@ -126,7 +129,10 @@ class MyBootstrapTableComponent {
   
     });
   };
-
+  #createDateCellContent(textCell, rowData, column){
+    const result = new Date(column.cell(rowData)).toLocaleString()
+    textCell.textContent = result
+  }
   #createLinkCellContent(textCell, rowData, column) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank'); 
@@ -174,9 +180,9 @@ const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables) =>{
   const currentUrl =  url.replace(/^http/, 'ws');
   const client = createClient({url: currentUrl});
-  const variabls = JSON.parse(variables)
+
   // console.log('variables',variabls);
-  const payload = {query,variables:variabls};
+  const payload = {query,variables:variables};
 
   client.subscribe(payload, {
       next: (data) => {
@@ -248,7 +254,7 @@ const renderQueryInComponent = async (endpoint_url, componentObject, query, comp
 
 
 const createWidgetWrapper = (selector, queryId) => {
-	const componentContainer = document.querySelector(selector)
+  const componentContainer = document.querySelector(selector)
 	const widgetHeader = document.createElement('div')
 	const row = document.createElement('div')
 	const col8 = document.createElement('div')
@@ -302,10 +308,9 @@ async function renderComponent(component, selector, queryId, prePopulateId, api_
     const queryMetaData = await response.json();
     const compElement = widgetContainer;
     const componentObject = new component(compElement, queryMetaData);
-    console.log('componentObject', componentObject);
     widgetName.textContent = queryMetaData.name;
     const query = queryMetaData.query.trim();
-    const queryVariables = queryMetaData.variables; // TODO merge with query ?
+    const queryVariables ={...JSON.parse(queryMetaData.variables), ...variables}; 
 
     if (query.startsWith('subscription')) {
       prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key);
@@ -325,7 +330,7 @@ class NFTStartTable extends MyBootstrapTableComponent {
           topElement: function (response){ return response.EVM.Transfers},
           columns: [
             {
-              name: 'Time', cell: function(row){ return row.Block.Time}, 
+              name: 'Time', cell: function(row){ return row.Block.Time}, type :'date'
             },
             { 
               name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
@@ -342,12 +347,12 @@ class NFTStartTable extends MyBootstrapTableComponent {
 } 
 
 
-google.charts.load('current', {'packages':['table']});
-google.charts.setOnLoadCallback(
-  function draw(){
-    renderComponent(NFTStartTable, "#component-id", "Laset-Eth-NFT-tansfers");
-  }
-)
+// google.charts.load('current', {'packages':['table']});
+// google.charts.setOnLoadCallback(
+//   function draw(){
+    renderComponent(NFTStartTable, "#component_id", "Laset-Eth-NFT-tansfers");
+//   }
+// )
 // Sub-test-new-table
 // Sub-test-new-table_1
 // Sub-Laset-Eth-NFT-tansfers
