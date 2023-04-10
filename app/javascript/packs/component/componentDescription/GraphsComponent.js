@@ -5,7 +5,16 @@ export default class GraphsComponent {
    this.variables = variables
    }
 
+
+  
    async onData(data, sub) {
+    function shorten(text, maxCharCount = 10) {
+        if (text.length > maxCharCount) {
+          return text.substr(0, maxCharCount) + '...';
+        } else {
+          return text;
+        }
+      }
       console.log("onData", data);
       const array = this.config.topElement(data);
       
@@ -20,14 +29,14 @@ export default class GraphsComponent {
                   Sender = cellData;
                   if (!addresses[cellData]) {
                       addresses[cellData] = true;
-                      nodes.push({id: cellData, label: cellData});
+                      nodes.push({id: cellData, label: shorten(cellData)});
                   }
               }
               if(column.name === 'Receiver'){
                   Receiver = cellData;
                   if (!addresses[cellData]) {
                       addresses[cellData] = true;
-                      nodes.push({id: cellData, label: cellData});
+                      nodes.push({id: cellData, label: shorten(cellData)});
                   }
               }
               if(column.name === 'Time'){
@@ -41,22 +50,37 @@ export default class GraphsComponent {
    
           edges.push({from: Sender, to: Receiver, label: Time});
       }
-  // provide the data in the vis format
+
      const data2 = {
          nodes: nodes,
          edges: edges
      };
-     var options = {
+
+    var options = {
       autoResize: true,
       height: '500px' ,
       width: '100%',
+      edges:{
+        arrows: 'to',
+      },
+    //   nodes:{
+    //     level: 5,
+    //     shape: 'ellipse',
+    //     // size:20,
+    //   },
+    //   layout: {
+    //     improvedLayout: true,
    
-      configure: {
-         enabled: true,
-     
-       }
-     };
- 
+    //   }
+      physics: { 
+        hierarchicalRepulsion: {
+            centralGravity: 0.3,
+            springLength: 500,
+            springConstant: 0.01,
+            nodeDistance: 120,
+          },
+  }
+    }   
      // initialize your network!
      const network = new vis.Network(this.container, data2, options);
    }
