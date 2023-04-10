@@ -284,26 +284,26 @@ class NFTStartTable extends MyBootstrapTableComponent {
     }
 } 
 
-// const query = `
-// query GetThisStuff($name: String, $lastName: String) {
-//     viewer {
-//         personal(criteria: {
-//             name: $name,
-//             lastName: $lastName
-//         }) {
-//             name
-//             address
-//         }
-//     }
-// }
-// `;
+const query = `
+query GetThisStuff($name: String, $lastName: String) {
+    viewer {
+        personal(criteria: {
+            name: $name,
+            lastName: $lastName
+        }) {
+            name
+            address
+        }
+    }
+}
+`;
 
-// const result = graphQlQueryToJson(query, {
-//   variables: {
-//     name: "PETER",
-//     lastName: "SCHMIDT",
-//   },
-// });
+const result = graphQlQueryToJson(query, {
+  variables: {
+    name: "PETER",
+    lastName: "SCHMIDT",
+  },
+});
 
 // expect(result).toEqual({
 //   query: {
@@ -321,7 +321,7 @@ class NFTStartTable extends MyBootstrapTableComponent {
 //     },
 //   },
 // });
-// console.log('result', result)
+console.log('result', result)
 
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
