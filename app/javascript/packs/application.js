@@ -43,11 +43,14 @@ import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
 
-import { graphQlQueryToJson } from 'graphql-query-to-json';
+// import { graphQlQueryToJson } from 'graphql-query-to-json';
+console.log('dfgdfgdfgdgfdfgsdgdsfg');
+console.log('dfgdfgdfgdgfdfgsdgdsfg');
 console.log('dfgdfgdfgdgfdfgsdgdsfg');
 global.createClient = createClient;
 global.createChart = createChart;
-global.graphQlQueryToJson = graphQlQueryToJson;
+// global.graphQlQueryToJson = graphQlQueryToJson;
+// console.log('graphQlQueryToJson', graphQlQueryToJson);
 
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,

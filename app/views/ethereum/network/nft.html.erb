@@ -174,8 +174,9 @@ const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables) =>{
   const currentUrl =  url.replace(/^http/, 'ws');
   const client = createClient({url: currentUrl});
-  const parsedVariables = JSON.parse(variables)
-  const payload = {query,variables:parsedVariables};
+  const variabls = JSON.parse(variables)
+  // console.log('variables',variabls);
+  const payload = {query,variables:variabls};
 
   client.subscribe(payload, {
       next: (data) => {
