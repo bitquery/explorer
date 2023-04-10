@@ -283,10 +283,49 @@ class NFTStartTable extends MyBootstrapTableComponent {
     }
 } 
 
+// const query = `
+// query GetThisStuff($name: String, $lastName: String) {
+//     viewer {
+//         personal(criteria: {
+//             name: $name,
+//             lastName: $lastName
+//         }) {
+//             name
+//             address
+//         }
+//     }
+// }
+// `;
+
+// const result = graphQlQueryToJson(query, {
+//   variables: {
+//     name: "PETER",
+//     lastName: "SCHMIDT",
+//   },
+// });
+
+// expect(result).toEqual({
+//   query: {
+//     viewer: {
+//       personal: {
+//         __args: {
+//           criteria: {
+//             name: "PETER",
+//             lastName: "SCHMIDT",
+//           },
+//         },
+//         name: true,
+//         address: true,
+//       },
+//     },
+//   },
+// });
+// console.log('result', result)
+
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component_id", "Sub-Laset-Eth-NFT-tansfers",'Laset-Eth-NFT-tansfers' );
+    renderComponent(NFTStartTable, "#component_id", "Laset-Eth-NFT-tansfers" );
   }
 )
 // Sub-test-new-table
