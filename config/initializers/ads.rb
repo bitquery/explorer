@@ -1,27 +1,28 @@
 ADS={
-  tab0: {
-    ad: {
-      text: 'Free DEX Swaps',
-      url: 'https://jn3rg.app.link/Bitquery_1inch',
-      bgcolor: '#0570f2'
-    }
-  },
   tab: {
-    # ad: {
-    #   text: 'Buy this ad',
-    #   url: 'https://bitquery.io/forms/ads'
-    # },
-    # ad: {
-    #   text: 'Swap Crypto',
-    #   url: 'https://simpleswap.io/crypto/?ref=e11e6b4d3b3d',
-    #   bgcolor: '#9acd32'
-    # },
+    ads: [
+      {
+        text: 'Get Tax Report',
+        url: 'https://koinly.io/offer-bitquery/?utm_source=bitquery&utm_medium=cpm&utm_campaign=direct_buy&utm_term=apr_23',
+        bgcolor: 'green'
+      },
+      {
+        text: 'Free DEX Swaps',
+        url: 'https://jn3rg.app.link/Bitquery_1inch',
+        bgcolor: '#0570f2'
+      },
+      {
+        text: 'Verse DEX',
+        url: 'https://verse.bitcoin.com/?utm_source=bitquery&utm_medium=web&utm_campaign=bitquery_explorer',
+        bgcolor: '#0085FF'
+      }
+    ],
     # platform: {
     #   smart_contract: {
-    #     ad: {
+    #     ads: [{
     #       text: '13',
     #       url: '21'
-    #     }
+    #     }]
     #   }
     # }
   },

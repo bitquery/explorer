@@ -30,7 +30,7 @@ services:
       - BITQUERY_PROJECT_URL=${LC_COMPOSE_BITQUERY_PROJECT_URL}
       - BITQUERY_IMAGES=${LC_COMPOSE_BITQUERY_IMAGES}
       - BITQUERY_GRAPHQL=${LC_COMPOSE_BITQUERY_GRAPHQL}
-      - BITQUERY_IDE_API=https://${LC_COMPOSE_IDE_DOMAIN}/api
+      - BITQUERY_IDE_API=${LC_COMPOSE_BITQUERY_IDE_API}
     <<: *common-dns
     <<: *common-network
     <<: *common-restart

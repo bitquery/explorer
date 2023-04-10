@@ -11,10 +11,10 @@
     <%= t "tabs.#{controller_name}.header", network: @network[:name],
            token: content_for(:token) %>.
 
-    <%= t "network.ethereum.token.smart_contract", token_type: @token_info.token_type %>
-    <%= copy_text(@address, 'text-info').html_safe %>.
+    <%= t "network.ethereum.token.smart_contract"%>
+    <%= copy_text(@address, 'text-info').html_safe %>
 
-    <%= render partial: 'shared/address_annotation', locals: {annotation:  @info.annotation } %>
+    <br><%= render partial: 'shared/address_annotation', locals: {annotation:  @info.annotation } %>
 
   <% end %>
 

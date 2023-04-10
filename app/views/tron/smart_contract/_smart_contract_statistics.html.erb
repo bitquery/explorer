@@ -1,6 +1,12 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.smart_contract_statitics') %></div>
+        <div class="card-header">
+        <% if @token_info && @token_info.name && @token_info.symbol %>
+          <%= t('widgets.headers.smart_contract_statitics_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+        <% else %>
+          <%= t('widgets.headers.smart_contract_statitics') %>
+        <% end %>
+      </div>
     <div class="card-body">
       <div id="smart_contract_statitics"><%= t('loading') %></div>
     </div>
