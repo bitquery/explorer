@@ -31,7 +31,7 @@ import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
 import serialize from 'serialize-javascript';
 import { graphQlQueryToJson } from 'graphql-query-to-json';
-import BootstrapTableComponent from './component/BootstrapTableComponent';
+import BootstrapTableComponent from './component/componentDescription/BootstrapTableComponent';
 import renderComponent from './component/component';
 
 global.serialize = serialize;

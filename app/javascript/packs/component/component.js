@@ -96,10 +96,24 @@ const createWidgetFrame = (selector, queryId) => {
 		form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
 		form.setAttribute('enctype', 'application/json');
 		form.setAttribute('target', '_blank');
-		console.log(serialize(BootstrapTableComponent));
-		console.log(serialize(LatestNFTTransfersTable));
-		form.appendChild(createHiddenField('base', serialize(BootstrapTableComponent)));
-		form.appendChild(createHiddenField('widget', serialize(LatestNFTTransfersTable)));
+		const data = [];
+		function getBaseClass(targetClass) {
+			data.push(serialize(targetClass));
+			if (targetClass instanceof Function) {
+				let baseClass = targetClass;
+				while (baseClass) {
+					const newBaseClass = Object.getPrototypeOf(baseClass);
+					if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
+						baseClass = newBaseClass;
+						data.unshift(serialize(baseClass));
+					} else {
+						break;
+					}
+				}
+			}
+		}
+		getBaseClass(componentClass);
+		form.appendChild(createHiddenField('data', JSON.stringify(data)));
 		form.appendChild(createHiddenField('url', queryId));
 		document.body.appendChild(form);
 		form.submit();
