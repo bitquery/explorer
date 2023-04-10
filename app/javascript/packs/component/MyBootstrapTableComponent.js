@@ -41,7 +41,6 @@ export default class MyBootstrapTableComponent {
       thText.textContent = column.name;
       tr.appendChild(th);
       th.appendChild(thText);
-
     });
   }
 
@@ -96,10 +95,12 @@ export default class MyBootstrapTableComponent {
       }
     });
   };
+
   #createDateCellContent(textCell, rowData, column) {
     const result = new Date(column.cell(rowData)).toLocaleString();
     textCell.textContent = result;
   }
+
   #createLinkCellContent(textCell, rowData, column) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
