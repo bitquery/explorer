@@ -4,25 +4,17 @@
 <script >
   
 function errorAlert(element,error){
-  console.log('error',error)
-  const mainDiv = document.querySelector(element);
-
-  mainDiv.textContent =''
-  mainDiv.classList.add('alert', 'alert-danger');
-  mainDiv.setAttribute('role', 'alert');
+  element.textContent = '';
+  element.classList.add('alert', 'alert-danger');
+  element.setAttribute('role', 'alert');
   const title = document.createElement('h4');
   title.classList.add('alert-heading');
   const text = document.createElement('p')
   text.classList.add('mb-0');
-  mainDiv.appendChild(title);
-  mainDiv.appendChild(text);
+  element.appendChild(title);
+  element.appendChild(text);
   title.textContent = 'An error occurred while executing the request. Please, try again later';
-  if(Array.isArray(error) ){
-    text.textContent = `Error: ${error[0].message}`;
-  }else {
-    text.textContent = `Error: ${error}`
-  }
-
+  text.textContent = `Error: ${error[0].message}`;
 }
 
 class MyBootstrapTableComponent {
@@ -36,7 +28,7 @@ class MyBootstrapTableComponent {
   #createWrapper() {
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('table-responsive');
-    // this.wrapper.style.height = '70vh';
+    this.wrapper.style.height = '70vh';
     this.container.appendChild(this.wrapper);
   }
 
@@ -92,15 +84,15 @@ class MyBootstrapTableComponent {
   }
   onData = (data, sub) => {
     console.log('onData', data);
-    console.log('onData', sub);
     const array = this.config.topElement(data);
     const maxRows = 10;
 
     array.forEach(rowData => {
       const tr = document.createElement('tr');
+      this.tbody.appendChild(tr);
       this.config.columns.forEach(column => {
         const td = document.createElement('td');
-        const textCell = document.createElement('span');
+        const textCell = document.createElement('span')
         td.classList.add('tabulator-cell', 'ellipsis');
         td.setAttribute('role', 'gridcell');
 
@@ -113,7 +105,7 @@ class MyBootstrapTableComponent {
           this.#createDateCellContent(textCell, rowData, column);
         } 
         tr.appendChild(td);
-        td.appendChild(textCell);
+        td.appendChild(textCell)
         // tr.appendChild(this.#createResizeEmptySpace());
         // tr.appendChild(this.#createResizeEmptySpace('prev'));
       });
@@ -135,7 +127,7 @@ class MyBootstrapTableComponent {
   }
   #createLinkCellContent(textCell, rowData, column) {
     const link = document.createElement('a');
-    link.setAttribute('target', '_blank'); 
+    link.setAttribute('target', '_blank');
     link.href = `${column.cell(rowData)}`; // Change  URL 
     link.textContent = column.cell(rowData);
     // const ico = document.createElement('i');
@@ -144,6 +136,8 @@ class MyBootstrapTableComponent {
     // td.appendChild(ico);
   }
 }
+
+
 class GoogleChartsTableComponent {
   constructor(element, queryMetaInfo) {
     this.table = new google.visualization.Table(element);
@@ -175,6 +169,7 @@ class GoogleChartsTableComponent {
       this.table.draw(this.data, this.options);
     };
 }
+
 const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 
 const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables) =>{
@@ -184,10 +179,11 @@ const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, ele
   // console.log('variables',variabls);
   const payload = {query,variables:variables};
 
+  // console.log('payload',payload)
   client.subscribe(payload, {
-      next: (data) => {
-        const sub = 'subscription'
-        componentObject.onData(data.data, sub);
+      next: async (data) => {
+        // console.log('componentObject',componentObject)
+        componentObject.onData(data.data);
       },
       error: (error) => {
         errorAlert(element, error);
@@ -198,6 +194,7 @@ const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, ele
 }
 
 const graphqlQueryExecutor = async (url, query, element, variables, api_key = '') => {
+  // console.log('query from graphqlQueryExecutor', query)
   let keyHeader = { 'X-API-KEY': api_key };
     try {
       const response = await fetch(url, {
@@ -220,36 +217,34 @@ const graphqlQueryExecutor = async (url, query, element, variables, api_key = ''
     }
 };
 
-const renderQueryInComponent = async (endpoint_url, componentObject, query, compElement, variables, api_key) => {
-  try {
-    const graphQLResponse = await graphqlQueryExecutor(endpoint_url, query, compElement, variables, api_key);
-    componentObject.onData(graphQLResponse.data);
-  } catch (error) {
-    errorAlert(compElement, error);
-    console.log("graphqlQueryExecutor error:", error);
-  }
+function renderQueryInComponent(endpoint_url, componentObject, query, compElement, variables, api_key){
+      graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
+          .then((graphQLResponse) =>{ componentObject.onData(graphQLResponse.data);
+         //  console.log('graphqlQueryExecutor',graphQLResponse)
+         })
+          .catch((error) => {errorAlert(compElement, error); console.log("graphqlQueryExecutor error:", error)});
 }
 
-
- const prepopulateQuery = async (url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) => {
+function prepopulateQuery(url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) {
   const startQuery = query;
   let finalQuery = startQuery;
+
   if (prePopulateId) {
-    try {
-      const response = await fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`);
-      const queryMetaData = await response.json();
-      finalQuery = queryMetaData.query.trim();
-      queryVariables = queryMetaData.variables; // TODO merge with query
-    } catch (error) {
-      errorAlert(compElement, error);
-    }
+    fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`)
+      .then((response) => response.json())
+      .then((queryMetaData) => {
+        finalQuery = queryMetaData.query.trim();
+        queryVariables = queryMetaData.variables; // TODO merge with query
+        renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
+      })
+      .catch((error) => errorAlert(compElement, error));
+
   } else {
     if (!query.includes('limit')) {
-      // getLimit(query)
-      finalQuery = startQuery.replace(/^subscription/, 'query').replace(/Transfers\(/, 'Transfers\(limit: {count: 15}');
+      finalQuery = startQuery.replace(/^subscription/,'query').replace(/Transfers\(/,'Transfers\(limit: {count: 15}');
     }
+    renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
   }
-  renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
 }
 
 
@@ -346,6 +341,44 @@ class NFTStartTable extends MyBootstrapTableComponent {
     }
 } 
 
+// const query = `
+// query GetThisStuff($name: String, $lastName: String) {
+//     viewer {
+//         personal(criteria: {
+//             name: $name,
+//             lastName: $lastName
+//         }) {
+//             name
+//             address
+//         }
+//     }
+// }
+// `;
+
+// const result = graphQlQueryToJson(query, {
+//   variables: {
+//     name: "PETER",
+//     lastName: "SCHMIDT",
+//   },
+// });
+
+// expect(result).toEqual({
+//   query: {
+//     viewer: {
+//       personal: {
+//         __args: {
+//           criteria: {
+//             name: "PETER",
+//             lastName: "SCHMIDT",
+//           },
+//         },
+//         name: true,
+//         address: true,
+//       },
+//     },
+//   },
+// });
+// console.log('result', result)
 
 // google.charts.load('current', {'packages':['table']});
 // google.charts.setOnLoadCallback(
