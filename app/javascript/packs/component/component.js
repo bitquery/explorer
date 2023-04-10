@@ -15,7 +15,8 @@ const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, ele
 		complete: () => console.log('complete'),
 	});
 };
-
+const isNotEmptyArray = (subj) => Array.isArray(subj) && subj.length
+const isNotEmptyObject = (subj) => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length
 const graphqlQueryExecutor = async (url, query, element, variables, api_key = '') => {
 	let keyHeader = { 'X-API-KEY': api_key };
 	const response = await fetch(url, {
@@ -96,23 +97,8 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 		form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
 		form.setAttribute('enctype', 'application/json');
 		form.setAttribute('target', '_blank');
-		const data = [];
-		function getBaseClass(targetClass) {
-			data.push(serialize(targetClass));
-			if (targetClass instanceof Function) {
-				let baseClass = targetClass;
-				while (baseClass) {
-					const newBaseClass = Object.getPrototypeOf(baseClass);
-					if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
-						baseClass = newBaseClass;
-						data.unshift(serialize(baseClass));
-					} else {
-						break;
-					}
-				}
-			}
-		}
-		getBaseClass(componentClass);
+		
+		
 		form.appendChild(createHiddenField('data', JSON.stringify(data)));
 		form.appendChild(createHiddenField('url', queryId));
 		document.body.appendChild(form);
@@ -203,6 +189,44 @@ export default async function renderComponent(component, selector, queryId, preP
 		widgetFrame.onloadmetadata(queryMetaData);
 		const compElement = widgetFrame.frame;
 		const componentObject = new component(compElement, queryMetaData);
+		console.log(componentObject)
+		const data = [];
+		function getBaseClass(targetClass) {
+			data.push(serialize(targetClass));
+			if (targetClass instanceof Function) {
+				let baseClass = targetClass;
+				while (baseClass) {
+					const newBaseClass = Object.getPrototypeOf(baseClass);
+					if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
+						baseClass = newBaseClass;
+						data.unshift(serialize(baseClass));
+					} else {
+						break;
+					}
+				}
+			}
+		}
+		function discoverFunctions(subj, prop) {
+			if ( typeof subj === 'function') {
+				if (prop && subj?.name !== prop) {
+					data.unshift( serialize( subj ) )
+				}
+				return
+			}
+			if ( isNotEmptyArray( subj ) ) {
+				for (let el of subj) {
+					discoverFunctions( el )
+				}
+			}
+			if ( isNotEmptyObject( subj ) ) {
+				for (let prop in subj) {
+					discoverFunctions( subj[prop], prop )
+				}
+			}
+		}
+		getBaseClass(component)
+		discoverFunctions(componentObject.config)
+		console.log(data)
 		const query = queryMetaData.query.trim();
 		const queryVariables = {
 			...JSON.parse(queryMetaData.variables),
