@@ -3,7 +3,7 @@
 
 <script >
   
-function errorAllert(element,error){
+function errorAlert(element,error){
   element.textContent = '';
   element.classList.add('alert', 'alert-danger');
   element.setAttribute('role', 'alert');
@@ -158,9 +158,9 @@ const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables) =>{
   const currentUrl =  url.replace(/^http/, 'ws');
   const client = createClient({url: currentUrl});
-  const variabls = JSON.parse(variables)
+  const parsedVariables = JSON.parse(variables)
   // console.log('variables',variabls);
-  const payload = {query,variables:variabls};
+  const payload = {query,variables:parsedVariables};
 
   // console.log('payload',payload)
   client.subscribe(payload, {
@@ -169,7 +169,7 @@ const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, ele
         componentObject.onData(data.data);
       },
       error: (error) => {
-        errorAllert(element,error);
+        errorAlert(element, error);
         console.log('graphqlQuerySubscriptionExecutor',error)
         },
       complete: () => console.log('complete'),
@@ -192,19 +192,20 @@ const graphqlQueryExecutor = async (url, query, element, variables, api_key = ''
       });
       const data = await response.json();
       if(data.errors){
-        errorAllert(element, data.errors)
+        errorAlert(element, data.errors)
       }
       return data;
     } catch (error) {
-    errorAllert(element,error);
+    errorAlert(element,error);
     }
 };
 
 function renderQueryInComponent(endpoint_url, componentObject, query, compElement, variables, api_key){
       graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
           .then((graphQLResponse) =>{ componentObject.onData(graphQLResponse.data);
-          console.log('graphqlQueryExecutor',graphQLResponse)})
-          .catch((error) => {errorAllert(compElement, error); console.log("graphqlQueryExecutor error:", error)});
+         //  console.log('graphqlQueryExecutor',graphQLResponse)
+         })
+          .catch((error) => {errorAlert(compElement, error); console.log("graphqlQueryExecutor error:", error)});
 }
 
 function prepopulateQuery(url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) {
@@ -219,7 +220,7 @@ function prepopulateQuery(url, componentObject, compElement, query, prePopulateI
         queryVariables = queryMetaData.variables; // TODO merge with query
         renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
       })
-      .catch((error) => errorAllert(compElement, error));
+      .catch((error) => errorAlert(compElement, error));
 
   } else {
     if (!query.includes('limit')) {
@@ -248,11 +249,11 @@ function renderComponent(component, selector, queryId, prePopulateId, api_key, v
           }
       })
       .catch((error) => {
-        errorAllert(compElement,error);
+        errorAlert(compElement,error);
         console.log("fetch error:", error)
         });
   } catch (error) {
-    errorAllert(selector,error);
+    errorAlert(selector,error);
     console.log("renderComponent error:", error);
   }
 }
