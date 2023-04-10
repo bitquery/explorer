@@ -20,6 +20,7 @@ module.exports = function (api) {
       isTestEnv && [
         '@babel/preset-env',
         {
+          loose: false,
           targets: {
             node: 'current',
           },
@@ -50,8 +51,10 @@ module.exports = function (api) {
           loose: true,
         },
       ],
+      ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
+      ['@babel/plugin-proposal-private-methods', { loose: true }],
       [
-        '@babel/plugin-proposal-object-rest-spread',
+        ('@babel/plugin-proposal-object-rest-spread',
         {
           useBuiltIns: true,
         },
