@@ -1,1 +1,304 @@
 <%= render partial: 'ethereum/network/nft' %>
+
+
+<script >
+  
+function errorAllert(element,error){
+  element.textContent = '';
+  element.classList.add('alert', 'alert-danger');
+  element.setAttribute('role', 'alert');
+  const title = document.createElement('h4');
+  title.classList.add('alert-heading');
+  const text = document.createElement('p')
+  text.classList.add('mb-0');
+  element.appendChild(title);
+  element.appendChild(text);
+  title.textContent = 'An error occurred while executing the request. Please, try again later';
+  text.textContent = `Error: ${error[0].message}`;
+}
+
+class MyBootstrapTableComponent {
+  constructor(element) {
+    this.container = element;
+    this.config = this.configuration();
+    this.#createWrapper();
+    this.#createTable();
+  }
+
+  #createWrapper() {
+    this.wrapper = document.createElement('div');
+    this.wrapper.classList.add('table-responsive');
+    this.wrapper.style.height = '70vh';
+    this.container.appendChild(this.wrapper);
+  }
+
+  #createTable() {
+    this.tableElement = document.createElement('table');
+    this.tableElement.classList.add('table', 'table-striped','table-hover', 'table-sm' );
+    this.wrapper.appendChild(this.tableElement);
+
+    this.#createThead();
+    this.#createTbody();
+    this.#createTfooter();
+  }
+
+  #createThead() {
+    const thead = document.createElement('thead');
+    // thead.classList.add('tabulator-header');
+    this.tableElement.appendChild(thead);
+
+    const tr = document.createElement('tr');
+    thead.appendChild(tr);
+
+    this.config.columns.forEach(column => {
+      const th = document.createElement('th');
+      const thText = document.createElement('span');
+      // th.classList.add('tabulator-col-title');
+      th.setAttribute('scope', 'col');
+      thText.textContent = column.name;
+      tr.appendChild(th);
+      th.appendChild(thText);
+
+      // tr.appendChild(this.#createResizeEmptySpace());
+      // tr.appendChild(this.#createResizeEmptySpace('prev'));
+    });
+  }
+
+  #createResizeEmptySpace(extraClass) {
+    const div = document.createElement('div');
+    div.classList.add('tabulator-col-resize-handle');
+    if (extraClass) div.classList.add(extraClass);
+    return div;
+  }
+
+  #createTbody() {
+    this.tbody = document.createElement('tbody');
+    // this.tbody.classList.add('tabulator-table');
+    this.tableElement.appendChild(this.tbody);
+  }
+
+  #createTfooter() {
+    const tfooter = document.createElement('div');
+    // tfooter.classList.add('tabulator-footer');
+    this.tableElement.appendChild(tfooter);
+  }
+
+  onData = (data) => {
+    console.log('onData', data);
+    const array = this.config.topElement(data);
+    array.forEach(rowData => {
+      const tr = document.createElement('tr');
+      this.tbody.appendChild(tr);
+      this.config.columns.forEach(column => {
+        const td = document.createElement('td');
+        const textCell = document.createElement('span')
+        td.classList.add('tabulator-cell', 'ellipsis');
+        td.setAttribute('role', 'gridcell');
+
+        if (column.type === 'link') {
+          this.#createLinkCellContent(textCell, rowData, column);
+        } else {
+          textCell.textContent = column.cell(rowData);
+        }
+        tr.appendChild(td);
+        td.appendChild(textCell)
+        // tr.appendChild(this.#createResizeEmptySpace());
+        // tr.appendChild(this.#createResizeEmptySpace('prev'));
+      });
+    });
+  };
+
+  #createLinkCellContent(textCell, rowData, column) {
+    const link = document.createElement('a');
+    link.setAttribute('target', '_blank');
+    link.href = `${column.cell(rowData)}`; // Change  URL 
+    link.textContent = column.cell(rowData);
+    // const ico = document.createElement('i');
+    // ico.classList.add('fa', 'fa-sign-in', 'text-success');
+    textCell.appendChild(link);
+    // td.appendChild(ico);
+  }
+}
+
+
+class GoogleChartsTableComponent {
+  constructor(element, queryMetaInfo) {
+    this.table = new google.visualization.Table(element);
+    this.data = new google.visualization.DataTable();
+    this.options = {
+          allowHtml:true,
+          showRowNumber: false,
+          width: '100%',
+          height: '100%',
+          sortColumn: 0,
+          sortAscending: false,
+        }
+    this.config = this.configuration();
+    this.config.columns.forEach(column => 
+  { this.data.addColumn(column.type ? column.type :'string', column.name);
+  });
+    this.table.draw(this.data, this.options);
+    }
+
+    onData = (data) => {
+      let array = this.config.topElement(data)
+      let rows = []
+      array.forEach(rowData => {
+        let row = []
+        this.config.columns.forEach(column => row.push(column.cell(rowData)))
+        rows.push(row)
+      })
+      this.data.addRows(rows)
+      this.table.draw(this.data, this.options);
+    };
+}
+
+const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
+
+const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables) =>{
+  const currentUrl =  url.replace(/^http/, 'ws');
+  const client = createClient({url: currentUrl});
+  const variabls = JSON.parse(variables)
+  // console.log('variables',variabls);
+  const payload = {query,variables:variabls};
+
+  // console.log('payload',payload)
+  client.subscribe(payload, {
+      next: async (data) => {
+        // console.log('componentObject',componentObject)
+        componentObject.onData(data.data);
+      },
+      error: (error) => {
+        errorAllert(element,error);
+        console.log('graphqlQuerySubscriptionExecutor',error)
+        },
+      complete: () => console.log('complete'),
+  })
+}
+
+const graphqlQueryExecutor = async (url, query, element, variables, api_key = '') => {
+  // console.log('query from graphqlQueryExecutor', query)
+  let keyHeader = { 'X-API-KEY': api_key };
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          ...keyHeader,
+        },
+        body: JSON.stringify({query, variables }),
+        credentials: 'same-origin',
+      });
+      const data = await response.json();
+      if(data.errors){
+        errorAllert(element, data.errors)
+      }
+      return data;
+    } catch (error) {
+    errorAllert(element,error);
+    }
+};
+
+function renderQueryInComponent(endpoint_url, componentObject, query, compElement, variables, api_key){
+      graphqlQueryExecutor(endpoint_url, query, compElement, variables,api_key)
+          .then((graphQLResponse) =>{ componentObject.onData(graphQLResponse.data);
+          console.log('graphqlQueryExecutor',graphQLResponse)})
+          .catch((error) => {errorAllert(compElement, error); console.log("graphqlQueryExecutor error:", error)});
+}
+
+function prepopulateQuery(url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) {
+  const startQuery = query;
+  let finalQuery = startQuery;
+
+  if (prePopulateId) {
+    fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`)
+      .then((response) => response.json())
+      .then((queryMetaData) => {
+        finalQuery = queryMetaData.query.trim();
+        queryVariables = queryMetaData.variables; // TODO merge with query
+        renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
+      })
+      .catch((error) => errorAllert(compElement, error));
+
+  } else {
+    if (!query.includes('limit')) {
+      finalQuery = startQuery.replace(/^subscription/,'query').replace(/Transfers\(/,'Transfers\(limit: {count: 15}');
+    }
+    renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
+  }
+}
+
+
+function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
+  try {
+    fetch(`${GRAPHQL_API}/getquery/${queryId}`)
+      .then((response) => response.json())
+      .then((queryMetaData) => {
+          const compElement = document.querySelector(selector);
+          const componentObject = new component(compElement, queryMetaData);
+          const query = queryMetaData.query.trim();
+          // console.log('queryMetaData',queryMetaData);
+          const queryVariables = queryMetaData.variables; // TODO merge with query ?
+          if (query.startsWith('subscription')) {
+            prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key)
+            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables);
+          } else {
+            renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
+          }
+      })
+      .catch((error) => {
+        errorAllert(compElement,error);
+        console.log("fetch error:", error)
+        });
+  } catch (error) {
+    errorAllert(selector,error);
+    console.log("renderComponent error:", error);
+  }
+}
+
+
+
+//      ****** on page
+
+class NFTStartTable extends MyBootstrapTableComponent {
+    configuration() {
+      return  {
+          topElement: function (response){ return response.EVM.Transfers},
+          columns: [
+            {
+              name: 'Time', cell: function(row){ return row.Block.Time}, 
+            },
+            { 
+              name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
+            },
+            { 
+              name: 'ID', cell: function(row){ return row.Transfer.Id},
+            },
+            { 
+              name: 'URI', cell: function(row){ return row.Transfer.URI},type :'link',
+            },
+          ]
+        }
+    }
+} 
+
+google.charts.load('current', {'packages':['table']});
+google.charts.setOnLoadCallback(
+  function draw(){
+    renderComponent(NFTStartTable, "#component_id", "Sub-Laset-Eth-NFT-tansfers",'Laset-Eth-NFT-tansfers' );
+  }
+)
+// Sub-test-new-table
+// Sub-test-new-table_1
+// Sub-Laset-Eth-NFT-tansfers
+
+   // if(!query.includes('limit')){
+    //     renderQueryInComponent(url, componentObject, query.replace(/^subscription/,'query').replace(/Transfers\(/,'Transfers\(limit: {count: 15}'), compElement)
+    //     return query.replace(/Transfers\(/,'Transfers\(limit: {count: 15}')
+    //   }
+    // renderQueryInComponent(url, componentObject, query.replace(/^subscription/,'query'), compElement)
+          // if(!query.includes('limit')){
+      //   return query.replace(/Transfers\(/,'Transfers\(limit: {count: 15}')
+      //   }
+</script>
