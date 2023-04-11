@@ -91,30 +91,39 @@ class MyBootstrapTableComponent {
     this.tableElement.appendChild(tfooter);
   }
 
-  onData = (data) => {
-    console.log('onData', data);
-    const array = this.config.topElement(data);
-    array.forEach(rowData => {
-      const tr = document.createElement('tr');
-      this.tbody.appendChild(tr);
-      this.config.columns.forEach(column => {
-        const td = document.createElement('td');
-        const textCell = document.createElement('span')
-        td.classList.add('tabulator-cell', 'ellipsis');
-        td.setAttribute('role', 'gridcell');
+onData = (data) => {
+  console.log('onData', data);
+  const array = this.config.topElement(data);
+  const maxRows = 50;
 
-        if (column.type === 'link') {
-          this.#createLinkCellContent(textCell, rowData, column);
-        } else {
-          textCell.textContent = column.cell(rowData);
-        }
-        tr.appendChild(td);
-        td.appendChild(textCell)
-        // tr.appendChild(this.#createResizeEmptySpace());
-        // tr.appendChild(this.#createResizeEmptySpace('prev'));
-      });
+  array.forEach(rowData => {
+    const tr = document.createElement('tr');
+    this.config.columns.forEach(column => {
+      const td = document.createElement('td');
+      const textCell = document.createElement('span');
+      td.classList.add('tabulator-cell', 'ellipsis');
+      td.setAttribute('role', 'gridcell');
+
+      if (column.type === 'link') {
+        this.#createLinkCellContent(textCell, rowData, column);
+      } else {
+        textCell.textContent = column.cell(rowData);
+      }
+      tr.appendChild(td);
+      td.appendChild(textCell);
+      // tr.appendChild(this.#createResizeEmptySpace());
+      // tr.appendChild(this.#createResizeEmptySpace('prev'));
     });
-  };
+
+    this.tbody.insertBefore(tr, this.tbody.firstChild);
+
+    // delete if rows > 50 // how to add check for subscription here and is it needed here??
+    if (this.tbody.childElementCount > maxRows) {
+      this.tbody.removeChild(this.tbody.lastChild);
+    }
+  });
+};
+
 
   #createLinkCellContent(textCell, rowData, column) {
     const link = document.createElement('a');
@@ -333,7 +342,7 @@ class NFTStartTable extends MyBootstrapTableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component-id", "Laset-Eth-NFT-tansfers" );
+    renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers" );
   }
 )
 // Sub-test-new-table
