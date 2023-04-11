@@ -232,30 +232,74 @@ function prepopulateQuery(url, componentObject, compElement, query, prePopulateI
 
 
 function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
-  try {
-    fetch(`${GRAPHQL_API}/getquery/${queryId}`)
-      .then((response) => response.json())
-      .then((queryMetaData) => {
-          const compElement = document.querySelector(selector);
-          const componentObject = new component(compElement, queryMetaData);
-          const query = queryMetaData.query.trim();
-          // console.log('queryMetaData',queryMetaData);
-          const queryVariables = queryMetaData.variables; // TODO merge with query ?
-          if (query.startsWith('subscription')) {
-            prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key)
-            graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables);
-          } else {
-            renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
-          }
-      })
-      .catch((error) => {
-        errorAlert(compElement,error);
-        console.log("fetch error:", error)
-        });
-  } catch (error) {
-    errorAlert(selector,error);
-    console.log("renderComponent error:", error);
-  }
+	const componentContainer = document.querySelector(selector)
+	const tableHeader = document.createElement('div')
+	const row = document.createElement('div')
+	const col8 = document.createElement('div')
+	const blinkerWrapper = document.createElement('div')
+	const blinker = document.createElement('div')
+	const cardBody = document.createElement('div')
+	const widgetContainer = document.createElement('div')
+	const liveSpan = document.createElement('span')
+	const tableFooter = document.createElement('div')
+	const getAPIButton = document.createElement('a');
+	getAPIButton.classList.add(
+		'badge',
+		'badge-secondary',
+		'open-btn',
+		'bg-success',
+		'get-api'
+	);
+	getAPIButton.setAttribute('target', '_blank')
+	getAPIButton.textContent = 'Get Streaming API'
+	getAPIButton.setAttribute('href', `https://ide.bitquery.io/${queryId}`)
+	tableFooter.style.textAlign = 'right'
+	tableFooter.appendChild(getAPIButton)
+	tableHeader.classList.add('card-header')
+	row.classList.add('row')
+	col8.classList.add('col-8')
+	cardBody.classList.add('card-body')
+	widgetContainer.classList.add('widget-container', 'tabulator')
+	widgetContainer.style.height = '470px'
+	widgetContainer.style.overflow = 'scroll'
+	blinkerWrapper.classList.add('col-4', 'text-success', 'text-right')
+	liveSpan.classList.add('d-none', 'd-sm-inline')
+	liveSpan.textContent = 'Live'
+	blinker.classList.add('blink', 'blnkr', 'bg-success')
+	componentContainer.appendChild(tableHeader)
+	componentContainer.appendChild(cardBody)
+	cardBody.appendChild(widgetContainer)
+	cardBody.appendChild(tableFooter)
+	tableHeader.appendChild(row)
+	row.appendChild(col8)
+	row.appendChild(blinkerWrapper)
+	blinkerWrapper.appendChild(liveSpan)
+	blinkerWrapper.appendChild(blinker)
+	try {
+		fetch(`${GRAPHQL_API}/getquery/${queryId}`)
+		.then((response) => response.json())
+		.then((queryMetaData) => {
+			const compElement = widgetContainer;
+			const componentObject = new component(compElement, queryMetaData);
+			col8.textContent = queryMetaData.name
+			const query = queryMetaData.query.trim();
+			// console.log('queryMetaData',queryMetaData);
+			const queryVariables = queryMetaData.variables; // TODO merge with query ?
+			if (query.startsWith('subscription')) {
+				prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key)
+				graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables);
+			} else {
+				renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
+			}
+		})
+		.catch((error) => {
+			errorAlert(compElement,error);
+			console.log("fetch error:", error)
+			});
+	} catch (error) {
+		errorAlert(selector,error);
+		console.log("renderComponent error:", error);
+	}
 }
 
 
@@ -326,7 +370,7 @@ console.log('result', result)
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component_id", "Laset-Eth-NFT-tansfers" );
+    renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers" );
   }
 )
 // Sub-test-new-table
