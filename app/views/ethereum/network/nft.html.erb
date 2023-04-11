@@ -120,39 +120,6 @@ class MyBootstrapTableComponent {
   }
 }
 
-
-class GoogleChartsTableComponent {
-  constructor(element, queryMetaInfo) {
-    this.table = new google.visualization.Table(element);
-    this.data = new google.visualization.DataTable();
-    this.options = {
-          allowHtml:true,
-          showRowNumber: false,
-          width: '100%',
-          height: '100%',
-          sortColumn: 0,
-          sortAscending: false,
-        }
-    this.config = this.configuration();
-    this.config.columns.forEach(column => 
-  { this.data.addColumn(column.type ? column.type :'string', column.name);
-  });
-    this.table.draw(this.data, this.options);
-    }
-
-    onData = (data) => {
-      let array = this.config.topElement(data)
-      let rows = []
-      array.forEach(rowData => {
-        let row = []
-        this.config.columns.forEach(column => row.push(column.cell(rowData)))
-        rows.push(row)
-      })
-      this.data.addRows(rows)
-      this.table.draw(this.data, this.options);
-    };
-}
-
 const GRAPHQL_API = "<%= ENV['BITQUERY_IDE_API'] %>"
 
 const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables) =>{
@@ -230,10 +197,9 @@ function prepopulateQuery(url, componentObject, compElement, query, prePopulateI
   }
 }
 
-
-function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
+const createWidgetWrapper = (selector, queryId) => {
 	const componentContainer = document.querySelector(selector)
-	const tableHeader = document.createElement('div')
+	const widgetHeader = document.createElement('div')
 	const row = document.createElement('div')
 	const col8 = document.createElement('div')
 	const blinkerWrapper = document.createElement('div')
@@ -255,7 +221,7 @@ function renderComponent(component, selector, queryId, prePopulateId, api_key, v
 	getAPIButton.setAttribute('href', `https://ide.bitquery.io/${queryId}`)
 	tableFooter.style.textAlign = 'right'
 	tableFooter.appendChild(getAPIButton)
-	tableHeader.classList.add('card-header')
+	widgetHeader.classList.add('card-header')
 	row.classList.add('row')
 	col8.classList.add('col-8')
 	cardBody.classList.add('card-body')
@@ -266,22 +232,28 @@ function renderComponent(component, selector, queryId, prePopulateId, api_key, v
 	liveSpan.classList.add('d-none', 'd-sm-inline')
 	liveSpan.textContent = 'Live'
 	blinker.classList.add('blink', 'blnkr', 'bg-success')
-	componentContainer.appendChild(tableHeader)
+	componentContainer.appendChild(widgetHeader)
 	componentContainer.appendChild(cardBody)
 	cardBody.appendChild(widgetContainer)
 	cardBody.appendChild(tableFooter)
-	tableHeader.appendChild(row)
+	widgetHeader.appendChild(row)
 	row.appendChild(col8)
 	row.appendChild(blinkerWrapper)
 	blinkerWrapper.appendChild(liveSpan)
 	blinkerWrapper.appendChild(blinker)
+	const widgetName = col8
+	return [widgetContainer, widgetName]
+}
+
+function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
+	const [widgetContainer, widgetName] = createWidgetWrapper(selector, queryId)
 	try {
 		fetch(`${GRAPHQL_API}/getquery/${queryId}`)
 		.then((response) => response.json())
 		.then((queryMetaData) => {
 			const compElement = widgetContainer;
 			const componentObject = new component(compElement, queryMetaData);
-			col8.textContent = queryMetaData.name
+			widgetName.textContent = queryMetaData.name
 			const query = queryMetaData.query.trim();
 			// console.log('queryMetaData',queryMetaData);
 			const queryVariables = queryMetaData.variables; // TODO merge with query ?
