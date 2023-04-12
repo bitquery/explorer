@@ -12,23 +12,11 @@ require('jquery');
 require('popper.js');
 require('bootstrap');
 require('daterangepicker');
-require('@rails/ujs').start();
-require('@rails/activestorage').start();
-require('channels');
-require('jquery');
-require('popper.js');
-require('bootstrap');
-require('daterangepicker');
 
 import barWidgetRenderer from 'vega-widgets/src/components/widgets/barWidgetRenderer';
 import pieWidgetRenderer from 'vega-widgets/src/components/widgets/pieWidgetRenderer';
 import timeChartRenderer from '@bitquery/ide-charts/src/reactComponents/timeChartRenderer';
-import barWidgetRenderer from 'vega-widgets/src/components/widgets/barWidgetRenderer';
-import pieWidgetRenderer from 'vega-widgets/src/components/widgets/pieWidgetRenderer';
-import timeChartRenderer from '@bitquery/ide-charts/src/reactComponents/timeChartRenderer';
 // import tableWidgetRenderer from "table-widget/src/components/tableWidgetRenderer";
-import tableWidgetRenderer from './tableWidgetRenderer';
-import tradingViewrenderer from '@bitquery/ide-tradingview/src/tradingViewRenderer';
 import tableWidgetRenderer from './tableWidgetRenderer';
 import tradingViewrenderer from '@bitquery/ide-tradingview/src/tradingViewRenderer';
 import { createChart } from 'lightweight-charts';
@@ -39,18 +27,16 @@ import vis from 'vis';
 import numeral from 'numeral';
 import * as SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
 
-// import { graphQlQueryToJson } from 'graphql-query-to-json';
-console.log('dfgdfgdfgdgfdfgsdgdsfg');
-console.log('dfgdfgdfgdgfdfgsdgdsfg');
-console.log('dfgdfgdfgdgfdfgsdgdsfg');
+import { graphQlQueryToJson } from 'graphql-query-to-json';
+import MyBootstrapTableComponent from './component/MyBootstrapTableComponent';
+
 global.createClient = createClient;
 global.createChart = createChart;
-// global.graphQlQueryToJson = graphQlQueryToJson;
-// console.log('graphQlQueryToJson', graphQlQueryToJson);
+global.graphQlQueryToJson = graphQlQueryToJson;
+global.MyBootstrapTableComponent = MyBootstrapTableComponent;
 
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,
