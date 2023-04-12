@@ -2,28 +2,6 @@
 
 
 <script >
-  
-function errorAlert(element,error){
-  console.log('error',error)
-  const mainDiv = document.querySelector(element);
-
-  mainDiv.textContent =''
-  mainDiv.classList.add('alert', 'alert-danger');
-  mainDiv.setAttribute('role', 'alert');
-  const title = document.createElement('h4');
-  title.classList.add('alert-heading');
-  const text = document.createElement('p')
-  text.classList.add('mb-0');
-  mainDiv.appendChild(title);
-  mainDiv.appendChild(text);
-  title.textContent = 'An error occurred while executing the request. Please, try again later';
-  if(Array.isArray(error) ){
-    text.textContent = `Error: ${error[0].message}`;
-  }else {
-    text.textContent = `Error: ${error}`
-  }
-
-}
 
 class MyBootstrapTableComponent {
   constructor(element) {
@@ -36,7 +14,6 @@ class MyBootstrapTableComponent {
   #createWrapper() {
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('table-responsive');
-    // this.wrapper.style.height = '70vh';
     this.container.appendChild(this.wrapper);
   }
 
@@ -52,7 +29,6 @@ class MyBootstrapTableComponent {
 
   #createThead() {
     const thead = document.createElement('thead');
-    // thead.classList.add('tabulator-header');
     this.tableElement.appendChild(thead);
 
     const tr = document.createElement('tr');
@@ -61,14 +37,10 @@ class MyBootstrapTableComponent {
     this.config.columns.forEach(column => {
       const th = document.createElement('th');
       const thText = document.createElement('span');
-      // th.classList.add('tabulator-col-title');
       th.setAttribute('scope', 'col');
       thText.textContent = column.name;
       tr.appendChild(th);
       th.appendChild(thText);
-
-      // tr.appendChild(this.#createResizeEmptySpace());
-      // tr.appendChild(this.#createResizeEmptySpace('prev'));
     });
   }
 
@@ -81,13 +53,11 @@ class MyBootstrapTableComponent {
 
   #createTbody() {
     this.tbody = document.createElement('tbody');
-    // this.tbody.classList.add('tabulator-table');
     this.tableElement.appendChild(this.tbody);
   }
 
   #createTfooter() {
     const tfooter = document.createElement('div');
-    // tfooter.classList.add('tabulator-footer');
     this.tableElement.appendChild(tfooter);
   }
 
@@ -112,8 +82,6 @@ class MyBootstrapTableComponent {
         }
         tr.appendChild(td);
         td.appendChild(textCell);
-        // tr.appendChild(this.#createResizeEmptySpace());
-        // tr.appendChild(this.#createResizeEmptySpace('prev'));
       });
     if(sub){
       this.tbody.insertBefore(tr, this.tbody.firstChild);
@@ -131,12 +99,9 @@ class MyBootstrapTableComponent {
   #createLinkCellContent(textCell, rowData, column) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank'); 
-    link.href = `${column.cell(rowData)}`; // Change  URL 
+    link.href = `${column.cell(rowData)}`;
     link.textContent = column.cell(rowData);
-    // const ico = document.createElement('i');
-    // ico.classList.add('fa', 'fa-sign-in', 'text-success');
     textCell.appendChild(link);
-    // td.appendChild(ico);
   }
 }
 class GoogleChartsTableComponent {
@@ -242,7 +207,7 @@ const renderQueryInComponent = async (endpoint_url, componentObject, query, comp
 }
 
 
-const createWidgetWrapper = (selector, queryId) => {
+const createWidgetFrame = (selector, queryId) => {
 	const componentContainer = document.querySelector(selector)
 	const widgetHeader = document.createElement('div')
 	const row = document.createElement('div')
@@ -332,7 +297,7 @@ const createWidgetWrapper = (selector, queryId) => {
 }
 
 async function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
-  	const widgetFrame = createWidgetWrapper(selector, queryId);
+  	const widgetFrame = createWidgetFrame(selector, queryId);
 	let queryMetaData
 	try {
 		const response = await fetch(`${GRAPHQL_API}/getquery/${queryId}`);
@@ -395,7 +360,7 @@ class NFTStartTable extends MyBootstrapTableComponent {
 google.charts.load('current', {'packages':['table']});
 google.charts.setOnLoadCallback(
   function draw(){
-    renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers"/* ,"Laset-Eth-NFT-tansfers"  */);
+    renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers","Laset-Eth-NFT-tansfers" );
   }
 )
 // Sub-test-new-table
