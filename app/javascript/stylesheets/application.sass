@@ -121,9 +121,6 @@ svg[visibility="hidden"]
   100% 
     background-color: #2ba805
     box-shadow: 0 0 5px #2ba805
-  
-
-
 
 #greenButton
   animation: glowing 1300ms infinite
@@ -133,3 +130,28 @@ svg[visibility="hidden"]
 
 .open-btn.badge:empty
   display: inline-block
+
+.lds-dual-ring
+  display: inline-block
+  width: 120px
+  height: 120px
+  position: absolute
+  top: 50%
+
+  &:after
+    content: " "
+    display: block
+    width: 64px
+    height: 64px
+    margin: 8px
+    border-radius: 50%
+    border: 6px solid #0570f2
+    border-color: #0570f2 transparent #0570f2 transparent
+    animation: lds-dual-ring 1.2s linear infinite
+
+@keyframes lds-dual-ring
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(360deg)
