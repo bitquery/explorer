@@ -106,11 +106,11 @@ const renderQueryInComponent = async (endpoint_url, componentObject, query, comp
 }
 
 
- const prepopulateQuery = async (url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) => {
+ const prepopulateQuery = async (ideApiUrl, url, componentObject, compElement, query, prePopulateId, queryVariables, api_key) => {
   const startQuery = query;
   let finalQuery = startQuery;
   if (prePopulateId) {
-		const response = await fetch(`${GRAPHQL_API}/getquery/${prePopulateId}`);
+		const response = await fetch(`${ideApiUrl}/getquery/${prePopulateId}`);
 		let queryMetaData
 		if (response.status === 200) {
 			queryMetaData = await response.json();
@@ -129,7 +129,7 @@ const renderQueryInComponent = async (endpoint_url, componentObject, query, comp
 }
 
 
-const createWidgetFrame = (selector, queryId) => {
+const createWidgetFrame = (ideApiUrl, selector, queryId) => {
 	const componentContainer = document.querySelector(selector)
 	const widgetHeader = document.createElement('div')
 	const row = document.createElement('div')
@@ -150,8 +150,7 @@ const createWidgetFrame = (selector, queryId) => {
 	);
 	getAPIButton.setAttribute('target', '_blank')
 	getAPIButton.textContent = 'Get Streaming API'
-	getAPIButton.setAttribute('href', `https://ide.bitquery.io/${queryId}`)
-	/* getAPIButton.onclick = () => {
+	getAPIButton.onclick = () => {
         let createHiddenField = function (name, value) {
             let input = document.createElement('input');
             input.setAttribute('type', 'hidden');
@@ -161,7 +160,7 @@ const createWidgetFrame = (selector, queryId) => {
         }
         let form = document.createElement('form');
         form.setAttribute('method', 'post');
-        form.setAttribute('action', `${GRAPHQL_API}/widgetconfig`);
+        form.setAttribute('action', `${ideApiUrl}/widgetconfig`);
         form.setAttribute('enctype', 'application/json');
         form.setAttribute('target', '_blank');
         form.appendChild(createHiddenField('base', serialize(MyBootstrapTableComponent)));
@@ -170,7 +169,7 @@ const createWidgetFrame = (selector, queryId) => {
         document.body.appendChild(form);
         form.submit();
         document.body.removeChild(form);
-    } */
+    }
 	tableFooter.style.textAlign = 'right'
 	tableFooter.appendChild(getAPIButton)
 	widgetHeader.classList.add('card-header')
@@ -238,11 +237,11 @@ const createWidgetFrame = (selector, queryId) => {
 	}
 }
 
-async function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
-  	const widgetFrame = createWidgetFrame(selector, queryId);
+async function renderComponent(ideApiUrl, component, selector, queryId, prePopulateId, api_key, variables) {
+  	const widgetFrame = createWidgetFrame(ideApiUrl, selector, queryId);
 	let queryMetaData
 	try {
-		const response = await fetch(`${GRAPHQL_API}/getquery/${queryId}`);
+		const response = await fetch(`${ideApiUrl}/getquery/${queryId}`);
 		if (response.status === 200) {
 			try {
 				queryMetaData = await response.json()
@@ -260,7 +259,7 @@ async function renderComponent(component, selector, queryId, prePopulateId, api_
 		const queryVariables = queryMetaData.variables; // TODO merge with query ?
 		widgetFrame.onquerystarted()
 		if (query.startsWith('subscription')) {
-			await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key);
+			await prepopulateQuery(ideApiUrl, queryMetaData.endpoint_url, componentObject, compElement, query, prePopulateId, queryVariables, api_key);
 			graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
 		} else {
 			await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, api_key);
@@ -272,7 +271,7 @@ async function renderComponent(component, selector, queryId, prePopulateId, api_
 	
 }
 //      ****** on page
-renderComponent(NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers","Laset-Eth-NFT-tansfers" );
+renderComponent('<%= BITQUERY_IDE_API %>', NFTStartTable, "#component-id", "Sub-Laset-Eth-NFT-tansfers", "Laset-Eth-NFT-tansfers");
 
 // Sub-test-new-table
 // Sub-test-new-table_1
