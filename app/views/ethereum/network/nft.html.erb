@@ -151,7 +151,7 @@ const createWidgetFrame = (selector, queryId) => {
 	getAPIButton.setAttribute('target', '_blank')
 	getAPIButton.textContent = 'Get Streaming API'
 	getAPIButton.setAttribute('href', `https://ide.bitquery.io/${queryId}`)
-	getAPIButton.onclick = () => {
+	/* getAPIButton.onclick = () => {
         let createHiddenField = function (name, value) {
             let input = document.createElement('input');
             input.setAttribute('type', 'hidden');
@@ -170,7 +170,7 @@ const createWidgetFrame = (selector, queryId) => {
         document.body.appendChild(form);
         form.submit();
         document.body.removeChild(form);
-    }
+    } */
 	tableFooter.style.textAlign = 'right'
 	tableFooter.appendChild(getAPIButton)
 	widgetHeader.classList.add('card-header')
