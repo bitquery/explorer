@@ -25,6 +25,7 @@
     "moment": "^2.24.0",
     "numeral": "^2.0.6",
     "popper.js": "^1.16.1",
+    "serialize-javascript": "^6.0.1",
     "sockjs": "^0.3.21",
     "sockjs-client": "^1.5.2",
     "stompjs": "^2.3.3",

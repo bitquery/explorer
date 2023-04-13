@@ -9,7 +9,6 @@ export default class MyBootstrapTableComponent {
   #createWrapper() {
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('table-responsive');
-    // this.wrapper.style.height = '70vh';
     this.container.appendChild(this.wrapper);
   }
 
@@ -30,7 +29,6 @@ export default class MyBootstrapTableComponent {
 
   #createThead() {
     const thead = document.createElement('thead');
-    // thead.classList.add('tabulator-header');
     this.tableElement.appendChild(thead);
 
     const tr = document.createElement('tr');
@@ -39,14 +37,11 @@ export default class MyBootstrapTableComponent {
     this.config.columns.forEach((column) => {
       const th = document.createElement('th');
       const thText = document.createElement('span');
-      // th.classList.add('tabulator-col-title');
       th.setAttribute('scope', 'col');
       thText.textContent = column.name;
       tr.appendChild(th);
       th.appendChild(thText);
 
-      // tr.appendChild(this.#createResizeEmptySpace());
-      // tr.appendChild(this.#createResizeEmptySpace('prev'));
     });
   }
 
@@ -59,13 +54,11 @@ export default class MyBootstrapTableComponent {
 
   #createTbody() {
     this.tbody = document.createElement('tbody');
-    // this.tbody.classList.add('tabulator-table');
     this.tableElement.appendChild(this.tbody);
   }
 
   #createTfooter() {
     const tfooter = document.createElement('div');
-    // tfooter.classList.add('tabulator-footer');
     this.tableElement.appendChild(tfooter);
   }
   onData = (data, sub) => {
@@ -92,11 +85,8 @@ export default class MyBootstrapTableComponent {
         }
         tr.appendChild(td);
         td.appendChild(textCell);
-        // tr.appendChild(this.#createResizeEmptySpace());
-        // tr.appendChild(this.#createResizeEmptySpace('prev'));
       });
       if (sub) {
-        //добавляется после prepopulate и суммируется
         this.tbody.insertBefore(tr, this.tbody.firstChild);
         if (this.tbody.childElementCount > maxRows) {
           this.tbody.removeChild(this.tbody.lastChild);
@@ -115,9 +105,6 @@ export default class MyBootstrapTableComponent {
     link.setAttribute('target', '_blank');
     link.href = `${column.cell(rowData)}`; // Change  URL
     link.textContent = column.cell(rowData);
-    // const ico = document.createElement('i');
-    // ico.classList.add('fa', 'fa-sign-in', 'text-success');
     textCell.appendChild(link);
-    // td.appendChild(ico);
   }
 }

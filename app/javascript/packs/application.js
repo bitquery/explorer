@@ -29,10 +29,11 @@ import * as SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
-
+import serialize  from 'serialize-javascript'
 import { graphQlQueryToJson } from 'graphql-query-to-json';
 import MyBootstrapTableComponent from './component/MyBootstrapTableComponent';
 
+global.serialize = serialize
 global.createClient = createClient;
 global.createChart = createChart;
 global.graphQlQueryToJson = graphQlQueryToJson;
