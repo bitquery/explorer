@@ -163,6 +163,8 @@ const createWidgetFrame = (ideApiUrl, selector, queryId) => {
         form.setAttribute('action', `${ideApiUrl}/widgetconfig`);
         form.setAttribute('enctype', 'application/json');
         form.setAttribute('target', '_blank');
+		console.log(serialize(MyBootstrapTableComponent))
+		console.log(serialize(NFTStartTable))
         form.appendChild(createHiddenField('base', serialize(MyBootstrapTableComponent)));
         form.appendChild(createHiddenField('widget', serialize(NFTStartTable)));
         form.appendChild(createHiddenField('url', queryId));
