@@ -1,18 +1,18 @@
-export default class MyBootstrapTableComponent {
+export default class BootstrapTableComponent {
   constructor(element) {
     this.container = element;
     this.config = this.configuration();
-    this.#createWrapper();
-    this.#createTable();
+    this._createWrapper();
+    this._createTable();
   }
 
-  #createWrapper() {
+  _createWrapper() {
     this.wrapper = document.createElement('div');
     this.wrapper.classList.add('table-responsive');
     this.container.appendChild(this.wrapper);
   }
 
-  #createTable() {
+  _createTable() {
     this.tableElement = document.createElement('table');
     this.tableElement.classList.add(
       'table',
@@ -22,12 +22,12 @@ export default class MyBootstrapTableComponent {
     );
     this.wrapper.appendChild(this.tableElement);
 
-    this.#createThead();
-    this.#createTbody();
-    this.#createTfooter();
+    this._createThead();
+    this._createTbody();
+    this._createTfooter();
   }
 
-  #createThead() {
+  _createThead() {
     const thead = document.createElement('thead');
     this.tableElement.appendChild(thead);
 
@@ -44,19 +44,19 @@ export default class MyBootstrapTableComponent {
     });
   }
 
-  #createResizeEmptySpace(extraClass) {
+  _createResizeEmptySpace(extraClass) {
     const div = document.createElement('div');
     div.classList.add('tabulator-col-resize-handle');
     if (extraClass) div.classList.add(extraClass);
     return div;
   }
 
-  #createTbody() {
+  _createTbody() {
     this.tbody = document.createElement('tbody');
     this.tableElement.appendChild(this.tbody);
   }
 
-  #createTfooter() {
+  _createTfooter() {
     const tfooter = document.createElement('div');
     this.tableElement.appendChild(tfooter);
   }
@@ -75,12 +75,12 @@ export default class MyBootstrapTableComponent {
         td.setAttribute('role', 'gridcell');
 
         if (column.type === 'link') {
-          this.#createLinkCellContent(textCell, rowData, column);
+          this._createLinkCellContent(textCell, rowData, column);
         } else {
           textCell.textContent = column.cell(rowData);
         }
         if (column.type === 'date') {
-          this.#createDateCellContent(textCell, rowData, column);
+          this._createDateCellContent(textCell, rowData, column);
         }
         tr.appendChild(td);
         td.appendChild(textCell);
@@ -96,12 +96,12 @@ export default class MyBootstrapTableComponent {
     });
   };
 
-  #createDateCellContent(textCell, rowData, column) {
+  _createDateCellContent(textCell, rowData, column) {
     const result = new Date(column.cell(rowData)).toLocaleString();
     textCell.textContent = result;
   }
 
-  #createLinkCellContent(textCell, rowData, column) {
+  _createLinkCellContent(textCell, rowData, column) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
     link.href = `${column.cell(rowData)}`; // Change  URL

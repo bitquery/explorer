@@ -29,15 +29,17 @@ import * as SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
-import serialize  from 'serialize-javascript'
+import serialize from 'serialize-javascript';
 import { graphQlQueryToJson } from 'graphql-query-to-json';
-import MyBootstrapTableComponent from './component/MyBootstrapTableComponent';
+import BootstrapTableComponent from './component/BootstrapTableComponent';
+import renderComponent from './component/component';
 
-global.serialize = serialize
+global.serialize = serialize;
 global.createClient = createClient;
 global.createChart = createChart;
 global.graphQlQueryToJson = graphQlQueryToJson;
-global.MyBootstrapTableComponent = MyBootstrapTableComponent;
+global.BootstrapTableComponent = BootstrapTableComponent;
+global.renderComponent = renderComponent;
 
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,
