@@ -3,39 +3,10 @@
 
 <script >
 
-class GoogleChartsTableComponent {
-  constructor(element, queryMetaInfo) {
-    this.table = new google.visualization.Table(element);
-    this.data = new google.visualization.DataTable();
-    this.options = {
-          allowHtml:true,
-          showRowNumber: false,
-          width: '100%',
-          height: '100%',
-          sortColumn: 0,
-          sortAscending: false,
-        }
-    this.config = this.configuration();
-    this.config.columns.forEach(column => 
-  { this.data.addColumn(column.type ? column.type :'string', column.name);
-  });
-    this.table.draw(this.data, this.options);
-    }
 
-    onData = (data) => {
-      let array = this.config.topElement(data)
-      let rows = []
-      array.forEach(rowData => {
-        let row = []
-        this.config.columns.forEach(column => row.push(column.cell(rowData)))
-        rows.push(row)
-      })
-      this.data.addRows(rows)
-      this.table.draw(this.data, this.options);
-    };
-}
 
 class NFTStartTable extends BootstrapTableComponent {
+
     configuration() {
       return  {
           topElement: function (response){ return response.EVM.Transfers},
@@ -50,7 +21,7 @@ class NFTStartTable extends BootstrapTableComponent {
               name: 'ID', cell: function(row){ return row.Transfer.Id},
             },
             { 
-              name: 'URI', cell: function(row){ return row.Transfer.URI},type :'link',
+              name: 'URI', cell: function(row){ return row.Transfer.URI}, type :'link',
             },
           ]
         }
@@ -58,7 +29,7 @@ class NFTStartTable extends BootstrapTableComponent {
 } 
 
 //      ****** on page
-renderComponent('<%= BITQUERY_IDE_API %>', NFTStartTable, "#component-id", "Laset-Eth-NFT-tansfers", 'Laset-Eth-NFT-tansfers');
+renderComponent('<%= BITQUERY_IDE_API %>', NFTStartTable, "#component-id", "Laset-Eth-NFT-tansfers");
 
 // Sub-test-new-table
 // Sub-test-new-table_1
