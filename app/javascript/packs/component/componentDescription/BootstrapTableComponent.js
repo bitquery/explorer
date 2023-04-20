@@ -63,12 +63,11 @@ export default class BootstrapTableComponent {
 		array.forEach((rowData) => {
 			const tr = document.createElement('tr');
 			this.tbody.appendChild(tr);
-			this.config.columns.forEach((column) => {
+			this.config.columns.forEach(async (column) => {
 				const td = document.createElement('td');
 				const textCell = document.createElement('span');
 				td.classList.add('tabulator-cell', 'ellipsis');
 				td.setAttribute('role', 'gridcell');
-
 				if (column.type === 'link') {
 					this.createLinkCellContent(textCell, rowData, column);
 				} else {
@@ -76,6 +75,10 @@ export default class BootstrapTableComponent {
 				}
 				if (column.type === 'date') {
 					this.createDateCellContent(textCell, rowData, column);
+				}
+				if (column.rendering) {
+					const div = await column.rendering(column.cell(rowData));
+					td.appendChild(div);
 				}
 				tr.appendChild(td);
 				td.appendChild(textCell);
@@ -89,7 +92,7 @@ export default class BootstrapTableComponent {
 				this.tbody.appendChild(tr);
 			}
 		});
-	};
+	}
 
 	createDateCellContent(textCell, rowData, column) {
 		const result = new Date(column.cell(rowData)).toLocaleString();
@@ -134,5 +137,5 @@ class GoogleChartsTableComponent {
 		});
 		this.data.addRows(rows);
 		this.table.draw(this.data, this.options);
-	};
+	}
 }

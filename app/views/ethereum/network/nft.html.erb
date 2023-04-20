@@ -2,6 +2,7 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card" id="latest-nft-transfers-table"></div>
+    <div  id="forImg"></div>
   </div>
 </div>
 
@@ -27,9 +28,9 @@
               {
                 name: 'URI', cell: function(row){ return row.Transfer.URI}, type :'link'
               },
-              // {
-              //   name: 'Img', cell: function(row){ return row.Transfer.URI}, img: createImg(function(row){ return row.Transfer.URI})
-              // },
+              {
+                name: 'Img', cell: function(row){ return row.Transfer.URI}, rendering: createImg,
+              },
     
             ]
           }
@@ -42,5 +43,17 @@
 // Sub-test-new-table_1
 // Sub-Laset-Eth-NFT-tansfers
 
+
+
+
+createImg(
+	'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
+);
+
+//'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
+//'https://ipfs.io/ipfs/QmcFDx8avDtPXWzTFrJbdRd8m7aBJsdV95VsCum8i17qZH/10421'
+//'https://tokens.killabears.com/killabits/meta/188/1064'
+//'ipfs://QmcFDx8avDtPXWzTFrJbdRd8m7aBJsdV95VsCum8i17qZH/10421'
+//'https://trainer-metadata.pixelmon.ai/metadata/5714'
 
 </script>
