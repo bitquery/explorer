@@ -68,7 +68,7 @@ const prepopulateQuery = async (url, componentObject, compElement, query, queryV
 	await renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
 };
 
-const createWidgetFrame = (selector, queryId) => {
+const createWidgetFrame = (componentClass, selector, queryId) => {
 	const componentContainer = document.querySelector(selector);
 	const widgetHeader = document.createElement('div');
 	const row = document.createElement('div');
@@ -187,7 +187,7 @@ const createWidgetFrame = (selector, queryId) => {
 };
 
 export default async function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
-	const widgetFrame = createWidgetFrame(selector, queryId);
+	const widgetFrame = createWidgetFrame(component, selector, queryId);
 	let queryMetaData;
 	try {
 		const response = await fetch(`${window.bitqueryAPI}/getquery/${queryId}`);
