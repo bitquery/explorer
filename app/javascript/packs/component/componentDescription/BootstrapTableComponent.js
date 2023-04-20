@@ -2,27 +2,27 @@ export default class BootstrapTableComponent {
 	constructor(element) {
 		this.container = element;
 		this.config = this.configuration();
-		this._createWrapper();
-		this._createTable();
+		this.createWrapper();
+		this.createTable();
 	}
 
-	_createWrapper() {
+	createWrapper() {
 		this.wrapper = document.createElement('div');
 		this.wrapper.classList.add('table-responsive');
 		this.container.appendChild(this.wrapper);
 	}
 
-	_createTable() {
+	createTable() {
 		this.tableElement = document.createElement('table');
 		this.tableElement.classList.add('table', 'table-striped', 'table-hover', 'table-sm');
 		this.wrapper.appendChild(this.tableElement);
 
-		this._createThead();
-		this._createTbody();
-		this._createTfooter();
+		this.createThead();
+		this.createTbody();
+		this.createTfooter();
 	}
 
-	_createThead() {
+	createThead() {
 		const thead = document.createElement('thead');
 		this.tableElement.appendChild(thead);
 
@@ -39,23 +39,23 @@ export default class BootstrapTableComponent {
 		});
 	}
 
-	_createResizeEmptySpace(extraClass) {
+	createResizeEmptySpace(extraClass) {
 		const div = document.createElement('div');
 		div.classList.add('tabulator-col-resize-handle');
 		if (extraClass) div.classList.add(extraClass);
 		return div;
 	}
 
-	_createTbody() {
+	createTbody() {
 		this.tbody = document.createElement('tbody');
 		this.tableElement.appendChild(this.tbody);
 	}
 
-	_createTfooter() {
+	createTfooter() {
 		const tfooter = document.createElement('div');
 		this.tableElement.appendChild(tfooter);
 	}
-	onData = (data, sub) => {
+	onData(data, sub) {
 		console.log('onData', data);
 		const array = this.config.topElement(data);
 		const maxRows = 10;
@@ -70,12 +70,12 @@ export default class BootstrapTableComponent {
 				td.setAttribute('role', 'gridcell');
 
 				if (column.type === 'link') {
-					this._createLinkCellContent(textCell, rowData, column);
+					this.createLinkCellContent(textCell, rowData, column);
 				} else {
 					textCell.textContent = column.cell(rowData);
 				}
 				if (column.type === 'date') {
-					this._createDateCellContent(textCell, rowData, column);
+					this.createDateCellContent(textCell, rowData, column);
 				}
 				tr.appendChild(td);
 				td.appendChild(textCell);
@@ -91,14 +91,14 @@ export default class BootstrapTableComponent {
 		});
 	};
 
-	_createDateCellContent(textCell, rowData, column) {
+	createDateCellContent(textCell, rowData, column) {
 		const result = new Date(column.cell(rowData)).toLocaleString();
 		textCell.textContent = result;
 	}
 
-	_createLinkCellContent(textCell, rowData, column) {
+	createLinkCellContent(textCell, rowData, column) {
 		const link = document.createElement('a');
-		link.setAttribute('target', '_blank');
+		link.setAttribute('target', 'blank');
 		link.href = `${column.cell(rowData)}`; // Change  URL
 		link.textContent = column.cell(rowData);
 		textCell.appendChild(link);
@@ -124,7 +124,7 @@ class GoogleChartsTableComponent {
 		this.table.draw(this.data, this.options);
 	}
 
-	onData = (data) => {
+	onData(data) {
 		let array = this.config.topElement(data);
 		let rows = [];
 		array.forEach((rowData) => {

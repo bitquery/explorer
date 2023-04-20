@@ -77,7 +77,7 @@ const prepopulateQuery = async (
 	await renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
 };
 
-const createWidgetFrame = (ideApiUrl, selector, queryId) => {
+const createWidgetFrame = (ideApiUrl, componentClass, selector, queryId) => {
 	const componentContainer = document.querySelector(selector);
 	const widgetHeader = document.createElement('div');
 	const row = document.createElement('div');
@@ -105,10 +105,24 @@ const createWidgetFrame = (ideApiUrl, selector, queryId) => {
 		form.setAttribute('action', `${ideApiUrl}/widgetconfig`);
 		form.setAttribute('enctype', 'application/json');
 		form.setAttribute('target', '_blank');
-		console.log(serialize(BootstrapTableComponent));
-		console.log(serialize(NFTStartTable));
-		form.appendChild(createHiddenField('base', serialize(BootstrapTableComponent)));
-		form.appendChild(createHiddenField('widget', serialize(NFTStartTable)));
+		const data = []
+		function getBaseClass(targetClass){
+			data.push(serialize(targetClass))
+			if(targetClass instanceof Function) {
+				let baseClass = targetClass;
+				while (baseClass){
+					const newBaseClass = Object.getPrototypeOf(baseClass);
+					if(newBaseClass && newBaseClass !== Object && newBaseClass.name){
+						baseClass = newBaseClass;
+						data.unshift(serialize(baseClass))
+					}else{
+						break;
+					}
+				}
+			}
+		}
+		getBaseClass(componentClass)
+		form.appendChild(createHiddenField('data', JSON.stringify(data)));
 		form.appendChild(createHiddenField('url', queryId));
 		document.body.appendChild(form);
 		form.submit();
@@ -190,7 +204,7 @@ export default async function renderComponent(
 	api_key,
 	variables
 ) {
-	const widgetFrame = createWidgetFrame(ideApiUrl, selector, queryId);
+	const widgetFrame = createWidgetFrame(ideApiUrl, component, selector, queryId);
 	let queryMetaData;
 	try {
 		const response = await fetch(`${ideApiUrl}/getquery/${queryId}`);
