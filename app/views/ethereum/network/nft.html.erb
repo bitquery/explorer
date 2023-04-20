@@ -1,3 +1,4 @@
+
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card" id="latest-nft-transfers-table"></div>
@@ -7,7 +8,8 @@
 
 <script >
 
-  class LatestNFTTransfersTable extends BootstrapTableComponent {
+
+ class LatestNFTTransfersTable extends BootstrapTableComponent {
 
       configuration() {
         return  {
@@ -23,18 +25,22 @@
                 name: 'ID', cell: function(row){ return row.Transfer.Id},
               },
               {
-                name: 'URI', cell: function(row){ return row.Transfer.URI}, type :'link',
+                name: 'URI', cell: function(row){ return row.Transfer.URI}, type :'link'
               },
+              // {
+              //   name: 'Img', cell: function(row){ return row.Transfer.URI}, img: createImg(function(row){ return row.Transfer.URI})
+              // },
+    
             ]
           }
       }
   }
 
-  renderComponent('<%= BITQUERY_IDE_API %>', LatestNFTTransfersTable, "#latest-nft-transfers-table", "Sub-Laset-Eth-NFT-tansfers");
+  renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table", "Laset-Eth-NFT-tansfers");
 
-  // Sub-test-new-table
-  // Sub-test-new-table_1
-  // Sub-Laset-Eth-NFT-tansfers
+// Sub-test-new-table
+// Sub-test-new-table_1
+// Sub-Laset-Eth-NFT-tansfers
 
 
 </script>

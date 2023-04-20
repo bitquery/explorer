@@ -43,20 +43,11 @@ const renderQueryInComponent = async (endpoint_url, componentObject, query, comp
 	componentObject.onData(graphQLResponse.data);
 };
 
-const prepopulateQuery = async (
-	ideApiUrl,
-	url,
-	componentObject,
-	compElement,
-	query,
-	queryVariables,
-	prePopulateId,
-	api_key
-) => {
+const prepopulateQuery = async (url, componentObject, compElement, query, queryVariables, prePopulateId, api_key) => {
 	const startQuery = query;
 	let finalQuery = startQuery;
 	if (prePopulateId) {
-		const response = await fetch(`${ideApiUrl}/getquery/${prePopulateId}`);
+		const response = await fetch(`${window.bitqueryAPI}/getquery/${prePopulateId}`);
 		let queryMetaData;
 		if (response.status === 200) {
 			queryMetaData = await response.json();
@@ -77,7 +68,7 @@ const prepopulateQuery = async (
 	await renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
 };
 
-const createWidgetFrame = (ideApiUrl, selector, queryId) => {
+const createWidgetFrame = (selector, queryId) => {
 	const componentContainer = document.querySelector(selector);
 	const widgetHeader = document.createElement('div');
 	const row = document.createElement('div');
@@ -102,13 +93,13 @@ const createWidgetFrame = (ideApiUrl, selector, queryId) => {
 		};
 		let form = document.createElement('form');
 		form.setAttribute('method', 'post');
-		form.setAttribute('action', `${ideApiUrl}/widgetconfig`);
+		form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
 		form.setAttribute('enctype', 'application/json');
 		form.setAttribute('target', '_blank');
 		console.log(serialize(BootstrapTableComponent));
-		console.log(serialize(NFTStartTable));
+		console.log(serialize(LatestNFTTransfersTable));
 		form.appendChild(createHiddenField('base', serialize(BootstrapTableComponent)));
-		form.appendChild(createHiddenField('widget', serialize(NFTStartTable)));
+		form.appendChild(createHiddenField('widget', serialize(LatestNFTTransfersTable)));
 		form.appendChild(createHiddenField('url', queryId));
 		document.body.appendChild(form);
 		form.submit();
@@ -181,19 +172,11 @@ const createWidgetFrame = (ideApiUrl, selector, queryId) => {
 	};
 };
 
-export default async function renderComponent(
-	ideApiUrl,
-	component,
-	selector,
-	queryId,
-	prePopulateId,
-	api_key,
-	variables
-) {
-	const widgetFrame = createWidgetFrame(ideApiUrl, selector, queryId);
+export default async function renderComponent(component, selector, queryId, prePopulateId, api_key, variables) {
+	const widgetFrame = createWidgetFrame(selector, queryId);
 	let queryMetaData;
 	try {
-		const response = await fetch(`${ideApiUrl}/getquery/${queryId}`);
+		const response = await fetch(`${window.bitqueryAPI}/getquery/${queryId}`);
 		if (response.status === 200) {
 			try {
 				queryMetaData = await response.json();
@@ -214,7 +197,6 @@ export default async function renderComponent(
 		widgetFrame.onquerystarted();
 		if (query.startsWith('subscription')) {
 			await prepopulateQuery(
-				ideApiUrl,
 				queryMetaData.endpoint_url,
 				componentObject,
 				compElement,
@@ -246,3 +228,50 @@ export default async function renderComponent(
 		widgetFrame.onerror(error);
 	}
 }
+// const createImg = async (uri) => {
+// 	const div = document.createElement('div');
+// 	div.classList.add('text-center');
+// 	const img = document.createElement('img');
+// 	img.classList.add('rounded');
+// 	img.style.maxWidth = '100px';
+// 	img.style.maxHeight = '100px';
+
+// 	let url = uri;
+// 	if (uri.startsWith('ipfs://')) {
+// 		url = url.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/');
+// 		console.log(url);
+// 	}
+
+// 	if (url.startsWith('https://') || uri.startsWith('data:application/json')) {
+// 		const proxy = 'https://api.allorigins.win/raw?url=';
+// 		const response = await fetch(uri);
+// 		const data = await response.json();
+// 		let imgURL;
+
+// 		if (data.image) {
+// 			imgURL = data.image;
+// 		}
+// 		if (data.image_url) {
+// 			imgURL = data.image_url;
+// 		}
+// 		if (imgURL.startsWith('ipfs://')) {
+// 			console.log('imgURL.startsWith:', imgURL);
+// 			imgURL = imgURL.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/');
+// 			console.log('imgURL.replace:', imgURL);
+// 		}
+// 		console.log('ready img', imgURL);
+// 		img.src = imgURL;
+// 	}
+// 	div.appendChild(img);
+// 	console.log(div);
+// 	return div;
+// };
+// createImg(
+// 	'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
+// );
+
+//'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
+//'https://ipfs.io/ipfs/QmcFDx8avDtPXWzTFrJbdRd8m7aBJsdV95VsCum8i17qZH/10421'
+//'https://tokens.killabears.com/killabits/meta/188/1064'
+//'ipfs://QmcFDx8avDtPXWzTFrJbdRd8m7aBJsdV95VsCum8i17qZH/10421'
+//'https://trainer-metadata.pixelmon.ai/metadata/5714'
