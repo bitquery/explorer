@@ -33,6 +33,7 @@ import serialize from 'serialize-javascript';
 import { graphQlQueryToJson } from 'graphql-query-to-json';
 import BootstrapTableComponent from './component/componentDescription/BootstrapTableComponent';
 import renderComponent from './component/component';
+import renderImgFromURI from './component/rendering/renderImgFromURI';
 
 global.serialize = serialize;
 global.createClient = createClient;
@@ -40,6 +41,7 @@ global.createChart = createChart;
 global.graphQlQueryToJson = graphQlQueryToJson;
 global.BootstrapTableComponent = BootstrapTableComponent;
 global.renderComponent = renderComponent;
+global.renderImgFromURI = renderImgFromURI;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,
@@ -54,39 +56,6 @@ global.$ = $;
 global.vis = vis;
 global.numeral = numeral;
 global.m = moment;
-// ipfs://QmeSjSinHpPnmXmspMjwiXyN6zS4E9zccariGR3jxcaWtq/3397
-const createImg = async (uri) => {
-	const div = document.createElement('div');
-	div.classList.add('text-center');
-	const img = document.createElement('img');
-	img.classList.add('rounded');
-	img.style.maxWidth = '30px';
-	img.style.maxHeight = '30px';
-
-	let url = uri;
-	if (uri.startsWith('ipfs://')) {
-		url = url.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/');
-		console.log(url);
-	}
-
-	if (uri.startsWith('https') || uri.startsWith('data:application/json')) {
-		// const proxy = 'https://api.allorigins.win/raw?url=';
-		const response = await fetch(uri);
-		const data = await response.json();
-		let imgURL = data.image || data.image_url;
-		if (imgURL.startsWith('ipfs://')) {
-			console.log('imgURL.startsWith:', imgURL);
-			imgURL = imgURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
-		}
-		console.log('ready img', imgURL);
-		img.src = imgURL;
-	}
-	div.appendChild(img);
-
-	console.log(div);
-	return div;
-};
-global.createImg = createImg;
 const chainName = {
 	'0x1': 'Ethereum',
 	'0xa': 'Optimism',

@@ -76,12 +76,16 @@ export default class BootstrapTableComponent {
 				if (column.type === 'date') {
 					this.createDateCellContent(textCell, rowData, column);
 				}
-				if (column.rendering) {
-					const div = await column.rendering(column.cell(rowData));
-					td.appendChild(div);
-				}
 				tr.appendChild(td);
 				td.appendChild(textCell);
+				if (column.rendering) {
+					const div = await column.rendering(column.cell(rowData));
+					td.style.display = 'flex';
+					td.style.alignItems = 'center';
+					td.style.justifyContent = 'center';
+					td.removeChild(textCell);
+					td.appendChild(div);
+				}
 			});
 			if (sub) {
 				this.tbody.insertBefore(tr, this.tbody.firstChild);

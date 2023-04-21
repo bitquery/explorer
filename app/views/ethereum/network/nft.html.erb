@@ -29,7 +29,7 @@
                 name: 'URI', cell: function(row){ return row.Transfer.URI}, type :'link'
               },
               {
-                name: 'Img', cell: function(row){ return row.Transfer.URI}, rendering: createImg,
+                name: 'Img', cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
               },
     
             ]
@@ -46,9 +46,9 @@
 
 
 
-createImg(
-	'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
-);
+
+	// 'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
+
 
 //'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
 //'https://ipfs.io/ipfs/QmcFDx8avDtPXWzTFrJbdRd8m7aBJsdV95VsCum8i17qZH/10421'
