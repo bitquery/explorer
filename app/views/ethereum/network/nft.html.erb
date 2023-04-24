@@ -16,8 +16,11 @@
         return  {
             topElement: function (response){ return response.EVM.Transfers},
             columns: [
+                {
+                name: 'Img', cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
+              },
               {
-                name: 'Time', cell: function(row){ return row.Block.Time}, type:'date',
+                name: 'Time', cell: function(row){ return row.Block.Time}, rendering: renderDate,
               },
               {
                 name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
@@ -26,11 +29,9 @@
                 name: 'ID', cell: function(row){ return row.Transfer.Id},
               },
               {
-                name: 'URI', cell: function(row){ return row.Transfer.URI}, type :'link'
+                name: 'URI', cell: function(row){ return row.Transfer.URI}, rendering: renderURI,
               },
-              {
-                name: 'Img', cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
-              },
+            
     
             ]
           }

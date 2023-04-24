@@ -34,6 +34,9 @@ import { graphQlQueryToJson } from 'graphql-query-to-json';
 import BootstrapTableComponent from './component/componentDescription/BootstrapTableComponent';
 import renderComponent from './component/component';
 import renderImgFromURI from './component/rendering/renderImgFromURI';
+import renderLinks from './component/rendering/renderLinks';
+import renderDate from './component/rendering/renderDate';
+import renderURI from './component/rendering/renderURI';
 
 global.serialize = serialize;
 global.createClient = createClient;
@@ -42,6 +45,9 @@ global.graphQlQueryToJson = graphQlQueryToJson;
 global.BootstrapTableComponent = BootstrapTableComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
+global.renderLinks = renderLinks;
+global.renderDate = renderDate;
+global.renderURI = renderURI;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,
