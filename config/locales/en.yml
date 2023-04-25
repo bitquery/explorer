@@ -1478,6 +1478,7 @@ en:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
+      total_address_statistics: "Total Address Statistics"
       method_info: "Method Information"
       notarized_blocks: "Notarized Blocks"
       transaction_info: "Transaction Info"
@@ -1755,6 +1756,28 @@ en:
       currencies_received: "Currencies received"
       balance_effects: "Balance Effects"
     titles:
+      annotation: "Annotation"
+      send_amount: "Send Amount"
+      send_to_count: "Send To Count"
+      send_tx_count: "Send Tx Count"
+      send_to_currencies: "Send To Currencies"
+      receive_amount: "Receive Amount"
+      receive_to_count: "Receive To Count"
+      receive_tx_count: "Receive Tx Count"
+      receive_from_currencies: "Receive From Currencies"
+      fee_amount: "Fee Amount"
+      balance: "Balance"
+      first_tx_at: "First Tx at"
+      first_transfer_at: "First Transfer at"
+      last_tx_at: "Last Tx at"
+      last_transfer_at: "Last Transfer at"
+      days_with_received: "Days with received"
+      days_with_sent: "Days with sent"
+      days_with_transfers: "Days with transfers"
+      days_with_transactions: "Days with transactions"
+      call_tx_count: "Call TX count"
+      called_tx_count: "Called TX count"
+      other_tx_count: "Other tx count"
       method_name: 'Method Name'
       method_signature: 'Signature'
       signature_hash: 'Signature Hash'

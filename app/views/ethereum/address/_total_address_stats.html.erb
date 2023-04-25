@@ -1,0 +1,123 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.total_address_statistics') %></div>
+    <div class="card-body">
+      <div id="total_address_statistics"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+      var query = new widgets.query(`
+        query($address: String!, $network: EthereumNetwork!) {
+          ethereum(network: $network){
+            addressStats(address: {is: $address}){
+              address{
+                address{
+                  address
+                  annotation
+                }
+                sendAmount
+                sendToCount
+                sendTxCount
+                sendToCurrencies
+                
+                receiveAmount
+                receiveTxCount
+                receiveFromCount
+                receiveFromCurrencies
+                
+                feeAmount
+                
+                balance
+                firstTxAt{
+                  time
+                }
+                firstTransferAt{
+                  time
+                }
+                
+                lastTxAt{
+                  time
+                }
+                lastTransferAt{
+                  time
+                }
+                
+                daysWithReceived
+                daysWithSent
+                daysWithTransfers
+                daysWithTransactions
+                
+                callTxCount
+                calledTxCount
+                otherTxCount
+              }
+            }
+          }
+        }
+     `);
+
+    query.request({
+      network: '<%= @network[:network] %>',
+      address: '<%= @address %>'
+    });
+
+    new widgets.table('#total_address_statistics', query, 'ethereum.addressStats', {
+      title: '<%= t('widgets.headers.total_address_statistics') %>',
+      renderData: function (data) {
+        item = data[0].address;
+        return !item ? [] : [
+            {name: '<%= t('widgets.titles.address') %>', value: item.address.address},
+            {name: '<%= t('widgets.titles.annotation') %>', value: item.address.annotation},
+            {name: '<%= t('widgets.titles.send_amount') %>', value: item.sendAmount},
+            {name: '<%= t('widgets.titles.send_to_count') %>', value: item.sendToCount},
+            {name: '<%= t('widgets.titles.send_tx_count') %>', value: item.sendTxCount},
+            {name: '<%= t('widgets.titles.send_to_currencies') %>', value: item.sendToCurrencies},
+
+            {name: '<%= t('widgets.titles.receive_amount') %>', value: item.receiveAmount},
+            {name: '<%= t('widgets.titles.receive_tx_count') %>', value: item.receiveTxCount},
+            {name: '<%= t('widgets.titles.receive_to_count') %>', value: item.receiveFromCount},
+            {name: '<%= t('widgets.titles.receive_from_currencies') %>', value: item.receiveFromCurrencies},
+
+            {name: '<%= t('widgets.titles.fee_amount') %>', value: item.feeAmount},
+            {name: '<%= t('widgets.titles.balance') %>', value: item.balance},
+
+            {name: '<%= t('widgets.titles.first_tx_at') %>', value: item.firstTxAt.time},
+            {name: '<%= t('widgets.titles.first_transfer_at') %>', value: item.firstTransferAt.time},
+
+            {name: '<%= t('widgets.titles.last_tx_at') %>', value: item.lastTxAt.time},
+            {name: '<%= t('widgets.titles.last_transfer_at') %>', value: item.lastTransferAt.time},
+
+            {name: '<%= t('widgets.titles.days_with_received') %>', value: item.daysWithReceived},
+            {name: '<%= t('widgets.titles.days_with_sent') %>', value: item.daysWithSent},
+            {name: '<%= t('widgets.titles.days_with_transfers') %>', value: item.daysWithTransfers},
+            {name: '<%= t('widgets.titles.days_with_transactions') %>', value: item.daysWithTransactions},
+
+            {name: '<%= t('widgets.titles.call_tx_count') %>', value: item.callTxCount},
+            {name: '<%= t('widgets.titles.called_tx_count') %>', value: item.calledTxCount},
+            {name: '<%= t('widgets.titles.other_tx_count') %>', value: item.otherTxCount},
+          ];
+        },
+        dataOptions: [
+          {
+            title: '<%= t('widgets.titles.attribute') %>',
+            type: 'string',
+            path: 'name',
+            style: 'width: 250px',
+            html_class: 'text-info font-weight-bold'
+          },
+          {
+            title: '<%= t('widgets.titles.property_value') %>',
+            type: 'string-ellipsis',
+            escape: false,
+            path: 'value',
+            urlCallbackName: 'property_value_path'
+          },
+        ]
+    });
+  });
+
+</script>
+
