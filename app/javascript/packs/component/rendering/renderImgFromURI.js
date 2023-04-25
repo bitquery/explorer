@@ -5,11 +5,11 @@ export default async function renderImgFromURI(uri) {
 	const img = document.createElement('img');
 	const video = document.createElement('video');
 	video.setAttribute('type', 'video/mp4');
-	video.style.maxWidth = '200px';
-	video.style.maxHeight = '200px';
+	// video.style.maxWidth = '200px';
+	// video.style.maxHeight = '200px';
 	img.classList.add('img-fluid');
 
-	img.style.maxWidth = '50px';
+	// img.style.maxWidth = '50px';
 	// img.style.maxHeight = '50px';
 
 	const url = uri.startsWith('ipfs://') ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;

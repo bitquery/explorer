@@ -1,26 +1,26 @@
 
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="latest-nft-transfers-table"></div>
-    <div  id="forImg"></div>
-  </div>
-</div>
+<%# <div class="row"> %>
+  <%# <div class="col-12 col-lg-12 mb-4"> %>
+    <div  id="latest-nft-transfers-table"></div>
+  <%# class="card" %>
+  <%# </div> %>
+<%# </div> %>
 
 
 <script >
 
 
- class LatestNFTTransfersTable extends BootstrapTableComponent {
+ class LatestNFTTransfersTable extends BootstrapCardComponent {
 
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.Transfers},
             columns: [
-                {
-                name: 'Img', cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
+              {
+                cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
               },
               {
-                name: 'Time', cell: function(row){ return row.Block.Time}, rendering: renderDate,
+                name: 'Time', cell: function(row){ return row.Block.Time},// rendering: renderDate,
               },
               {
                 name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
@@ -28,8 +28,14 @@
               {
                 name: 'ID', cell: function(row){ return row.Transfer.Id},
               },
+              // {
+              //   name: 'URI', cell: function(row){ return row.Transfer.URI}, //rendering: renderURI,
+              // },
               {
-                name: 'URI', cell: function(row){ return row.Transfer.URI}, rendering: renderURI,
+                name: 'Sender', cell: function(row){ return row.Transfer.Sender},
+              },
+              {
+                name: 'Receiver', cell: function(row){ return row.Transfer.Receiver},
               },
             
     
@@ -38,8 +44,9 @@
       }
   }
 
-  renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table", "Laset-Eth-NFT-tansfers");
-
+  renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table", "15-Laset-Eth-NFT-tansfers-Sender-Receiver");
+// Laset-Eth-NFT-tansfers-Sender-Receiver
+///15-Laset-Eth-NFT-tansfers-Sender-Receiver
 // Sub-test-new-table
 // Sub-test-new-table_1
 // Sub-Laset-Eth-NFT-tansfers
