@@ -35,7 +35,8 @@ import BootstrapTableComponent from './component/componentDescription/BootstrapT
 import BootstrapCardComponent from './component/componentDescription/BootstrapCardComponent';
 import renderComponent from './component/component';
 import renderImgFromURI from './component/rendering/renderImgFromURI';
-import renderLinks from './component/rendering/renderLinks';
+import renderSenderLinks from './component/rendering/renderSenderLinks';
+import renderReceiverLinks from './component/rendering/renderReceiverLinks';
 import renderDate from './component/rendering/renderDate';
 import renderURI from './component/rendering/renderURI';
 
@@ -47,7 +48,8 @@ global.BootstrapTableComponent = BootstrapTableComponent;
 global.BootstrapCardComponent = BootstrapCardComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
-global.renderLinks = renderLinks;
+global.renderSenderLinks = renderSenderLinks;
+global.renderReceiverLinks = renderReceiverLinks;
 global.renderDate = renderDate;
 global.renderURI = renderURI;
 

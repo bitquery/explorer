@@ -17,10 +17,10 @@
             topElement: function (response){ return response.EVM.Transfers},
             columns: [
               {
-                cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
+                cell: function(row){ return row.Transfer.URI}, render: renderImgFromURI,
               },
               {
-                name: 'Time', cell: function(row){ return row.Block.Time},// rendering: renderDate,
+                name: 'Time', cell: function(row){ return row.Block.Time},rendering: renderDate,
               },
               {
                 name: 'Currency', cell: function(row){ return row.Transfer.Currency.Symbol},
@@ -28,17 +28,12 @@
               {
                 name: 'ID', cell: function(row){ return row.Transfer.Id},
               },
-              // {
-              //   name: 'URI', cell: function(row){ return row.Transfer.URI}, //rendering: renderURI,
-              // },
               {
-                name: 'Sender', cell: function(row){ return row.Transfer.Sender},
+                name: 'Sender', cell: function(row){ return row.Transfer.Sender}, rendering: renderSenderLinks,
               },
               {
-                name: 'Receiver', cell: function(row){ return row.Transfer.Receiver},
+                name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderReceiverLinks,
               },
-            
-    
             ]
           }
       }
@@ -47,6 +42,7 @@
   renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table", "15-Laset-Eth-NFT-tansfers-Sender-Receiver");
 // Laset-Eth-NFT-tansfers-Sender-Receiver
 ///15-Laset-Eth-NFT-tansfers-Sender-Receiver
+//15-Sub-Last-Eth-NFT-tansfers-Sender-Receiver
 // Sub-test-new-table
 // Sub-test-new-table_1
 // Sub-Laset-Eth-NFT-tansfers

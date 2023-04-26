@@ -14,6 +14,7 @@ function createContainer() {
 	const div = document.createElement('div');
 	div.classList.add('text-center');
 	div.style.cursor = 'pointer';
+	div.style.marginTop = '13px';
 	return div;
 }
 
@@ -25,7 +26,7 @@ async function fetchMediaURL(url) {
 	let mediaURL;
 
 	if (url.startsWith('https:')) {
-		const response = await fetch(url);
+		const response = await fetch(url);	
 		const data = await response.json();
 		mediaURL = data.image || data.image_url || data.image_data;
 			if (mediaURL.startsWith('ipfs://')) {
@@ -54,21 +55,22 @@ function appendMediaElement(container, mediaURL) {
 
 function createImageElement(src) {
 	const img = document.createElement('img');
-	img.classList.add('img-fluid');
+	img.classList.add('img-fluid','rounded-start');
 	img.style.maxWidth = '100%';
-	img.style.maxHeight = '250px';
+	img.style.maxHeight = '200px';		
 	img.src = src;
 	return img;
 }
 
 function createVideoElement(src) {
 	const video = document.createElement('video');
+
 	video.setAttribute('type', 'video/mp4');
-video.style.maxWidth = '100%';
-video.style.maxHeight = '250px';
+   video.style.maxWidth = '100%';
+   video.style.maxHeight = '200px';
 	video.src = src;
 	video.controls = true;
-	return video;
+	return video;	
 }
 
 function addClickListener(element, mediaURL) {
