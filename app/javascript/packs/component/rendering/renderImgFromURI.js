@@ -1,48 +1,78 @@
 export default async function renderImgFromURI(uri) {
+	const container = createContainer();
+	const url = preprocessURI(uri);
+	const mediaURL = await fetchMediaURL(url);
+
+	if (mediaURL) {
+	appendMediaElement(container, mediaURL);
+	addClickListener(container, mediaURL);
+	}
+	return container;
+}
+
+function createContainer() {
 	const div = document.createElement('div');
 	div.classList.add('text-center');
 	div.style.cursor = 'pointer';
-	const img = document.createElement('img');
-	const video = document.createElement('video');
-	video.setAttribute('type', 'video/mp4');
-	// video.style.maxWidth = '200px';
-	// video.style.maxHeight = '200px';
-	img.classList.add('img-fluid');
+	return div;
+}
 
-	// img.style.maxWidth = '50px';
-	// img.style.maxHeight = '50px';
+function preprocessURI(uri) {
+	return uri.startsWith('ipfs://') ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
+}
 
-	const url = uri.startsWith('ipfs://') ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
-	let imgURL;
+async function fetchMediaURL(url) {
+	let mediaURL;
+
 	if (url.startsWith('https:')) {
 		const response = await fetch(url);
 		const data = await response.json();
-		imgURL = data.image || data.image_url || data.image_data;
-
-		if (imgURL.startsWith('ipfs://')) {
-			imgURL = imgURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
-		}
-
-		if (imgURL.endsWith('.mp4')) {
-			video.src = imgURL;
-			video.controls = true;
-			div.appendChild(video);
-		} else {
-			img.src = imgURL;
-			div.appendChild(img);
-		}
+		mediaURL = data.image || data.image_url || data.image_data;
+			if (mediaURL.startsWith('ipfs://')) {
+				mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
+			}
 	} else if (url.startsWith('data:application/json')) {
 		const base64Data = url.replace('data:application/json;base64,', '');
 		const json = JSON.parse(atob(base64Data));
-		imgURL = json.image || json.image_url || json.image_data;
-		if (imgURL.startsWith('ipfs://')) {
-			imgURL = imgURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
-		}
-		img.src = imgURL;
-		div.appendChild(img);
+		mediaURL = json.image || json.image_url || json.image_data;
+			if (mediaURL.startsWith('ipfs://')) {
+				mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
+			}
 	}
-	div.addEventListener('click', () => {
-		window.open(imgURL, '_blank');
+	return mediaURL;
+}
+
+function appendMediaElement(container, mediaURL) {
+	if (mediaURL.endsWith('.mp4')) {
+		const video = createVideoElement(mediaURL);
+		container.appendChild(video);
+	} else {
+		const img = createImageElement(mediaURL);
+		container.appendChild(img);
+	}
+}
+
+function createImageElement(src) {
+	const img = document.createElement('img');
+	img.classList.add('img-fluid');
+	img.style.maxWidth = '100%';
+	img.style.maxHeight = '250px';
+	img.src = src;
+	return img;
+}
+
+function createVideoElement(src) {
+	const video = document.createElement('video');
+	video.setAttribute('type', 'video/mp4');
+video.style.maxWidth = '100%';
+video.style.maxHeight = '250px';
+	video.src = src;
+	video.controls = true;
+	return video;
+}
+
+function addClickListener(element, mediaURL) {
+	element.addEventListener('click', () => {
+		window.open(mediaURL, '_blank');
 	});
-	return div;
 }
