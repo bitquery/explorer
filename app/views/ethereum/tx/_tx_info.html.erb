@@ -62,6 +62,7 @@
                                       <% if @network[:network] == 'klaytn' %>
                                       txType
                                       feePayer
+                                      feeRatio
                                       <% end %>
                            }
                           }
@@ -88,6 +89,7 @@
                     <% if @network[:network] == 'klaytn' %>
                     {name: '<%= t('widgets.titles.tx_type') %>', value: item.txType},
                     {name: '<%= t('widgets.titles.fee_payer') %>', value: item.feePayer},
+                    {name: '<%= t('widgets.titles.fee_ratio') %>', value: item.feeRatio},
                     <% end %>
                     {name: '<%= t('widgets.titles.success') %>', value: item.success + ' ' + item.error },
 

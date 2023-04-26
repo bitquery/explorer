@@ -1801,6 +1801,7 @@ en:
       miniblock_hash: "Miniblock Hash"
       miniblock_type: "Miniblock Type"
       fee_payer: "Fee Payer"
+      fee_ratio: "Fee Ratio"
       sender_block_hash: "Sender Block Hash"
       sender_shard: "Sender Shard"
       receiver_block_hash: "Receiver Block Hash"
