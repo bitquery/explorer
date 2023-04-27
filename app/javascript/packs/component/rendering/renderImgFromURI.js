@@ -12,9 +12,8 @@ export default async function renderImgFromURI(uri) {
 
 function createContainer() {
 	const div = document.createElement('div');
-	div.classList.add('text-center');
+	// div.classList.add('text-center');
 	div.style.cursor = 'pointer';
-	div.style.marginTop = '13px';
 	return div;
 }
 
@@ -66,10 +65,10 @@ function createVideoElement(src) {
 	const video = document.createElement('video');
 
 	video.setAttribute('type', 'video/mp4');
-   video.style.maxWidth = '100%';
+   video.style.width = '100%';
    video.style.maxHeight = '200px';
 	video.src = src;
-	video.controls = true;
+	video.controls = true;	
 	return video;	
 }
 

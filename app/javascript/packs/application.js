@@ -35,10 +35,11 @@ import BootstrapTableComponent from './component/componentDescription/BootstrapT
 import BootstrapCardComponent from './component/componentDescription/BootstrapCardComponent';
 import renderComponent from './component/component';
 import renderImgFromURI from './component/rendering/renderImgFromURI';
-import renderSenderLinks from './component/rendering/renderSenderLinks';
-import renderReceiverLinks from './component/rendering/renderReceiverLinks';
+import renderAddressLink from './component/rendering/renderAddressLink';
+import renderTokenLink from './component/rendering/renderTokenLink';
 import renderDate from './component/rendering/renderDate';
 import renderURI from './component/rendering/renderURI';
+import renderIco from './component/rendering/renderIco';
 
 global.serialize = serialize;
 global.createClient = createClient;
@@ -48,10 +49,11 @@ global.BootstrapTableComponent = BootstrapTableComponent;
 global.BootstrapCardComponent = BootstrapCardComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
-global.renderSenderLinks = renderSenderLinks;
-global.renderReceiverLinks = renderReceiverLinks;
+global.renderAddressLink = renderAddressLink;
+global.renderTokenLink = renderTokenLink;
 global.renderDate = renderDate;
 global.renderURI = renderURI;
+global.renderIco = renderIco;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,
