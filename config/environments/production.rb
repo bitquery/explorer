@@ -117,6 +117,7 @@ Rails.application.configure do
 
   # Lograge config
   config.lograge.enabled = true
+  config.lograge.logger = ActiveSupport::Logger.new($stdout)
   config.lograge.formatter = Lograge::Formatters::Logstash.new
 
   config.lograge.custom_options = lambda do |event|
