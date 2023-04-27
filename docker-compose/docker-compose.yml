@@ -9,6 +9,17 @@ x-common-restart: &common-restart
 x-graceful-stop: &graceful-stop
   stop_grace_period: 1m
   stop_signal: SIGINT
+x-common-logging: &common-logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "100m"
+      max-file: "3"
+x-elk-logging: &elk-logging
+  logging:
+    driver: gelf
+    options:
+      gelf-address: udp://logstash.services.local:12201
 
 services:
   rails:
@@ -34,6 +45,7 @@ services:
     <<: *common-dns
     <<: *common-network
     <<: *common-restart
+    <<: *elk-logging
 
 networks:
   common:
