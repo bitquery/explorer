@@ -63,6 +63,9 @@ Rails.application.configure do
 
   BITQUERY_LOGGER_CONFIG = {
     output: :file,
+    stdout_log_level: 0,
+    log_level: 0,
   }
+
 
 end

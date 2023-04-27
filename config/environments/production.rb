@@ -111,7 +111,17 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   BITQUERY_LOGGER_CONFIG = {
-    output: :file,
+    output: :stdout_json,
+    stdout_log_level: 1
   }
+
+  # Lograge config
+  config.lograge.enabled = true
+  config.lograge.formatter = Lograge::Formatters::Logstash.new
+
+  config.lograge.custom_options = lambda do |event|
+    { :@lvl => "SYSTEM" }
+  end
+  #
 
 end
