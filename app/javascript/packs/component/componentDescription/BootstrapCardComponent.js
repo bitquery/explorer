@@ -29,9 +29,13 @@ export default class BootstrapCardComponent {
 		array.forEach((rowData) => {
 			const cardElement = this.createElementWithClasses('div', 'card', 'mb-3');
 			const card = this.createElementWithClasses('div', 'row', 'g-0');
-			cardElement.style.width = '640px'
-			const cardImg = this.createElementWithClasses('div', 'col-md-2');
-			const cardBodyWrapper = this.createElementWithClasses('div', 'col-md-10');
+			cardElement.style.minWidth = '640px'
+			// cardElement.style.maxHeight = '200px';	
+			const cardImg = this.createElementWithClasses('div', 'col-md-3');
+			cardImg.style.display ='flex';
+			cardImg.style.alignItems = 'center';
+
+			const cardBodyWrapper = this.createElementWithClasses('div', 'col-md-9');
 			const cardBody = this.createElementWithClasses('div', 'card-body');
 			cardBody.style.display = 'flex';
 
@@ -47,6 +51,10 @@ export default class BootstrapCardComponent {
 				if(column.rendering){
 					const cardText = this.createElementWithClasses('div', 'card-title', 'col', 'ellipsis');
 					const spanText = column.rendering(column.cell(rowData)) ;
+					if(column.ico){
+						const ico = renderIco(column.ico);
+						spanText.appendChild(ico);
+						}
 					cardText.appendChild(spanText);
 					endColumnDiv.appendChild(cardText);
 				} else{
@@ -57,23 +65,31 @@ export default class BootstrapCardComponent {
 				};
 				}
 				if (column.name && typeof column.name =='function') {
-				const cardTitle = this.createElementWithClasses('div', 'card-title');
-				startColumnDiv.appendChild(cardTitle);
-				if(column.rendering){
+					if(column.rendering){
+						const cardTitle = this.createElementWithClasses('div', 'card-title', 'ellipsis');
+						const span = column.rendering(column.name(rowData));
+						cardTitle.appendChild(span);
+						if(column.ico){
+							const ico = renderIco(column.ico);
+							span.appendChild(ico);
+							}
+						startColumnDiv.appendChild(cardTitle);
+						const cardText = this.createElementWithClasses('div', 'card-title', 'col', 'ellipsis');
+						const spanText = column.rendering(column.cell(rowData)) ;
+						cardText.appendChild(spanText);
+						endColumnDiv.appendChild(cardText);
+					} else{
+					const cardTitle = this.createElementWithClasses('div', 'card-title', 'ellipsis');
+					const span = this.createTextElement('span', column.name(rowData));
+					cardTitle.appendChild(span);
+					startColumnDiv.appendChild(cardTitle);
 					const cardText = this.createElementWithClasses('div', 'card-title', 'col', 'ellipsis');
-					const spanText = column.rendering(column.cell(rowData)) ;
+					const spanText = this.createTextElement('span', column.cell(rowData));
 					cardText.appendChild(spanText);
-					startColumnDiv.appendChild(cardText);
-				} else{
-					const cardText = this.createElementWithClasses('div', 'card-title', 'col', 'ellipsis');
-					const spanText = this.createTextElement('span', column.name(rowData));
-					cardText.appendChild(spanText);
-					startColumnDiv.appendChild(cardText);
-				};
+					endColumnDiv.appendChild(cardText);
+					};
 				}
-
 			});
-
 			this.config.columns.forEach(async (column) => {
 				if(column.render){
 					const div = await column.render(column.cell(rowData));
