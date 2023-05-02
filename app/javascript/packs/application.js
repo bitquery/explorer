@@ -40,6 +40,7 @@ import renderAddressLink from './component/rendering/renderAddressLink';
 import renderTokenLink from './component/rendering/renderTokenLink';
 import renderDate from './component/rendering/renderDate';
 import renderURI from './component/rendering/renderURI';
+import renderTX from './component/rendering/renderTX';
 import renderIco from './component/rendering/renderIco';
 
 global.serialize = serialize;
@@ -56,6 +57,7 @@ global.renderTokenLink = renderTokenLink;
 global.renderDate = renderDate;
 global.renderURI = renderURI;
 global.renderIco = renderIco;
+global.renderTX = renderTX;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,

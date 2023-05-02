@@ -14,7 +14,6 @@ console.log('length url',  url.length)
 	// }
 	if (mediaURL.mediaURL) {
 		const span = document.createElement('div');
-		span.classList.add('card-title')
 		span.textContent = mediaURL.name;
 		appendMediaElement(container, mediaURL.mediaURL);
 		addClickListener(container, mediaURL.mediaURL);
