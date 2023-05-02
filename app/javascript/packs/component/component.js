@@ -173,14 +173,14 @@ export default async function renderComponent(component, selector, queryId, preP
 		console.log(componentObject)
 		const data = [];
 		function getBaseClass(targetClass) {
-			data.push(serialize(targetClass));
+			data.push({[targetClass.name]: serialize(targetClass)});
 			if (targetClass instanceof Function) {
 				let baseClass = targetClass;
 				while (baseClass) {
 					const newBaseClass = Object.getPrototypeOf(baseClass);
 					if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
 						baseClass = newBaseClass;
-						data.unshift(serialize(baseClass));
+						data.unshift({[baseClass.name]: serialize(baseClass)});
 					} else {
 						break;
 					}
@@ -190,7 +190,9 @@ export default async function renderComponent(component, selector, queryId, preP
 		function discoverFunctions(subj, prop) {
 			if ( typeof subj === 'function') {
 				if (prop && subj?.name !== prop) {
-					data.unshift( serialize( subj ) )
+					if ( !data.some(el => Object.keys(el)[0] === subj?.name) ) {
+						data.unshift( { [subj.name]: serialize( subj ) } )
+					}
 				}
 				return
 			}
