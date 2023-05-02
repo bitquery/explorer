@@ -20,7 +20,7 @@ x-elk-logging: &elk-logging
     driver: gelf
     options:
       gelf-address: udp://logstash.services.local:12201
-      labels: log_type
+      labels: __log_type
 
 services:
   rails:
@@ -44,7 +44,7 @@ services:
       - BITQUERY_GRAPHQL=${LC_COMPOSE_BITQUERY_GRAPHQL}
       - BITQUERY_IDE_API=${LC_COMPOSE_BITQUERY_IDE_API}
     labels:
-      log_type: explorer
+      - __log_type=explorer
     <<: *common-dns
     <<: *common-network
     <<: *common-restart
