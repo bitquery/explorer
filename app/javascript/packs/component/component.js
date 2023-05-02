@@ -82,29 +82,9 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	const blinkerWrapper = document.createElement('div');
 	loader.classList.add('lds-dual-ring');
 	getAPIButton.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api');
+	getAPIButton.setAttribute('role', 'button')
 	getAPIButton.setAttribute('target', '_blank');
 	getAPIButton.textContent = 'Get Streaming API';
-	getAPIButton.onclick = () => {
-		let createHiddenField = function (name, value) {
-			let input = document.createElement('input');
-			input.setAttribute('type', 'hidden');
-			input.setAttribute('name', name);
-			input.setAttribute('value', value);
-			return input;
-		};
-		let form = document.createElement('form');
-		form.setAttribute('method', 'post');
-		form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
-		form.setAttribute('enctype', 'application/json');
-		form.setAttribute('target', '_blank');
-		
-		
-		form.appendChild(createHiddenField('data', JSON.stringify(data)));
-		form.appendChild(createHiddenField('url', queryId));
-		document.body.appendChild(form);
-		form.submit();
-		document.body.removeChild(form);
-	};
 	tableFooter.style.textAlign = 'right';
 	tableFooter.appendChild(getAPIButton);
 	widgetHeader.classList.add('card-header');
@@ -165,6 +145,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	};
 	return {
 		frame: widgetFrame,
+		button: getAPIButton,
 		onloadmetadata,
 		onquerystarted,
 		onqueryend,
@@ -227,6 +208,25 @@ export default async function renderComponent(component, selector, queryId, preP
 		getBaseClass(component)
 		discoverFunctions(componentObject.config)
 		console.log(data)
+		widgetFrame.button.onclick = () => {
+			let createHiddenField = function (name, value) {
+				let input = document.createElement('input');
+				input.setAttribute('type', 'hidden');
+				input.setAttribute('name', name);
+				input.setAttribute('value', value);
+				return input;
+			};
+			let form = document.createElement('form');
+			form.setAttribute('method', 'post');
+			form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
+			form.setAttribute('enctype', 'application/json');
+			form.setAttribute('target', '_blank');
+			form.appendChild(createHiddenField('data', JSON.stringify(data)));
+			form.appendChild(createHiddenField('url', queryId));
+			document.body.appendChild(form);
+			form.submit();
+			document.body.removeChild(form);
+		}
 		const query = queryMetaData.query.trim();
 		const queryVariables = {
 			...JSON.parse(queryMetaData.variables),
