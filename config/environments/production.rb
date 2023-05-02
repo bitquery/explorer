@@ -118,10 +118,13 @@ Rails.application.configure do
   # Lograge config
   config.lograge.enabled = true
   config.lograge.logger = ActiveSupport::Logger.new($stdout)
-  config.lograge.formatter = Lograge::Formatters::Logstash.new
+  config.lograge.formatter = Lograge::Formatters::Json.new
 
   config.lograge.custom_options = lambda do |event|
-    { :@lvl => "SYSTEM" }
+    {
+      'lvl' => "SYSTEM",
+      '@timestamp': Time.now.gmtime,
+    }
   end
   #
 
