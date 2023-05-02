@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/bitquery/bitquery_logger.git
-  revision: 18682e707998701f9050a24af5d88e0197892654
-  tag: v0.6.3
+  revision: 72fef85d551a4f05415c18e09fc48394fcd3fc16
+  tag: v0.7.1
   specs:
-    bitquery_logger (0.6.3)
+    bitquery_logger (0.7.1)
       exception_notification (~> 4.5.0)
       exception_notification-rake (~> 0.3.1)
       logstash-logger (~> 0.26.1)

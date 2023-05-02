@@ -28,7 +28,7 @@ gem 'graphql-client'
 gem 'feedjira', '~> 3.1', '>= 3.1.2'
 
 # Logger
-gem 'bitquery_logger', git: 'https://github.com/bitquery/bitquery_logger.git', tag: 'v0.6.3'#, path: '../bitquery_logger'
+gem 'bitquery_logger', git: 'https://github.com/bitquery/bitquery_logger.git', tag: 'v0.7.1'#, path: '../bitquery_logger'
 gem 'lograge'
 gem 'logstash-event'
 gem 'exception_notification'
