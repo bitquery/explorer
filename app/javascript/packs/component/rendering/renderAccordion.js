@@ -1,13 +1,12 @@
 export default async function renderAccordion(uri) {
    const url = uri.startsWith('ipfs://') ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
-   const accordionId = 'myAccordion';
  
-   const mediaData = await fetchMediaURL(url);
+   const mediaData = await fetchMediaData(url);
  
-   async function fetchMediaURL(url) {
+   async function fetchMediaData(url) {
      let mediaDescription, mediaData;
  
-     if (/^http/.test(url)) {
+     if (url.startsWith('http')) {
        const response = await fetch(url);
        const data = await response.json();
        mediaData = data;
@@ -30,11 +29,41 @@ export default async function renderAccordion(uri) {
        },
      ];
    }
- 
+   console.log('mediaData',mediaData)
    const accordion = document.createElement('div');
    accordion.classList.add('accordion');
-   // accordion.id = accordionId;
- 
+   accordion.id = 'accordionExample';
+   mediaData.forEach((e, index) =>{
+
+   const itemElement1 = document.createElement('div');
+   itemElement1.classList.add('accordion-item');
+   const headerElement1 = document.createElement('h5');
+   headerElement1.classList.add('accordion-header');
+   headerElement1.id = 'headingOne';
+   const buttonTitle1 = document.createElement('button');
+   buttonTitle1.classList.add('accordion-button');
+   buttonTitle1.setAttribute('type', 'button');
+   buttonTitle1.setAttribute('data-bs-toggle', 'collapse');
+   buttonTitle1.setAttribute('data-bs-target', '#collapseOne');
+   buttonTitle1.setAttribute('aria-expanded', 'false');
+   buttonTitle1.setAttribute('aria-controls', 'collapseOne');
+   buttonTitle1.textContent = e.title;
+   const collapseOne = document.createElement('div');
+   collapseOne.id='collapseOne';
+   collapseOne.classList.add('accordion-collapse','collapse')
+   collapseOne.setAttribute('aria-labelledby','headingOne')
+   collapseOne.setAttribute('data-bs-parent','#accordionExample')
+   const collapseOneBody = document.createElement('div');
+   collapseOneBody.classList.add('accordion-body');
+   collapseOneBody.textContent = e.content
+
+   headerElement1.appendChild(buttonTitle1);
+   collapseOne.appendChild(collapseOneBody)
+   headerElement1.appendChild(collapseOne);
+   itemElement1.appendChild(headerElement1);
+   accordion.appendChild(itemElement1)
+})
+
    // mediaData.forEach((item, index) => {
    //   const itemId = `${accordionId}-item-${index}`;
  
@@ -68,7 +97,7 @@ export default async function renderAccordion(uri) {
    //   collapseElement.appendChild(bodyElement);
    //   itemElement.appendChild(headerElement);
    //   itemElement.appendChild(collapseElement);
-     accordion.appendChild(itemElement);
+   //   accordion.appendChild(itemElement);
    // });
  
    return accordion;
