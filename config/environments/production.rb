@@ -123,7 +123,7 @@ Rails.application.configure do
   config.lograge.custom_options = lambda do |event|
     {
       'lvl' => "SYSTEM",
-      '@timestamp': Time.now.gmtime,
+      '@timestamp' => Time.now.gmtime,
     }
   end
   #
