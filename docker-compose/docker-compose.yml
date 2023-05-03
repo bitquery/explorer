@@ -20,7 +20,6 @@ x-elk-logging: &elk-logging
     driver: gelf
     options:
       gelf-address: udp://logstash.services.local:12201
-      labels: __log_type
 
 services:
   rails:
