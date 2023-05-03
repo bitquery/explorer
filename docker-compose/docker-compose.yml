@@ -21,7 +21,6 @@ x-elk-logging: &elk-logging
     options:
       gelf-address: udp://logstash.services.local:12201
       labels: __log_type
-      labels-regex: ^com\.docker\.compose\.(project|service)$"
 
 services:
   rails:
