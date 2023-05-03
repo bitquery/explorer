@@ -42,6 +42,7 @@ import renderDate from './component/rendering/renderDate';
 import renderURI from './component/rendering/renderURI';
 import renderTX from './component/rendering/renderTX';
 import renderIco from './component/rendering/renderIco';
+import renderAccordion from './component/rendering/renderAccordion';
 
 global.serialize = serialize;
 global.createClient = createClient;
@@ -58,6 +59,7 @@ global.renderDate = renderDate;
 global.renderURI = renderURI;
 global.renderIco = renderIco;
 global.renderTX = renderTX;
+global.renderAccordion = renderAccordion;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,

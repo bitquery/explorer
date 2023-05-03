@@ -5,6 +5,8 @@ export default function renderIco(nameIco){
    const icons = {
       sender: 'fa fa-sign-in text-success',
       receiver: 'fas fa-share-square text-primary',
+      id: "fa fa-id-card-o",
+      hash: "fa fa-hashtag",
    }
    i.className = icons[nameIco];
 
