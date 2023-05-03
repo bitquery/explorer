@@ -70,5 +70,12 @@ group :development, :test do
   gem 'sshkit-sudo'
 end
 
+# Monitoring
+gem 'yabeda-rails'
+gem 'yabeda-graphql'
+gem 'yabeda-http_requests'
+gem 'yabeda-puma-plugin'
+gem 'yabeda-prometheus-mmap'
+
 # Find all missing translations
 # gem 'i18n-tasks', '~> 1.0.12'
