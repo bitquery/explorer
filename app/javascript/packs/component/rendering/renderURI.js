@@ -1,10 +1,10 @@
-async function createAccordionItem(item, index) {
-	const accordionItem = document.createElement('div');
-	accordionItem.classList.add('accordion-item');
-	return accordionItem;
-}
 
 export default async function renderURI(uri) {
+	async function createAccordionItem(item, index) {
+		const accordionItem = document.createElement('div');
+		accordionItem.classList.add('accordion-item');
+		return accordionItem;
+	}
 	const accordion = document.createElement('div');
 	accordion.id = 'accordionExample';
 

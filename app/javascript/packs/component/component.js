@@ -209,7 +209,6 @@ export default async function renderComponent(component, selector, queryId, preP
 		}
 		getBaseClass(component)
 		discoverFunctions(componentObject.config)
-		console.log(data)
 		widgetFrame.button.onclick = () => {
 			let createHiddenField = function (name, value) {
 				let input = document.createElement('input');
