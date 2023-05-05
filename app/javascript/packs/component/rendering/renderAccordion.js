@@ -39,7 +39,8 @@ export default async function renderAccordion(uri) {
     accordionItem.classList.add('accordion-item', 'd-flex','align-items-center');
 
     const accordionHeader = document.createElement('div');
-    accordionHeader.classList.add('accordion-header');
+    // accordionHeader.classList.add('accordion-header');
+    accordionHeader.classList.add('accordion-header', 'inline-flex', 'items-center', 'rounded-md', 'bg-gray-50', 'px-2', 'py-1', 'text-xs', 'font-medium', 'text-gray-600', 'ring-1', 'ring-inset', 'ring-gray-500/10')
     accordionHeader.style.cursor = 'pointer'
     accordionHeader.textContent = item.header;
 
@@ -67,13 +68,11 @@ export default async function renderAccordion(uri) {
   accordion.addEventListener('click', (event) => {
     if (event.target.classList.contains('accordion-header')) {
       const accordionContent = event.target.nextElementSibling;
-      const accordionHeader = document.querySelector('accordion-header')
+      const accordionHeader = document.querySelector('.accordion-header')
       if (accordionContent.style.display === 'block') {
         accordionContent.style.display = 'none';
-        accordionHeader.style.writingMode = 'horizontal-tb';
       } else {
         accordionContent.style.display = 'block';
-        accordionHeader.style.writingMode = 'vertical-lr';
       }
     }
   });

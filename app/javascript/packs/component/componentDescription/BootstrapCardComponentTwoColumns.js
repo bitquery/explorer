@@ -112,7 +112,7 @@ handleViewportChange(mediaQuery);
 	}
 	
 	async createCardText(column, rowData) {
-		const cardText = this.createElementWithClasses('div', 'card-title', 'd-flex', 'justify-content-start', 'align-items-center', 'col', 'flex-row', 'gap-10');
+		const cardText = this.createElementWithClasses('div', 'card-title', 'd-flex', 'justify-content-start', 'align-items-center', 'col', 'flex-row');
 		cardText.style.gap = '10px'
 		let spanText;
 		if (column.ico) {
