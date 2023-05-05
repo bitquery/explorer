@@ -52,34 +52,35 @@
           ],
           image: [
             {
-              cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
+             cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
             }
               ] , 
             column1: [
               {
-                cell: function(row){ return row.Block.Time},rendering: renderDate,
+               name: 'Date', cell: function(row){ return row.Block.Time},rendering: renderDate,
               },
               {
-                cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink, ico: "sender",
+               name: "Sender", cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink, ico: "sender",
               },
               {
-                cell: function(row){ return row.Transfer.Id}, ico: "id",
+               name: 'Token ID', cell: function(row){ return row.Transfer.Id}, ico: "id",
               },
              
             ],
             column2: [
               {
-                cell: function(row){ return row.Transaction.Hash}, rendering: renderTX, ico: "hash",
+               name: 'Transaction hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX, ico: "hash",
               },
                 {
-                  cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
+                name: 'Receiver',  cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
                 },
               {
-                cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+               name: 'Symbol', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
               },
             ]
           }
       }
+      // &mdesh;
 }
 
   renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table", "15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX");

@@ -4,7 +4,7 @@ export default function renderTokenLink(data) {
 	link.setAttribute('target', 'blank');
 	link.textContent = data.currency;
 	if(!data.currency){
-		link.textContent = data.smartContract;
+		link.textContent = '—';
 	}
 	link.href = `https://explorer.bitquery.io/ethereum/token/${data.smartContract}`; // Change  URL
 
@@ -12,4 +12,3 @@ export default function renderTokenLink(data) {
 
 	return span;
 }
-	

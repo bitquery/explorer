@@ -11,28 +11,31 @@ export default async function renderImgFromURI(uri) {
 	
 	async function fetchMediaURL(url) {
 		let mediaURL, nameMedia;
-		
-		if (/^http/.test(url)) {
-			const response = await fetch(url);
-			const data = await response.json();
-			mediaURL = data.image || data.image_url || data.image_data;
-			nameMedia = data.name;
-		} else if (url.startsWith('data:application/json')) {
-			const base64Data = url.replace('data:application/json;base64,', '');
-			const json = JSON.parse(atob(base64Data));
-			mediaURL = json.image || json.image_url || json.image_data;
-			nameMedia = json.name;
+	 
+		try {
+		  if (/^http/.test(url)) {
+			 const response = await fetch(url);
+			 const data = await response.json();
+			 mediaURL = data.image || data.image_url || data.image_data;
+			 nameMedia = data.name;
+		  } else if (url.startsWith('data:application/json')) {
+			 const base64Data = url.replace('data:application/json;base64,', '');
+			 const json = JSON.parse(atob(base64Data));
+			 mediaURL = json.image || json.image_url || json.image_data;
+			 nameMedia = json.name;
+		  }
+	 
+		  if (mediaURL && mediaURL.startsWith('ipfs://')) {
+			 mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
+		  }
+		  console.log(mediaURL);
+		  return { mediaURL, name: nameMedia };
+		} catch (error) {
+		  console.error('Error fetching media URL:', error);
+		  return { mediaURL: null, name: null };
 		}
-		//https://ipfs.pinsl.com/ipfs/QmUzJciswt3p6yPM8zQAiFRNxeC3yeG7pXwnUUdNF3dqau/afbe0f08-a346-4aec-b149-214eba27d223.jpeg адрес картинки надо заменить
-		//https://nfts.10ktf.com/slipstream-pass/erc-1155/440   закачался файлом
-		//https://collabs.neotokyopunks.com/8222   открывает json но не производит фетч по нему??
-		if (mediaURL && mediaURL.startsWith('ipfs://')) {
-			mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
-		}
-		console.log(mediaURL)
-		return { mediaURL, name: nameMedia };
-	}
-	
+	 }
+	 
 	function appendMediaElement(container, mediaURL) {
 		const mediaElement = createMediaElement(mediaURL.mediaURL);
 		container.appendChild(mediaElement);

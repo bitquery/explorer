@@ -5,18 +5,22 @@ export default async function renderAccordion(uri) {
 
   async function fetchMediaData(url) {
     let mediaDescription, mediaData;
+try{
 
-    if (url.startsWith('http')) {
-      const response = await fetch(url);
-      const data = await response.json();
-      mediaData = data;
-      mediaDescription = data.description;
-    } else if (url.startsWith('data:application/json')) {
-      const base64Data = url.replace('data:application/json;base64,', '');
-      const json = JSON.parse(atob(base64Data));
-      mediaDescription = json.description;
-      mediaData = json;
-    }
+  if (url.startsWith('http')) {
+    const response = await fetch(url);
+    const data = await response.json();
+    mediaData = data;
+    mediaDescription = data.description;
+  } else if (url.startsWith('data:application/json')) {
+    const base64Data = url.replace('data:application/json;base64,', '');
+    const json = JSON.parse(atob(base64Data));
+    mediaDescription = json.description;
+    mediaData = json;
+  }
+} catch{
+  console.log('error in accordion fetch')
+}
 
     return [
       {
