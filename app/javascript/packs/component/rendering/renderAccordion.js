@@ -25,31 +25,41 @@ export default async function renderAccordion(uri) {
       },
       {
         header: 'Data',
-        content: JSON.stringify(mediaData, null, 2),
+        content: JSON.stringify(mediaData),
       },
     ];
   }
-  console.log('mediaData', mediaData)
   const accordion = document.createElement('div');
-  accordion.style.zIndex = '100000'
+
   accordion.classList.add('accordion');
   accordion.id = 'accordionExample';
 
   mediaData.forEach(item => {
     const accordionItem = document.createElement('div');
-    accordionItem.classList.add('accordion-item');
+    accordionItem.classList.add('accordion-item', 'd-flex','align-items-center');
 
     const accordionHeader = document.createElement('div');
     accordionHeader.classList.add('accordion-header');
     accordionHeader.style.cursor = 'pointer'
     accordionHeader.textContent = item.header;
-    accordionItem.appendChild(accordionHeader);
 
+    
     const accordionContent = document.createElement('div');
     accordionContent.classList.add('accordion-content');
-    accordionContent.innerHTML = item.content;
-    accordionItem.appendChild(accordionContent);
+    accordionContent.textContent = item.content;
+    
     accordionContent.style.display = 'none';
+    const span = document.createElement('div')
+    span.classList.add('fa', 'fa-caret-down')
+    const i = document.createElement('i')
+    span.appendChild(i);
+    accordionItem.style.gap = '10px';
+    accordionHeader.style.userSelect = 'none'
+    accordionContent.style.whiteSpace = 'pre-wrap'
+    accordionContent.style.overflowWrap = 'anywhere'
+    accordionItem.appendChild(span);
+    accordionItem.appendChild(accordionHeader);
+    accordionItem.appendChild(accordionContent);
 
     accordion.appendChild(accordionItem);
   });
@@ -57,10 +67,13 @@ export default async function renderAccordion(uri) {
   accordion.addEventListener('click', (event) => {
     if (event.target.classList.contains('accordion-header')) {
       const accordionContent = event.target.nextElementSibling;
+      const accordionHeader = document.querySelector('accordion-header')
       if (accordionContent.style.display === 'block') {
         accordionContent.style.display = 'none';
+        accordionHeader.style.writingMode = 'horizontal-tb';
       } else {
         accordionContent.style.display = 'block';
+        accordionHeader.style.writingMode = 'vertical-lr';
       }
     }
   });

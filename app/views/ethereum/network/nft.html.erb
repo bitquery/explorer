@@ -45,6 +45,11 @@
       configuration() {
         return  {
           topElement: function (response){ return response.EVM.Transfers},
+          accordion:[
+            {
+              cell: function(row){ return row.Transfer.URI}, rendering: renderAccordion,
+            },
+          ],
           image: [
             {
               cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
@@ -60,20 +65,18 @@
               {
                 cell: function(row){ return row.Transfer.Id}, ico: "id",
               },
-                {
-                  cell: function(row){ return row.Transfer.URI}, rendering: renderAccordion,
-                },
+             
             ],
             column2: [
               {
-                cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+                cell: function(row){ return row.Transaction.Hash}, rendering: renderTX, ico: "hash",
               },
                 {
-                  cell: function(row){ return row.Transaction.Hash}, rendering: renderTX, ico: "hash",
+                  cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
                 },
-                  {
-                    cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
-                  },
+              {
+                cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+              },
             ]
           }
       }
@@ -81,7 +84,7 @@
 
   renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table", "15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX");
 
-
+///Sub-15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
 //15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
 //15-Laset-Eth-NFT-tansfers-Sender-Receiver_1
 ///15-Laset-Eth-NFT-tansfers-Sender-Receiver
