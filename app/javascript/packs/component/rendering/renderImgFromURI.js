@@ -11,31 +11,26 @@ export default async function renderImgFromURI(uri) {
 	
 	async function fetchMediaURL(url) {
 		let mediaURL, nameMedia;
-	 
-		try {
-		  if (/^http/.test(url)) {
-			 const response = await fetch(url);
-			 const data = await response.json();
-			 mediaURL = data.image || data.image_url || data.image_data;
-			 nameMedia = data.name;
-		  } else if (url.startsWith('data:application/json')) {
-			 const base64Data = url.replace('data:application/json;base64,', '');
-			 const json = JSON.parse(atob(base64Data));
-			 mediaURL = json.image || json.image_url || json.image_data;
-			 nameMedia = json.name;
-		  }
-	 
-		  if (mediaURL && mediaURL.startsWith('ipfs://')) {
-			 mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
-		  }
-		  console.log(mediaURL);
-		  return { mediaURL, name: nameMedia };
-		} catch (error) {
-		  console.error('Error fetching media URL:', error);
-		  return { mediaURL: null, name: null };
+		
+		if (/^http/.test(url)) {
+			const response = await fetch(url);
+			const data = await response.json();
+			mediaURL = data.image || data.image_url || data.image_data;
+			nameMedia = data.name;
+		} else if (url.startsWith('data:application/json')) {
+			const base64Data = url.replace('data:application/json;base64,', '');
+			const json = JSON.parse(atob(base64Data));
+			mediaURL = json.image || json.image_url || json.image_data;
+			nameMedia = json.name;
 		}
-	 }
-	 
+
+		if (mediaURL && mediaURL.startsWith('ipfs://')) {
+			mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
+		}
+		console.log(mediaURL)
+		return { mediaURL, name: nameMedia };
+	}
+	
 	function appendMediaElement(container, mediaURL) {
 		const mediaElement = createMediaElement(mediaURL.mediaURL);
 		container.appendChild(mediaElement);
@@ -83,13 +78,19 @@ export default async function renderImgFromURI(uri) {
 	}
 	const container = createContainer();
 	const url = preprocessURI(uri);
-	const mediaURL = await fetchMediaURL(url);
+	try{
 
-	if (mediaURL.mediaURL) {
-		appendMediaElement(container, mediaURL);
-	} else {
-		appendErrorElement(container, uri);
+		const mediaURL = await fetchMediaURL(url);
+		if (mediaURL.mediaURL) {
+			appendMediaElement(container, mediaURL);
+		} else {
+			appendErrorElement(container, uri);
+		}
+		
+	
 	}
-
-	return container;
+catch{
+	console.log('ettor fetch in render img')
+}
+return container;
 }

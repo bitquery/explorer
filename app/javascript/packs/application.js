@@ -43,6 +43,7 @@ import renderURI from './component/rendering/renderURI';
 import renderTX from './component/rendering/renderTX';
 import renderIco from './component/rendering/renderIco';
 import renderAccordion from './component/rendering/renderAccordion';
+import renderDropdown from './component/rendering/renderDropdown';
 
 global.serialize = serialize;
 global.createClient = createClient;
@@ -60,6 +61,7 @@ global.renderURI = renderURI;
 global.renderIco = renderIco;
 global.renderTX = renderTX;
 global.renderAccordion = renderAccordion;
+global.renderDropdown = renderDropdown;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,

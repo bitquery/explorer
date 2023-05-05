@@ -48,7 +48,7 @@ cardElement.style.width = '100%'
 
 } else {
 cardElement.style.maxWidth = '48%'
-cardElement.style.minWidth = '720px'
+// cardElement.style.minWidth = '720px'
 
 }
 }
@@ -72,12 +72,12 @@ createCardBody() {
 }
 
 async createCardSections(rowData) {
-   const cardImg = this.createElementWithClasses('div', 'col-md-3', 'd-flex', 'align-items-center');
+   const cardImg = this.createElementWithClasses('div', 'col-md-3', 'd-flex', 'align-items-center', 'justify-content-center');
    const cardBodyWrapper = this.createElementWithClasses('div', 'col-md-9');
    const cardBody = this.createElementWithClasses('div', 'card-body', 'd-flex');
    const startColumnDiv = this.createElementWithClasses('div', 'col-md-6', 'align-items-start');
    const endColumnDiv = this.createElementWithClasses('div', 'col-md-6', 'align-items-end');
-   const cardFooter =this.createElementWithClasses('div', 'card-footer')
+   // const cardFooter =this.createElementWithClasses('div', 'card-footer')
    
    for (const column of this.config.column1) {
       const cardText = await this.createCardText(column, rowData);
@@ -95,24 +95,24 @@ async createCardSections(rowData) {
          cardImg.appendChild(imgElement);
       }
   };
-  for (const column of this.config.accordion) {
-      if (column.rendering) {
-         const accordion = await column.rendering(column.cell(rowData));
-         cardFooter.appendChild(accordion);
-      }
-  };
+//   for (const column of this.config.dropdown) {
+//       if (column.rendering) {
+//          const dropdown = await column.rendering(column.cell(rowData));
+//          cardFooter.appendChild(dropdown);
+//       }
+//   };
 
    cardBody.appendChild(startColumnDiv);
    cardBody.appendChild(endColumnDiv);
    cardBodyWrapper.appendChild(cardBody);
-   cardBodyWrapper.appendChild(cardFooter);
+   // cardBodyWrapper.appendChild(cardFooter);
 
 
    return [cardImg, cardBodyWrapper];
 }
 
 async createCardText(column, rowData) {
-   const cardText = this.createElementWithClasses('div', 'card-text', 'd-flex', 'justify-content-start', 'align-items-center', 'col', 'flex-row');
+   const cardText = this.createElementWithClasses('div', 'card-title', 'd-flex', 'justify-content-start', 'align-items-center', 'col', 'flex-row');
    cardText.style.gap = '10px'
    let spanText;
    // if (column.ico) {

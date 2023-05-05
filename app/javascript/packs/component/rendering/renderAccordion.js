@@ -5,22 +5,21 @@ export default async function renderAccordion(uri) {
 
   async function fetchMediaData(url) {
     let mediaDescription, mediaData;
-try{
-
-  if (url.startsWith('http')) {
-    const response = await fetch(url);
-    const data = await response.json();
-    mediaData = data;
-    mediaDescription = data.description;
-  } else if (url.startsWith('data:application/json')) {
-    const base64Data = url.replace('data:application/json;base64,', '');
-    const json = JSON.parse(atob(base64Data));
-    mediaDescription = json.description;
-    mediaData = json;
-  }
-} catch{
-  console.log('error in accordion fetch')
-}
+    try {
+      if (url.startsWith('http')) {
+        const response = await fetch(url);
+        const data = await response.json();
+        mediaData = data;
+        mediaDescription = data.description;
+      } else if (url.startsWith('data:application/json')) {
+        const base64Data = url.replace('data:application/json;base64,', '');
+        const json = JSON.parse(atob(base64Data));
+        mediaDescription = json.description;
+        mediaData = json;
+      }
+    } catch {
+      console.log('error in accordion fetch');
+    }
 
     return [
       {
@@ -33,54 +32,51 @@ try{
       },
     ];
   }
+  const uniqueId = Math.random().toString(36).substr(2, 9);
+  const accordionId = `accordionFlushExample-${uniqueId}`;
+
   const accordion = document.createElement('div');
+  accordion.setAttribute('class', 'accordion accordion-flush');
+  accordion.setAttribute('id', accordionId);
 
-  accordion.classList.add('accordion');
-  accordion.id = 'accordionExample';
+  mediaData.forEach((item, index) => {
+    const itemId = `${accordionId}-item-${index + 1}`;
 
-  mediaData.forEach(item => {
     const accordionItem = document.createElement('div');
-    accordionItem.classList.add('accordion-item', 'd-flex','align-items-center');
+    accordionItem.setAttribute('class', 'accordion-item');
 
-    const accordionHeader = document.createElement('div');
-    // accordionHeader.classList.add('accordion-header');
-    accordionHeader.classList.add('accordion-header', 'inline-flex', 'items-center', 'rounded-md', 'bg-gray-50', 'px-2', 'py-1', 'text-xs', 'font-medium', 'text-gray-600', 'ring-1', 'ring-inset', 'ring-gray-500/10')
-    accordionHeader.style.cursor = 'pointer'
-    accordionHeader.textContent = item.header;
+    const accordionHeader = document.createElement('h5');
+    accordionHeader.setAttribute('class', 'accordion-header');
+    accordionHeader.setAttribute('id', `${itemId}-header`);
 
-    
-    const accordionContent = document.createElement('div');
-    accordionContent.classList.add('accordion-content');
-    accordionContent.textContent = item.content;
-    
-    accordionContent.style.display = 'none';
-    const span = document.createElement('div')
-    span.classList.add('fa', 'fa-caret-down')
-    const i = document.createElement('i')
-    span.appendChild(i);
-    accordionItem.style.gap = '10px';
-    accordionHeader.style.userSelect = 'none'
-    accordionContent.style.whiteSpace = 'pre-wrap'
-    accordionContent.style.overflowWrap = 'anywhere'
-    accordionItem.appendChild(span);
+    const accordionButton = document.createElement('button');
+    accordionButton.setAttribute('class', 'accordion-button collapsed');
+    accordionButton.setAttribute('type', 'button');
+    accordionButton.setAttribute('data-bs-toggle', 'collapse');
+    accordionButton.setAttribute('data-bs-target', `#${itemId}-collapse`);
+    accordionButton.setAttribute('aria-expanded', 'false');
+    accordionButton.setAttribute('aria-controls', `${itemId}-collapse`);
+    accordionButton.textContent = item.header;
+
+    accordionHeader.appendChild(accordionButton);
+
+    const accordionCollapse = document.createElement('div');
+    accordionCollapse.setAttribute('id', `${itemId}-collapse`);
+    accordionCollapse.setAttribute('class', 'accordion-collapse collapse');
+    accordionCollapse.setAttribute('aria-labelledby', `${itemId}-header`);
+    accordionCollapse.setAttribute('data-bs-parent', `#${accordionId}`);
+
+    const accordionBody = document.createElement('div');
+    accordionBody.setAttribute('class', 'accordion-body');
+    accordionBody.textContent = item.content;
+
+    accordionCollapse.appendChild(accordionBody);
+
     accordionItem.appendChild(accordionHeader);
-    accordionItem.appendChild(accordionContent);
+    accordionItem.appendChild(accordionCollapse);
 
     accordion.appendChild(accordionItem);
   });
-
-  accordion.addEventListener('click', (event) => {
-    if (event.target.classList.contains('accordion-header')) {
-      const accordionContent = event.target.nextElementSibling;
-      const accordionHeader = document.querySelector('.accordion-header')
-      if (accordionContent.style.display === 'block') {
-        accordionContent.style.display = 'none';
-      } else {
-        accordionContent.style.display = 'block';
-      }
-    }
-  });
-
 
   return accordion;
 }
