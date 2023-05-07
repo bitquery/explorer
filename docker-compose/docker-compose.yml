@@ -1,6 +1,7 @@
 x-common-dns: &common-dns
   dns: 10.0.0.254
   dns_search: ${LC_COMPOSE_CLUSTER}.local
+  dns_opt: [ 'ndots:1' ]
 x-common-network: &common-network
   networks:
     - common
