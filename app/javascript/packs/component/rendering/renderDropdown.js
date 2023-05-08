@@ -39,38 +39,35 @@ export default async function renderDropdown(uri) {
    dropdownContainer.setAttribute('class', 'dropdown-container d-flex');
  
    mediaData.forEach((item, index) => {
-     const uniqueId = Math.random().toString(36).substr(2, 9);
-     const dropdownMenuId = `dropdownMenu-${uniqueId}`;
+     const uniqueId = Math.random().toString(36).substring(2, 9);
+    //  const dropdownMenuId = `dropdownMenu-${uniqueId}`;
  
      const dropdown = document.createElement('div');
      dropdown.setAttribute('class', 'dropdown');
  
-     const dropdownButton = document.createElement('button');
+     const dropdownButton = document.createElement('a');
      dropdownButton.setAttribute('class', 'btn btn-secondary dropdown-toggle');
-     dropdownButton.setAttribute('type', 'button');
-     dropdownButton.setAttribute('id', dropdownMenuId);
-     dropdownButton.setAttribute('data-bs-toggle', 'dropdown');
+     dropdownButton.setAttribute('role', 'button');
+    //  dropdownButton.setAttribute('id', dropdownMenuId);
+     dropdownButton.setAttribute('data-toggle', 'dropdown');
      dropdownButton.setAttribute('aria-expanded', 'false');
      dropdownButton.textContent = item.title;
  
 
-     const dropdownMenu = document.createElement('ul');
+     const dropdownMenu = document.createElement('div');
      dropdownMenu.setAttribute('class', 'dropdown-menu');
-     dropdownMenu.setAttribute('aria-labelledby', dropdownMenuId);
+    //  dropdownMenu.setAttribute('aria-labelledby', dropdownMenuId);
  
-     const dropdownItem = document.createElement('li');
+    //  const dropdownItem = document.createElement('li');
  
-     const dropdownLink = document.createElement('a');
+     const dropdownLink = document.createElement('span');
      dropdownLink.setAttribute('class', 'dropdown-item');
-     dropdownLink.setAttribute('href', '#');
+    //  dropdownLink.setAttribute('href', '#');
      dropdownLink.textContent = item.content;
-     dropdownLink.addEventListener('click', (e) => {
-       e.preventDefault();
-       e.textContent = item.content;
-     });
+ 
      
-     dropdownItem.appendChild(dropdownLink);
-     dropdownMenu.appendChild(dropdownItem);
+    //  dropdownItem.appendChild();
+     dropdownMenu.appendChild(dropdownLink);
      dropdown.appendChild(dropdownButton);
      dropdown.appendChild(dropdownMenu);
      dropdownContainer.appendChild(dropdown);

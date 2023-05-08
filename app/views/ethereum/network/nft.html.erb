@@ -1,11 +1,9 @@
 
 <%# <div class="row"> %>
   <%# <div class="col-12 col-lg-12 mb-4"> %>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <div  id="latest-nft-transfers-table"></div>
+    <div  id="test"></div>
+    
   <%# class="card" %>
   <%# </div> %>
 <%# </div> %>
@@ -68,9 +66,7 @@
               {
                name: 'Token ID', cell: function(row){ return row.Transfer.Id}, ico: "id",
               },
-                  {
-             name:'Additional Information', cell: function(row){ return row.Transfer.URI}, rendering: renderDropdown,
-            },
+
             ],
             column2: [
               {
@@ -85,27 +81,16 @@
             ]
           }
       }
-      // &mdesh;
 }
-
-  renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table", "15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX");
+const testVariables = {
+token: "0x39ee2c7b3cb80254225884ca001F57118C8f21B6"
+}
+//  token: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+//  token: "0x39ee2c7b3cb80254225884ca001F57118C8f21B6"
+  renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table",'15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX');
 
 ///Sub-15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
 //15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
-//15-Laset-Eth-NFT-tansfers-Sender-Receiver_1
-///15-Laset-Eth-NFT-tansfers-Sender-Receiver
-//15-Sub-Last-Eth-NFT-tansfers-Sender-Receiver
-// Sub-test-new-table
-// Sub-test-new-table_1
-// Sub-Laset-Eth-NFT-tansfers
 
-
-
-
-
-	// 'data:application/json;base64,eyJuYW1lIjogIk5vdW4gNDAxIDE5NCIsICJkZXNjcmlwdGlvbiI6ICJGb3JnZXJpZXMgLSBBTEwgYXJlIEZBS0UgZXhjZXB0IE9ORS5cblxuV2UndmUgbWl4ZWQgTm91biBpbnRvIGFuIG9wZW4gZWRpdGlvbiBvZiBleGFjdCBmb3JnZXJpZXMuIFNjYW4geW91cnMgYXQgKipmb3JnZXJpZXMud3RmKiogb25jZSB0aGUgZHJvcCBpcyBjb21wbGV0ZS4gT25lIG9mIHlvdSB3aWxsIHdpdGhkcmF3IHRoZSBOb3VuIGZyb20gZXNjcm93ISBDaGFpbmxpbmsgVlJGIGtlZXBzIGl0IGZhaXIsIHRyYW5zcGFyZW50IGFuZCB2ZXJpZmlhYmx5IHJhbmRvbS5cblxuQWlyZHJvcCB0byBPRyBtaW50ZXJzIGlzIHVuZGVyIHdheSEiLCAiaW1hZ2UiOiAiaXBmczovL2JhZnliZWloMmE2ZHRleGlueGJyeDRrb3diYmh0NWwycmx6aHZ2NGVuemV1cm9teHF1N3htdnJrZ2l5IiwgInByb3BlcnRpZXMiOiB7Im51bWJlciI6IDE5NCwgIm5hbWUiOiAiTm91biA0MDEifX0='
-
-//'https://tokens.killabears.com/killabits/meta/188/1064'
-//'https://trainer-metadata.pixelmon.ai/metadata/5714'
 
 </script>

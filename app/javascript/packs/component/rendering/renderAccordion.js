@@ -32,7 +32,7 @@ export default async function renderAccordion(uri) {
       },
     ];
   }
-  const uniqueId = Math.random().toString(36).substr(2, 9);
+  const uniqueId = Math.random().toString(36).substring(2, 9);
   const accordionId = `accordionFlushExample-${uniqueId}`;
 
   const accordion = document.createElement('div');

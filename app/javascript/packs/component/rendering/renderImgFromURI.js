@@ -37,13 +37,13 @@ export default async function renderImgFromURI(uri) {
 		addClickListener(container, mediaURL.mediaURL);
 		
 		const span = document.createElement('div');
-		span.textContent = mediaURL.name;
+		// span.textContent = mediaURL.name;
 		container.appendChild(span);
 	}
 	
 	function appendErrorElement(container, url) {
 		const span = document.createElement('span');
-		span.textContent = JSON.stringify(url);//'No data';
+		span.textContent = 'No data'; //JSON.stringify(url);'No data';
 		container.appendChild(span);
 	}
 	
@@ -54,10 +54,10 @@ export default async function renderImgFromURI(uri) {
 	
 	function createImageElement(src) {
 		const img = document.createElement('img');
-		img.classList.add('img-fluid', 'rounded-start');
+		img.classList.add('img-fluid');
 		img.style.maxWidth = '100%';
-		img.style.maxHeight = '200px';
-		img.src = src;
+		// img.style.maxHeight = '150px';
+		// img.src = src;
 		return img;
 	}
 	
@@ -65,7 +65,7 @@ export default async function renderImgFromURI(uri) {
 		const video = document.createElement('video');
 		video.setAttribute('type', 'video/mp4');
 		video.style.maxWidth = '100%';
-		video.style.maxHeight = '200px';
+		video.style.maxHeight = '150px';
 		video.src = src;
 		video.controls = true;
 		return video;
