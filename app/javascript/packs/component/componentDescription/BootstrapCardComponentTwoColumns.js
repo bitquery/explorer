@@ -7,7 +7,7 @@ export default class BootstrapCardComponentTwoColumns {
   }
 
 createWrapper() {
-  this.wrapper = this.createElementWithClasses('div','row' ,'row-cols-1', 'row-cols-md-2');
+  this.wrapper = this.createElementWithClasses('div', 'd-flex', 'flex-wrap', 'justify-content-around');
   this.container.appendChild(this.wrapper);
 }
 
@@ -37,7 +37,24 @@ async onData(data, sub) {
 
 async createCardElement(rowData) {
   const cardElement = this.createCardWrapper();
+  // cardElement.style.maxHeight = '250px'
+
+  // cardElement.style.minWidth = '720px'
+  // cardElement.style.minWidth = '800px'
+  const mediaQuery = window.matchMedia('(max-width: 1600px)');
+function handleViewportChange(e) {
+if (e.matches) {
+cardElement.style.width = '48%'
+} else {
+cardElement.style.maxWidth = '33%'
+// cardElement.style.minWidth = '720px'
+}
+}
+
+mediaQuery.addListener(handleViewportChange); 
+handleViewportChange(mediaQuery); 
   const card = this.createCardBody();
+
   const [cardImg, cardBodyWrapper] = await this.createCardSections(rowData);
   this.appendChildren(cardElement, card);
   this.appendChildren(card, cardImg, cardBodyWrapper);
@@ -61,21 +78,21 @@ async createCardSections(rowData) {
   const endColumnDiv = this.createElementWithClasses('div', 'col-md-6','align-items-end');
   
   for (const column of this.config.column1) {
-    const cardText = await this.createCardText(column, rowData);
-    startColumnDiv.appendChild(cardText);
-  }
-
-  for (const column of this.config.column2) {
-    const cardText = await this.createCardText(column, rowData);
-    endColumnDiv.appendChild(cardText);
+     const cardText = await this.createCardText(column, rowData);
+     startColumnDiv.appendChild(cardText);
  }
 
-  for (const column of this.config.image) {
-    if (column.rendering) {
+  for (const column of this.config.column2) {
+     const cardText = await this.createCardText(column, rowData);
+     endColumnDiv.appendChild(cardText);
+ }
+
+ for (const column of this.config.image) {
+     if (column.rendering) {
         const imgElement = await column.rendering(column.cell(rowData));
         cardImg.appendChild(imgElement);
-    }
-  };
+     }
+ };
 
   cardBody.appendChild(startColumnDiv);
   cardBody.appendChild(endColumnDiv);
@@ -90,20 +107,20 @@ async createCardText(column, rowData) {
   let spanText;
 
   if (column.rendering) {
-    spanText = await column.rendering(column.cell(rowData));
+     spanText = await column.rendering(column.cell(rowData));
   } else {
-    spanText = this.createTextElement('div', column.cell(rowData));
+     spanText = this.createTextElement('div', column.cell(rowData));
   }
 
-    const textContainer = this.createElementWithClasses('div', 'text-container', 'text-truncate');
-    if(column.name){
+     const textContainer = this.createElementWithClasses('div', 'text-container', 'text-truncate');
+     if(column.name){
         const spanTitle = this.createElementWithClasses('div','text-muted')
         spanTitle.textContent = column.name;
         textContainer.appendChild(spanTitle);
         
-    }
-    textContainer.appendChild(spanText);
-    cardText.appendChild(textContainer);
+     }
+     textContainer.appendChild(spanText);
+     cardText.appendChild(textContainer);
   return cardText;
 }
 
