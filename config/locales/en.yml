@@ -31,6 +31,7 @@ en:
     search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
+
     payers:
       icon: 'far fa-address-card'
       header: "%{network} Payer %{payer_account}"
@@ -1236,6 +1237,11 @@ en:
         title: "Payments on %{network} Explorer"
         description: "Payments on  %{network}"
         keywords: "%{network} Payments"
+      nft:
+        name: "NFT"
+        title: "%{network} NFTs"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs"
     home:
       index:
         name: "All"

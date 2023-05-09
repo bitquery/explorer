@@ -1,0 +1,96 @@
+
+<%# <div class="row"> %>
+  <%# <div class="col-12 col-lg-12 mb-4"> %>
+    <div  id="latest-nft-transfers-table"></div>
+    <div  id="test"></div>
+    
+  <%# class="card" %>
+  <%# </div> %>
+<%# </div> %>
+
+
+<script >
+
+// !!DO NOT DELETE THIS COMMENT!!
+//  class LatestNFTTransfersTable extends BootstrapCardComponent {
+
+//       configuration() {
+//         return  {
+//             topElement: function (response){ return response.EVM.Transfers},
+//             columns: [
+//               {
+//                 cell: function(row){ return row.Transfer.URI}, render: renderImgFromURI,
+//               },
+//               {
+//                 name: 'Time', cell: function(row){ return row.Block.Time},rendering: renderDate,
+//               },
+//               {
+//                 name: 'Currency', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+//               },
+//               {
+//                 name: 'ID', cell: function(row){ return row.Transfer.Id},
+//               },
+//               {
+//                 name: 'Sender', cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink, ico: "sender",
+//               },
+//               {
+//                 name: function(row){ return row.Transfer.Sender}, cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
+//               },
+//             ]
+//           }
+//       }
+//   }
+
+ class LatestNFTTransfersTable extends BootstrapCardComponentTwoColumns {
+
+      configuration() {
+        return  {
+          topElement: function (response){ return response.EVM.Transfers},
+          dropdown:[
+            {
+              cell: function(row){ return row.Transfer.URI}, rendering: renderDropdown,
+            },
+          ],
+          image: [
+            {
+             cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
+            }
+              ] , 
+            column1: [
+              {
+               name: 'Date', cell: function(row){ return row.Block.Time},rendering: renderDate,
+              },
+              {
+               name: "Sender", cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink, ico: "sender",
+              },
+              {
+               name: 'Token ID', cell: function(row){ return row.Transfer.Id}, ico: "id",
+              },
+
+            ],
+            column2: [
+              {
+               name: 'Transaction hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX, ico: "hash",
+              },
+                {
+                name: 'Receiver',  cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
+                },
+              {
+               name: 'Symbol', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+              },
+            ]
+          }
+      }
+}
+const testVariables = {
+token: "0x39ee2c7b3cb80254225884ca001F57118C8f21B6"
+}
+//  token: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
+//  token: "0x39ee2c7b3cb80254225884ca001F57118C8f21B6"
+  renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table",'15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX');
+
+///Sub-15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
+//15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
+
+
+</script>

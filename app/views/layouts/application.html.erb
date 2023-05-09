@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <%= render partial: 'shared/head' %>
+
 <body class="<%= "dark" if @theme == 'dark' %>">
 <script>
     const csrfToken = $('meta[name="csrf-token"]').attr('content')
@@ -9,6 +10,12 @@
         theme: '<%= @theme %>'
     });
     graphs.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken);
+
+const componentProperties = {
+  bitqueryAPI: window.bitqueryAPI = '<%= BITQUERY_IDE_API %>'
+};
+
+
 </script>
 <%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
 <div class="container-fluid">
