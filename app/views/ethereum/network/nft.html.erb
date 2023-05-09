@@ -31,10 +31,10 @@
 //                 name: 'ID', cell: function(row){ return row.Transfer.Id},
 //               },
 //               {
-//                 name: 'Sender', cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink, ico: "sender",
+//                 name: 'Sender', cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink, 
 //               },
 //               {
-//                 name: function(row){ return row.Transfer.Sender}, cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
+//                 name: function(row){ return row.Transfer.Sender}, cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, 
 //               },
 //             ]
 //           }
@@ -56,24 +56,24 @@
              cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
             }
               ] , 
-            column1: [
+            columnOne: [
               {
                name: 'Date', cell: function(row){ return row.Block.Time},rendering: renderDate,
               },
               {
-               name: "Sender", cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink, ico: "sender",
+               name: "Sender", cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink,
               },
               {
                name: 'Token ID', cell: function(row){ return row.Transfer.Id}, ico: "id",
               },
 
             ],
-            column2: [
+            columnTwo: [
               {
-               name: 'Transaction hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX, ico: "hash",
+               name: 'Transaction hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
               },
                 {
-                name: 'Receiver',  cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink, ico: "receiver",
+                name: 'Receiver',  cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
                 },
               {
                name: 'Symbol', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,

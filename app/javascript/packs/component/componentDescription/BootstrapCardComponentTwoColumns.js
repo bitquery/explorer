@@ -1,4 +1,3 @@
-
 export default class BootstrapCardComponentTwoColumns {
   constructor(element) {
   this.container = element;
@@ -22,7 +21,7 @@ async onData(data, sub) {
   const array = this.config.topElement(data);
   const maxRows = 10;
 
-   for (const rowData of array) {
+  for (const rowData of array) {
     const cardElement = await this.createCardElement(rowData);
     if (sub) {
         this.wrapper.insertBefore(cardElement, this.wrapper.firstChild);
@@ -32,29 +31,12 @@ async onData(data, sub) {
     } else {
         this.wrapper.appendChild(cardElement);
     }
-}
+  }
 }
 
 async createCardElement(rowData) {
-  const cardElement = this.createCardWrapper();
-  // cardElement.style.maxHeight = '250px'
-
-  // cardElement.style.minWidth = '720px'
-  // cardElement.style.minWidth = '800px'
-//   const mediaQuery = window.matchMedia('(max-width: 1600px)');
-// function handleViewportChange(e) {
-// if (e.matches) {
-// cardElement.style.width = '48%'
-// } else {
-// cardElement.style.maxWidth = '33%'
-// // cardElement.style.minWidth = '720px'
-// }
-// }
-
-// mediaQuery.addListener(handleViewportChange); 
-// handleViewportChange(mediaQuery); 
-  const card = this.createCardBody();
-
+  const cardElement = this.createElementWithClasses('div', 'card', 'mb-3');;
+  const card = this.createElementWithClasses('div', 'row', 'g-0');
   const [cardImg, cardBodyWrapper] = await this.createCardSections(rowData);
   this.appendChildren(cardElement, card);
   this.appendChildren(card, cardImg, cardBodyWrapper);
@@ -62,72 +44,58 @@ async createCardElement(rowData) {
   return cardElement;
 }
 
-createCardWrapper() {
-  return this.createElementWithClasses('div', 'card', 'mb-3');
-}
-
-createCardBody() {
-  return this.createElementWithClasses('div', 'row', 'g-0');
-}
-
 async createCardSections(rowData) {
   const cardImg = this.createElementWithClasses('div', 'col-md-3', 'd-flex', 'align-items-center', 'justify-content-center');
   const cardBodyWrapper = this.createElementWithClasses('div', 'col-md-9');
   const cardBody = this.createElementWithClasses('div', 'card-body', 'd-flex');
-  const startColumnDiv = this.createElementWithClasses('div','col-md-6',  'align-items-start');
-  const endColumnDiv = this.createElementWithClasses('div', 'col-md-6','align-items-end');
-  
-  for (const column of this.config.column1) {
-     const cardText = await this.createCardText(column, rowData);
-     startColumnDiv.appendChild(cardText);
- }
+  const [leftColumnDiv, rightColumnDiv] = [this.createElementWithClasses('div', 'col-md-6', 'align-items-start'), this.createElementWithClasses('div', 'col-md-6', 'align-items-end')];
 
-  for (const column of this.config.column2) {
-     const cardText = await this.createCardText(column, rowData);
-     endColumnDiv.appendChild(cardText);
- }
+  for (const column of [...this.config.columnOne, ...this.config.columnTwo]) {
+    const cardText = await this.createCardText(column, rowData);
 
- for (const column of this.config.image) {
-     if (column.rendering) {
-        const imgElement = await column.rendering(column.cell(rowData));
-        cardImg.appendChild(imgElement);
-     }
- };
+    if (this.config.columnOne.includes(column)) {
+      this.appendChildren(leftColumnDiv, cardText)
+    } else {
+      this.appendChildren(rightColumnDiv, cardText)
+    }
+  }
 
-  cardBody.appendChild(startColumnDiv);
-  cardBody.appendChild(endColumnDiv);
-  cardBodyWrapper.appendChild(cardBody);
+  for (const column of this.config.image) {
+    if (column.rendering) {
+      const imgElement = await column.rendering(column.cell(rowData));
+      this.appendChildren(cardImg, imgElement)
+    }
+  }
+  this.appendChildren(cardBody,leftColumnDiv,rightColumnDiv);
+  this.appendChildren(cardBodyWrapper,cardBody)
 
   return [cardImg, cardBodyWrapper];
 }
 
 async createCardText(column, rowData) {
   const cardText = this.createElementWithClasses('div', 'card-text', 'd-flex', 'justify-content-start', 'align-items-center', 'col', 'flex-row');
-  cardText.style.gap = '10px'
   let spanText;
 
   if (column.rendering) {
-     spanText = await column.rendering(column.cell(rowData));
+    spanText = await column.rendering(column.cell(rowData));
   } else {
-     spanText = this.createTextElement('div', column.cell(rowData));
+    spanText = this.createTextElement('div', column.cell(rowData));
   }
 
-     const textContainer = this.createElementWithClasses('div', 'text-container', 'text-truncate');
-     if(column.name){
-        const spanTitle = this.createElementWithClasses('div','text-muted')
-        spanTitle.textContent = column.name;
-        textContainer.appendChild(spanTitle);
-        
-     }
-     textContainer.appendChild(spanText);
-     cardText.appendChild(textContainer);
+  const textContainer = this.createElementWithClasses('div', 'text-container', 'text-truncate');
+  if(column.name){
+      const spanTitle = this.createElementWithClasses('div','text-muted')
+      spanTitle.textContent = column.name;
+      this.appendChildren(textContainer,spanTitle)
+  }
+
+  this.appendChildren(textContainer,spanText)
+  this.appendChildren(cardText,textContainer)
+
   return cardText;
 }
 
-createTextElement(elementType, textContent, readyElement) {
-  if (readyElement) {
-  return readyElement;
-  }
+createTextElement(elementType, textContent,) {
   const element = document.createElement(elementType);
   element.textContent = textContent;
   return element;
@@ -136,4 +104,5 @@ createTextElement(elementType, textContent, readyElement) {
 appendChildren(parent, ...children) {
   children.forEach(child => parent.appendChild(child));
 }
+
 }

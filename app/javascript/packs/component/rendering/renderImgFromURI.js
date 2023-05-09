@@ -56,7 +56,7 @@ export default async function renderImgFromURI(uri) {
 		const img = document.createElement('img');
 		img.classList.add('img-fluid');
 		img.style.maxWidth = '100%';
-		// img.style.maxHeight = '150px';
+		img.style.maxHeight = '184px';
 		img.src = src;
 		return img;
 	}
@@ -65,7 +65,7 @@ export default async function renderImgFromURI(uri) {
 		const video = document.createElement('video');
 		video.setAttribute('type', 'video/mp4');
 		video.style.maxWidth = '100%';
-		video.style.maxHeight = '150px';
+		video.style.maxHeight = '184px';
 		video.src = src;
 		video.controls = true;
 		return video;
