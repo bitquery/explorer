@@ -90,7 +90,7 @@ export default async function renderImgFromURI(uri) {
 	
 	}
 catch{
-	console.log('ettor fetch in render img')
+	console.log('error fetch in render img')
 }
 return container;
 }
