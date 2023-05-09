@@ -57,7 +57,7 @@ export default async function renderImgFromURI(uri) {
 		img.classList.add('img-fluid');
 		img.style.maxWidth = '100%';
 		// img.style.maxHeight = '150px';
-		// img.src = src;
+		img.src = src;
 		return img;
 	}
 	

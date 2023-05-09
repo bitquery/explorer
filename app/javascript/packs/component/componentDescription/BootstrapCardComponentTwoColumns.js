@@ -7,7 +7,7 @@ export default class BootstrapCardComponentTwoColumns {
   }
 
 createWrapper() {
-  this.wrapper = this.createElementWithClasses('div', 'd-flex', 'flex-wrap', 'justify-content-around');
+  this.wrapper = this.createElementWithClasses('div', 'row', 'row-cols-1', 'row-cols-md-2');
   this.container.appendChild(this.wrapper);
 }
 
@@ -41,18 +41,18 @@ async createCardElement(rowData) {
 
   // cardElement.style.minWidth = '720px'
   // cardElement.style.minWidth = '800px'
-  const mediaQuery = window.matchMedia('(max-width: 1600px)');
-function handleViewportChange(e) {
-if (e.matches) {
-cardElement.style.width = '48%'
-} else {
-cardElement.style.maxWidth = '33%'
-// cardElement.style.minWidth = '720px'
-}
-}
+//   const mediaQuery = window.matchMedia('(max-width: 1600px)');
+// function handleViewportChange(e) {
+// if (e.matches) {
+// cardElement.style.width = '48%'
+// } else {
+// cardElement.style.maxWidth = '33%'
+// // cardElement.style.minWidth = '720px'
+// }
+// }
 
-mediaQuery.addListener(handleViewportChange); 
-handleViewportChange(mediaQuery); 
+// mediaQuery.addListener(handleViewportChange); 
+// handleViewportChange(mediaQuery); 
   const card = this.createCardBody();
 
   const [cardImg, cardBodyWrapper] = await this.createCardSections(rowData);
