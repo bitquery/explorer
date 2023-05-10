@@ -1,4 +1,4 @@
-class GoogleChartsTableComponent {
+ class GoogleChartsTableComponent {
 	constructor(element, queryMetaInfo) {
 		this.table = new google.visualization.Table(element);
 		this.data = new google.visualization.DataTable();

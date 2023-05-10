@@ -42,6 +42,7 @@ import renderURI from './component/rendering/renderURI';
 import renderTX from './component/rendering/renderTX';
 import renderAccordion from './component/rendering/renderAccordion';
 import renderDropdown from './component/rendering/renderDropdown';
+import renderIdLink from './component/rendering/renderIdLink';
 
 global.serialize = serialize;
 global.createClient = createClient;
@@ -53,6 +54,7 @@ global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
 global.renderAddressLink = renderAddressLink;
 global.renderTokenLink = renderTokenLink;
+global.renderIdLink = renderIdLink;
 global.renderDate = renderDate;
 global.renderURI = renderURI;
 global.renderTX = renderTX;

@@ -486,6 +486,7 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+        
     token_pair:
       icon: 'fas fa-coins text-warning'
       header: "Token pair %{token1symbol} (%{token1name}) vs %{token2symbol} (%{token2name}) in %{network}"
@@ -1242,6 +1243,11 @@ en:
         title: "%{network} NFTs"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs"
+      id:
+        name: "Id"
+        title: "%{network} Id"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, Id"
     home:
       index:
         name: "All"
