@@ -2,81 +2,67 @@ export default class BootstrapTableComponent {
 	constructor(element) {
 		this.container = element;
 		this.config = this.configuration();
-		this._createWrapper();
-		this._createTable();
+		this.createWrapper();
+		this.createTable();
 	}
 
-	_createWrapper() {
-		this.wrapper = document.createElement('div');
-		this.wrapper.classList.add('table-responsive');
-		this.container.appendChild(this.wrapper);
+	createWrapper() {
+		this.wrapper = this.createElementWithClasses('div','table-responsive');
+		this.appendChildren(this.container,this.wrapper)
 	}
 
-	_createTable() {
-		this.tableElement = document.createElement('table');
-		this.tableElement.classList.add('table', 'table-striped', 'table-hover');
-		this.wrapper.appendChild(this.tableElement);
-
-		this._createThead();
-		this._createTbody();
-		this._createTfooter();
+	createTable() {
+		this.tableElement = this.createElementWithClasses('table','table', 'table-striped', 'table-hover');
+		this.appendChildren(this.wrapper,this.tableElement);
+		this.createThead();
+		this.createTbody();
+		this.createTfooter();
 	}
 
-	_createThead() {
-		const thead = document.createElement('thead');
-		this.tableElement.appendChild(thead);
-
-		const tr = document.createElement('tr');
-		thead.appendChild(tr);
+	createThead() {
+		const thead = this.createElementWithClasses('thead');
+		const tr = this.createElementWithClasses('tr');
+		this.appendChildren(this.tableElement,thead)
+		this.appendChildren(thead,tr)
 
 		this.config.columns.forEach((column) => {
-			const th = document.createElement('th');
-			th.style.verticalAlign = 'inherit';
-			const thText = document.createElement('span');
+			const th = this.createElementWithClasses('th');
 			th.setAttribute('scope', 'row');
-			thText.textContent = column.name;
-			tr.appendChild(th);
-			th.appendChild(thText);
+			th.textContent = column.name;
+			this.appendChildren(tr,th)
 		});
 	}
 
-	_createResizeEmptySpace(extraClass) {
-		const div = document.createElement('div');
-		// div.classList.add('tabulator-col-resize-handle');
-		if (extraClass) div.classList.add(extraClass);
-		return div;
+	createTbody() {
+		this.tbody = this.createElementWithClasses('tbody');
+		this.appendChildren(this.tableElement,this.tbody);
 	}
 
-	_createTbody() {
-		this.tbody = document.createElement('tbody');
-		this.tableElement.appendChild(this.tbody);
+	createTfooter() {
+		const tfooter = this.createElementWithClasses('div');
+		this.appendChildren(this.tableElement,tfooter);
 	}
 
-	_createTfooter() {
-		const tfooter = document.createElement('div');
-		this.tableElement.appendChild(tfooter);
-	}
 	onData(data, sub) {
 		console.log('onData', data);
 		const array = this.config.topElement(data);
 		const maxRows = 10;
 
 		array.forEach((rowData) => {
-			const tr = document.createElement('tr');
-			this.tbody.appendChild(tr);
+			const tr = this.createElementWithClasses('tr');
+			this.appendChildren(this.tbody,tr);
+
 			this.config.columns.forEach(async (column) => {
-				const td = document.createElement('td');
-				const textCell = document.createElement('span');
-				td.classList.add('ellipsis');
-				td.setAttribute('role', 'gridcell');
+				const td = this.createElementWithClasses('td');
+				const textCell = this.createElementWithClasses('span');
 				textCell.textContent = column.cell(rowData);
-				tr.appendChild(td);
-				td.appendChild(textCell);
-				td.appendChild(textCell);
+				this.appendChildren(tr,td);
+				this.appendChildren(td,textCell);
+
 				if (column.rendering) {
 					const div = await column.rendering(column.cell(rowData));
 					td.removeChild(textCell);
-					td.appendChild(div);
+					this.appendChildren(td,div);
 				}
 			});
 			if (sub) {
@@ -85,40 +71,17 @@ export default class BootstrapTableComponent {
 					this.tbody.removeChild(this.tbody.lastChild);
 				}
 			} else {
-				this.tbody.appendChild(tr);
+				this.appendChildren(this.tbody,tr);
 			}
 		});
 	}
+	createElementWithClasses(elementType, ...classes) {
+		const element = document.createElement(elementType);
+		element.classList.add(...classes);
+		return element;
+	 }
+	appendChildren(parent, ...children) {
+		children.forEach(child => parent.appendChild(child));
+	 }
 }
 
-class GoogleChartsTableComponent {
-	constructor(element, queryMetaInfo) {
-		this.table = new google.visualization.Table(element);
-		this.data = new google.visualization.DataTable();
-		this.options = {
-			allowHtml: true,
-			showRowNumber: false,
-			width: '100%',
-			height: '100%',
-			sortColumn: 0,
-			sortAscending: false,
-		};
-		this.config = this.configuration();
-		this.config.columns.forEach((column) => {
-			this.data.addColumn(column.type ? column.type : 'string', column.name);
-		});
-		this.table.draw(this.data, this.options);
-	}
-
-	onData(data) {
-		let array = this.config.topElement(data);
-		let rows = [];
-		array.forEach((rowData) => {
-			let row = [];
-			this.config.columns.forEach((column) => row.push(column.cell(rowData)));
-			rows.push(row);
-		});
-		this.data.addRows(rows);
-		this.table.draw(this.data, this.options);
-	}
-}
