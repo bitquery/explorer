@@ -399,6 +399,11 @@ en:
           %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
           %{token} crypto, %{token} transaction explorer, %{token} address explorer,
           %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
+      id:
+        name: "Id"
+        title: "%{network} Id of nft"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, Id"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
@@ -1243,11 +1248,7 @@ en:
         title: "%{network} NFTs"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs"
-      id:
-        name: "Id"
-        title: "%{network} Id"
-        description: "Non-Fungible Tokens on %{network}"
-        keywords: "%{network}, Non-Fungible Tokens, NFTs, Id"
+    
     home:
       index:
         name: "All"

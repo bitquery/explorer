@@ -15,7 +15,7 @@
                 name: 'Name', cell: function(row){ return row.Currency.Name},
               },
               {
-                name: 'Symbol', cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}},rendering: renderTokenLink,
+                name: 'Symbol', cell: function(row){ return  {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}},rendering: renderTokenLink,
               },
               {
                 name: 'Id', cell: function(row){ return row.BalanceUpdate.Id}, rendering: renderIdLink,
@@ -53,16 +53,18 @@
       }
   }
 
+
 const variables = {
 network: "eth",
-  limit: 10,
+  limit: 5,
   offset: 0,
   from: "2023-05-02",
   till: "2023-05-09",
-  token: "0x0fcbd68251819928c8f6d182fc04be733fa94170",
-  id: "6857",
+  token: '<%= @address %>',
+  // token: "0x0fcbd68251819928c8f6d182fc04be733fa94170",
+  // id: "6857"
 }
-
+console.log('variables from id:', variables.token)
   renderComponent(LatestNFTTransfersTable, "#latest-nft-id-transfers-table",'NFT-Token-Information-By-ID_1',variables);
   renderComponent(IdNFTTransfersTable, "#latest-nft-transfers-table",'NFT-Transfers-List-By-Id',variables);
 

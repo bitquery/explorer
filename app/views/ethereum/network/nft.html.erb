@@ -1,13 +1,12 @@
 
-  <div  id="latest-nft-transfers-table"></div>
+  <div  id="Top-transfered-NFT"></div>
+  <div  id="Top-traded-NFT-tokens"></div>
 
 
 
 <script >
 
-// !!DO NOT DELETE THIS COMMENT!!
- class LatestNFTTransfersTable extends BootstrapTableComponent {
-
+ class TopTransferedNFT extends BootstrapTableComponent {
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.Transfers},
@@ -29,8 +28,56 @@
       }
   }
 
-//  class LatestNFTTransfersTable extends BootstrapCardComponentTwoColumns {
+ class TopTradedNFTTokens extends BootstrapTableComponent {
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTrades},
+            columns: [
+              {
+                name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
+              },
+              {
+                name: 'Trades', cell: function(row){ return row.count}, 
+              },
+              {
+                name: 'Paid Amount', cell: function(row){ return row.sell_amount}, 
+              },
+              {
+                name: 'Currency', cell: function(row){ return {currency: row.Sell.Currency.Symbol, smartContract: row.Sell.Currency.SmartContract}}, rendering: renderTokenLink, 
+              },
+              {
+                name: 'Min Price', cell: function(row){ return row.Trade.Buy.min_price}, 
+              },
+              {
+                name: 'Max Price', cell: function(row){ return row.Trade.Buy.max_price}, 
+              },
+            ]
+          }
+      }
+  }
 
+
+const variables = {
+  network: "eth",
+  limit: 10,
+  offset: 0,
+  from: "2023-05-02",
+  till: "2023-05-09"
+}
+
+  renderComponent(TopTransferedNFT, "#Top-transfered-NFT",'Top-transfered-NFT-tokens-in-network',variables);
+  renderComponent(TopTradedNFTTokens, "#Top-traded-NFT-tokens",'Top-traded-NFT-tokens-in-network',variables);
+
+
+
+
+// !!DO NOT DELETE THIS COMMENT!!
+
+
+///Sub-15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
+//15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
+
+//  class LatestNFTTransfersTable extends BootstrapCardComponentTwoColumns {
 //       configuration() {
 //         return  {
 //           topElement: function (response){ return response.EVM.Transfers},
@@ -52,7 +99,7 @@
 //                name: "Sender", cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink,
 //               },
 //               {
-//                name: 'Token ID', cell: function(row){ return row.Transfer.Id}, ico: "id",
+//                name: 'Token ID', cell: function(row){ return row.Transfer.Id}, 
 //               },
 
 //             ],
@@ -70,19 +117,4 @@
 //           }
 //       }
 // }
-const variables = {
-  network: "eth",
-  limit: 10,
-  offset: 0,
-  from: "2023-05-02",
-  till: "2023-05-09"
-}
-//  token: "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
-//  token: "0x39ee2c7b3cb80254225884ca001F57118C8f21B6"
-  renderComponent(LatestNFTTransfersTable, "#latest-nft-transfers-table",'Top-transfered-NFT-tokens-in-network',variables);
-
-///Sub-15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
-//15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
-
-
 </script>

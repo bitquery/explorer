@@ -7,7 +7,7 @@ export default class BootstrapTableComponent {
 	}
  
 	createWrapper() {
-	  this.wrapper = this.createElementWithClasses("div", "table-responsive-lg");
+	  this.wrapper = this.createElementWithClasses("div", "table-responsive-xl");
 	  this.appendChildren(this.container, this.wrapper);
 	}
  

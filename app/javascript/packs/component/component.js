@@ -234,6 +234,8 @@ export default async function renderComponent(component, selector, queryId, vari
 			...JSON.parse(queryMetaData.variables),
 			...variables,
 		};
+	console.log('const queryVariables',variables)
+
 		widgetFrame.onquerystarted();
 		if (query.startsWith('subscription')) {
 			await prepopulateQuery(
