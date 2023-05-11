@@ -400,10 +400,15 @@ en:
           %{token} crypto, %{token} transaction explorer, %{token} address explorer,
           %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
       id:
-        name: "Id"
+        name: "ID"
         title: "%{network} Id of nft"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs, Id"
+      nft:
+        name: "NFT"
+        title: "%{network} NFT Smart Contract page"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"

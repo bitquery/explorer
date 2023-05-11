@@ -37,7 +37,7 @@
             topElement: function (response){ return response.EVM.Transfers},
             columns: [
               {
-                name: 'Block.Time', cell: function(row){ return row.Block.Time}, rendering: renderDate,
+                name: 'Time', cell: function(row){ return row.Block.Time}, rendering: renderDate,
               },
               {
                 name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink, 

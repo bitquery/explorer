@@ -3,11 +3,11 @@ export default function renderIdLink(data) {
 	const span = document.createElement('span');
 	const link = document.createElement('a');
 	link.setAttribute('target', 'blank');
-	link.textContent = data;
+	link.textContent = data.id;
 	if(!data){
 		link.textContent = '—';
 	}
-	link.href = `https://explorer.bitquery.io/ethereum/token/id/${data}`; // Change  URL
+	link.href = `https://explorer.bitquery.io/ethereum/token/${data.address}/id`; // Change  URL
 
 	span.appendChild(link);
 

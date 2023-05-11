@@ -1,0 +1,143 @@
+
+  <div  id="NFT-token-information"></div>
+  <div  id="Popular-Token-IDs"></div>
+  <div  id="Top-NFT-Holders"></div>
+  <div  id="Subscription-for-the-Latest-Trades-of-NFT-Token"></div>
+
+
+<script >
+
+ class NFTTokenInformation extends BootstrapTableComponent {
+
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.BalanceUpdates},
+      
+            columns: [
+              {
+                name: 'Name', cell: function(row){ return row.Currency.Name},
+              },
+              {
+                name: 'Symbol', cell: function(row){ return row.Currency.Symbol},
+              },
+              {
+                name: 'Unique IDs', cell: function(row){ return {id:row.ids, address:row.Currency.SmartContract}},rendering: renderIdLink ,
+              },
+              {
+                name: 'Unique Holders', cell: function(row){ return row.holders}, 
+              },
+              {
+                name: 'Transfers', cell: function(row){ return (row.updates)/2}, 
+              },
+              {
+                name: 'First transfer', cell: function(row){ return row.Block.first}, 
+              },
+              {
+                name: 'Last transfer', cell: function(row){ return row.Block.last}, 
+              },
+            ]
+          }
+      }
+  }
+class PopularTokenIDsNFT extends BootstrapCardComponentTwoColumns {
+      configuration() {
+        return  {
+          topElement: function (response){ return response.EVM.Transfers},
+          image: [
+            {
+              cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
+            }
+              ] , 
+            columnOne: [
+              {
+                name: 'ID',cell: function(row){ return {id:row.Transfer.Id, address:row.Transfer.Currency.SmartContract}},rendering: renderIdLink
+              },
+              {
+                name: "Transfers Count", cell: function(row){ return row.Transfer.last_receiver}, 
+              },
+            ],
+            columnTwo: [
+              {
+                name: 'Unique Receivers', cell: function(row){ return row.receivers}, 
+              },
+              {
+                name: 'Last Receiver',  cell: function(row){ return row.Transfer.last_receiver}, 
+              },
+            ]
+          }
+      }
+}
+ class TopNFTHolders extends BootstrapTableComponent {
+
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.BalanceUpdates},
+      
+            columns: [
+              {
+                name: 'Address', cell: function(row){ return row.BalanceUpdate.Address}, rendering: renderAddressLink,
+              },
+              {
+                name: 'Balance', cell: function(row){ return row.balance},
+              },
+              {
+                name: 'Unique Ids Owned Lifetime', cell: function(row){ return row.ids}, 
+              },
+            ]
+          }
+      }
+  }
+ class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
+
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTrades},
+            columns: [
+              {
+                name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+              },
+              {
+                name: 'ID', cell: function(row){ return {id: row.Trade.Ids, address: row.Trade.Buy.Currency.SmartContract}}, rendering: renderIdLink
+              },
+              {
+                name: 'Price', cell: function(row){ return row.Trade.Buy.Price}, 
+              },
+              {
+                name: 'Currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink, 
+              },
+              {
+                name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller},  rendering: renderAddressLink, 
+              },
+              {
+                name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},  rendering: renderAddressLink, 
+              },
+              {
+                name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink, 
+              },
+              {
+                name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX, 
+              },
+            ]
+          }
+      }
+  }
+
+
+const variables = {
+network: "eth",
+  limit: 10,
+  offset: 0,
+  from: "2023-05-02",
+  till: "2023-05-09",
+  token: '<%= @address %>',
+  // token: "0x0fcbd68251819928c8f6d182fc04be733fa94170",
+  // id: "6857"
+}
+console.log("token ftom nft token", variables.token)
+  renderComponent(NFTTokenInformation, "#NFT-token-information",'NFT-token-information_1',variables);
+  renderComponent(PopularTokenIDsNFT, "#Popular-Token-IDs",'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count',variables);
+  renderComponent(TopNFTHolders, "#Top-NFT-Holders",'Top-NFT-Holders',variables);
+  renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-for-the-Latest-Trades-of-NFT-Token",'Subscription-for-the-Latest-Trades-of-NFT-Token_1',variables, "Latest-Trades-of-NFT-Token_1");
+ 
+
+</script>
