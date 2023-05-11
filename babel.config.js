@@ -72,8 +72,8 @@ module.exports = function (api) {
       ],
     ].filter(Boolean),
     ignore: [
-      'app/javascript/packs/component/componentDescription',
-      'app/javascript/packs/component/rendering'
+      'app/javascript/component/componentDescription',
+      'app/javascript/component/rendering'
     ]
   };
 };
