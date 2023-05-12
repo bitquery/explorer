@@ -28,12 +28,13 @@ class BitqueryGraphql
     attempt = 1
 
     ::BitqueryLogger.extra_context query: definition.source_document.to_query_string,
-                                 variables: variables,
-                                 context: context,
-                                 attempt: attempt
+                                   variables: variables,
+                                   context: context,
+                                   attempt: attempt
 
     begin
       resp = client.query definition, variables: variables, context: context
+      BitqueryLogger.extra_context errors: resp.errors.presence
     rescue Net::ReadTimeout => e
       if attempt >= ATTEMPTS
         raise "All attempts failed"
