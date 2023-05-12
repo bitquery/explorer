@@ -409,6 +409,7 @@ en:
         title: "%{network} NFT Smart Contract page"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
+
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
@@ -1253,7 +1254,16 @@ en:
         title: "%{network} NFTs"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs"
-    
+      nft_dex_protocol:
+        name: "NFT Dex Protocols"
+        title: "%{network} NFT Dex Protocols"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
+      nft_address:
+        name: "NFT Address"
+        title: "%{network} NFT Dex Protocols"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
     home:
       index:
         name: "All"

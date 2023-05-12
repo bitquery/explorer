@@ -48,6 +48,7 @@ export default class BootstrapCardComponent {
    const cardImg = this.createElementWithClasses('div', 'col-md-3', 'd-flex', 'align-items-center', 'justify-content-center');
    const cardBodyWrapper = this.createElementWithClasses('div', 'col-md-9');
    const cardBody = this.createElementWithClasses('div', 'card-body', 'd-flex');
+   const rightColumnDiv =this.createElementWithClasses('div', 'col-md-6', 'align-items-end')
    // const [leftColumnDiv, rightColumnDiv] = [this.createElementWithClasses('div', 'col-md-6', 'align-items-start'), this.createElementWithClasses('div', 'col-md-6', 'align-items-end')];
  
 
@@ -64,7 +65,7 @@ export default class BootstrapCardComponent {
        this.appendChildren(cardImg, imgElement)
      }
    }
-   // this.appendChildren(cardBody,leftColumnDiv,rightColumnDiv);
+   this.appendChildren(cardBody,rightColumnDiv);
    this.appendChildren(cardBodyWrapper,cardBody)
  
    return [cardImg, cardBodyWrapper];

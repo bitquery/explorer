@@ -18,7 +18,7 @@
                 name: 'Symbol', cell: function(row){ return  {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}},rendering: renderTokenLink,
               },
               {
-                name: 'Id', cell: function(row){ return row.BalanceUpdate.Id}, rendering: renderIdLink,
+                name: 'Id', cell: function(row){ return {id:row.BalanceUpdate.Id, address: row.BalanceUpdate.Address}},
               },
               {
                 name: 'Last owner', cell: function(row){ return row.BalanceUpdate.Address}, rendering: renderAddressLink, 
