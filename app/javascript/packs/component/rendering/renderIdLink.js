@@ -7,7 +7,7 @@ export default function renderIdLink(data) {
 	if(!data){
 		link.textContent = '—';
 	}
-	link.href = `https://explorer.bitquery.io/ethereum/token/${data.address}/id`; // Change  URL
+	link.href = `/ethereum/token/${data.address}/id/${data.id}`; // Change  URL
 
 	span.appendChild(link);
 

@@ -1,4 +1,5 @@
 export default function renderTokenLink(data) {
+	//network
 	const span = document.createElement('span');
 	const link = document.createElement('a');
 	link.setAttribute('target', 'blank');
@@ -6,7 +7,7 @@ export default function renderTokenLink(data) {
 	if(!data.currency){
 		link.textContent = '—';
 	}
-	link.href = `https://explorer.bitquery.io/ethereum/token/${data.smartContract}`; // Change  URL
+	link.href = `/ethereum/token/${data.smartContract}/nft`; // Change  URL
 
 	span.appendChild(link);
 

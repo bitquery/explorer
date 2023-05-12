@@ -203,6 +203,7 @@ en:
           balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history
           %{network} address finder,%{address}"
+    
       transactions:
         name: 'Transactions'
         title: "%{address} transactions | %{network}"
@@ -210,6 +211,11 @@ en:
         keywords: "%{address} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
           %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
           %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+      nft_address:
+        name: "NFT Address"
+        title: "%{network} NFT Address"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"    
       contracts:
         name: "Contracts"
         title: "%{address} smart contract | %{network}"
@@ -399,7 +405,7 @@ en:
           %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
           %{token} crypto, %{token} transaction explorer, %{token} address explorer,
           %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
-      id:
+      show_nft_id:
         name: "ID"
         title: "%{network} Id of nft"
         description: "Non-Fungible Tokens on %{network}"
@@ -1254,16 +1260,7 @@ en:
         title: "%{network} NFTs"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs"
-      nft_dex_protocol:
-        name: "NFT Dex Protocols"
-        title: "%{network} NFT Dex Protocols"
-        description: "Non-Fungible Tokens on %{network}"
-        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
-      nft_address:
-        name: "NFT Address"
-        title: "%{network} NFT Dex Protocols"
-        description: "Non-Fungible Tokens on %{network}"
-        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
+   
     home:
       index:
         name: "All"
@@ -1444,6 +1441,11 @@ en:
         title: "Statistics of %{protocol} DEX at %{network}"
         description: "Statistics of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades,statistics"
+      nft_dex_protocol:
+        name: "NFT Dex Protocols"
+        title: "%{network} NFT Dex Protocols"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
       volume:
         name: "Volume"
         title: "Volume of %{protocol} DEX at %{network}"

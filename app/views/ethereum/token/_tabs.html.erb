@@ -2,9 +2,9 @@
     tabs: (@native_token ? ['show','transfers','senders','receivers'] :
 
                ( (@info.try(:smart_contract).try(:contract_type)=='DEX') ?
-                     ['show','id','nft','transfers','token_dex_trades','dex_trades', 'senders','receivers','smart_contract','transactions',
+                     ['show','nft','transfers','token_dex_trades','dex_trades', 'senders','receivers','smart_contract','transactions',
                       'methods','events','inflow','outflow','calls_contracts'] :
-                     ['show','id','nft','transfers','token_dex_trades', 'senders','receivers','smart_contract','transactions',
+                     ['show','nft','transfers','token_dex_trades', 'senders','receivers','smart_contract','transactions',
                       'methods','events','inflow','outflow','calls_contracts'] )
 
                ),

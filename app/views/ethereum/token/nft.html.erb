@@ -75,7 +75,7 @@ class PopularTokenIDsNFT extends BootstrapCardComponentTwoColumns {
       
             columns: [
               {
-                name: 'Address', cell: function(row){ return row.BalanceUpdate.Address}, rendering: renderAddressLink,
+                name: 'Address', cell: function(row){ return {currency: row.BalanceUpdate.Address, smartContract:row.BalanceUpdate.Address}}, rendering: renderAddressLink,
               },
               {
                 name: 'Balance', cell: function(row){ return row.balance},

@@ -41,6 +41,7 @@ BLOCKCHAINS = [
 
   {
     tag: 'eth',
+    chainId: '1',
     network: 'ethereum',
     name: 'Ethereum Mainnet',
     family: 'ethereum',
@@ -192,6 +193,7 @@ BLOCKCHAINS = [
   {
     tag: 'bsc',
     network: 'bsc',
+    chainId: '56',
     name: 'Binance Smart Chain Mainnet',
     family: 'ethereum',
     platform: 'Smart Contract',

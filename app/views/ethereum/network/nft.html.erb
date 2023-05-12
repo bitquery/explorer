@@ -131,7 +131,7 @@
                 name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
               },
               {
-                name: 'ID', cell: function(row){ return row.count}, 
+                name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
               },
               {
                 name: 'Price', cell: function(row){ return row.Trade.Buy.Price}, 
