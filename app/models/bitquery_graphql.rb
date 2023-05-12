@@ -33,10 +33,10 @@ class BitqueryGraphql
                                  attempt: attempt
 
     begin
-      client.query definition, variables: variables, context: context
+      resp = client.query definition, variables: variables, context: context
     rescue Net::ReadTimeout => e
       if attempt >= ATTEMPTS
-        raise
+        raise "All attempts failed"
       else
         sleep(1)
         attempt += 1
@@ -44,6 +44,15 @@ class BitqueryGraphql
       end
     end
 
+    if resp.errors.any? && resp.data.nil?
+      raise 'GraphQL response errors, data is nil'
+    elsif resp.errors.any?
+      raise 'GraphQL response errors'
+    elsif resp.data.nil?
+      raise 'GraphQL response data is nil'
+    end
+
+    resp
   end
 
 end
