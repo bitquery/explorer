@@ -203,7 +203,6 @@ en:
           balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history
           %{network} address finder,%{address}"
-    
       transactions:
         name: 'Transactions'
         title: "%{address} transactions | %{network}"
@@ -211,11 +210,7 @@ en:
         keywords: "%{address} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
           %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
           %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
-      nft_address:
-        name: "NFT Address"
-        title: "%{network} NFT Address"
-        description: "Non-Fungible Tokens on %{network}"
-        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"    
+
       contracts:
         name: "Contracts"
         title: "%{address} smart contract | %{network}"
@@ -344,6 +339,11 @@ en:
         title: "%{address} smart contract | %{network}"
         description: "Overview of %{address} smart contract activity in %{network}"
         keywords: "Smart contract,%{address},%{network}"
+      nft_address:
+        name: "NFT Address"
+        title: "%{network} NFT Address"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"    
       transactions:
         name: 'Transactions'
         title: "%{address} Transactions | %{network}"
@@ -394,6 +394,7 @@ en:
         title: "%{network} Token Pairs Traded on DEXes"
         description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
         keywords: "%{network},DEX,Tokens"
+    
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -702,6 +703,7 @@ en:
         title: "Call Result %{hash} | %{network}"
         description: "Call Result %{hash} in %{network}"
         keywords: "%{network} Call Result, %{network} Call Result explorer, %{network} explorer, %{network} call result analytics"
+    
     tx:
       icon: 'fas fa-bolt'
       header: "%{network} transaction %{hash}"
@@ -1046,6 +1048,7 @@ en:
         title: "Validator %{validator_hash} in %{network}"
         description: "Check %{network} validator %{validator_hash} and %{network} validator data and analytics"
         keywords: "%{network} validator, %{network} latest validator"
+    
     network:
       header: "%{network} Blockchain Explorer"
       blocks:
@@ -1433,6 +1436,7 @@ en:
         title: "Validator %{index} | %{network}"
         description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
         keywords: "%{network} Validator ${index}"
+    
     dex_protocol:
       icon: 'fa fa-exchange'
       header: "%{protocol} DEX Protocol at %{network} Blockchain"
@@ -2305,6 +2309,7 @@ en:
       statistics:
         in_block: "in block"
         in_tx: "in tx"
+
     token:
       description:
         part1: "Address %{address} is token"

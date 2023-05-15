@@ -7,7 +7,7 @@ export default function renderTokenLink(data) {
 	if(!data.currency){
 		link.textContent = '—';
 	}
-	link.href = `/ethereum/token/${data.smartContract}/nft`; // Change  URL
+	link.href = `/ethereum/token/${data.smartContract}/nft_smart_contract`; // Change  URL
 
 	span.appendChild(link);
 

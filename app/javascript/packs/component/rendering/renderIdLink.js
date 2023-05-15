@@ -1,8 +1,7 @@
 export default function renderIdLink(data) {
-   console.log('data from link for id', data)
 	const span = document.createElement('span');
 	const link = document.createElement('a');
-	link.setAttribute('target', 'blank');
+	link.setAttribute('target', '_blank');
 	link.textContent = data.id;
 	if(!data){
 		link.textContent = '—';

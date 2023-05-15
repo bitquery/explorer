@@ -81,7 +81,7 @@ async createCardText(column, rowData) {
   } else {
     spanText = this.createTextElement('div', column.cell(rowData));
   }
-
+spanText.classList.add('text-truncate')
   const textContainer = this.createElementWithClasses('div', 'text-container', 'text-truncate');
   if(column.name){
       const spanTitle = this.createElementWithClasses('div','text-muted')

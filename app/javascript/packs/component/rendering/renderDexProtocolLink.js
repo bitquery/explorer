@@ -3,7 +3,7 @@ export default function renderDexProtocolLink(data) {
 	const link = document.createElement('a');
    link.textContent = `${data.ProtocolFamily} ${data.ProtocolVersion}`
 	link.setAttribute('target', 'blank');
-	link.href = `/ethereum/dex_protocol/${data.ProtocolName}`; // Change  URL
+	link.href = `/ethereum/dex_protocol/${data.ProtocolName}/nft_dex_protocol`; // Change  URL
 	span.appendChild(link);
 
 	return span;

@@ -27,7 +27,7 @@ export default async function renderImgFromURI(uri) {
 		if (mediaURL && mediaURL.startsWith('ipfs://')) {
 			mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
 		}
-		console.log(mediaURL)
+		// console.log(mediaURL)
 		return { mediaURL, name: nameMedia };
 	}
 	
