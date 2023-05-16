@@ -203,6 +203,11 @@ en:
           balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history
           %{network} address finder,%{address}"
+      nft_address:
+        name: "NFT"
+        title: "%{network} NFT Address"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"    
       transactions:
         name: 'Transactions'
         title: "%{address} transactions | %{network}"

@@ -7,7 +7,7 @@ export default class BootstrapTableComponent {
 	}
  
 	createWrapper() {
-	  this.wrapper = this.createElementWithClasses("div", "table-responsive-xl");
+	  this.wrapper = this.createElementWithClasses("div", "table-responsive-md");
 	  this.appendChildren(this.container, this.wrapper);
 	}
  
@@ -15,9 +15,11 @@ export default class BootstrapTableComponent {
 	  this.tableElement = this.createElementWithClasses(
 		 "table",
 		 "table",
+		 'table-sm',
 		 "table-striped",
 		 "table-hover"
 	  );
+	  this.tableElement.style.tableLayout = 'fixed';
 	  this.appendChildren(this.wrapper, this.tableElement);
 	  this.createThead();
 	  this.createTbody();
@@ -51,13 +53,14 @@ export default class BootstrapTableComponent {
 	async onData(data, sub) {
 	  console.log("onData", data);
 	  const array = this.config.topElement(data);
-	  const maxRows = 10;
+	  const maxRows = 15;
  
 	  for (const rowData of array) {
 		 const tr = this.createElementWithClasses("tr");
  
 		 for (const column of this.config.columns) {
-			const td = this.createElementWithClasses("td","text-truncate");
+			const td = this.createElementWithClasses("td");
+			// ,"text-truncate"
 			const textCell = this.createElementWithClasses("span");
 			textCell.textContent = column.cell(rowData);
 			this.appendChildren(td, textCell);

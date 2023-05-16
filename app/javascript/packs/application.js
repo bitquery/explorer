@@ -34,6 +34,7 @@ import { graphQlQueryToJson } from 'graphql-query-to-json';
 import BootstrapTableComponent from './component/componentDescription/BootstrapTableComponent';
 import BootstrapCardComponent from './component/componentDescription/BootstrapCardComponent';
 import BootstrapCardComponentTwoColumns from './component/componentDescription/BootstrapCardComponentTwoColumns';
+import BootstrapVerticalTableComponent from './component/componentDescription/BootstrapVerticalTableComponent';
 import renderComponent from './component/component';
 import renderImgFromURI from './component/rendering/renderImgFromURI';
 import renderAddressLink from './component/rendering/renderAddressLink';
@@ -53,6 +54,7 @@ global.graphQlQueryToJson = graphQlQueryToJson;
 global.BootstrapTableComponent = BootstrapTableComponent;
 global.BootstrapCardComponentTwoColumns = BootstrapCardComponentTwoColumns;
 global.BootstrapCardComponent = BootstrapCardComponent;
+global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
 global.renderAddressLink = renderAddressLink;
@@ -1017,3 +1019,20 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
 	draw(from, till);
 	rr.change(draw);
 };
+
+// global.renderWithTime = function(){
+// 	function draw(start, end) {
+// 		var dateFormat = dateRangeReportFormat(start, end, params && params.network);
+// 		var data = Object.assign({}, params, {
+// 			from: start,
+// 			till: end && !end.includes('T') ? end + 'T23:59:59' : end,
+// 			dateFormat: dateFormat,
+// 			offset: 0,
+// 			limit: 10,
+// 		});
+// 		query.request(data);
+// 	}
+
+// 	draw(from, till);
+// 	rr.change(draw);
+// }

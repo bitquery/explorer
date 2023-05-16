@@ -92,7 +92,8 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	col8.classList.add('col-8');
 	cardBody.classList.add('card-body', 'text-center');
 	widgetFrame.classList.add('widget-container', 'tabulator');
-	widgetFrame.style.height = '470px';
+	// widgetFrame.style.height = '470px';
+	widgetFrame.style.height = 'fit-content';
 	widgetFrame.style.overflow = 'scroll';
 	componentContainer.appendChild(widgetHeader);
 	componentContainer.appendChild(cardBody);

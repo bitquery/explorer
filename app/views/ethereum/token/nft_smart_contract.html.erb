@@ -7,7 +7,7 @@
 
 <script >
 
- class NFTTokenInformation extends BootstrapTableComponent {
+ class NFTTokenInformation extends BootstrapVerticalTableComponent {
 
       configuration() {
         return  {
@@ -21,7 +21,7 @@
                 name: 'Symbol', cell: function(row){ return row.Currency.Symbol},
               },
               {
-                name: 'Unique IDs', cell: function(row){ return row.ids},
+                name: 'Unique IDs', cell: function(row){ return row.ids}, 
               },
               {
                 name: 'Unique Holders', cell: function(row){ return row.holders}, 
@@ -109,7 +109,7 @@ class PopularTokenIDsNFT extends BootstrapCardComponentTwoColumns {
                 name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
               },
               {
-                name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},  
+                name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},  rendering: renderAddressLink,
               },
               {
                 name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink, 
