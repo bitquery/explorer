@@ -24,4 +24,3 @@ const blockchainsData =[
     },
 ]
 
-export default blockchainsData

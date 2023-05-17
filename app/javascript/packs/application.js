@@ -1020,7 +1020,7 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
 	rr.change(draw);
 };
 
-global.renderWithTime = function(variables, from, till, f,classes,){
+global.renderWithTime = function(variables={}, from, till, f){
 
 	function draw(start, end) {
 	
@@ -1030,10 +1030,8 @@ global.renderWithTime = function(variables, from, till, f,classes,){
 			till:  end ? end.split('T')[0] : start,
 			dateFormat: dateFormat,
 		});
-		const result = {...variables,...data}
-		console.log('result from apliccation', result)
-	
-		f(classes,result)
+		const resultVariables = {...variables,...data}
+		f(resultVariables)
 		
 	}
 	draw(from, till);

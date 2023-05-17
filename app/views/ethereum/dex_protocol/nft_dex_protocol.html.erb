@@ -33,7 +33,7 @@
                 name: 'ID', cell: function(row){ return {id: row.Trade.Buy.Ids, address: row.Trade.Buy.Currency.SmartContract}}, rendering: renderIdLink
               },
               {
-                name: 'Price', cell: function(row){ return row.Trade.Buy.Price}, 
+                name: 'Price', cell: function(row){ return Math.floor(row.Trade.Buy.Price * 1000) / 1000}, 
               },
               {
                 name: 'Currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink, 
@@ -64,12 +64,10 @@ const variables = {
 
 }
 
-const classes = [DEXProtocolNFTTokenTradesByDate,LiveTradesNFTTokenDEXProtocol]
-
-renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(classes,variables){
+renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
   renderComponent(DEXProtocolNFTTokenTradesByDate, "#DEX-Protocol-NFT-Token-Trades-By-Date",'DEX-Protocol-NFT-Token-Trades-By-Date',variables); // Bar graph trade by date
   renderComponent(LiveTradesNFTTokenDEXProtocol, "#Live-Trades-of-NFT-Token-on-DEX-Protocol_1",'Live-Trades-of-NFT-on-DEX-Protocol',variables, 'Latest-Trades-of-NFT-Token-on-DEX-Protocol_1_1_1_1');
-},classes)
+})
 
 
 </script>

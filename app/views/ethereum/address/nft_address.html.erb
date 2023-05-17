@@ -73,7 +73,7 @@
                 name: 'TX', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
               },
               {
-                name: 'ID', cell: function(row){ return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}}, rendering: renderIdLink
+                name: 'ID', cell: function(row){ return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}}, rendering: renderIdLink,
               },
               {
                 name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
@@ -97,7 +97,7 @@
                 name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer}, rendering: renderAddressLink,
               },
               {
-                name: 'Prise', cell: function(row){ return row.Trade.Buy.Price}, 
+                name: 'Prise', cell: function(row){ return Math.floor(row.Trade.Buy.Price *1000)/1000}, 
               },
               {
                 name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
@@ -121,13 +121,13 @@
                 name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer}, rendering: renderAddressLink,
               },
               {
-                name: 'Prise', cell: function(row){ return row.Trade.Buy.Price}, 
+                name: 'Prise', cell: function(row){ return Math.floor(row.Trade.Buy.Price *1000)/1000 }, 
               },
               {
-                name: 'Trade', cell: function(row){ return row.Trade.Dex.SmartContract}, 
+                name: 'Trade', cell: function(row){ return row.Trade.Dex.SmartContract}, rendering: renderAddressLink,
               },
               {
-                name: 'Amount', cell: function(row){ return row.Trade.Sell.Amount}, 
+                name: 'Amount', cell: function(row){ return Math.floor(row.Trade.Sell.Amount *1000)/1000 }, 
               },
               {
                 name: 'TX', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
@@ -141,18 +141,14 @@ const variables = {
    network: "eth",
    limit: 10,
    offset: 0,
-   address: '<%= @address %>',
 }
 
-const classes = [AddressHoldingNFT, OutcomingNFTTransfersByAddress,IncomingNFTTransfersByAddress,TradesNFTTokenAddressSeller,TradesNFTTokenAddressBuyer]
-
-renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(classes,variables){
-  renderComponent(classes[0], "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1',variables);
-  renderComponent(classes[1], "#Outcoming-NFT-Transfers-By-Address",'Outcoming-NFT-Transfers-By-Address_1_1',variables); 
-  renderComponent(classes[2], "#Incoming-NFT-Transfers-By-Address",'Incoming-NFT-Transfers-By-Address_1',variables); 
-  renderComponent(classes[3], "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller',variables); 
-  renderComponent(classes[4], "#Trades-of-NFT-Token-with-Address-as-Buyer_1",'Trades-of-NFT-Token-with-Address-as-Buyer_1',variables); 
-},classes)
-
+renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+  renderComponent(AddressHoldingNFT, "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1_1',variables);
+  renderComponent(OutcomingNFTTransfersByAddress, "#Outcoming-NFT-Transfers-By-Address",'Outcoming-NFT-Transfers-By-Address_1_1',variables); 
+  renderComponent(IncomingNFTTransfersByAddress, "#Incoming-NFT-Transfers-By-Address",'Incoming-NFT-Transfers-By-Address_1',variables); 
+  renderComponent(TradesNFTTokenAddressSeller, "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller',variables); 
+  renderComponent(TradesNFTTokenAddressBuyer, "#Trades-of-NFT-Token-with-Address-as-Buyer_1",'Trades-of-NFT-Token-with-Address-as-Buyer_1',variables); 
+})
 
 </script>

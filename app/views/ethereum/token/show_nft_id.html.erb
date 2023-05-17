@@ -4,13 +4,16 @@
 
 <script >
 
- class LatestNFTTransfersTable extends BootstrapTableComponent {
+ class LatestNFTTransfersTable extends BootstrapVerticalTableComponent {
 
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.BalanceUpdates},
       
             columns: [
+              {
+                name: 'Image', cell: function(row){ return row.BalanceUpdate.URI},rendering: renderImgFromURI,
+              },
               {
                 name: 'Name', cell: function(row){ return row.Currency.Name},
               },
@@ -58,17 +61,12 @@ const variables = {
 network: "eth",
   limit: 5,
   offset: 0,
-  token: '<%= @address %>',
-  id: '<%= @id %>'
 }
 
-
- const classes = [LatestNFTTransfersTable,IdNFTTransfersTable]
-
-renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(classes,variables){
-  renderComponent(classes[0], "#latest-nft-id-transfers-table",'NFT-Token-Information-By-ID_1',variables);
-  renderComponent(classes[1], "#latest-nft-transfers-table",'NFT-Transfers-List-By-Id',variables);
-},classes)
+renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+  renderComponent(LatestNFTTransfersTable, "#latest-nft-id-transfers-table",'NFT-Token-Information-By-ID_1',variables);
+  renderComponent(IdNFTTransfersTable, "#latest-nft-transfers-table",'NFT-Transfers-List-By-Id',variables);
+})
 
 
 </script>
