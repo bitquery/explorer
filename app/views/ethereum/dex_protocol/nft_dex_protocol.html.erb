@@ -61,14 +61,15 @@ const variables = {
   network: "eth",
   limit: 10,
   offset: 0,
-  from: "2023-05-02",
-  till: "2023-05-09",
-  protocol: "seaport_v1.4"
+
 }
 
+const classes = [DEXProtocolNFTTokenTradesByDate,LiveTradesNFTTokenDEXProtocol]
+
+renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(classes,variables){
   renderComponent(DEXProtocolNFTTokenTradesByDate, "#DEX-Protocol-NFT-Token-Trades-By-Date",'DEX-Protocol-NFT-Token-Trades-By-Date',variables); // Bar graph trade by date
   renderComponent(LiveTradesNFTTokenDEXProtocol, "#Live-Trades-of-NFT-Token-on-DEX-Protocol_1",'Live-Trades-of-NFT-on-DEX-Protocol',variables, 'Latest-Trades-of-NFT-Token-on-DEX-Protocol_1_1_1_1');
-
+},classes)
 
 
 </script>

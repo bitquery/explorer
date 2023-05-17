@@ -127,17 +127,18 @@ const variables = {
 network: "eth",
   limit: 10,
   offset: 0,
-  from: "2023-05-02",
-  till: "2023-05-09",
   token: '<%= @address %>',
-  // token: "0x0fcbd68251819928c8f6d182fc04be733fa94170",
-  // id: "6857"
 }
-// console.log("token ftom nft token", variables.token)
-  renderComponent(NFTTokenInformation, "#NFT-token-information",'NFT-token-information_1',variables);
-  renderComponent(PopularTokenIDsNFT, "#Popular-Token-IDs",'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count',variables);
-  renderComponent(TopNFTHolders, "#Top-NFT-Holders",'Top-NFT-Holders',variables);
-  renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-for-the-Latest-Trades-of-NFT-Token",'Subscription-for-the-Latest-Trades-of-NFT-Token_1',variables, "Latest-Trades-of-NFT-Token_1");
- 
+
+
+ const classes = [NFTTokenInformation,PopularTokenIDsNFT,TopNFTHolders,SubscriptionLatestTradesNFTToken]
+
+renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(classes,variables){
+  renderComponent(classes[0], "#NFT-token-information",'NFT-token-information_1',variables);
+  renderComponent(classes[1], "#Popular-Token-IDs",'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count',variables);
+  renderComponent(classes[2], "#Top-NFT-Holders",'Top-NFT-Holders',variables);
+  renderComponent(classes[3], "#Subscription-for-the-Latest-Trades-of-NFT-Token",'Subscription-for-the-Latest-Trades-of-NFT-Token_1',variables, "Latest-Trades-of-NFT-Token_1");
+},classes)
+
 
 </script>

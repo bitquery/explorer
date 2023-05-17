@@ -141,18 +141,18 @@ const variables = {
    network: "eth",
    limit: 10,
    offset: 0,
-   from: "2023-05-02",
-   till: "2023-05-09",
    address: '<%= @address %>',
 }
 
-  renderComponent(AddressHoldingNFT, "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1',variables);
-  renderComponent(OutcomingNFTTransfersByAddress, "#Outcoming-NFT-Transfers-By-Address",'Outcoming-NFT-Transfers-By-Address_1',variables); 
-  renderComponent(IncomingNFTTransfersByAddress, "#Incoming-NFT-Transfers-By-Address",'Incoming-NFT-Transfers-By-Address_1',variables); 
-  renderComponent(TradesNFTTokenAddressSeller, "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller',variables); 
-  renderComponent(TradesNFTTokenAddressBuyer, "#Trades-of-NFT-Token-with-Address-as-Buyer_1",'Trades-of-NFT-Token-with-Address-as-Buyer_1',variables); 
+const classes = [AddressHoldingNFT, OutcomingNFTTransfersByAddress,IncomingNFTTransfersByAddress,TradesNFTTokenAddressSeller,TradesNFTTokenAddressBuyer]
 
-
+renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(classes,variables){
+  renderComponent(classes[0], "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1',variables);
+  renderComponent(classes[1], "#Outcoming-NFT-Transfers-By-Address",'Outcoming-NFT-Transfers-By-Address_1_1',variables); 
+  renderComponent(classes[2], "#Incoming-NFT-Transfers-By-Address",'Incoming-NFT-Transfers-By-Address_1',variables); 
+  renderComponent(classes[3], "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller',variables); 
+  renderComponent(classes[4], "#Trades-of-NFT-Token-with-Address-as-Buyer_1",'Trades-of-NFT-Token-with-Address-as-Buyer_1',variables); 
+},classes)
 
 
 </script>
