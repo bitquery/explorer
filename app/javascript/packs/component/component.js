@@ -155,6 +155,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 };
 
 export default async function renderComponent(component, selector, queryId, variables ={}, prePopulateId, api_key ) {
+	document.querySelector(selector).textContent ='';
 	console.log('testVariables',variables)
 	const widgetFrame = createWidgetFrame(component, selector, queryId);
 	let queryMetaData;

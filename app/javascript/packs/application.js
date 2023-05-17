@@ -1020,19 +1020,22 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
 	rr.change(draw);
 };
 
-// global.renderWithTime = function(){
-// 	function draw(start, end) {
-// 		var dateFormat = dateRangeReportFormat(start, end, params && params.network);
-// 		var data = Object.assign({}, params, {
-// 			from: start,
-// 			till: end && !end.includes('T') ? end + 'T23:59:59' : end,
-// 			dateFormat: dateFormat,
-// 			offset: 0,
-// 			limit: 10,
-// 		});
-// 		query.request(data);
-// 	}
+global.renderWithTime = function(variables, from, till, f,classes,){
 
-// 	draw(from, till);
-// 	rr.change(draw);
-// }
+	function draw(start, end) {
+	
+		const dateFormat = dateRangeReportFormat(start, end);
+		const data = Object.assign({},  {
+			from: start,
+			till:  end ? end.split('T')[0] : start,
+			dateFormat: dateFormat,
+		});
+		const result = {...variables,...data}
+		console.log('result from apliccation', result)
+	
+		f(classes,result)
+		
+	}
+	draw(from, till);
+	rr.change(draw);
+}
