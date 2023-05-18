@@ -225,7 +225,7 @@ BLOCKCHAINS = [
 
   {
     tag: 'celo',
-    network: 'celo_rc1',
+    network: 'celo_mainnet',
     name: 'Celo Mainnet',
     family: 'ethereum',
     platform: 'Smart Contract',
