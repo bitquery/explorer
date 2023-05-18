@@ -39,7 +39,7 @@
           }
       }
   }
-class PopularTokenIDsNFT extends BootstrapCardComponentTwoColumns {
+class PopularTokenIDsNFT extends BootstrapCardComponent {
       configuration() {
         return  {
           topElement: function (response){ return response.EVM.Transfers},
@@ -130,7 +130,7 @@ network: "eth",
 }
 
 renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-  renderComponent(NFTTokenInformation, "#NFT-token-information",'NFT-token-information_1',variables);
+  renderComponent(NFTTokenInformation, "#NFT-token-information",'NFT-token-information_1_1',variables);
   renderComponent(PopularTokenIDsNFT, "#Popular-Token-IDs",'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count',variables);
   renderComponent(TopNFTHolders, "#Top-NFT-Holders",'Top-NFT-Holders',variables);
   renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-for-the-Latest-Trades-of-NFT-Token",'Subscription-for-the-Latest-Trades-of-NFT-Token_1',variables, "Latest-Trades-of-NFT-Token_1");

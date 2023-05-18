@@ -47,7 +47,7 @@ class Ethereum::TokenController < Ethereum::AddressController
     if !(sc = @info.try(:smart_contract))
       change_controller!  'ethereum/address'
     elsif !sc.try(:currency)
-      change_controller! 'ethereum/smart_contract'
+    #  change_controller! 'ethereum/smart_contract'
     end
   end
 

@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      # get ":blockchain/address/:address/nft_address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/address/:address/nft_address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/smart_contract/:address/graph", controller: "#{blockchain[:family]}/smart_contract", action: 'money_flow', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
