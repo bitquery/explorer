@@ -56,11 +56,12 @@
       }
   }
 
-
 const variables = {
-network: "eth",
-  limit: 5,
-  offset: 0,
+   network:'<%= @streaming%>',
+   networkForURL: '<%= params['network']['network'] %>',
+   limit: 10,
+   offset: 0,
+   address: '<%= @address %>',
 }
 
 renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){

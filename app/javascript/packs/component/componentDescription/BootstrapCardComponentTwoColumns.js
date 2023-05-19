@@ -1,7 +1,8 @@
 export default class BootstrapCardComponentTwoColumns {
-  constructor(element) {
+  constructor(element,variables) {
   this.container = element;
   this.config = this.configuration();
+  this.variables = variables
   this.createWrapper();
   }
 
@@ -62,7 +63,7 @@ async createCardSections(rowData) {
 
   for (const column of this.config.image) {
     if (column.rendering) {
-      const imgElement = await column.rendering(column.cell(rowData));
+      const imgElement = await column.rendering(column.cell(rowData), this.variables);
       this.appendChildren(cardImg, imgElement)
     }
   }
@@ -77,7 +78,7 @@ async createCardText(column, rowData) {
   let spanText;
 
   if (column.rendering) {
-    spanText = await column.rendering(column.cell(rowData));
+    spanText = await column.rendering(column.cell(rowData),this.variables);
   } else {
     spanText = this.createTextElement('div', column.cell(rowData));
   }

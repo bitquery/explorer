@@ -1,7 +1,8 @@
 export default class BootstrapCardComponent {
-    constructor(element) {
+    constructor(element,variables) {
       this.container = element;
       this.config = this.configuration();
+      this.variables = variables
       this.createWrapper();
     }
   
@@ -63,7 +64,7 @@ export default class BootstrapCardComponent {
   
       for (const column of this.config.image) {
         if (column.rendering) {
-          const imgElement = await column.rendering(column.cell(rowData));
+          const imgElement = await column.rendering(column.cell(rowData), this.variables);
           this.appendChildren(cardImg, imgElement)
         }
       }
@@ -78,7 +79,7 @@ export default class BootstrapCardComponent {
       cardText.style.maxWidth = '150px'
       let spanText;
       if (column.rendering) {
-        spanText = await column.rendering(column.cell(rowData));
+        spanText = await column.rendering(column.cell(rowData), this.variables);
       } else {
         spanText = this.createTextElement('div', column.cell(rowData));
       }

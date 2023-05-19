@@ -1,9 +1,11 @@
 export default class BootstrapTableComponent {
-	constructor(element) {
+	constructor(element,variables) {
 	  this.container = element;
 	  this.config = this.configuration();
+	  this.variables = variables
 	  this.createWrapper();
 	  this.createTable();
+	
 	}
  
 	createWrapper() {
@@ -66,7 +68,8 @@ export default class BootstrapTableComponent {
 			this.appendChildren(td, textCell);
  
 			if (column.rendering) {
-			  const div = await column.rendering(column.cell(rowData));
+			
+			  const div = await column.rendering(column.cell(rowData),this.variables);
 			  td.replaceChild(div, textCell);
 			}
  

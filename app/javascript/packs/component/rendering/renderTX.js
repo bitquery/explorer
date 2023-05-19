@@ -1,9 +1,9 @@
-export default function renderTX(str) {
+export default function renderTX(str,variables) {
 	const div = document.createElement('div');
 	div.classList.add('text-truncate')
 	const link = document.createElement('a');
 	link.setAttribute('target', 'blank');
-	link.href = `/ethereum/tx/${str}`; // Change  URL
+	link.href = `/${variables.network}//tx/${str}`; // Change  URL
 	link.textContent = str;
 	div.appendChild(link)
 	return div;

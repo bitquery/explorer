@@ -1,4 +1,4 @@
-export default function renderIdLink(data) {
+export default function renderIdLink(data,variables) {
 	const div = document.createElement('div');
 	div.classList.add('text-truncate')
 	const link = document.createElement('a');
@@ -7,7 +7,8 @@ export default function renderIdLink(data) {
 	if(!data){
 		link.textContent = '—';
 	}
-	link.href = `/ethereum/token/${data.address}/id/${data.id}`; // Change  URL
+
+	link.href = `/${variables.networkForURL}/token/${data.address}/id/${data.id}`; // Change  URL
 	
 	div.appendChild(link);
 

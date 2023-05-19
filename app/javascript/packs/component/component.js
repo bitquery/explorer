@@ -156,7 +156,6 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 
 export default async function renderComponent(component, selector, queryId, variables ={}, prePopulateId, api_key ) {
 	document.querySelector(selector).textContent ='';
-	console.log('testVariables',variables)
 	const widgetFrame = createWidgetFrame(component, selector, queryId);
 	let queryMetaData;
 	try {
@@ -172,8 +171,14 @@ export default async function renderComponent(component, selector, queryId, vari
 		}
 		widgetFrame.onloadmetadata(queryMetaData);
 		const compElement = widgetFrame.frame;
-		const componentObject = new component(compElement, queryMetaData);
-		console.log(componentObject)
+		const query = queryMetaData.query.trim();
+		const queryVariables = {
+			...JSON.parse(queryMetaData.variables),
+			...variables,
+		};
+		console.log('renderComponent',  queryVariables)
+		const componentObject = new component(compElement,  queryVariables);
+		// console.log(componentObject)
 		const data = [];
 		function getBaseClass(targetClass) {
 			data.push({[targetClass.name]: serialize(targetClass)});
@@ -231,12 +236,12 @@ export default async function renderComponent(component, selector, queryId, vari
 			form.submit();
 			document.body.removeChild(form);
 		}
-		const query = queryMetaData.query.trim();
-		const queryVariables = {
-			...JSON.parse(queryMetaData.variables),
-			...variables,
-		};
-	console.log('const queryVariables',variables)
+		// const query = queryMetaData.query.trim();
+		// const queryVariables = {
+		// 	...JSON.parse(queryMetaData.variables),
+		// 	...variables,
+		// };
+	// console.log('const queryVariables',variables)
 
 		widgetFrame.onquerystarted();
 		if (query.startsWith('subscription')) {

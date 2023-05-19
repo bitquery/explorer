@@ -31,6 +31,7 @@ import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
 import serialize from 'serialize-javascript';
 import { graphQlQueryToJson } from 'graphql-query-to-json';
+import WidgetConfig from './component/componentDescription/WidgetConfig';
 import BootstrapTableComponent from './component/componentDescription/BootstrapTableComponent';
 import BootstrapCardComponent from './component/componentDescription/BootstrapCardComponent';
 import BootstrapCardComponentTwoColumns from './component/componentDescription/BootstrapCardComponentTwoColumns';
@@ -51,6 +52,7 @@ global.serialize = serialize;
 global.createClient = createClient;
 global.createChart = createChart;
 global.graphQlQueryToJson = graphQlQueryToJson;
+global.WidgetConfig = WidgetConfig;
 global.BootstrapTableComponent = BootstrapTableComponent;
 global.BootstrapCardComponentTwoColumns = BootstrapCardComponentTwoColumns;
 global.BootstrapCardComponent = BootstrapCardComponent;
@@ -1037,3 +1039,4 @@ global.renderWithTime = function(variables={}, from, till, f){
 	draw(from, till);
 	rr.change(draw);
 }
+

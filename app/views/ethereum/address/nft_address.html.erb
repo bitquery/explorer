@@ -1,4 +1,5 @@
 
+
   <div  id="Address-Holding-NFTs_1"></div>
   <div  id="Outcoming-NFT-Transfers-By-Address"></div>
   <div  id="Incoming-NFT-Transfers-By-Address"></div>
@@ -138,9 +139,11 @@
   }
 
 const variables = {
-   network: "eth",
+   network:'<%= @streaming%>',
+   networkForURL: '<%= params['network']['network'] %>',
    limit: 10,
    offset: 0,
+   address: '<%= @address %>',
 }
 
 renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
@@ -150,5 +153,8 @@ renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').ht
   renderComponent(TradesNFTTokenAddressSeller, "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller',variables); 
   renderComponent(TradesNFTTokenAddressBuyer, "#Trades-of-NFT-Token-with-Address-as-Buyer_1",'Trades-of-NFT-Token-with-Address-as-Buyer_1',variables); 
 })
+
+
+ 
 
 </script>
