@@ -160,11 +160,13 @@
 
 
 const variables = {
-   network:'<%= @streaming%>',
-   networkForURL: '<%= params['network']['network'] %>',
-   limit: 10,
-   offset: 0,
-   address: '<%= @address %>',
+  network:'<%= @streaming%>',
+  networkForURL: '<%= params['network']['network'] %>',
+  limit: 10,
+  offset: 0,
+  address: '<%= @address %>',
+  token: '<%= @address %>',
+  id: '<%= @id %>',
 }
 console.log('variables for page', variables)
 renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){

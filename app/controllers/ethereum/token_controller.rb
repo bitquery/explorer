@@ -34,6 +34,7 @@ class Ethereum::TokenController < Ethereum::AddressController
 
   def is_native
     @token = params[:address]
+    @id= params[:id]
     @native_token = native_token?
     @token_info = !@native_token && @info.smart_contract.currency
   end

@@ -10,7 +10,6 @@ export default function renderTokenLink(data,variables) {
 	}
 	link.href = `/${variables.networkForURL}/token/${data.smartContract}/nft_smart_contract`; // Change  URL
 	div.appendChild(link);
-	console.log('renderTokenLink data',data)
-	console.log('renderTokenLink variables',variables)
+
 	return div;
 }

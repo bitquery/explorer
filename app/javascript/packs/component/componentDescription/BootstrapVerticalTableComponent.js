@@ -5,6 +5,7 @@ export default class BootstrapTableComponent {
 			 this.variables = variables
 			 this.createWrapper();
 			 this.createTable();
+			 console.log('variables from BootstrapTableComponent', this.variables)
 		}
   
 		createWrapper() {
