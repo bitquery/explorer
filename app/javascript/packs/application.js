@@ -47,6 +47,7 @@ import renderAccordion from './component/rendering/renderAccordion';
 import renderDropdown from './component/rendering/renderDropdown';
 import renderIdLink from './component/rendering/renderIdLink';
 import renderDexProtocolLink from './component/rendering/renderDexProtocolLink';
+import renderJustAddressLink from './component/rendering/renderJustAddressLink';
 
 global.serialize = serialize;
 global.createClient = createClient;
@@ -68,6 +69,8 @@ global.renderTX = renderTX;
 global.renderDexProtocolLink = renderDexProtocolLink;
 global.renderAccordion = renderAccordion;
 global.renderDropdown = renderDropdown;
+global.renderAccordion = renderAccordion;
+global.renderJustAddressLink = renderJustAddressLink;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,

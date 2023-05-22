@@ -2,40 +2,75 @@
   <div class="row">
     <div class="col-12 col-lg-12 mb-4">
       <div class="card">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-8">
-              <% if params['action'] === 'transfers' %>
-                <% if @token_info %>
-                  Latest <%= @token_info.name %> (<%= @token_info.symbol %>) Transfers
-                <% else %>
-                  Latest Transfers
-                <% end %>
-              <% else %>
-                <% if @token_info %>
-                  Latest <%= @token_info.name %> (<%= @token_info.symbol %>) Trades
-                <% else %>
-                  Latest DEX Trades
-                <% end %>
-              <% end %>
-            </div>
-            <div class="col-4 text-success text-right">
-              <span class="d-none d-sm-inline">Live </span><div class="blink blnkr bg-success"></div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div id="latest-transfers-live"><%= t('loading') %></div>
-        </div>
+        <div id="latest-transfers-live"></div>
       </div>
     </div>
   </div>
 
   <script>
-      let action = '<%=@token %>' === 'ETH' ? 'transfersETH' : 'transfers'
-      createWidget(action, 'latest-transfers-live', {
-          network: '<%= params['network']['network'] %>',
-          baseCurrency: '<%=@token %>'
-      }, '<%= BITQUERY_IDE_API %>/querytransfer')
+      function renderSenderRecieverIcon() {
+       const icon = document.createElement('i')
+       icon.classList.add('fa', 'fa-sign-in', 'text-success')
+       return icon
+      }
+      class LatestTokenTransfers extends BootstrapTableComponent {
+        configuration() {
+          return  {
+            topElement: function (response){ return response.EVM.Transfers },
+            columns: [
+              {
+                name: 'Timestamp', cell: function(row){ return row.Block.Time.replace('T', ' ').replace('Z', '')},
+              },
+              {
+                name: 'Block', cell: function(row){ return row.Block.Number }, rendering: renderJustAddressLink
+              },
+              {
+                name: 'Sender', cell: function(row) { return row.Transfer.Sender }, rendering: renderJustAddressLink
+              },
+              {
+                name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon 
+              },
+              {
+                name: 'Receiver',
+                cell: function(row) {
+                  return row.Transfer.Receiver
+                },
+                rendering: renderJustAddressLink
+              },
+              {
+                name: 'Amount',
+                cell: function(row) {
+                  return parseFloat(row.Transfer.Amount).toFixed(4)
+                }
+              },
+              {
+                name: 'Currency',
+                cell: function(row) {
+                  return row.Transfer.Currency.Symbol
+                }
+              },
+              {
+                name: 'Transaction',
+                cell: function(row) {
+                  return row.Transaction.Hash
+                },
+                rendering: renderJustAddressLink
+              }
+            ]
+          }
+        }
+      }
+      const variables = {
+        network:'<%= @streaming%>',
+        networkForURL: '<%= params['network']['network'] %>',
+        limit: 10,
+        offset: 0,
+        address: '<%= @address %>',
+        token: '<%= @address %>',
+        id: '<%= @id %>',
+      }
+      renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+        renderComponent(LatestTokenTransfers, "#latest-transfers-live",'latest-transfers-live_1',variables);
+      })
   </script>
 <% end %>
