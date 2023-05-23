@@ -5,7 +5,6 @@ export default class BootstrapTableComponent {
 			 this.variables = variables
 			 this.createWrapper();
 			 this.createTable();
-			 console.log('variables from BootstrapTableComponent', this.variables)
 		}
   
 		createWrapper() {
@@ -56,7 +55,6 @@ export default class BootstrapTableComponent {
 		}
   
 		async onData(data, sub) {
-			 console.log("onData", data);
 			 const array = this.config.topElement(data);
 			 const maxRows = 15;
 			 for (const rowData of array) {

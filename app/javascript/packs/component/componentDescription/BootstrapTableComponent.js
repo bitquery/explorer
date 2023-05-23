@@ -52,7 +52,7 @@ export default class BootstrapTableComponent {
 	}
  
 	async onData(data, sub) {
-	//   console.log("onData", data);
+	  console.log("onData", data);
 	  const array = this.config.topElement(data);
 	  const maxRows = 15;
  
