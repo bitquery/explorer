@@ -1,3 +1,6 @@
+	const mapQueryAndVariablesStore = new Map();		
+	
+
 const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables, onerror) => {
 	const currentUrl = url.replace(/^http/, 'ws');
 	const client = createClient({ url: currentUrl });
@@ -17,34 +20,50 @@ const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, ele
 };
 const isNotEmptyArray = (subj) => Array.isArray(subj) && subj.length
 const isNotEmptyObject = (subj) => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length
-const graphqlQueryExecutor = async (url, query, element, variables, api_key = '') => {
-	let keyHeader = { 'X-API-KEY': api_key };
-	const response = await fetch(url, {
-		method: 'POST',
-		headers: {
-			Accept: 'application/json',
-			'Content-Type': 'application/json',
-			...keyHeader,
-		},
-		body: JSON.stringify({ query, variables }),
-		credentials: 'same-origin',
-	});
-	if (response.status !== 200) {
-		throw new Error(response.error);
+
+const graphqlQueryExecutor = async (queryId,url, query, element, variables, api_key = '') => {
+	const hash = {
+		...variables,
+		queryId
+		}
+	const str = JSON.stringify(hash)
+
+	if(!mapQueryAndVariablesStore.has(str)){	
+			let keyHeader = { 'X-API-KEY': api_key };
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					...keyHeader,
+				},
+				body: JSON.stringify({ query, variables }),
+				credentials: 'same-origin',
+			});
+			if (response.status !== 200) {
+				throw new Error(response.error);
+			}
+			const data = await response.json();
+			if (data.errors) {
+				throw new Error(data.errors[0].message);
+			}
+		    const result = {
+            data
+		   }
+		   mapQueryAndVariablesStore.set(str,result)
+		return data;
+	} else {
+		return mapQueryAndVariablesStore.get(str).data
 	}
-	const data = await response.json();
-	if (data.errors) {
-		throw new Error(data.errors[0].message);
-	}
-	return data;
+
 };
 
-const renderQueryInComponent = async (endpoint_url, componentObject, query, compElement, variables, api_key) => {
-	const graphQLResponse = await graphqlQueryExecutor(endpoint_url, query, compElement, variables, api_key);
+const renderQueryInComponent = async (endpoint_url, componentObject, query, compElement, variables, queryId,api_key,) => {
+	const graphQLResponse = await graphqlQueryExecutor(queryId,endpoint_url, query, compElement, variables, api_key);
 	componentObject.onData(graphQLResponse.data);
 };
 
-const prepopulateQuery = async (url, componentObject, compElement, query, queryVariables, prePopulateId, api_key) => {
+const prepopulateQuery = async ( url, componentObject, compElement, query, queryVariables,prePopulateId,queryId,  api_key) => {
 	const startQuery = query;
 	let finalQuery = startQuery;
 	if (prePopulateId) {
@@ -60,13 +79,9 @@ const prepopulateQuery = async (url, componentObject, compElement, query, queryV
 			...JSON.parse(queryMetaData.variables),
 			...queryVariables,
 		};
-	} else {
-		if (!query.includes('limit')) {
-			// getLimit(query)
-			finalQuery = startQuery.replace(/^subscription/, 'query').replace(/Transfers\(/, 'Transfers(limit: {count: 15}');
-		}
-	}
-	await renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, api_key);
+	} 
+
+	await renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, queryId, api_key);
 };
 
 const createWidgetFrame = (componentClass, selector, queryId) => {
@@ -154,6 +169,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	};
 };
 
+
 export default async function renderComponent(component, selector, queryId, variables ={}, prePopulateId, api_key ) {
 	document.querySelector(selector).textContent ='';
 	const widgetFrame = createWidgetFrame(component, selector, queryId);
@@ -176,7 +192,7 @@ export default async function renderComponent(component, selector, queryId, vari
 			...JSON.parse(queryMetaData.variables),
 			...variables,
 		};
-		console.log('renderComponent',  queryVariables)
+
 		const componentObject = new component(compElement,  queryVariables);
 		// console.log(componentObject)
 		const data = [];
@@ -252,6 +268,7 @@ export default async function renderComponent(component, selector, queryId, vari
 				query,
 				queryVariables,
 				prePopulateId,
+				queryId,
 				api_key
 			);
 			graphqlQuerySubscriptionExecutor(
@@ -268,7 +285,7 @@ export default async function renderComponent(component, selector, queryId, vari
 				componentObject,
 				query,
 				compElement,
-				queryVariables,
+				queryVariables,queryId,
 				api_key
 			);
 		}

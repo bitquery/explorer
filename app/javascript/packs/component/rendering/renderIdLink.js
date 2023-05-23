@@ -1,6 +1,5 @@
 export default function renderIdLink(data,variables) {
-	console.log('data from renderID', data)
-	console.log('variables from renderID', variables)
+	
 	const div = document.createElement('div');
 	div.classList.add('text-truncate')
 	const link = document.createElement('a');

@@ -2,6 +2,8 @@ export default async function renderImgFromURI(uri) {
 	function createContainer() {
 		const div = document.createElement('div');
 		div.style.cursor = 'pointer';
+		// div.style.background = 'green';
+		// div.style.contain = '';
 		return div;
 	}
 	
@@ -55,7 +57,7 @@ export default async function renderImgFromURI(uri) {
 	
 	function createImageElement(src) {
 		const img = document.createElement('img');
-		img.classList.add('mx-auto','mg-fluid','d-block');
+		img.classList.add('mg-fluid','d-block');
 		img.style.width = 'auto';
 		img.style.maxWidth = '136px';
 		img.style.height = 'auto';

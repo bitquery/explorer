@@ -18,7 +18,7 @@ export default class BootstrapCardComponent {
     }
   
     async onData(data, sub) {
-      console.log(data)
+      // console.log(data)
       const array = this.config.topElement(data);
       const maxRows = 10;
   
