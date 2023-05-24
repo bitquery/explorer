@@ -11,21 +11,21 @@
 
 <script >
 
- class NFTTransfersByDate extends BootstrapTableComponent {
-      configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Transfers},
-            columns: [
-              {
-                name: 'Date', cell: function(row){ return row.Block.Date},
-              },
-              {
-                name: 'Transfers', cell: function(row){ return row.count}, 
-              },
-      
-            ]
+  class NFTTransfersByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transfers },
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Count', cell: function (row) { return +row.count } }
+        ],
+        options: {
+          chart: {
+            title: 'Transfers Count'
           }
+        }
       }
+    }
   }
  class NFTTransfersByDate2 extends BootstrapTableComponent {
       configuration() {
@@ -64,24 +64,16 @@
           }
       }
   }
- class NFTTokenTradesByDate extends BootstrapTableComponent {
-      configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.DEXTrades},
-            columns: [
-              {
-                name: 'Date', cell: function(row){ return row.Block.Date},
-              },
-              {
-                name: 'Protocol', cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
-              },
-              {
-                name: 'Count', cell: function(row){ return row.count},
-              },
-            
-            ]
-          }
+ class NFTTokenTradesByDate extends TimeChartComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.DEXTrades },
+        columns: [
+          { name: 'Date', cell: function(row) { return row.Block.Date } },
+          { name: function(row) { return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}` }, cell: function(row) { return +row.count } } ,
+        ]
       }
+    }
   }
 
 

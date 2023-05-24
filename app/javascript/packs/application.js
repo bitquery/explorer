@@ -37,6 +37,8 @@ import BootstrapCardComponent from './component/componentDescription/BootstrapCa
 import GraphsComponent from './component/componentDescription/GraphsComponent';
 import BootstrapCardComponentTwoColumns from './component/componentDescription/BootstrapCardComponentTwoColumns';
 import BootstrapVerticalTableComponent from './component/componentDescription/BootstrapVerticalTableComponent';
+import TimeChartComponent from './component/componentDescription/TimeChartComponent';
+import PieChartComponent from './component/componentDescription/PieChartComponent';
 import renderComponent from './component/component';
 import renderImgFromURI from './component/rendering/renderImgFromURI';
 import renderAddressLink from './component/rendering/renderAddressLink';
@@ -58,6 +60,8 @@ global.graphQlQueryToJson = graphQlQueryToJson;
 global.WidgetConfig = WidgetConfig;
 global.BootstrapTableComponent = BootstrapTableComponent;
 global.GraphsComponent = GraphsComponent;
+global.TimeChartComponent = TimeChartComponent;
+global.PieChartComponent = PieChartComponent;
 global.BootstrapCardComponentTwoColumns = BootstrapCardComponentTwoColumns;
 global.BootstrapCardComponent = BootstrapCardComponent;
 global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
