@@ -1,20 +1,18 @@
 export default class GraphsComponent {
-   constructor(element,variables) {
-   this.container = element;
-   this.config = this.configuration();
-   this.variables = variables
-   }
-
-
+    constructor(element,variables) {
+      this.container = element;
+      this.config = this.configuration();
+      this.variables = variables;
+      console.log(variables)
+    }
   
-   async onData(data, sub) {
-    function shorten(text, maxCharCount = 10) {
-        if (text.length > maxCharCount) {
-          return text.substr(0, maxCharCount) + '...';
-        } else {
-          return text;
-        }
-      }
+    shortenText(text, maxCharCount = 10) {
+      return text.length > maxCharCount
+        ? `${text.substr(0, maxCharCount)}...`
+        : text;
+    }
+      
+    async onData(data, sub) {
       console.log("onData", data);
       const array = this.config.topElement(data);
       
@@ -22,66 +20,67 @@ export default class GraphsComponent {
       let edges = [];
       const addresses = new Set();
       for (const rowData of array) {
-          let Sender, Receiver, Time;
-          for (const column of this.config.columns) {
-              const cellData = column.cell(rowData);
-              if(column.name === 'Sender'){
-                  Sender = cellData;
-                  if (!addresses[cellData]) {
-                      addresses[cellData] = true;
-                      nodes.push({id: cellData, label: shorten(cellData)});
-                  }
-              }
-              if(column.name === 'Receiver'){
-                  Receiver = cellData;
-                  if (!addresses[cellData]) {
-                      addresses[cellData] = true;
-                      nodes.push({id: cellData, label: shorten(cellData)});
-                  }
-              }
-              if(column.name === 'Time'){
-                 Time = cellData;
-               if (column.rendering) {
-                  Time = await column.rendering(column.cell(rowData)).textContent;
-                }
-                
-              }
+        let dataObject = {};
+        for (const column of this.config.columns) {
+          const cellData = column.cell(rowData);
+          if(column.name === 'Sender' || column.name === 'Receiver'){
+            dataObject[column.name] = cellData;
+            if (!addresses.has(cellData)) {
+              addresses.add(cellData);
+              nodes.push({id: cellData, label: this.shortenText(cellData)});
+            }
           }
-   
-          edges.push({from: Sender, to: Receiver, label: Time});
+          if(column.name === 'Time'){
+            dataObject[column.name] = cellData;
+            if (column.rendering) {
+              dataObject[column.name] = await column.rendering(column.cell(rowData)).textContent;
+            }
+          }
+          if(column.name ==='TX Hash'){
+            dataObject[column.name] = cellData;
+            dataObject[column.name] = column.cell(rowData)
+          }
+        }
+        edges.push({from: dataObject['Sender'], to: dataObject['Receiver'], label: dataObject['Time'], url: `/${variables.networkForURL}/tx/${dataObject['TX Hash']}`});
+console.log('edges',edges )
       }
+  
+      const data2 = {
+        nodes: nodes,
+        edges: edges
+      };
+  
+      const network = new vis.Network(this.container, data2, this.getOptions());
 
-     const data2 = {
-         nodes: nodes,
-         edges: edges
-     };
-
-    var options = {
-      autoResize: true,
-      height: '500px' ,
-      width: '100%',
-      edges:{
-        arrows: 'to',
-      },
-    //   nodes:{
-    //     level: 5,
-    //     shape: 'ellipse',
-    //     // size:20,
-    //   },
-    //   layout: {
-    //     improvedLayout: true,
-   
-    //   }
-      physics: { 
-        hierarchicalRepulsion: {
-            centralGravity: 0.3,
-            springLength: 500,
-            springConstant: 0.01,
-            nodeDistance: 120,
+      network.on('click', function(properties) {
+        const edgeId = properties.edges[0];
+        if (edgeId) {
+            const edge = data2.edges.find(edge => edge.id === edgeId);
+            if (edge && edge.url) {
+                window.open(edge.url, "_blank");
+            }
+        }
+    });
+      
+    }
+  
+    getOptions() {
+      return {
+        autoResize: true,
+        height: '500px' ,
+        width: '100%',
+        edges:{
+          arrows: 'to',
+        },
+        physics: { 
+          barnesHut: {
+              gravitationalConstant: -4000,
+              centralGravity: 0.1,
+              springLength: 95,
+              springConstant: 0.01,
           },
+        }
+      }
+    }
   }
-    }   
-     // initialize your network!
-     const network = new vis.Network(this.container, data2, options);
-   }
-}
+  
