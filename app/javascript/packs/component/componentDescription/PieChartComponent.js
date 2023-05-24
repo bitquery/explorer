@@ -8,7 +8,7 @@ export default class PieChartComponent {
 
 	createWrapper() {
 		this.wrapper = document.createElement("div")
-		this.wrapper.classList.add("table-responsive-md")
+		// this.wrapper.classList.add("table-responsive-md")
 		this.container.appendChild(this.wrapper)
 	}
 
