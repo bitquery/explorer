@@ -1,6 +1,7 @@
 
   <div  id="NFT-Transfers-By-Date"></div>
   <div  id="NFT-Transfers-By-Date2"></div>
+  <div  id="NFT-Transfers-By-Date-Pie"></div>
   <div  id="Top-transfered-NFT"></div>
   <div  id="NFT-Token-Trades-By-Date"></div>
   <div  id="Top-traded-NFT-tokens"></div>
@@ -12,6 +13,20 @@
 <script >
 
   class NFTTransfersByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transfers },
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Count', cell: function (row) { return +row.count } }
+        ],
+        options: {
+            title: 'Transfers Count'
+        }
+      }
+    }
+  }
+  class NFTTransfersByDatePie extends PieChartComponent {
     configuration() {
       return {
         topElement: function(response) { return response.EVM.Transfers },
@@ -180,6 +195,7 @@ const variables = {
 }
 renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
    renderComponent(NFTTransfersByDate, "#NFT-Transfers-By-Date",'NFT-Token-Transfers-By-Date',variables);//Graph Barchart
+   renderComponent(NFTTransfersByDatePie, "#NFT-Transfers-By-Date-Pie",'NFT-Token-Transfers-By-Date',variables);//Graph Barchart
    renderComponent(NFTTransfersByDate2, "#NFT-Transfers-By-Date2",'NFT-Token-Transfers-By-Date',variables);//Graph Barchart
   renderComponent(TopTransferedNFT, "#Top-transfered-NFT",'Top-transfered-NFT-tokens-in-network',variables);
   renderComponent(NFTTokenTradesByDate, "#NFT-Token-Trades-By-Date",'NFT-Token-Trades-By-Date_1',variables);//Graph Barchart
