@@ -17,6 +17,7 @@ export default class TimeChartComponent {
 			const dataArray = this.config.topElement(data)
 			let dataToVizualize = []
 			let annotation = []
+			let k = 0
 			for (let i = 0; i < dataArray.length; i++) {
 				for (let column of this.config.columns) {
 					const columnName = typeof column.name === 'function' ? column.name(dataArray[i]) : column.name
@@ -27,11 +28,15 @@ export default class TimeChartComponent {
 						currentIndex = annotation.length
 						annotation.push(columnName)
 					}
-					if (!dataToVizualize[i]) {
+					if (k>0 && columnName === 'Date' && dataToVizualize[k-1] && el === dataToVizualize[k-1][0]) {
+						k--
+					}
+					if (!dataToVizualize[k]) {
 						dataToVizualize.push([])
 					}
-					dataToVizualize[i][currentIndex] = el
+					dataToVizualize[k][currentIndex] = el
 				}
+				k++
 			}
 			dataToVizualize = dataToVizualize.map(row => {
 				if (!row[annotation.length-1]) {
@@ -42,10 +47,10 @@ export default class TimeChartComponent {
 			dataToVizualize.unshift(annotation)
 
 			const dataTable = google.visualization.arrayToDataTable(dataToVizualize)
-			const chart = new google.charts.Bar(this.wrapper)
-			chart.draw(dataTable, google.charts.Bar.convertOptions(this.config.options))
+			const chart = new google.visualization.ColumnChart(this.wrapper)
+			chart.draw(dataTable, this.config.options)
 		}
-		google.charts.load('current', { 'packages': ['bar'] });
+		google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawChart);
 
 	}

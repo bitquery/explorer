@@ -78,7 +78,11 @@
         columns: [
           { name: 'Date', cell: function(row) { return row.Block.Date } },
           { name: function(row) { return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}` }, cell: function(row) { return +row.count } } ,
-        ]
+        ],
+        options: {
+          isStacked: true,
+          theme: 'material'
+        }
       }
     }
   }
