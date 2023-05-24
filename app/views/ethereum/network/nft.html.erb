@@ -1,17 +1,17 @@
 
   <div  id="NFT-Transfers-By-Date"></div>
   <div class="row g-0">
-  <div class="col-md-7" id="Top-transfered-NFT"></div>
-  <div class="col-md-5 " id="NFT-Transfers-By-Date-Pie"></div>
+    <div class="col-md-7" id="Top-transfered-NFT"></div>
+    <div class="col-md-5 " id="NFT-Transfers-By-Date-Pie"></div>
   </div>
   <div  id="NFT-Token-Trades-By-Date"></div>
   <div class="row g-0">
-  <div class="col-md-7" id="Top-traded-NFT-tokens"></div>
-  <div class="col-md-5" id="Top-traded-NFT-tokens-Pie"></div>
+    <div class="col-md-7" id="Top-traded-NFT-tokens"></div>
+    <div class="col-md-5" id="Top-traded-NFT-tokens-Pie"></div>
   </div>
   <div class="row g-0">
-  <div class="col-md-7" id="Top-exchange-protocols-trading-NFT"></div>
-  <div class="col-md-5"id="Top-exchange-protocols-trading-NFT-Pie" ></div>
+    <div class="col-md-7" id="Top-exchange-protocols-trading-NFT"></div>
+    <div class="col-md-5"id="Top-exchange-protocols-trading-NFT-Pie" ></div>
   </div>
   <div  id="Subscription-Latest-Trades-NFT-Token"></div>
 
@@ -63,9 +63,8 @@
           {name: 'Count', cell: function(row){ return +row.count} }
         ],
         options: {
-          chart: {
-            title: 'Transfers Count'
-          }
+          title: 'Transfers Count',
+          height: 395
         }
       }
     }
@@ -216,15 +215,15 @@ const variables = {
   id: '<%= @id %>',
 }
 renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-   renderComponent(NFTTransfersByDate, "#NFT-Transfers-By-Date",'NFT-Token-Transfers-By-Date',variables);//Graph Barchart
-   renderComponent(NFTTransfersByDatePie, "#NFT-Transfers-By-Date-Pie",'Top-transfered-NFT-tokens-in-network',variables);//Graph Barchart
+  renderComponent(NFTTransfersByDate, "#NFT-Transfers-By-Date",'NFT-Token-Transfers-By-Date',variables);//Graph Barchart
+  renderComponent(NFTTransfersByDatePie, "#NFT-Transfers-By-Date-Pie",'Top-transfered-NFT-tokens-in-network',variables);//Graph Barchart
   renderComponent(TopTransferedNFT, "#Top-transfered-NFT",'Top-transfered-NFT-tokens-in-network',variables);
   renderComponent(NFTTokenTradesByDate, "#NFT-Token-Trades-By-Date",'NFT-Token-Trades-By-Date_1',variables);//Graph Barchart
   renderComponent(TopTradedNFTTokens, "#Top-traded-NFT-tokens",'Top-traded-NFT-tokens-in-network',variables);
   renderComponent(TopTradedNFTTokensPie, "#Top-traded-NFT-tokens-Pie",'Top-traded-NFT-tokens-in-network',variables);
   renderComponent(TopExchangesForNFTs, "#Top-exchange-protocols-trading-NFT",'Top-exchange-protocols-trading-NFT-tokens-in-network',variables); 
   renderComponent(TopExchangesForNFTsPie, "#Top-exchange-protocols-trading-NFT-Pie",'Top-exchange-protocols-trading-NFT-tokens-in-network',variables); 
- renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1',variables, 'Latest-Trades-of-NFT-Tokens-in-Network');
+  renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1',variables, 'Latest-Trades-of-NFT-Tokens-in-Network');
 })
 
 

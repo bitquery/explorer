@@ -3,13 +3,6 @@ export default class PieChartComponent {
 		this.container = element
 		this.config = this.configuration()
 		this.variables = variables
-		this.createWrapper()
-	}
-
-	createWrapper() {
-		this.wrapper = document.createElement("div")
-		this.wrapper.classList.add("table-responsive-md")
-		this.container.appendChild(this.wrapper)
 	}
 
 	async onData(data, sub) {
@@ -17,32 +10,26 @@ export default class PieChartComponent {
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
 			let dataToVizualize = []
-
+			let annotation = []
 			for (let i=0; i < dataArray.length; i++) {
-				for (let j=0; j < this.config.columns.length; j++) {
+				for (let column of this.config.columns) {
 					if (i === 0) {
-						if ( dataToVizualize[i] ) {
-							dataToVizualize[i].push( this.config.columns[j].name )
-						} else {
-							dataToVizualize.push( [this.config.columns[j].name] )
-						}
+						annotation.push( column.name )
+					} 
+					if ( dataToVizualize[i] ) {
+						dataToVizualize[i].push( column.cell( dataArray[i] ) )
 					} else {
-						if ( dataToVizualize[i] ) {
-							dataToVizualize[i].push( this.config.columns[j].cell( dataArray[i] ) )
-						} else {
-							dataToVizualize.push([ this.config.columns[j].cell( dataArray[i] ) ])
-						}
+						dataToVizualize.push([ column.cell( dataArray[i] ) ])
 					}
 				}
 			}
-
+			dataToVizualize.unshift( annotation )
 			const dataTable = google.visualization.arrayToDataTable(dataToVizualize)
-			const chart = new google.visualization.PieChart(this.wrapper)
+			const chart = new google.visualization.PieChart(this.container)
 			chart.draw(dataTable, this.config.options)
 		}
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
 
 	}
-
 }
