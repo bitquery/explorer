@@ -31,5 +31,9 @@ export default class PieChartComponent {
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawChart);
 
+		window.addEventListener('resize', () => {
+			this.container.removeChild(this.container.firstChild)
+			drawChart()
+		})
 	}
 }

@@ -52,6 +52,10 @@ export default class TimeChartComponent {
 		}
 		google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawChart);
-
+		
+		window.addEventListener('resize', () => {
+			this.wrapper.removeChild(this.wrapper.firstChild)
+			drawChart()
+		})
 	}
 }
