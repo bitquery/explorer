@@ -203,6 +203,11 @@ en:
           balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history
           %{network} address finder,%{address}"
+      nft_address:
+        name: "NFT Address"
+        title: "%{network} NFT Address"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"   
       transactions:
         name: 'Transactions'
         title: "%{address} transactions | %{network}"
@@ -210,6 +215,7 @@ en:
         keywords: "%{address} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
           %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
           %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+
       contracts:
         name: "Contracts"
         title: "%{address} smart contract | %{network}"
@@ -330,6 +336,7 @@ en:
         title: "%{address} payments in %{network}"
         description: "%{address} payments in %{network}"
         keywords: "%{address} payments, %{network}"
+    
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -343,6 +350,11 @@ en:
         title: "%{address} Transactions | %{network}"
         description: "%{address} Transactions on %{network} blockchain"
         keywords: "%{address} Transactions, %{address} smart contract Transactions,%{network}"
+      nft_address:
+        name: "NFT Address"
+        title: "%{network} NFT Address"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"    
       methods:
         name: 'Methods'
         title: "%{address} Smart Contract Methods | %{network}"
@@ -388,6 +400,7 @@ en:
         title: "%{network} Token Pairs Traded on DEXes"
         description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
         keywords: "%{network},DEX,Tokens"
+    
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -399,6 +412,16 @@ en:
           %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
           %{token} crypto, %{token} transaction explorer, %{token} address explorer,
           %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
+      nft_smart_contract:
+        name: "NFT Smart Contract"
+        title: "%{network}NFT Smart Contract"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft ,NFT Smart Contract"    
+      show_nft_id:
+        name: "NFT ID"
+        title: "%{network} NFT ID"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, Id"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
@@ -486,6 +509,7 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+        
     token_pair:
       icon: 'fas fa-coins text-warning'
       header: "Token pair %{token1symbol} (%{token1name}) vs %{token2symbol} (%{token2name}) in %{network}"
@@ -500,6 +524,7 @@ en:
         title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
         description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
+    
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -593,6 +618,7 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+    
     trc10token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -676,6 +702,7 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+    
     call_result:
       icon: 'fas fa-bolt'
       header: "%{network} call result %{hash}"
@@ -684,6 +711,7 @@ en:
         title: "Call Result %{hash} | %{network}"
         description: "Call Result %{hash} in %{network}"
         keywords: "%{network} Call Result, %{network} Call Result explorer, %{network} explorer, %{network} call result analytics"
+    
     tx:
       icon: 'fas fa-bolt'
       header: "%{network} transaction %{hash}"
@@ -815,6 +843,7 @@ en:
         title: "%{network} Effects %{hash} transaction"
         description: "Effects for in transaction %{hash} in %{network}"
         keywords: "%{network} transaction effects"
+    
     height:
       icon: 'fas fa-cube'
       header: "%{network} Height %{height}"
@@ -823,6 +852,7 @@ en:
         title: "Blocks on %{height} in %{network}"
         description: "Check %{network} blocks on %{height} and %{network} block data and analytics"
         keywords: "%{network} blocks"
+    
     block:
       icon: 'fas fa-cube'
       header: "%{network} Block %{height}"
@@ -945,6 +975,7 @@ en:
         title: "Effects on %{network} Explorer, block %{height}"
         description: "Effects %{network} Explorer, block %{height}"
         keywords: "%{network} Effects"
+    
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1028,6 +1059,7 @@ en:
         title: "Validator %{validator_hash} in %{network}"
         description: "Check %{network} validator %{validator_hash} and %{network} validator data and analytics"
         keywords: "%{network} validator, %{network} latest validator"
+    
     network:
       header: "%{network} Blockchain Explorer"
       blocks:
@@ -1242,6 +1274,7 @@ en:
         title: "%{network} NFTs"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs"
+   
     home:
       index:
         name: "All"
@@ -1414,6 +1447,7 @@ en:
         title: "Validator %{index} | %{network}"
         description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
         keywords: "%{network} Validator ${index}"
+    
     dex_protocol:
       icon: 'fa fa-exchange'
       header: "%{protocol} DEX Protocol at %{network} Blockchain"
@@ -1422,6 +1456,11 @@ en:
         title: "Statistics of %{protocol} DEX at %{network}"
         description: "Statistics of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades,statistics"
+      nft_dex_protocol:
+        name: "NFT Dex Protocols"
+        title: "%{network} NFT Dex Protocols"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
       volume:
         name: "Volume"
         title: "Volume of %{protocol} DEX at %{network}"
@@ -2305,6 +2344,7 @@ en:
       statistics:
         in_block: "in block"
         in_tx: "in tx"
+
     token:
       description:
         part1: "Address %{address} is token"

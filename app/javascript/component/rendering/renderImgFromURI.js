@@ -2,6 +2,8 @@ export default async function renderImgFromURI(uri) {
 	function createContainer() {
 		const div = document.createElement('div');
 		div.style.cursor = 'pointer';
+		// div.style.background = 'green';
+		// div.style.contain = '';
 		return div;
 	}
 	
@@ -27,7 +29,7 @@ export default async function renderImgFromURI(uri) {
 		if (mediaURL && mediaURL.startsWith('ipfs://')) {
 			mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
 		}
-		console.log(mediaURL)
+		//  console.log(mediaURL)
 		return { mediaURL, name: nameMedia };
 	}
 	
@@ -36,9 +38,10 @@ export default async function renderImgFromURI(uri) {
 		container.appendChild(mediaElement);
 		addClickListener(container, mediaURL.mediaURL);
 		
-		const span = document.createElement('div');
+		// const span = document.createElement('span');
+		// span.classList.add('text-smal')
 		// span.textContent = mediaURL.name;
-		container.appendChild(span);
+		// container.appendChild(span);
 	}
 	
 	function appendErrorElement(container, url) {
@@ -54,23 +57,25 @@ export default async function renderImgFromURI(uri) {
 	
 	function createImageElement(src) {
 		const img = document.createElement('img');
-		img.classList.add('img-fluid');
-		img.style.maxWidth = '100%';
-		img.style.maxHeight = '184px';
+		img.classList.add('mg-fluid','d-block');
+		img.style.width = 'auto';
+		img.style.maxWidth = '136px';
+		img.style.height = 'auto';
+		img.style.maxHeight = '136px';
 		img.src = src;
 		return img;
 	}
-	
+
 	function createVideoElement(src) {
-		const video = document.createElement('video');
-		video.setAttribute('type', 'video/mp4');
-		video.style.maxWidth = '100%';
-		video.style.maxHeight = '184px';
-		video.src = src;
-		video.controls = true;
-		return video;
+		 const video = document.createElement('video');
+		 video.setAttribute('type', 'video/mp4');
+		 video.style.width = 'auto';
+		 video.style.maxWidth = '136px';
+		 video.style.maxHeight = '136px';
+		 video.src = src;
+		 video.controls = true;
+		 return video;
 	}
-	
 	function addClickListener(element, mediaURL) {
 		element.addEventListener('click', () => {
 			window.open(mediaURL, '_blank');

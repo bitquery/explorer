@@ -41,7 +41,9 @@ BLOCKCHAINS = [
 
   {
     tag: 'eth',
+    chainId: '1',
     network: 'ethereum',
+    streaming: 'eth',
     name: 'Ethereum Mainnet',
     family: 'ethereum',
     platform: 'Smart Contract',
@@ -58,7 +60,6 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'ETC',
     icon: 'etc.svg'
-
   },
 
   {
@@ -69,7 +70,6 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'ETC',
     icon: 'etc.svg'
-
   },
 
   {
@@ -81,7 +81,6 @@ BLOCKCHAINS = [
     currency: 'ETHW',
     icon: 'currency/ethpow.png',
     start: Date.parse('2022-09-15')
-
   },
   {
     tag: 'zcash',
@@ -131,7 +130,6 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'ALGO',
     icon: 'currency/algo.png'
-
   },
 
   {
@@ -142,7 +140,6 @@ BLOCKCHAINS = [
     platform: 'Testnet',
     currency: 'ALGO',
     icon: 'currency/algo.png'
-
   },
 
   {
@@ -192,6 +189,8 @@ BLOCKCHAINS = [
   {
     tag: 'bsc',
     network: 'bsc',
+    streaming: 'bsc',
+    chainId: '56',
     name: 'Binance Smart Chain Mainnet',
     family: 'ethereum',
     platform: 'Smart Contract',

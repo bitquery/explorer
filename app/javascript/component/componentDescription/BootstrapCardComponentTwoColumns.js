@@ -1,12 +1,13 @@
 export default class BootstrapCardComponentTwoColumns {
-  constructor(element) {
+  constructor(element,variables) {
   this.container = element;
   this.config = this.configuration();
+  this.variables = variables
   this.createWrapper();
   }
 
 createWrapper() {
-  this.wrapper = this.createElementWithClasses('div', 'row', 'row-cols-1', 'row-cols-md-2');
+  this.wrapper = this.createElementWithClasses('div', 'row', 'row-cols-1', 'row-cols-md-3');
   this.container.appendChild(this.wrapper);
 }
 
@@ -35,7 +36,7 @@ async onData(data, sub) {
 }
 
 async createCardElement(rowData) {
-  const cardElement = this.createElementWithClasses('div', 'card', 'mb-3');;
+  const cardElement = this.createElementWithClasses('div', 'card', 'mb-2');;
   const card = this.createElementWithClasses('div', 'row', 'g-0');
   const [cardImg, cardBodyWrapper] = await this.createCardSections(rowData);
   this.appendChildren(cardElement, card);
@@ -45,11 +46,11 @@ async createCardElement(rowData) {
 }
 
 async createCardSections(rowData) {
-  const cardImg = this.createElementWithClasses('div', 'col-md-3', 'd-flex', 'align-items-center', 'justify-content-center');
-  const cardBodyWrapper = this.createElementWithClasses('div', 'col-md-9');
-  const cardBody = this.createElementWithClasses('div', 'card-body', 'd-flex');
-  const [leftColumnDiv, rightColumnDiv] = [this.createElementWithClasses('div', 'col-md-6', 'align-items-start'), this.createElementWithClasses('div', 'col-md-6', 'align-items-end')];
-
+  const cardImg = this.createElementWithClasses('div',  'd-flex', 'align-items-center', 'col','justify-content-center');
+  const cardBodyWrapper = this.createElementWithClasses('div' ,'col');
+  const cardBody = this.createElementWithClasses('div',  'card-body','d-flex'); 
+  const [leftColumnDiv, rightColumnDiv] = [this.createElementWithClasses('div','col'), this.createElementWithClasses('div', 'col')];
+//, 'col-md-6','align-items-start', 'align-items-end'
   for (const column of [...this.config.columnOne, ...this.config.columnTwo]) {
     const cardText = await this.createCardText(column, rowData);
 
@@ -62,7 +63,7 @@ async createCardSections(rowData) {
 
   for (const column of this.config.image) {
     if (column.rendering) {
-      const imgElement = await column.rendering(column.cell(rowData));
+      const imgElement = await column.rendering(column.cell(rowData), this.variables);
       this.appendChildren(cardImg, imgElement)
     }
   }
@@ -73,15 +74,15 @@ async createCardSections(rowData) {
 }
 
 async createCardText(column, rowData) {
-  const cardText = this.createElementWithClasses('div', 'card-text', 'd-flex', 'justify-content-start', 'align-items-center', 'col', 'flex-row');
+  const cardText = this.createElementWithClasses('div', 'card-text', 'd-flex','justify-content-start', 'align-items-center', 'col', 'flex-row');
   let spanText;
 
   if (column.rendering) {
-    spanText = await column.rendering(column.cell(rowData));
+    spanText = await column.rendering(column.cell(rowData),this.variables);
   } else {
     spanText = this.createTextElement('div', column.cell(rowData));
   }
-
+spanText.classList.add('text-truncate')
   const textContainer = this.createElementWithClasses('div', 'text-container', 'text-truncate');
   if(column.name){
       const spanTitle = this.createElementWithClasses('div','text-muted')

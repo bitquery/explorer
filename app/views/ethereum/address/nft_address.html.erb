@@ -1,0 +1,162 @@
+
+
+  <div  id="Address-Holding-NFTs_1"></div>
+  <div  id="Outcoming-NFT-Transfers-By-Address"></div>
+  <div  id="Incoming-NFT-Transfers-By-Address"></div>
+  <div  id="Trades-of-NFT-Token-with-Address-as-Seller"></div>
+  <div  id="Trades-of-NFT-Token-with-Address-as-Buyer_1"></div>
+
+<script >
+
+
+ class AddressHoldingNFT extends BootstrapCardComponent {
+     configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.BalanceUpdates},
+            image: [
+            {
+             cell: function(row){ return row.BalanceUpdate.URI}, rendering: renderImgFromURI,
+            }
+              ] , 
+            columnOne: [
+              {
+                name: 'NFT', cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
+              },
+              {
+                name: 'ID', cell: function(row){ return {id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}}, rendering: renderIdLink
+              },
+            ],
+            columnTwo:[
+              {
+                name: 'Amount',  cell: function(row){ return row.amount},
+              },
+              {
+                name: 'Last Transaction', cell: function(row){ return row.count},
+              },
+            ]
+          }
+      }
+  }
+
+ class OutcomingNFTTransfersByAddress extends BootstrapTableComponent {
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Transfers},
+            columns: [
+             {
+                name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+              },
+              {
+                name: 'TX', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
+              },
+              {
+                name: 'ID', cell: function(row){ return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}}, rendering: renderIdLink
+              },
+              {
+                name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
+              },
+              {
+                name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink,
+              },
+            ]
+          }
+      }
+  }
+ class IncomingNFTTransfersByAddress extends BootstrapTableComponent {
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Transfers},
+            columns: [
+             {
+                name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+              },
+              {
+                name: 'TX', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
+              },
+              {
+                name: 'ID', cell: function(row){ return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}}, rendering: renderIdLink,
+              },
+              {
+                name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
+              },
+              {
+                name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink,
+              },
+            ]
+          }
+      }
+  }
+ class TradesNFTTokenAddressSeller extends BootstrapTableComponent {
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTrades},
+            columns: [
+             {
+                name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+              },
+              {
+                name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer}, rendering: renderAddressLink,
+              },
+              {
+                name: 'Prise', cell: function(row){ return Math.floor(row.Trade.Buy.Price *1000)/1000}, 
+              },
+              {
+                name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
+              },
+              {
+                name: 'TX', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+              },
+            ]
+          }
+      }
+  }
+ class TradesNFTTokenAddressBuyer extends BootstrapTableComponent {
+      configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTrades},
+            columns: [
+             {
+                name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+              },
+              {
+                name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer}, rendering: renderAddressLink,
+              },
+              {
+                name: 'Prise', cell: function(row){ return Math.floor(row.Trade.Buy.Price *1000)/1000 }, 
+              },
+              {
+                name: 'Trade', cell: function(row){ return row.Trade.Dex.SmartContract}, rendering: renderAddressLink,
+              },
+              {
+                name: 'Amount', cell: function(row){ return Math.floor(row.Trade.Sell.Amount *1000)/1000 }, 
+              },
+              {
+                name: 'TX', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+              },
+            ]
+          }
+      }
+  }
+
+const variables = {
+  network:'<%= @streaming%>',
+  networkForURL: '<%= params['network']['network'] %>',
+  limit: 10,
+  offset: 0,
+  address: '<%= @address %>',
+  token: '<%= @address %>',
+  id: '<%= @id %>',
+}
+
+renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+  renderComponent(AddressHoldingNFT, "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1_1',variables);
+  renderComponent(OutcomingNFTTransfersByAddress, "#Outcoming-NFT-Transfers-By-Address",'Outcoming-NFT-Transfers-By-Address_1_1',variables); 
+  renderComponent(IncomingNFTTransfersByAddress, "#Incoming-NFT-Transfers-By-Address",'Incoming-NFT-Transfers-By-Address_1',variables); 
+  renderComponent(TradesNFTTokenAddressSeller, "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller',variables); 
+  renderComponent(TradesNFTTokenAddressBuyer, "#Trades-of-NFT-Token-with-Address-as-Buyer_1",'Trades-of-NFT-Token-with-Address-as-Buyer_1',variables); 
+})
+
+
+ 
+
+</script>

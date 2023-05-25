@@ -31,8 +31,14 @@ import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
 import serialize from 'serialize-javascript';
 import { graphQlQueryToJson } from 'graphql-query-to-json';
+import WidgetConfig from '../component/componentDescription/WidgetConfig';
 import BootstrapTableComponent from '../component/componentDescription/BootstrapTableComponent';
+import BootstrapCardComponent from '../component/componentDescription/BootstrapCardComponent';
+import GraphsComponent from '../component/componentDescription/GraphsComponent';
 import BootstrapCardComponentTwoColumns from '../component/componentDescription/BootstrapCardComponentTwoColumns';
+import BootstrapVerticalTableComponent from '../component/componentDescription/BootstrapVerticalTableComponent';
+import TimeChartComponent from '../component/componentDescription/TimeChartComponent';
+import PieChartComponent from '../component/componentDescription/PieChartComponent';
 import renderComponent from '../component/component';
 import renderImgFromURI from '../component/rendering/renderImgFromURI';
 import renderAddressLink from '../component/rendering/renderAddressLink';
@@ -42,22 +48,37 @@ import renderURI from '../component/rendering/renderURI';
 import renderTX from '../component/rendering/renderTX';
 import renderAccordion from '../component/rendering/renderAccordion';
 import renderDropdown from '../component/rendering/renderDropdown';
+import renderIdLink from '../component/rendering/renderIdLink';
+import renderDexProtocolLink from '../component/rendering/renderDexProtocolLink';
+import renderJustAddressLink from '../component/rendering/renderJustAddressLink';
+import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieverIcon';
 
 global.serialize = serialize;
 global.createClient = createClient;
 global.createChart = createChart;
 global.graphQlQueryToJson = graphQlQueryToJson;
+global.WidgetConfig = WidgetConfig;
 global.BootstrapTableComponent = BootstrapTableComponent;
+global.GraphsComponent = GraphsComponent;
+global.TimeChartComponent = TimeChartComponent;
+global.PieChartComponent = PieChartComponent;
 global.BootstrapCardComponentTwoColumns = BootstrapCardComponentTwoColumns;
+global.BootstrapCardComponent = BootstrapCardComponent;
+global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
 global.renderAddressLink = renderAddressLink;
 global.renderTokenLink = renderTokenLink;
+global.renderIdLink = renderIdLink;
 global.renderDate = renderDate;
 global.renderURI = renderURI;
 global.renderTX = renderTX;
+global.renderDexProtocolLink = renderDexProtocolLink;
 global.renderAccordion = renderAccordion;
 global.renderDropdown = renderDropdown;
+global.renderAccordion = renderAccordion;
+global.renderJustAddressLink = renderJustAddressLink;
+global.renderSenderRecieverIcon = renderSenderRecieverIcon;
 
 global.widgetRenderer = {
 	'vega.bar': barWidgetRenderer,
@@ -1011,3 +1032,22 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
 	draw(from, till);
 	rr.change(draw);
 };
+
+global.renderWithTime = function(variables={}, from, till, f){
+
+	function draw(start, end) {
+	
+		const dateFormat = dateRangeReportFormat(start, end);
+		const data = Object.assign({},  {
+			from: start,
+			till:  end ? end.split('T')[0] : start,
+			dateFormat: dateFormat,
+		});
+		const resultVariables = {...variables,...data}
+		f(resultVariables)
+		
+	}
+	draw(from, till);
+	rr.change(draw);
+}
+
