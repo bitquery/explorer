@@ -4,20 +4,30 @@
 
 <script >
 
- class DEXProtocolNFTTokenTradesByDate extends BootstrapTableComponent {
-
+ class DEXProtocolNFTTokenTradesByDate extends TimeChartComponent {
+    //  configuration() {
+    //   return  {
+    //     topElement: function (response){ return response.EVM.DEXTrades },
+    //     columns: [
+    //       { name: 'Date', cell: function(row) { return row.Block.Date } },
+    //       { name: function(row) { return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}` }, cell: function(row) { return +row.count } } ,
+    //     ],
+    //     options: {
+    //       isStacked: true,
+    //       theme: 'material'
+    //     }
+    //   }
+    // }
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.DEXTrades},
-      
             columns: [
-              {
-                name: 'Date', cell: function(row){ return row.Block.Date},
-              },
-            {
-                name: 'Trades', cell: function(row){ return row.count}, 
-              },
-            ]
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Count', cell: function (row) { return +row.count } }
+            ],   
+           options: {
+            title: 'Trades By Date'
+        }
           }
       }
   }

@@ -18,7 +18,6 @@ export default class BootstrapCardComponent {
     }
   
     async onData(data, sub) {
-      // console.log(data)
       const array = this.config.topElement(data);
       const maxRows = 10;
   
@@ -53,8 +52,6 @@ export default class BootstrapCardComponent {
   
       for (const column of [...this.config.columnOne, ...this.config.columnTwo]) {
         const cardText = await this.createCardText(column, rowData);
-     
-  
         if (this.config.columnOne.includes(column)) {
           this.appendChildren(leftColumnDiv, cardText)
         } else {
@@ -70,7 +67,6 @@ export default class BootstrapCardComponent {
       }
   
       this.appendChildren(cardBody, leftColumnDiv, rightColumnDiv);
-  
       return [cardImg, cardBody];
     }
   

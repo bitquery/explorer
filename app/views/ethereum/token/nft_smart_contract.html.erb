@@ -1,7 +1,10 @@
 
   <div  id="NFT-token-information"></div>
   <div  id="Popular-Token-IDs"></div>
-  <div  id="Top-NFT-Holders"></div>
+    <div class="row g-0">
+    <div class="col-md-7" id="Top-NFT-Holders"></div>
+    <div class="col-md-5" id="Top-NFT-Holders-Pie"></div>
+  </div>
   <div  id="Subscription-for-the-Latest-Trades-of-NFT-Token"></div>
 
 
@@ -75,7 +78,7 @@ class PopularTokenIDsNFT extends BootstrapCardComponent {
       
             columns: [
               {
-                name: 'Address', cell: function(row){ return {currency: row.BalanceUpdate.Address, smartContract:row.BalanceUpdate.Address}}, rendering: renderAddressLink,
+                name: 'Address', cell: function(row){ return row.BalanceUpdate.Address}, rendering: renderAddressLink,
               },
               {
                 name: 'Balance', cell: function(row){ return row.balance},
@@ -86,6 +89,21 @@ class PopularTokenIDsNFT extends BootstrapCardComponent {
             ]
           }
       }
+  }
+ class TopNFTHoldersPie extends PieChartComponent {
+  configuration() {
+      return {
+        topElement: function(response) { return response.EVM.BalanceUpdates },
+        columns: [
+          {name: 'Address', cell: function(row){ return  row.BalanceUpdate.Address}},
+          {name: 'Count', cell: function(row){ return +row.balance} }
+        ],
+        options: {
+          title: 'Balance',
+          height: 395
+        }
+      }
+    }
   }
  class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
 
@@ -138,6 +156,7 @@ renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').ht
   renderComponent(NFTTokenInformation, "#NFT-token-information",'NFT-token-information_1_1',variables);
   renderComponent(PopularTokenIDsNFT, "#Popular-Token-IDs",'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count',variables);
   renderComponent(TopNFTHolders, "#Top-NFT-Holders",'Top-NFT-Holders',variables);
+  renderComponent(TopNFTHoldersPie, "#Top-NFT-Holders-Pie",'Top-NFT-Holders',variables);
   renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-for-the-Latest-Trades-of-NFT-Token",'Subscription-for-the-Latest-Trades-of-NFT-Token_1',variables, "Latest-Trades-of-NFT-Token_1");
 })
 

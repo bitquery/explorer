@@ -59,7 +59,7 @@
       return {
         topElement: function(response) { return response.EVM.Transfers },
         columns: [
-          {name: 'Date', cell: function(row){ return  row.Transfer.Currency.Symbol}},
+          {name: 'NFT', cell: function(row){ return  row.Transfer.Currency.Symbol}},
           {name: 'Count', cell: function(row){ return +row.count} }
         ],
         options: {
@@ -118,14 +118,12 @@
       return {
         topElement: function(response) { return response.EVM.DEXTrades },
         columns: [
-          {name: 'Date', cell: function(row){ return  row.Trade.Buy.Currency.Symbol}},
+          {name: 'NFT', cell: function(row){ return  row.Trade.Buy.Currency.Symbol}},
           {name: 'Count', cell: function(row){ return +row.count} }
         ],
         options: {
-          chart: {
-            title: 'Transfers Count',
-            height: 1000
-          }
+          title: 'Transfers Count',
+          height: 395
         }
       }
     }
@@ -159,16 +157,13 @@
       return {
         topElement: function(response) { return response.EVM.DEXTrades },
         columns: [
-          {name: 'Date', cell: function(row){ return  `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`}},
+          {name: 'Protocol', cell: function(row){ return  `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`}},
           {name: 'Count', cell: function(row){ return +row.count} }
         ],
         options: {
-          chart: {
             title: 'Transfers Count',
             height: 395
-            
           }
-        }
       }
     }
   }
@@ -233,51 +228,4 @@ renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').ht
   renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1',variables, 'Latest-Trades-of-NFT-Tokens-in-Network');
 })
 
-
-// !!DO NOT DELETE THIS COMMENT!!
-
-
-///Sub-15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
-//15-Laset-Eth-NFT-tansfers-Sender-Receiver-TX
-
-//  class LatestNFTTransfersTable extends BootstrapCardComponentTwoColumns {
-//       configuration() {
-//         return  {
-//           topElement: function (response){ return response.EVM.Transfers},
-//           dropdown:[
-//             {
-//               cell: function(row){ return row.Transfer.URI}, rendering: renderDropdown,
-//             },
-//           ],
-//           image: [
-//             {
-//              cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
-//             }
-//               ] , 
-//             columnOne: [
-//               {
-//                name: 'Date', cell: function(row){ return row.Block.Time},rendering: renderDate,
-//               },
-//               {
-//                name: "Sender", cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink,
-//               },
-//               {
-//                name: 'Token ID', cell: function(row){ return row.Transfer.Id}, 
-//               },
-
-//             ],
-//             columnTwo: [
-//               {
-//                name: 'Transaction hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
-//               },
-//                 {
-//                 name: 'Receiver',  cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
-//                 },
-//               {
-//                name: 'Symbol', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
-//               },
-//             ]
-//           }
-//       }
-// }
 </script>
