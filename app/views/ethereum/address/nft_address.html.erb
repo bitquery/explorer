@@ -1,5 +1,3 @@
-
-
   <div  id="Address-Holding-NFTs_1"></div>
   <div  id="Outcoming-NFT-Transfers-By-Address"></div>
   <div  id="Incoming-NFT-Transfers-By-Address"></div>
@@ -8,8 +6,7 @@
 
 <script >
 
-
- class AddressHoldingNFT extends BootstrapCardComponent {
+class AddressHoldingNFT extends BootstrapCardComponent {
      configuration() {
         return  {
             topElement: function (response){ return response.EVM.BalanceUpdates},
@@ -25,7 +22,7 @@
               {
                 name: 'ID', cell: function(row){ return {id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}}, rendering: renderIdLink
               },
-            ],
+            ]
             columnTwo:[
               {
                 name: 'Amount',  cell: function(row){ return row.amount},
@@ -36,14 +33,14 @@
             ]
           }
       }
-  }
+}
 
- class OutcomingNFTTransfersByAddress extends BootstrapTableComponent {
+class OutcomingNFTTransfersByAddress extends BootstrapTableComponent {
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.Transfers},
             columns: [
-             {
+              {
                 name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
               },
               {
@@ -61,13 +58,13 @@
             ]
           }
       }
-  }
- class IncomingNFTTransfersByAddress extends BootstrapTableComponent {
+}
+class IncomingNFTTransfersByAddress extends BootstrapTableComponent {
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.Transfers},
             columns: [
-             {
+              {
                 name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
               },
               {
@@ -86,12 +83,12 @@
           }
       }
   }
- class TradesNFTTokenAddressSeller extends BootstrapTableComponent {
+class TradesNFTTokenAddressSeller extends BootstrapTableComponent {
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.DEXTrades},
             columns: [
-             {
+              {
                 name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
               },
               {
@@ -109,13 +106,13 @@
             ]
           }
       }
-  }
- class TradesNFTTokenAddressBuyer extends BootstrapTableComponent {
+}
+class TradesNFTTokenAddressBuyer extends BootstrapTableComponent {
       configuration() {
         return  {
             topElement: function (response){ return response.EVM.DEXTrades},
             columns: [
-             {
+              {
                 name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
               },
               {
@@ -136,7 +133,7 @@
             ]
           }
       }
-  }
+}
 
 const variables = {
   network:'<%= @streaming%>',

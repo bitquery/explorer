@@ -1,13 +1,12 @@
 
   <div  id="latest-nft-id-transfers-table"></div>
-  
   <div  id="latest-nft-transfers-table2"></div>
   <div  id="latest-nft-transfers-table"></div>
 
 
 <script >
 
- class LatestNFTTransfersTable extends BootstrapVerticalTableComponent {
+class LatestNFTTransfersTable extends BootstrapVerticalTableComponent {
 
       configuration() {
         return  {
@@ -35,30 +34,30 @@
             ]
           }
       }
-  }
- class IdNFTTransfersTable2 extends GraphsComponent {
+}
+class IdNFTTransfersTable2 extends GraphsComponent {
 
-      configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Transfers},
-            columns: [
-              {
-                name: 'Time', cell: function(row){ return row.Block.Time}, rendering: renderDate,
-              },
-              {
-                name: 'Sender', cell: function(row){ return row.Transfer.Sender},  
-              },
-              {
-                name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, 
-              },
-              {
-                name: 'TX Hash', cell: function(row){ return row.Transaction.Hash}, 
-              },
-            ]
-          }
-      }
-  }
- class IdNFTTransfersTable extends BootstrapTableComponent {
+    configuration() {
+      return  {
+          topElement: function (response){ return response.EVM.Transfers},
+          columns: [
+            {
+              name: 'Time', cell: function(row){ return row.Block.Time}, rendering: renderDate,
+            },
+            {
+              name: 'Sender', cell: function(row){ return row.Transfer.Sender},  
+            },
+            {
+              name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, 
+            },
+            {
+              name: 'TX Hash', cell: function(row){ return row.Transaction.Hash}, 
+            },
+          ]
+        }
+    }
+}
+class IdNFTTransfersTable extends BootstrapTableComponent {
 
       configuration() {
         return  {
@@ -79,7 +78,7 @@
             ]
           }
       }
-  }
+}
 
 const variables = {
   network:'<%= @streaming%>',
