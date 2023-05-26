@@ -3,13 +3,6 @@ export default class TimeChartComponent {
 		this.container = element
 		this.config = this.configuration()
 		this.variables = variables
-		this.createWrapper()
-	}
-
-	createWrapper() {
-		this.wrapper = document.createElement("div")
-		this.wrapper.classList.add("table-responsive-md")
-		this.container.appendChild(this.wrapper)
 	}
 
 	async onData(data, sub) {
@@ -47,14 +40,14 @@ export default class TimeChartComponent {
 			dataToVizualize.unshift(annotation)
 
 			const dataTable = google.visualization.arrayToDataTable(dataToVizualize)
-			const chart = new google.visualization.ColumnChart(this.wrapper)
+			const chart = new google.visualization.ColumnChart(this.container)
 			chart.draw(dataTable, this.config.options)
 		}
 		google.charts.load('current', {packages: ['corechart', 'bar']});
 		google.charts.setOnLoadCallback(drawChart);
 		
 		window.addEventListener('resize', () => {
-			this.wrapper.removeChild(this.wrapper.firstChild)
+			this.container.removeChild(this.container.firstChild)
 			drawChart()
 		})
 	}
