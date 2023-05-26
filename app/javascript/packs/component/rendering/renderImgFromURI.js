@@ -29,6 +29,8 @@ export default async function renderImgFromURI(uri) {
     if (mediaURL && mediaURL.startsWith('ipfs://')) {
       mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
     }
+    console.log('mediaURL',mediaURL)
+    console.log('url',url)
     return {mediaURL, name: nameMedia};
   }
 
@@ -65,16 +67,29 @@ export default async function renderImgFromURI(uri) {
     return img;
   }
 
-  function createVideoElement(src) {
+ function createVideoElement(src) {
     const video = document.createElement('video');
-    video.setAttribute('type', 'video/mp4');
     video.style.width = 'auto';
-    video.style.maxWidth = '136px';
-    video.style.maxHeight = '136px';
-    video.src = src;
+    video.style.maxWidth = '236px';
+    video.style.maxHeight = '236px';
+
+    const source = document.createElement('source');
+    source.setAttribute('src', src);
+    if(src.endsWith('.mp4')) {
+      source.setAttribute('type', 'video/mp4');
+    } else if(src.endsWith('.mov')) {
+      source.setAttribute('type', 'video/quicktime');
+    } else if(src.endsWith('.webm')) {
+      source.setAttribute('type', 'video/webm');
+    }
+
+    video.appendChild(source);
+
     video.controls = true;
+
     return video;
-  }
+}
+
   function addClickListener(element, mediaURL) {
     element.addEventListener('click', () => {
       window.open(mediaURL, '_blank');
