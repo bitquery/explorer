@@ -1,5 +1,4 @@
-	const mapQueryAndVariablesStore = new Map();		
-	
+const mapQueryAndVariablesStore = new Map();
 
 const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, element, variables, onerror) => {
 	const currentUrl = url.replace(/^http/, 'ws');
@@ -7,63 +6,61 @@ const graphqlQuerySubscriptionExecutor = async (url, query, componentObject, ele
 	const payload = { query, variables: variables };
 
 	client.subscribe(payload, {
-		next: (data) => {
+		next: data => {
 			const sub = 'subscription';
 			componentObject.onData(data.data, sub);
 		},
-		error: (error) => {
+		error: error => {
 			onerror(error);
-			console.log('graphqlQuerySubscriptionExecutor', error);
 		},
 		complete: () => console.log('complete'),
 	});
 };
-const isNotEmptyArray = (subj) => Array.isArray(subj) && subj.length
-const isNotEmptyObject = (subj) => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length
+const isNotEmptyArray = subj => Array.isArray(subj) && subj.length;
+const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 
-const graphqlQueryExecutor = async (queryId,url, query, element, variables, api_key = '') => {
+const graphqlQueryExecutor = async (queryId, url, query, element, variables, api_key = '') => {
 	const hash = {
 		...variables,
-		queryId
-		}
-	const str = JSON.stringify(hash)
+		queryId,
+	};
+	const str = JSON.stringify(hash);
 
-	if(!mapQueryAndVariablesStore.has(str)){	
-			let keyHeader = { 'X-API-KEY': api_key };
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: {
-					Accept: 'application/json',
-					'Content-Type': 'application/json',
-					...keyHeader,
-				},
-				body: JSON.stringify({ query, variables }),
-				credentials: 'same-origin',
-			});
-			if (response.status !== 200) {
-				throw new Error(response.error);
-			}
-			const data = await response.json();
-			if (data.errors) {
-				throw new Error(data.errors[0].message);
-			}
-		    const result = {
-            data
-		   }
-		   mapQueryAndVariablesStore.set(str,result)
+	if (!mapQueryAndVariablesStore.has(str)) {
+		let keyHeader = { 'X-API-KEY': api_key };
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				...keyHeader,
+			},
+			body: JSON.stringify({ query, variables }),
+			credentials: 'same-origin',
+		});
+		if (response.status !== 200) {
+			throw new Error(response.error);
+		}
+		const data = await response.json();
+		if (data.errors) {
+			throw new Error(data.errors[0].message);
+		}
+		const result = {
+			data,
+		};
+		mapQueryAndVariablesStore.set(str, result);
 		return data;
 	} else {
-		return mapQueryAndVariablesStore.get(str).data
+		return mapQueryAndVariablesStore.get(str).data;
 	}
-
 };
 
-const renderQueryInComponent = async (endpoint_url, componentObject, query, compElement, variables, queryId,api_key,) => {
-	const graphQLResponse = await graphqlQueryExecutor(queryId,endpoint_url, query, compElement, variables, api_key);
+const renderQueryInComponent = async (endpoint_url, componentObject, query, compElement, variables, queryId, api_key) => {
+	const graphQLResponse = await graphqlQueryExecutor(queryId, endpoint_url, query, compElement, variables, api_key);
 	componentObject.onData(graphQLResponse.data);
 };
 
-const prepopulateQuery = async ( url, componentObject, compElement, query, queryVariables,prePopulateId,queryId,  api_key) => {
+const prepopulateQuery = async (url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key) => {
 	const startQuery = query;
 	let finalQuery = startQuery;
 	if (prePopulateId) {
@@ -79,7 +76,7 @@ const prepopulateQuery = async ( url, componentObject, compElement, query, query
 			...JSON.parse(queryMetaData.variables),
 			...queryVariables,
 		};
-	} 
+	}
 
 	await renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, queryId, api_key);
 };
@@ -97,14 +94,15 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	const blinkerWrapper = document.createElement('div');
 	loader.classList.add('lds-dual-ring');
 	getAPIButton.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api');
-	getAPIButton.setAttribute('role', 'button')
+	getAPIButton.setAttribute('role', 'button');
 	getAPIButton.setAttribute('target', '_blank');
 	getAPIButton.textContent = 'Get Streaming API';
 	tableFooter.style.textAlign = 'right';
 	tableFooter.appendChild(getAPIButton);
 	widgetHeader.classList.add('card-header');
 	row.classList.add('row');
-	col8.classList.add('col-8');
+	col8.classList.add('col');
+	// col8.classList.add('col-8');
 	cardBody.classList.add('card-body', 'text-center');
 	widgetFrame.classList.add('widget-container', 'tabulator');
 	// widgetFrame.style.height = '470px';
@@ -116,7 +114,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	cardBody.appendChild(tableFooter);
 	widgetHeader.appendChild(row);
 	row.appendChild(col8);
-	const onloadmetadata = (queryMetaData) => {
+	const onloadmetadata = queryMetaData => {
 		col8.textContent = queryMetaData?.name || 'No query presented';
 		if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
 			const liveSpan = document.createElement('span');
@@ -136,7 +134,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	const onqueryend = () => {
 		cardBody.removeChild(loader);
 	};
-	const onerror = (error) => {
+	const onerror = error => {
 		console.log(error);
 		if (row.contains(blinkerWrapper)) {
 			row.removeChild(blinkerWrapper);
@@ -169,9 +167,8 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 	};
 };
 
-
-export default async function renderComponent(component, selector, queryId, variables ={}, prePopulateId, api_key ) {
-	document.querySelector(selector).textContent ='';
+export default async function renderComponent(component, selector, queryId, variables = {}, prePopulateId, api_key) {
+	document.querySelector(selector).textContent = '';
 	const widgetFrame = createWidgetFrame(component, selector, queryId);
 	let queryMetaData;
 	try {
@@ -193,18 +190,17 @@ export default async function renderComponent(component, selector, queryId, vari
 			...variables,
 		};
 
-		const componentObject = new component(compElement,  queryVariables);
-		// console.log(componentObject)
+		const componentObject = new component(compElement, queryVariables);
 		const data = [];
 		function getBaseClass(targetClass) {
-			data.push({[targetClass.name]: serialize(targetClass)});
+			data.push({ [targetClass.name]: serialize(targetClass) });
 			if (targetClass instanceof Function) {
 				let baseClass = targetClass;
 				while (baseClass) {
 					const newBaseClass = Object.getPrototypeOf(baseClass);
 					if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
 						baseClass = newBaseClass;
-						data.unshift({[baseClass.name]: serialize(baseClass)});
+						data.unshift({ [baseClass.name]: serialize(baseClass) });
 					} else {
 						break;
 					}
@@ -212,27 +208,27 @@ export default async function renderComponent(component, selector, queryId, vari
 			}
 		}
 		function discoverFunctions(subj, prop) {
-			if ( typeof subj === 'function') {
+			if (typeof subj === 'function') {
 				if (prop && subj?.name !== prop) {
-					if ( !data.some(el => Object.keys(el)[0] === subj?.name) ) {
-						data.unshift( { [subj.name]: serialize( subj ) } )
+					if (!data.some(el => Object.keys(el)[0] === subj?.name)) {
+						data.unshift({ [subj.name]: serialize(subj) });
 					}
 				}
-				return
+				return;
 			}
-			if ( isNotEmptyArray( subj ) ) {
+			if (isNotEmptyArray(subj)) {
 				for (let el of subj) {
-					discoverFunctions( el )
+					discoverFunctions(el);
 				}
 			}
-			if ( isNotEmptyObject( subj ) ) {
+			if (isNotEmptyObject(subj)) {
 				for (let prop in subj) {
-					discoverFunctions( subj[prop], prop )
+					discoverFunctions(subj[prop], prop);
 				}
 			}
 		}
-		getBaseClass(component)
-		discoverFunctions(componentObject.config)
+		getBaseClass(component);
+		discoverFunctions(componentObject.config);
 		widgetFrame.button.onclick = () => {
 			let createHiddenField = function (name, value) {
 				let input = document.createElement('input');
@@ -251,43 +247,13 @@ export default async function renderComponent(component, selector, queryId, vari
 			document.body.appendChild(form);
 			form.submit();
 			document.body.removeChild(form);
-		}
-		// const query = queryMetaData.query.trim();
-		// const queryVariables = {
-		// 	...JSON.parse(queryMetaData.variables),
-		// 	...variables,
-		// };
-	// console.log('const queryVariables',variables)
-
+		};
 		widgetFrame.onquerystarted();
 		if (query.startsWith('subscription')) {
-			await prepopulateQuery(
-				queryMetaData.endpoint_url,
-				componentObject,
-				compElement,
-				query,
-				queryVariables,
-				prePopulateId,
-				queryId,
-				api_key
-			);
-			graphqlQuerySubscriptionExecutor(
-				queryMetaData.endpoint_url,
-				query,
-				componentObject,
-				compElement,
-				queryVariables,
-				widgetFrame.onerror
-			);
+			await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
+			graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
 		} else {
-			await renderQueryInComponent(
-				queryMetaData.endpoint_url,
-				componentObject,
-				query,
-				compElement,
-				queryVariables,queryId,
-				api_key
-			);
+			await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
 		}
 		widgetFrame.onqueryend();
 	} catch (error) {
