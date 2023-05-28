@@ -65,7 +65,7 @@
         id: '<%= @id %>',
       }
       renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-        renderComponent(LatestTokenTransfers, "#latest-transfers-live",'latest-transfers-live_1',variables);
+        renderComponent(LatestTokenTransfers, "#latest-transfers-live",'Latest-Transfers-Live',variables);
       })
   </script>
 <% end %>
