@@ -48,7 +48,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  # config.log_level = :debug
 
   # Prepend all log lines with the following tags.
   config.log_tags = [:request_id]
@@ -74,17 +74,17 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  # config.log_formatter = ::Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
-    config.logger = ActiveSupport::TaggedLogging.new(logger)
-  end
+  # if ENV["RAILS_LOG_TO_STDOUT"].present?
+  #   logger = ActiveSupport::Logger.new(STDOUT)
+  #   logger.formatter = config.log_formatter
+  #   config.logger = ActiveSupport::TaggedLogging.new(logger)
+  # end
 
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
@@ -111,7 +111,21 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
   BITQUERY_LOGGER_CONFIG = {
-    output: :file,
+    output: :stdout_json,
+    stdout_log_level: 1
   }
+
+  # Lograge config
+  config.lograge.enabled = true
+  config.lograge.logger = ActiveSupport::Logger.new($stdout)
+  config.lograge.formatter = Lograge::Formatters::Json.new
+
+  config.lograge.custom_options = lambda do |event|
+    {
+      'lvl' => "SYSTEM",
+      '@timestamp' => Time.now.gmtime,
+    }
+  end
+  #
 
 end

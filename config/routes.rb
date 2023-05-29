@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  mount Yabeda::Prometheus::Exporter => "/metrics"
+
   scope "(:locale)", constraints: lambda { |request| !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym) } do
 
     BLOCKCHAINS.select { |b| b[:family] == 'ethereum' }.each { |blockchain|
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
       get ":blockchain/address/:address/graph", controller: "#{blockchain[:family]}/address", action: 'money_flow', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/address/:address/:action", controller: "#{blockchain[:family]}/address", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/address/:address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/address/:address/nft_address", controller: "#{blockchain[:family]}/address", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/smart_contract/:address/graph", controller: "#{blockchain[:family]}/smart_contract", action: 'money_flow', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/smart_contract/:address/:action", controller: "#{blockchain[:family]}/smart_contract", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
@@ -18,6 +21,9 @@ Rails.application.routes.draw do
       get ":blockchain/token/:address/graph", controller: "#{blockchain[:family]}/token", action: 'money_flow', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/token/:address/:action", controller: "#{blockchain[:family]}/token", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+
+      get ":blockchain/token/:address/id/:id", controller: "#{blockchain[:family]}/token", action: 'show_nft_id', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/token/:smart_contract/nft_smart_contract", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/tx/:hash", controller: "#{blockchain[:family]}/tx", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
@@ -35,6 +41,7 @@ Rails.application.routes.draw do
 
       get ":blockchain/dex_protocol/:protocol_name/:action", controller: "#{blockchain[:family]}/dex_protocol", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/dex_protocol/:protocol_name", controller: "#{blockchain[:family]}/dex_protocol", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/dex_protocol/:protocol_name/nft_dex_protocol", controller: "#{blockchain[:family]}/dex_protocol", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/dex/:exchange/:action", controller: "#{blockchain[:family]}/dex", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/dex/:exchange", controller: "#{blockchain[:family]}/dex", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
@@ -547,6 +554,10 @@ Rails.application.routes.draw do
     match "search(/:query)", to: "search#show", via: [:get, :post], as: 'search', constraints: { query: /[^\/]+/ }
 
     post 'proxy_graphql', to: "proxy_graphql#index", defaults: { format: :json }
+    post 'proxy_streaming_graphql', to: "proxy_streaming_graphql#index", defaults: { format: :json }
+
+    # get 'proxy_graphql_ide/getquery/:queryid', to: "proxy_graphql_ide#getquery", defaults: { format: :json }
+
     get 'proxy_dbcode/:dashbord_url', to: "proxy_dbcode#index", defaults: { format: :json }
 
     get "platform/:action", controller: "home"

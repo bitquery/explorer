@@ -1,27 +1,23 @@
 ADS={
-  tab0: {
-    ad: {
-      text: 'Free DEX Swaps',
-      url: 'https://jn3rg.app.link/Bitquery_1inch',
-      bgcolor: '#0570f2'
-    }
-  },
   tab: {
-    # ad: {
-    #   text: 'Buy this ad',
-    #   url: 'https://bitquery.io/forms/ads'
-    # },
-    # ad: {
-    #   text: 'Swap Crypto',
-    #   url: 'https://simpleswap.io/crypto/?ref=e11e6b4d3b3d',
-    #   bgcolor: '#9acd32'
-    # },
+    ads: [
+      {
+        text: 'Free DEX Swaps',
+        url: 'https://jn3rg.app.link/Bitquery_1inch',
+        bgcolor: '#0570f2'
+      },
+      {
+        text: 'Verse DEX',
+        url: 'https://verse.bitcoin.com/?utm_source=bitquery&utm_medium=web&utm_campaign=bitquery_explorer',
+        bgcolor: 'green'
+      }
+    ],
     # platform: {
     #   smart_contract: {
-    #     ad: {
+    #     ads: [{
     #       text: '13',
     #       url: '21'
-    #     }
+    #     }]
     #   }
     # }
   },
@@ -39,7 +35,7 @@ ADS={
     ad: {
       title: 'Swap at the best rates!',
       title_color: '#000000',
-      text: 'No gas fees and MEV protection on 1inch - #1 DEX aggregator. Swap now!',
+      text: 'Gasless execution and MEV protection on 1inch - #1 DEX aggregator.',
       text_color: '#000000',
       button_text: 'Swap now!',
       button_class: 'btn-primary',

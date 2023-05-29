@@ -1,6 +1,9 @@
 const { environment } = require('@rails/webpacker')
 
-module.exports = environment
+if (environment.config.optimization) {
+    environment.config.optimization.minimizer[0].options.terserOptions.keep_classnames = true
+    environment.config.optimization.minimizer[0].options.terserOptions.keep_fnames = true
+}
 
 const webpack = require('webpack')
 environment.plugins.append(
@@ -11,3 +14,5 @@ environment.plugins.append(
         Popper: ['popper.js', 'default']
     })
 )
+
+module.exports = environment

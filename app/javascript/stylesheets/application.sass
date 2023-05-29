@@ -9,6 +9,8 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts'
 //@import '~@bitquery/graph/dist/graphs.min'
 @import "../../assets/stylesheets/application"
 
+
+
 .dropdown:has(.wallet-options)
   min-width: 320px
 
@@ -53,3 +55,117 @@ svg[visibility="hidden"]
     filter: grayscale(100%) blur(1px)
   &:hover:enabled
     background-color: #ccc
+
+.tabulator
+  font-size: 16px !important
+
+.live-header
+  position: absolute
+  right: 23px
+  top: 15.3px
+  color: green
+  font-wiegh: bold
+
+.blnkr
+  font-size: 5px
+  position: relative
+  top: -2px
+  left: 3px
+  display: inline-block
+  width: 5px
+  height: 5px
+  border-radius: 50%
+
+.blink
+  animation: blinker 1s linear infinite
+
+@keyframes blink
+  50%
+    opacity: 0
+
+.blinker
+  position: absolute
+  right: 58px
+  top: 15px
+  border-radius: 50%
+  transform: translateY(-50%)
+  width: 5px
+  height: 5px
+  background-color: green
+  animation: blinker 1s linear infinite
+
+@keyframes blinker
+  50%
+    opacity: 0
+    
+#greenButton
+  background-color: #1c87c9
+  -webkit-border-radius: 60px
+  border-radius: 60px
+  border: none
+  color: #eeeeee
+  display: none
+  font-family: sans-serif
+  font-size: 20px
+  padding: 10px 10px
+  text-align: center
+  text-decoration: none
+
+@keyframes glowing 
+  0% 
+    background-color: #2ba805
+    box-shadow: 0 0 5px #2ba805
+  50% 
+    background-color: #49e819
+    box-shadow: 0 0 20px #49e819
+  100% 
+    background-color: #2ba805
+    box-shadow: 0 0 5px #2ba805
+
+#greenButton
+  animation: glowing 1300ms infinite
+
+.underline-blue-font 
+  text-decoration: underline
+  color: blue
+
+.gold-border 
+  border: 3px solid gold
+
+.orange-background 
+  background-color: orange
+
+.orchid-background 
+  background-color: orchid
+
+
+.showGreenLight
+  display: block
+
+.open-btn.badge:empty
+  display: inline-block
+
+.lds-dual-ring
+  display: inline-block
+  width: 120px
+  height: 120px
+  position: absolute
+  top: 50%
+
+  &:after
+    content: " "
+    display: block
+    width: 64px
+    height: 64px
+    margin: 8px
+    border-radius: 50%
+    border: 6px solid #0570f2
+    border-color: #0570f2 transparent #0570f2 transparent
+    animation: lds-dual-ring 1.2s linear infinite
+
+@keyframes lds-dual-ring
+  0%
+    transform: rotate(0deg)
+
+  100%
+    transform: rotate(360deg)

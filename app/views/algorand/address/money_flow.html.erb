@@ -20,76 +20,98 @@
     </div>
   </div>
   <script>
-      $(document).ready(function() {
-          const query = new graphs.query(`
-query (  $address: String!,
-        $inboundDepth: Int!,
-        $outboundDepth: Int!,
-        $limit: Int!,
-        $currency: Int!,
-        $from: ISO8601DateTime,
-        $till: ISO8601DateTime){
-algorand{
-  inbound: coinpath(initialAddress: {is: $address},
-                    currency:{is: $currency},
-                    depth: {lteq: $inboundDepth},
-                    options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}},
-                    date:{since: $from, till: $till}) {
-    sender {
-      address
-      annotation
-    }
-    receiver {
-      address
-      annotation
-    }
-      amount
-      currency{symbol}
-      depth
-      count
-  }
+    const query = new graphs.query(`
+      query ($address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $currency: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+        algorand {
+          inbound: coinpath(
+            initialAddress: {is: $address}
+            currency: {is: $currency}
+            depth: {lteq: $inboundDepth}
+            options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
+            date: {since: $from, till: $till}
+          ) {
+            sender {
+              address
+              annotation
+            }
+            receiver {
+              address
+              annotation
+            }
+            amount
+            currency {
+              symbol
+            }
+            depth
+            count
+          }
+          outbound: coinpath(
+            initialAddress: {is: $address}
+            currency: {is: $currency}
+            depth: {lteq: $outboundDepth}
+            options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
+            date: {since: $from, till: $till}
+          ) {
+            sender {
+              address
+              annotation
+            }
+            receiver {
+              address
+              annotation
+            }
+            amount
+            currency {
+              symbol
+            }
+            depth
+            count
+          }
+        }
+      }
+    `)
 
+    new graphs.address_graph('#graph', query, {
+        theme: '<%= @theme %>',
+    })
 
-  outbound: coinpath(initialAddress: {is: $address},
-                     currency:{is: $currency},
-                     depth: {lteq: $outboundDepth},
-                     options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}},
-                     date:{since: $from, till: $till}) {
-    sender {
-      address
-      annotation
-    }
-    receiver {
-      address
-      annotation
-    }
-      amount
-      currency{symbol}
-      depth
-      count
-  }
-}
-}`)
-          window.query = query
-          new graphs.address_graph('#graph', query, {
-              theme: '<%= @theme %>',
-          })
+    new graphs.addControls('#graph', query, {
+        theme: '<%= @theme %>',
+        currencies: [
+          <%= @currencies.collect do |cur|
+            value = cur.token_id == '' ? 0 : cur.token_id
 
-          new graphs.addControls('#graph', query, {
-              theme: '<%= @theme %>',
-              currencies: [<%= @currencies.collect{|cur| "{token_id:#{cur.token_id},symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:#{cur.token_id}}"}.join(',').html_safe %>],
-          })
+            "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+          end.join(',').html_safe %>
+        ]
+    })
 
-          new graphs.address_sankey('#sankey-graph', query, {
-              theme: '<%= @theme %>',
-          })
+    new graphs.address_sankey('#sankey-graph', query, {
+        theme: '<%= @theme %>',
+    })
 
-          new graphs.addControls('#sankey-graph', query, {
-              theme: '<%= @theme %>',
-              currencies: [<%= @currencies.collect{|cur| "{token_id:#{cur.token_id},symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:#{cur.token_id}}"}.join(',').html_safe %>],
-          })
+    new graphs.addControls('#sankey-graph', query, {
+        theme: '<%= @theme %>',
+        currencies: [
+          <%= @currencies.collect do |cur|
+            value = cur.token_id == '' ? 0 : cur.token_id
 
-          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": <%= @currencies.first && @currencies.first.token_id || 0 %>})
-      })
+            "{token_id:\"#{value}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+          end.join(',').html_safe %>
+        ]
+    })
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+        "inboundDepth": 1,
+        "outboundDepth": 1,
+        "limit": 10,
+        "offset": 0,
+        "network": "<%= params['network']['network'] %>",
+        "address": "<%= @address %>",
+        "currency": <%= @currencies&.first&.token_id.present? || 0 %>,
+    })
   </script>
 </div>
+
+
+

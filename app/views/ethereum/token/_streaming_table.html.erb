@@ -1,0 +1,71 @@
+<% if innovation_in_blockchain? %>
+  <div class="row">
+    <div class="col-12 col-lg-12 mb-4">
+      <div class="card">
+        <div id="latest-transfers-live"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+      class LatestTokenTransfers extends BootstrapTableComponent {
+        configuration() {
+          return  {
+            topElement: function (response){ return response.EVM.Transfers },
+            columns: [
+              {
+                name: 'Timestamp', cell: function(row){ return row.Block.Time.replace('T', ' ').replace('Z', '')},
+              },
+              {
+                name: 'Block', cell: function(row){ return row.Block.Number }, rendering: renderJustAddressLink
+              },
+              {
+                name: 'Sender', cell: function(row) { return row.Transfer.Sender }, rendering: renderJustAddressLink
+              },
+              {
+                name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon 
+              },
+              {
+                name: 'Receiver',
+                cell: function(row) {
+                  return row.Transfer.Receiver
+                },
+                rendering: renderJustAddressLink
+              },
+              {
+                name: 'Amount',
+                cell: function(row) {
+                  return parseFloat(row.Transfer.Amount).toFixed(4)
+                }
+              },
+              {
+                name: 'Currency',
+                cell: function(row) {
+                  return row.Transfer.Currency.Symbol
+                }
+              },
+              {
+                name: 'Transaction',
+                cell: function(row) {
+                  return row.Transaction.Hash
+                },
+                rendering: renderJustAddressLink
+              }
+            ]
+          }
+        }
+      }
+      const variables = {
+        network:'<%= @streaming%>',
+        networkForURL: '<%= params['network']['network'] %>',
+        limit: 10,
+        offset: 0,
+        address: '<%= @address %>',
+        token: '<%= @address %>',
+        id: '<%= @id %>',
+      }
+      renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+        renderComponent(LatestTokenTransfers, "#latest-transfers-live",'Latest-Transfers-Live',variables);
+      })
+  </script>
+<% end %>

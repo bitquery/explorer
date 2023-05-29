@@ -1,6 +1,12 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.inbound_tokens_by_time') %></div>
+      <div class="card-header">
+        <% if @token_info && @token_info.name && @token_info.symbol %>
+          <%= t('widgets.headers.inbound_tokens_by_time_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+        <% else %>
+          <%= t('widgets.headers.inbound_tokens_by_time') %>
+        <% end %>
+      </div>
     <div class="card-body">
       <div id="inbound_tokens_by_time"><%= t('loading') %></div>
     </div>

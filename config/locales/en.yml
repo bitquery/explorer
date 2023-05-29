@@ -31,6 +31,7 @@ en:
     search_in: "Search %{query} in %{network}"
   search_no_data: 'On request "%{query}" returned no results. Please clarify the request and try again.'
   tabs:
+
     payers:
       icon: 'far fa-address-card'
       header: "%{network} Payer %{payer_account}"
@@ -202,6 +203,11 @@ en:
           balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history
           %{network} address finder,%{address}"
+      nft_address:
+        name: "NFT Address"
+        title: "%{network} NFT Address"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"   
       transactions:
         name: 'Transactions'
         title: "%{address} transactions | %{network}"
@@ -209,6 +215,7 @@ en:
         keywords: "%{address} transactions, explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
           %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
           %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+
       contracts:
         name: "Contracts"
         title: "%{address} smart contract | %{network}"
@@ -329,6 +336,7 @@ en:
         title: "%{address} payments in %{network}"
         description: "%{address} payments in %{network}"
         keywords: "%{address} payments, %{network}"
+    
     smart_contract:
       icon: 'fas fa-cogs text-info'
       header: "%{address} smart contract | %{network}"
@@ -342,6 +350,11 @@ en:
         title: "%{address} Transactions | %{network}"
         description: "%{address} Transactions on %{network} blockchain"
         keywords: "%{address} Transactions, %{address} smart contract Transactions,%{network}"
+      nft_address:
+        name: "NFT Address"
+        title: "%{network} NFT Address"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"    
       methods:
         name: 'Methods'
         title: "%{address} Smart Contract Methods | %{network}"
@@ -387,6 +400,7 @@ en:
         title: "%{network} Token Pairs Traded on DEXes"
         description: "Tokens Traded on decentralised exchanges (DEX) on %{network}"
         keywords: "%{network},DEX,Tokens"
+    
     token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -398,6 +412,16 @@ en:
           %{token} wallet, %{token} widget, %{token} chart, %{token} analytics, 
           %{token} crypto, %{token} transaction explorer, %{token} address explorer,
           %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
+      nft_smart_contract:
+        name: "NFT Smart Contract"
+        title: "%{network}NFT Smart Contract"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft ,NFT Smart Contract"    
+      show_nft_id:
+        name: "NFT ID"
+        title: "%{network} NFT ID"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, Id"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
@@ -485,6 +509,7 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+        
     token_pair:
       icon: 'fas fa-coins text-warning'
       header: "Token pair %{token1symbol} (%{token1name}) vs %{token2symbol} (%{token2name}) in %{network}"
@@ -499,6 +524,7 @@ en:
         title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
         description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
+    
     trc20token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -592,6 +618,7 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+    
     trc10token:
       icon: 'fas fa-coins text-warning'
       header: "%{token} in %{network}"
@@ -675,6 +702,7 @@ en:
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
+    
     call_result:
       icon: 'fas fa-bolt'
       header: "%{network} call result %{hash}"
@@ -683,6 +711,7 @@ en:
         title: "Call Result %{hash} | %{network}"
         description: "Call Result %{hash} in %{network}"
         keywords: "%{network} Call Result, %{network} Call Result explorer, %{network} explorer, %{network} call result analytics"
+    
     tx:
       icon: 'fas fa-bolt'
       header: "%{network} transaction %{hash}"
@@ -814,6 +843,7 @@ en:
         title: "%{network} Effects %{hash} transaction"
         description: "Effects for in transaction %{hash} in %{network}"
         keywords: "%{network} transaction effects"
+    
     height:
       icon: 'fas fa-cube'
       header: "%{network} Height %{height}"
@@ -822,6 +852,7 @@ en:
         title: "Blocks on %{height} in %{network}"
         description: "Check %{network} blocks on %{height} and %{network} block data and analytics"
         keywords: "%{network} blocks"
+    
     block:
       icon: 'fas fa-cube'
       header: "%{network} Block %{height}"
@@ -944,6 +975,7 @@ en:
         title: "Effects on %{network} Explorer, block %{height}"
         description: "Effects %{network} Explorer, block %{height}"
         keywords: "%{network} Effects"
+    
     miniblocks:
       icon: 'fas fa-cube'
       header: "%{network} Miniblock %{miniblock_hash}"
@@ -1027,6 +1059,7 @@ en:
         title: "Validator %{validator_hash} in %{network}"
         description: "Check %{network} validator %{validator_hash} and %{network} validator data and analytics"
         keywords: "%{network} validator, %{network} latest validator"
+    
     network:
       header: "%{network} Blockchain Explorer"
       blocks:
@@ -1236,6 +1269,12 @@ en:
         title: "Payments on %{network} Explorer"
         description: "Payments on  %{network}"
         keywords: "%{network} Payments"
+      nft:
+        name: "NFT"
+        title: "%{network} NFTs"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs"
+   
     home:
       index:
         name: "All"
@@ -1408,6 +1447,7 @@ en:
         title: "Validator %{index} | %{network}"
         description: "Visualize %{network} Validator ${index} analytics, charts and widgets on Bitquery"
         keywords: "%{network} Validator ${index}"
+    
     dex_protocol:
       icon: 'fa fa-exchange'
       header: "%{protocol} DEX Protocol at %{network} Blockchain"
@@ -1416,6 +1456,11 @@ en:
         title: "Statistics of %{protocol} DEX at %{network}"
         description: "Statistics of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades,statistics"
+      nft_dex_protocol:
+        name: "NFT Dex Protocols"
+        title: "%{network} NFT Dex Protocols"
+        description: "Non-Fungible Tokens on %{network}"
+        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
       volume:
         name: "Volume"
         title: "Volume of %{protocol} DEX at %{network}"
@@ -1478,6 +1523,7 @@ en:
     no_methods: "Function not yet implemented, try returning later"
   widgets:
     headers:
+      total_address_statistics: "Total Address Statistics"
       method_info: "Method Information"
       notarized_blocks: "Notarized Blocks"
       transaction_info: "Transaction Info"
@@ -1499,53 +1545,82 @@ en:
       mints_by_time: 'Mints by date'
       minters_by_time: 'Minters by date'
       calls_by_time: 'Smart contract calls ( including internal ) by date'
+      calls_by_time_token: 'Daily Smart Contract Calls (Including Internal) by %{token_name} (%{token_symbol}))'
       events_by_time: 'Events by date'
       currencies_sent_received: 'Currencies sent/received'
+      currencies_sent_received_token: 'Currencies sent/received by %{token_name} (%{token_symbol}) Smart Contract'
       currencies_balances: 'Address balance by currencies'
+      currencies_balances_token: 'Balance of %{token_name} (%{token_symbol}) Smart Contract'
       calls_smart_contracts: 'Calls smart contracts'
       trades_by_time: 'Trades by time'
+      trades_by_time_token: 'Daily %{token_name} (%{token_symbol}) Trades'
       unique_traders_by_time: 'Unique Traders (makers and takers ) by time'
       unique_currencies_by_time: 'Traded currencies by time'
+      unique_currencies_by_time_token: 'Daily %{token_name} (%{token_symbol}) Pairs Traded'
       unique_dex_smart_contracts_by_time: 'DEX Smart Contracts by time'
+      unique_dex_smart_contracts_by_time_token: 'Smart Contract interacting with %{token_name} (%{token_symbol})'
       dex_tradex_by_protocol: "Count of DEX Trades By Protocol"
       dex_trades_by_exchange: "Count of DEX Trades By Exchange"
       dex_amounts_by_protocol: "Amounts of DEX Trades By Protocol"
       dex_amounts_by_exchange: "Amounts of DEX Trades By Exchange"
+      dex_amounts_by_exchange_token: "Trade Amounts by Exchange for %{token_name} (%{token_symbol})"
       dex_smart_contracts: "DEX Smart Contracts"
       dex_protocols: "DEX Smart Contract Protocols"
       dex_exchanges: "DEX Exchanges"
       trades: "Trades"
       transactions_in_network: "Transactions in %{network}"
       inbound_transfers: "Latest Inbound Transfers"
+      inbound_transfers_token: "Latest %{token_name} (%{token_symbol}) Inbound Transfers"
       inbound_native_by_time: "Inbound transfers in %{currency} currency"
+      inbound_native_by_time_token: "%{currency} received by %{token_name} (%{token_symbol}) Contract"
       inbound_tokens_by_time: "Inbound transfers in tokens"
+      inbound_tokens_by_time_token: "Different Tokens received by %{token_name} (%{token_symbol}) Contract"
       inbound_native_table: "Top Senders in %{currency} currency"
       inbound_tokens_table: "Top Senders in tokens"
       outbound_transfers: "Latest Outbound Transfers"
+      outbound_transfers_token: "Latest %{token_name} (%{token_symbol}) Outbound Transfers"
       outbound_native_by_time: "Outbound transfers in %{currency} currency"
+      outbound_native_by_time_token: "%{currency} send by %{token_name} (%{token_symbol}) Contract"
       outbound_tokens_by_time: "Outbound transfers in tokens"
+      outbound_tokens_by_time_token: "Different Tokens sent by %{token_name} (%{token_symbol}) Contract"
       outbound_native_table: "Top Receivers in %{currency} currency"
       outbound_tokens_table: "Top Receivers in tokens"
       calls_table: "Latest Smart Contract Calls"
+      calls_table_token: "Latest Smart Contract Calls by %{token_name} (%{token_symbol}) Contract"
       smart_contracts_table: "Smart Contracts Called"
+      smart_contracts_table_token: "Top Smart Contracts Called by %{token_name} (%{token_symbol}) contract"
       smart_contract_methods_called_table: "Smart Contract Methods Called"
+      smart_contract_methods_called_table_token: "Top Smart Contract Methods Called by %{token_name} (%{token_symbol}) contract"
       top_gas_calls_table: "Top Gas Cost Calls"
+      top_gas_calls_table_token: "Top Gas Cost Calls by %{token_name} (%{token_symbol}) Contract"
       top_fee_calls_table: "Top Fee Cost Calls"
+      top_fee_calls_table_token: "Top Fee Cost Calls by %{token_name} (%{token_symbol}) Contract"
       smart_contract_attributes: "Smart Contract Readonly Properties"
+      smart_contract_attributes_token: "%{token_name} (%{token_symbol}) Smart Contract Readonly Properties"
       smart_contract_code: "Smart Contract Code"
       smart_contract_source: "Smart Contract Source (disassembled)"
       smart_contract_bytecode: "Smart Contract Bytecode"
       smart_contract_calls_by_time: "Calls Count By Date"
+      smart_contract_calls_by_time_token: "Daily %{token_name} (%{token_symbol}) Smart Contract Calls"
       smart_contract_callers_by_time: "Unique Callers By Date"
+      smart_contract_callers_by_time_token: "Daily %{token_name} (%{token_symbol}) Smart Contract Callers"
       smart_contract_transactions: "Latest Transactions"
+      smart_contract_transactions_token: "Latest %{token_name} (%{token_symbol}) Transactions"
       smart_contract_top_callers: "Top Callers"
+      smart_contract_top_callers_token: "Top %{token_name} (%{token_symbol}) Smart Contract Caller"
       smart_contract_top_gas_burners: "Top Gas Burners"
+      smart_contract_top_gas_burners_token: "Top Gas burner for %{token_name} (%{token_symbol}) Smart Contract"
       smart_contract_top_fee_burners: "Top Fee"
+      smart_contract_top_fee_burners_token: "Top Fee burner for %{token_name} (%{token_symbol}) Smart Contract"
       smart_contract_methods_table: "Smart Contract Methods"
+      smart_contract_methods_table_token: "%{token_name} (%{token_symbol}) Smart Contract Methods"
       smart_contract_methods_diagram: "Distribution of Calls Count by Methods"
+      smart_contract_methods_diagram_token: "%{token_name} (%{token_symbol}) Methods calls Distribution"
       method_references_table: "Addresses used in Method Parameters"
       smart_contract_events_table: "Smart Contract Events"
+      smart_contract_events_table_token: "%{token_name} (%{token_symbol}) Smart Contract Events"
       smart_contract_events_diagram: "Distribution of Log Count by Events"
+      smart_contract_events_diagram_token: "%{token_name} (%{token_symbol}) Events  Distribution"
       event_references_table: "Addresses used in Event Parameters"
       token_attributes: "Token attributes"
       topic_attributes: "Topic attributes"
@@ -1556,6 +1631,7 @@ en:
       token_decimals: "Number of Decimals"
       annotation: "Annotation"
       latest_token_transfers: "Latest Token Transfers"
+      latest_token_transfers_token: "Latest %{token_name} (%{token_symbol}) Token Transfers"
       latest_messages: "Latest Messages"
       latest_miniblocks: "Latest Miniblocks"
       latest_miniblocks_sender: "Latest Miniblocks where Block is sender"
@@ -1563,19 +1639,30 @@ en:
       latest_miniblocks_shard_sender: "Latest Miniblocks where Shard is sender"
       latest_miniblocks_shard_receiver: "Latest Miniblocks where Shard is receiver"
       token_transfers_by_time: "Token Transfers By Date"
+      token_transfers_by_time_token: "Daily %{token_name} (%{token_symbol}) Token Transfers"
       max_token_transfers_by_time: "The Largest Transaction Amount in Time Period"
+      max_token_transfers_by_time_token: "Largest %{token_name} (%{token_symbol}) Token Transfers by Date"
       token_senders_table: "Token Senders By Volume"
+      token_senders_table_token: "Largest %{token_name} (%{token_symbol}) Senders Stats"
       token_senders_diagram: "Distribution of Token Senders By Volume"
+      token_senders_diagram_token: "Largest %{token_name} (%{token_symbol}) Senders"
       token_senders_by_time: "Unique Senders By Time"
+      token_senders_by_time_token: "Daily Unique %{token_name} (%{token_symbol}) Senders"
       token_median_sender_amount_by_time: "Median Sent Amount"
+      token_median_sender_amount_by_time_token: "Median %{token_name} (%{token_symbol}) sent amount"
       token_receivers_table: "Token Receivers By Volume"
+      token_receivers_table_token: "Largest %{token_name} (%{token_symbol}) Receivers Stats"
       token_receivers_diagram: "Distribution of Token Receivers By Volume"
+      token_receivers_diagram_token: "Largest %{token_name} (%{token_symbol}) Receivers"
       token_receivers_by_time: "Unique Receivers By Time"
+      token_receivers_by_time_token: "Daily Unique %{token_name} (%{token_symbol}) Receivers"
       token_median_receiver_amount_by_time: "Median Received Amount"
+      token_median_receiver_amount_by_time_token: "Median %{token_name} (%{token_symbol}) Received amount"
       token_statistics: "Token transfer statistics"
       token_received_statistics: "Token received transfer statistics"
       token_sent_statistics: "Token sent transfer statistics"
       smart_contract_statitics: "Smart Contract Statistics"
+      smart_contract_statitics_token: "%{token_name} (%{token_symbol}) Smart Contract Statistics"
       tx_transfers: "Token Transfers in Transaction"
       tx_calls: "Smart Contract Calls in Transaction"
       tx_events: "Smart Contract Events logged in Transaction"
@@ -1659,6 +1746,7 @@ en:
       trades_by_currencies: "Trades By Currencies"
       trades_by_pairs: "Trades By Pairs"
       trade_amount_by_time: "Trade Amount By Time"
+      trade_amount_by_time_token: "Daily %{token_name} (%{token_symbol}) Trade Amount"
       deposit_amount_by_time: "Deposit Amount By Time"
       slashings_by_time: "Slashings By Date"
       proposer_slashings_by_time: "Proposer Slashings By Date"
@@ -1675,6 +1763,7 @@ en:
       last_exits: "Last Exits"
       latest_token_orders: "Token Orders"
       latest_token_trades: "Token Trades"
+      latest_token_trades_token: "Latest %{token_name} (%{token_symbol}) Trades"
       token_trading_statistics: "Token trading statistics"
       token_makers: "Trade Makers"
       token_takers: "Trade Takers"
@@ -1694,9 +1783,9 @@ en:
       address_statistics: "Address Statistics"
       in_out_transfers_value_by_time: 'In/Outbound %{token} by time'
       inbound_transfers_outputs: "Latest Inbound Transfers from Transaction Outputs"
-      outbound_transfers_inputs: "Latest Oubound Transfers from Transaction Inputs"
+      outbound_transfers_inputs: "Latest Outbound Transfers from Transaction Inputs"
       inbound_top_transfers: "Top Inbound Transfers from Transaction Outputs"
-      outbound_top_transfers: "Top Oubound Transfers from Transaction Inputs"
+      outbound_top_transfers: "Top Outbound Transfers from Transaction Inputs"
       inbound_types: "Inbound Volumes By Output Type"
       inputs: "Transaction Inputs"
       outputs: "Transaction Outputs"
@@ -1712,6 +1801,28 @@ en:
       currencies_received: "Currencies received"
       balance_effects: "Balance Effects"
     titles:
+      annotation: "Annotation"
+      send_amount: "Send Amount"
+      send_to_count: "Send To Count"
+      send_tx_count: "Send Tx Count"
+      send_to_currencies: "Send To Currencies"
+      receive_amount: "Receive Amount"
+      receive_to_count: "Receive To Count"
+      receive_tx_count: "Receive Tx Count"
+      receive_from_currencies: "Receive From Currencies"
+      fee_amount: "Fee Amount"
+      balance: "Balance"
+      first_tx_at: "First Tx at"
+      first_transfer_at: "First Transfer at"
+      last_tx_at: "Last Tx at"
+      last_transfer_at: "Last Transfer at"
+      days_with_received: "Days with received"
+      days_with_sent: "Days with sent"
+      days_with_transfers: "Days with transfers"
+      days_with_transactions: "Days with transactions"
+      call_tx_count: "Call TX count"
+      called_tx_count: "Called TX count"
+      other_tx_count: "Other tx count"
       method_name: 'Method Name'
       method_signature: 'Signature'
       signature_hash: 'Signature Hash'
@@ -1735,6 +1846,7 @@ en:
       miniblock_hash: "Miniblock Hash"
       miniblock_type: "Miniblock Type"
       fee_payer: "Fee Payer"
+      fee_ratio: "Fee Ratio"
       sender_block_hash: "Sender Block Hash"
       sender_shard: "Sender Shard"
       receiver_block_hash: "Receiver Block Hash"
@@ -2232,6 +2344,7 @@ en:
       statistics:
         in_block: "in block"
         in_tx: "in tx"
+
     token:
       description:
         part1: "Address %{address} is token"
@@ -2298,7 +2411,7 @@ en:
         custom: "%{type} smart contract in %{network}"
       token:
         name: "%{name} (%{symbol}) %{token_type} Token"
-        smart_contract: "Token is implemented as %{token_type} smart contract with address"
+        smart_contract: "Smart Contract with address:"
     conflux:
       smart_contract:
         generic: "Smart contract in %{network}"

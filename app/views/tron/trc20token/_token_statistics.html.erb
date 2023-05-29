@@ -1,6 +1,12 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.token_statistics') %></div>
+    <div class="card-header">
+        <% if @token_info && @token_info.name && @token_info.symbol %>
+          <%= @token_info.name %> (<%= @token_info.symbol %>) <%= t('widgets.headers.token_statistics') %>
+        <% else %>
+          <%= t('widgets.headers.token_statistics') %>
+        <% end %>
+    </div>
     <div class="card-body">
       <div id="token_statistics"><%= t('loading') %></div>
     </div>

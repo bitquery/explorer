@@ -11,6 +11,10 @@ module ApplicationHelper
     "<span class=\"copy-text #{html_class}\">#{addr} <a href='javascript:void()' class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\" data-toggle=\"tooltip\" title=\"Copy\"></a></span>".html_safe
   end
 
+  def innovation_in_blockchain?
+    @network && BLOCKCHAIN_BY_NAME[@network['network']][:innovation] == true || false
+  end
+
   def extend_layout(layout, &block)
     layout = layout.to_s
     # If there's no directory component, presume a plain layout name
@@ -20,18 +24,33 @@ module ApplicationHelper
     render file: layout
   end
 
-  def current_ad tag
+  def current_ad(tag, ad_type = :ad)
     ads_path = ADS
-    "#{tag}#{request.fullpath}".split('/').collect{|p|
+    ad = "#{tag}#{request.fullpath}".split('/').collect { |p|
       next unless ads_path[p.to_sym]
-      ad = ads_path[p.to_sym][:ad]
+  
+      ad = ads_path[p.to_sym]
       ads_path = ads_path[p.to_sym]
       ad
     }.compact.reverse.first
+  
+    ad ? ad[ad_type] : nil
   end
 
-  def tab_ad(ad_tag = 'tab', html_class = 'nav-item nav-item-ad')
-    if ad = current_ad(ad_tag)
+  def tab_ads html_class = 'nav-item nav-item-ad'
+    if ads = current_ad(:tab, :ads)
+      ads.collect {|ad|
+        tag.li(class: html_class) do
+          link_to ad[:url], class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ''), target: :blank do
+            "#{ad[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
+          end
+        end
+      }.join("\n").html_safe
+    end
+  end
+
+  def tab_ad html_class = 'nav-item nav-item-ad'
+    if ad = current_ad(:tab, :ad)
       tag.li(class: html_class) do
         link_to ad[:url], class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ''), target: :blank do
           "#{ad[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
@@ -40,15 +59,21 @@ module ApplicationHelper
     end
   end
 
-  def tab_link(name, action, html_class = 'nav-item', data = { changeurl: true })
+  def tab_link(name, action, new_tabs = [], html_class = 'nav-item', data = { changeurl: true })
     tag.li(class: html_class) do
-      tab_a name, action, 'nav-link', data
+      tab_a(name, action, new_tabs, 'nav-link', data)
     end
   end
 
-  def tab_a(name, action, html_class = 'nav-link', data = { changeurl: true })
-    link_to name, request.query_parameters.merge(action: action),
-            class: "#{html_class} #{params[:action] == action && 'active'}", data: data
+  def tab_a(name, action, new_tabs = [], html_class = 'nav-link', data = { changeurl: true })
+    link_to request.query_parameters.merge(action: action),
+            class: "#{html_class} #{params[:action] == action && 'active'}", data: data do
+      new_tab(name, action, new_tabs)
+    end
+  end
+
+  def new_tab name, action, new_tabs = []
+    (new_tabs || []).include?(action) && innovation_in_blockchain? ? tag.span(name) + " " + tag.div(class: "blink blnkr bg-success") : name
   end
 
   def locale_path_prefix

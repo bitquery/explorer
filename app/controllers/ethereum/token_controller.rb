@@ -34,6 +34,7 @@ class Ethereum::TokenController < Ethereum::AddressController
 
   def is_native
     @token = params[:address]
+    @id= params[:id]
     @native_token = native_token?
     @token_info = !@native_token && @info.smart_contract.currency
   end
@@ -47,7 +48,7 @@ class Ethereum::TokenController < Ethereum::AddressController
     if !(sc = @info.try(:smart_contract))
       change_controller!  'ethereum/address'
     elsif !sc.try(:currency)
-      change_controller! 'ethereum/smart_contract'
+    #  change_controller! 'ethereum/smart_contract'
     end
   end
 

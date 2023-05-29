@@ -28,15 +28,16 @@ class BitqueryGraphql
     attempt = 1
 
     ::BitqueryLogger.extra_context query: definition.source_document.to_query_string,
-                                 variables: variables,
-                                 context: context,
-                                 attempt: attempt
+                                   variables: variables,
+                                   context: context,
+                                   attempt: attempt
 
     begin
-      client.query definition, variables: variables, context: context
+      resp = client.query definition, variables: variables, context: context
+      BitqueryLogger.extra_context errors: resp.errors.presence&.details&.to_h&.to_s
     rescue Net::ReadTimeout => e
       if attempt >= ATTEMPTS
-        raise
+        raise "All attempts failed"
       else
         sleep(1)
         attempt += 1
@@ -44,6 +45,15 @@ class BitqueryGraphql
       end
     end
 
+    if resp.errors.any? && resp.data.nil?
+      raise 'GraphQL response errors, data is nil'
+    elsif resp.errors.any?
+      raise 'GraphQL response errors'
+    elsif resp.data.nil?
+      raise 'GraphQL response data is nil'
+    end
+
+    resp
   end
 
 end
