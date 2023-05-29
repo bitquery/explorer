@@ -42,6 +42,7 @@
     configuration() {
       return {
         topElement: function(response) { return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
         columns: [
           {name: 'Date', cell: function (row) { return row.Block.Date } },
           {name: 'Count', cell: function (row) { return +row.count } }
@@ -56,28 +57,30 @@
   class TopTransferedNFT extends BootstrapTableComponent {
       configuration() {
         return  {
-            topElement: function (response){ return response.EVM.Transfers},
-            columns: [
-              {
-                name: 'NFT', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
-              },
-              {
-                name: 'Transfers', cell: function(row){ return row.count},
-              },
-              {
-                name: 'Unique Senders', cell: function(row){ return row.senders},
-              },
-              {
-                name: 'Unique Receivers', cell: function(row){ return row.receivers},
-              },
-            ]
-          }
+          topElement: function (response){ return response.EVM.Transfers},
+          chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+          columns: [
+            {
+              name: 'NFT', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+            },
+            {
+              name: 'Transfers', cell: function(row){ return row.count},
+            },
+            {
+              name: 'Unique Senders', cell: function(row){ return row.senders},
+            },
+            {
+              name: 'Unique Receivers', cell: function(row){ return row.receivers},
+            },
+          ]
+        }
       }
   }
   class NFTTransfersByDatePie extends PieChartComponent {
     configuration() {
       return {
         topElement: function(response) { return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
         columns: [
           {name: 'NFT', cell: function(row){ return  row.Transfer.Currency.Symbol}},
           {name: 'Count', cell: function(row){ return +row.count} }
@@ -95,6 +98,7 @@
     configuration() {
       return  {
         topElement: function (response){ return response.EVM.DEXTrades },
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
         columns: [
           { name: 'Date', cell: function(row) { return row.Block.Date } },
           { name: function(row) { return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}` }, cell: function(row) { return +row.count } } ,
@@ -109,34 +113,36 @@
    class TopTradedNFTTokens extends BootstrapTableComponent {
       configuration() {
         return  {
-            topElement: function (response){ return response.EVM.DEXTrades},
-            columns: [
-              {
-                name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
-              },
-              {
-                name: 'Trades', cell: function(row){ return row.count},
-              },
-              {
-                name: 'Paid Amount', cell: function(row){ return Math.floor(row.sell_amount * 1000)/1000 },
-              },
-              {
-                name: 'Currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderAddressLink,
-              },
-              {
-                name: 'Min Price', cell: function(row){ return Math.floor(row.Trade.Buy.min_price * 1000) / 1000},
-              },
-              {
-                name: 'Max Price', cell: function(row){ return Math.floor(row.Trade.Buy.max_rice * 1000) / 1000},
-              },
-            ]
-          }
-      }
+          topElement: function (response){ return response.EVM.DEXTrades},
+          chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+          columns: [
+            {
+              name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
+            },
+            {
+              name: 'Trades', cell: function(row){ return row.count},
+            },
+            {
+              name: 'Paid Amount', cell: function(row){ return Math.floor(row.sell_amount * 1000)/1000 },
+            },
+            {
+              name: 'Currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderAddressLink,
+            },
+            {
+              name: 'Min Price', cell: function(row){ return Math.floor(row.Trade.Buy.min_price * 1000) / 1000},
+            },
+            {
+              name: 'Max Price', cell: function(row){ return Math.floor(row.Trade.Buy.max_rice * 1000) / 1000},
+            },
+          ]
+        }
+    }
   }
-    class TopTradedNFTTokensPie extends PieChartComponent {
+  class TopTradedNFTTokensPie extends PieChartComponent {
     configuration() {
       return {
-        topElement: function(response) { return response.EVM.DEXTrades },
+        topElement: function(response) { return response.EVM.DEXTrades},
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
         columns: [
           {name: 'NFT', cell: function(row){ return  row.Trade.Buy.Currency.Symbol}},
           {name: 'Count', cell: function(row){ return +row.count} }
@@ -151,31 +157,33 @@
   class TopExchangesForNFTs extends BootstrapTableComponent {
       configuration() {
         return  {
-            topElement: function (response){ return response.EVM.DEXTrades},
-            columns: [
-              {
-                name: 'Protocol', cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
-              },
-              {
-                name: 'Trades', cell: function(row){ return row.count},
-              },
-              {
-                name: 'Unique NFTs traded', cell: function(row){ return row.nfts},
-              },
-              {
-                name: 'Unique Currencies Paid', cell: function(row){ return row.currencies},
-              },
-              {
-                name: 'Unique NFT Buyers', cell: function(row){ return row.buyers},
-              },
-            ]
-          }
+          topElement: function (response){ return response.EVM.DEXTrades},
+          chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+          columns: [
+            {
+              name: 'Protocol', cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+            },
+            {
+              name: 'Trades', cell: function(row){ return row.count},
+            },
+            {
+              name: 'Unique NFTs traded', cell: function(row){ return row.nfts},
+            },
+            {
+              name: 'Unique Currencies Paid', cell: function(row){ return row.currencies},
+            },
+            {
+              name: 'Unique NFT Buyers', cell: function(row){ return row.buyers},
+            },
+          ]
+        }
       }
   }
    class TopExchangesForNFTsPie extends PieChartComponent {
     configuration() {
       return {
         topElement: function(response) { return response.EVM.DEXTrades },
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
         columns: [
           {name: 'Protocol', cell: function(row){ return  `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`}},
           {name: 'Count', cell: function(row){ return +row.count} }
@@ -190,38 +198,39 @@
    class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
       configuration() {
         return  {
-            topElement: function (response){ return response.EVM.DEXTrades},
-            columns: [
-             {
-                name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-              },
-              {
-                name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
-              },
-              {
-                name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
-                //cell: function(row){ return row.Trade.Buy.Ids},
-              },
-              {
-                name: 'Price', cell: function(row){ return Math.floor(row.Trade.Buy.Price * 1000) / 1000 },
-              },
-              {
-                name: 'Currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
-              },
-              {
-                name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
-              },
-              {
-                name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},   rendering: renderAddressLink,
-              },
-              {
-                name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
-              },
-              {
-                name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-              },
-            ]
-          }
+          topElement: function (response){ return response.EVM.DEXTrades},
+          chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+          columns: [
+            {
+              name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+            },
+            {
+              name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
+            },
+            {
+              name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
+              //cell: function(row){ return row.Trade.Buy.Ids},
+            },
+            {
+              name: 'Price', cell: function(row){ return Math.floor(row.Trade.Buy.Price * 1000) / 1000 },
+            },
+            {
+              name: 'Currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
+            },
+            {
+              name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
+            },
+            {
+              name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},   rendering: renderAddressLink,
+            },
+            {
+              name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+            },
+            {
+              name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+            },
+          ]
+        }
       }
   }
 
@@ -237,14 +246,14 @@
   id: '<%= @id %>',
   }
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-  renderComponent(NFTTransfersByDate, "#NFT-Transfers-By-Date",'NFT-Token-Transfers-By-Date',variables);//Graph Barchart
-  renderComponent(NFTTransfersByDatePie, "#NFT-Transfers-By-Date-Pie",'Top-transfered-NFT-tokens-in-network',variables);//Graph Barchart
-  renderComponent(TopTransferedNFT, "#Top-transfered-NFT",'Top-transfered-NFT-tokens-in-network',variables);
-  renderComponent(NFTTokenTradesByDate, "#NFT-Token-Trades-By-Date",'NFT-Token-Trades-By-Date_1',variables);//Graph Barchart
-  renderComponent(TopTradedNFTTokens, "#Top-traded-NFT-tokens",'Top-traded-NFT-tokens-in-network',variables);
-  renderComponent(TopTradedNFTTokensPie, "#Top-traded-NFT-tokens-Pie",'Top-traded-NFT-tokens-in-network',variables);
-  renderComponent(TopExchangesForNFTs, "#Top-exchange-protocols-trading-NFT",'Top-exchange-protocols-trading-NFT-tokens-in-network',variables);
-  renderComponent(TopExchangesForNFTsPie, "#Top-exchange-protocols-trading-NFT-Pie",'Top-exchange-protocols-trading-NFT-tokens-in-network',variables);
-  renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1',variables, 'Latest-Trades-of-NFT-Tokens-in-Network');
+  renderComponent(NFTTransfersByDate, "#NFT-Transfers-By-Date",'NFT-Token-Transfers-By-Date_1',variables);//Graph Barchart
+  renderComponent(NFTTransfersByDatePie, "#NFT-Transfers-By-Date-Pie",'Copy-of-Top-transfered-NFT-tokens-in-network',variables);//Graph Barchart
+  renderComponent(TopTransferedNFT, "#Top-transfered-NFT",'Top-transfered-NFT-tokens-in-network_1',variables);
+  renderComponent(NFTTokenTradesByDate, "#NFT-Token-Trades-By-Date",'NFT-Token-Trades-By-Date_1_1',variables);//Graph Barchart
+  renderComponent(TopTradedNFTTokens, "#Top-traded-NFT-tokens",'Top-traded-NFT-tokens-in-network_1',variables);
+  renderComponent(TopTradedNFTTokensPie, "#Top-traded-NFT-tokens-Pie",'Top-traded-NFT-tokens-in-network_1',variables);
+  renderComponent(TopExchangesForNFTs, "#Top-exchange-protocols-trading-NFT",'Top-exchange-protocols-trading-NFT-tokens-in-network_1',variables);
+  renderComponent(TopExchangesForNFTsPie, "#Top-exchange-protocols-trading-NFT-Pie",'Top-exchange-protocols-trading-NFT-tokens-in-network_1',variables);
+  renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1_1',variables, 'Latest-Trades-of-NFT-Tokens-in-Network_1_1_1');
   })
 </script>

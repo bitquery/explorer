@@ -1,3 +1,5 @@
+import WidgetConfig from '../componentDescription/WidgetConfig'
+
 export default class GraphsComponent {
   constructor(element, variables) {
     this.container = element;
@@ -10,8 +12,15 @@ export default class GraphsComponent {
   }
 
   async onData(data, sub) {
-    console.log('onData', data);
     const array = this.config.topElement(data);
+	const chainId =  this.config.chainId(data)
+const blockchainsData =  new WidgetConfig()
+	let networkAddress;
+	blockchainsData.blockchainsInfo.forEach(element => {
+	if(element.chainId === chainId){
+		return networkAddress=element.network
+	}
+	})
     let nodes = [];
     let edges = [];
     const addresses = new Set();
@@ -27,14 +36,14 @@ export default class GraphsComponent {
               nodes.push({
                 id: cellData,
                 label: this.shortenText(cellData),
-                url: `/${this.variables.networkForURL}/address/${dataObject['Sender']}/nft_address`,
+                url: `/${networkAddress}/address/${dataObject['Sender']}/nft_address`,
               });
             }
             if (column.name === 'Receiver') {
               nodes.push({
                 id: cellData,
                 label: this.shortenText(cellData),
-                url: `/${this.variables.networkForURL}/address/${dataObject['Receiver']}/nft_address`,
+                url: `/${networkAddress}/address/${dataObject['Receiver']}/nft_address`,
               });
             }
           }
@@ -54,7 +63,7 @@ export default class GraphsComponent {
         from: dataObject['Sender'],
         to: dataObject['Receiver'],
         label: dataObject['Time'],
-        url: `/${this.variables.networkForURL}/tx/${dataObject['TX Hash']}`,
+        url: `/${networkAddress}/tx/${dataObject['TX Hash']}`,
       });
     }
 

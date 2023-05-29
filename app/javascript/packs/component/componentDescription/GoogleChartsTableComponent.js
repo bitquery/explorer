@@ -19,6 +19,8 @@
 
 	onData(data) {
 		let array = this.config.topElement(data);
+	const chainId =  this.config.chainId(data)
+
 		let rows = [];
 		array.forEach((rowData) => {
 			let row = [];

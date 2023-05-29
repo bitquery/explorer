@@ -19,6 +19,9 @@ export default class BootstrapCardComponent {
 
   async onData(data, sub) {
     const array = this.config.topElement(data);
+    
+    this.chainId =  this.config.chainId(data)
+
     const maxRows = 10;
 
     for (const rowData of array) {
@@ -64,7 +67,7 @@ export default class BootstrapCardComponent {
 
     for (const column of this.config.image) {
       if (column.rendering) {
-        const imgElement = await column.rendering(column.cell(rowData), this.variables);
+        const imgElement = await column.rendering(column.cell(rowData), this.variables,this.chainId);
         this.appendChildren(cardImg, imgElement);
       }
     }
@@ -78,7 +81,7 @@ export default class BootstrapCardComponent {
     cardText.style.maxWidth = '150px';
     let spanText;
     if (column.rendering) {
-      spanText = await column.rendering(column.cell(rowData), this.variables);
+      spanText = await column.rendering(column.cell(rowData), this.variables,this.chainId);
     } else {
       spanText = this.createTextElement('div', column.cell(rowData));
     }

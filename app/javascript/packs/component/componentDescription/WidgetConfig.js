@@ -1,7 +1,9 @@
 export default class WidgetConfig {
-
-  blockchainsData(){
-const data   =[
+constructor(){
+  this.blockchainsInfo = this.getBlockchainInfo()
+}
+getBlockchainInfo(){
+  const data   =[
      {
         tag: 'eth',
         chainId: '1',
