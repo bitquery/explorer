@@ -29,8 +29,8 @@ export default async function renderImgFromURI(uri) {
     if (mediaURL && mediaURL.startsWith('ipfs://')) {
       mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
     }
-    console.log('mediaURL',mediaURL)
-    console.log('url',url)
+    console.log('mediaURL', mediaURL);
+    console.log('url', url);
     return {mediaURL, name: nameMedia};
   }
 
@@ -45,41 +45,66 @@ export default async function renderImgFromURI(uri) {
     // container.appendChild(span);
   }
 
-  function appendErrorElement(container, url) {
+  const appendErrorElement= (container, url)=> {
     const span = document.createElement('span');
     span.textContent = 'No data'; //JSON.stringify(url);'No data';
     container.appendChild(span);
   }
 
   function createMediaElement(src) {
+    const div = document.createElement('div');
+    div.classList.add('col')
     const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
-    return mediaElement;
+    // let mediaElement;
+    // if (/\.(mp4|mov|webm)$/.test(src)) {
+    //   mediaElement = createVideoElement(src);
+    // }
+    // if (/\.(jpeg|jpg|png|gif|bmp|svg)$/.test(src)) {
+    //   mediaElement = createImageElement(src);
+    // }
+    // if (!/\.(mp4|mov|webm)$/.test(src) && !/\.(jpeg|jpg|png|gif|bmp|svg)$/.test(src)) {
+    //   mediaElement = createButton(src);
+    // }
+    const button =createButton(src)
+    div.appendChild(mediaElement)
+    div.appendChild(button)
+    return div;
   }
+  const createButton = src => {
+    const button = document.createElement("button");
+    button.classList.add('btn', 'btn-outline-info','btn-sm');
+    button.setAttribute('type', 'button');
+    button.textContent = 'Show info';
+    button.addEventListener('click', () => {
+      window.open(src, '_blank');
+    });
+    return button;
+  };
 
-  function createImageElement(src) {
+  const createImageElement = (src) => {
     const img = document.createElement('img');
     img.classList.add('mg-fluid', 'd-block');
     img.style.width = 'auto';
     img.style.maxWidth = '136px';
     img.style.height = 'auto';
-    img.style.maxHeight = '136px';
+    img.style.maxHeight = '106px';
     img.src = src;
     return img;
   }
 
- function createVideoElement(src) {
+  const createVideoElement= (src) =>{
     const video = document.createElement('video');
     video.style.width = 'auto';
-    video.style.maxWidth = '236px';
-    video.style.maxHeight = '236px';
+    video.style.maxWidth = '136px';
+    video.style.maxHeight = '106px';
 
     const source = document.createElement('source');
     source.setAttribute('src', src);
-    if(src.endsWith('.mp4')) {
+    if (src.endsWith('.mp4')) {
       source.setAttribute('type', 'video/mp4');
-    } else if(src.endsWith('.mov')) {
+    } else if (src.endsWith('.mov')) {
       source.setAttribute('type', 'video/quicktime');
-    } else if(src.endsWith('.webm')) {
+    } else if (src.endsWith('.webm')) {
       source.setAttribute('type', 'video/webm');
     }
 
@@ -88,7 +113,7 @@ export default async function renderImgFromURI(uri) {
     video.controls = true;
 
     return video;
-}
+  }
 
   function addClickListener(element, mediaURL) {
     element.addEventListener('click', () => {
