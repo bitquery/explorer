@@ -14,13 +14,6 @@ export default class GraphsComponent {
   async onData(data, sub) {
     const array = this.config.topElement(data);
 	const chainId =  this.config.chainId(data)
-const blockchainsData =  new WidgetConfig()
-	// let networkAddress;
-	// blockchainsData.blockchainsInfo.forEach(element => {
-	// if(element.chainId === chainId){
-	// 	return networkAddress=element.network
-	// }
-	// })
     let nodes = [];
     let edges = [];
     const addresses = new Set();

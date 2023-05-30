@@ -35,7 +35,7 @@ export default class BootstrapCardComponent {
   async createCardElement(rowData) {
     const cardWrapper = this.createElementWithClasses('div', 'col','mb-4','safasfasfasf');
     const cardElement = this.createElementWithClasses('div', 'card');
-    cardElement.style.minWidth = '443px'
+    cardElement.style.minWidth = '417px'
     const row = this.createElementWithClasses('div', 'row', 'no-gutters');
     const [cardImg, cardTable] = await this.createCardSections(rowData);
     this.appendChildren(cardWrapper, cardElement);
