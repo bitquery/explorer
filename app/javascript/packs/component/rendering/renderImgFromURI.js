@@ -37,8 +37,8 @@ export default async function renderImgFromURI(uri) {
 
   function createMediaElement(src,preprocessedURI) {
     const div = document.createElement('div');
-    div.classList.add('col', 'position-relative')
-    div.style.position = 'relative';
+    // div.classList.add('position-relative')
+    // div.style.position = 'relative';
     const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
     const button = createButton(preprocessedURI)
     div.appendChild(mediaElement)
@@ -78,10 +78,13 @@ const createButton = url => {
 
 const createImageElement = (src) => {
   const img = document.createElement('img');
+  // img.classList.add('border', 'border-primary')
   img.src = src;
   img.style.width = '100%';
-  img.style.maxHeight = '150px';
-  img.style.objectFit = 'contain';
+  // img.style.maxHeight = '150px';
+  img.style.height = '100%';
+  // img.style.objectFit = 'contain';
+  img.style.objectFit = 'cover';
   return img;
 }
 

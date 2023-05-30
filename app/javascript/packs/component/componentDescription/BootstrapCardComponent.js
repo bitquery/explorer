@@ -4,9 +4,7 @@ export default class BootstrapCardComponent {
     this.config = this.configuration();
     this.variables = variables;
     this.wrapper = this.createElementWithClasses('div', 'row');
-    this.row = this.createElementWithClasses('div', 'row','col');
 
-    this.wrapper.appendChild(this.row);
     this.container.appendChild(this.wrapper);
   }
 
@@ -24,34 +22,36 @@ export default class BootstrapCardComponent {
     for (const rowData of array) {
       const cardElement = await this.createCardElement(rowData);
       if (sub) {
-        this.row.insertBefore(cardElement, this.row.firstChild);
-        if (this.row.childElementCount > maxRows) {
-          this.row.removeChild(this.row.lastChild);
+        this.wrapper.insertBefore(cardElement, this.wrapper.firstChild);
+        if (this.wrapper.childElementCount > maxRows) {
+          this.wrapper.removeChild(this.wrapper.lastChild);
         }
       } else {
-        this.row.appendChild(cardElement);
+        this.wrapper.appendChild(cardElement);
       }
     }
   }
 
   async createCardElement(rowData) {
-    const cardElement = this.createElementWithClasses('div', 'card', 'm-1','col-sm');
-    cardElement.style.minWidth = '430px'
+    const cardWrapper = this.createElementWithClasses('div', 'col','mb-4','safasfasfasf');
+    const cardElement = this.createElementWithClasses('div', 'card');
+    cardElement.style.minWidth = '443px'
     const row = this.createElementWithClasses('div', 'row', 'no-gutters');
     const [cardImg, cardTable] = await this.createCardSections(rowData);
+    this.appendChildren(cardWrapper, cardElement);
     this.appendChildren(cardElement, row);
     this.appendChildren(row, cardImg, cardTable);
-    return cardElement;
+    return cardWrapper;
   }
 
   async createCardSections(rowData) {
-    const cardImg = this.createElementWithClasses('div', 'col-4', 'd-flex', 'flex-column');
-  cardImg.style.maxHeight = '100%';
+    const cardImg = this.createElementWithClasses('div', 'col-4');
+  // cardImg.style.maxHeight = '100%';
 
     for (const column of this.config.image) {
      if (column.rendering) {
       const imgElement = await column.rendering(column.cell(rowData), this.variables, this.chainId);
-      imgElement.classList.add('row', 'no-gutters' ,'flex-grow-1');
+      // imgElement.classList.add('row', 'no-gutters' ,'flex-grow-1');
       this.appendChildren(cardImg, imgElement);
     }
     }
