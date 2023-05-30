@@ -1,8 +1,6 @@
 export default class WidgetConfig {
-constructor(){
-  this.blockchainsInfo = this.getBlockchainInfo()
-}
-getBlockchainInfo(){
+
+static getBlockchainInfo(){
   const data   =[
      {
         tag: 'eth',
@@ -29,5 +27,15 @@ getBlockchainInfo(){
       },
   ]
   return data
+ }
+ static getNetwork(chainId){
+  const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+  let network
+  blockchainsInfo.forEach(element =>{
+    if (element.chainId === chainId) {
+      network = element.network
+    }
+  })
+  return network
  }
 }

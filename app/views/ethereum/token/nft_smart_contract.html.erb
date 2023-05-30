@@ -63,15 +63,13 @@
             cell: function(row){ return row.Transfer.URI}, rendering: renderImgFromURI,
           }
             ] ,
-        columnOne: [
+        columns: [
           {
             name: 'ID',cell: function(row){ return {id:row.Transfer.Id, address:row.Transfer.Currency.SmartContract}},rendering: renderIdLink
           },
           {
             name: "Transfers Count", cell: function(row){ return row.count},
           },
-        ],
-        columnTwo: [
           {
             name: 'Unique Receivers', cell: function(row){ return row.receivers},
           },

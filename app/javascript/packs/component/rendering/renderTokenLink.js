@@ -1,12 +1,5 @@
 import WidgetConfig from '../componentDescription/WidgetConfig'
 export default function renderTokenLink(data,variables,chainId) {
-	const blockchainsData =  new WidgetConfig()
-	let network;
-	blockchainsData.blockchainsInfo.forEach(element => {
-	if(element.chainId === chainId){
-		return network=element.network
-	}
-	})
 	const div = document.createElement('div');
 	div.classList.add('text-truncate')
 	const link = document.createElement('a');
@@ -16,7 +9,7 @@ export default function renderTokenLink(data,variables,chainId) {
 	if(!data.currency){
 		link.textContent = data.smartContract;
 	}
-	link.href = `/${network}/token/${data.smartContract}/nft_smart_contract`; // Change  URL
+	link.href = `/${WidgetConfig.getNetwork(chainId)}/token/${data.smartContract}/nft_smart_contract`; // Change  URL
 	div.appendChild(link);
 
 	return div;

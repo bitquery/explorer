@@ -92,9 +92,7 @@
       }
     }
   }
-
-
-   class NFTTokenTradesByDate extends TimeChartComponent {
+  class NFTTokenTradesByDate extends TimeChartComponent {
     configuration() {
       return  {
         topElement: function (response){ return response.EVM.DEXTrades },
@@ -110,7 +108,7 @@
       }
     }
   }
-   class TopTradedNFTTokens extends BootstrapTableComponent {
+  class TopTradedNFTTokens extends BootstrapTableComponent {
       configuration() {
         return  {
           topElement: function (response){ return response.EVM.DEXTrades},
@@ -179,7 +177,7 @@
         }
       }
   }
-   class TopExchangesForNFTsPie extends PieChartComponent {
+  class TopExchangesForNFTsPie extends PieChartComponent {
     configuration() {
       return {
         topElement: function(response) { return response.EVM.DEXTrades },
@@ -195,7 +193,7 @@
       }
     }
   }
-   class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
+  class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
       configuration() {
         return  {
           topElement: function (response){ return response.EVM.DEXTrades},

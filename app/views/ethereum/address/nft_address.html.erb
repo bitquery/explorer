@@ -34,26 +34,23 @@
             cell: function(row){ return row.BalanceUpdate.URI}, rendering: renderImgFromURI,
           }
             ] ,
-          columnOne: [
+          columns: [
             {
               name: 'NFT', cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
             },
             {
               name: 'ID', cell: function(row){ return {id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}}, rendering: renderIdLink
             },
-          ],
-          columnTwo:[
-            {
-              name: 'Amount',  cell: function(row){ return row.amount},
-            },
             {
               name: 'Last Transaction', cell: function(row){ return row.count},
+            },
+            {
+              name: 'Amount',  cell: function(row){ return row.amount},
             },
           ]
         }
     }
   }
-
   class OutcomingNFTTransfersByAddress extends BootstrapTableComponent {
     configuration() {
       return  {
