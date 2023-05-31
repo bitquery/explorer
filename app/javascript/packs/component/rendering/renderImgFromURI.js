@@ -30,8 +30,8 @@ export default async function renderImgFromURI(uri) {
     if (mediaURL && mediaURL.startsWith('ipfs://')) {
       mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
     }
-    // console.log('mediaURL', mediaURL);
-    // console.log('url', url);
+    console.log('mediaURL', mediaURL);
+    console.log('url', url);
     return {mediaURL, name: nameMedia};
   }
 
