@@ -27,7 +27,7 @@
             name: 'Name', cell: function(row){ return row.Currency.Name},
           },
           {
-            name: 'Symbol', cell: function(row){ return  {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}},rendering: renderTokenLink,
+            name: 'Currency', cell: function(row){ return  {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}},rendering: renderTokenLink,
           },
           {
             name: 'Id', cell: function(row){ return {id:row.BalanceUpdate.Id, address: row.Currency.SmartContract}},rendering: renderIdLink
@@ -75,6 +75,9 @@
           },
           {
             name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink,
+          },
+          {
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
           },
           {
             name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,

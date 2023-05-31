@@ -1,6 +1,6 @@
 export default function renderDate(sub) {
-	const span = document.createElement('div');
-	const result = new Date(sub).toUTCString();
-	span.textContent = result;
-	return span;
+	const div = document.createElement('div');
+	// const result = new Date(sub).toUTCString();
+	div.textContent = sub.replace('T', ' ').replace('Z', '');
+	return div;
 }

@@ -192,3 +192,40 @@ body.dark {
     //right: 1px;
   }
 }
+// #imgFromCard {
+//   color: transparent;
+// }
+// #imgFromCard::before {
+//   content: ' ';
+//   display: block;
+
+//   position: absolute;
+//   top: -10px;
+//   left: 0;
+//   height: calc(100% + 10px);
+//   width: 100%;
+//   background-color: rgb(230, 230, 230);
+//   border: 2px dotted rgb(200, 200, 200);
+//   border-radius: 5px;
+// }
+
+// #imgFromCard[onerror]::before {
+//   visibility: visible;
+// }
+
+// #imgFromCard:not([src])::before {
+//   visibility: visible;
+// }
+// #imgFromCard::after {
+//   content: '\f127'' Битая картинка ' attr(alt);
+//   display: block;
+//   font-size: 16px;
+//   font-style: normal;
+//   color: rgb(100, 100, 100);
+
+//   position: absolute;
+//   top: 5px;
+//   left: 0;
+//   width: 100%;
+//   text-align: center;
+// }

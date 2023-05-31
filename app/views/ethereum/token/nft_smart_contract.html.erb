@@ -118,34 +118,44 @@
   class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
     configuration() {
       return  {
-        topElement: function (response){ return response.EVM.DEXTrades},
-        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-        columns: [
+         topElement: function (response){ return response.EVM.DEXTrades},
+          chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+          columns: [
           {
-            name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+          name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
           },
           {
-            name: 'ID', cell: function(row){ return {id: row.Trade.Buy.Ids, address: row.Trade.Buy.Currency.SmartContract}}, rendering: renderIdLink
+          name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
           },
           {
-            name: 'Price', cell: function(row){ return Math.floor(row.Trade.Buy.Price*1000)/1000},
+          name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
+          //cell: function(row){ return row.Trade.Buy.Ids},
           },
           {
-            name: 'Currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
+          name: 'Sell currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
           },
           {
-            name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
+          name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
           },
           {
-            name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},  rendering: renderAddressLink,
+          name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
           },
           {
-            name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+          name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},   rendering: renderAddressLink,
           },
           {
-            name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+          name: 'Buy currency',  cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
           },
-        ]
+          {
+          name: 'Price', cell: function(row){ return Math.floor(row.Trade.Buy.Price * 1000) / 1000 },
+          },
+          {
+          name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+          },
+          {
+          name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+          },
+          ]
       }
     }
   }
@@ -164,6 +174,6 @@
     renderComponent(PopularTokenIDsNFT, "#Popular-Token-IDs",'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_1',variables);
     renderComponent(TopNFTHolders, "#Top-NFT-Holders",'Top-NFT-Holders_1',variables);
     renderComponent(TopNFTHoldersPie, "#Top-NFT-Holders-Pie",'Top-NFT-Holders_1',variables);
-    renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-for-the-Latest-Trades-of-NFT-Token",'Subscription-for-the-Latest-Trades-of-NFT-Token_1_1_1',variables, "Latest-Trades-of-NFT-Token_1_1");
+    renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-for-the-Latest-Trades-of-NFT-Token",'Subscription-for-the-Latest-Trades-of-NFT-Token_1_1_1_1',variables, "Latest-Trades-of-NFT-Token_1_1");
   })
 </script>

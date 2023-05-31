@@ -58,7 +58,7 @@ export default class BootstrapCardComponent {
     }
 
     const cardTable = this.createElementWithClasses('div', 'col-8');
-    const tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
+    const tableElement = this.createElementWithClasses('table', 'table', 'mb-0','table-sm', 'table-striped', 'table-hover');
     tableElement.style.tableLayout = 'fixed';
     cardTable.appendChild(tableElement);
 

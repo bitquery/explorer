@@ -2,9 +2,8 @@ export default async function renderImgFromURI(uri) {
   function createContainer() {
     const div = document.createElement('div');
     // div.style.overflow = 'hidden';
-    div.style.width = '100%';
-    div.style.height = '100%';
-    div.style.cursor = 'pointer';
+    // div.style.width = '100%';
+    // div.style.height = '100%';
     return div;
   }
 
@@ -37,7 +36,9 @@ export default async function renderImgFromURI(uri) {
 
   function createMediaElement(src,preprocessedURI) {
     const div = document.createElement('div');
-    // div.classList.add('position-relative')
+    // div.style.backgroundImage ='url("app/assets/images/no-images.jpeg")'
+    div.classList.add('position-relative')
+    div.style.height = '178px'
     const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
     const button = createButton(preprocessedURI)
     div.appendChild(mediaElement)
@@ -77,14 +78,20 @@ const createButton = url => {
 
 const createImageElement = (src) => {
   const img = document.createElement('img');
-  // img.classList.add('border', 'border-primary')
+  img.id = 'imgFromCard'
+  // img.setAttribute('onerror','this.src="https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg"') //change img
+  img.setAttribute('onerror','this.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU"') //change img
+  // img.setAttribute('onerror','this.src="https://dummyimage.com/120"') //change img
+  // img.setAttribute('onerror','this.src="./assets/images/no-images.jpeg"') //change img
+  if(!src){
+  img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU";
+  }
   img.src = src;
   img.style.width = '100%';
-  // img.style.maxHeight = '150px';
+  img.style.cursor = 'pointer';
   img.style.height = '100%';
-  img.style.maxWidth = '200px';
-  
-  // img.style.objectFit = 'contain';
+  // img.style.maxWidth = '180px';
+  img.id= 'imgFromCard'
   img.style.objectFit = 'cover';
   return img;
 }
@@ -106,6 +113,7 @@ const createImageElement = (src) => {
     }
 
     video.appendChild(source);
+    video.style.cursor = 'pointer';
 
     video.controls = true;
 
