@@ -8,6 +8,7 @@ export default class TimeChartComponent {
 	async onData(data, sub) {
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
+			const chainId =  this.config.chainId(data)
 			let dataToVizualize = []
 			let annotation = []
 			let k = 0

@@ -1,35 +1,32 @@
-@import "daterangepicker_dark";
+@import 'daterangepicker_dark';
 @import url(https://fonts.googleapis.com/css?family=Nunito:300,400,600,700);
-$fa-font-path:         "../webfonts" !default;
+$fa-font-path: '../webfonts' !default;
 @font-face {
   font-family: FontAwesome;
   font-style: normal;
   font-weight: 900;
   font-display: block;
   src: url('#{$fa-font-path}/fa-solid-900.eot');
-  src: url('#{$fa-font-path}/fa-solid-900.eot?#iefix') format('embedded-opentype'),
-  url('#{$fa-font-path}/fa-solid-900.woff2') format('woff2'),
-  url('#{$fa-font-path}/fa-solid-900.woff') format('woff'),
-  url('#{$fa-font-path}/fa-solid-900.ttf') format('truetype'),
-  url('#{$fa-font-path}/fa-solid-900.svg#fontawesome') format('svg');
+  src: url('#{$fa-font-path}/fa-solid-900.eot?#iefix') format('embedded-opentype'), url('#{$fa-font-path}/fa-solid-900.woff2') format('woff2'), url('#{$fa-font-path}/fa-solid-900.woff') format('woff'),
+    url('#{$fa-font-path}/fa-solid-900.ttf') format('truetype'), url('#{$fa-font-path}/fa-solid-900.svg#fontawesome') format('svg');
 }
 
-:root{
-  --font-family-sans-serif:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-  --font-family-monospace:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace
+:root {
+  --font-family-sans-serif: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
-html{
-  font-family:sans-serif;
+html {
+  font-family: sans-serif;
 }
-body{
-  font-family:Nunito,sans-serif;
+body {
+  font-family: Nunito, sans-serif;
 }
 
-.word-wrap{
+.word-wrap {
   word-wrap: break-word;
 }
 
-.logotype{
+.logotype {
   width: 147px;
   height: 40px;
 }
@@ -38,20 +35,20 @@ body{
   padding-left: 0.3em;
 }
 
-.search-form{
+.search-form {
   .search-form-type {
     cursor: pointer;
   }
 
-  img.search-icon{
+  img.search-icon {
     height: 26px;
     width: auto;
-    top:2px;
-    left:2px;
-    position:absolute;
+    top: 2px;
+    left: 2px;
+    position: absolute;
   }
 
-  .fa.search-icon{
+  .fa.search-icon {
     position: relative;
     top: 6px;
     left: 6px;
@@ -59,13 +56,13 @@ body{
   }
 }
 
-ol.breadcrumb{
+ol.breadcrumb {
   padding: 0;
   margin-bottom: 0;
-  background-color: transparent;;
+  background-color: transparent;
 }
 
-#reportrange{
+#reportrange {
   display: inline-block;
   background: #fff;
   cursor: pointer;
@@ -74,7 +71,7 @@ ol.breadcrumb{
   border-radius: 0.25rem;
 }
 
-.header-title{
+.header-title {
   line-height: 2rem;
 }
 //
@@ -84,79 +81,82 @@ ol.breadcrumb{
 //  }
 //}
 
-.navbar-nav-search{
+.navbar-nav-search {
   margin-left: 1.5rem;
   margin-right: 1.5rem;
   width: 100%;
 }
 
-.fontsize35rem{
+.fontsize35rem {
   font-size: 3.5rem;
 }
 
-.fontsize25rem{
+.fontsize25rem {
   font-size: 2.5rem;
 }
 
-.search-form{
+.search-form {
   width: 100%;
-  .input-group{
+  .input-group {
     width: 100%;
   }
 }
 
-body.dark{
+body.dark {
   background-color: #57626b;
   color: #d6d6d6;
 
-  header{
+  header {
     &.border-bottom {
       border-bottom: none !important;
     }
   }
 
-  input, input:focus, select, select:focus{
+  input,
+  input:focus,
+  select,
+  select:focus {
     background-color: #434e57;
     border-color: #758591;
     color: #d6d6d6;
   }
 
-  a:not(.dropdown-item), .more-text a:not([href]):not([tabindex]).more-link{
+  a:not(.dropdown-item),
+  .more-text a:not([href]):not([tabindex]).more-link {
     color: #a1c9d7;
-    &:hover{
+    &:hover {
       color: #afdae8;
     }
   }
-  a.badge{
+  a.badge {
     color: #fff;
 
-    &:hover{
+    &:hover {
       color: #fff;
     }
   }
 
-
-  .btn{
+  .btn {
     color: #fff;
-    .btn-default{
+    .btn-default {
     }
   }
 
-  .card{
+  .card {
     color: #d6d6d6;
     background: #434e57;
     border: 1px solid #434e57;
 
-    .card-header{
+    .card-header {
       background-color: #343d46;
     }
   }
 
-  .table{
+  .table {
     color: #fff;
-    &.table-hover{
-      tbody{
-        tr:hover{
+    &.table-hover {
+      tbody {
+        tr:hover {
           color: #e5e5e5;
         }
       }
@@ -164,8 +164,8 @@ body.dark{
   }
 }
 
-.nav-item-ad{
-  .nav-link-ad{
+.nav-item-ad {
+  .nav-link-ad {
     margin-left: 10px;
     //margin-right: 5px;
     padding-top: 7px;
@@ -175,21 +175,20 @@ body.dark{
     position: relative;
     background-color: #17a2b8;
     color: #fff;
-    sup{
+    sup {
       position: absolute;
       top: 0;
       right: 1px;
     }
   }
 }
-.open-btn-ad{
+.open-btn-ad {
   background-color: #17a2b8;
   color: #fff;
   margin-right: 5px;
-  sup{
+  sup {
     //position: absolute;
     //top: 0;
     //right: 1px;
   }
 }
-

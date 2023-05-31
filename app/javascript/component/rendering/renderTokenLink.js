@@ -1,4 +1,5 @@
-export default function renderTokenLink(data,variables) {
+import WidgetConfig from '../componentDescription/WidgetConfig'
+export default function renderTokenLink(data,variables,chainId) {
 	const div = document.createElement('div');
 	div.classList.add('text-truncate')
 	const link = document.createElement('a');
@@ -8,7 +9,7 @@ export default function renderTokenLink(data,variables) {
 	if(!data.currency){
 		link.textContent = data.smartContract;
 	}
-	link.href = `/${variables.networkForURL}/token/${data.smartContract}/nft_smart_contract`; // Change  URL
+	link.href = `/${WidgetConfig.getNetwork(chainId)}/token/${data.smartContract}/nft_smart_contract`; // Change  URL
 	div.appendChild(link);
 
 	return div;

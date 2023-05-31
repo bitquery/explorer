@@ -13,13 +13,6 @@ require('jquery');
 require('popper.js');
 require('bootstrap');
 require('daterangepicker');
-require('@rails/ujs').start();
-require('@rails/activestorage').start();
-require('channels');
-require('jquery');
-require('popper.js');
-require('bootstrap');
-require('daterangepicker');
 
 import barWidgetRenderer from 'vega-widgets/src/components/widgets/barWidgetRenderer';
 import pieWidgetRenderer from 'vega-widgets/src/components/widgets/pieWidgetRenderer';
@@ -34,7 +27,6 @@ import moment from 'moment';
 import vis from 'vis';
 import numeral from 'numeral';
 import * as SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
 import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
@@ -88,34 +80,6 @@ global.renderDropdown = renderDropdown;
 global.renderAccordion = renderAccordion;
 global.renderJustAddressLink = renderJustAddressLink;
 global.renderSenderRecieverIcon = renderSenderRecieverIcon;
-
-global.widgetRenderer = {
-	'vega.bar': barWidgetRenderer,
-	'vega.pie': pieWidgetRenderer,
-	'time.chart': timeChartRenderer,
-	'table.widget': tableWidgetRenderer,
-	'tradingview.widget': tradingViewrenderer,
-};
-global.Stomp = Stomp;
-global.SockJS = SockJS;
-global.$ = $;
-global.vis = vis;
-global.numeral = numeral;
-global.m = moment;
-const chainName = {
-	'0x1': 'Ethereum',
-	'0xa': 'Optimism',
-	'0x3b': 'EOS',
-	'0x3d': 'Ethclassic',
-	'0x19': 'Cronos',
-	'0x38': 'BSC',
-	'0x89': 'Matic',
-	'0xfa': 'Fantom',
-	'0x504': 'Moonbeam',
-	'0x2019': 'Klaytn',
-	'0xa4ec': 'Celo',
-	solana: 'Solana',
-};
 
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,

@@ -3,11 +3,7 @@ export default class BootstrapCardComponent {
     this.container = element;
     this.config = this.configuration();
     this.variables = variables;
-    this.createWrapper();
-  }
-
-  createWrapper() {
-    this.wrapper = this.createElementWithClasses('div', 'card-columns');
+    this.wrapper = this.createElementWithClasses('div', 'row');
     this.container.appendChild(this.wrapper);
   }
 
@@ -18,7 +14,9 @@ export default class BootstrapCardComponent {
   }
 
   async onData(data, sub) {
+    console.log(data)
     const array = this.config.topElement(data);
+    this.chainId =  this.config.chainId(data);
     const maxRows = 10;
 
     for (const rowData of array) {
@@ -35,73 +33,60 @@ export default class BootstrapCardComponent {
   }
 
   async createCardElement(rowData) {
-    const cardElement = this.createElementWithClasses('div', 'card', 'xl-2', 'no-gutters');
-    const card = this.createElementWithClasses('div', 'row', 'g-0', 'no-gutters');
-    const [cardImg, cardBody] = await this.createCardSections(rowData);
-    this.appendChildren(cardElement, card);
-    this.appendChildren(card, cardImg, cardBody);
-
-    return cardElement;
+    const cardWrapper = this.createElementWithClasses('div', 'col','mb-4','safasfasfasf');
+    const cardElement = this.createElementWithClasses('div', 'card');
+    cardElement.style.minWidth = '417px'
+    const row = this.createElementWithClasses('div', 'row', 'no-gutters');
+    const [cardImg, cardTable] = await this.createCardSections(rowData);
+    this.appendChildren(cardWrapper, cardElement);
+    this.appendChildren(cardElement, row);
+    this.appendChildren(row, cardImg, cardTable);
+    return cardWrapper;
   }
 
   async createCardSections(rowData) {
-    const cardImg = this.createElementWithClasses('div', 'col', 'no-gutters', 'col-md-4');
-
-    const cardBody = this.createElementWithClasses('div', 'card-body', 'no-gutters', 'row', 'col-md-8');
-    const [leftColumnDiv, rightColumnDiv] = [
-      this.createElementWithClasses('div', 'col', 'no-gutters'),
-      this.createElementWithClasses('div', 'col', 'no-gutters'),
-    ];
-
-    for (const column of [...this.config.columnOne, ...this.config.columnTwo]) {
-      const cardText = await this.createCardText(column, rowData);
-      if (this.config.columnOne.includes(column)) {
-        this.appendChildren(leftColumnDiv, cardText);
-      } else {
-        this.appendChildren(rightColumnDiv, cardText);
-      }
-    }
+    const cardImg = this.createElementWithClasses('div', 'col-4');
+  // cardImg.style.maxHeight = '100%';
 
     for (const column of this.config.image) {
+     if (column.rendering) {
+      const imgElement = await column.rendering(column.cell(rowData), this.variables, this.chainId);
+      // imgElement.classList.add('row', 'no-gutters' ,'flex-grow-1');
+      this.appendChildren(cardImg, imgElement);
+    }
+    }
+
+    const cardTable = this.createElementWithClasses('div', 'col-8');
+    const tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
+    tableElement.style.tableLayout = 'fixed';
+    cardTable.appendChild(tableElement);
+
+    const tbody = this.createElementWithClasses('tbody');
+    tableElement.appendChild(tbody);
+
+    for (const column of this.config.columns) {
+      const tr = this.createElementWithClasses('tr');
+      
+      const td1 = this.createElementWithClasses('td');
+      const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
+      textCell1.textContent = column.name;
+      this.appendChildren(td1, textCell1);
+
+      const td2 = this.createElementWithClasses('td');
+      const textCell2 = this.createElementWithClasses('span');
+      textCell2.textContent = column.cell(rowData);
+      this.appendChildren(td2, textCell2);
+
       if (column.rendering) {
-        const imgElement = await column.rendering(column.cell(rowData), this.variables);
-        this.appendChildren(cardImg, imgElement);
+        const div = await column.rendering(column.cell(rowData), this.variables, this.chainId);
+        td2.replaceChild(div, textCell2);
       }
+
+      this.appendChildren(tr, td1, td2);
+      this.appendChildren(tbody, tr);
     }
 
-    this.appendChildren(cardBody, leftColumnDiv, rightColumnDiv);
-    return [cardImg, cardBody];
-  }
-
-  async createCardText(column, rowData) {
-    const cardText = this.createElementWithClasses('div', 'card-text', 'no-gutters');
-    cardText.style.maxWidth = '150px';
-    let spanText;
-    if (column.rendering) {
-      spanText = await column.rendering(column.cell(rowData), this.variables);
-    } else {
-      spanText = this.createTextElement('div', column.cell(rowData));
-    }
-
-    spanText.classList.add('text-truncate');
-    spanText.style.maxWidth = '150px';
-    const textContainer = this.createElementWithClasses('div', 'text-container', 'text-truncate');
-    if (column.name) {
-      const spanTitle = this.createElementWithClasses('div', 'text-muted');
-      spanTitle.textContent = column.name;
-      this.appendChildren(textContainer, spanTitle);
-    }
-
-    this.appendChildren(textContainer, spanText);
-    this.appendChildren(cardText, textContainer);
-
-    return cardText;
-  }
-
-  createTextElement(elementType, textContent) {
-    const element = document.createElement(elementType);
-    element.textContent = textContent;
-    return element;
+    return [cardImg, cardTable];
   }
 
   appendChildren(parent, ...children) {

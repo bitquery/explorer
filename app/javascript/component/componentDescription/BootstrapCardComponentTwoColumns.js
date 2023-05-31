@@ -18,8 +18,9 @@ createElementWithClasses(elementType, ...classes) {
 }
 
 async onData(data, sub) {
-  console.log(data)
   const array = this.config.topElement(data);
+	this.chainId =  this.config.chainId(data)
+
   const maxRows = 10;
 
   for (const rowData of array) {
@@ -63,7 +64,7 @@ async createCardSections(rowData) {
 
   for (const column of this.config.image) {
     if (column.rendering) {
-      const imgElement = await column.rendering(column.cell(rowData), this.variables);
+      const imgElement = await column.rendering(column.cell(rowData), this.variables,this.chainId);
       this.appendChildren(cardImg, imgElement)
     }
   }
@@ -78,7 +79,7 @@ async createCardText(column, rowData) {
   let spanText;
 
   if (column.rendering) {
-    spanText = await column.rendering(column.cell(rowData),this.variables);
+    spanText = await column.rendering(column.cell(rowData),this.variables,this.chainId);
   } else {
     spanText = this.createTextElement('div', column.cell(rowData));
   }
