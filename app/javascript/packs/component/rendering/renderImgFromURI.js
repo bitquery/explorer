@@ -38,7 +38,6 @@ export default async function renderImgFromURI(uri) {
   function createMediaElement(src,preprocessedURI) {
     const div = document.createElement('div');
     // div.classList.add('position-relative')
-    // div.style.position = 'relative';
     const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
     const button = createButton(preprocessedURI)
     div.appendChild(mediaElement)
