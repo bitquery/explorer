@@ -82,6 +82,8 @@ const createImageElement = (src) => {
   img.style.width = '100%';
   // img.style.maxHeight = '150px';
   img.style.height = '100%';
+  img.style.maxWidth = '200px';
+  
   // img.style.objectFit = 'contain';
   img.style.objectFit = 'cover';
   return img;
