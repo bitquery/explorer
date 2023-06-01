@@ -34,7 +34,7 @@ export default class BootstrapCardComponent {
   }
 
   async createCardElement(rowData) {
-    const cardWrapper = this.createElementWithClasses('div', 'col','mb-4','safasfasfasf');
+    const cardWrapper = this.createElementWithClasses('div', 'col','mb-4');
     const cardElement = this.createElementWithClasses('div', 'card');
     cardElement.style.minWidth = '417px'
     const row = this.createElementWithClasses('div', 'row', 'no-gutters');
@@ -51,7 +51,11 @@ export default class BootstrapCardComponent {
 
     for (const column of this.config.image) {
      if (column.rendering) {
-      const imgElement = await column.rendering(column.cell(rowData), this.variables, this.chainId);
+       const imgElement = await column.rendering(column.cell(rowData), this.variables, this.chainId);
+       if(column.cell(rowData).length < 1 ){
+         const uriError = 'error'
+         const imgElement = await column.rendering(uriError, this.variables, this.chainId);
+       }
       // imgElement.classList.add('row', 'no-gutters' ,'flex-grow-1');
       this.appendChildren(cardImg, imgElement);
     }

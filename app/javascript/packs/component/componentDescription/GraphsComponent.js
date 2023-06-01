@@ -12,7 +12,8 @@ export default class GraphsComponent {
   }
 
   async onData(data, sub) {
-    const array = this.config.topElement(data);
+
+  const array = this.config.topElement(data);
 	const chainId =  this.config.chainId(data)
     let nodes = [];
     let edges = [];

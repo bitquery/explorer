@@ -51,6 +51,7 @@ import renderDropdown from './component/rendering/renderDropdown';
 import renderIdLink from './component/rendering/renderIdLink';
 import renderDexProtocolLink from './component/rendering/renderDexProtocolLink';
 import renderJustAddressLink from './component/rendering/renderJustAddressLink';
+import renderBlockLink from './component/rendering/renderBlockLink';
 import renderSenderRecieverIcon from './component/rendering/renderSenderRecieverIcon';
 
 global.serialize = serialize;
@@ -70,6 +71,7 @@ global.renderImgFromURI = renderImgFromURI;
 global.renderAddressLink = renderAddressLink;
 global.renderTokenLink = renderTokenLink;
 global.renderIdLink = renderIdLink;
+global.renderBlockLink = renderBlockLink;
 global.renderDate = renderDate;
 global.renderURI = renderURI;
 global.renderTX = renderTX;

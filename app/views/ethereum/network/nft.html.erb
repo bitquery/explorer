@@ -125,16 +125,16 @@
               name: 'Trades', cell: function(row){ return row.count},
             },
             {
-              name: 'Paid Amount', cell: function(row){ return Math.floor(row.sell_amount * 1000)/1000 },
+              name: 'Paid Amount', cell: function(row){ return parseFloat(row.sell_amount).toFixed(3)},
             },
             {
               name: 'Currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderAddressLink,
             },
             {
-              name: 'Min Price', cell: function(row){ return Math.floor(row.Trade.Buy.min_price * 1000) / 1000},
+              name: 'Min Price', cell: function(row){ return parseFloat(row.Trade.Buy.min_price).toFixed(3)},
             },
             {
-              name: 'Max Price', cell: function(row){ return Math.floor(row.Trade.Buy.max_rice * 1000) / 1000},
+              name: 'Max Price', cell: function(row){ return parseFloat(row.Trade.Buy.max_rice).toFixed(3)},
             },
           ]
         }
@@ -207,6 +207,18 @@
               name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
             },
             {
+              name: 'Sell currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
+            },
+            {
+              name: 'Seller', cell: function(row){ return row.Trade.Buy.Seller}, rendering: renderAddressLink,
+            },
+            {
+              name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+            },
+            {
+              name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},   rendering: renderAddressLink,
+            },
+            {
               name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
             },
             {
@@ -214,23 +226,10 @@
               //cell: function(row){ return row.Trade.Buy.Ids},
             },
             {
-              name: 'Sell currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
+              name: 'Buy amount', cell: function(row){return parseFloat(row.Trade.Buy.Amount).toFixed(2)}
             },
             {
-              name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
-            },
-            {
-              name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
-            },
-
-            {
-              name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},   rendering: renderAddressLink,
-            },
-            {
-              name: 'Buy currency',  cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
-            },
-            {
-              name: 'Price', cell: function(row){ return Math.floor(row.Trade.Buy.Price * 1000) / 1000 },
+              name: 'Price', cell: function(row){ return parseFloat(row.Trade.Buy.Price).toFixed(3) },
             },
             {
               name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
@@ -262,6 +261,6 @@
   renderComponent(TopTradedNFTTokensPie, "#Top-traded-NFT-tokens-Pie",'Top-traded-NFT-tokens-in-network_1',variables);
   renderComponent(TopExchangesForNFTs, "#Top-exchange-protocols-trading-NFT",'Top-exchange-protocols-trading-NFT-tokens-in-network_1',variables);
   renderComponent(TopExchangesForNFTsPie, "#Top-exchange-protocols-trading-NFT-Pie",'Top-exchange-protocols-trading-NFT-tokens-in-network_1',variables);
-  renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1_1',variables, 'Latest-Trades-of-NFT-Tokens-in-Network_1_1_1');
+  renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1_1_1_1_1_1_1',variables);
   })
 </script>
