@@ -50,9 +50,9 @@ import renderTX from '../component/rendering/renderTX';
 import renderAccordion from '../component/rendering/renderAccordion';
 import renderDropdown from '../component/rendering/renderDropdown';
 import renderIdLink from '../component/rendering/renderIdLink';
-import renderBlockLink from '../component/rendering/renderBlockLink';
 import renderDexProtocolLink from '../component/rendering/renderDexProtocolLink';
 import renderJustAddressLink from '../component/rendering/renderJustAddressLink';
+import renderBlockLink from '../component/rendering/renderBlockLink';
 import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieverIcon';
 
 global.serialize = serialize;

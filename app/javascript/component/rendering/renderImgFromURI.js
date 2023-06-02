@@ -102,16 +102,16 @@ export default async function renderImgFromURI(uri) {
 
   const container = createContainer();
   const url = preprocessURI(uri);
+  if (uri === 'error') {
+    console.log('im here')
+    appendMediaElement(container, uri);
+  }
   try {
     const mediaURL = await fetchMediaURL(url);
     if (mediaURL.mediaURL) {
       appendMediaElement(container, mediaURL, url, uri);
     } else {
       appendErrorElement(container, uri);
-    }
-    if (uri === 'error') {
-      console.log('im here')
-      appendMediaElement(container, uri);
     }
   } catch {}
   return container;
