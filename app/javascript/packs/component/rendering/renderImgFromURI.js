@@ -7,6 +7,9 @@ export default async function renderImgFromURI(uri) {
   }
 
   function preprocessURI(uri) {
+    if(uri.endsWith('{id}')){
+      //add id
+    }
     return /^ipfs:\/\//.test(uri) ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
   }
 
