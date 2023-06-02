@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                             conflux(network: $network){
-                              arguments(options:{
+                              references(options:{
                                 desc: "count"  asc: "address.address"
                                 limit:$limit, offset: $offset},
                                 date: {since: $from till: $till },
@@ -47,7 +47,7 @@
                             }
                           }`);
 
-        new widgets.table('#method_references_table', query, 'conflux.arguments', {
+        new widgets.table('#method_references_table', query, 'conflux.references', {
             title: '<%= t('widgets.headers.method_references_table') %>',
             dataOptions: [
                 {

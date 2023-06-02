@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                             tron{
-                              arguments(options:{
+                              references(options:{
                                 desc: "count",
                                 limit:$limit, offset: $offset},
                                 date: {since: $from till: $till },
@@ -47,7 +47,7 @@
                             }
                           }`);
 
-        new widgets.table('#method_references_table', query, 'tron.arguments', {
+        new widgets.table('#method_references_table', query, 'tron.references', {
             title: '<%= t('widgets.headers.method_references_table') %>',
             dataOptions: [
                 {

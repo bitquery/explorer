@@ -21,7 +21,7 @@
                                 $from: ISO8601DateTime,
                                 $till: ISO8601DateTime){
                             diem(network: $network){
-                              arguments(options:{
+                              reference(options:{
                                 desc: "count",
                                 limit:$limit, offset: $offset},
                                 date: {since: $from till: $till },
@@ -47,7 +47,7 @@
                             }
                           }`);
 
-        new widgets.table('#method_references_table', query, 'diem.arguments', {
+        new widgets.table('#method_references_table', query, 'diem.references', {
             title: '<%= t('widgets.headers.method_references_table') %>',
             dataOptions: [
                 {
