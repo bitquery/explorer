@@ -1,4 +1,4 @@
-export default class BootstrapTableComponent {
+export default class BootstrapVerticalTableComponent {
   constructor(element, variables) {
     this.container = element;
     this.config = this.configuration();
@@ -49,7 +49,7 @@ export default class BootstrapTableComponent {
   }
 
   async onData(data, sub) {
-    const array = this.config.topElement(data);
+  const array = this.config.topElement(data);
 	const chainId =  this.config.chainId(data)
 
     const maxRows = 15;
@@ -63,7 +63,6 @@ export default class BootstrapTableComponent {
         this.appendChildren(td1, textCell1);
 
         const td2 = this.createElementWithClasses('td');
-        td1.style.maxHeight = '250px'
         const textCell2 = this.createElementWithClasses('span');
         textCell2.textContent = column.cell(rowData);
         this.appendChildren(td2, textCell2);

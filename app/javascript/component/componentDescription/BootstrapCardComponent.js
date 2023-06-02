@@ -4,6 +4,7 @@ export default class BootstrapCardComponent {
     this.config = this.configuration();
     this.variables = variables;
     this.wrapper = this.createElementWithClasses('div', 'row');
+
     this.container.appendChild(this.wrapper);
   }
 
@@ -14,7 +15,6 @@ export default class BootstrapCardComponent {
   }
 
   async onData(data, sub) {
-    console.log(data)
     const array = this.config.topElement(data);
     this.chainId =  this.config.chainId(data);
     const maxRows = 10;
@@ -33,7 +33,7 @@ export default class BootstrapCardComponent {
   }
 
   async createCardElement(rowData) {
-    const cardWrapper = this.createElementWithClasses('div', 'col','mb-4','safasfasfasf');
+    const cardWrapper = this.createElementWithClasses('div', 'col','mb-4');
     const cardElement = this.createElementWithClasses('div', 'card');
     cardElement.style.minWidth = '417px'
     const row = this.createElementWithClasses('div', 'row', 'no-gutters');
@@ -50,14 +50,18 @@ export default class BootstrapCardComponent {
 
     for (const column of this.config.image) {
      if (column.rendering) {
-      const imgElement = await column.rendering(column.cell(rowData), this.variables, this.chainId);
+       const imgElement = await column.rendering(column.cell(rowData), this.variables, this.chainId);
+       if(column.cell(rowData).length < 1 ){
+         const uriError = 'error'
+         const imgElement = await column.rendering(uriError, this.variables, this.chainId);
+       }
       // imgElement.classList.add('row', 'no-gutters' ,'flex-grow-1');
       this.appendChildren(cardImg, imgElement);
     }
     }
 
     const cardTable = this.createElementWithClasses('div', 'col-8');
-    const tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
+    const tableElement = this.createElementWithClasses('table', 'table', 'mb-0','table-sm', 'table-striped', 'table-hover');
     tableElement.style.tableLayout = 'fixed';
     cardTable.appendChild(tableElement);
 

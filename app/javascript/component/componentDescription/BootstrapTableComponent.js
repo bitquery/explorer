@@ -71,10 +71,8 @@ export default class BootstrapTableComponent {
 
         tr.appendChild(td);
       }
-
       if (sub) {
         this.tbody.insertBefore(tr, this.tbody.firstChild);
-
         if (this.tbody.childElementCount > maxRows) {
           this.tbody.removeChild(this.tbody.lastChild);
         }

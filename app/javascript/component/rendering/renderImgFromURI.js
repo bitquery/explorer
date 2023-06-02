@@ -1,15 +1,16 @@
 export default async function renderImgFromURI(uri) {
   function createContainer() {
     const div = document.createElement('div');
-    // div.style.overflow = 'hidden';
-    div.style.width = '100%';
-    div.style.height = '100%';
-    div.style.cursor = 'pointer';
+    div.classList.add('position-relative')
+    div.style.height = '178px'
     return div;
   }
 
   function preprocessURI(uri) {
-    return /^ipfs:\/\//.test(uri) || /^ipfs:\/\//.test(uri) ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
+    if(uri.endsWith('{id}')){
+      //add id
+    }
+    return /^ipfs:\/\//.test(uri) ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
   }
 
   async function fetchMediaURL(url) {
@@ -30,67 +31,56 @@ export default async function renderImgFromURI(uri) {
     if (mediaURL && mediaURL.startsWith('ipfs://')) {
       mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
     }
-    console.log('mediaURL', mediaURL);
-    console.log('url', url);
-    return {mediaURL, name: nameMedia};
+    return { mediaURL, name: nameMedia };
   }
 
-  function createMediaElement(src,preprocessedURI) {
-    const div = document.createElement('div');
-    div.classList.add('position-relative')
-    const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
-    const button = createButton(preprocessedURI)
-    div.appendChild(mediaElement)
-    div.appendChild(button)
-    return div;
+  function appendMediaElement(container, mediaURL, preprocessedURI, uri) {
+    const src = mediaURL.mediaURL;
+    const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src, uri);
+    const button = createButton(preprocessedURI);
+    container.appendChild(mediaElement);
+    container.appendChild(button);
+  
+    mediaElement.addEventListener('click', () => {
+      window.open(mediaURL.mediaURL, '_blank');
+    });
   }
 
-function appendMediaElement(container, mediaURL,preprocessedURI) {
-  const mediaElement = createMediaElement(mediaURL.mediaURL,preprocessedURI);
-  container.appendChild(mediaElement);
-  
-  mediaElement.addEventListener('click', () => {
-    window.open(mediaURL.mediaURL, '_blank');
-  });
-}
-const createButton = url => {
-  const button = document.createElement("button");
-  button.classList.add('btn', 'btn-outline-info', 'btn-sm', 'position-absolute');
-  button.style.top = '0';
-  button.style.left = '0';
-  button.style.zIndex = '1';
-  const icon = document.createElement("i");
-  icon.classList.add('fa', 'fa-info-circle');
-  button.appendChild(icon);
+  const createButton = url => {
+    const button = document.createElement("button");
+    button.classList.add('btn', 'btn-outline-info', 'btn-sm', 'position-absolute');
+    button.style.top = '0';
+    button.style.left = '0';
+    button.style.zIndex = '1';
+    const icon = document.createElement("i");
+    icon.classList.add('fa', 'fa-info-circle');
+    button.appendChild(icon);
 
-  button.addEventListener('click', (e) => {
-    e.stopPropagation();
-    window.open(url, '_blank');
-  });
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      window.open(url, '_blank');
+    });
 
-  button.addEventListener('click', (e) => {
-    e.stopPropagation();
-    window.open(url, '_blank');
-  });
-  return button;
-};
+    return button;
+  };
 
-const createImageElement = (src) => {
-  const img = document.createElement('img');
-  img.src = src;
-  img.style.width = '100%';
-  img.style.maxWidth = '250px';
-  
-  // img.style.maxHeight = '150px';
-  img.style.height = '100%';
-  // img.style.objectFit = 'contain';
-  img.style.objectFit = 'cover';
-  return img;
-}
+  const createImageElement = (src, uri) => {
+    const img = document.createElement('img');
+    img.id = 'imgFromCard'
+    img.setAttribute('onerror', 'this.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU"') //change img
+    img.src = src;
+    if (uri === 'error') {
+      img.src = "https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg";
+    }
+    img.style.width = '100%';
+    img.style.cursor = 'pointer';
+    img.style.height = '100%';
+    img.id = 'imgFromCard'
+    img.style.objectFit = 'cover';
+    return img;
+  }
 
-
-
-  const createVideoElement= (src) =>{
+  const createVideoElement = (src) => {
     const video = document.createElement('video');
     video.classList.add('w-100', 'h-100');
 
@@ -105,25 +95,23 @@ const createImageElement = (src) => {
     }
 
     video.appendChild(source);
-
+    video.style.cursor = 'pointer';
     video.controls = true;
-
     return video;
   }
 
-  function addClickListener(element, mediaURL) {
-    element.addEventListener('click', () => {
-      window.open(mediaURL, '_blank');
-    });
-  }
   const container = createContainer();
   const url = preprocessURI(uri);
   try {
     const mediaURL = await fetchMediaURL(url);
     if (mediaURL.mediaURL) {
-      appendMediaElement(container, mediaURL,url);
+      appendMediaElement(container, mediaURL, url, uri);
     } else {
       appendErrorElement(container, uri);
+    }
+    if (uri === 'error') {
+      console.log('im here')
+      appendMediaElement(container, uri);
     }
   } catch {}
   return container;

@@ -82,89 +82,89 @@ const prepopulateQuery = async (url, componentObject, compElement, query, queryV
 };
 
 const createWidgetFrame = (componentClass, selector, queryId) => {
-	const componentContainer = document.querySelector(selector);
-	const widgetHeader = document.createElement('div');
-	const row = document.createElement('div');
-	const col8 = document.createElement('div');
-	const cardBody = document.createElement('div');
-	const widgetFrame = document.createElement('div');
-	const tableFooter = document.createElement('div');
-	const getAPIButton = document.createElement('a');
-	const loader = document.createElement('div');
-	const blinkerWrapper = document.createElement('div');
-	loader.classList.add('lds-dual-ring');
-	getAPIButton.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api');
-	getAPIButton.setAttribute('role', 'button');
-	getAPIButton.setAttribute('target', '_blank');
-	getAPIButton.textContent = 'Get Streaming API';
-	tableFooter.style.textAlign = 'right';
-	tableFooter.appendChild(getAPIButton);
-	widgetHeader.classList.add('card-header');
-	row.classList.add('row');
-	col8.classList.add('col');
-	// col8.classList.add('col-8');
-	cardBody.classList.add('card-body', 'text-center');
-	widgetFrame.classList.add('widget-container', 'tabulator');
-	// widgetFrame.style.height = '470px';
-	widgetFrame.style.height = '100%';
-	// widgetFrame.style.overflow = 'scroll';
-	componentContainer.appendChild(widgetHeader);
-	componentContainer.appendChild(cardBody);
-	cardBody.appendChild(widgetFrame);
-	cardBody.appendChild(tableFooter);
-	widgetHeader.appendChild(row);
-	row.appendChild(col8);
-	const onloadmetadata = queryMetaData => {
-		col8.textContent = queryMetaData?.name || 'No query presented';
-		if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
-			const liveSpan = document.createElement('span');
-			const blinker = document.createElement('div');
-			blinkerWrapper.classList.add('col-4', 'text-success', 'text-right');
-			blinker.classList.add('blink', 'blnkr', 'bg-success');
-			row.appendChild(blinkerWrapper);
-			liveSpan.classList.add('d-none', 'd-sm-inline');
-			liveSpan.textContent = 'Live';
-			blinkerWrapper.appendChild(liveSpan);
-			blinkerWrapper.appendChild(blinker);
-		}
-	};
-	const onquerystarted = () => {
-		cardBody.appendChild(loader);
-	};
-	const onqueryend = () => {
-		cardBody.removeChild(loader);
-	};
-	const onerror = error => {
-		console.log(error);
-		if (row.contains(blinkerWrapper)) {
-			row.removeChild(blinkerWrapper);
-		}
-		cardBody.textContent = '';
-		cardBody.classList.add('alert', 'alert-danger');
-		cardBody.setAttribute('role', 'alert');
-		const title = document.createElement('h4');
-		title.classList.add('alert-heading');
-		const errorText = document.createElement('div');
-		errorText.classList.add('mb-0');
-		cardBody.appendChild(title);
-		cardBody.appendChild(errorText);
-		title.textContent = 'An error occurred while executing the request. Please, try again later';
-		if (Array.isArray(error)) {
-			errorText.textContent = `Error: ${error[0].message}`;
-		} else if ('message' in error) {
-			errorText.textContent = `Error: ${error.message}`;
-		} else {
-			errorText.textContent = `Error: ${error}`;
-		}
-	};
-	return {
-		frame: widgetFrame,
-		button: getAPIButton,
-		onloadmetadata,
-		onquerystarted,
-		onqueryend,
-		onerror,
-	};
+  const componentContainer = document.querySelector(selector);
+  const widgetHeader = document.createElement('div');
+  const row = document.createElement('div');
+  const col8 = document.createElement('div');
+  const cardBody = document.createElement('div');
+  const widgetFrame = document.createElement('div');
+  const tableFooter = document.createElement('div');
+  const getAPIButton = document.createElement('a');
+  const loader = document.createElement('div');
+  const blinkerWrapper = document.createElement('div');
+  loader.classList.add('lds-dual-ring');
+  getAPIButton.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api');
+  getAPIButton.setAttribute('role', 'button');
+  getAPIButton.setAttribute('target', '_blank');
+  getAPIButton.textContent = 'Get Streaming API';
+  tableFooter.style.textAlign = 'right';
+  tableFooter.appendChild(getAPIButton);
+  widgetHeader.classList.add('card-header');
+  row.classList.add('row');
+  col8.classList.add('col');
+  // col8.classList.add('col-8');
+  cardBody.classList.add('card-body', 'text-center');
+  widgetFrame.classList.add('widget-container', 'tabulator');
+  // widgetFrame.style.height = '470px';
+  widgetFrame.style.height = 'fit-content';
+  // widgetFrame.style.overflow = 'scroll';
+  componentContainer.appendChild(widgetHeader);
+  componentContainer.appendChild(cardBody);
+  cardBody.appendChild(widgetFrame);
+  cardBody.appendChild(tableFooter);
+  widgetHeader.appendChild(row);
+  row.appendChild(col8);
+  const onloadmetadata = queryMetaData => {
+    col8.textContent = queryMetaData?.name || 'No query presented';
+    if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
+      const liveSpan = document.createElement('span');
+      const blinker = document.createElement('div');
+      blinkerWrapper.classList.add('col-4', 'text-success', 'text-right');
+      blinker.classList.add('blink', 'blnkr', 'bg-success');
+      row.appendChild(blinkerWrapper);
+      liveSpan.classList.add('d-none', 'd-sm-inline');
+      liveSpan.textContent = 'Live';
+      blinkerWrapper.appendChild(liveSpan);
+      blinkerWrapper.appendChild(blinker);
+    }
+  };
+  const onquerystarted = () => {
+    cardBody.appendChild(loader);
+  };
+  const onqueryend = () => {
+    cardBody.removeChild(loader);
+  };
+  const onerror = error => {
+    console.log(error);
+    if (row.contains(blinkerWrapper)) {
+      row.removeChild(blinkerWrapper);
+    }
+    cardBody.textContent = '';
+    cardBody.classList.add('alert', 'alert-danger');
+    cardBody.setAttribute('role', 'alert');
+    const title = document.createElement('h4');
+    title.classList.add('alert-heading');
+    const errorText = document.createElement('div');
+    errorText.classList.add('mb-0');
+    cardBody.appendChild(title);
+    cardBody.appendChild(errorText);
+    title.textContent = 'An error occurred while executing the request. Please, try again later';
+    if (Array.isArray(error)) {
+      errorText.textContent = `Error: ${error[0].message}`;
+    } else if ('message' in error) {
+      errorText.textContent = `Error: ${error.message}`;
+    } else {
+      errorText.textContent = `Error: ${error}`;
+    }
+  };
+  return {
+    frame: widgetFrame,
+    button: getAPIButton,
+    onloadmetadata,
+    onquerystarted,
+    onqueryend,
+    onerror,
+  };
 };
 
 export default async function renderComponent(component, selector, queryId, variables = {}, prePopulateId, api_key) {

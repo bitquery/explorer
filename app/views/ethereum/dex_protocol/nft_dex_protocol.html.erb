@@ -38,13 +38,16 @@
             name: 'ID', cell: function(row){ return {id: row.Trade.Buy.Ids, address: row.Trade.Buy.Currency.SmartContract}}, rendering: renderIdLink
           },
           {
-            name: 'Price', cell: function(row){ return Math.floor(row.Trade.Buy.Price * 1000) / 1000},
+            name: 'Price', cell: function(row){ return parseFloat(row.Trade.Buy.Price).toFixed(3)},
           },
           {
-            name: 'Currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
+            name: 'Currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
           },
           {
-            name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller},  rendering: renderAddressLink,
+            name: 'Seller', cell: function(row){ return row.Trade.Buy.Seller},  rendering: renderAddressLink,
+          },
+          {
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
           },
           {
             name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},  rendering: renderAddressLink,
