@@ -33,7 +33,12 @@
                             address
                             annotation
                           }
+                          feeAccount {
+                            address
+                            annotation
+                          }
                           success
+                          operationCount
                           timeBounds
                            }
                           }
@@ -48,12 +53,14 @@
                     {name: '<%= t('widgets.titles.block') %>', value: item.block, block: item.block},
                     {name: '<%= t('widgets.titles.timestamp') %>', value: item.timestamp.time},
                     {name: '<%= t('widgets.titles.transaction_sender') %>', value: (item.sender.annotation || item.sender.address), address: item.sender},
+                    {name: '<%= t('widgets.titles.fee_account') %>', value: (item.feeAccount.annotation || item.feeAccount.address), address: item.feeAccount},
                     {name: '<%= t('widgets.titles.index') %>', value: item.index},
                     {name: '<%= t('widgets.titles.fee') %>', value: item.fee },
                     {name: '<%= t('widgets.titles.max_fee') %>', value: item.maxFee },
                     {name: '<%= t('widgets.titles.memo_type') %>', value: item.memoType },
                     {name: '<%= t('widgets.titles.memos') %>', value: item.memos },
                     {name: '<%= t('widgets.titles.time_bounds') %>', value: item.timeBounds },
+                    {name: '<%= t('widgets.titles.operation_count') %>', value: item.operationCount },
                     {name: '<%= t('widgets.titles.success') %>', value: item.success },
 
                 ];
