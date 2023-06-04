@@ -1,21 +1,17 @@
 export default async function renderImgFromURI(uri) {
-  function createContainer() {
+  const createContainer = () => {
     const div = document.createElement('div');
-    div.classList.add('position-relative')
-    div.style.height = '178px'
+    div.classList.add('position-relative');
+    div.style.height = '178px';
     return div;
-  }
+  };
 
-  function preprocessURI(uri) {
-    if(uri.endsWith('{id}')){
-      //add id
-    }
+  const preprocessURI = (uri) => {
     return /^ipfs:\/\//.test(uri) ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
-  }
+  };
 
-  async function fetchMediaURL(url) {
+  const fetchMediaURL = async (url) => {
     let mediaURL, nameMedia;
-
     if (/^http/.test(url)) {
       const response = await fetch(url);
       const data = await response.json();
@@ -32,21 +28,9 @@ export default async function renderImgFromURI(uri) {
       mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
     }
     return { mediaURL, name: nameMedia };
-  }
+  };
 
-  function appendMediaElement(container, mediaURL, preprocessedURI, uri) {
-    const src = mediaURL.mediaURL;
-    const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src, uri);
-    const button = createButton(preprocessedURI);
-    container.appendChild(mediaElement);
-    container.appendChild(button);
-  
-    mediaElement.addEventListener('click', () => {
-      window.open(mediaURL.mediaURL, '_blank');
-    });
-  }
-
-  const createButton = url => {
+  const createButton = (url) => {
     const button = document.createElement("button");
     button.classList.add('btn', 'btn-outline-info', 'btn-sm', 'position-absolute');
     button.style.top = '0';
@@ -64,14 +48,11 @@ export default async function renderImgFromURI(uri) {
     return button;
   };
 
-  const createImageElement = (src, uri) => {
+  const createImageElement = (src) => {
     const img = document.createElement('img');
     img.id = 'imgFromCard'
-    img.setAttribute('onerror', 'this.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU"') //change img
+    img.setAttribute('onerror', 'this.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU"')
     img.src = src;
-    if (uri === 'error') {
-      img.src = "https://komfort-pluss.ru/wp-content/uploads/2020/01/net-izobrazheniya.jpg";
-    }
     img.style.width = '100%';
     img.style.cursor = 'pointer';
     img.style.height = '100%';
@@ -100,19 +81,38 @@ export default async function renderImgFromURI(uri) {
     return video;
   }
 
+  const appendMediaElement = (container, mediaURL, preprocessedURI, uri) => {
+    const src = mediaURL.mediaURL;
+    const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
+    const button = createButton(preprocessedURI);
+    container.appendChild(mediaElement);
+    container.appendChild(button);
+  
+    mediaElement.addEventListener('click', () => {
+      window.open(mediaURL.mediaURL, '_blank');
+    });
+  }
+
+  const handleFetchError = (container,preprocessedURI) => {
+    const img = createImageElement("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU");
+    const button = createButton(preprocessedURI);
+    container.appendChild(img);
+    container.appendChild(button);
+  }
+
   const container = createContainer();
   const url = preprocessURI(uri);
-  if (uri === 'error') {
-    console.log('im here')
-    appendMediaElement(container, uri);
-  }
+
   try {
     const mediaURL = await fetchMediaURL(url);
     if (mediaURL.mediaURL) {
       appendMediaElement(container, mediaURL, url, uri);
     } else {
-      appendErrorElement(container, uri);
+      handleFetchError(container,url);
     }
-  } catch {}
+  } catch {
+    handleFetchError(container,url);
+  }
+
   return container;
 }
