@@ -95,9 +95,12 @@ export default async function renderImgFromURI(uri) {
 
   const handleFetchError = (container,preprocessedURI) => {
     const img = createImageElement("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU");
+    img.style.cursor ='default'
     const button = createButton(preprocessedURI);
     container.appendChild(img);
-    container.appendChild(button);
+    if(preprocessURI !==null){
+      container.appendChild(button);
+    }
   }
 
   const container = createContainer();
