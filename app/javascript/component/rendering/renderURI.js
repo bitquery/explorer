@@ -12,7 +12,6 @@ export default async function renderURI(uri) {
 
 	const response = await fetch(url);
 	const data = await response.json();
-	console.log('data from accordion', data);
 	data.forEach(async (item, i) => {
 		const accordionItem = await createAccordionItem(item, i);
 		accordion.appendChild(accordionItem);

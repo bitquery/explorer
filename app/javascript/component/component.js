@@ -135,7 +135,6 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
     cardBody.removeChild(loader);
   };
   const onerror = error => {
-    console.log(error);
     if (row.contains(blinkerWrapper)) {
       row.removeChild(blinkerWrapper);
     }

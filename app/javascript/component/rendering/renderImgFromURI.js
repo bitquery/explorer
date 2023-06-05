@@ -30,23 +30,29 @@ export default async function renderImgFromURI(uri) {
     return { mediaURL, name: nameMedia };
   };
 
-  const createButton = (url) => {
-    const button = document.createElement("button");
-    button.classList.add('btn', 'btn-outline-info', 'btn-sm', 'position-absolute');
-    button.style.top = '0';
-    button.style.left = '0';
-    button.style.zIndex = '1';
-    const icon = document.createElement("i");
-    icon.classList.add('fa', 'fa-info-circle');
-    button.appendChild(icon);
+const createButton = (url) => {
+  const button = document.createElement("button");
+  button.classList.add('btn', 'btn-outline-info', 'btn-sm', 'position-absolute');
+  button.style.top = '0';
+  button.style.left = '0';
+  button.style.zIndex = '1';
+  const icon = document.createElement("i");
+  icon.classList.add('fa', 'fa-info-circle');
+  button.appendChild(icon);
 
-    button.addEventListener('click', (e) => {
-      e.stopPropagation();
-      window.open(url, '_blank');
-    });
+if (url === null || url === 'error' || url.length <= 1) {
+  button.disabled = true;
+} else {
+  button.addEventListener('click', (e) => {
+    e.stopPropagation();
+    window.open(url, '_blank');
+  });
+}
 
-    return button;
-  };
+
+  return button;
+};
+
 
   const createImageElement = (src) => {
     const img = document.createElement('img');
@@ -81,17 +87,21 @@ export default async function renderImgFromURI(uri) {
     return video;
   }
 
-  const appendMediaElement = (container, mediaURL, preprocessedURI, uri) => {
-    const src = mediaURL.mediaURL;
-    const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
-    const button = createButton(preprocessedURI);
-    container.appendChild(mediaElement);
-    container.appendChild(button);
+const appendMediaElement = (container, mediaURL, preprocessedURI, uri) => {
+  const src = mediaURL.mediaURL;
+  const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
   
-    mediaElement.addEventListener('click', () => {
-      window.open(mediaURL.mediaURL, '_blank');
-    });
-  }
+  const button = createButton(preprocessedURI);
+  
+  container.appendChild(mediaElement);
+  container.appendChild(button);
+
+  mediaElement.addEventListener('click', (e) => {
+  e.stopPropagation()
+    window.open(mediaURL.mediaURL, '_blank');
+  });
+}
+
 
   const handleFetchError = (container,preprocessedURI) => {
     const img = createImageElement("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU");
