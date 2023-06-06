@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
-<%= render partial: 'shared/head' %>
-
-<body class="<%= "dark" if @theme == 'dark' %>">
-<script>
+  <%= render partial: 'shared/head' %>
+  <body class="<%= "dark" if @theme == 'dark' %>">
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  </head>
+  <script>
     const csrfToken = $('meta[name="csrf-token"]').attr('content')
     widgets.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken, {
         locale: '<%= I18n.locale %>',
@@ -11,22 +13,20 @@
     });
     graphs.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken);
 
-const componentProperties = {
-  bitqueryAPI: window.bitqueryAPI = '<%= BITQUERY_IDE_API %>'
-};
-
-
-</script>
-<%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
-<div class="container-fluid">
-  <div class="row my-2 d-lg-none">
-    <div class="col">
-      <%= render partial: 'shared/search' %>
+    const componentProperties = {
+      bitqueryAPI: window.bitqueryAPI = '<%= BITQUERY_IDE_API %>'
+    };
+  </script>
+  <%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
+  <div class="container-fluid">
+    <div class="row my-2 d-lg-none">
+      <div class="col">
+        <%= render partial: 'shared/search' %>
+      </div>
     </div>
+    <%= render(partial: "#{@network[:family]}/render_callbacks") if @network %>
+    <%= yield %>
+    <%= render partial: 'shared/footer' %>
   </div>
-  <%= render(partial: "#{@network[:family]}/render_callbacks") if @network %>
-  <%= yield %>
-  <%= render partial: 'shared/footer' %>
-</div>
 </body>
 </html>

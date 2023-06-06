@@ -422,6 +422,11 @@ en:
         title: "%{network} NFT ID"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFT, Id"
+      trading:
+        name: "NFTs trading"
+        title: "%{network} NFTs trading"
+        description: "Trades on decentralized exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network} Trading"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
@@ -509,6 +514,7 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+
         
     token_pair:
       icon: 'fas fa-coins text-warning'
