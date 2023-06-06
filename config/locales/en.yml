@@ -1312,12 +1312,6 @@ en:
         title: "Cosmos Based Blockchains Explorer"
         description: "Explorers for Blockchains based on Cosmos platform, such as Binance chain explorer"
         keywords: "explorer, Cosmos Explorer, Binance chain explorer, Binance chain address, Binance chain transactions"
-      diem:
-        name: "Diem (former Libra) Based Platform"
-        header: "Diem (former Libra) Based Blockchain"
-        title: "Diem (former Libra) Blockchains Explorer"
-        description: "Explorers for Diem (former Libra) Blockchains by Bitquery"
-        keywords: "Diem (former Libra) explorer, Diem (former Libra) transaction tracker, Diem (former Libra) blockchain explorer, Diem (former Libra) address, Diem (former Libra) transactions"
       offchain:
         name: "Offchain Data"
         header: "Offchain Data at Bitquery"
@@ -1328,8 +1322,8 @@ en:
         name: "Blockchain Testnets"
         header: "Blockchain Testnet Explorers"
         title: "Testnet Blockchain Explorers"
-        description: "Testnet explorers for Algorand, Celo, Binance Chain, Libra blockchain by Bitquery"
-        keywords: "Algorand testnet Explorer, Celo Testnet explorer, Libra testnet explorer, Binance chain testnet explorer, testnet transaction, testnet address"
+        description: "Testnet explorers for Algorand, Celo, Binance Chain blockchain by Bitquery"
+        keywords: "Algorand testnet Explorer, Celo Testnet explorer, Binance chain testnet explorer, testnet transaction, testnet address"
       utility:
         name: "Utility Blockchains"
         header: "Utility Blockchain Explorers"
