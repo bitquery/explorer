@@ -1,18 +1,22 @@
 <% if ad = current_ad(:fixed) %>
-  <div class="card shadow ad-fixed" style="position: fixed; left: 10px; bottom: 10px; z-index: 10000; width: <%= ad[:width] %>; background-color: #ffffffdd">
+  <div class="card shadow ad-fixed" style="position: fixed; left: 10px; bottom: 10px; z-index: 10000; max-width: <%= ad[:width] %>; background-color: #ffffffdd">
     <script>
-        var adFixed = document.cookie.match('adFixed=(.+?)(;|$)');
-        if (adFixed && adFixed[1] === 'hide'){
-            $('.ad-fixed').addClass('d-none');
-        }
+      var adFixed = document.cookie.match('adFixed=(.+?)(;|$)');
+      if (adFixed && adFixed[1] === 'hide'){
+          $('.ad-fixed').addClass('d-none');
+      }
     </script>
     <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
       <div class="card-body">
         <div class="row">
           <div class="col-7 position-relative">
-            <% unless ad[:title].blank? %><h5 class="card-title" style="color: <%= ad[:title_color] %>" ><%= ad[:title] %></h5><% end %>
-            <% unless ad[:text].blank? %><p class="card-text" style="color: <%= ad[:text_color] %>"><%= ad[:text] %></p><% end %>
-            <% unless ad[:button_text].blank? %><a href='<%= ad[:url].html_safe %>' class="btn <%= ad[:button_class] %> position-absolute" style="bottom: 0; background-color: <%= ad[:button_bg] %>;color: <%= ad[:button_color] %>"><%= ad[:button_text] %></a><% end %>
+            <% unless ad[:title].blank? %>
+              <h5 class="card-title" style="color: <%= ad[:title_color] %>" ><%= ad[:title] %></h5>
+            <% end %>
+            <% unless ad[:text].blank? %>
+              <p class="card-text" style="color: <%= ad[:text_color] %>"><%= ad[:text] %></p>
+            <% end %>
+            <% unless ad[:button_text].blank? %><a id="buttonFromHorse" href='<%= ad[:url].html_safe %>' class="btn <%= ad[:button_class] %> position-absolute" style="bottom: 0; background-color: <%= ad[:button_bg] %>;color: <%= ad[:button_color] %>"><%= ad[:button_text] %></a><% end %>
           </div>
           <div class="col-5 text-right">
             <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">
@@ -28,9 +32,9 @@
     </div>
   </div>
   <script>
-      $('body').on('click','.ad-fixed .ad-close', function (){
-          $('.ad-fixed').addClass('d-none');
-          document.cookie = "adFixed=hide; path=/";
-      })
+    $('body').on('click','.ad-fixed .ad-close', function (){
+        $('.ad-fixed').addClass('d-none');
+        document.cookie = "adFixed=hide; path=/";
+    })
   </script>
 <% end %>
