@@ -192,3 +192,8 @@ body.dark {
     //right: 1px;
   }
 }
+#buttonFromHorse {
+  @media screen and (max-width: 455px) {
+    display: none;
+  }
+}
