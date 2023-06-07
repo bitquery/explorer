@@ -60,9 +60,17 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
-            network: '<%= params['network']['network'] %>'
-        });
+        var network = '<%= params['network']['network'] %>';
+
+        if (network === 'terra') {
+            queryWithTimeRange(rr, query, '2022-12-06', '2022-12-06', {
+                network: network
+            });
+        } else {
+            queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, {
+                network: network
+            });
+        }
 
 
     });
