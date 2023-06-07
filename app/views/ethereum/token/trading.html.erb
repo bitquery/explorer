@@ -5,122 +5,123 @@
 </div>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div id="OHLC-by-intervals-Graph" class="card" style="width: 100%; height: 600px;">
+    <div id="OHLC-by-intervals-Graph" class="card" style="height: 600px;" >
     </div>
   </div>
-  <script>
-    class OHLCbyIntervalsTable extends BootstrapTableComponent {
-      configuration() {
-          return  {
-              topElement: function (response){ return response.EVM.DEXTradeByTokens},
-              chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
-              columns: [
-                  {
-                      name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-                  },
-                  {
-                      name: 'Count', cell: function(row){ return row.count},
-                  },
-                  {
-                      name: 'Volume', cell: function(row){ return parseFloat(row.volume).toFixed(3)},
-                  },
-                  {
-                      name: 'Open', cell: function(row){ return parseFloat(row.Trade.open).toFixed(3)},
-                  },
-                  {
-                      name: 'High', cell: function(row){ return parseFloat(row.Trade.high).toFixed(3)},
-                  },
-                  {
-                      name: 'Low', cell: function(row){ return parseFloat(row.Trade.low).toFixed(3)},
-                  },
-                  {
-                      name: 'Close', cell: function(row){ return parseFloat(row.Trade.close).toFixed(3)},
-                  },
-              ]
-          }
-      }
+</div>
+<script>
+  class OHLCbyIntervalsTable extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTradeByTokens},
+            chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
+            columns: [
+                {
+                    name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+                },
+                {
+                    name: 'Count', cell: function(row){ return row.count},
+                },
+                {
+                    name: 'Volume', cell: function(row){ return parseFloat(row.volume).toFixed(3)},
+                },
+                {
+                    name: 'Open', cell: function(row){ return parseFloat(row.Trade.open).toFixed(3)},
+                },
+                {
+                    name: 'High', cell: function(row){ return parseFloat(row.Trade.high).toFixed(3)},
+                },
+                {
+                    name: 'Low', cell: function(row){ return parseFloat(row.Trade.low).toFixed(3)},
+                },
+                {
+                    name: 'Close', cell: function(row){ return parseFloat(row.Trade.close).toFixed(3)},
+                },
+            ]
+        }
     }
+  }
 
-    // class OHLCbyIntervalsGraph extends TradingGraphsComponent {
-    // // configuration() {
-    // //   return {
-    // //     symbol: function(response) {
-    // //       return "BINANCE:ETHUSDC";
-    // //     }
-    // //   };
-    // // }
-    //   configuration() {
-    // return  {
-    // topElement: function (response) { return response.EVM.DEXTradeByTokens; },
-    // chainId: function (response) { return response.EVM.DEXTradeByTokens[0].ChainId; },
-    // };
-    // }
-
-    // }
-    class OHLCbyIntervalsGraph extends TradingGraphsComponent {
-      configuration() {
+  class OHLCbyIntervalsGraph extends TradingGraphsComponent {
+  configuration() {
     return {
-      topElement: function(response) { return response.EVM.DEXTradeByTokens; },
-      chainId: function(response) { return response.EVM.DEXTradeByTokens[0].ChainId; },
-      ohlcData: function(response) {
-        const trades = this.topElement(response);
-        return trades.map((trade) => {
-          return {
-            time: new Date(trade.Block.Time).getTime() / 1000,
-            open: trade.Trade.open,
-            high: trade.Trade.high,
-            low: trade.Trade.low,
-            close: trade.Trade.close,
-          };
-        });
+      symbol: function(response) {
+        return "BINANCE:ETHUSDC";
       }
     };
-      }
-    }
+  }
+  //   configuration() {
+  // return  {
+  // topElement: function (response) { return response.EVM.DEXTradeByTokens; },
+  // chainId: function (response) { return response.EVM.DEXTradeByTokens[0].ChainId; },
+  // };
+  // }
+
+  }
+  // class OHLCbyIntervalsGraph extends TradingGraphsComponent {
+  //   configuration() {
+  // return {
+  //   topElement: function(response) { return response.EVM.DEXTradeByTokens; },
+  //   chainId: function(response) { return response.EVM.DEXTradeByTokens[0].ChainId; },
+  //   ohlcData: function(response) {
+  //     const trades = this.topElement(response);
+  //     return trades.map((trade) => {
+  //       return {
+  //         time: new Date(trade.Block.Time).getTime() / 1000,
+  //         open: trade.Trade.open,
+  //         high: trade.Trade.high,
+  //         low: trade.Trade.low,
+  //         close: trade.Trade.close,
+  //       };
+  //     });
+  //   }
+  // };
+  //   }
+  // }
 
 
 
-    // // const exchange = "<%= @exchange %>";
-    // const exchange = "BINANCE";
-    // // const pair = "<%= @pair %>";
-    // const pair = "ETHUSDC";
+  // // const exchange = "<%= @exchange %>";
+  // const exchange = "BINANCE";
+  // // const pair = "<%= @pair %>";
+  // const pair = "ETHUSDC";
 
 
-    const variables = {
-      network:'<%= @streaming%>',
-      address: '<%= @address %>',
-      token: '<%= @address %>',
-      id: '<%= @id %>',
-    }
+  const variables = {
+    network:'<%= @streaming%>',
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+  }
 
-    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-      renderComponent(OHLCbyIntervalsTable, "#OHLC-by-intervals-Table",'OHLC-by-intervals_1',variables);
-      renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'OHLC-by-intervals_1',variables);
-    });
-  </script>
-  <%# <script type="text/javascript">
-    new TradingView.widget(
-    {
-    "autosize": true,
-    // "symbol": "BINANCE:ETHUSDC",
-    "symbol": `${exchange}:${pair}`,
-    "interval": "D",
-    "timezone": "Etc/UTC",
-    "theme": "light",
-    "style": "1",
-    "locale": "eng",
-    "toolbar_bg": "#f1f3f6",
-    "enable_publishing": true,
-    "withdateranges": true,
-    "hide_side_toolbar": false,
-    "allow_symbol_change": true,
-    "details": true,
-    "hotlist": true,
-    "calendar": true,
-    "show_popup_button": true,
-    "popup_width": "1000",
-    "popup_height": "650",
-    "container_id": "OHLC-by-intervals-Graph"
-    }
-    );
-  </script> %>
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(OHLCbyIntervalsTable, "#OHLC-by-intervals-Table",'OHLC-by-intervals_1_1',variables);
+    // renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'OHLC-by-intervals_1',variables);
+  });
+</script>
+<script type="text/javascript">
+  new TradingView.widget(
+  {
+  "autosize": true,
+  "symbol": "BINANCE:ETHUSDC",
+  // "symbol": `${exchange}:${pair}`,
+  "interval": "D",
+  "timezone": "Etc/UTC",
+  "theme": "light",
+  "style": "1",
+  "locale": "eng",
+  "toolbar_bg": "#f1f3f6",
+  "enable_publishing": true,
+  "withdateranges": true,
+  "hide_side_toolbar": false,
+  "allow_symbol_change": true,
+  "details": true,
+  "hotlist": true,
+  "calendar": true,
+  "show_popup_button": true,
+  "popup_width": "1000",
+  "popup_height": "650",
+  "container_id": "OHLC-by-intervals-Graph"
+  }
+  );
+</script>
