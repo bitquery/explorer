@@ -1,0 +1,26 @@
+<%# /Events-and-Calls-by-tx-hash_1 %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="Events-and-Calls-by-tx-hash" class="card"></div>
+  </div>
+  <script>
+    class EventsAndCallstByTXHash extends TreeComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM},
+        chainId: function (response){ return response.EVM.Calls[0].ChainId},
+
+      }
+    }
+      }
+      const variables = {
+    network:'<%= @streaming%>',
+    limit: 10,
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+      }
+
+    renderComponent(EventsAndCallstByTXHash, "#Events-and-Calls-by-tx-hash",'Events-and-Calls-by-tx-hash_1',variables);
+  </script>

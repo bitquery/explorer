@@ -40,6 +40,7 @@ import BootstrapCardComponentTwoColumns from '../component/componentDescription/
 import BootstrapVerticalTableComponent from '../component/componentDescription/BootstrapVerticalTableComponent';
 import TimeChartComponent from '../component/componentDescription/TimeChartComponent';
 import PieChartComponent from '../component/componentDescription/PieChartComponent';
+import TreeComponent from '../component/componentDescription/TreeComponent';
 import renderComponent from '../component/component';
 import renderImgFromURI from '../component/rendering/renderImgFromURI';
 import renderAddressLink from '../component/rendering/renderAddressLink';
@@ -67,6 +68,7 @@ global.PieChartComponent = PieChartComponent;
 global.BootstrapCardComponentTwoColumns = BootstrapCardComponentTwoColumns;
 global.BootstrapCardComponent = BootstrapCardComponent;
 global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
+global.TreeComponent = TreeComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
 global.renderAddressLink = renderAddressLink;
