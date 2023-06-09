@@ -14,41 +14,48 @@ async onData(data, sub) {
   const allData = this.config.topElement(data);
   this.chainId = this.config.chainId(data);
   const divs = [];
-  const divIDs = new Set();
+  const depths = [];
   console.log('allData', allData);
+const dataForTree = [
 
+]
   allData.Calls.forEach(call => {
-    divIDs.add(call.Call.Depth);
-    console.log(call.Call.Depth);
-  });
+    if (!depths.includes(call.Call.Depth)) {
+      depths.push(call.Call.Depth);
+      const div = this.createElementWithClasses('div', 'ml-5', "container-tree");
+      div.id = call.Call.Depth;
+      // div.style.height = '40px'
+      divs[call.Call.Depth] = divs[call.Call.Depth] || div;
+      if (call.Call.Depth === 0 || depths.length === 1) {
+        this.appendChildren(this.wrapper, div);
+      } else {
+        this.appendChildren(divs[depths[depths.length - 2]], div);
+      }
+    div.addEventListener('click', function(e) {
+      if(!this.classList.contains('show-tree')){
 
-  divIDs.forEach(id => {
-    const div = this.createElementWithClasses('div', 'ml-5');
-    div.id = id;
-    div.textContent = `${id}`;
-    divs[id] = div;
-    if (id === 0) {
-      this.appendChildren(this.wrapper, div);
-    } else {
-      this.appendChildren(divs[id - 1], div);
+        this.classList.add('show-tree');
+      }else {
+          this.classList.remove('show-tree');
+      }
+    });
+
     }
-  });
-
-  allData.Calls.forEach(call => {
-    const div = this.createElementWithClasses('div', 'ml-5', 'border', 'border-success');
-    div.classList.add(call.Call.Index);
-    div.textContent = `Signature: ${call.Call.Signature.Signature}`;
-    divs[call.Call.Depth].insertBefore(div, divs[call.Call.Depth].firstChild);
-  });
+    const callDiv = this.createElementWithClasses('div', 'ml-5',call.Call.Index,'line-tree');
+    // callDiv.classList.add(call.Call.Index);
+    callDiv.textContent = `Signature: ${call.Call.Signature.Signature} , Index: ${call.Call.Index} EnterIndex: ${call.Call.EnterIndex} ExitIndex: ${call.Call.ExitIndex} `;
+    divs[call.Call.Depth].appendChild(callDiv);
+  })
 
   allData.Events.forEach(element => {
     console.log(element.Log.Signature.Signature);
     const div = this.createElementWithClasses('div', 'ml-3', 'text-success');
-    div.textContent = `Event: ${element.Log.Signature.Signature}`;
+    div.textContent = `Event: ${element.Log.Signature.Signature} EnterIndex: ${element.Log.EnterIndex} Index: ${element.Log.Index} ExitIndex: ${element.Log.ExitIndex} LogAfterCallIndex: ${element.Log.LogAfterCallIndex}`;
     const targetElement = document.getElementsByClassName(element.Log.LogAfterCallIndex)[0];
     targetElement.appendChild(div);
   });
 }
+
 
 
 

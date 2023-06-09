@@ -9,7 +9,16 @@
       return {
         topElement: function(response) { return response.EVM},
         chainId: function (response){ return response.EVM.Calls[0].ChainId},
+        // calls: [
+        //   {
+        //     name: 'Call', cell: function(row){ return row.Signature.Signature},
+        //   },
+        // ],
+        // events: [
+        //   {
 
+        //   },
+        // ],
       }
     }
       }
@@ -22,5 +31,5 @@
     id: '<%= @id %>',
       }
 
-    renderComponent(EventsAndCallstByTXHash, "#Events-and-Calls-by-tx-hash",'Events-and-Calls-by-tx-hash_1',variables);
+    renderComponent(EventsAndCallstByTXHash, "#Events-and-Calls-by-tx-hash",'Events-and-Calls-by-tx-hash_1_1',variables);
   </script>
