@@ -253,24 +253,6 @@ BLOCKCHAINS = [
     icon: 'currency/conflux.png'
   },
   {
-    tag: 'diem',
-    network: 'diem_testnet',
-    name: 'Diem Testnet',
-    family: 'diem',
-    platform: 'Diem',
-    currency: 'Diem',
-    icon: 'currency/libra.png'
-  },
-  {
-    tag: 'libra',
-    network: 'libra_testnet',
-    name: 'Libra Testnet',
-    family: 'diem',
-    platform: 'Diem',
-    currency: 'LBR',
-    icon: 'currency/libra.png'
-  },
-  {
     tag: 'hedera',
     network: 'hedera',
     name: 'Hedera Hashgraph Mainnet',

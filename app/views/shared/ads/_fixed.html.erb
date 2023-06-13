@@ -16,8 +16,7 @@
             <% unless ad[:text].blank? %>
               <p class="card-text" style="color: <%= ad[:text_color] %>"><%= ad[:text] %></p>
             <% end %>
-            <% unless ad[:button_text].blank? %><a id="buttonFromHorse"
- href='<%= ad[:url].html_safe %>' class="btn <%= ad[:button_class] %> position-absolute" style="bottom: 0; background-color: <%= ad[:button_bg] %>;color: <%= ad[:button_color] %>"><%= ad[:button_text] %></a><% end %>
+            <% unless ad[:button_text].blank? %><a id="buttonFromHorse" href='<%= ad[:url].html_safe %>' class="btn <%= ad[:button_class] %> position-absolute" style="bottom: 0; background-color: <%= ad[:button_bg] %>;color: <%= ad[:button_color] %>"><%= ad[:button_text] %></a><% end %>
           </div>
           <div class="col-5 text-right">
             <a href="<%= ad[:url].html_safe %>" target="_blank" style="text-decoration: none">

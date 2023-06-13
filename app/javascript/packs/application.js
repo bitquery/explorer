@@ -31,7 +31,6 @@ import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
 import serialize from 'serialize-javascript';
-import { graphQlQueryToJson } from 'graphql-query-to-json';
 import WidgetConfig from '../component/componentDescription/WidgetConfig';
 import BootstrapTableComponent from '../component/componentDescription/BootstrapTableComponent';
 import BootstrapCardComponent from '../component/componentDescription/BootstrapCardComponent';
@@ -59,7 +58,6 @@ import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieve
 global.serialize = serialize;
 global.createClient = createClient;
 global.createChart = createChart;
-global.graphQlQueryToJson = graphQlQueryToJson;
 global.WidgetConfig = WidgetConfig;
 global.BootstrapTableComponent = BootstrapTableComponent;
 global.GraphsComponent = GraphsComponent;
@@ -98,7 +96,6 @@ global.$ = $;
 global.vis = vis;
 global.numeral = numeral;
 global.m = moment;
-
 const chainName = {
   '0x1': 'Ethereum',
   '0xa': 'Optimism',

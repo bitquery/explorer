@@ -2,8 +2,6 @@
 <html>
   <%= render partial: 'shared/head' %>
   <body class="<%= "dark" if @theme == 'dark' %>">
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
   </head>
   <script>
     const csrfToken = $('meta[name="csrf-token"]').attr('content')
