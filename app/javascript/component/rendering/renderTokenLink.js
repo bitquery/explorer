@@ -7,7 +7,7 @@ export default function renderTokenLink(data,variables,chainId) {
 	if(!data.currency){
 		link.textContent = data.smartContract;
 	}
-	link.href = `${process.env.EXPLORER_URL}/${WidgetConfig.getNetwork(chainId)}/token/${data.smartContract}/nft_smart_contract`;
+	link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/token/${data.smartContract}/nft_smart_contract`;
 	div.appendChild(link);
 	return div;
 }

@@ -6,7 +6,7 @@ export default function renderIdLink(data, variables, chainId) {
   if (!data) {
     link.textContent = '—';
   }
-  link.href = `${process.env.EXPLORER_URL}/${WidgetConfig.getNetwork(chainId)}/token/${data.address}/id/${data.id}`;
+  link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/token/${data.address}/id/${data.id}`;
   div.appendChild(link);
 
   return div;
