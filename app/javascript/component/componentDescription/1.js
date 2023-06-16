@@ -21,7 +21,7 @@ export default class TradingGraphsComponent {
       supports_marks: false,
       supports_timescale_marks: false,
       supports_time: true,
-      supported_resolutions: ['1', '5', '15', '30', '60',"D", "2D", "3D", "W", "3W", "M", "6M"]
+      supported_resolutions: ["D", "2D", "3D", "W", "3W", "M", "6M"]
     }
     
     let resolution = 'D';
@@ -91,21 +91,18 @@ export default class TradingGraphsComponent {
             console.log('latestData', latestData);
             if (latestData && latestData.length > 0 && JSON.stringify(self.lastData) !== JSON.stringify(latestData)) {
               self.lastData = latestData;
-              onRealtimeCallback(latestData);
+              // onRealtimeCallback(latestData);
             }
-          },60000); 
+          }, 60000); 
         },
-        	unsubscribeBars: subscriberUID => {
-		console.log('=====unsubscribeBars running')
-	},
-        // unsubscribeBars: (subscriberUID) => {
-        //   console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-        //   if (self.lastBar !== null) {
-        //     clearInterval(self.lastBar);
-        //     self.lastBar = null;
-        //     self.lastData = null;
-        //   }
-        // },
+        unsubscribeBars: (subscriberUID) => {
+          console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+          if (self.lastBar !== null) {
+            clearInterval(self.lastBar);
+            self.lastBar = null;
+            self.lastData = null;
+          }
+        },
       },
       symbol: self.config.symbol,
       interval: '1',
