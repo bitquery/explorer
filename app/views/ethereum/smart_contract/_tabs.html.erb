@@ -1,6 +1,6 @@
-<%# <%
+<%# 
     nft_tabs = @streaming ? ['nft_smart_contract','show_nft_id'] : []
-%> %>
+%>
 <%= render partial: 'shared/tabs', locals: {
     tabs: 
         (@info.try(:smart_contract).try(:contract_type)=='DEX') ?
