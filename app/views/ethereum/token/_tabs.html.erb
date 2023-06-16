@@ -1,5 +1,5 @@
 <%
-    nft_tabs = @streaming ? ['nft_smart_contract', 'trading'] : []
+    nft_tabs = @streaming ? ['nft_smart_contract'] : []
 %>
 <%= render partial: 'shared/tabs', locals: {
     tabs: (@native_token ? ['show','transfers','senders','receivers'] :

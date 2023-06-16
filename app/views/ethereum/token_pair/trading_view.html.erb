@@ -1,8 +1,80 @@
 <div id="pair-trading-view"><%=@currencies %></div>
 <script type="text/javascript" charset="utf-8">
-    createDashboard('trading-view-dashboard', 'pair-trading-view', {
-        baseAddress: '<%=@token1 %>',
-        quoteAddress: '<%=@token2 %>',
-        network: '<%= params['network']['network'] %>'
-    })
+  createDashboard('trading-view-dashboard', 'pair-trading-view', {
+      baseAddress: '<%=@token1 %>',
+      quoteAddress: '<%=@token2 %>',
+      network: '<%= params['network']['network'] %>'
+  })
 </script>
+<%# <script src="charting_library/charting_library.standalone.js"></script>
+<script src="datafeeds/udf/dist/bundle.js"></script> %>
+<%#= stylesheet_pack_tag 'graphs', media: 'all' %>
+<%= javascript_include_tag 'charting_library/charting_library.standalone' %>
+<%= javascript_include_tag 'datafeeds/udf/dist/bundle' %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="OHLC-by-intervals-Table" class="card"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div id="OHLC-by-intervals-Graph" class="card" style="height: 600px;" >
+    </div>
+  </div>
+</div>
+<script>
+  class OHLCbyIntervalsTable extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTradeByTokens},
+            chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
+            columns: [
+                {
+                    name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+                },
+                {
+                    name: 'Count', cell: function(row){ return row.count},
+                },
+                {
+                    name: 'Volume', cell: function(row){ return parseFloat(row.volume).toFixed(3)},
+                },
+                {
+                    name: 'Open', cell: function(row){ return parseFloat(row.Trade.open).toFixed(3)},
+                },
+                {
+                    name: 'High', cell: function(row){ return parseFloat(row.Trade.high).toFixed(3)},
+                },
+                {
+                    name: 'Low', cell: function(row){ return parseFloat(row.Trade.low).toFixed(3)},
+                },
+                {
+                    name: 'Close', cell: function(row){ return parseFloat(row.Trade.close).toFixed(3)},
+                },
+            ]
+        }
+    }
+  }
+  class OHLCbyIntervalsGraph extends TradingGraphsComponent
+   {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTradeByTokens},
+            chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
+            symbol:'OCC/WETH',
+        }
+    }
+  }
+
+  const variables = {
+    network:'<%= @streaming%>',
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+  }
+
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(OHLCbyIntervalsTable, "#OHLC-by-intervals-Table",'OHLC-by-intervals_1',variables);
+    renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'OHLC-by-intervals_1',variables);
+  });
+</script>
+<script></script>
