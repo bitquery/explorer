@@ -2,45 +2,51 @@
   <div class="row">
     <div class="col-12 col-lg-12 mb-4">
       <div class="card">
-        <div id="Latest-Transfers-of-Token-in-Network"></div>
+        <div id="Latest-Trades-of-Token-in-Network"></div>
       </div>
     </div>
   </div>
   <script>
-    class LatestTransfersofTokeninNetwork extends BootstrapTableComponent {
+    class LatestTradesofTokeninNetwork extends BootstrapTableComponent {
       configuration() {
         return  {
-          topElement: function (response){ return response.EVM.Transfers},
-            chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+          topElement: function (response){ return response.EVM.DEXTradeByTokens},
+            chainId: function (response){ return response.EVM.DEXTradeByTokens[0].ChainId},
           columns: [
             {
-              name: 'Time', cell: function(row){ return row.Block.Time}, rendering: renderDate,
+              name: 'Timestamp', cell: function(row){ return row.Block.Time}, rendering: renderDate,
             },
             {
               name: 'Block', cell: function(row){ return row.Block.Number }, rendering: renderBlockLink
             },
             {
-              name: 'Sender', cell: function(row) { return row.Transfer.Sender}, rendering: renderJustAddressLink
+              name: 'Seller', cell: function(row) { return row.Trade.Seller}, rendering: renderJustAddressLink
+            },
+            {
+            name: 'Sell currency', cell: function(row) { return row.Trade.Currency.Symbol},
             },
             {
               name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
             },
             {
-              name: 'Receiver', cell: function(row) {return row.Transfer.Receiver},
+              name: 'Buyer', cell: function(row) {return row.Trade.Buyer},
               rendering: renderJustAddressLink
             },
             {
-              name: 'Currency', cell: function(row) { return row.Transfer.Currency.Symbol},
-
-            },
-            {
-              name: 'Amount',
+              name: 'Buy amount',
               cell: function(row) {
-                return parseFloat(row.Transfer.Amount).toFixed(3)
+                return parseFloat(row.Trade.Side.Amount).toFixed(3)
+              }
+            },
+
+            {
+              name: 'Price',
+              cell: function(row) {
+                return parseFloat(row.Trade.Price).toFixed(3)
               }
             },
             {
-              name: 'Hash',
+              name: 'Transaction',
               cell: function(row) {
                 return row.Transaction.Hash
               },
@@ -59,7 +65,7 @@
       id: '<%= @id %>',
     }
     renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-      renderComponent(LatestTransfersofTokeninNetwork, "#Latest-Transfers-of-Token-in-Network",'Latest-Transfers-of-Token-in-Network_1_1',variables);
+      renderComponent(LatestTradesofTokeninNetwork, "#Latest-Trades-of-Token-in-Network",'Latest-Trades-of-Token-in-Network',variables);
     })
   </script>
 <% end %>
