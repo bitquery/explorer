@@ -3,19 +3,11 @@ export default class TradingGraphsComponent {
     this.container = element;
     this.config = this.configuration();
     this.variables = variables;
-    this.chart = null; 
-    this.data = null;
     this.lastBar = null; 
     this.lastData = null; 
   }
   
   async onData(data, sub) {
-    const self = this;
-    self.data = data; 
-    if (self.chart) {
-      self.chart.onResetCacheNeededCallback();
-    }
-
     console.log(data);
     const configurationData = {
       supports_marks: false,
@@ -23,11 +15,9 @@ export default class TradingGraphsComponent {
       supports_time: true,
       supported_resolutions: ['1', '5', '15', '30', '60',"D", "2D", "3D", "W", "3W", "M", "6M"]
     }
-    
-    let resolution = 'D';
-    const symbolName = this.data.symbol
+    const symbolName =data.symbol
     new TradingView.widget({
-      container: self.container,
+      container: this.container,
       locale: 'en',
       library_path: '/assets/charting_library/',
       datafeed: {
@@ -46,10 +36,12 @@ export default class TradingGraphsComponent {
               timezone: 'Etc/UTC',
               exchange: splitSymbol[0],
               listed_exchange: splitSymbol[0],
+              has_intraday: true,
+              has_seconds: true,
               minmov: 1,
               pricescale: 10000,
+              has_empty_bars: true,
               data_status: 'streaming',
-              supported_resolutions: ['1', '5', '15', '30', '60', '1D', '1W', '1M']
             }
             onSymbolResolvedCallback(symbolInfo);
           }, 0);
@@ -57,75 +49,63 @@ export default class TradingGraphsComponent {
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
           console.log('[getBars]: Method call', symbolInfo);
           console.log('periodParams',periodParams)
-          const arr = this.getBitqueryData(self.data).sort((a, b) => a.time - b.time);
+          const arr = this.getBitqueryData(data).sort((a, b) => a.time - b.time);
           let bars = [];
+          console.log('arr',arr)
           arr.forEach(bar => {
-            console.log('one bar', bar)
-            console.log('periodParams.to', periodParams.to)
-            console.log('bar.time', bar.time)
-            console.log('periodParams.from', periodParams.from)
             if (bar.time >= periodParams.from && bar.time < periodParams.to) {
-              bars.push({
+              console.log('from >>>>>>bar.time <<<<<to ', bar.time)
+              bars = [...bars,{
                 time: bar.time * 1000,
-                low: bar.low,
-                high: bar.high,
-                open: bar.open,
                 close: bar.close,
-              });
+                open: bar.open,
+                high: bar.high,
+                low: bar.low,
+                volume: bar.volume
+              }];
             }
-            console.log('bars', bars);
           });
-          if(bars.length > 0) {
-            onHistoryCallback(bars, { noData: false });
-          } else {
-            onHistoryCallback([], { noData: true });
-
-            console.log('No data');
-          }
+          console.log('bars', bars);
+          (bars.length > 0) ? onHistoryCallback(bars, { noData: false }): onHistoryCallback([], { noData: true });
         },
 
         subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
           console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
-          self.lastBar = setInterval(async () => {
-            const latestData = this.getBitqueryData(self.data);
+          this.lastBar = setInterval(async () => {
+            const latestData = this.getBitqueryData(this.data).sort((a, b) => a.time - b.time);;
             console.log('latestData', latestData);
-            if (latestData && latestData.length > 0 && JSON.stringify(self.lastData) !== JSON.stringify(latestData)) {
-              self.lastData = latestData;
+            console.log('this.lastData', this.lastData);
+            if ( latestData.length > 0 && JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
+              this.lastData = latestData;
               onRealtimeCallback(latestData);
             }
-          },60000); 
+          },120000); 
         },
-        	unsubscribeBars: subscriberUID => {
-		console.log('=====unsubscribeBars running')
-	},
-        // unsubscribeBars: (subscriberUID) => {
-        //   console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-        //   if (self.lastBar !== null) {
-        //     clearInterval(self.lastBar);
-        //     self.lastBar = null;
-        //     self.lastData = null;
-        //   }
-        // },
+        unsubscribeBars: (subscriberUID) => {
+          console.log('subscriberUID',subscriberUID)
+          console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+          if (this.lastBar !== null) {
+            clearInterval(this.lastBar);
+            this.lastBar = null;
+            this.lastData = null;
+          }
+        },
       },
-      symbol: self.config.symbol,
-      interval: '1',
+      symbol: this.config.symbol,
+      interval: '15', //add variable
       fullscreen: true,
       debug: false
     });
   }
   getBitqueryData(data) {
-//     data.EVM.DEXTradeByTokens.forEach(e => {
-//       console.log('bladskoe vremya',new Date(e.Block.Time).getTime(),
-// )
-//     });
-return data.EVM.DEXTradeByTokens.map(item => ({
-  time: new Date(item.Block.Time).getTime() / 1000,
-  low: item.Trade.low,
-  high: item.Trade.high,
-  open: item.Trade.open,
-  close: item.Trade.close,
-  volume: parseFloat(item.volume)
-}))
+  return data.EVM.DEXTradeByTokens.map(item => ({
+    time: new Date(item.Block.Time).getTime() / 1000,
+    low: item.Trade.low,
+    high: item.Trade.high,
+    open: item.Trade.open,
+    close: item.Trade.close,
+    volume: parseFloat(item.volume)
+  }))
 
   }
 
