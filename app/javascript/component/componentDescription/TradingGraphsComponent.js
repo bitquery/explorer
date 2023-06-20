@@ -49,12 +49,11 @@ export default class TradingGraphsComponent {
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
           console.log('[getBars]: Method call', symbolInfo);
           console.log('periodParams',periodParams)
-          const arr = this.getBitqueryData(data).sort((a, b) => a.time - b.time);
+          const arr = this.getBitqueryData(data);
           let bars = [];
           console.log('arr',arr)
           arr.forEach(bar => {
             if (bar.time >= periodParams.from && bar.time < periodParams.to) {
-              console.log('from >>>>>>bar.time <<<<<to ', bar.time)
               bars = [...bars,{
                 time: bar.time * 1000,
                 close: bar.close,
@@ -68,18 +67,17 @@ export default class TradingGraphsComponent {
           console.log('bars', bars);
           (bars.length > 0) ? onHistoryCallback(bars, { noData: false }): onHistoryCallback([], { noData: true });
         },
-
         subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
           console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
           this.lastBar = setInterval(async () => {
-            const latestData = this.getBitqueryData(this.data).sort((a, b) => a.time - b.time);;
+            const latestData = this.getBitqueryData(data);
             console.log('latestData', latestData);
             console.log('this.lastData', this.lastData);
             if ( latestData.length > 0 && JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
               this.lastData = latestData;
-              onRealtimeCallback(latestData);
+              onRealtimeCallback(this.lastData);
             }
-          },120000); 
+          },60000); 
         },
         unsubscribeBars: (subscriberUID) => {
           console.log('subscriberUID',subscriberUID)
@@ -92,21 +90,43 @@ export default class TradingGraphsComponent {
         },
       },
       symbol: this.config.symbol,
-      interval: '15', //add variable
+      interval: this.config.interval, //add variable
       fullscreen: true,
       debug: false
     });
   }
-  getBitqueryData(data) {
-  return data.EVM.DEXTradeByTokens.map(item => ({
-    time: new Date(item.Block.Time).getTime() / 1000,
-    low: item.Trade.low,
-    high: item.Trade.high,
-    open: item.Trade.open,
-    close: item.Trade.close,
-    volume: parseFloat(item.volume)
-  }))
+  //   getBitqueryData(data) {
+  //   return data.EVM.DEXTradeByTokens.map(item => ({
+  //     time: new Date(item.Block.Time).getTime() / 1000,
+  //     low: item.Trade.low,
+  //     high: item.Trade.high,
+  //     open: item.Trade.open,
+  //     close: item.Trade.close,
+  //     volume: parseFloat(item.volume)
+  //   })).sort((a, b) => a.time - b.time)
+  // }
+  getBitqueryData(data){
+    const tradeBlock = this.config.topElement(data);
 
+    console.log('dataArr',tradeBlock)
+
+    const resultData = tradeBlock.map((item, index) => {
+      const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
+      
+      return {
+        time: new Date(item.Block.Time).getTime() / 1000,
+        low: item.Trade.low,
+        high: item.Trade.high,
+        open: previousClose,
+        close: item.Trade.close,
+        volume: parseFloat(item.volume),
+      }
+    });
+
+    console.log('resultData',resultData)
+    
+    return resultData;
   }
+
 
 }

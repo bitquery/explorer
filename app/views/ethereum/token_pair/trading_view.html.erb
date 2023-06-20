@@ -22,6 +22,11 @@
     </div>
   </div>
 </div>
+<head>
+  <!-- ... -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
+  <!-- ... -->
+</head>
 <script>
   class OHLCbyIntervalsTable extends BootstrapTableComponent {
     configuration() {
@@ -60,20 +65,20 @@
             topElement: function (response){ return response.EVM.DEXTradeByTokens},
             chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
             symbol:'OCC/WETH',
+            interval: '15',
         }
     }
   }
 
   const variables = {
     network:'<%= @streaming%>',
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
+    baseCurrency: '<%= @token1 %>',
+    quoteCurrency: '<%= @token2 %>',
   }
-
+  console.log('variables',variables)
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(OHLCbyIntervalsTable, "#OHLC-by-intervals-Table",'OHLC-by-intervals_1',variables);
-    renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'OHLC-by-intervals_1_1_1',variables);
+    // renderComponent(OHLCbyIntervalsTable, "#OHLC-by-intervals-Table",'OHLC-by-intervals_1_1_1_1_1',variables);
+    renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1',variables,'OHLC-by-intervals_1_1_1_1_1_1_1');
   });
 </script>
 <script></script>
