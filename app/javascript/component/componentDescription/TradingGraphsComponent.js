@@ -5,119 +5,114 @@ export default class TradingGraphsComponent {
     this.variables = variables;
     this.lastBar = null; 
     this.lastData = null; 
+    this.allData = [];
+    this.widget = null;
   }
-  
-  async onData(data, sub) {
-    console.log(data);
+  initWidget(symbolName) {
     const configurationData = {
-      supports_marks: false,
+            supports_marks: false,
       supports_timescale_marks: false,
       supports_time: true,
       supported_resolutions: ['1', '5', '15', '30', '60',"D", "2D", "3D", "W", "3W", "M", "6M"]
     }
-    const symbolName =data.symbol
-    new TradingView.widget({
-      container: this.container,
-      locale: 'en',
-      library_path: '/assets/charting_library/',
-      datafeed: {
-        onReady: (callback) => {  
-          console.log('[onReady]: Method call');
-          setTimeout(() => callback(configurationData));
-        },
-        resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback, extension) => {
-          console.log('[resolveSymbol]: Method call', symbolName);
-          const splitSymbol = symbolName.split(/[:/]/);
-          setTimeout(() => {
-            const symbolInfo = {
-              name: symbolName,
-              description: symbolName,
-              session: '24x7',
-              timezone: 'Etc/UTC',
-              exchange: splitSymbol[0],
-              listed_exchange: splitSymbol[0],
-              has_intraday: true,
-              has_seconds: true,
-              minmov: 1,
-              pricescale: 10000,
-              has_empty_bars: true,
-              data_status: 'streaming',
+      this.widget = new TradingView.widget({
+        container: this.container,
+        locale: 'en',
+        library_path: '/assets/charting_library/',
+        datafeed: {
+          onReady: (callback) => {  
+            console.log('[onReady]: Method call');
+            setTimeout(() => callback(configurationData));
+          },
+          resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback, extension) => {
+            console.log('[resolveSymbol]: Method call', symbolName);
+            const splitSymbol = symbolName.split(/[:/]/);
+            setTimeout(() => {
+              const symbolInfo = {
+                name: symbolName,
+                description: symbolName,
+                session: '24x7',
+                timezone: 'Etc/UTC',
+                exchange: splitSymbol[0],
+                listed_exchange: splitSymbol[0],
+                has_intraday: true,
+                has_seconds: true,
+                minmov: 1,
+                pricescale: 100000,
+                has_empty_bars: true,
+                data_status: 'streaming',
+              }
+              onSymbolResolvedCallback(symbolInfo);
+            }, 0);
+          },
+          getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
+            console.log('[getBars]: Method call', symbolInfo);
+            console.log('periodParams',periodParams)
+              const arr = this.allData;
+            let bars = [];
+            console.log('arr',arr)
+            arr.forEach(bar => {
+              if (bar.time/ 1000 >= periodParams.from && bar.time/ 1000 < periodParams.to) {
+                bars = [...bars,{
+                  time: bar.time,
+                  close: bar.close,
+                  open: bar.open,
+                  high: bar.high,
+                  low: bar.low,
+                  volume: bar.volume
+                }];
+              }
+            });
+            console.log('bars', bars);
+            (bars.length > 0) ? onHistoryCallback(bars, { noData: false }): onHistoryCallback([], { noData: true });
+          },
+          subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
+            console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
+            this.lastBar = setInterval(() => {
+              const latestData = this.allData; 
+              if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
+                this.lastData = latestData;
+                onRealtimeCallback(this.lastData[this.lastData.length - 1]); 
+              }
+            }, 60000); 
+          },
+          unsubscribeBars: (subscriberUID) => {
+            console.log('subscriberUID',subscriberUID)
+            console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+            if (this.lastBar !== null) {
+              clearInterval(this.lastBar);
+              this.lastBar = null;
+              this.lastData = null;
             }
-            onSymbolResolvedCallback(symbolInfo);
-          }, 0);
-        },
-        getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-          console.log('[getBars]: Method call', symbolInfo);
-          console.log('periodParams',periodParams)
-          const arr = this.getBitqueryData(data);
-          let bars = [];
-          console.log('arr',arr)
-          arr.forEach(bar => {
-            if (bar.time >= periodParams.from && bar.time < periodParams.to) {
-              bars = [...bars,{
-                time: bar.time * 1000,
-                close: bar.close,
-                open: bar.open,
-                high: bar.high,
-                low: bar.low,
-                volume: bar.volume
-              }];
-            }
-          });
-          console.log('bars', bars);
-          (bars.length > 0) ? onHistoryCallback(bars, { noData: false }): onHistoryCallback([], { noData: true });
-        },
-        subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-          console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
-          this.lastBar = setInterval(async () => {
-            const latestData = this.getBitqueryData(data);
-            console.log('latestData', latestData);
-            console.log('this.lastData', this.lastData);
-            if ( latestData.length > 0 && JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
-              this.lastData = latestData;
-              onRealtimeCallback(this.lastData);
-            }
-          },60000); 
-        },
-        unsubscribeBars: (subscriberUID) => {
-          console.log('subscriberUID',subscriberUID)
-          console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-          if (this.lastBar !== null) {
-            clearInterval(this.lastBar);
-            this.lastBar = null;
-            this.lastData = null;
-          }
-        },
+          },
       },
       symbol: this.config.symbol,
       interval: this.config.interval, //add variable
-      fullscreen: true,
+      fullscreen: false,
       debug: false
     });
   }
-  //   getBitqueryData(data) {
-  //   return data.EVM.DEXTradeByTokens.map(item => ({
-  //     time: new Date(item.Block.Time).getTime() / 1000,
-  //     low: item.Trade.low,
-  //     high: item.Trade.high,
-  //     open: item.Trade.open,
-  //     close: item.Trade.close,
-  //     volume: parseFloat(item.volume)
-  //   })).sort((a, b) => a.time - b.time)
-  // }
+
+  async onData(data, sub) {
+        console.log(data);
+    const symbolName = data.symbol;
+   if (this.widget === null) {
+      this.initWidget(symbolName); 
+    }
+    this.allData = this.getBitqueryData(data); 
+  }
+
   getBitqueryData(data){
     const tradeBlock = this.config.topElement(data);
-
-    console.log('dataArr',tradeBlock)
-
     const resultData = tradeBlock.map((item, index) => {
+      console.log(item.Block.Time)
       const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
-      
       return {
-        time: new Date(item.Block.Time).getTime() / 1000,
+        time: new Date(item.Block.Time).getTime(),
         low: item.Trade.low,
         high: item.Trade.high,
-        open: previousClose,
+        open: item.Trade.open,
+        // open: previousClose,
         close: item.Trade.close,
         volume: parseFloat(item.volume),
       }
