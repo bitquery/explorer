@@ -19,6 +19,8 @@ export default class TradingGraphsComponent {
         container: this.container,
         locale: 'en',
         library_path: '/assets/charting_library/',
+        width:700,
+        height: 500,
         datafeed: {
           onReady: (callback) => {  
             console.log('[onReady]: Method call');
@@ -37,6 +39,8 @@ export default class TradingGraphsComponent {
                 listed_exchange: splitSymbol[0],
                 has_intraday: true,
                 has_seconds: true,
+                has_daily:true,
+                // has_ticks: true,
                 minmov: 1,
                 pricescale: 10000,
                 has_empty_bars: true,
@@ -69,12 +73,11 @@ export default class TradingGraphsComponent {
           subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
             console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
             this.lastBar = setInterval(() => {
-              // const latestData = this.allData; 
-              // if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
-              //   this.lastData = latestData;
-                // onRealtimeCallback(this.lastData[this.lastData.length - 1]); 
-                // }
-                onRealtimeCallback(this.allData); 
+              const latestData = this.allData; 
+              if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
+                this.lastData = latestData;
+                onRealtimeCallback(this.lastData[this.lastData.length - 1]); 
+              }
             }, 60000); 
           },
           unsubscribeBars: (subscriberUID) => {
@@ -90,12 +93,12 @@ export default class TradingGraphsComponent {
       symbol: this.config.symbol,
       interval: this.config.interval, //add variable
       fullscreen: false,
-      debug: false
+      debug: true
     });
   }
 
   async onData(data, sub) {
-        console.log(data);
+        // console.log(data);
     const symbolName = data.symbol;
    if (this.widget === null) {
       this.initWidget(symbolName); 
@@ -111,8 +114,8 @@ export default class TradingGraphsComponent {
         time: new Date(item.Block.Time).getTime(),
         low: item.Trade.low,
         high: item.Trade.high,
-        // open: item.Trade.open,
-        open: previousClose,
+        open: item.Trade.open,
+        // open: previousClose,
         close: item.Trade.close,
         volume: parseFloat(item.volume),
       }

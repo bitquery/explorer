@@ -6,8 +6,8 @@ export default class TradingGraphsComponent {
     this.lastBar = null;
     this.lastData = null;
     this.allData = [];
-    this.newData = [];
     this.widget = null;
+    this.minuteBars = [];
   }
   initWidget(symbolName) {
     const configurationData = {
@@ -74,26 +74,41 @@ export default class TradingGraphsComponent {
           console.log('bars', bars);
           bars.length > 0 ? onHistoryCallback(bars, {noData: false}) : onHistoryCallback([], {noData: true});
         },
-        subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-          console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
+subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
+  console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
 
-          // this.lastBar = setInterval(() => {
-          //   const latestData = this.nowData[0];
-          //   if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
-          //     this.lastData = latestData;
+  this.lastBar = setInterval(() => {
+    const latestData = this.allData[this.allData.length - 1];
 
-          //     onRealtimeCallback(this.lastData);
-          //   }
-          // }, 60000);
-          setInterval(() => {
-            console.log('dhdhdhdhdhdhdfh', ...this.newData)
-             onRealtimeCallback(...this.newData);
-          }, 10000);
-        },
+    if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
+      this.lastData = latestData;
+
+      const currentCandle = {
+        time: latestData.time,
+        open: latestData.open,
+        high: latestData.high,
+        low: latestData.low,
+        close: latestData.close,
+        volume: latestData.volume,
+      };
+
+      if (this.allData.length > 1 && this.allData[this.allData.length - 2].time === latestData.time) {
+        this.allData[this.allData.length - 2] = currentCandle;
+      }
+
+      onRealtimeCallback(currentCandle);
+    }
+  }, 1000);
+},
 
         unsubscribeBars: subscriberUID => {
           console.log('subscriberUID', subscriberUID);
           console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+          if (this.lastBar !== null) {
+            clearInterval(this.lastBar);
+            this.lastBar = null;
+            this.lastData = null;
+          }
         },
       },
       symbol: this.config.symbol,
@@ -103,19 +118,40 @@ export default class TradingGraphsComponent {
     });
   }
 
-  onData(data, sub) {
-    const symbolName = data.symbol;
-    if (this.widget === null) {
-      this.initWidget(symbolName);
-    }
-if(this.config.topElement(data).length > 1){
-  this.allData = this.getBitqueryData(data);
-}
-if(this.config.topElement(data).length === 1 ){
-  this.newData = this.getBitqueryData(data);
-
-}
+onData(data, sub) {
+  const symbolName = data.symbol;
+  if (this.widget === null) {
+    this.initWidget(symbolName);
   }
+  const newData = this.getBitqueryData(data);
+
+  if (newData.length > 1) {
+    this.allData = newData;
+  } else if (newData.length === 1) {
+    const newBar = newData[0];
+    if (this.allData.length === 0 || newBar.time >= this.allData[this.allData.length - 1].time + this.config.interval * 60 * 1000) {
+      const bar15min = this.create15MinuteBar([newBar]);
+      this.allData.push(bar15min);
+    } else {
+      const currentCandle = this.create15MinuteBar([this.allData[this.allData.length - 1], newBar]);
+      this.allData[this.allData.length - 1] = currentCandle; 
+    }
+  }
+}
+
+
+
+  create15MinuteBar(oneMinuteBars) {
+    const time = oneMinuteBars[0].time;
+    const open = oneMinuteBars[0].open;
+    const close = oneMinuteBars[oneMinuteBars.length - 1].close;
+    const high = Math.max(...oneMinuteBars.map(bar => bar.high));
+    const low = Math.min(...oneMinuteBars.map(bar => bar.low));
+    const volume = oneMinuteBars.reduce((sum, bar) => sum + bar.volume, 0);
+
+    return {time, open, high, low, close, volume};
+  }
+
   getBitqueryData(data) {
     const tradeBlock = this.config.topElement(data);
     const resultData = tradeBlock.map((item, index) => {
@@ -135,5 +171,4 @@ if(this.config.topElement(data).length === 1 ){
 
     return resultData;
   }
-
 }

@@ -1,21 +1,8 @@
-<div id="pair-trading-view"><%=@currencies %></div>
-<script type="text/javascript" charset="utf-8">
-  createDashboard('trading-view-dashboard', 'pair-trading-view', {
-      baseAddress: '<%=@token1 %>',
-      quoteAddress: '<%=@token2 %>',
-      network: '<%= params['network']['network'] %>'
-  })
-</script>
-<%# <script src="charting_library/charting_library.standalone.js"></script>
-<script src="datafeeds/udf/dist/bundle.js"></script> %>
-<%#= stylesheet_pack_tag 'graphs', media: 'all' %>
-<%= javascript_include_tag 'charting_library/charting_library.standalone' %>
-<%= javascript_include_tag 'datafeeds/udf/dist/bundle' %>
-<div class="row">
+<%# <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div  id="OHLC-by-intervals-Table" class="card"></div>
   </div>
-</div>
+</div> %>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div id="OHLC-by-intervals-Graph" class="card" style="height: 600px;" >
@@ -23,9 +10,6 @@
   </div>
 </div>
 <head>
-  <!-- ... -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.js"></script>
-  <!-- ... -->
 </head>
 <script>
   class OHLCbyIntervalsTable extends BootstrapTableComponent {
@@ -81,4 +65,3 @@
     renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1',variables,'OHLC-by-intervals_1_1_1_1_1_1_1');
   });
 </script>
-<script></script>
