@@ -2,6 +2,7 @@ export default class TradingGraphsComponent {
   constructor(element, variables) {
     this.container = element;
     this.config = this.configuration();
+    this.symbol = null;
     this.variables = variables;
     this.lastBar = null;
     this.lastData = null;
@@ -74,72 +75,82 @@ export default class TradingGraphsComponent {
           console.log('bars', bars);
           bars.length > 0 ? onHistoryCallback(bars, {noData: false}) : onHistoryCallback([], {noData: true});
         },
-subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-  console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
+        subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
+          console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
 
-  this.lastBar = setInterval(() => {
-    const latestData = this.allData[this.allData.length - 1];
+          this.lastBar = setInterval(() => {
+            const latestData = this.allData[this.allData.length - 1];
 
-    if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
-      this.lastData = latestData;
+            if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
+              this.lastData = latestData;
 
-      const currentCandle = {
-        time: latestData.time,
-        open: latestData.open,
-        high: latestData.high,
-        low: latestData.low,
-        close: latestData.close,
-        volume: latestData.volume,
-      };
+              const currentCandle = {
+                time: latestData.time,
+                open: latestData.open,
+                high: latestData.high,
+                low: latestData.low,
+                close: latestData.close,
+                volume: latestData.volume,
+              };
 
-      if (this.allData.length > 1 && this.allData[this.allData.length - 2].time === latestData.time) {
-        this.allData[this.allData.length - 2] = currentCandle;
-      }
+              if (this.allData.length > 1 && this.allData[this.allData.length - 2].time === latestData.time) {
+                this.allData[this.allData.length - 2] = currentCandle;
+              }
 
-      onRealtimeCallback(currentCandle);
-    }
-  }, 1000);
-},
+              onRealtimeCallback(currentCandle);
+            }
+          }, 1000);
+        },
 
         unsubscribeBars: subscriberUID => {
           console.log('subscriberUID', subscriberUID);
           console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-          if (this.lastBar !== null) {
-            clearInterval(this.lastBar);
-            this.lastBar = null;
-            this.lastData = null;
-          }
+          // if (this.lastBar !== null) {
+          //   clearInterval(this.lastBar);
+          //   this.lastBar = null;
+          //   this.lastData = null;
+          // }
         },
       },
-      symbol: this.config.symbol,
+      symbol: this.symbol,
       interval: this.config.interval, //add variable
+      time_frames: [
+        // { text: "1y", resolution: "1W", description: "1 Year",},
+        {text: '8m', resolution: '1D', description: '8 Month'},
+        {text: '3d', resolution: '60', description: '3 Days'},
+        {text: '1d', resolution: '15', description: '1 day'},
+      ],
+      header_widget_buttons_mode: 'compact',
+      disabled_features: ['go_to_date','main_series_scale_menu','control_bar','scales_date_format','header_symbol_search','header_compare', 'compare_symbol_search_spread_operators'],
+      time_scale: {
+        min_bar_spacing: 20,
+      },
       fullscreen: false,
       debug: true,
     });
   }
 
-onData(data, sub) {
-  const symbolName = data.symbol;
-  if (this.widget === null) {
-    this.initWidget(symbolName);
-  }
-  const newData = this.getBitqueryData(data);
+  onData(data, sub) {
+    const symbolName = data.symbol;
+    this.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`;
+    if (this.widget === null) {
+      this.initWidget(symbolName);
+    }
+    const newData = this.getBitqueryData(data);
 
-  if (newData.length > 1) {
-    this.allData = newData;
-  } else if (newData.length === 1) {
-    const newBar = newData[0];
-    if (this.allData.length === 0 || newBar.time >= this.allData[this.allData.length - 1].time + this.config.interval * 60 * 1000) {
-      const bar15min = this.create15MinuteBar([newBar]);
-      this.allData.push(bar15min);
-    } else {
-      const currentCandle = this.create15MinuteBar([this.allData[this.allData.length - 1], newBar]);
-      this.allData[this.allData.length - 1] = currentCandle; 
+    if (newData.length > 1) {
+      this.allData = newData;
+    } else if (newData.length === 1) {
+      const newBar = newData[0];
+      if (this.allData.length === 0 || newBar.time >= this.allData[this.allData.length - 1].time + this.config.interval * 60 * 1000) {
+        const bar15min = this.create15MinuteBar([newBar]);
+        this.allData.push(bar15min);
+      } else {
+        const currentCandle = this.create15MinuteBar([this.allData[this.allData.length - 1], newBar]);
+        this.allData[this.allData.length - 1] = currentCandle;
+      }
     }
   }
-}
-
-
 
   create15MinuteBar(oneMinuteBars) {
     const time = oneMinuteBars[0].time;

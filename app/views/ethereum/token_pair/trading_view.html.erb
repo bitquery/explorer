@@ -48,7 +48,8 @@
         return  {
             topElement: function (response){ return response.EVM.DEXTradeByTokens},
             chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
-            symbol:'OCC/WETH',
+            token1: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol},//'OCC/WETH'
+            token2: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol} ,
             interval: '15',
         }
     }
@@ -58,10 +59,14 @@
     network:'<%= @streaming%>',
     baseCurrency: '<%= @token1 %>',
     quoteCurrency: '<%= @token2 %>',
+    till: new Date().toISOString().slice(0,10),
+    from: '2023-06-06'
   }
   console.log('variables',variables)
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    // renderComponent(OHLCbyIntervalsTable, "#OHLC-by-intervals-Table",'OHLC-by-intervals_1_1_1_1_1',variables);
-    renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1',variables,'OHLC-by-intervals_1_1_1_1_1_1_1');
-  });
+    renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1_1',variables,'OHLC-by-intervals_1_1_1_1_1_1_1_1_1_1');
+
+  // renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+  //   // renderComponent(OHLCbyIntervalsTable, "#OHLC-by-intervals-Table",'OHLC-by-intervals_1_1_1_1_1',variables);
+  //   renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1',variables,'OHLC-by-intervals_1_1_1_1_1_1_1');
+  // });
 </script>
