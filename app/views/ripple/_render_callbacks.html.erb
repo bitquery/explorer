@@ -24,6 +24,12 @@
         account_address_path: function (item) {
             return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.account.address;
         },
+        from_account_address_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.fromAccount.address;
+        },
+        destination_account_address_path: function (item) {
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.destinationAccount.address;
+        },
 
         <%# Token %>
         token_from_path: function(item){
@@ -46,6 +52,13 @@
         },
         taker_pays_currency_path: function(item){
           return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.takerPaysCurrency.symbol);
+        },
+
+        nftoken_currency_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.nftokenCurrency.symbol);
+        },
+        currency_path: function(item){
+            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
         },
 
         <%# Tx %>

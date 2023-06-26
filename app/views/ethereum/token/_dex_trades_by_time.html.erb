@@ -13,7 +13,6 @@
       </div>
     </div>
   </div>
-
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
       <div class="card-header">
@@ -29,7 +28,6 @@
     </div>
   </div>
 </div>
-
 <div class="row">
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
@@ -45,7 +43,6 @@
       </div>
     </div>
   </div>
-
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
       <div class="card-header">
@@ -61,146 +58,144 @@
     </div>
   </div>
 </div>
-
 <script>
+  $( document ).ready(function() {
 
-    $( document ).ready(function() {
-
-        var query = new widgets.query(`
-            query ($network: EthereumNetwork!,
-                  $dateFormat: String!,
-                  $token: String!,
-                  $from: ISO8601DateTime,
-                  $till: ISO8601DateTime){
-                    ethereum(network: $network ){
-                      dexTrades(options:{asc: "date.date"}, date: {
-                        since: $from
-                        till: $till}
-                        baseCurrency: {is: $token}
-                      ) {
-                        date: date{
-                          date(format: $dateFormat)
-                        }
-
-                            trades: countBigInt
-                            amount: baseAmount
-                            baseCurrency{symbol}
-                            contracts: countBigInt(uniq: smart_contracts)
-                            currencies: countBigInt(uniq: quote_currency)
-
+      var query = new widgets.query(`
+          query ($network: EthereumNetwork!,
+                $dateFormat: String!,
+                $token: String!,
+                $from: ISO8601DateTime,
+                $till: ISO8601DateTime){
+                  ethereum(network: $network ){
+                    dexTrades(options:{asc: "date.date"}, date: {
+                      since: $from
+                      till: $till}
+                      baseCurrency: {is: $token}
+                    ) {
+                      date: date{
+                        date(format: $dateFormat)
                       }
+
+                          trades: countBigInt
+                          amount: baseAmount
+                          baseCurrency{symbol}
+                          contracts: countBigInt(uniq: smart_contracts)
+                          currencies: countBigInt(uniq: quote_currency)
+
                     }
-                  }`);
+                  }
+                }`);
 
-        new widgets.chartByTime('#trades_by_time', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.trades_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.trades') %>'
-                    }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#28a745' }
-                },
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.trades') %>', type: 'number' },
-                    path: 'trades'
-                },
+      new widgets.chartByTime('#trades_by_time', query, 'ethereum.dexTrades', {
+          title: '<%= t('widgets.headers.trades_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.trades') %>'
+                  }
+              },
+              seriesType: 'bars',
+              series: {
+                  '0': { color: '#28a745' }
+              },
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.trades') %>', type: 'number' },
+                  path: 'trades'
+              },
 
-            ]
-        });
+          ]
+      });
 
-        new widgets.chartByTime('#trade_amount_by_time', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.trade_amount_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= @token_info.symbol %>'
-                    }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#ffc107' }
-                },
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: '<%= t('widgets.titles.amount') %>',
-                    path: 'amount'
-                },
+      new widgets.chartByTime('#trade_amount_by_time', query, 'ethereum.dexTrades', {
+          title: '<%= t('widgets.headers.trade_amount_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= @token_info.symbol %>'
+                  }
+              },
+              seriesType: 'bars',
+              series: {
+                  '0': { color: '#ffc107' }
+              },
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: '<%= t('widgets.titles.amount') %>',
+                  path: 'amount'
+              },
 
-            ]
-        });
+          ]
+      });
 
-        new widgets.chartByTime('#unique_currencies_by_time', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.unique_currencies_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.currencies') %>'
-                    }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#28a745' }
-                },
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.currencies') %>', type: 'number' },
-                    path: 'currencies'
-                },
+      new widgets.chartByTime('#unique_currencies_by_time', query, 'ethereum.dexTrades', {
+          title: '<%= t('widgets.headers.unique_currencies_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.currencies') %>'
+                  }
+              },
+              seriesType: 'bars',
+              series: {
+                  '0': { color: '#28a745' }
+              },
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.currencies') %>', type: 'number' },
+                  path: 'currencies'
+              },
 
-            ]
-        });
+          ]
+      });
 
-        new widgets.chartByTime('#unique_dex_smart_contracts_by_time', query, 'ethereum.dexTrades', {
-            title: '<%= t('widgets.headers.unique_dex_smart_contracts_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.uniq_contracts') %>'
-                    }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#ffc107' }
-                },
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.uniq_contracts') %>', type: 'number' },
-                    path: 'contracts'
-                },
+      new widgets.chartByTime('#unique_dex_smart_contracts_by_time', query, 'ethereum.dexTrades', {
+          title: '<%= t('widgets.headers.unique_dex_smart_contracts_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.uniq_contracts') %>'
+                  }
+              },
+              seriesType: 'bars',
+              series: {
+                  '0': { color: '#ffc107' }
+              },
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.uniq_contracts') %>', type: 'number' },
+                  path: 'contracts'
+              },
 
-            ]
-        });
+          ]
+      });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            token: '<%= @address %>'
-        });
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+          network: '<%= params['network']['network'] %>',
+          token: '<%= @address %>'
+      });
 
 
-    });
+  });
 </script>

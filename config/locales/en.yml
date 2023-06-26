@@ -241,6 +241,11 @@ en:
         title: "%{address} Offers | %{network}"
         description: "%{network} Offers created by address %{address}"
         keywords: "%{address} Offers, %{network} Offers, %{network} Offers owner, %{network} Offers admin"
+      nftoken_offers:
+        name: "NFToken Offers"
+        title: "%{address} NFToken Offers | %{network}"
+        description: "%{network} NFToken Offers created by address %{address}"
+        keywords: "%{address} NFToken Offers, %{network} NFToken Offers, %{network} NFToken Offers owner, %{network} NFToken Offers admin"
       inflow:
         name: 'Inflow'
         title: "%{network} recieved by %{address}"
@@ -769,6 +774,12 @@ en:
         title: "Offers %{network} %{hash}"
         description: "Offers in transaction %{hash} in %{network}"
         keywords: "%{network} Offers, %{network} transaction value"
+
+      nftoken_offers:
+        name: 'NFToken Offers'
+        title: "NFToken Offers %{network} %{hash}"
+        description: "NFToken Offers in transaction %{hash} in %{network}"
+        keywords: "%{network} NFToken Offers, %{network} transaction value"
       contracts:
         name: "Contracts"
         title: "Contracts %{network} %{hash}"
@@ -2264,6 +2275,9 @@ en:
       memo: "Memo"
       account: "Account"
       accounts: "Accounts"
+      from_account: "From"
+      nft_symbol: 'NFT Symbol'
+      destination_account: "Destination"
       account_summery: "Account Summery"
       accounts_count: "Count of Accounts"
       payer: "Payer"
