@@ -54,6 +54,11 @@ import renderDexProtocolLink from '../component/rendering/renderDexProtocolLink'
 import renderJustAddressLink from '../component/rendering/renderJustAddressLink';
 import renderBlockLink from '../component/rendering/renderBlockLink';
 import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieverIcon';
+const Datafeeds = require("packs/datafeeds/bundle")
+const TradingView = require("packs/charting_library/charting_library")
+
+global.Datafeeds = Datafeeds;
+global.TradingView = TradingView;
 
 global.serialize = serialize;
 global.createClient = createClient;

@@ -21,7 +21,7 @@ export default class TradingGraphsComponent {
     this.widget = new TradingView.widget({
       container: this.container,
       locale: 'en',
-      library_path: '/assets/charting_library/',
+      library_path: '/charting_library/',
       width: 900,
       height: 600,
       datafeed: {
