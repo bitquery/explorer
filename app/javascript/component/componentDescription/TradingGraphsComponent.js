@@ -22,8 +22,8 @@ export default class TradingGraphsComponent {
       container: this.container,
       locale: 'en',
       library_path: '/assets/charting_library/',
-      width: 800,
-      height: 500,
+      width: 900,
+      height: 600,
       datafeed: {
         onReady: callback => {
           console.log('[onReady]: Method call');
@@ -45,7 +45,7 @@ export default class TradingGraphsComponent {
               has_daily: true,
               has_ticks: true,
               minmov: 1,
-              pricescale: 10000,
+              pricescale: 100000,
               has_empty_bars: true,
               data_status: 'streaming',
             };
@@ -116,15 +116,16 @@ export default class TradingGraphsComponent {
       symbol: this.symbol,
       interval: this.config.interval, //add variable
       time_frames: [
-        { text: "1y", resolution: "15", description: "1 Year",},
-        {text: '8m', resolution: '15', description: '8 Month'},
-        {text: '3d', resolution: '15', description: '3 Days'},
+        // { text: "1y", resolution: "1M", description: "1 Year",},
+        {text: '8m', resolution: '1W', description: '8 Month'},
+        {text: '1w', resolution: '60', description: '1 Week'},
+        {text: '3d', resolution: '60', description: '3 Days'},
         {text: '1d', resolution: '15', description: '1 day'},
       ],
-      header_widget_buttons_mode: 'compact',
-      disabled_features: ['go_to_date','main_series_scale_menu','control_bar','scales_date_format','header_symbol_search','header_compare', 'compare_symbol_search_spread_operators'],
+      // header_widget_buttons_mode: 'compact',
+      disabled_features: ['go_to_date','main_series_scale_menu','control_bar','header_symbol_search','header_compare'],
       time_scale: {
-        min_bar_spacing: 20,
+        min_bar_spacing: 40,
       },
       fullscreen: false,
       debug: true,
@@ -201,8 +202,8 @@ getBitqueryData(data) {
       time: new Date(item.Block.Time).getTime(),
       low: item.Trade.low,
       high: item.Trade.high,
-      open: item.Trade.open,
-      // open: previousClose,
+      // open: item.Trade.open,
+      open: previousClose,
       close: item.Trade.close,
       volume: parseFloat(item.volume),
     };
