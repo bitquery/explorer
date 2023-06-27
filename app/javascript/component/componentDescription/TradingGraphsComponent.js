@@ -15,13 +15,14 @@ export default class TradingGraphsComponent {
       supports_marks: false,
       supports_timescale_marks: false,
       supports_time: true,
-      supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
+      supported_resolutions: ['15'],
+      // supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
     };
     this.widget = new TradingView.widget({
       container: this.container,
       locale: 'en',
       library_path: '/assets/charting_library/',
-      width: 700,
+      width: 800,
       height: 500,
       datafeed: {
         onReady: callback => {
@@ -105,19 +106,19 @@ export default class TradingGraphsComponent {
         unsubscribeBars: subscriberUID => {
           console.log('subscriberUID', subscriberUID);
           console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-          // if (this.lastBar !== null) {
-          //   clearInterval(this.lastBar);
-          //   this.lastBar = null;
-          //   this.lastData = null;
-          // }
+          if (this.lastBar !== null) {
+            clearInterval(this.lastBar);
+            this.lastBar = null;
+            this.lastData = null;
+          }
         },
       },
       symbol: this.symbol,
       interval: this.config.interval, //add variable
       time_frames: [
-        // { text: "1y", resolution: "1W", description: "1 Year",},
-        {text: '8m', resolution: '1D', description: '8 Month'},
-        {text: '3d', resolution: '60', description: '3 Days'},
+        { text: "1y", resolution: "15", description: "1 Year",},
+        {text: '8m', resolution: '15', description: '8 Month'},
+        {text: '3d', resolution: '15', description: '3 Days'},
         {text: '1d', resolution: '15', description: '1 day'},
       ],
       header_widget_buttons_mode: 'compact',
@@ -162,24 +163,54 @@ export default class TradingGraphsComponent {
 
     return {time, open, high, low, close, volume};
   }
+//   changeInterval(newInterval) {
+//   this.config.interval = newInterval;
 
-  getBitqueryData(data) {
-    const tradeBlock = this.config.topElement(data);
-    const resultData = tradeBlock.map((item, index) => {
-      const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
-      return {
-        time: new Date(item.Block.Time).getTime(),
-        low: item.Trade.low,
-        high: item.Trade.high,
-        open: item.Trade.open,
-        // open: previousClose,
-        close: item.Trade.close,
-        volume: parseFloat(item.volume),
-      };
-    });
+//   let newAllData = [];
 
-    console.log('resultData', resultData);
+//   for(let i = 0; i < this.allData.length; i += this.config.interval) {
+//     let intervalData = [];
+//     for(let j = 0; j < this.config.interval && (i+j) < this.allData.length; j++) {
+//       intervalData.push(this.allData[i+j]);
+//     }
 
-    return resultData;
-  }
+//     let bar = this.create15MinuteBar(intervalData);
+    
+//     newAllData.push(bar);
+//   }
+
+//   this.allData = newAllData;
+
+//   if(this.widget) {
+//       this.initWidget(symbolName);
+
+//   }
+// }
+
+
+getBitqueryData(data) {
+  let tradeBlock = this.config.topElement(data);
+
+  tradeBlock = tradeBlock.sort((a, b) => {
+    return new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime();
+  });
+
+  const resultData = tradeBlock.map((item, index) => {
+    const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
+    return {
+      time: new Date(item.Block.Time).getTime(),
+      low: item.Trade.low,
+      high: item.Trade.high,
+      open: item.Trade.open,
+      // open: previousClose,
+      close: item.Trade.close,
+      volume: parseFloat(item.volume),
+    };
+  });
+
+  console.log('resultData', resultData);
+
+  return resultData;
+}
+
 }
