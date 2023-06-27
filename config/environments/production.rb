@@ -112,7 +112,8 @@ Rails.application.configure do
 
   BITQUERY_LOGGER_CONFIG = {
     output: :stdout_json,
-    stdout_log_level: 1
+    stdout_log_level: 0,
+    log_level: 0
   }
 
   # Lograge config
