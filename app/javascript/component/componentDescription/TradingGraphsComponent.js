@@ -15,49 +15,50 @@ export default class TradingGraphsComponent {
       supports_marks: false,
       supports_timescale_marks: false,
       supports_time: true,
-      supported_resolutions: ['15'],
-      // supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
+      supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
+      intraday_multipliers: ['15'],
     };
     this.widget = new TradingView.widget({
       container: this.container,
       locale: 'en',
       library_path: '/charting_library/',
-      width: 900,
+      width: 1000,
       height: 600,
       datafeed: {
         onReady: callback => {
-          console.log('[onReady]: Method call');
+          // console.log('[onReady]: Method call');
           setTimeout(() => callback(configurationData));
         },
         resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback, extension) => {
-          console.log('[resolveSymbol]: Method call', symbolName);
+          // console.log('[resolveSymbol]: Method call', symbolName);
           const splitSymbol = symbolName.split(/[:/]/);
           setTimeout(() => {
             const symbolInfo = {
               name: symbolName,
-              description: symbolName,
+              description: '',
               session: '24x7',
               timezone: 'Etc/UTC',
-              exchange: splitSymbol[0],
-              listed_exchange: splitSymbol[0],
+              // exchange: splitSymbol[0],
+              // listed_exchange: splitSymbol[0],
               has_intraday: true,
               has_seconds: true,
               has_daily: true,
               has_ticks: true,
               minmov: 1,
-              pricescale: 100000,
+              pricescale: 1000000,
               has_empty_bars: true,
               data_status: 'streaming',
+              
             };
             onSymbolResolvedCallback(symbolInfo);
           }, 0);
         },
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-          console.log('[getBars]: Method call', symbolInfo);
-          console.log('periodParams', periodParams);
+          // console.log('[getBars]: Method call', symbolInfo);
+          // console.log('periodParams', periodParams);
           const arr = this.allData;
           let bars = [];
-          console.log('arr', arr);
+          // console.log('arr', arr);
           arr.forEach(bar => {
             if (bar.time / 1000 >= periodParams.from && bar.time / 1000 < periodParams.to) {
               bars = [
@@ -73,11 +74,11 @@ export default class TradingGraphsComponent {
               ];
             }
           });
-          console.log('bars', bars);
+          // console.log('bars', bars);
           bars.length > 0 ? onHistoryCallback(bars, {noData: false}) : onHistoryCallback([], {noData: true});
         },
         subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-          console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
+          // console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
 
           this.lastBar = setInterval(() => {
             const latestData = this.allData[this.allData.length - 1];
@@ -104,8 +105,8 @@ export default class TradingGraphsComponent {
         },
 
         unsubscribeBars: subscriberUID => {
-          console.log('subscriberUID', subscriberUID);
-          console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+          // console.log('subscriberUID', subscriberUID);
+          // console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
           if (this.lastBar !== null) {
             clearInterval(this.lastBar);
             this.lastBar = null;
@@ -114,21 +115,11 @@ export default class TradingGraphsComponent {
         },
       },
       symbol: this.symbol,
-      interval: this.config.interval, //add variable
-      time_frames: [
-        // { text: "1y", resolution: "1M", description: "1 Year",},
-        {text: '8m', resolution: '1W', description: '8 Month'},
-        {text: '1w', resolution: '60', description: '1 Week'},
-        {text: '3d', resolution: '60', description: '3 Days'},
-        {text: '1d', resolution: '15', description: '1 day'},
-      ],
-      // header_widget_buttons_mode: 'compact',
-      disabled_features: ['go_to_date','main_series_scale_menu','control_bar','header_symbol_search','header_compare'],
-      time_scale: {
-        min_bar_spacing: 40,
-      },
+      interval: this.config.interval, 
+      disabled_features: ['header_symbol_search','header_compare'],
       fullscreen: false,
-      debug: true,
+      // autosize: true,
+      debug: false,
     });
   }
 
@@ -164,29 +155,7 @@ export default class TradingGraphsComponent {
 
     return {time, open, high, low, close, volume};
   }
-//   changeInterval(newInterval) {
-//   this.config.interval = newInterval;
 
-//   let newAllData = [];
-
-//   for(let i = 0; i < this.allData.length; i += this.config.interval) {
-//     let intervalData = [];
-//     for(let j = 0; j < this.config.interval && (i+j) < this.allData.length; j++) {
-//       intervalData.push(this.allData[i+j]);
-//     }
-
-//     let bar = this.create15MinuteBar(intervalData);
-    
-//     newAllData.push(bar);
-//   }
-
-//   this.allData = newAllData;
-
-//   if(this.widget) {
-//       this.initWidget(symbolName);
-
-//   }
-// }
 
 
 getBitqueryData(data) {
@@ -209,7 +178,7 @@ getBitqueryData(data) {
     };
   });
 
-  console.log('resultData', resultData);
+  // console.log('resultData', resultData);
 
   return resultData;
 }
