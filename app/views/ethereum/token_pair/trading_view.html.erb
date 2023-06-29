@@ -11,18 +11,29 @@
             chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
             token1: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol},//'OCC/WETH'
             token2: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol} ,
-            interval: '15',
+            interval:'15',
         }
     }
   }
 
+
+
+  //OHLC-by-intervalschange-interval-for-test   "interval": 15,
+
+  const till = new Date().toISOString().slice(0, 10);
+  const tillDate = new Date(till);
+  const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate());
+  const from = fromDate.toISOString().slice(0, 10);
+
+
   const variables = {
+    interval:15,
     network:'<%= @streaming%>',
     baseCurrency: '<%= @token1 %>',
     quoteCurrency: '<%= @token2 %>',
-    till: new Date().toISOString().slice(0,10),
-    from: '2023-04-01'
+    till: till,
+    from: from
   }
-  // console.log('variables',variables)
-    renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1_1',variables,'OHLC-by-intervals_1_1_1_1_1_1_1_1_1_1_1_1_1');
+
+  renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1_1',variables,'OHLC-by-intervalschange-interval-for-test');
 </script>

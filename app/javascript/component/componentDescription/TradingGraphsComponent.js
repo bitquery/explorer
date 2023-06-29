@@ -9,21 +9,29 @@ export default class TradingGraphsComponent {
     this.allData = [];
     this.widget = null;
     this.minuteBars = [];
+    this.wrapper = document.createElement('div')
   }
   initWidget(symbolName) {
     const configurationData = {
       supports_marks: false,
       supports_timescale_marks: false,
       supports_time: true,
-      supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
+      // supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
+      supported_resolutions: [ '15'],
       intraday_multipliers: ['15'],
     };
     this.widget = new TradingView.widget({
-      container: this.container,
+      container:  this.wrapper,
       locale: 'en',
       library_path: '/charting_library/',
-      width: 1000,
-      height: 600,
+      // width: 1000,
+      // height: 600,
+      time_frames: [
+        {text: '3m', resolution: '15', description: 'All'},
+        {text: '1m', resolution: '15', description: '1 Month'},
+        {text: '1w', resolution: '15', description: '1 week'},
+        {text: '1d', resolution: '15', description: '1 day'},
+      ],
       datafeed: {
         onReady: callback => {
           // console.log('[onReady]: Method call');
@@ -56,6 +64,7 @@ export default class TradingGraphsComponent {
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
           // console.log('[getBars]: Method call', symbolInfo);
           // console.log('periodParams', periodParams);
+    
           const arr = this.allData;
           let bars = [];
           // console.log('arr', arr);
@@ -85,7 +94,6 @@ export default class TradingGraphsComponent {
 
             if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
               this.lastData = latestData;
-
               const currentCandle = {
                 time: latestData.time,
                 open: latestData.open,
@@ -118,15 +126,18 @@ export default class TradingGraphsComponent {
       interval: this.config.interval, 
       disabled_features: ['header_symbol_search','header_compare'],
       fullscreen: false,
-      // autosize: true,
+      autosize: true,
       debug: false,
     });
   }
 
   onData(data, sub) {
     const symbolName = data.symbol;
+    
     this.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`;
     if (this.widget === null) {
+      this.wrapper.style.height = '600px'
+      this.container.appendChild(this.wrapper) 
       this.initWidget(symbolName);
     }
     const newData = this.getBitqueryData(data);
