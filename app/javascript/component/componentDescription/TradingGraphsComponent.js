@@ -16,29 +16,24 @@ export default class TradingGraphsComponent {
       supports_marks: false,
       supports_timescale_marks: false,
       supports_time: true,
-      // supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
-      supported_resolutions: [ '15'],
-      intraday_multipliers: ['15'],
+      supported_resolutions: [ this.config.interval],
+      intraday_multipliers: [this.config.interval],
     };
     this.widget = new TradingView.widget({
       container:  this.wrapper,
       locale: 'en',
       library_path: '/charting_library/',
-      // width: 1000,
-      // height: 600,
       time_frames: [
-        {text: '3m', resolution: '15', description: 'All'},
-        {text: '1m', resolution: '15', description: '1 Month'},
-        {text: '1w', resolution: '15', description: '1 week'},
-        {text: '1d', resolution: '15', description: '1 day'},
+        {text: '3m', resolution: this.config.interval, description: '3 month'},
+        {text: '1m', resolution: this.config.interval, description: '1 month'},
+        {text: '1w', resolution: this.config.interval, description: '1 week'},
+        {text: '1d', resolution: this.config.interval, description: '1 day'},
       ],
       datafeed: {
         onReady: callback => {
-          // console.log('[onReady]: Method call');
           setTimeout(() => callback(configurationData));
         },
         resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback, extension) => {
-          // console.log('[resolveSymbol]: Method call', symbolName);
           const splitSymbol = symbolName.split(/[:/]/);
           setTimeout(() => {
             const symbolInfo = {
@@ -46,8 +41,6 @@ export default class TradingGraphsComponent {
               description: '',
               session: '24x7',
               timezone: 'Etc/UTC',
-              // exchange: splitSymbol[0],
-              // listed_exchange: splitSymbol[0],
               has_intraday: true,
               has_seconds: true,
               has_daily: true,
@@ -62,12 +55,8 @@ export default class TradingGraphsComponent {
           }, 0);
         },
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-          // console.log('[getBars]: Method call', symbolInfo);
-          // console.log('periodParams', periodParams);
-    
           const arr = this.allData;
           let bars = [];
-          // console.log('arr', arr);
           arr.forEach(bar => {
             if (bar.time / 1000 >= periodParams.from && bar.time / 1000 < periodParams.to) {
               bars = [
@@ -83,15 +72,11 @@ export default class TradingGraphsComponent {
               ];
             }
           });
-          // console.log('bars', bars);
           bars.length > 0 ? onHistoryCallback(bars, {noData: false}) : onHistoryCallback([], {noData: true});
         },
         subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-          // console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
-
           this.lastBar = setInterval(() => {
             const latestData = this.allData[this.allData.length - 1];
-
             if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
               this.lastData = latestData;
               const currentCandle = {
@@ -106,15 +91,12 @@ export default class TradingGraphsComponent {
               if (this.allData.length > 1 && this.allData[this.allData.length - 2].time === latestData.time) {
                 this.allData[this.allData.length - 2] = currentCandle;
               }
-
               onRealtimeCallback(currentCandle);
             }
           }, 1000);
         },
 
         unsubscribeBars: subscriberUID => {
-          // console.log('subscriberUID', subscriberUID);
-          // console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
           if (this.lastBar !== null) {
             clearInterval(this.lastBar);
             this.lastBar = null;
@@ -127,13 +109,12 @@ export default class TradingGraphsComponent {
       disabled_features: ['header_symbol_search','header_compare'],
       fullscreen: false,
       autosize: true,
-      debug: false,
+      debug: true,
     });
   }
 
   onData(data, sub) {
     const symbolName = data.symbol;
-    
     this.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`;
     if (this.widget === null) {
       this.wrapper.style.height = '600px'
@@ -141,7 +122,6 @@ export default class TradingGraphsComponent {
       this.initWidget(symbolName);
     }
     const newData = this.getBitqueryData(data);
-
     if (newData.length > 1) {
       this.allData = newData;
     } else if (newData.length === 1) {
@@ -167,31 +147,27 @@ export default class TradingGraphsComponent {
     return {time, open, high, low, close, volume};
   }
 
+  getBitqueryData(data) {
+    let tradeBlock = this.config.topElement(data);
 
+    tradeBlock = tradeBlock.sort((a, b) => {
+      return new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime();
+    });
 
-getBitqueryData(data) {
-  let tradeBlock = this.config.topElement(data);
+    const resultData = tradeBlock.map((item, index) => {
+      const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
+      return {
+        time: new Date(item.Block.Time).getTime(),
+        low: item.Trade.low,
+        high: item.Trade.high,
+        // open: item.Trade.open,
+        open: previousClose,
+        close: item.Trade.close,
+        volume: parseFloat(item.volume),
+      };
+    });
 
-  tradeBlock = tradeBlock.sort((a, b) => {
-    return new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime();
-  });
-
-  const resultData = tradeBlock.map((item, index) => {
-    const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
-    return {
-      time: new Date(item.Block.Time).getTime(),
-      low: item.Trade.low,
-      high: item.Trade.high,
-      // open: item.Trade.open,
-      open: previousClose,
-      close: item.Trade.close,
-      volume: parseFloat(item.volume),
-    };
-  });
-
-  // console.log('resultData', resultData);
-
-  return resultData;
-}
+    return resultData;
+  }
 
 }
