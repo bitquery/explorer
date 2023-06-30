@@ -1,8 +1,36 @@
-<div id="pair-trading-view"><%=@currencies %></div>
-<script type="text/javascript" charset="utf-8">
-    createDashboard('trading-view-dashboard', 'pair-trading-view', {
-        baseAddress: '<%=@token1 %>',
-        quoteAddress: '<%=@token2 %>',
-        network: '<%= params['network']['network'] %>'
-    })
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4" >
+    <div id="OHLC-by-intervals-Graph" class="card" ></div>
+  </div>
+</div>
+<script>
+  const till = new Date().toISOString().slice(0, 10);
+  const tillDate = new Date(till);
+  const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate()); //change here data for more date
+  const from = fromDate.toISOString().slice(0, 10);
+
+  const variables = {
+  interval: 15,   //change here for new data
+  network:'<%= @streaming%>',
+  baseCurrency: '<%= @token1 %>',
+  quoteCurrency: '<%= @token2 %>',
+  till: till,
+  from: from
+  }
+
+  class OHLCbyIntervalsGraph extends TradingGraphsComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTradeByTokens},
+            chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
+            token1: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol},//'OCC/WETH'
+            token2: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol} ,
+            interval:variables.interval,
+        }
+    }
+  }
+
+
+
+  renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1_1',variables,'OHLC-by-intervalschange-interval-for-test');
 </script>

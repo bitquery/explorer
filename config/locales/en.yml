@@ -241,6 +241,11 @@ en:
         title: "%{address} Offers | %{network}"
         description: "%{network} Offers created by address %{address}"
         keywords: "%{address} Offers, %{network} Offers, %{network} Offers owner, %{network} Offers admin"
+      nftoken_offers:
+        name: "NFToken Offers"
+        title: "%{address} NFToken Offers | %{network}"
+        description: "%{network} NFToken Offers created by address %{address}"
+        keywords: "%{address} NFToken Offers, %{network} NFToken Offers, %{network} NFToken Offers owner, %{network} NFToken Offers admin"
       inflow:
         name: 'Inflow'
         title: "%{network} recieved by %{address}"
@@ -422,6 +427,11 @@ en:
         title: "%{network} NFT ID"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFT, Id"
+      trading:
+        name: "NFTs trading"
+        title: "%{network} NFTs trading"
+        description: "Trades on decentralized exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network} Trading"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
@@ -509,6 +519,7 @@ en:
         title: "%{network} DEX Trades"
         description: "Trades on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} DEX Trades"
+
         
     token_pair:
       icon: 'fas fa-coins text-warning'
@@ -763,6 +774,12 @@ en:
         title: "Offers %{network} %{hash}"
         description: "Offers in transaction %{hash} in %{network}"
         keywords: "%{network} Offers, %{network} transaction value"
+
+      nftoken_offers:
+        name: 'NFToken Offers'
+        title: "NFToken Offers %{network} %{hash}"
+        description: "NFToken Offers in transaction %{hash} in %{network}"
+        keywords: "%{network} NFToken Offers, %{network} transaction value"
       contracts:
         name: "Contracts"
         title: "Contracts %{network} %{hash}"
@@ -2258,6 +2275,9 @@ en:
       memo: "Memo"
       account: "Account"
       accounts: "Accounts"
+      from_account: "From"
+      nft_symbol: 'NFT Symbol'
+      destination_account: "Destination"
       account_summery: "Account Summery"
       accounts_count: "Count of Accounts"
       payer: "Payer"

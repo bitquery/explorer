@@ -9,7 +9,7 @@ class Bitcoin::SitemapController < NetworkController
 
                       txIndex: {is: 0}
                       outputDirection: {is: mining}
-                      outputScriptType: {notIn: [nulldata,nonstandard]}
+                      outputScriptType: {notIn: ["nulldata","nonstandard"]}
 
                     ) {
 

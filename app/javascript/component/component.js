@@ -191,6 +191,7 @@ export default async function renderComponent(component, selector, queryId, vari
 
     const componentObject = new component(compElement, queryVariables);
     const data = [];
+	data.push({ [WidgetConfig.name]: serialize(WidgetConfig) })
     function getBaseClass(targetClass) {
       data.push({[targetClass.name]: serialize(targetClass)});
       if (targetClass instanceof Function) {
@@ -242,6 +243,7 @@ export default async function renderComponent(component, selector, queryId, vari
       form.setAttribute('enctype', 'application/json');
       form.setAttribute('target', '_blank');
       form.appendChild(createHiddenField('data', JSON.stringify(data)));
+      form.appendChild(createHiddenField('variables', JSON.stringify(queryVariables)));
       form.appendChild(createHiddenField('url', queryId));
       document.body.appendChild(form);
       form.submit();

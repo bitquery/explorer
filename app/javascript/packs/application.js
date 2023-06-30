@@ -31,11 +31,11 @@ import Stomp from 'stompjs';
 import { Wallet } from './walletC';
 import { createClient, Client } from 'graphql-ws/lib/client';
 import serialize from 'serialize-javascript';
-import { graphQlQueryToJson } from 'graphql-query-to-json';
 import WidgetConfig from '../component/componentDescription/WidgetConfig';
 import BootstrapTableComponent from '../component/componentDescription/BootstrapTableComponent';
 import BootstrapCardComponent from '../component/componentDescription/BootstrapCardComponent';
 import GraphsComponent from '../component/componentDescription/GraphsComponent';
+import TradingGraphsComponent from '../component/componentDescription/TradingGraphsComponent';
 import BootstrapCardComponentTwoColumns from '../component/componentDescription/BootstrapCardComponentTwoColumns';
 import BootstrapVerticalTableComponent from '../component/componentDescription/BootstrapVerticalTableComponent';
 import TimeChartComponent from '../component/componentDescription/TimeChartComponent';
@@ -55,14 +55,19 @@ import renderDexProtocolLink from '../component/rendering/renderDexProtocolLink'
 import renderJustAddressLink from '../component/rendering/renderJustAddressLink';
 import renderBlockLink from '../component/rendering/renderBlockLink';
 import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieverIcon';
+const Datafeeds = require("packs/datafeeds/bundle")
+const TradingView = require("packs/charting_library/charting_library")
+
+global.Datafeeds = Datafeeds;
+global.TradingView = TradingView;
 
 global.serialize = serialize;
 global.createClient = createClient;
 global.createChart = createChart;
-global.graphQlQueryToJson = graphQlQueryToJson;
 global.WidgetConfig = WidgetConfig;
 global.BootstrapTableComponent = BootstrapTableComponent;
 global.GraphsComponent = GraphsComponent;
+global.TradingGraphsComponent = TradingGraphsComponent;
 global.TimeChartComponent = TimeChartComponent;
 global.PieChartComponent = PieChartComponent;
 global.BootstrapCardComponentTwoColumns = BootstrapCardComponentTwoColumns;
@@ -98,7 +103,6 @@ global.$ = $;
 global.vis = vis;
 global.numeral = numeral;
 global.m = moment;
-
 const chainName = {
   '0x1': 'Ethereum',
   '0xa': 'Optimism',
@@ -1069,3 +1073,11 @@ global.renderWithTime = function(variables={}, from, till, f){
 	rr.change(draw);
 }
 
+//   const intervalButton = document.getElementById('header-toolbar-intervals');
+//   if(intervalButton){
+//     const observer = new MutationObserver(function (mutationsList, observer) {
+//     console.log('==========================================');
+//     });
+//     const config = { attributes: true, childList: true, subtree: true };
+//     observer.observe(intervalButton, config);
+//   }

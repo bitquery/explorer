@@ -1,0 +1,146 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_nftoken_offers') %></div>
+      <div class="card-body">
+        <div id="latest_nftoken_offers"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+
+        var query = new widgets.query(`
+              query ($network: RippleNetwork!,
+                      $limit: Int!,
+                      $offset: Int!
+                      $from: ISO8601DateTime,
+                      $till: ISO8601DateTime,
+                      $hash: String!
+                    ){
+          ripple(network: $network){
+            nftokenOffers(
+                options:{asc: "timestamp.time", limit: $limit, offset: $offset},
+                date: {since: $from till: $till }
+                transactionHash: {is: $hash}
+              ) {
+                block
+                transaction {
+                  index
+                  type
+                }
+                timestamp {
+                  time(format: "%Y-%m-%d %H:%M:%S")
+                }
+                fromAccount {
+                  address
+                  annotation
+                }
+                destinationAccount{
+                  address
+                  annotation
+                }
+                nftokenCurrency {
+                  name
+                  symbol
+                }
+                currency {
+                  name
+                  symbol
+                }
+                nftokenAmount
+                nftoken_amount_usd: nftokenAmount(in: USD)
+                amount
+                amount_usd: amount(in: USD)
+                operation
+            }
+          }
+        }
+      `);
+
+        new widgets.table('#latest_nftoken_offers', query, 'ripple.nftokenOffers', {
+            title: '<%= t('widgets.headers.latest_nftoken_offers') %>',
+            dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.timestamp') %>',
+                  type: 'string',
+                  path: 'timestamp.time',
+                  style: 'width: 170px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.block') %>',
+                  type: 'string-ellipsis',
+                  path: 'block',
+                  urlCallbackName: 'height_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.tx_index') %>',
+                  type: 'string',
+                  path: 'transaction.index'
+              },
+              {
+                  title: '<%= t('widgets.titles.tx_type') %>',
+                  type: 'string',
+                  path: 'transaction.type'
+              },
+              {
+                  title: '<%= t('widgets.titles.from_account') %>',
+                  type: 'string-ellipsis',
+                  path: ['fromAccount.annotation', 'fromAccount.address'],
+                  urlCallbackName: 'from_account_address_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.destination_account') %>',
+                  type: 'string-ellipsis',
+                  path: ['destinationAccount.annotation', 'destinationAccount.address'],
+                  urlCallbackName: 'destination_account_address_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.amount') %>',
+                  type: 'amount',
+                  path: 'nftokenAmount'
+              },
+              {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.nftoken_amount_usd'} %>
+              },
+              {
+                  title: '<%= t('widgets.titles.nft_symbol') %>',
+                  type: 'string-ellipsis',
+                  path: 'nftokenCurrency.symbol',
+                  urlCallbackName: 'nftoken_currency_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.amount') %>',
+                  type: 'amount',
+                  path: 'amount'
+              },
+              {
+                  style: 'width: 80px;',
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_usd'} %>
+              },
+              {
+                  title: '<%= t('widgets.titles.currency') %>',
+                  type: 'string',
+                  path: 'currency.symbol',
+                  urlCallbackName: 'currency_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.operation') %>',
+                  type: 'string',
+                  path: 'operation'
+              },
+            ] 
+        });
+
+        query.request({
+            hash: '<%= @hash %>',
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+
+</script>
