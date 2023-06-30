@@ -166,8 +166,9 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
   };
 };
 
-export default async function renderComponent(component, selector, queryId, variables = {}, prePopulateId, api_key) {
+export default async function renderComponent(component, selector, queryId, variables = {}, prePopulateId,callback, api_key ) {
   document.querySelector(selector).textContent = '';
+
   const widgetFrame = createWidgetFrame(component, selector, queryId);
   let queryMetaData;
   try {
@@ -188,8 +189,16 @@ export default async function renderComponent(component, selector, queryId, vari
       ...JSON.parse(queryMetaData.variables),
       ...variables,
     };
-
+// function callback(allVariables, interval,component){
+// const variablesWithInterval = {
+//   ...variables,
+//   ...interval,
+// }
+//  const componentObject = new component(compElement, variablesWithInterval);
+// }
     const componentObject = new component(compElement, queryVariables);
+
+     callback() ///new interval from TradingGraphsComponent
     const data = [];
 	data.push({ [WidgetConfig.name]: serialize(WidgetConfig) })
     function getBaseClass(targetClass) {

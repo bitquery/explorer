@@ -10,14 +10,15 @@ export default class TradingGraphsComponent {
     this.widget = null;
     this.minuteBars = [];
     this.wrapper = document.createElement('div')
+
   }
   initWidget(symbolName) {
     const configurationData = {
       supports_marks: false,
       supports_timescale_marks: false,
       supports_time: true,
-      // supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
-      supported_resolutions: [ '15'],
+      supported_resolutions: ['1', '5', '15', '30', '60', 'D', '2D', '3D', 'W', '3W', 'M', '6M'],
+      // supported_resolutions: [ '15'],
       intraday_multipliers: ['15'],
     };
     this.widget = new TradingView.widget({
@@ -64,7 +65,7 @@ export default class TradingGraphsComponent {
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
           // console.log('[getBars]: Method call', symbolInfo);
           // console.log('periodParams', periodParams);
-    
+  
           const arr = this.allData;
           let bars = [];
           // console.log('arr', arr);
