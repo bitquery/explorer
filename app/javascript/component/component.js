@@ -166,7 +166,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
   };
 };
 
-export default async function renderComponent(component, selector, queryId, variables = {}, prePopulateId,callback, api_key ) {
+export default async function renderComponent(component, selector, queryId, variables = {}, prePopulateId, getNewDataForQuery, api_key) {
   document.querySelector(selector).textContent = '';
 
   const widgetFrame = createWidgetFrame(component, selector, queryId);
@@ -185,22 +185,36 @@ export default async function renderComponent(component, selector, queryId, vari
     widgetFrame.onloadmetadata(queryMetaData);
     const compElement = widgetFrame.frame;
     const query = queryMetaData.query.trim();
+
+    async function getNewDataForQuery(interval = '', from, till, limit = 9000) {
+      const addVariables = {
+        interval: interval,
+        till: till,
+        from: from,
+        limit: limit,
+      };
+      const queryVariables = {
+        ...JSON.parse(queryMetaData.variables),
+        ...variables,
+        ...addVariables,
+      };
+      console.log('*******************queryVariables', queryVariables);
+      if (query.startsWith('subscription')) {
+        await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
+        graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
+      } else {
+        await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
+      }
+    }
+
     const queryVariables = {
       ...JSON.parse(queryMetaData.variables),
       ...variables,
     };
-// function callback(allVariables, interval,component){
-// const variablesWithInterval = {
-//   ...variables,
-//   ...interval,
-// }
-//  const componentObject = new component(compElement, variablesWithInterval);
-// }
-    const componentObject = new component(compElement, queryVariables);
+    const componentObject = new component(compElement, queryVariables, getNewDataForQuery);
 
-     callback() ///new interval from TradingGraphsComponent
     const data = [];
-	data.push({ [WidgetConfig.name]: serialize(WidgetConfig) })
+    data.push({[WidgetConfig.name]: serialize(WidgetConfig)});
     function getBaseClass(targetClass) {
       data.push({[targetClass.name]: serialize(targetClass)});
       if (targetClass instanceof Function) {
@@ -259,6 +273,7 @@ export default async function renderComponent(component, selector, queryId, vari
       document.body.removeChild(form);
     };
     widgetFrame.onquerystarted();
+
     if (query.startsWith('subscription')) {
       await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
       graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
@@ -266,6 +281,21 @@ export default async function renderComponent(component, selector, queryId, vari
       await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
     }
     widgetFrame.onqueryend();
+    //    if(getNewDataForQuery){
+    //     const addVariables = getNewDataForQuery()
+    //     const changeVariables = {
+    //       ...queryVariables,
+    //       ...addVariables
+    //     }
+    //     console.log('changeVariables','changeVariables',changeVariables)
+    //   if (query.startsWith('subscription')) {
+    //   await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, changeVariables, prePopulateId, queryId, api_key);
+    //   graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, changeVariables, widgetFrame.onerror);
+    // } else {
+    //   await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, changeVariables, queryId, api_key);
+    // }
+    // widgetFrame.onqueryend();
+    //    }
   } catch (error) {
     widgetFrame.onerror(error);
   }

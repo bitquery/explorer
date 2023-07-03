@@ -30,11 +30,11 @@ export default class TradingGraphsComponent {
       time_frames: [
         { text: "1D", resolution: "15", description: "1 Day" },
         { text: "5D", resolution: "60", description: "5 Days" },
-        // { text: "1M", resolution: "D", description: "1 Month" },
+        { text: "1M", resolution: "D", description: "1 Month" },
         { text: "3M", resolution: "60", description: "3 Days" },
         { text: "6M", resolution: "W", description: "6 Months" },
         { text: "1Y", resolution: "M", description: "1 Year" },
-        // { text: "ALL", resolution: "6M", description: "All" },
+        { text: "ALL", resolution: "6M", description: "All" },
       ],
       datafeed: {
         onReady: callback => {
@@ -64,12 +64,11 @@ export default class TradingGraphsComponent {
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
           console.log('[getBars]: Method call', symbolInfo);
           console.log('periodParams', periodParams);
-          console.log('%%%%%%%%% resolution %%%%%%%%', resolution)
           this.interval = resolution
          
             const till = new Date().toISOString().slice(0, 10);
            const tillDate = new Date(till);
-         if(resolution === '1'){
+          if(resolution === '1'){
             const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth(), tillDate.getDate() - 5); 
             const from = fromDate.toISOString().slice(0, 10);
             const newData = await this.getNewDataForQuery(resolution, from, till)
@@ -86,24 +85,24 @@ export default class TradingGraphsComponent {
             const newData = await this.getNewDataForQuery(resolution, from, till)
           }
           if(resolution === '30'){
-             const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 6, tillDate.getDate()); 
+             const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 5, tillDate.getDate()); 
             const from = fromDate.toISOString().slice(0, 10);
             const newData = await this.getNewDataForQuery(resolution, from, till)
           }
           if(resolution === '60'){
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 13, tillDate.getDate()); 
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 6, tillDate.getDate()); 
             const from = fromDate.toISOString().slice(0, 10);
             const newData = await this.getNewDataForQuery(resolution, from, till)
           }
-          if(resolution === '1D'){
+          if(resolution === 'D'){
             const resolutionToMinutes = 1440
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 85, tillDate.getDate()); 
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 10, tillDate.getDate()); 
             const from = fromDate.toISOString().slice(0, 10);
             const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
           }
           if(resolution === '2D'){
            const  resolutionToMinutes = 2880
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 500, tillDate.getDate()); 
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 15, tillDate.getDate()); 
             const from = fromDate.toISOString().slice(0, 10);
             const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
           }
@@ -161,7 +160,7 @@ export default class TradingGraphsComponent {
           bars.length > 0 ? onHistoryCallback(bars, {noData: false}) : onHistoryCallback([], {noData: true});
         },
         subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-          setInterval(() => {
+          this.lastBar = setInterval(() => {
             const latestData = this.allData[this.allData.length - 1];
             if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
               this.lastData = latestData;
@@ -184,8 +183,7 @@ export default class TradingGraphsComponent {
 
         unsubscribeBars: subscriberUID => {
           // if (this.lastBar !== null) {
-            clearInterval(this.interval);
-
+            // clearInterval(this.lastBar);
           //   this.lastBar = null;
           //   this.lastData = null;
           // }
@@ -201,7 +199,7 @@ export default class TradingGraphsComponent {
   }
 
   onData(data, sub) {
-    console.log('this.interval',this.interval)
+    console.log('this.config.interval',this.interval)
     const symbolName = data.symbol;
     this.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`;
     if (this.widget === null) {
@@ -237,6 +235,7 @@ export default class TradingGraphsComponent {
 
   getBitqueryData(data) {
     let tradeBlock = this.config.topElement(data);
+console.log('$$$$$$$$$ tradeBlock',tradeBlock)
     tradeBlock = tradeBlock.sort((a, b) => {
       return new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime();
     });
