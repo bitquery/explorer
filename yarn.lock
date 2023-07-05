@@ -4829,6 +4829,11 @@ js-tokens@^4.0.0:
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
 
+js-treeview@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/js-treeview/-/js-treeview-1.1.5.tgz#adf4191e18a3a24c89ec56e3b71c798ad8a06fe8"
+  integrity sha512-PtOfvElB7KZL4O0aO3z7UY38G7ReMN74Y1iRSZPsOfyS+YGtVrHVTst+rwIy96PGoWQ2/7wEUOjjpSeYUj7+mg==
+
 js-yaml@^3.13.1, js-yaml@^3.14.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.14.1.tgz#dae812fdb3825fa306609a8717383c50c36a0537"

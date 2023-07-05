@@ -42,11 +42,12 @@
               name: 'ID', cell: function(row){ return {id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}}, rendering: renderIdLink
             },
             {
-              name: 'Last Transaction', cell: function(row){ return row.count},
+              name: 'Last Transaction', cell: function(row){ return row.Transaction.Hash},rendering: renderTX,
             },
             {
               name: 'Amount',  cell: function(row){ return row.amount},
             },
+
           ]
         }
     }
@@ -173,7 +174,7 @@
 
   const variables = {
     network:'<%= @streaming%>',
-    limit: 20,
+    // limit: 20,
     offset: 0,
     address: '<%= @address %>',
     token: '<%= @address %>',
@@ -181,7 +182,7 @@
   }
 
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(AddressHoldingNFT, "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1_1_1',variables);
+    renderComponent(AddressHoldingNFT, "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1_1_1_1',variables);
     renderComponent(OutcomingNFTTransfersByAddress, "#Outcoming-NFT-Transfers-By-Address",'Outcoming-NFT-Transfers-By-Address_1_1_1',variables);
     renderComponent(IncomingNFTTransfersByAddress, "#Incoming-NFT-Transfers-By-Address",'Incoming-NFT-Transfers-By-Address_1_1',variables);
     renderComponent(TradesNFTTokenAddressSeller, "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller_1_1_1',variables);

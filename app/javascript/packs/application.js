@@ -36,7 +36,6 @@ import BootstrapTableComponent from '../component/componentDescription/Bootstrap
 import BootstrapCardComponent from '../component/componentDescription/BootstrapCardComponent';
 import GraphsComponent from '../component/componentDescription/GraphsComponent';
 import TradingGraphsComponent from '../component/componentDescription/TradingGraphsComponent';
-import BootstrapCardComponentTwoColumns from '../component/componentDescription/BootstrapCardComponentTwoColumns';
 import BootstrapVerticalTableComponent from '../component/componentDescription/BootstrapVerticalTableComponent';
 import TimeChartComponent from '../component/componentDescription/TimeChartComponent';
 import PieChartComponent from '../component/componentDescription/PieChartComponent';
@@ -57,10 +56,11 @@ import renderBlockLink from '../component/rendering/renderBlockLink';
 import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieverIcon';
 const Datafeeds = require("packs/datafeeds/bundle")
 const TradingView = require("packs/charting_library/charting_library")
+const TreeView = require('js-treeview');
 
 global.Datafeeds = Datafeeds;
 global.TradingView = TradingView;
-
+global.TreeView = TreeView;
 global.serialize = serialize;
 global.createClient = createClient;
 global.createChart = createChart;
@@ -70,7 +70,6 @@ global.GraphsComponent = GraphsComponent;
 global.TradingGraphsComponent = TradingGraphsComponent;
 global.TimeChartComponent = TimeChartComponent;
 global.PieChartComponent = PieChartComponent;
-global.BootstrapCardComponentTwoColumns = BootstrapCardComponentTwoColumns;
 global.BootstrapCardComponent = BootstrapCardComponent;
 global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
 global.TreeComponent = TreeComponent;

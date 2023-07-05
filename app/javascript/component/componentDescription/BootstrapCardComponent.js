@@ -7,7 +7,10 @@ export default class BootstrapCardComponent {
 
     this.container.appendChild(this.wrapper);
   }
-
+ async clearData() {
+    await this.data;
+    this.wrapper.textContent=''
+  }
   createElementWithClasses(elementType, ...classes) {
     const element = document.createElement(elementType);
     element.classList.add(...classes);
@@ -46,7 +49,6 @@ export default class BootstrapCardComponent {
 
   async createCardSections(rowData) {
     const cardImg = this.createElementWithClasses('div', 'col-4');
-  // cardImg.style.maxHeight = '100%';
 
     for (const column of this.config.image) {
      if (column.rendering) {
@@ -55,7 +57,6 @@ export default class BootstrapCardComponent {
          const uriError = 'error'
          const imgElement = await column.rendering(uriError, this.variables, this.chainId);
        }
-      // imgElement.classList.add('row', 'no-gutters' ,'flex-grow-1');
       this.appendChildren(cardImg, imgElement);
     }
     }
@@ -70,7 +71,6 @@ export default class BootstrapCardComponent {
 
     for (const column of this.config.columns) {
       const tr = this.createElementWithClasses('tr');
-      
       const td1 = this.createElementWithClasses('td');
       const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
       textCell1.textContent = column.name;

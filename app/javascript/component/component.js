@@ -90,6 +90,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
   const widgetFrame = document.createElement('div');
   const tableFooter = document.createElement('div');
   const getAPIButton = document.createElement('a');
+  const showMoreButton = document.createElement('a');
   const loader = document.createElement('div');
   const blinkerWrapper = document.createElement('div');
   loader.classList.add('lds-dual-ring');
@@ -97,7 +98,13 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
   getAPIButton.setAttribute('role', 'button');
   getAPIButton.setAttribute('target', '_blank');
   getAPIButton.textContent = 'Get Streaming API';
-  tableFooter.style.textAlign = 'right';
+  showMoreButton.classList.add('more-link');
+  showMoreButton.textContent = 'Show more...';
+  showMoreButton.style.display = 'none';
+  showMoreButton.style.cursor = 'pointer';
+  tableFooter.style.display = 'flex';
+  tableFooter.style.justifyContent = 'end';
+  tableFooter.appendChild(showMoreButton);
   tableFooter.appendChild(getAPIButton);
   widgetHeader.classList.add('card-header');
   row.classList.add('row');
@@ -159,6 +166,7 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
   return {
     frame: widgetFrame,
     button: getAPIButton,
+    button2: showMoreButton,
     onloadmetadata,
     onquerystarted,
     onqueryend,
@@ -168,7 +176,6 @@ const createWidgetFrame = (componentClass, selector, queryId) => {
 
 export default async function renderComponent(component, selector, queryId, variables = {}, prePopulateId, getNewDataForQuery, api_key) {
   document.querySelector(selector).textContent = '';
-
   const widgetFrame = createWidgetFrame(component, selector, queryId);
   let queryMetaData;
   try {
@@ -186,7 +193,9 @@ export default async function renderComponent(component, selector, queryId, vari
     const compElement = widgetFrame.frame;
     const query = queryMetaData.query.trim();
 
-    async function getNewDataForQuery(interval = '', from, till, limit = 9000) {
+    async function getNewDataForQuery(interval = '', from, till, limit = 9990) {
+      widgetFrame.button2.style.display = 'none'
+
       const addVariables = {
         interval: interval,
         till: till,
@@ -198,7 +207,9 @@ export default async function renderComponent(component, selector, queryId, vari
         ...variables,
         ...addVariables,
       };
-      console.log('*******************queryVariables', queryVariables);
+
+
+      // console.log('*******************queryVariables', queryVariables);
       if (query.startsWith('subscription')) {
         await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
         graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
@@ -207,12 +218,34 @@ export default async function renderComponent(component, selector, queryId, vari
       }
     }
 
+    async function getNewLimitForShowMoreButton() {
+      widgetFrame.onquerystarted();
+      queryVariables.limit += 10
+      console.log('queryVariables.limit',queryVariables.limit)
+      componentObject.clearData();
+      if (query.startsWith('subscription')) {
+        await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
+        graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
+      } else {
+        await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
+      }
+    widgetFrame.onqueryend();
+    }
+
     const queryVariables = {
       ...JSON.parse(queryMetaData.variables),
       ...variables,
     };
-    const componentObject = new component(compElement, queryVariables, getNewDataForQuery);
+    if (Object.getPrototypeOf(component) === BootstrapTableComponent || Object.getPrototypeOf(component) === BootstrapCardComponent){
+      widgetFrame.button2.parentNode.style.justifyContent = 'space-between';
+      widgetFrame.button2.style.display = 'block'
+      if(query.startsWith('subscription')){
+      widgetFrame.button2.style.display = 'none'
+      widgetFrame.button2.parentNode.style.justifyContent = 'end';
 
+      }
+    }
+    const componentObject = new component(compElement, queryVariables, getNewDataForQuery);
     const data = [];
     data.push({[WidgetConfig.name]: serialize(WidgetConfig)});
     function getBaseClass(targetClass) {
@@ -274,6 +307,9 @@ export default async function renderComponent(component, selector, queryId, vari
     };
     widgetFrame.onquerystarted();
 
+    widgetFrame.button2.onclick =()=> getNewLimitForShowMoreButton()
+
+
     if (query.startsWith('subscription')) {
       await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
       graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
@@ -281,21 +317,6 @@ export default async function renderComponent(component, selector, queryId, vari
       await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
     }
     widgetFrame.onqueryend();
-    //    if(getNewDataForQuery){
-    //     const addVariables = getNewDataForQuery()
-    //     const changeVariables = {
-    //       ...queryVariables,
-    //       ...addVariables
-    //     }
-    //     console.log('changeVariables','changeVariables',changeVariables)
-    //   if (query.startsWith('subscription')) {
-    //   await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, changeVariables, prePopulateId, queryId, api_key);
-    //   graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, changeVariables, widgetFrame.onerror);
-    // } else {
-    //   await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, changeVariables, queryId, api_key);
-    // }
-    // widgetFrame.onqueryend();
-    //    }
   } catch (error) {
     widgetFrame.onerror(error);
   }

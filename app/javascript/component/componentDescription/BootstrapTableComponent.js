@@ -5,8 +5,12 @@ export default class BootstrapTableComponent {
     this.variables = variables;
     this.createWrapper();
     this.createTable();
+    this.data = null;
   }
-
+ async clearData() {
+    await this.data;
+    this.tbody.textContent=''
+  }
   createWrapper() {
     this.wrapper = this.createElementWithClasses('div', 'table-responsive-md');
     this.appendChildren(this.container, this.wrapper);
@@ -46,14 +50,14 @@ export default class BootstrapTableComponent {
   }
 
   async onData(data, sub) {
-    const array = this.config.topElement(data);
+     this.data = this.config.topElement(data);
     let chainId=''
-    if(array.length > 0){
+    if(this.data.length > 0){
        chainId =  this.config.chainId(data)
     }
     const maxRows = 15;
 
-    for (const rowData of array) {
+    for (const rowData of this.data) {
       const tr = this.createElementWithClasses('tr');
 
       for (const column of this.config.columns) {
