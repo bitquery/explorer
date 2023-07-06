@@ -57,7 +57,7 @@ if (url === null || url === 'error' || url.length <= 1) {
   const createImageElement = (src) => {
     const img = document.createElement('img');
     img.id = 'imgFromCard'
-    img.setAttribute('onerror', 'this.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU"')
+    img.setAttribute('onerror', 'this.src="/assets/no-images.jpeg"')
     img.src = src;
     img.style.width = '100%';
     img.style.cursor = 'pointer';
@@ -104,7 +104,7 @@ const appendMediaElement = (container, mediaURL, preprocessedURI, uri) => {
 
 
   const handleFetchError = (container,preprocessedURI) => {
-    const img = createImageElement("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU");
+    const img = createImageElement("/assets/no-images.jpeg");
     img.style.cursor ='default'
     const button = createButton(preprocessedURI);
     container.appendChild(img);
