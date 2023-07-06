@@ -1,0 +1,21 @@
+<div class="row">
+ <%= render partial: 'ethereum_streaming/address/total_address_stats' %>
+  <%= render partial: 'ethereum_streaming/address/balance' %>
+</div>
+
+<div class="row">
+<%= render partial: "ethereum_streaming/address/outbound_native_by_time" %>
+<%= render partial: "ethereum_streaming/address/inbound_native_by_time" %>
+</div>
+
+<%= render partial: 'ethereum_streaming/address/transactions_by_time' %>
+
+<div class="row">
+  <%= render partial: 'ethereum_streaming/address/in_out_transfers_by_time' %>
+  <%= render partial: 'ethereum_streaming/address/calls_by_time' %>
+</div>
+
+<div class="row">
+  <%= render partial: 'ethereum_streaming/address/currencies_table' %>
+</div>
+

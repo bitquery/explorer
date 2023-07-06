@@ -1,0 +1,7 @@
+<% unless @native_token %>
+<%= render partial: 'arbitrum/token/receivers' %>
+<% end %>
+
+<div class="row">
+  <%= render partial: 'arbitrum/token/receivers_by_time' %>
+</div>

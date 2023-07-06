@@ -1,0 +1,73 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+      <div class="card-header">
+        <% if @token_info && @token_info.name && @token_info.symbol %>
+          <%= t('widgets.headers.max_token_transfers_by_time_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+        <% else %>
+          <%= t('widgets.headers.max_token_transfers_by_time') %>
+        <% end %>
+      </div>
+    <div class="card-body">
+      <div id="max_token_transfers_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                              $token: String!,
+                              $dateFormat: String!,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                          ethereum(network: $network){
+                            transfers(currency: {is: $token}
+                            height:{gt: 0}
+                            date: {since: $from till: $till}){
+                              date{
+                                date(format: $dateFormat)
+                              }
+
+                              max_amount: maximum(of: amount, get: amount)
+
+                            }
+                          }
+                        }`);
+
+        new widgets.chartByTime('#max_token_transfers_by_time', query, 'arbitrum.transfers', {
+            title: '<%= t('widgets.headers.max_token_transfers_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.max_amount') %>'
+                    },
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#ffc107', targetAxisIndex: 0 },
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.max_amount') %>',
+                    path: 'max_amount',
+                    type: 'float'
+                }
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            token: '<%= @address %>'
+        });
+
+
+    });
+</script>

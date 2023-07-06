@@ -1,0 +1,173 @@
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.calls_by_time') %></div>
+      <div class="card-body">
+        <div id="calls_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.contracts_by_time') %></div>
+      <div class="card-body">
+        <div id="contracts_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.contract_callers_by_time') %></div>
+      <div class="card-body">
+        <div id="contract_callers_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.contract_methods_by_time') %></div>
+      <div class="card-body">
+        <div id="contract_methods_by_time"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $( document ).ready(function() {
+
+      var query = new widgets.query(`
+          query ($network: EthereumNetwork!,
+                $dateFormat: String!,
+
+                $from: ISO8601DateTime,
+                $till: ISO8601DateTime){
+                  ethereum(network: $network ){
+                    smartContractCalls(options:{asc: "date.date"}, date: {
+                      since: $from
+                      till: $till}
+
+                    ) {
+                      date: date{
+                        date(format: $dateFormat)
+                      }
+                      count: countBigInt
+                      contracts: countBigInt(uniq: smart_contracts)
+                      callers: countBigInt(uniq: senders)
+                      methods: countBigInt(uniq: smart_contract_methods)
+                    }
+                  }
+                }`);
+
+      new widgets.chartByTime('#calls_by_time', query, 'ethereum_streaming.smartContractCalls', {
+          title: '<%= t('widgets.headers.calls_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.calls_count') %>'
+                  }
+              },
+              seriesType: 'bars',
+              series: {
+                  '0': { color: '#28a745' }
+              },
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.calls_count') %>', type: 'number' },
+                  path: 'count'
+              },
+
+          ]
+      });
+
+      new widgets.chartByTime('#contracts_by_time', query, 'ethereum_streaming.smartContractCalls', {
+          title: '<%= t('widgets.headers.contracts_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.uniq_contracts') %>'
+                  }
+              },
+              series: {
+                  '0': { color: '#ffc107' }
+              },
+              seriesType: 'bars'
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.uniq_contracts') %>', type: 'number' },
+                  path: 'contracts'
+              },
+
+          ]
+      });
+
+      new widgets.chartByTime('#contract_callers_by_time', query, 'ethereum_streaming.smartContractCalls', {
+          title: '<%= t('widgets.headers.contract_callers_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.uniq_callers') %>'
+                  }
+              },
+              series: {
+                  '0': { color: '#28a745' }
+              },
+              seriesType: 'bars'
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.uniq_callers') %>', type: 'number' },
+                  path: 'callers'
+              },
+
+          ]
+      });
+
+      new widgets.chartByTime('#contract_methods_by_time', query, 'ethereum_streaming.smartContractCalls', {
+          title: '<%= t('widgets.headers.contract_methods_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.uniq_methods') %>'
+                  }
+              },
+              series: {
+                  '0': { color: '#28a745' }
+              },
+              seriesType: 'bars'
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.uniq_methods') %>', type: 'number' },
+                  path: 'methods'
+              },
+
+          ]
+      });
+
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+          network: '<%= params['network']['network'] %>'
+      });
+
+
+  });
+</script>

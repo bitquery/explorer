@@ -1,5 +1,4 @@
 export default class WidgetConfig {
-
   static getBlockchainInfo() {
     const data = [
       {
@@ -11,7 +10,7 @@ export default class WidgetConfig {
         platform: 'Smart Contract',
         currency: 'ETH',
         icon: 'eth.svg',
-        innovation: true
+        innovation: true,
       },
       {
         tag: 'bsc',
@@ -23,19 +22,30 @@ export default class WidgetConfig {
         currency: 'BNB',
         icon: 'bnb.svg',
         start: Date.parse('2020-08-29'),
-        innovation: true
+        innovation: true,
       },
-    ]
-    return data
+      {
+        tag: 'arbitrum',
+        chainId: '42161',
+        network: 'arbitrum',
+        streaming: 'arbitrum',
+        name: 'Ethereum Mainnet',
+        family: 'ethereum_streaming',
+        platform: 'Smart Contract',
+        currency: 'ETH',
+        icon: 'arbitrum.svg',
+      },
+    ];
+    return data;
   }
   static getNetwork(chainId) {
     const blockchainsInfo = WidgetConfig.getBlockchainInfo();
-    let network
+    let network;
     blockchainsInfo.forEach(element => {
       if (element.chainId === chainId) {
-        network = element.network
+        network = element.network;
       }
-    })
-    return network
+    });
+    return network;
   }
 }

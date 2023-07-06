@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_blocks') %></div>
+      <div class="card-body">
+        <div id="latest_blocks"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $( document ).ready(function() {
+
+
+      var query = new widgets.query(`
+                      query ($network: EthereumNetwork!,
+                              $limit: Int!,
+                              $offset: Int!
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                  ethereum(network: $network){
+                    blocks(options:{desc: "height", limit: $limit, offset: $offset},
+                      date: {since: $from till: $till }
+                      ) {
+
+
+                        timestamp {
+                          time (format: "%Y-%m-%d %H:%M:%S")
+                        }
+                        height
+
+                        transactionCount
+
+                        address: miner {
+                          address
+                          annotation
+                        }
+
+                        reward
+                        reward_usd: reward(in: USD)
+
+                        rewardCurrency {
+                          symbol
+                        }
+
+                    }
+                  }
+                }`);
+
+      new widgets.table('#latest_blocks', query, 'ethereum_streaming.blocks', {
+          title: '<%= t('widgets.headers.latest_blocks') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.timestamp') %>',
+                  type: 'string',
+                  path: 'timestamp.time'
+              },
+              {
+                  title: '<%= t('widgets.titles.block') %>',
+                  type: 'string',
+                  path: 'height',
+                  urlCallbackName: 'block_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.transactions_count') %>',
+                  type: 'string',
+                  path: 'transactionCount'
+              },
+
+              {
+                  title: '<%= t('widgets.titles.miner') %>',
+                  type: 'string',
+                  path: ['address.annotation','address.address'],
+                  urlCallbackName: 'address_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.block_reward') %>, <%= @network[:currency] %>',
+                  type: 'amount',
+                  path: 'reward'
+              },
+              {
+                  title: '',
+                  data: '',
+                  renderCallback: <%= render partial: 'ethereum_streaming/currency_with_amount_usd.text', locals: {currency: "''", amount: 'item.reward_usd'} %>,
+              }
+          ]
+      });
+
+      queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+          network: '<%= params['network']['network'] %>'
+      });
+
+  });
+</script>

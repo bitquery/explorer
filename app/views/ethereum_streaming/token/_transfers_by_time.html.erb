@@ -1,0 +1,83 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header">
+      <% if @token_info && @token_info.name && @token_info.symbol %>
+        <%= t('widgets.headers.token_transfers_by_time_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+      <% else %>
+        <%= t('widgets.headers.token_transfers_by_time') %>
+      <% end %>
+    </div>
+    <div class="card-body">
+      <div id="token_transfers_by_time"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query ($network: EthereumNetwork!,
+                              $token: String!,
+                              $dateFormat: String!,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                          ethereum(network: $network){
+                            transfers(currency: {is: $token}
+                            height:{gt: 0}
+                            amount: {gt: 0}
+                            date: {since: $from till: $till}){
+                              date{
+                                date(format: $dateFormat)
+                              }
+
+                              count: countBigInt
+                              amount
+
+                            }
+                          }
+                        }`);
+
+        new widgets.chartByTime('#token_transfers_by_time', query, 'arbitrum.transfers', {
+            title: '<%= t('widgets.headers.token_transfers_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.amount') %>'
+                    },
+                    '1': {
+                        title: '<%= t('widgets.titles.transfer_count') %>'
+                    }
+                },
+                seriesType: 'bars',
+                series: {
+                    '0': { color: '#28a745', targetAxisIndex: 0 },
+                    '1': { color: '#9bc2cf', type: 'line', targetAxisIndex: 1, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
+                }
+            },
+            dataOptions: [
+                {
+                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    path: 'date.date'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'amount'
+                },
+                {
+                    title: {label: '<%= t('widgets.titles.transfer_count') %>', type: 'number' },
+                    path: 'count'
+                },
+
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            token: '<%= @address %>'
+        });
+
+
+    });
+</script>

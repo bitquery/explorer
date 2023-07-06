@@ -1,0 +1,1 @@
+' <sup class="text-success">' + ((amount = <%= defined?(amount) ? amount : 'item.amount_usd' %>) > 0 ? '$'+amount.toFixed(<%= defined?(precision) ? precision : 2 %>) : '-') +'</sup>'

@@ -1,0 +1,143 @@
+<div class="row">
+  <div class="col-8 col-lg-8 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.dex_protocols') %></div>
+      <div class="card-body">
+        <div id="dex_exchanges"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-4 col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.dex_tradex_by_protocol') %></div>
+      <div class="card-body">
+        <div id="dex_trades_by_exchange_pie"><%= t('loading') %></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.dex_amounts_by_protocol') %></div>
+      <div class="card-body">
+        <div id="dex_amounts_by_exchange_pie"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime
+                                $exchange: String!
+                                ){
+                    ethereum(network: $network){
+                      dexTrades(options:{desc: "tradeAmount"},
+                        date: {since: $from till: $till }
+                        exchangeName: {is: $exchange}
+                        ) {
+
+                          protocol
+
+                          trades: count
+                          tradeAmount(in: USD)
+                          currencies: count(uniq: buy_currency)
+                          contracts: count(uniq: smart_contracts)
+
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#dex_exchanges', query, 'ethereum_streaming.dexTrades', {
+            title: '<%= t('widgets.headers.dex_exchanges') %>',
+            dataOptions: [
+
+                {
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol',
+                    urlCallbackName: 'dex_protocol_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'trades'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.currencies') %>',
+                    path: 'currencies'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.contracts') %>',
+                    path: 'contracts'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.amount_usd') %>',
+                    path: 'tradeAmount'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#dex_trades_by_exchange_pie', query, 'ethereum_streaming.dexTrades', {
+            title: '<%= t('widgets.headers.dex_tradex_by_protocol') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'trades'
+                },
+
+            ]
+        });
+
+        new widgets.chart('#dex_amounts_by_exchange_pie', query, 'ethereum_streaming.dexTrades', {
+            title: '<%= t('widgets.headers.dex_amounts_by_protocol') %>',
+            chartType: 'PieChart',
+            chartOptions: {
+                pieSliceText: 'label',
+                pieHole: 0.4,
+                legend: {position: 'right'},
+                chartArea:{left: '0', right: '15%', top: 0, bottom: 0}
+            },
+
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.protocol') %>',
+                    path: 'protocol'
+                },
+                {
+                    title: '<%= t('widgets.titles.usd') %>',
+                    path: 'tradeAmount'
+                },
+
+            ]
+        });
+
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            exchange: '<%= @exchange %>'
+        });
+
+    });
+
+</script>

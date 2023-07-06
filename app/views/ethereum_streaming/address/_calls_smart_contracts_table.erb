@@ -1,0 +1,75 @@
+<div class="col-12 col-lg-6 mb-4">
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.calls_smart_contracts') %></div>
+    <div class="card-body">
+      <div id="calls_smart_contracts_table"><%= t('loading') %></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                        $address: String!,
+                        $from: ISO8601DateTime,
+                        $till: ISO8601DateTime,
+                        $limit: Int!, $offset: Int!){
+                    ethereum(network: $network ){
+                        smartContractCalls(options:{limit: $limit, offset: $offset, desc: "count"}, date: {
+                          since: $from
+                          till: $till
+                        }, caller: {is: $address}) {
+                        smartContract{
+                          address{
+                            address
+                            annotation
+                          }
+                        }
+                        smartContractMethod {
+                          name
+                          signatureHash
+                        }
+                        count
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#calls_smart_contracts_table', query, 'ethereum_streaming.smartContractCalls', {
+            title: '<%= t('widgets.headers.calls_smart_contracts') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.smart_contract') %>',
+                    type: 'string-ellipsis',
+                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                    urlCallbackName: 'smart_contract_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.method') %>',
+                    type: 'string',
+                    path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
+                    urlCallbackName: 'smart_contract_method_path',
+                    style: 'width: 130px'
+                },
+                {
+                    title: '<%#= t('widgets.titles.tx_count') %>',
+                    type: 'count',
+                    path: 'count',
+                    data: '%{DATA} <span class="fa fa-list"></span>',
+                    urlCallbackName: 'call_count_path',
+                    style: 'width: 130px'
+                }
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

@@ -1,0 +1,87 @@
+
+  <div class="col-6 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.trades_by_pairs') %></div>
+      <div class="card-body">
+        <div id="trades_by_currencies"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+                        query ($network: EthereumNetwork!,
+                                $limit: Int!,
+                                $offset: Int!
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    ethereum(network: $network){
+                      dexTrades(options:{desc: "tradeAmount", limit: $limit, offset: $offset},
+                        date: {since: $from till: $till }
+
+                        ) {
+
+                            buyCurrency {
+                              symbol
+                              address
+                            }
+
+                            sellCurrency {
+                              symbol
+                              address
+                            }
+
+                            count
+                            tradeAmount(in: USD)
+                            dates: count(uniq: dates)
+                            started: minimum(of: date)
+                      }
+                    }
+                  }`);
+
+        new widgets.table('#trades_by_currencies', query, 'ethereum_streaming.dexTrades', {
+            title: '<%= t('widgets.headers.trades_by_pairs') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.pair') %>',
+                    type: 'string-safe',
+                    path: 'buyCurrency.symbol',
+                    renderCallback: function(item){
+                        return item.buyCurrency.symbol + ' / ' + item.sellCurrency.symbol;
+                    },
+                    urlCallbackName: 'token_pair_buysell_path'
+                },
+
+                {
+                    title: '<%= t('widgets.titles.trades') %>',
+                    path: 'count'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount_usd') %>',
+                    path: 'tradeAmount'
+                },
+                {
+                    title: '<%= t('widgets.titles.started') %>',
+                    path: 'started'
+                },
+                {
+                    title: '<%= t('widgets.titles.trades_days') %>',
+                    path: 'dates'
+                },
+
+
+
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>'
+        });
+    });
+
+</script>

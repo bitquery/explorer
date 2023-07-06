@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4" >
+    <div id="OHLC-by-intervals-Graph" class="card" ></div>
+  </div>
+</div>
+<script>
+  const till = new Date().toISOString().slice(0, 10);
+  const tillDate = new Date(till);
+  const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate()); //change here data for more date
+  const from = fromDate.toISOString().slice(0, 10);
+
+  const variables = {
+  interval: 15,   //change here for new data
+  network:'<%= @streaming%>',
+  baseCurrency: '<%= @token1 %>',
+  quoteCurrency: '<%= @token2 %>',
+  till: till,
+  from: from
+  }
+
+  class OHLCbyIntervalsGraph extends TradingGraphsComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.DEXTradeByTokens},
+            chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
+            token1: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol},
+            token2: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol} ,
+            interval:variables.interval,
+        }
+    }
+  }
+  //OHLC-by-intervalschange-interval-for-test_1_1_1_1_1_1 amount gt: 0.0001
+
+  //OHLC-by-intervalschange-interval-for-test_1_1_1_1 Price: {gt: 50, lt: 3000}
+  //OHLC-by-intervalschange-interval-for-test_1_1_1_1_1 from 0 to 3000
+  //OHLC-by-intervalschange-interval-for-test_1_1_1 lt:3000
+  //OHLC-by-intervalschange-interval-for-test_1_1 gt:1.5
+  //OHLC-by-intervalschange-interval-for-test_1  gt:0
+
+  renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1_1',variables,'OHLC-by-intervalschange-interval-for-test_1_1_1_1_1_1' );
+</script>

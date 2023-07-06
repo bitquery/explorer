@@ -8,7 +8,6 @@ BLOCKCHAINS = [
     currency: 'BTC',
     icon: 'btc.svg'
   },
-
   {
     tag: 'ltc',
     network: 'litecoin',
@@ -18,7 +17,6 @@ BLOCKCHAINS = [
     currency: 'LTC',
     icon: 'ltc.svg'
   },
-
   {
     tag: 'doge',
     network: 'dogecoin',
@@ -28,7 +26,6 @@ BLOCKCHAINS = [
     currency: 'DOGE',
     icon: 'doge.svg'
   },
-
   {
     tag: 'dash',
     network: 'dash',
@@ -38,7 +35,6 @@ BLOCKCHAINS = [
     currency: 'DASH',
     icon: 'dash.svg'
   },
-
   {
     tag: 'eth',
     chainId: '1',
@@ -51,7 +47,6 @@ BLOCKCHAINS = [
     icon: 'eth.svg',
     innovation: true
   },
-
   {
     tag: 'etc',
     network: 'ethclassic',
@@ -61,7 +56,6 @@ BLOCKCHAINS = [
     currency: 'ETC',
     icon: 'etc.svg'
   },
-
   {
     tag: 'etc',
     network: 'ethclassic_reorg',
@@ -71,7 +65,6 @@ BLOCKCHAINS = [
     currency: 'ETC',
     icon: 'etc.svg'
   },
-
   {
     tag: 'ethpow',
     network: 'ethpow',
@@ -91,7 +84,6 @@ BLOCKCHAINS = [
     currency: 'ZEC',
     icon: 'zec.svg'
   },
-
   {
     tag: 'bch',
     network: 'bitcash',
@@ -101,7 +93,6 @@ BLOCKCHAINS = [
     currency: 'BCH',
     icon: 'bch.svg'
   },
-
   {
     tag: 'bsv',
     network: 'bitcoinsv',
@@ -131,7 +122,6 @@ BLOCKCHAINS = [
     currency: 'ALGO',
     icon: 'currency/algo.png'
   },
-
   {
     tag: 'algorand_testnet',
     network: 'algorand_testnet',
@@ -141,7 +131,6 @@ BLOCKCHAINS = [
     currency: 'ALGO',
     icon: 'currency/algo.png'
   },
-
   {
     tag: 'algorand_betanet',
     network: 'algorand_betanet',
@@ -150,9 +139,7 @@ BLOCKCHAINS = [
     platform: 'Testnet',
     currency: 'ALGO',
     icon: 'currency/algo.png'
-
   },
-
   {
     tag: 'binance',
     network: 'binance',
@@ -161,9 +148,7 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'BNB',
     icon: 'bnb.svg'
-
   },
-
   {
     tag: 'alfajores',
     network: 'celo_alfajores',
@@ -174,7 +159,6 @@ BLOCKCHAINS = [
     icon: 'currency/celo.png',
     start: Date.parse('2020-04-10')
   },
-
   {
     tag: 'bsc_testnet',
     network: 'bsc_testnet',
@@ -185,7 +169,6 @@ BLOCKCHAINS = [
     icon: 'bnb.svg',
     start: Date.parse('2020-04-20')
   },
-
   {
     tag: 'bsc',
     network: 'bsc',
@@ -199,7 +182,6 @@ BLOCKCHAINS = [
     start: Date.parse('2020-08-29'),
     innovation: true
   },
-
   {
     tag: 'goerli',
     network: 'goerli',
@@ -210,7 +192,6 @@ BLOCKCHAINS = [
     icon: 'eth.svg',
     start: Date.parse('2019-01-30')
   },
-
   {
     tag: 'baklava',
     network: 'celo_baklava',
@@ -221,7 +202,6 @@ BLOCKCHAINS = [
     icon: 'currency/celo.png',
     start: Date.parse('2020-04-07')
   },
-
   {
     tag: 'celo',
     network: 'celo_mainnet',
@@ -232,7 +212,6 @@ BLOCKCHAINS = [
     icon: 'currency/celo.png',
     start: Date.parse('2020-04-22')
   },
-
   {
     tag: 'conflux_hydra',
     network: 'conflux_hydra',
@@ -242,7 +221,6 @@ BLOCKCHAINS = [
     currency: 'CFX',
     icon: 'currency/conflux.png'
   },
-
   {
     tag: 'conflux_oceanus',
     network: 'conflux_oceanus',
@@ -317,7 +295,6 @@ BLOCKCHAINS = [
     platform: 'Utility',
     currency: 'FIL',
     icon: 'currency/fil.svg'
-
   },
   {
     tag: 'matic',
@@ -398,7 +375,6 @@ BLOCKCHAINS = [
     icon: 'currency/moonbeam.png',
     start: Date.parse('2021-12-18')
   },
-
   {
     tag: 'cronos',
     network: 'cronos',
@@ -428,7 +404,6 @@ BLOCKCHAINS = [
     currency: 'CRO',
     icon: 'currency/cryptoorg-logo.png'
   },
-
   {
     tag: 'crypto_testnet',
     network: 'crypto_testnet',
@@ -438,7 +413,6 @@ BLOCKCHAINS = [
     currency: 'TCRO',
     icon: 'currency/cryptoorg-logo.png'
   },
-
   {
     tag: 'heimdall',
     network: 'heimdall',
@@ -448,7 +422,6 @@ BLOCKCHAINS = [
     currency: 'MATIC',
     icon: 'currency/matic-logo.png'
   },
-
   {
     tag: 'terra',
     network: 'terra',
@@ -458,7 +431,6 @@ BLOCKCHAINS = [
     currency: 'LUNA',
     icon: 'currency/terra-luna-logo.svg'
   },
-
   {
     tag: 'flow',
     network: 'flow',
@@ -469,7 +441,6 @@ BLOCKCHAINS = [
     icon: 'currency/flow.png',
     start: Date.parse('2020-09-23')
   },
-
   {
     tag: 'stellar',
     network: 'stellar',
@@ -479,7 +450,6 @@ BLOCKCHAINS = [
     currency: 'XLM',
     icon: 'currency/stellar-xlm-logo.svg'
   },
-
   {
     tag: 'ripple',
     network: 'ripple',
@@ -489,7 +459,6 @@ BLOCKCHAINS = [
     currency: 'XRP',
     icon: 'currency/ripple-logo.svg'
   },
-
   {
     tag: 'tezos',
     network: 'tezos',
@@ -499,7 +468,6 @@ BLOCKCHAINS = [
     currency: 'XTZ',
     icon: 'currency/tezos-xtz-logo.svg'
   },
-
   {
     tag: 'everscale',
     network: 'everscale',
@@ -508,7 +476,18 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'EVER',
     icon: 'currency/everscale-logo.png'
-  }
+  },
+  {
+    tag: 'arbitrum',
+    chainId: '42161',
+    network: 'arbitrum',
+    streaming: 'arbitrum',
+    name: 'Ethereum Mainnet',
+    family: 'ethereum_streaming',
+    platform: 'Smart Contract',
+    currency: 'ETH',
+    icon: 'currency/arbitrum.svg'
+  },
 ].freeze
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }
