@@ -1,4 +1,6 @@
+import images from "../../images/no-images.jpeg"
 export default async function renderImgFromURI(uri) {
+  console.log('starOn',images)
   const createContainer = () => {
     const div = document.createElement('div');
     div.classList.add('position-relative');
@@ -6,11 +8,11 @@ export default async function renderImgFromURI(uri) {
     return div;
   };
 
-  const preprocessURI = (uri) => {
+  const preprocessURI = uri => {
     return /^ipfs:\/\//.test(uri) ? uri.replace(/ipfs:\/\//, 'https://ipfs.io/ipfs/') : uri;
   };
 
-  const fetchMediaURL = async (url) => {
+  const fetchMediaURL = async url => {
     let mediaURL, nameMedia;
     if (/^http/.test(url)) {
       const response = await fetch(url);
@@ -27,47 +29,45 @@ export default async function renderImgFromURI(uri) {
     if (mediaURL && mediaURL.startsWith('ipfs://')) {
       mediaURL = mediaURL.replace(/^ipfs:\/\//, 'https://ipfs.io/ipfs/');
     }
-    return { mediaURL, name: nameMedia };
+    return {mediaURL, name: nameMedia};
   };
 
-const createButton = (url) => {
-  const button = document.createElement("button");
-  button.classList.add('btn', 'btn-outline-info', 'btn-sm', 'position-absolute');
-  button.style.top = '0';
-  button.style.left = '0';
-  button.style.zIndex = '1';
-  const icon = document.createElement("i");
-  icon.classList.add('fa', 'fa-info-circle');
-  button.appendChild(icon);
+  const createButton = url => {
+    const button = document.createElement('button');
+    button.classList.add('btn', 'btn-outline-info', 'btn-sm', 'position-absolute');
+    button.style.top = '0';
+    button.style.left = '0';
+    button.style.zIndex = '1';
+    const icon = document.createElement('i');
+    icon.classList.add('fa', 'fa-info-circle');
+    button.appendChild(icon);
 
-if (url === null || url === 'error' || url.length <= 1) {
-  button.disabled = true;
-} else {
-  button.addEventListener('click', (e) => {
-    e.stopPropagation();
-    window.open(url, '_blank');
-  });
-}
+    if (url === null || url === 'error' || url.length <= 1) {
+      button.disabled = true;
+    } else {
+      button.addEventListener('click', e => {
+        e.stopPropagation();
+        window.open(url, '_blank');
+      });
+    }
 
+    return button;
+  };
 
-  return button;
-};
-
-
-  const createImageElement = (src) => {
+  const createImageElement = src => {
     const img = document.createElement('img');
-    img.id = 'imgFromCard'
-    img.setAttribute('onerror', 'this.src="/assets/no-images.jpeg"')
+    img.id = 'imgFromCard';
+    img.setAttribute('onerror', `this.src=${images}`); 
     img.src = src;
     img.style.width = '100%';
     img.style.cursor = 'pointer';
     img.style.height = '100%';
-    img.id = 'imgFromCard'
+    img.id = 'imgFromCard';
     img.style.objectFit = 'cover';
     return img;
-  }
+  };
 
-  const createVideoElement = (src) => {
+  const createVideoElement = src => {
     const video = document.createElement('video');
     video.classList.add('w-100', 'h-100');
 
@@ -85,33 +85,32 @@ if (url === null || url === 'error' || url.length <= 1) {
     video.style.cursor = 'pointer';
     video.controls = true;
     return video;
-  }
+  };
 
-const appendMediaElement = (container, mediaURL, preprocessedURI, uri) => {
-  const src = mediaURL.mediaURL;
-  const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
-  
-  const button = createButton(preprocessedURI);
-  
-  container.appendChild(mediaElement);
-  container.appendChild(button);
+  const appendMediaElement = (container, mediaURL, preprocessedURI, uri) => {
+    const src = mediaURL.mediaURL;
+    const mediaElement = /\.(mp4|mov|webm)$/.test(src) ? createVideoElement(src) : createImageElement(src);
 
-  mediaElement.addEventListener('click', (e) => {
-  e.stopPropagation()
-    window.open(mediaURL.mediaURL, '_blank');
-  });
-}
+    const button = createButton(preprocessedURI);
 
+    container.appendChild(mediaElement);
+    container.appendChild(button);
 
-  const handleFetchError = (container,preprocessedURI) => {
-    const img = createImageElement("/assets/no-images.jpeg");
-    img.style.cursor ='default'
+    mediaElement.addEventListener('click', e => {
+      e.stopPropagation();
+      window.open(mediaURL.mediaURL, '_blank');
+    });
+  };
+
+  const handleFetchError = (container, preprocessedURI) => {
+    const img = createImageElement(images);
+    img.style.cursor = 'default';
     const button = createButton(preprocessedURI);
     container.appendChild(img);
-    if(preprocessURI !==null){
+    if (preprocessURI !== null) {
       container.appendChild(button);
     }
-  }
+  };
 
   const container = createContainer();
   const url = preprocessURI(uri);
@@ -121,10 +120,10 @@ const appendMediaElement = (container, mediaURL, preprocessedURI, uri) => {
     if (mediaURL.mediaURL) {
       appendMediaElement(container, mediaURL, url, uri);
     } else {
-      handleFetchError(container,url);
+      handleFetchError(container, url);
     }
   } catch {
-    handleFetchError(container,url);
+    handleFetchError(container, url);
   }
 
   return container;

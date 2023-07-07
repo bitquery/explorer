@@ -200,7 +200,7 @@ export default class TradingGraphsComponent {
   }
 
   onData(data, sub) {
-    console.log('this.interval',this.interval)
+    // console.log('this.interval',this.interval)
     const symbolName = data.symbol;
     this.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`;
     if (this.widget === null) {
