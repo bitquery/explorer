@@ -1,1 +1,42 @@
-<%= render partial: 'ethereum_streaming/network/blocks_table' %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="latestBlocks" class="card"></div>
+  </div>
+  <script>
+    class LatestBlocks extends BootstrapTableComponent {
+        configuration() {
+          return  {
+            topElement: function (response){ return response.EVM.Blocks},
+            chainId: function (response){ return response.EVM.Blocks[0].ChainId},
+            columns: [
+              {
+                name: 'Timestamp', cell: function(row){ return row.Block.Time}, rendering: renderDate,
+              },
+              {
+                name: 'Block', cell: function(row){ return row.Block.Number},
+              },
+              {
+                name: 'Transactions count', cell: function(row){ return row.Block.TxCount},
+              },
+              {
+                name: 'Miner', cell: function(row){ return row.Block.Coinbase}, rendering: renderAddressLink,
+              },
+              {
+                name: 'TX', cell: function(row){ return row.Block.Hash}, rendering: renderTX,
+              },
+            ]
+          }
+        }
+    }
+
+     const variables = {
+    network:'<%= @streaming%>',
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+    }
+    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(LatestBlocks, "#latestBlocks",'Latest-Blocks_1',variables)
+    })
+  </script>
