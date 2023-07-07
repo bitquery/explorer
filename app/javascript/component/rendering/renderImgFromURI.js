@@ -56,13 +56,8 @@ export default async function renderImgFromURI(uri) {
 
   const createImageElement = src => {
     const img = document.createElement('img');
-<<<<<<< HEAD
-    img.id = 'imgFromCard'
-    img.setAttribute('onerror', 'this.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU"')
-=======
     img.id = 'imgFromCard';
     img.setAttribute('onerror', `this.src=${images}`); 
->>>>>>> littlefix
     img.src = src;
     img.style.width = '100%';
     img.style.cursor = 'pointer';
@@ -101,11 +96,6 @@ export default async function renderImgFromURI(uri) {
     container.appendChild(mediaElement);
     container.appendChild(button);
 
-<<<<<<< HEAD
-  const handleFetchError = (container,preprocessedURI) => {
-    const img = createImageElement("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6Sl55wXNdWyKlmtm-mTiwNagLjEbgzTUQehtG-rAqDwzECIepnX4RjKlc5dFixj9bJfY&usqp=CAU");
-    img.style.cursor ='default'
-=======
     mediaElement.addEventListener('click', e => {
       e.stopPropagation();
       window.open(mediaURL.mediaURL, '_blank');
@@ -115,7 +105,6 @@ export default async function renderImgFromURI(uri) {
   const handleFetchError = (container, preprocessedURI) => {
     const img = createImageElement(images);
     img.style.cursor = 'default';
->>>>>>> littlefix
     const button = createButton(preprocessedURI);
     container.appendChild(img);
     if (preprocessURI !== null) {
