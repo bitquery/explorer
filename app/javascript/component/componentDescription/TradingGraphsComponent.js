@@ -1,47 +1,42 @@
 export default class TradingGraphsComponent {
-  constructor(element, variables,getNewDataForQuery) {
+  constructor(element, variables, getNewDataForQuery) {
     this.container = element;
+    this.variables = variables;
+    this.getNewDataForQuery = getNewDataForQuery;
     this.config = this.configuration();
     this.symbol = null;
-    this.variables = variables;
-    this.lastBar = null;
     this.lastData = null;
     this.allData = [];
     this.widget = null;
     this.minuteBars = [];
     this.wrapper = document.createElement('div');
-    this.getNewDataForQuery = getNewDataForQuery;
-    this.interval = this.config.interval
-
+    this.interval = this.config.interval;
   }
-  initWidget(symbolName) {
+  initWidget() {
     const configurationData = {
       supports_marks: true,
       supports_timescale_marks: true,
       supports_time: true,
       supported_resolutions: ['1', '5', '15', '30', '60', '1D', '2D', '3D', '1W', '3W', '1M', '6M'],
-      // supported_resolutions: [ '15'],
-    //   intraday_multipliers: ['1', '5', '15', '30', '60', '1D', '2D', '3D', '1W', '3W', '1M', '6M'],
     };
     this.widget = new TradingView.widget({
-      container:  this.wrapper,
+      container: this.wrapper,
       locale: 'en',
       library_path: '/charting_library/',
       time_frames: [
-        { text: "1D", resolution: "15", description: "1 Day" },
-        { text: "5D", resolution: "60", description: "5 Days" },
-        { text: "1M", resolution: "60", description: "1 Month" },
-        { text: "3M", resolution: "60", description: "3 Months" },
-        { text: "6M", resolution: "1W", description: "6 Months" },
-        { text: "1Y", resolution: "1M", description: "1 Year" },
-        { text: "3Y", resolution: "6M", description: "3 Years" },
+        {text: '1D', resolution: '15', description: '1 Day'},
+        {text: '5D', resolution: '60', description: '5 Days'},
+        {text: '1M', resolution: '60', description: '1 Month'},
+        {text: '3M', resolution: '60', description: '3 Months'},
+        {text: '6M', resolution: '1W', description: '6 Months'},
+        {text: '1Y', resolution: '1M', description: '1 Year'},
+        {text: '3Y', resolution: '6M', description: '3 Years'},
       ],
       datafeed: {
         onReady: callback => {
           setTimeout(() => callback(configurationData));
         },
         resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback, extension) => {
-          const splitSymbol = symbolName.split(/[:/]/);
           setTimeout(() => {
             const symbolInfo = {
               name: symbolName,
@@ -53,96 +48,87 @@ export default class TradingGraphsComponent {
               has_daily: true,
               has_ticks: true,
               minmov: 1,
-              pricescale: 1000,
+              pricescale: 100000,
               has_empty_bars: true,
               data_status: 'streaming',
-              
             };
             onSymbolResolvedCallback(symbolInfo);
           }, 0);
         },
         getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-          // console.log('[getBars]: Method call', symbolInfo);
-          // console.log('periodParams', periodParams);
-          // console.log('%%%%%%%%% resolution %%%%%%%%', resolution)
-          this.interval = resolution
-         
-            const till = new Date().toISOString().slice(0, 10);
-           const tillDate = new Date(till);
-         if(resolution === '1'){
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth(), tillDate.getDate() - 5); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolution, from, till)
-            // console.log('from',from, 'till',till)
-          }
-          if(resolution === '5'){
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth(), tillDate.getDate() - 30); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolution, from, till)
-          }
-          if(resolution === '15'){
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolution, from, till)
-          }
-          if(resolution === '30'){
-             const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 6, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolution, from, till)
-          }
-          if(resolution === '60'){
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 13, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolution, from, till)
-          }
-          if(resolution === '1D'){
-            const resolutionToMinutes = 1440
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 285, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
-          }
-          if(resolution === '2D'){
-           const  resolutionToMinutes = 2880
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 160, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
-          }
-          if(resolution === '3D'){
-            const resolutionToMinutes = 4320
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 320, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
-          }
-          if(resolution === 'W'){
-            const resolutionToMinutes = 10080
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 640, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
-          }
-          if(resolution === '3W'){
-            const resolutionToMinutes = 30240
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 1280, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
-          }
-          if(resolution === 'M'){
-            const resolutionToMinutes = 43829
-            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 2360, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
-          }
-          if(resolution === '6M'){
-            const resolutionToMinutes = 262974
-           const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 4720, tillDate.getDate()); 
-            const from = fromDate.toISOString().slice(0, 10);
-            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till)
-          }
-          const arr = this.allData;
-            // console.log('  ===================newData', arr);
-            // console.log('  ===================variables', variables);
+          this.interval = resolution;
 
+          const till = new Date().toISOString().slice(0, 10);
+          const tillDate = new Date(till);
+          if (resolution === '1') {
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth(), tillDate.getDate() - 5);
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolution, from, till);
+          }
+          if (resolution === '5') {
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth(), tillDate.getDate() - 30);
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolution, from, till);
+          }
+          if (resolution === '15') {
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolution, from, till);
+          }
+          if (resolution === '30') {
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 6, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolution, from, till);
+          }
+          if (resolution === '60') {
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 13, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolution, from, till);
+          }
+          if (resolution === '1D') {
+            const resolutionToMinutes = 1440;
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 285, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+          }
+          if (resolution === '2D') {
+            const resolutionToMinutes = 2880;
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 160, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+          }
+          if (resolution === '3D') {
+            const resolutionToMinutes = 4320;
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 320, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+          }
+          if (resolution === 'W') {
+            const resolutionToMinutes = 10080;
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 640, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+          }
+          if (resolution === '3W') {
+            const resolutionToMinutes = 30240;
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 1280, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+          }
+          if (resolution === 'M') {
+            const resolutionToMinutes = 43829;
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 2360, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+          }
+          if (resolution === '6M') {
+            const resolutionToMinutes = 262974;
+            const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 4720, tillDate.getDate());
+            const from = fromDate.toISOString().slice(0, 10);
+            const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+          }
           let bars = [];
-          arr.forEach(bar => {
+          this.allData.forEach(bar => {
             if (bar.time / 1000 >= periodParams.from && bar.time / 1000 < periodParams.to) {
               bars = [
                 ...bars,
@@ -180,19 +166,13 @@ export default class TradingGraphsComponent {
             }
           }, 1000);
         },
-
         unsubscribeBars: subscriberUID => {
-          // if (this.lastBar !== null) {
-            clearInterval(this.interval);
-
-          //   this.lastBar = null;
-          //   this.lastData = null;
-          // }
+          clearInterval(this.interval);
         },
       },
       symbol: this.symbol,
-      interval: this.interval, 
-      disabled_features: ['header_symbol_search','header_compare'],
+      interval: this.interval,
+      disabled_features: ['header_symbol_search', 'header_compare'],
       fullscreen: false,
       autosize: true,
       debug: false,
@@ -200,13 +180,11 @@ export default class TradingGraphsComponent {
   }
 
   onData(data, sub) {
-    console.log('this.interval',this.interval)
-    const symbolName = data.symbol;
     this.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`;
     if (this.widget === null) {
-      this.wrapper.style.height = '600px'
-      this.container.appendChild(this.wrapper) 
-      this.initWidget(symbolName);
+      this.wrapper.style.height = '600px';
+      this.container.appendChild(this.wrapper);
+      this.initWidget();
     }
     const newData = this.getBitqueryData(data);
     if (newData.length > 1) {
@@ -235,10 +213,7 @@ export default class TradingGraphsComponent {
   }
 
   getBitqueryData(data) {
-    let tradeBlock = this.config.topElement(data);
-    tradeBlock = tradeBlock.sort((a, b) => {
-      return new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime();
-    });
+    const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
 
     const resultData = tradeBlock.map((item, index) => {
       const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
@@ -252,8 +227,6 @@ export default class TradingGraphsComponent {
         volume: parseFloat(item.volume),
       };
     });
-// console.log('####### resultData ########',resultData)
     return resultData;
   }
-
 }

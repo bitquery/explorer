@@ -1071,12 +1071,3 @@ global.renderWithTime = function(variables={}, from, till, f){
 	draw(from, till);
 	rr.change(draw);
 }
-
-//   const intervalButton = document.getElementById('header-toolbar-intervals');
-//   if(intervalButton){
-//     const observer = new MutationObserver(function (mutationsList, observer) {
-//     console.log('==========================================');
-//     });
-//     const config = { attributes: true, childList: true, subtree: true };
-//     observer.observe(intervalButton, config);
-//   }
