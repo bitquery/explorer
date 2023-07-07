@@ -209,7 +209,6 @@ export default async function renderComponent(component, selector, queryId, vari
       };
 
 
-      // console.log('*******************queryVariables', queryVariables);
       if (query.startsWith('subscription')) {
         await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
         graphqlQuerySubscriptionExecutor(queryMetaData.endpoint_url, query, componentObject, compElement, queryVariables, widgetFrame.onerror);
