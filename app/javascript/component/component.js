@@ -220,7 +220,6 @@ export default async function renderComponent(component, selector, queryId, vari
     async function getNewLimitForShowMoreButton() {
       widgetFrame.onquerystarted();
       queryVariables.limit += 10
-      console.log('queryVariables.limit',queryVariables.limit)
       componentObject.clearData();
       if (query.startsWith('subscription')) {
         await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);

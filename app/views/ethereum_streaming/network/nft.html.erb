@@ -128,7 +128,7 @@
               name: 'Paid Amount', cell: function(row){ return parseFloat(row.sell_amount).toFixed(3)},
             },
             {
-              name: 'Currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderAddressLink,
+              name: 'Currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}},rendering: renderTokenLink,
             },
             {
               name: 'Min Price', cell: function(row){ return parseFloat(row.Trade.Buy.min_price).toFixed(3)},
