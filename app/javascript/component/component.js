@@ -19,45 +19,30 @@ const subscribeWidget = async (subscribeWith, widgetInstance, onerror) => {
 	});
 };
 
-const graphqlQueryExecutor = async (queryId, url, query, element, variables, api_key = '') => {
-	const hash = {
-		...variables,
-		queryId,
-	};
-	const str = JSON.stringify(hash);
-
-	if (!mapQueryAndVariablesStore.has(str)) {
-		let keyHeader = { 'X-API-KEY': api_key };
-		const response = await fetch(url, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				...keyHeader,
-			},
-			body: JSON.stringify({ query, variables }),
-			credentials: 'same-origin',
-		});
-		if (response.status !== 200) {
-			throw new Error(response.error);
-		}
-		const data = await response.json();
-		if (data.errors) {
-			throw new Error(data.errors[0].message);
-		}
-		const result = {
-			data,
-		};
-		mapQueryAndVariablesStore.set(str, result);
-		return data;
-	} else {
-		return mapQueryAndVariablesStore.get(str).data;
+const runQuery = async (payload, api_key = '') => {
+	const response = await fetch(payload.endpoint_url, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+			'X-API-KEY': api_key
+		},
+		body: JSON.stringify({ query: payload.query, variables: payload.variables }),
+		credentials: 'same-origin',
+	});
+	if (response.status !== 200) {
+		throw new Error(response.error);
 	}
+	const { data } = await response.json();
+	if (data.errors) {
+		throw new Error(data.errors[0].message);
+	}
+	return data
 };
 
-const renderQueryInComponent = async (endpoint_url, componentObject, query, compElement, variables, queryId, api_key) => {
-	const graphQLResponse = await graphqlQueryExecutor(queryId, endpoint_url, query, compElement, variables, api_key);
-	componentObject.onData(graphQLResponse.data);
+const renderQueryInComponent = async (payload, widgetInstance, api_key) => {
+	const data = await runQuery(payload, api_key);
+	widgetInstance.onData(data);
 };
 
 const prepopulateQuery = async (url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key) => {
@@ -77,8 +62,12 @@ const prepopulateQuery = async (url, componentObject, compElement, query, queryV
 			...queryVariables,
 		};
 	}
-
-	await renderQueryInComponent(url, componentObject, finalQuery, compElement, queryVariables, queryId, api_key);
+	const payload = {
+		endpoint_url: url,
+		query: finalQuery,
+		variables: queryVariables
+	}
+	await renderQueryInComponent(payload, componentObject, api_key);
 };
 
 const createWidgetFrame = (componentClass, selector, queryId) => {
@@ -217,7 +206,7 @@ export default async function renderComponent(component, selector, queryId, vari
 				await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
 				subscribeWidget(payload, componentObject, widgetFrame.onerror);
 			} else {
-				await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
+				await renderQueryInComponent(payload, componentObject, api_key);
 			}
 		}
 
@@ -235,7 +224,7 @@ export default async function renderComponent(component, selector, queryId, vari
 				await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
 				subscribeWidget(payload, componentObject, widgetFrame.onerror);
 			} else {
-				await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
+				await renderQueryInComponent(payload, componentObject, api_key);
 			}
 			widgetFrame.onqueryend();
 		}
@@ -327,7 +316,7 @@ export default async function renderComponent(component, selector, queryId, vari
 			await prepopulateQuery(queryMetaData.endpoint_url, componentObject, compElement, query, queryVariables, prePopulateId, queryId, api_key);
 			subscribeWidget(payload, componentObject, widgetFrame.onerror);
 		} else {
-			await renderQueryInComponent(queryMetaData.endpoint_url, componentObject, query, compElement, queryVariables, queryId, api_key);
+			await renderQueryInComponent(payload, componentObject, api_key);
 		}
 		widgetFrame.onqueryend();
 	} catch (error) {
