@@ -99,6 +99,7 @@ export default class TradingGraphsComponent {
 							];
 						}
 					});
+					console.log('last bar from getBras - ', bars.at(-1))
 					bars.length > 0 ? onHistoryCallback(bars, { noData: false }) : onHistoryCallback([], { noData: true });
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
@@ -128,8 +129,10 @@ export default class TradingGraphsComponent {
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
 		} else {
-			const lastBar = structuredClone(data)
-			const bar = this.getNextBar([this.allData.at(-1), lastBar])
+			const lastBar = this.composeBars(data)
+			console.log({lastBar})
+			const bar = this.getNextBar([this.allData.at(-1), lastBar[0]])
+			console.log({bar})
 			this.onRealtimeCallback(bar)
 		}
 		/* const newData = this.getBitqueryData(data);
@@ -148,12 +151,13 @@ export default class TradingGraphsComponent {
 	}
 
 	getNextBar(lastTwoBars) {
-		const time = lastTwoBars[0].time;
-		const open = lastTwoBars[0].open;
+		console.log({lastTwoBars})
+		const time = lastTwoBars.at(-1).time;
+		const open = time > lastTwoBars[0].time ? lastTwoBars.at(-1).open : lastTwoBars[0].open;
 		const close = lastTwoBars.at(-1).close;
-		const high = Math.max(...lastTwoBars.map(bar => bar.high));
-		const low = Math.min(...lastTwoBars.map(bar => bar.low));
-		const volume = lastTwoBars.reduce((sum, bar) => sum + bar.volume, 0);
+		const high = Math.max(...lastTwoBars.map(bar => bar.high));//
+		const low = Math.min(...lastTwoBars.map(bar => bar.low));//
+		const volume = time > lastTwoBars[0].time ? lastTwoBars.at(-1).volume : lastTwoBars.reduce((sum, bar) => sum + bar.volume, 0);//
 
 		return { time, open, high, low, close, volume };
 	}
