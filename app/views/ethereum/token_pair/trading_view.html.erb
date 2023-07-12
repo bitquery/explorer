@@ -25,7 +25,7 @@
             chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
             token1: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol},
             token2: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol} ,
-            interval:variables.interval,
+            interval : function(variables) {return variables.interval}
         }
     }
   }
