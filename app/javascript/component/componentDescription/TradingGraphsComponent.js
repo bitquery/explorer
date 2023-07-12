@@ -22,7 +22,12 @@ export default class TradingGraphsComponent {
 		this.widget = new TradingView.widget({
 			container: this.wrapper,
 			locale: 'en',
+			symbol: this.symbol,
 			interval: this.interval,
+			disabled_features: ['header_symbol_search', 'header_compare'],
+			fullscreen: false,
+			autosize: true,
+			debug: false,
 			library_path: '/charting_library/',
 			time_frames: [
 				{ text: '1D', resolution: '15', description: '1 Day' },
@@ -130,7 +135,7 @@ export default class TradingGraphsComponent {
 						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					let bars = [];
-					newData = this.getBitqueryData(newData);
+					newData = this.composeBars(newData);
 					if (newData.length > 1) {
 						this.allData = newData;
 					}
@@ -175,13 +180,7 @@ export default class TradingGraphsComponent {
 				unsubscribeBars: subscriberUID => {
 					clearInterval(this.interval);
 				},
-			},
-			symbol: this.symbol,
-			interval: this.interval,
-			disabled_features: ['header_symbol_search', 'header_compare'],
-			fullscreen: false,
-			autosize: true,
-			debug: false,
+			}
 		});
 	}
 
@@ -192,7 +191,7 @@ export default class TradingGraphsComponent {
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
 		}
-		const newData = this.getBitqueryData(data);
+		/* const newData = this.getBitqueryData(data);
 		if (newData.length > 1) {
 			this.allData = newData;
 		} else if (newData.length === 1) {
@@ -204,7 +203,7 @@ export default class TradingGraphsComponent {
 				const currentCandle = this.create15MinuteBar([this.allData[this.allData.length - 1], newBar]);
 				this.allData[this.allData.length - 1] = currentCandle;
 			}
-		}
+		} */
 	}
 
 	create15MinuteBar(oneMinuteBars) {
@@ -218,7 +217,7 @@ export default class TradingGraphsComponent {
 		return { time, open, high, low, close, volume };
 	}
 
-	getBitqueryData(data) {
+	composeBars(data) {
 		const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
 
 		const resultData = tradeBlock.map((item, index) => {
@@ -227,7 +226,6 @@ export default class TradingGraphsComponent {
 				time: new Date(item.Block.Time).getTime(),
 				low: item.Trade.low,
 				high: item.Trade.high,
-				// open: item.Trade.open,
 				open: previousClose,
 				close: item.Trade.close,
 				volume: parseFloat(item.volume),
