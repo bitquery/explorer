@@ -47,13 +47,13 @@ import renderTokenLink from '../component/rendering/renderTokenLink';
 import renderDate from '../component/rendering/renderDate';
 import renderURI from '../component/rendering/renderURI';
 import renderTX from '../component/rendering/renderTX';
-import renderAccordion from '../component/rendering/renderAccordion';
-import renderDropdown from '../component/rendering/renderDropdown';
 import renderIdLink from '../component/rendering/renderIdLink';
 import renderDexProtocolLink from '../component/rendering/renderDexProtocolLink';
 import renderJustAddressLink from '../component/rendering/renderJustAddressLink';
 import renderBlockLink from '../component/rendering/renderBlockLink';
 import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieverIcon';
+import renderPairLink from '../component/rendering/renderPairLink';
+import renderNumbers from '../component/rendering/renderNumbers';
 const Datafeeds = require("packs/datafeeds/bundle")
 const TradingView = require("packs/charting_library/charting_library")
 const TreeView = require('js-treeview');
@@ -83,11 +83,10 @@ global.renderDate = renderDate;
 global.renderURI = renderURI;
 global.renderTX = renderTX;
 global.renderDexProtocolLink = renderDexProtocolLink;
-global.renderAccordion = renderAccordion;
-global.renderDropdown = renderDropdown;
-global.renderAccordion = renderAccordion;
 global.renderJustAddressLink = renderJustAddressLink;
 global.renderSenderRecieverIcon = renderSenderRecieverIcon;
+global.renderPairLink = renderPairLink;
+global.renderNumbers = renderNumbers;
 
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,

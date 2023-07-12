@@ -1,6 +1,93 @@
-<div class="row">
-  <%= render partial: 'ethereum_streaming/network/traded_currencies_by_time' %>
-  <%= render partial: 'ethereum_streaming/network/traded_currencies_table' %>
+<div class="row mb-4">
+  <div class="col-12 col-xl-6">
+    <div class="card" id="Traded-currencies-by-time"></div>
+  </div>
+  <div class="col-12 col-xl-6">
+    <div class="card" id="Trades-By-Pairs"></div>
+  </div>
 </div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="Token-Trade-Pairs" class="card"></div>
+  </div>
+</div>
+<script>
+  class TradedCurrenciesByTime extends TimeChartComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.DEXTrades },
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        columns: [
+          { name: 'Days', cell: function(row) { return row.Block.Date } },
+          { name: 'Currencies', cell: function(row) { return +row.uniq } },
+        ],
+        options: {
+          isStacked: true,
+          theme: 'Currencies',
+          height: 403
+        }
+      }
+  }
+  }
+  class TradesByPairs extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.DEXTrades},
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        columns: [
+          {
+            name: 'Pair', cell: function(row){ return {buyCurrencySymbol: row.Trade.Buy.Currency.Symbol, buyCurrencySC: row.Trade.Buy.Currency.SmartContract, sellCurrencySymbol: row.Trade.Sell.Currency.Symbol, sellCurrencySC: row.Trade.Sell.Currency.SmartContract, }}, rendering: renderPairLink,
+          },
+          {
+            name: 'Trades', cell: function(row){ return row.count},
+          },
+          {
+            name: 'Amount', cell: function(row){ return row.Buy_Amount},rendering: renderNumbers,
+          },
+          {
+            name: 'Started', cell: function(row){ return row.Block.Date},
+          },
+          {
+            name: 'Days traded', cell: function(row){ return row.uniq},
+          },
+        ]
+      }
+    }
+  }
+  // class TokenTradePairs extends BootstrapTableComponent {
+  //   configuration() {
+  //     return  {
+  //       topElement: function (response){ return response.EVM.DEXTrades},
+  //       chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+  //       columns: [
+  //         {
+  //           name: 'Smart Contract', cell: function(row){ return  row.Trade.Dex.SmartContract}, rendering: renderJustAddressLink,
+  //         },
+  //         {
+  //           name: 'Protocol', cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+  //         },
+  //         {
+  //           name: 'Trades', cell: function(row){ return row.trades},
+  //         },
+  //         {
+  //           name: 'Currencies', cell: function(row){ return row.currencies},
+  //         },
+  //       ]
+  //     }
+  //   }
+  // }
 
-<%= render partial: 'ethereum_streaming/network/traded_pairs_table' %>
+   const variables = {
+    network:'eth',
+    // network:'<%= @streaming%>',
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+  }
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(TradedCurrenciesByTime, "#Traded-currencies-by-time",'Traded-currencies-by-time_1',variables);
+    renderComponent(TradesByPairs, '#Trades-By-Pairs','Trades-By-Pairs_1_1_1',variables);
+    // renderComponent(TokenTradePairs, "#Token-Trade-Pairs",'Token-Trade-Pairs_1_1_1',variables);
+  })
+</script>
