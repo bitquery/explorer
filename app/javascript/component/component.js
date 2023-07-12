@@ -18,13 +18,9 @@ export default async function renderComponent(component, selector, queryID, expl
 		const compElement = widgetFrame.frame;
 		const variables = { ...rawVariables, ...explorerVariables };
 
-		//cringe
 		async function getNewDataForQuery(interval, from, to) {
 			widgetFrame.button2.style.display = 'none'
-
 			const payload = { endpoint_url, query, variables: { ...variables, limit: 9990, interval, from, to }, prepopulateQueryID }
-			// runWidget(payload, componentObject, widgetFrame.onerror)
-			// const data = await runQuery(payload)
 			const data = await renderQueryInComponent(payload)
 			return data
 		}
@@ -44,7 +40,6 @@ export default async function renderComponent(component, selector, queryID, expl
 
 			}
 		}
-		//cringe
 
 		const componentObject = new component(compElement, variables, getNewDataForQuery);
 

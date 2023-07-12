@@ -105,26 +105,27 @@ export const renderQueryInComponent = async (payload, widgetInstance) => {
 	return data
 };
 
+export const subscribeWidget = async ({ endpoint_url, query, variables }, widgetInstance) => {
+	const currentUrl = endpoint_url.replace(/^http/, 'ws');
+	const client = createClient({ url: currentUrl });
+
+	client.subscribe({ query, variables }, {
+		next: ({ data }) => {
+			const sub = 'subscription';
+			widgetInstance.onData(data, sub);
+		},
+		error: error => {
+			widgetInstance.onerror(error);
+		},
+		complete: () => console.log('complete'),
+	});
+};
+
 export const runWidget = async (payload, widgetInstance, onerror) => {
-
-	const subscribeWidget = async () => {
-		const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
-		const client = createClient({ url: currentUrl });
-
-		client.subscribe({ query: payload.query, variables: payload.variables }, {
-			next: ({ data }) => {
-				const sub = 'subscription';
-				widgetInstance.onData(data, sub);
-			},
-			error: error => {
-				onerror(error);
-			},
-			complete: () => console.log('complete'),
-		});
-	};
 
 	renderQueryInComponent(payload, widgetInstance)
 	// payload.query.startsWith('subscription') && subscribeWidget()
+
 }
 
 export const createWidgetFrame = selector => {
