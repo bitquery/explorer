@@ -11,6 +11,7 @@ export default class TradingGraphsComponent {
 		this.minuteBars = [];
 		this.wrapper = document.createElement('div');
 		this.interval = this.config.interval(this.variables);
+		this.onRealtimeCallback = null;
 	}
 	initWidget() {
 		const configurationData = {
@@ -101,27 +102,19 @@ export default class TradingGraphsComponent {
 					bars.length > 0 ? onHistoryCallback(bars, { noData: false }) : onHistoryCallback([], { noData: true });
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-					setInterval(() => {
-						const latestData = this.allData[this.allData.length - 1];
-						if (JSON.stringify(this.lastData) !== JSON.stringify(latestData)) {
-							this.lastData = latestData;
-							const currentCandle = {
-								time: latestData.time,
-								open: latestData.open,
-								high: latestData.high,
-								low: latestData.low,
-								close: latestData.close,
-								volume: latestData.volume,
-							};
-
-							if (this.allData.length > 1 && this.allData[this.allData.length - 2].time === latestData.time) {
-								this.allData[this.allData.length - 2] = currentCandle;
-							}
-							onRealtimeCallback(currentCandle);
-						}
-					}, 1000);
+					console.log('subscribe - ', subscriberUID)
+					this.onRealtimeCallback = onRealtimeCallback
+					/* subscribeOnStream(
+						symbolInfo,
+						resolution,
+						onRealtimeCallback,
+						subscriberUID,
+						onResetCacheNeededCallback,
+						lastBarsCache.get(symbolInfo.full_name)
+					); */
 				},
 				unsubscribeBars: subscriberUID => {
+					console.log('unsubscribe - ', subscriberUID)
 					clearInterval(this.interval);
 				},
 			}
@@ -134,6 +127,10 @@ export default class TradingGraphsComponent {
 			this.wrapper.style.height = '600px';
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
+		} else {
+			const lastBar = structuredClone(data)
+			const bar = this.getNextBar([this.allData.at(-1), lastBar])
+			this.onRealtimeCallback(bar)
 		}
 		/* const newData = this.getBitqueryData(data);
 		if (newData.length > 1) {
@@ -150,13 +147,13 @@ export default class TradingGraphsComponent {
 		} */
 	}
 
-	create15MinuteBar(oneMinuteBars) {
-		const time = oneMinuteBars[0].time;
-		const open = oneMinuteBars[0].open;
-		const close = oneMinuteBars[oneMinuteBars.length - 1].close;
-		const high = Math.max(...oneMinuteBars.map(bar => bar.high));
-		const low = Math.min(...oneMinuteBars.map(bar => bar.low));
-		const volume = oneMinuteBars.reduce((sum, bar) => sum + bar.volume, 0);
+	getNextBar(lastTwoBars) {
+		const time = lastTwoBars[0].time;
+		const open = lastTwoBars[0].open;
+		const close = lastTwoBars.at(-1).close;
+		const high = Math.max(...lastTwoBars.map(bar => bar.high));
+		const low = Math.min(...lastTwoBars.map(bar => bar.low));
+		const volume = lastTwoBars.reduce((sum, bar) => sum + bar.volume, 0);
 
 		return { time, open, high, low, close, volume };
 	}
