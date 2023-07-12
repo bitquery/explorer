@@ -40,55 +40,71 @@ export const getBaseClass = (targetClass, config) => {
 	return data
 }
 
-export const runWidget = (payload, widgetInstance, api_key, onerror) => {
-
-	const runQuery = async (payload) => {
-		const response = await fetch(payload.endpoint_url, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'X-API-KEY': api_key
-			},
-			body: JSON.stringify({ query: payload.query, variables: payload.variables }),
-			credentials: 'same-origin',
-		});
-		if (response.status !== 200) {
-			throw new Error(response.error);
-		}
-		const { data } = await response.json();
-		if (data.errors) {
-			throw new Error(data.errors[0].message);
-		}
-		return data
+export const getStreamingAPI = (data, variables, queryID) => () => {
+	let createHiddenField = function (name, value) {
+		let input = document.createElement('input');
+		input.setAttribute('type', 'hidden');
+		input.setAttribute('name', name);
+		input.setAttribute('value', value);
+		return input;
 	};
+	let form = document.createElement('form');
+	form.setAttribute('method', 'post');
+	form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
+	form.setAttribute('enctype', 'application/json');
+	form.setAttribute('target', '_blank');
+	form.appendChild(createHiddenField('data', JSON.stringify(data)));
+	form.appendChild(createHiddenField('variables', JSON.stringify(variables)));
+	form.appendChild(createHiddenField('url', queryID));
+	document.body.appendChild(form);
+	form.submit();
+	document.body.removeChild(form);
+}
 
-	const renderQueryInComponent = async (payload) => {
-		const data = await runQuery(payload);
-		widgetInstance.onData(data);
-	};
+export const getQueryParams = async (queryID) => {
+	const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
+	const { endpoint_url, variables, query, name } = await response.json()
+	return {
+		variables: JSON.parse(variables),
+		query,
+		endpoint_url,
+		name
+	}
+}
 
-	const prepopulateWidget = async () => {
-		if (!payload.prepopulateQueryID) {
-			return
-		}
-		console.log('prepopulate')
-		let queryMetaData
-		const response = await fetch(`${window.bitqueryAPI}/getquery/${payload.prepopulateQueryID}`);
-		if (response.status === 200) {
-			queryMetaData = await response.json();
+export const runQuery = async ({ endpoint_url, query, variables }) => {
+	const response = await fetch(endpoint_url, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ query, variables }),
+		credentials: 'same-origin',
+	});
+	if (response.status !== 200) {
+		throw new Error(response.error);
+	}
+	const { data } = await response.json();
+	if (data.errors) {
+		throw new Error(data.errors[0].message);
+	}
+	return data
+};
+
+export const runWidget = async (payload, widgetInstance, onerror) => {
+
+	const renderQueryInComponent = async () => {
+		let currentPayload
+		if (payload.prepopulateQueryID) {
+			currentPayload = await getQueryParams(payload.prepopulateQueryID)
+			currentPayload.variables = { ...currentPayload.variables, ...payload.variables }
 		} else {
-			throw new Error(response.error);
+			currentPayload = payload
 		}
-		const currentPayload = {
-			endpoint_url: payload.endpoint_url,
-			query: queryMetaData.query,
-			variables: {
-				...JSON.parse(queryMetaData.variables),
-				...payload.variables,
-			}
-		}
-		renderQueryInComponent(currentPayload);
+		const data = await runQuery(currentPayload);
+		widgetInstance.onData(data);
+		return data
 	};
 
 	const subscribeWidget = async () => {
@@ -107,12 +123,8 @@ export const runWidget = (payload, widgetInstance, api_key, onerror) => {
 		});
 	};
 
-	if (payload.query.startsWith('subscription')) {
-		prepopulateWidget()
-		subscribeWidget()
-	} else {
-		renderQueryInComponent(payload)
-	}
+	renderQueryInComponent()
+	payload.query.startsWith('subscription') && subscribeWidget()
 }
 
 export const createWidgetFrame = selector => {
