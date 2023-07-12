@@ -115,6 +115,7 @@ export const subscribeWidget = async ({ endpoint_url, query, variables }, widget
 			widgetInstance.onData(data, sub);
 		},
 		error: error => {
+			console.log(error)
 			onerror(error);
 		},
 		complete: () => console.log('complete'),

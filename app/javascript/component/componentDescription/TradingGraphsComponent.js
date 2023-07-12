@@ -3,6 +3,7 @@ export default class TradingGraphsComponent {
 		this.container = element;
 		this.variables = variables;
 		this.getNewDataForQuery = getNewDataForQuery;
+		this.lastBar = null
 		this.config = this.configuration();
 		this.symbol = null;
 		this.lastData = null;
@@ -99,6 +100,7 @@ export default class TradingGraphsComponent {
 							];
 						}
 					});
+					this.lastBar = {...bars.at(-1)}
 					console.log('last bar from getBras - ', bars.at(-1))
 					bars.length > 0 ? onHistoryCallback(bars, { noData: false }) : onHistoryCallback([], { noData: true });
 				},
@@ -129,37 +131,37 @@ export default class TradingGraphsComponent {
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
 		} else {
-			const lastBar = this.composeBars(data)
-			console.log({lastBar})
-			const bar = this.getNextBar([this.allData.at(-1), lastBar[0]])
+			const newBar = this.composeBars(data)[0]
+			const bar = this.getNextBar(this.lastBar, newBar)
 			console.log({bar})
+			this.lastBar = {...bar}
 			this.onRealtimeCallback(bar)
 		}
-		/* const newData = this.getBitqueryData(data);
-		if (newData.length > 1) {
-			this.allData = newData;
-		} else if (newData.length === 1) {
-			const newBar = newData[0];
-			if (this.allData.length === 0 || newBar.time >= this.allData[this.allData.length - 1].time + this.interval * 60 * 1000) {
-				const bar15min = this.create15MinuteBar([newBar]);
-				this.allData.push(bar15min);
-			} else {
-				const currentCandle = this.create15MinuteBar([this.allData[this.allData.length - 1], newBar]);
-				this.allData[this.allData.length - 1] = currentCandle;
-			}
-		} */
 	}
 
-	getNextBar(lastTwoBars) {
-		console.log({lastTwoBars})
-		const time = lastTwoBars.at(-1).time;
-		const open = time > lastTwoBars[0].time ? lastTwoBars.at(-1).open : lastTwoBars[0].open;
-		const close = lastTwoBars.at(-1).close;
-		const high = Math.max(...lastTwoBars.map(bar => bar.high));//
-		const low = Math.min(...lastTwoBars.map(bar => bar.low));//
-		const volume = time > lastTwoBars[0].time ? lastTwoBars.at(-1).volume : lastTwoBars.reduce((sum, bar) => sum + bar.volume, 0);//
-
-		return { time, open, high, low, close, volume };
+	getNextBar(lastBar, newBar) {
+		let bar
+		if (newBar.time > lastBar.time) {
+			//create new bar
+			bar = {
+				time: newBar.time,
+				open: newBar.open,
+				high: newBar.open,
+				low: newBar.open,
+				close: newBar.open,
+				volume: newBar.volume
+			}
+		} else {
+			//update bar
+			bar = {
+				...lastBar,
+				high: Math.max(lastBar.high, newBar.high),
+				low: Math.min(lastBar.low, newBar.low),
+				close: newBar.close,
+				volume: lastBar.volume + newBar.volume
+			}
+		}
+		return bar
 	}
 
 	composeBars(data) {
