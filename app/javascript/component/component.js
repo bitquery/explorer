@@ -1,4 +1,12 @@
-import { runWidget, createWidgetFrame, getBaseClass, getQueryParams, getStreamingAPI } from "./helper";
+import { 
+	runQuery,
+	runWidget,
+	getBaseClass,
+	getQueryParams,
+	getStreamingAPI,
+	createWidgetFrame,
+	renderQueryInComponent
+} from "./helper";
 
 export default async function renderComponent(component, selector, queryID, explorerVariables = {}, prepopulateQueryID) {
 	document.querySelector(selector).textContent = '';
@@ -11,11 +19,14 @@ export default async function renderComponent(component, selector, queryID, expl
 		const variables = { ...rawVariables, ...explorerVariables };
 
 		//cringe
-		async function getNewDataForQuery(interval) {
+		async function getNewDataForQuery(interval, from, to) {
 			widgetFrame.button2.style.display = 'none'
 
-			const payload = { endpoint_url, query, variables: { ...variables, limit: 9990, interval }, prepopulateQueryID }
-			runWidget(payload, componentObject, widgetFrame.onerror)
+			const payload = { endpoint_url, query, variables: { ...variables, limit: 9990, interval, from, to }, prepopulateQueryID }
+			// runWidget(payload, componentObject, widgetFrame.onerror)
+			// const data = await runQuery(payload)
+			const data = await renderQueryInComponent(payload)
+			return data
 		}
 		async function getNewLimitForShowMoreButton() {
 			widgetFrame.onquerystarted();

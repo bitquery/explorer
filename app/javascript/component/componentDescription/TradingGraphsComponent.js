@@ -61,74 +61,79 @@ export default class TradingGraphsComponent {
 
 					const till = new Date().toISOString().slice(0, 10);
 					const tillDate = new Date(till);
+					let newData
 					if (resolution === '1') {
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth(), tillDate.getDate() - 5);
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolution, from, till);
+						newData = await this.getNewDataForQuery(resolution, from, till);
 					}
 					if (resolution === '5') {
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth(), tillDate.getDate() - 30);
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolution, from, till);
+						newData = await this.getNewDataForQuery(resolution, from, till);
 					}
 					if (resolution === '15') {
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolution, from, till);
+						newData = await this.getNewDataForQuery(resolution, from, till);
 					}
 					if (resolution === '30') {
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 6, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolution, from, till);
+						newData = await this.getNewDataForQuery(resolution, from, till);
 					}
 					if (resolution === '60') {
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 13, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolution, from, till);
+						newData = await this.getNewDataForQuery(resolution, from, till);
 					}
 					if (resolution === '1D') {
 						const resolutionToMinutes = 1440;
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 285, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					if (resolution === '2D') {
 						const resolutionToMinutes = 2880;
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 160, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					if (resolution === '3D') {
 						const resolutionToMinutes = 4320;
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 320, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					if (resolution === 'W') {
 						const resolutionToMinutes = 10080;
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 640, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					if (resolution === '3W') {
 						const resolutionToMinutes = 30240;
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 1280, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					if (resolution === 'M') {
 						const resolutionToMinutes = 43829;
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 2360, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					if (resolution === '6M') {
 						const resolutionToMinutes = 262974;
 						const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 4720, tillDate.getDate());
 						const from = fromDate.toISOString().slice(0, 10);
-						const newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
+						newData = await this.getNewDataForQuery(resolutionToMinutes, from, till);
 					}
 					let bars = [];
+					newData = this.getBitqueryData(newData);
+					if (newData.length > 1) {
+						this.allData = newData;
+					}
 					this.allData.forEach(bar => {
 						if (bar.time / 1000 >= periodParams.from && bar.time / 1000 < periodParams.to) {
 							bars = [
