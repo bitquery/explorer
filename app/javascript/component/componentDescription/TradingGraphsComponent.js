@@ -1,8 +1,9 @@
 export default class TradingGraphsComponent {
-	constructor(element, variables, getNewDataForQuery) {
+	constructor(element, { query, variables, endpoint_url }) {
 		this.container = element;
-		this.variables = variables;
-		this.getNewDataForQuery = getNewDataForQuery;
+		this.variables = variables
+		this.query = query
+		this.endpointURL = endpoint_url
 		this.subscribers = {}
 		this.lastBar = null
 		this.config = this.configuration();
@@ -66,9 +67,8 @@ export default class TradingGraphsComponent {
 				getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
 					this.interval = resolution;
 
-					const till = new Date().toISOString().slice(0, 10);
-					const tillDate = new Date(till);
-					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor( resolution / 5 ), tillDate.getDate() - (resolution == 1 ? 5 : resolution == 5 ? 30 : 0)).toISOString().slice(0, 10)
+					const to = new Date().toISOString().slice(0, 10);
+					const tillDate = new Date(to);
 					const minuteIntervals = {
 						'1D': 24*60,
 						'2D': 2*24*60,
@@ -79,13 +79,35 @@ export default class TradingGraphsComponent {
 						'6M': 6*30*24*60
 					}
 					const minutesResolution = isNaN(+resolution) ? minuteIntervals[resolution] : resolution
-					let newData = await this.getNewDataForQuery(minutesResolution, from, till);
-					let bars = [];
-					newData = this.composeBars(newData);
-					if (newData.length > 1) {
-						this.allData = newData;
+					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor( minutesResolution / 5 ), tillDate.getDate() - (minutesResolution == 1 ? 5 : minutesResolution == 5 ? 30 : 0)).toISOString().slice(0, 10)
+					let data
+					if (this.query) {
+						const payload = {
+							endpoint_url: this.endpointURL,
+							query: this.query,
+							variables: {
+								...this.variables,
+								from, to,
+								interval: `${minutesResolution}`,
+								limit: '9990'
+							}
+						}
+						data = await this.runQuery(payload)
+					} else {
+						const { endpoint_url, variables: defaultVariables, query } = await this.getQueryParams(this.config.historyID)
+						const variables = {
+							...defaultVariables,
+							...this.variables,
+							from, to,
+							interval: `${minutesResolution}`,
+							limit: '9990'
+						}
+						const payload = { query, variables, endpoint_url }
+						data = await this.runQuery(payload)
 					}
-					this.allData.forEach(bar => {
+					let bars = [];
+					const compatibleData = this.composeBars(data);
+					compatibleData.forEach(bar => {
 						if (bar.time / 1000 >= periodParams.from && bar.time / 1000 < periodParams.to) {
 							bars = [
 								...bars,
@@ -101,7 +123,6 @@ export default class TradingGraphsComponent {
 						}
 					});
 					this.lastBar = {...bars.at(-1)}
-					console.log('last bar from getBras - ', bars.at(-1))
 					bars.length > 0 ? onHistoryCallback(bars, { noData: false }) : onHistoryCallback([], { noData: true });
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
@@ -117,10 +138,7 @@ export default class TradingGraphsComponent {
 				},
 				unsubscribeBars: subscriberUID => {
 					console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-        			if (this.subscribers[subscriberUID]) {
-						this.subscribers[subscriberUID].cleanup()
-						delete this.subscribers[subscriberUID]
-					}
+        			this.unsubscribeFromStream(subscriberUID)
 				},
 			}
 		});
@@ -132,6 +150,37 @@ export default class TradingGraphsComponent {
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
 		}
+	}
+
+	async getQueryParams(queryID) {
+		const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
+		const { endpoint_url, variables, query, name } = await response.json()
+		return {
+			variables: JSON.parse(variables),
+			query,
+			endpoint_url,
+			name
+		}
+	}
+
+	async runQuery({ endpoint_url, query, variables }) {
+		const response = await fetch(endpoint_url, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ query, variables }),
+			credentials: 'same-origin',
+		});
+		if (response.status !== 200) {
+			throw new Error(response.error);
+		}
+		const { data } = await response.json();
+		if (data.errors) {
+			throw new Error(data.errors[0].message);
+		}
+		return data
 	}
 
 	getNextBar(lastBar, newBar) {
@@ -178,14 +227,12 @@ export default class TradingGraphsComponent {
 	async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
 		console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
 		if (!this.subscribers[subscriberUID]) {
-			const response = await fetch(`${window.bitqueryAPI}/getquery/${this.config.subscriptionID}`)
-			const { endpoint_url, variables: stringVariables, query } = await response.json()
+			const { endpoint_url, variables: defaultVariables, query } = await this.getQueryParams(this.config.subscriptionID)
 			const variables = {
-				...JSON.parse(stringVariables),
+				...defaultVariables,
 				...this.variables,
 				interval: `${resolution}`
 			}
-
 			const currentUrl = endpoint_url.replace(/^http/, 'ws');
 			const client = createClient({ url: currentUrl });
 			const cleanup = client.subscribe({ query, variables }, {
@@ -203,6 +250,15 @@ export default class TradingGraphsComponent {
 			});
 	
 			this.subscribers[subscriberUID] = cleanup
+			console.log(this.subscribers)
+		}
+	}
+
+	unsubscribeFromStream(subscriberUID) {
+		console.log( this.subscribers )
+		if (this.subscribers[subscriberUID]) {
+			this.subscribers[subscriberUID]()
+			delete this.subscribers[subscriberUID]
 		}
 	}
 }

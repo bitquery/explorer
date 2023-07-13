@@ -41,7 +41,7 @@ export default async function renderComponent(component, selector, queryID, expl
 			}
 		}
 
-		const componentObject = new component(compElement, variables, getNewDataForQuery);
+		const componentObject = new component(compElement, {variables}, getNewDataForQuery);
 
 		const data = getBaseClass(component, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });
