@@ -2,6 +2,8 @@ export default class TradingGraphsComponent {
 	constructor(element, { query, variables, endpoint_url }) {
 		this.container = element;
 		this.variables = variables
+		this.historyQuery = null
+		this.historyVariables = null
 		this.query = query
 		this.endpointURL = endpoint_url
 		this.subscribers = {}
@@ -13,7 +15,6 @@ export default class TradingGraphsComponent {
 		this.minuteBars = [];
 		this.wrapper = document.createElement('div');
 		this.interval = this.config.interval(this.variables);
-		this.onRealtimeCallback = null;
 	}
 	initWidget() {
 		const configurationData = {
@@ -67,8 +68,8 @@ export default class TradingGraphsComponent {
 				getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
 					this.interval = resolution;
 
-					const to = new Date().toISOString().slice(0, 10);
-					const tillDate = new Date(to);
+					const till = new Date().toISOString().slice(0, 10);
+					const tillDate = new Date(till);
 					const minuteIntervals = {
 						'1D': 24*60,
 						'2D': 2*24*60,
@@ -79,7 +80,7 @@ export default class TradingGraphsComponent {
 						'6M': 6*30*24*60
 					}
 					const minutesResolution = isNaN(+resolution) ? minuteIntervals[resolution] : resolution
-					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor( minutesResolution / 5 ), tillDate.getDate() - (minutesResolution == 1 ? 5 : minutesResolution == 5 ? 30 : 0)).toISOString().slice(0, 10)
+					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor( minutesResolution / 5 ), tillDate.getDate() - (minutesResolution == 1 ? 5 : minutesResolution == 5 ? 0 : 0)).toISOString().slice(0, 10)
 					let data
 					if (this.query) {
 						const payload = {
@@ -94,15 +95,23 @@ export default class TradingGraphsComponent {
 						}
 						data = await this.runQuery(payload)
 					} else {
-						const { endpoint_url, variables: defaultVariables, query } = await this.getQueryParams(this.config.historyID)
+						if (!this.historyQuery) {
+							const { endpoint_url, variables, query } = await this.getQueryParams(this.config.historyID)
+							this.endpointURL = endpoint_url
+							this.historyVariables = variables
+							this.historyQuery = query
+						}
 						const variables = {
-							...defaultVariables,
+							...this.historyVariables,
 							...this.variables,
-							from, to,
+							from, till,
 							interval: `${minutesResolution}`,
 							limit: '9990'
 						}
-						const payload = { query, variables, endpoint_url }
+						const payload = {
+							query: this.historyQuery,
+							variables,
+							endpoint_url: this.endpointURL }
 						data = await this.runQuery(payload)
 					}
 					let bars = [];
@@ -126,8 +135,6 @@ export default class TradingGraphsComponent {
 					bars.length > 0 ? onHistoryCallback(bars, { noData: false }) : onHistoryCallback([], { noData: true });
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-					console.log('subscribe - ', subscriberUID)
-					this.onRealtimeCallback = onRealtimeCallback
 					this.subscribeOnStream(
 						symbolInfo,
 						resolution,
@@ -239,7 +246,6 @@ export default class TradingGraphsComponent {
 				next: ({ data }) => {
 					const newBar = this.composeBars(data)[0]
 					const bar = this.getNextBar(this.lastBar, newBar)
-					console.log({bar})
 					this.lastBar = {...bar}
 					onRealtimeCallback(bar)
 				},
@@ -250,12 +256,10 @@ export default class TradingGraphsComponent {
 			});
 	
 			this.subscribers[subscriberUID] = cleanup
-			console.log(this.subscribers)
 		}
 	}
 
 	unsubscribeFromStream(subscriberUID) {
-		console.log( this.subscribers )
 		if (this.subscribers[subscriberUID]) {
 			this.subscribers[subscriberUID]()
 			delete this.subscribers[subscriberUID]
