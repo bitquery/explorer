@@ -41,7 +41,7 @@ export const getBaseClass = (targetClass, config) => {
 	return data
 }
 
-export const getStreamingAPI = (data, variables, queryID) => () => {
+export const getAPIButton = (data, variables, queryID) => () => {
 	let createHiddenField = function (name, value) {
 		let input = document.createElement('input');
 		input.setAttribute('type', 'hidden');
@@ -131,6 +131,14 @@ export const runWidget = async (payload, widgetInstance, onerror) => {
 }
 
 export const createWidgetFrame = selector => {
+	const createButton = title => {
+		const button = document.createElement('a');
+		button.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api', 'mr-2');
+		button.setAttribute('role', 'button');
+		button.setAttribute('target', '_blank');
+		button.textContent = title;
+		return button
+	}
 	const componentContainer = document.querySelector(selector);
 	const widgetHeader = document.createElement('div');
 	const row = document.createElement('div');
@@ -138,15 +146,12 @@ export const createWidgetFrame = selector => {
 	const cardBody = document.createElement('div');
 	const widgetFrame = document.createElement('div');
 	const tableFooter = document.createElement('div');
-	const getAPIButton = document.createElement('a');
+	const getStreamingAPIButton = createButton('Get Streaming API')
+	const getHistoryAPIButton = createButton('Get History API')
 	const showMoreButton = document.createElement('a');
 	const loader = document.createElement('div');
 	const blinkerWrapper = document.createElement('div');
 	loader.classList.add('lds-dual-ring');
-	getAPIButton.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api');
-	getAPIButton.setAttribute('role', 'button');
-	getAPIButton.setAttribute('target', '_blank');
-	getAPIButton.textContent = 'Get Streaming API';
 	showMoreButton.classList.add('more-link');
 	showMoreButton.textContent = 'Show more...';
 	showMoreButton.style.display = 'none';
@@ -154,7 +159,8 @@ export const createWidgetFrame = selector => {
 	tableFooter.style.display = 'flex';
 	tableFooter.style.justifyContent = 'end';
 	tableFooter.appendChild(showMoreButton);
-	tableFooter.appendChild(getAPIButton);
+	tableFooter.appendChild(getHistoryAPIButton);
+	tableFooter.appendChild(getStreamingAPIButton);
 	widgetHeader.classList.add('card-header');
 	row.classList.add('row');
 	col8.classList.add('col');
@@ -211,7 +217,8 @@ export const createWidgetFrame = selector => {
 	};
 	return {
 		frame: widgetFrame,
-		button: getAPIButton,
+		getHistoryAPIButton,
+		getStreamingAPIButton,
 		button2: showMoreButton,
 		onloadmetadata,
 		onquerystarted,

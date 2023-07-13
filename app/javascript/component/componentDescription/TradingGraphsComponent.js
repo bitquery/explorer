@@ -15,6 +15,15 @@ export default class TradingGraphsComponent {
 		this.minuteBars = [];
 		this.wrapper = document.createElement('div');
 		this.interval = this.config.interval(this.variables);
+		this.minuteIntervals = {
+			'1D': 24 * 60,
+			'2D': 2 * 24 * 60,
+			'3D': 3 * 24 * 60,
+			'W': 7 * 24 * 60,
+			'3W': 3 * 7 * 24 * 60,
+			'M': 30 * 24 * 60,
+			'6M': 6 * 30 * 24 * 60
+		}
 	}
 	initWidget() {
 		const configurationData = {
@@ -70,17 +79,8 @@ export default class TradingGraphsComponent {
 
 					const till = new Date().toISOString().slice(0, 10);
 					const tillDate = new Date(till);
-					const minuteIntervals = {
-						'1D': 24 * 60,
-						'2D': 2 * 24 * 60,
-						'3D': 3 * 24 * 60,
-						'W': 7 * 24 * 60,
-						'3W': 3 * 7 * 24 * 60,
-						'M': 30 * 24 * 60,
-						'6M': 6 * 30 * 24 * 60
-					}
-					const minutesResolution = isNaN(+resolution) ? minuteIntervals[resolution] : resolution
-					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor(minutesResolution / 5), tillDate.getDate() - (minutesResolution == 1 ? 5 : minutesResolution == 5 ? 0 : 0)).toISOString().slice(0, 10)
+					const minutesInterval = this.getIntervalInMinutes(resolution)
+					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor(minutesInterval / 5), tillDate.getDate() - (minutesInterval == 1 ? 5 : minutesInterval == 5 ? 0 : 0)).toISOString().slice(0, 10)
 					let data
 					if (this.query) {
 						const payload = {
@@ -88,8 +88,8 @@ export default class TradingGraphsComponent {
 							query: this.query,
 							variables: {
 								...this.variables,
-								from, to,
-								interval: `${minutesResolution}`,
+								from, till,
+								interval: `${minutesInterval}`,
 								limit: '9990'
 							}
 						}
@@ -105,7 +105,7 @@ export default class TradingGraphsComponent {
 							...this.historyVariables,
 							...this.variables,
 							from, till,
-							interval: `${minutesResolution}`,
+							interval: `${minutesInterval}`,
 							limit: '9990'
 						}
 						const payload = {
@@ -142,6 +142,10 @@ export default class TradingGraphsComponent {
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
 		}
+	}
+
+	getIntervalInMinutes(resolution) {
+		return isNaN(+resolution) ? this.minuteIntervals[resolution] : resolution
 	}
 
 	async getQueryParams(queryID) {
@@ -224,12 +228,14 @@ export default class TradingGraphsComponent {
 
 	async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
 		console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
+		//condition for IDE
 		if (!this.subscribers[subscriberUID]) {
+			const minutesInterval = this.getIntervalInMinutes(resolution)
 			const { endpoint_url, variables: defaultVariables, query } = await this.getQueryParams(this.config.subscriptionID)
 			const variables = {
 				...defaultVariables,
 				...this.variables,
-				interval: `${resolution}`
+				interval: `${minutesInterval}`
 			}
 			const currentUrl = endpoint_url.replace(/^http/, 'ws');
 			const client = createClient({ url: currentUrl });

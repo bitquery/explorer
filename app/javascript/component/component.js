@@ -2,8 +2,8 @@ import {
 	runQuery,
 	runWidget,
 	getBaseClass,
+	getAPIButton,
 	getQueryParams,
-	getStreamingAPI,
 	createWidgetFrame,
 	renderQueryInComponent
 } from "./helper";
@@ -46,7 +46,8 @@ export default async function renderComponent(component, selector, queryID, expl
 		const data = getBaseClass(component, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });
 		
-		widgetFrame.button.onclick = getStreamingAPI(data, variables, queryID)
+		widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, queryID)
+		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, prepopulateQueryID)
 		widgetFrame.button2.onclick = getNewLimitForShowMoreButton
 		widgetFrame.onquerystarted();
 
