@@ -71,16 +71,16 @@ export default class TradingGraphsComponent {
 					const till = new Date().toISOString().slice(0, 10);
 					const tillDate = new Date(till);
 					const minuteIntervals = {
-						'1D': 24*60,
-						'2D': 2*24*60,
-						'3D': 3*24*60,
-						'W': 7*24*60,
-						'3W': 3*7*24*60,
-						'M': 30*24*60,
-						'6M': 6*30*24*60
+						'1D': 24 * 60,
+						'2D': 2 * 24 * 60,
+						'3D': 3 * 24 * 60,
+						'W': 7 * 24 * 60,
+						'3W': 3 * 7 * 24 * 60,
+						'M': 30 * 24 * 60,
+						'6M': 6 * 30 * 24 * 60
 					}
 					const minutesResolution = isNaN(+resolution) ? minuteIntervals[resolution] : resolution
-					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor( minutesResolution / 5 ), tillDate.getDate() - (minutesResolution == 1 ? 5 : minutesResolution == 5 ? 0 : 0)).toISOString().slice(0, 10)
+					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor(minutesResolution / 5), tillDate.getDate() - (minutesResolution == 1 ? 5 : minutesResolution == 5 ? 0 : 0)).toISOString().slice(0, 10)
 					let data
 					if (this.query) {
 						const payload = {
@@ -111,28 +111,13 @@ export default class TradingGraphsComponent {
 						const payload = {
 							query: this.historyQuery,
 							variables,
-							endpoint_url: this.endpointURL }
+							endpoint_url: this.endpointURL
+						}
 						data = await this.runQuery(payload)
 					}
-					let bars = [];
-					const compatibleData = this.composeBars(data);
-					compatibleData.forEach(bar => {
-						if (bar.time / 1000 >= periodParams.from && bar.time / 1000 < periodParams.to) {
-							bars = [
-								...bars,
-								{
-									time: bar.time,
-									close: bar.close,
-									open: bar.open,
-									high: bar.high,
-									low: bar.low,
-									volume: bar.volume,
-								},
-							];
-						}
-					});
-					this.lastBar = {...bars.at(-1)}
-					bars.length > 0 ? onHistoryCallback(bars, { noData: false }) : onHistoryCallback([], { noData: true });
+					const compatibleData = this.composeBars(data, periodParams);
+					this.lastBar = compatibleData.at(-1)
+					compatibleData.length > 0 ? onHistoryCallback(compatibleData, { noData: false }) : onHistoryCallback([], { noData: true });
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
 					this.subscribeOnStream(
@@ -140,12 +125,12 @@ export default class TradingGraphsComponent {
 						resolution,
 						onRealtimeCallback,
 						subscriberUID,
-						onResetCacheNeededCallback,
+						onResetCacheNeededCallback
 					);
 				},
 				unsubscribeBars: subscriberUID => {
 					console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-        			this.unsubscribeFromStream(subscriberUID)
+					this.unsubscribeFromStream(subscriberUID)
 				},
 			}
 		});
@@ -197,9 +182,9 @@ export default class TradingGraphsComponent {
 			bar = {
 				time: newBar.time,
 				open: lastBar.close,
-				high: lastBar.close,
-				low: lastBar.close,
-				close: lastBar.close,
+				high: newBar.high,
+				low: newBar.close,
+				close: newBar.close,
 				volume: newBar.volume
 			}
 		} else {
@@ -215,19 +200,25 @@ export default class TradingGraphsComponent {
 		return bar
 	}
 
-	composeBars(data) {
+	composeBars(data, periodParams) {
 		const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
-		const resultData = tradeBlock.map((item, index) => {
-			const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
-			return {
-				time: new Date(item.Block.Time).getTime(),
-				low: item.Trade.low,
-				high: item.Trade.high,
-				open: previousClose,
-				close: item.Trade.close,
-				volume: parseFloat(item.volume),
-			};
-		});
+		const resultData = []
+		for (let i = 0; i < tradeBlock.length; i++) {
+			const time = new Date(tradeBlock[i].Block.Time).getTime()
+			if (periodParams && ((time / 1000) < periodParams.from || (time / 1000) >= periodParams.to)) {
+				continue;
+			} else {
+				const previousClose = i > 0 ? tradeBlock[i - 1].Trade.close : tradeBlock[i].Trade.open;
+				resultData.push({
+					time,
+					low: tradeBlock[i].Trade.low,
+					high: tradeBlock[i].Trade.high,
+					open: previousClose,
+					close: tradeBlock[i].Trade.close,
+					volume: parseFloat(tradeBlock[i].volume)
+				})
+			}
+		}
 		return resultData;
 	}
 
@@ -246,7 +237,7 @@ export default class TradingGraphsComponent {
 				next: ({ data }) => {
 					const newBar = this.composeBars(data)[0]
 					const bar = this.getNextBar(this.lastBar, newBar)
-					this.lastBar = {...bar}
+					this.lastBar = { ...bar }
 					onRealtimeCallback(bar)
 				},
 				error: error => {
@@ -254,7 +245,7 @@ export default class TradingGraphsComponent {
 				},
 				complete: () => console.log('complete')
 			});
-	
+
 			this.subscribers[subscriberUID] = cleanup
 		}
 	}
