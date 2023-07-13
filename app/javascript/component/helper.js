@@ -2,6 +2,7 @@ const isNotEmptyArray = subj => Array.isArray(subj) && subj.length;
 const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 
 export const getBaseClass = (targetClass, config) => {
+	// discover functions used in class config function
 	const discoverFunctions = (subj, prop) => {
 		if (typeof subj === 'function') {
 			if (prop && subj?.name !== prop) {

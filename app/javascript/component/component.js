@@ -51,7 +51,11 @@ export default async function renderComponent(component, selector, queryID, expl
 		widgetFrame.onquerystarted();
 
 		const payload = { endpoint_url, query, variables, prepopulateQueryID }
-		await runWidget(payload, componentObject, widgetFrame.onerror)
+		if (componentObject.constructor.name === 'OHLCbyIntervalsGraph') {
+			componentObject.onData()
+		} else {
+			await runWidget(payload, componentObject, widgetFrame.onerror)
+		}
 
 		widgetFrame.onqueryend();
 	} catch (error) {

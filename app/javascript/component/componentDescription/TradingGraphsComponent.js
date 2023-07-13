@@ -3,9 +3,9 @@ export default class TradingGraphsComponent {
 		this.container = element;
 		this.variables = variables;
 		this.getNewDataForQuery = getNewDataForQuery;
+		this.subscribers = {}
 		this.lastBar = null
 		this.config = this.configuration();
-		this.symbol = null;
 		this.lastData = null;
 		this.allData = [];
 		this.widget = null;
@@ -24,7 +24,7 @@ export default class TradingGraphsComponent {
 		this.widget = new TradingView.widget({
 			container: this.wrapper,
 			locale: 'en',
-			symbol: this.symbol,
+			symbol: this.config.symbol,
 			interval: this.interval,
 			disabled_features: ['header_symbol_search', 'header_compare'],
 			fullscreen: false,
@@ -107,7 +107,7 @@ export default class TradingGraphsComponent {
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
 					console.log('subscribe - ', subscriberUID)
 					this.onRealtimeCallback = onRealtimeCallback
-					subscribeOnStream(
+					this.subscribeOnStream(
 						symbolInfo,
 						resolution,
 						onRealtimeCallback,
@@ -116,25 +116,21 @@ export default class TradingGraphsComponent {
 					);
 				},
 				unsubscribeBars: subscriberUID => {
-					console.log('unsubscribe - ', subscriberUID)
-					clearInterval(this.interval);
+					console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
+        			if (this.subscribers[subscriberUID]) {
+						this.subscribers[subscriberUID].cleanup()
+						delete this.subscribers[subscriberUID]
+					}
 				},
 			}
 		});
 	}
 
-	onData(data, sub) {
-		this.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`;
+	onData() {
 		if (this.widget === null) {
 			this.wrapper.style.height = '600px';
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
-		} else {
-			const newBar = this.composeBars(data)[0]
-			const bar = this.getNextBar(this.lastBar, newBar)
-			console.log({bar})
-			this.lastBar = {...bar}
-			this.onRealtimeCallback(bar)
 		}
 	}
 
@@ -165,7 +161,6 @@ export default class TradingGraphsComponent {
 
 	composeBars(data) {
 		const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
-
 		const resultData = tradeBlock.map((item, index) => {
 			const previousClose = index > 0 ? tradeBlock[index - 1].Trade.close : item.Trade.open;
 			return {
@@ -179,15 +174,35 @@ export default class TradingGraphsComponent {
 		});
 		return resultData;
 	}
-}
 
-function subscribeOnStream(
-	symbolInfo,
-	resolution,
-	onRealtimeCallback,
-	subscriberUID,
-	onResetCacheNeededCallback
-) {
-	console.log('here')
-	console.log(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback)
+	async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
+		console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
+		if (!this.subscribers[subscriberUID]) {
+			const response = await fetch(`${window.bitqueryAPI}/getquery/${this.config.subscriptionID}`)
+			const { endpoint_url, variables: stringVariables, query } = await response.json()
+			const variables = {
+				...JSON.parse(stringVariables),
+				...this.variables,
+				interval: `${resolution}`
+			}
+
+			const currentUrl = endpoint_url.replace(/^http/, 'ws');
+			const client = createClient({ url: currentUrl });
+			const cleanup = client.subscribe({ query, variables }, {
+				next: ({ data }) => {
+					const newBar = this.composeBars(data)[0]
+					const bar = this.getNextBar(this.lastBar, newBar)
+					console.log({bar})
+					this.lastBar = {...bar}
+					onRealtimeCallback(bar)
+				},
+				error: error => {
+					console.log(error)
+				},
+				complete: () => console.log('complete')
+			});
+	
+			this.subscribers[subscriberUID] = cleanup
+		}
+	}
 }

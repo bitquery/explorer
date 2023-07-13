@@ -21,6 +21,9 @@
   class OHLCbyIntervalsGraph extends TradingGraphsComponent {
     configuration() {
         return  {
+            symbol: '<%= @token1symbol%> / <%= @token2symbol%>',
+            historyID: 'OHLC-by-intervalschange-interval-for-test_1',
+            subscriptionID: 'Subscription-OHLC-with-interval',
             topElement: function (response){ return response.EVM.DEXTradeByTokens},
             chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
             token1: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol},
