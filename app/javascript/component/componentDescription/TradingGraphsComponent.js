@@ -107,14 +107,13 @@ export default class TradingGraphsComponent {
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
 					console.log('subscribe - ', subscriberUID)
 					this.onRealtimeCallback = onRealtimeCallback
-					/* subscribeOnStream(
+					subscribeOnStream(
 						symbolInfo,
 						resolution,
 						onRealtimeCallback,
 						subscriberUID,
 						onResetCacheNeededCallback,
-						lastBarsCache.get(symbolInfo.full_name)
-					); */
+					);
 				},
 				unsubscribeBars: subscriberUID => {
 					console.log('unsubscribe - ', subscriberUID)
@@ -145,10 +144,10 @@ export default class TradingGraphsComponent {
 			//create new bar
 			bar = {
 				time: newBar.time,
-				open: newBar.open,
-				high: newBar.open,
-				low: newBar.open,
-				close: newBar.open,
+				open: lastBar.close,
+				high: lastBar.close,
+				low: lastBar.close,
+				close: lastBar.close,
 				volume: newBar.volume
 			}
 		} else {
@@ -180,4 +179,15 @@ export default class TradingGraphsComponent {
 		});
 		return resultData;
 	}
+}
+
+function subscribeOnStream(
+	symbolInfo,
+	resolution,
+	onRealtimeCallback,
+	subscriberUID,
+	onResetCacheNeededCallback
+) {
+	console.log('here')
+	console.log(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback)
 }
