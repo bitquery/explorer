@@ -4,6 +4,7 @@ export default class TradingGraphsComponent {
 		this.variables = variables
 		this.historyQuery = null
 		this.historyVariables = null
+		this.streamingPayload = null
 		this.query = query
 		this.endpointURL = endpoint_url
 		this.subscribers = {}
@@ -110,8 +111,8 @@ export default class TradingGraphsComponent {
 							limit: '9990'
 						}
 						const payload = {
-							query: this.historyQuery,
 							variables,
+							query: this.historyQuery,
 							endpoint_url: this.endpointURL
 						}
 						data = await this.runQuery(payload)
@@ -229,15 +230,26 @@ export default class TradingGraphsComponent {
 
 	async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
 		console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
-		//condition for IDE
 		if (!this.subscribers[subscriberUID]) {
 			const minutesInterval = this.getIntervalInMinutes(resolution)
-			const { endpoint_url, variables: defaultVariables, query } = await this.getQueryParams(this.config.subscriptionID)
-			const variables = {
-				...defaultVariables,
-				...this.variables,
-				interval: `${minutesInterval}`
+			if (!this.streamingPayload) {
+				if (this.config.subscriptionID) {	//comes from explorer with subscriptionID
+					const { endpoint_url, variables, query } = await this.getQueryParams(this.config.subscriptionID)
+					this.streamingPayload = {
+						query, 
+						endpoint_url,
+						variables: { ...variables, ...this.variables }
+					}
+				} else {	//comes from IDE with payload
+					this.streamingPayload = {
+						query: this.query,
+						endpoint_url: this.endpointURL,
+						variables: { ...this.variables }
+					}
+				}
 			}
+			this.streamingPayload.variables.interval = `${minutesInterval}`
+			const { endpoint_url, query, variables } = this.streamingPayload
 			const currentUrl = endpoint_url.replace(/^http/, 'ws');
 			const client = createClient({ url: currentUrl });
 			const cleanup = client.subscribe({ query, variables }, {
@@ -252,7 +264,6 @@ export default class TradingGraphsComponent {
 				},
 				complete: () => console.log('complete')
 			});
-
 			this.subscribers[subscriberUID] = cleanup
 		}
 	}

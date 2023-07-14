@@ -18,12 +18,6 @@ export default async function renderComponent(component, selector, queryID, expl
 		const compElement = widgetFrame.frame;
 		const variables = { ...rawVariables, ...explorerVariables };
 
-		async function getNewDataForQuery(interval, from, to) {
-			widgetFrame.button2.style.display = 'none'
-			const payload = { endpoint_url, query, variables: { ...variables, limit: 9990, interval, from, to }, prepopulateQueryID }
-			const data = await renderQueryInComponent(payload)
-			return data
-		}
 		async function getNewLimitForShowMoreButton() {
 			widgetFrame.onquerystarted();
 			variables.limit += 10
@@ -37,11 +31,10 @@ export default async function renderComponent(component, selector, queryID, expl
 			if (query.startsWith('subscription')) {
 				widgetFrame.button2.style.display = 'none'
 				widgetFrame.button2.parentNode.style.justifyContent = 'end';
-
 			}
 		}
 
-		const componentObject = new component(compElement, {variables}, getNewDataForQuery);
+		const componentObject = new component(compElement, {variables});
 
 		const data = getBaseClass(component, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });
