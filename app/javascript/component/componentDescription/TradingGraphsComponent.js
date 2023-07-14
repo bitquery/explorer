@@ -233,7 +233,7 @@ export default class TradingGraphsComponent {
 		if (!this.subscribers[subscriberUID]) {
 			const minutesInterval = this.getIntervalInMinutes(resolution)
 			if (!this.streamingPayload) {
-				if (this.config.subscriptionID) {	//comes from explorer with subscriptionID
+				if (!this.query) {	//comes from explorer with subscriptionID
 					const { endpoint_url, variables, query } = await this.getQueryParams(this.config.subscriptionID)
 					this.streamingPayload = {
 						query, 
