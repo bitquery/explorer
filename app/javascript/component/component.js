@@ -53,11 +53,11 @@ export default async function renderComponent(component, selector, queryID, expl
 
 		const payload = { endpoint_url, query, variables, prepopulateQueryID }
 		if (componentObject.constructor.name === 'OHLCbyIntervalsGraph') {
-			componentObject.onData()
+			componentObject.onData(undefined, true)
 		} else {
+			widgetFrame.getHistoryAPIButton.style.display = 'none'
 			await runWidget(payload, componentObject, widgetFrame.onerror)
 		}
-
 		widgetFrame.onqueryend();
 	} catch (error) {
 		widgetFrame.onerror(error);

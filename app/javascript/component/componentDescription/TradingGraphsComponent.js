@@ -15,6 +15,7 @@ export default class TradingGraphsComponent {
 		this.minuteBars = [];
 		this.wrapper = document.createElement('div');
 		this.interval = this.config.interval(this.variables);
+		this.subscription = undefined
 		this.minuteIntervals = {
 			'1D': 24 * 60,
 			'2D': 2 * 24 * 60,
@@ -120,7 +121,7 @@ export default class TradingGraphsComponent {
 					compatibleData.length > 0 ? onHistoryCallback(compatibleData, { noData: false }) : onHistoryCallback([], { noData: true });
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-					this.subscribeOnStream(
+					this.subscription && this.subscribeOnStream(
 						symbolInfo,
 						resolution,
 						onRealtimeCallback,
@@ -129,15 +130,15 @@ export default class TradingGraphsComponent {
 					);
 				},
 				unsubscribeBars: subscriberUID => {
-					console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-					this.unsubscribeFromStream(subscriberUID)
+					this.subscription && this.unsubscribeFromStream(subscriberUID)
 				},
 			}
 		});
 	}
 
-	onData() {
+	onData(data, subscription) {
 		if (this.widget === null) {
+			this.subscription = subscription
 			this.wrapper.style.height = '600px';
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
@@ -257,6 +258,7 @@ export default class TradingGraphsComponent {
 	}
 
 	unsubscribeFromStream(subscriberUID) {
+		console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
 		if (this.subscribers[subscriberUID]) {
 			this.subscribers[subscriberUID]()
 			delete this.subscribers[subscriberUID]

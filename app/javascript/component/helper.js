@@ -152,7 +152,7 @@ export const createWidgetFrame = selector => {
 	const loader = document.createElement('div');
 	const blinkerWrapper = document.createElement('div');
 	loader.classList.add('lds-dual-ring');
-	showMoreButton.classList.add('more-link');
+	showMoreButton.classList.add('more-link', 'badge');
 	showMoreButton.textContent = 'Show more...';
 	showMoreButton.style.display = 'none';
 	showMoreButton.style.cursor = 'pointer';
