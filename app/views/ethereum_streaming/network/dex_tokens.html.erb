@@ -54,28 +54,46 @@
       }
     }
   }
-  // class TokenTradePairs extends BootstrapTableComponent {
-  //   configuration() {
-  //     return  {
-  //       topElement: function (response){ return response.EVM.DEXTrades},
-  //       chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-  //       columns: [
-  //         {
-  //           name: 'Smart Contract', cell: function(row){ return  row.Trade.Dex.SmartContract}, rendering: renderJustAddressLink,
-  //         },
-  //         {
-  //           name: 'Protocol', cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
-  //         },
-  //         {
-  //           name: 'Trades', cell: function(row){ return row.trades},
-  //         },
-  //         {
-  //           name: 'Currencies', cell: function(row){ return row.currencies},
-  //         },
-  //       ]
-  //     }
-  //   }
-  // }
+  class TokenTradePairs extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.DEXTrades},
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        columns: [
+          {
+            name: 'Sell amount', cell: function(row){ return  row.Sell_Amount},
+          },
+          {
+            name: 'Sell currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
+          },
+          {
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+          },
+          {
+            name: 'Buy amount', cell: function(row){ return row.Buy_Amount},
+          },
+          {
+            name: 'Buy currency', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
+          },
+          {
+            name: 'Trades', cell: function(row){ return row.count},
+          },
+          {
+            name: 'Started', cell: function(row){ return row.Block.Date},
+          },
+          {
+            name: 'Days traded', cell: function(row){ return row.uniq},
+          },
+          {
+            name: 'Median Price', cell: function(row){ return row.median_price},
+          },
+          {
+            name: 'Last Price', cell: function(row){ return row.Trade.Buy.last_price},
+          },
+        ]
+      }
+    }
+  }
 
    const variables = {
     network:'eth',
@@ -88,6 +106,6 @@
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
     renderComponent(TradedCurrenciesByTime, "#Traded-currencies-by-time",'Traded-currencies-by-time_1',variables);
     renderComponent(TradesByPairs, '#Trades-By-Pairs','Trades-By-Pairs_1_1_1',variables);
-    // renderComponent(TokenTradePairs, "#Token-Trade-Pairs",'Token-Trade-Pairs_1_1_1',variables);
+    renderComponent(TokenTradePairs, "#Token-Trade-Pairs",'Token-Trade-Pairs_1_1_1_1_1',variables);
   })
 </script>

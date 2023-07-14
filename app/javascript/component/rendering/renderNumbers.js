@@ -4,7 +4,6 @@ export default function renderNumbers(data, variables, chainId) {
 	const span = document.createElement('span');
 	span.textContent = data
 
-console.log('data from rendernumbers',data)
 	div.appendChild(span)
 	return div;
 }
