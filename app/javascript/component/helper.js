@@ -73,7 +73,7 @@ export const getQueryParams = async (queryID) => {
 	}
 }
 
-export const runQuery = async ({ endpoint_url, query, variables }) => {
+export const getData = async ({ endpoint_url, query, variables }) => {
 	const response = await fetch(endpoint_url, {
 		method: 'POST',
 		headers: {
@@ -101,7 +101,7 @@ export const renderQueryInComponent = async (payload, widgetInstance) => {
 	} else {
 		currentPayload = payload
 	}
-	const data = await runQuery(currentPayload);
+	const data = await getData(currentPayload);
 	widgetInstance && widgetInstance.onData(data);
 	return data
 };
