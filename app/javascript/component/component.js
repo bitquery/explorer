@@ -1,5 +1,5 @@
 import { 
-	runQuery,
+	getData,
 	runWidget,
 	getBaseClass,
 	getAPIButton,
@@ -34,7 +34,7 @@ export default async function renderComponent(component, selector, queryID, expl
 			}
 		}
 
-		const componentObject = new component(compElement, {variables});
+		const componentObject = new component(compElement, {variables}, getData);
 
 		const data = getBaseClass(component, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });

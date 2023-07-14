@@ -1,9 +1,10 @@
 export default class TradingGraphsComponent {
-	constructor(element, { query, variables, endpoint_url }) {
+	constructor(element, { query, variables, endpoint_url }, getData) {
 		this.container = element;
 		this.variables = variables
 		this.historyQuery = null
 		this.historyVariables = null
+		this.getData = getData
 		this.streamingPayload = null
 		this.query = query
 		this.endpointURL = endpoint_url
@@ -95,7 +96,7 @@ export default class TradingGraphsComponent {
 								limit: '9990'
 							}
 						}
-						data = await this.runQuery(payload)
+						data = await this.getData(payload)
 					} else {
 						if (!this.historyQuery) {
 							const { endpoint_url, variables, query } = await this.getQueryParams(this.config.historyID)
@@ -115,7 +116,7 @@ export default class TradingGraphsComponent {
 							query: this.historyQuery,
 							endpoint_url: this.endpointURL
 						}
-						data = await this.runQuery(payload)
+						data = await this.getData(payload)
 					}
 					const compatibleData = this.composeBars(data, periodParams);
 					this.lastBar = compatibleData.at(-1)
@@ -159,26 +160,6 @@ export default class TradingGraphsComponent {
 			endpoint_url,
 			name
 		}
-	}
-
-	async runQuery({ endpoint_url, query, variables }) {
-		const response = await fetch(endpoint_url, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ query, variables }),
-			credentials: 'same-origin',
-		});
-		if (response.status !== 200) {
-			throw new Error(response.error);
-		}
-		const { data } = await response.json();
-		if (data.errors) {
-			throw new Error(data.errors[0].message);
-		}
-		return data
 	}
 
 	getNextBar(lastBar, newBar) {
