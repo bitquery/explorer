@@ -12,9 +12,7 @@ export default class TradingGraphsComponent {
 		this.lastBar = null
 		this.config = this.configuration();
 		this.lastData = null;
-		this.allData = [];
 		this.widget = null;
-		this.minuteBars = [];
 		this.wrapper = document.createElement('div');
 		this.interval = this.config.interval(this.variables);
 		this.subscription = undefined
@@ -140,6 +138,9 @@ export default class TradingGraphsComponent {
 
 	onData(data, subscription) {
 		if (this.widget === null) {
+			if (data) {
+				this.config.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`
+			}
 			this.subscription = subscription
 			this.wrapper.style.height = '600px';
 			this.container.appendChild(this.wrapper);
