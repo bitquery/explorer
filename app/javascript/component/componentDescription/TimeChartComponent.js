@@ -6,6 +6,7 @@ export default class TimeChartComponent {
 	}
 
 	async onData(data, sub) {
+		console.log('data',data)
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
 			const chainId =  this.config.chainId(data)
@@ -42,6 +43,7 @@ export default class TimeChartComponent {
 
 			const dataTable = google.visualization.arrayToDataTable(dataToVizualize)
 			const chart = new google.visualization.ColumnChart(this.container)
+			console.log('dataToVizualize',dataToVizualize)
 			chart.draw(dataTable, this.config.options)
 		}
 		google.charts.load('current', {packages: ['corechart', 'bar']});

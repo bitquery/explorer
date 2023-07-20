@@ -12,13 +12,14 @@ export default class BootstrapTableComponent {
     this.tbody.textContent=''
   }
   createWrapper() {
-    this.wrapper = this.createElementWithClasses('div', 'table-responsive-md');
+    this.wrapper = this.createElementWithClasses('div', 'table-responsive-md','d-flex');
     this.appendChildren(this.container, this.wrapper);
   }
 
   createTable() {
     this.tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
     this.tableElement.style.tableLayout = 'fixed';
+    this.tableElement.style.width = '100%';
     this.appendChildren(this.wrapper, this.tableElement);
     this.createThead();
     this.createTbody();

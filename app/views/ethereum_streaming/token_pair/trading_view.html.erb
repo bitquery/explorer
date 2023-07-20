@@ -6,11 +6,11 @@
 <script>
   const till = new Date().toISOString().slice(0, 10);
   const tillDate = new Date(till);
-  const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate()); //change here data for more date
+  const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate());
   const from = fromDate.toISOString().slice(0, 10);
 
   const variables = {
-  interval: 15,   //change here for new data
+  interval: 15,
   network:'<%= @streaming%>',
   baseCurrency: '<%= @token1 %>',
   quoteCurrency: '<%= @token2 %>',
@@ -29,13 +29,6 @@
         }
     }
   }
-  //OHLC-by-intervalschange-interval-for-test_1_1_1_1_1_1 amount gt: 0.0001
 
-  //OHLC-by-intervalschange-interval-for-test_1_1_1_1 Price: {gt: 50, lt: 3000}
-  //OHLC-by-intervalschange-interval-for-test_1_1_1_1_1 from 0 to 3000
-  //OHLC-by-intervalschange-interval-for-test_1_1_1 lt:3000
-  //OHLC-by-intervalschange-interval-for-test_1_1 gt:1.5
-  //OHLC-by-intervalschange-interval-for-test_1  gt:0
-
-  renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1_1',variables,'OHLC-by-intervalschange-interval-for-test_1_1_1_1_1_1' );
+  renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'Subscription-OHLC-by-intervals_1_1',variables,'OHLC-by-intervalschange-interval-for-test_1_1_1_1_1_1_1' );
 </script>

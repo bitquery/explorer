@@ -48,7 +48,7 @@
             name: 'Started', cell: function(row){ return row.Block.Date},
           },
           {
-            name: 'Days traded', cell: function(row){ return row.uniq},
+            name: 'Days traded', cell: function(row){ return row.uniq},rendering: renderNumbers,
           },
         ]
       }
@@ -61,7 +61,7 @@
         chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
         columns: [
           {
-            name: 'Sell amount', cell: function(row){ return  row.Sell_Amount},
+            name: 'Sell amount', cell: function(row){ return  row.Sell_Amount},rendering: renderNumbers,
           },
           {
             name: 'Sell currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
@@ -70,7 +70,7 @@
             name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
           },
           {
-            name: 'Buy amount', cell: function(row){ return row.Buy_Amount},
+            name: 'Buy amount', cell: function(row){ return row.Buy_Amount},rendering: renderNumbers,
           },
           {
             name: 'Buy currency', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
@@ -82,13 +82,13 @@
             name: 'Started', cell: function(row){ return row.Block.Date},
           },
           {
-            name: 'Days traded', cell: function(row){ return row.uniq},
+            name: 'Days traded', cell: function(row){ return row.uniq},rendering: renderNumbers,
           },
           {
-            name: 'Median Price', cell: function(row){ return row.median_price},
+            name: 'Median Price', cell: function(row){ return row.median_price},rendering: renderNumbers,
           },
           {
-            name: 'Last Price', cell: function(row){ return row.Trade.Buy.last_price},
+            name: 'Last Price', cell: function(row){ return row.Trade.Buy.last_price},rendering: renderNumbers,
           },
         ]
       }
@@ -96,8 +96,7 @@
   }
 
    const variables = {
-    network:'eth',
-    // network:'<%= @streaming%>',
+    network:'<%= @streaming%>',
     offset: 0,
     address: '<%= @address %>',
     token: '<%= @address %>',

@@ -3,28 +3,26 @@ class EthereumStreaming::TokenPairController < NetworkController
   layout 'tabs'
   before_action :set_pair, :query_graphql
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $token1: String!,$token2: String!) {
-              ethereum(network: $network) {
-                address(address: {in: [$token1,$token2]}){
-                  address 
-                  annotation
-                  
-                  smartContract {
-                    contractType
-                    currency{
-                      symbol
-                      name
-                      decimals
-                      tokenType
-                    }
-                  }
-                  balance
-                }
-              }
+  QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
+    query ($network: evm_network, $token1: String!, $token2: String!) {
+      EVM(dataset: archive, network: $network) {
+        Transfers(
+          where: {Transfer: {Currency: {SmartContract: {in: [$token1, $token2]}}}}
+          limitBy: {count: 1 by: Transfer_Currency_SmartContract}
+        ) {
+          Transfer {
+            Currency {
+              SmartContract
+              Symbol
+              Name
+              Decimals
+              ProtocolName
             }
+          }
+        }
+      }
+    }
   GRAPHQL
-
 
   def show
   end
@@ -46,19 +44,17 @@ class EthereumStreaming::TokenPairController < NetworkController
 
 
   def query_graphql
+    result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: {
+              network: @network[:streaming], token1: @token1, token2: @token2 }).data.evm.transfers
 
-    result = BitqueryGraphql.instance.query_with_retry(QUERY, variables: {
-              network: @network[:network], token1: @token1, token2: @token2 }).data.ethereum_streaming
+    @token1name = result.detect {|a| a.transfer.currency.smart_contract == @token1 }
+    @token2name = result.detect {|a| a.transfer.currency.smart_contract == @token2 }
 
-    @token1name = result.address.detect{|a| a.address==@token1 }
-    @token2name = result.address.detect{|a| a.address==@token2 }
+    @token1symbol = @token1name ? @token1name.transfer.currency.symbol : '-'
+    @token2symbol = @token2name ? @token2name.transfer.currency.symbol : '-'
 
-    @token1symbol = @token1name ? @token1name.smart_contract.currency.symbol : '-'
-    @token2symbol = @token2name ? @token2name.smart_contract.currency.symbol : '-'
-
-    @token1name = @token1name ? @token1name.smart_contract.currency.name : '-'
-    @token2name = @token2name ? @token2name.smart_contract.currency.name : '-'
-
+    @token1name = @token1name ? @token1name.transfer.currency.name : '-'
+    @token2name = @token2name ? @token2name.transfer.currency.name : '-'
   end
 
 end

@@ -1,1 +1,75 @@
-<%= render partial: 'ethereum_streaming/network/miners_block_by_time' %>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Miners-Block-Count-By-Time"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card"id="MinersBlockCountByTime-Table" ></div>
+  </div>
+</div>
+<script>
+  class MinersBlockCountByTime extends TimeChartComponent {
+  configuration() {
+    return  {
+      topElement: function (response){ return response.EVM.MinerRewards },
+      chainId: function (response){ return response.EVM.MinerRewards[0].ChainId},
+      columns: [
+        { name: 'Date', cell: function(row) { return row.Block.Date } },
+        { name: function(row) { return row.Block.Coinbase }, cell: function(row) { return +row.count } } ,
+      ],
+      options: {
+        isStacked: true,
+        theme: 'material',
+        height: 405
+      }
+    }
+  }
+    }
+      class MinersBlockCountByTimeTable extends BootstrapTableComponent {
+      configuration() {
+        return  {
+          topElement: function (response){ return response.EVM.MinerRewards},
+          chainId: function (response){ return response.EVM.MinerRewards[0].ChainId},
+          columns: [
+            {
+              name: 'Time', cell: function(row){ return row.Block.Date},
+            },
+            {
+              name: 'Miner', cell: function(row){ return row.Block.Coinbase}, rendering: renderJustAddressLink
+
+            },
+            {
+              name: 'Count', cell: function(row){ return row.count},
+            },
+          ]
+        }
+      }
+  }
+    //   class NFTTransfersByDate extends TimeChartComponent {
+    //   configuration() {
+    //     return {
+    //       topElement: function(response) { return response.EVM.Transfers },
+    //       chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+    //       columns: [
+    //         {name: 'Date', cell: function (row) { return row.Block.Date } },
+    //         {name: 'Count', cell: function (row) { return +row.count } }
+    //       ],
+    //       options: {
+    //           title: 'Transfers Count',
+    //           height: 300
+    //       }
+    //     }
+    //   }
+    // }
+    const variables = {
+  network:'<%= @streaming%>',
+  offset: 0,
+  address: '<%= @address %>',
+  token: '<%= @address %>',
+  id: '<%= @id %>',
+    }
+    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+  renderComponent(MinersBlockCountByTime, "#Miners-Block-Count-By-Time",'Miners-Block-Count-By-Time_1',variables);
+  renderComponent(MinersBlockCountByTimeTable, "#MinersBlockCountByTime-Table",'Miners-Block-Count-By-Time_1',variables);
+  // renderComponent(NFTTransfersByDatePie, "#NFT-Transfers-By-Date-Pie",'Copy-of-Top-transfered-NFT-tokens-in-network',variables);
+    })
+</script>

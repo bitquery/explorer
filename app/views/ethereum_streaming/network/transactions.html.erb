@@ -53,7 +53,7 @@
         chainId: function (response){ return response.EVM.Transactions[0].ChainId},
         columns: [
           {name: 'Date', cell: function (row) { return row.Block.Date } },
-          {name: 'Count', cell: function (row) { return +row.count } }
+          {name: 'Count', cell: function (row) { return parseInt(row.count) } }
         ],
         options: {
             title: 'Transactions Count',
@@ -69,7 +69,7 @@
         chainId: function (response){ return response.EVM.Transactions[0].ChainId},
         columns: [
           {name: 'Date', cell: function (row) { return row.Block.Date } },
-          {name: 'Count', cell: function (row) { return +row.Block.GasUsed } }
+          {name: 'Count', cell: function (row) { return parseInt(row.Block.GasUsed) } }
         ],
         options: {
             title: 'Gas spend',
@@ -78,8 +78,6 @@
       }
     }
   }
-
-
 
   const variables = {
     network:'<%= @streaming%>',
@@ -90,7 +88,9 @@
     till: new Date().toISOString().slice(0, 10),
     from: new Date().toISOString().slice(0, 10),
   }
+
   renderComponent(LatestTransactions, "#Latest-Transactions",'Latest-Transactions_1_1_1',variables);
+
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
     renderComponent(TransactionsByDate, "#Transactions-By-Date",'Transactions-By-Date_1_1',variables);
     renderComponent(GasSpentByDate, "#GasSpentByDate",'Gas-Spent-By-Date',variables);
