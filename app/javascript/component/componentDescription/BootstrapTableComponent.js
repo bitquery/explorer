@@ -7,12 +7,12 @@ export default class BootstrapTableComponent {
     this.createTable();
     this.data = null;
   }
- async clearData() {
+  async clearData() {
     await this.data;
-    this.tbody.textContent=''
+    this.tbody.textContent = ''
   }
   createWrapper() {
-    this.wrapper = this.createElementWithClasses('div', 'table-responsive-md','d-flex');
+    this.wrapper = this.createElementWithClasses('div', 'table-responsive-md', 'd-flex');
     this.appendChildren(this.container, this.wrapper);
   }
 
@@ -32,10 +32,13 @@ export default class BootstrapTableComponent {
     this.appendChildren(this.tableElement, thead);
     this.appendChildren(thead, tr);
 
-    this.config.columns.forEach(({name}) => {
+    this.config.columns.forEach(({ name , rendering}) => {
       const th = this.createElementWithClasses('th');
       th.setAttribute('scope', 'row');
       th.textContent = name;
+      if(rendering === renderNumbers ){
+        th.style.textAlign = 'end'
+      }
       this.appendChildren(tr, th);
     });
   }
@@ -51,10 +54,10 @@ export default class BootstrapTableComponent {
   }
 
   async onData(data, sub) {
-     this.data = this.config.topElement(data);
-    let chainId=''
-    if(this.data.length > 0){
-       chainId =  this.config.chainId(data)
+    this.data = this.config.topElement(data);
+    let chainId = ''
+    if (this.data.length > 0) {
+      chainId = this.config.chainId(data)
     }
     const maxRows = 15;
 
@@ -63,7 +66,14 @@ export default class BootstrapTableComponent {
 
       for (const column of this.config.columns) {
         const td = this.createElementWithClasses('td');
-        // ,"text-truncate"
+          if (column.name !== 'Date' && column.name !== 'Time' && column.name !== 'Timestamp') {
+              td.style.whiteSpace = 'nowrap';
+              td.style.overflow = 'hidden';
+              td.style.textOverflow = 'ellipsis';
+          }
+
+        td.setAttribute('title', column.cell(rowData))
+
         const textCell = this.createElementWithClasses('span');
         textCell.textContent = column.cell(rowData);
         this.appendChildren(td, textCell);

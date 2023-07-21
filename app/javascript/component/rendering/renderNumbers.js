@@ -1,9 +1,8 @@
 export default function renderNumbers(data) {
-	const div = document.createElement('div');
-	div.style.textAlign='end'
 	const span = document.createElement('span');
-	span.textContent = parseFloat(Number(data).toFixed(4));
+	// const text = parseFloat(Number(data).toFixed(4))
+	span.textContent = data;
+	span.setAttribute('title',data)
 
-	div.appendChild(span)
-	return div;
+	return span;
 }

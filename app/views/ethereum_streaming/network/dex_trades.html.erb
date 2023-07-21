@@ -1,2 +1,146 @@
-<%= render partial: 'ethereum_streaming/network/dex_trades_by_time' %>
-<%= render partial: 'ethereum_streaming/network/trades_table' %>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Trades"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Addreses" ></div>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Currencies"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Contracts" ></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="NFT-Transfers-By-Date" class="card"></div>
+  </div>
+</div>
+<script >
+  class TradesByTimeTrades extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.DEXTrades },
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Trades', cell: function (row) { return +row.trades } }
+        ],
+        options: {
+            title: 'Trades by time',
+            height: 300
+        }
+      }
+    }
+  }
+  class TradesByTimeAddreses extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.DEXTrades },
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Trades addresses', cell: function (row) { return +row.traders } }
+        ],
+        options: {
+            title: 'Trade Takers',
+            height: 300
+        }
+      }
+    }
+  }
+  class TradesByTimeCurrencies extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.DEXTrades },
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Currencies', cell: function (row) { return +row.contracts } }
+        ],
+        options: {
+            title: 'Traded currencies by time',
+            height: 300
+        }
+      }
+    }
+  }
+  class TradesByTimeContracts extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.DEXTrades },
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Uniq Contracts', cell: function (row) { return +row.currencies } }
+        ],
+        options: {
+            title: 'DEX Smart Contracts by time',
+            height: 300
+        }
+      }
+    }
+  }
+
+  //   class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
+  //       configuration() {
+  //         return  {
+  //           topElement: function (response){ return response.EVM.DEXTrades},
+  //           chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+  //           columns: [
+  //             {
+  //               name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+  //             },
+  //             {
+  //               name: 'Sell currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
+  //             },
+  //             {
+  //               name: 'Seller', cell: function(row){ return row.Trade.Buy.Seller}, rendering: renderAddressLink,
+  //             },
+  //             {
+  //               name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+  //             },
+  //             {
+  //               name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},   rendering: renderAddressLink,
+  //             },
+  //             {
+  //               name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
+  //             },
+  //             {
+  //               name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
+  //             },
+  //             {
+  //               name: 'Buy amount', cell: function(row){return parseFloat(row.Trade.Buy.Amount).toFixed(2)}
+  //             },
+  //             {
+  //               name: 'Price', cell: function(row){ return parseFloat(row.Trade.Buy.Price).toFixed(3) },
+  //             },
+  //             {
+  //               name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+  //             },
+  //             {
+  //               name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+  //             },
+  //           ]
+  //         }
+  //       }
+  //   }
+
+  const variables = {
+    network:'<%= @streaming%>',
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+  }
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(TradesByTimeTrades, "#Trades-By-Time-Trades",'Trades-By-Time',variables);
+    renderComponent(TradesByTimeAddreses, "#Trades-By-Time-Addreses",'Trades-By-Time',variables);
+    renderComponent(TradesByTimeCurrencies, "#Trades-By-Time-Currencies",'Trades-By-Time',variables);
+    renderComponent(TradesByTimeContracts, "#Trades-By-Time-Contracts",'Trades-By-Time',variables);
+    // renderComponent(TopTradedNFTTokens, "#Top-traded-NFT-tokens",'Top-traded-NFT-tokens-in-network_1',variables);
+  })
+</script>

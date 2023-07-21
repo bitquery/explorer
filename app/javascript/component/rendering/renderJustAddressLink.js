@@ -5,6 +5,7 @@ export default function renderJustAddressLink(data, variables, chainId) {
   link.setAttribute('target', '_blank');
   link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
   link.textContent = data;
+  link.setAttribute('title',data)
 
   div.appendChild(link);
   return div;

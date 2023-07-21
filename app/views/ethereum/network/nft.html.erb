@@ -67,14 +67,14 @@
               name: 'Transfers', cell: function(row){ return row.count},
             },
             {
-              name: 'Unique Senders', cell: function(row){ return row.senders},
+              name: 'Uniq Senders', cell: function(row){ return row.senders},
             },
             {
               name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
             },
 
             {
-              name: 'Unique Receivers', cell: function(row){ return row.receivers},
+              name: 'Uniq Receivers', cell: function(row){ return row.receivers},
             },
           ]
         }
@@ -91,7 +91,7 @@
         ],
         options: {
           title: 'Transfers Count',
-          height: 395
+          height: 403
         }
       }
     }
@@ -107,7 +107,8 @@
         ],
         options: {
           isStacked: true,
-          theme: 'material'
+          theme: 'material',
+          height: 350
         }
       }
     }
@@ -151,7 +152,7 @@
         ],
         options: {
             title: 'Trades Count',
-          height: 395
+          height: 403
         }
       }
     }
@@ -169,13 +170,13 @@
               name: 'Trades', cell: function(row){ return row.count},
             },
             {
-              name: 'Unique NFTs traded', cell: function(row){ return row.nfts},
+              name: 'Uniq NFTs traded', cell: function(row){ return row.nfts},
             },
             {
-              name: 'Unique Currencies Paid', cell: function(row){ return row.currencies},
+              name: 'Uniq Currencies Paid', cell: function(row){ return row.currencies},
             },
             {
-              name: 'Unique NFT Buyers', cell: function(row){ return row.buyers},
+              name: 'Uniq NFT Buyers', cell: function(row){ return row.buyers},
             },
           ]
         }
@@ -192,7 +193,7 @@
         ],
         options: {
             title: 'Trades Count',
-            height: 395
+            height: 428
           }
       }
     }
@@ -223,7 +224,6 @@
             },
             {
               name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
-              //cell: function(row){ return row.Trade.Buy.Ids},
             },
             {
               name: 'Buy amount', cell: function(row){return parseFloat(row.Trade.Buy.Amount).toFixed(2)}

@@ -4,6 +4,8 @@ export default function renderTX(str,variables,chainId) {
 	const link = document.createElement('a');
 	link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/tx/${str}`;
 	link.textContent = str;
+	link.setAttribute('title',str)
+
 	div.appendChild(link)
 	return div;
-}		
+}

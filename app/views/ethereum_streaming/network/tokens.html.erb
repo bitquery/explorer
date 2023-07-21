@@ -20,7 +20,7 @@
               name: 'Last transfer date', cell: function(row){ return row.Block.last_date},
             },
             {
-              name: 'Days token transfered', cell: function(row){ return row.count_days},
+              name: 'Days token transfered', cell: function(row){ return row.count_days}, rendering:renderNumbers,
             },
             {
               name: 'Uniq Senders', cell: function(row){ return row.senders},
@@ -39,8 +39,7 @@
       }
   }
   const variables = {
-    // network:'<%= @streaming%>',
-    network:'eth',
+    network:'<%= @streaming%>',
     offset: 0,
     address: '<%= @address %>',
     token: '<%= @address %>',
