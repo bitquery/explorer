@@ -61,6 +61,9 @@
         chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
         columns: [
           {
+              name: 'Timestamp', cell: function(row){ return row.Block.Time }, rendering: renderDate,
+          },
+          {
             name: 'Sell amount', cell: function(row){ return  row.Sell_Amount},rendering: renderNumbers,
           },
           {
@@ -77,12 +80,6 @@
           },
           {
             name: 'Trades', cell: function(row){ return row.count},
-          },
-          {
-            name: 'Started', cell: function(row){ return row.Block.Date},
-          },
-          {
-            name: 'Days traded', cell: function(row){ return row.uniq},rendering: renderNumbers,
           },
           {
             name: 'Median Price', cell: function(row){ return row.median_price},rendering: renderNumbers,
@@ -105,6 +102,6 @@
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
     renderComponent(TradedCurrenciesByTime, "#Traded-currencies-by-time",'Traded-currencies-by-time_1',variables);
     renderComponent(TradesByPairs, '#Trades-By-Pairs','Trades-By-Pairs_1_1_1',variables);
-    renderComponent(TokenTradePairs, "#Token-Trade-Pairs",'Token-Trade-Pairs_1_1_1_1_1',variables);
+    renderComponent(TokenTradePairs, "#Token-Trade-Pairs",'Subscription-Token-Trade-Pairs',variables,'Token-Trade-Pairs_1_1_1_1_1_1_1');
   })
 </script>

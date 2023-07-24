@@ -3,29 +3,29 @@ class EthereumStreaming::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
-                address(address: {is: $address}){
-                  address 
-                  annotation
-                  
-                  smartContract {
-                    contractType
-                    currency{
-                      symbol
-                      name
-                      decimals
-                      tokenType
-                    }
-                  }
-                  balance
-                }
-              }
+  QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
+    query ($network: evm_network, $token: String!) {
+      EVM(dataset: archive, network: $network) {
+        Transfers(
+          where: {Transfer: {Currency: {SmartContract: {is: $token}}}}
+          limitBy: {}
+          limit: {count: 1}
+        ) {
+          Transfer {
+            Currency {
+              SmartContract
+              Symbol
+              Name
+              Decimals
+              ProtocolName
             }
+          }
+        }
+      }
+    }
   GRAPHQL
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY_CURRENCIES = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
    query($network: EthereumNetwork!, $address: String!) {
               ethereum(network: $network) {
                 address(address: {is: $address}){
@@ -69,10 +69,10 @@ class EthereumStreaming::AddressController < NetworkController
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     if @address.starts_with?('0x')
-      result = BitqueryGraphql.instance.query_with_retry(query, variables: { network: @network[:network], address: @address }).data.ethereum_streamingereum
-      @info = result.address.first
+      result = BitqueryStreamingGraphql.instance.query_with_retry(query, variables: { network: @network[:streaming], address: @address }).data.evm.transfers
+      @info = result.transfer.currency.smart_contract
       all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
-      @currencies = all_t.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
+      @currencies = all_t.map(&:currency).sort_by { |c| c.transfer.currency.smart_contract == '-' ? 0 : 1 }.uniq { |x| x.transfer.currency.smart_contract }
     end
   end
 

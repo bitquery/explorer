@@ -16,7 +16,7 @@
 </div>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div  id="NFT-Transfers-By-Date" class="card"></div>
+    <div  id="Token-Trades" class="card"></div>
   </div>
 </div>
 <script >
@@ -31,7 +31,8 @@
         ],
         options: {
             title: 'Trades by time',
-            height: 300
+            height: 300,
+            colors: ['FFC106'],
         }
       }
     }
@@ -47,7 +48,8 @@
         ],
         options: {
             title: 'Trade Takers',
-            height: 300
+            height: 300,
+            colors: ['28A745'],
         }
       }
     }
@@ -63,7 +65,8 @@
         ],
         options: {
             title: 'Traded currencies by time',
-            height: 300
+            height: 300,
+            colors: ['28A745'],
         }
       }
     }
@@ -79,55 +82,53 @@
         ],
         options: {
             title: 'DEX Smart Contracts by time',
-            height: 300
+            height: 300,
+            colors: ['FFC106'],
         }
       }
     }
   }
 
-  //   class SubscriptionLatestTradesNFTToken extends BootstrapTableComponent {
-  //       configuration() {
-  //         return  {
-  //           topElement: function (response){ return response.EVM.DEXTrades},
-  //           chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-  //           columns: [
-  //             {
-  //               name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-  //             },
-  //             {
-  //               name: 'Sell currency',  cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
-  //             },
-  //             {
-  //               name: 'Seller', cell: function(row){ return row.Trade.Buy.Seller}, rendering: renderAddressLink,
-  //             },
-  //             {
-  //               name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
-  //             },
-  //             {
-  //               name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer},   rendering: renderAddressLink,
-  //             },
-  //             {
-  //               name: 'NFT', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
-  //             },
-  //             {
-  //               name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
-  //             },
-  //             {
-  //               name: 'Buy amount', cell: function(row){return parseFloat(row.Trade.Buy.Amount).toFixed(2)}
-  //             },
-  //             {
-  //               name: 'Price', cell: function(row){ return parseFloat(row.Trade.Buy.Price).toFixed(3) },
-  //             },
-  //             {
-  //               name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
-  //             },
-  //             {
-  //               name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-  //             },
-  //           ]
-  //         }
-  //       }
-  //   }
+    class TokenTradesTable extends BootstrapTableComponent {
+        configuration() {
+          return  {
+            topElement: function (response){ return response.EVM.DEXTrades},
+            chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+            columns: [
+              {
+                name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+              },
+              {
+                name: 'Block', cell: function(row){ return row.Block.Number},
+              },
+              {
+                name: 'Sell amount', cell: function(row){return row.Trade.Sell.Amount}, rendering: renderNumbers,
+              },
+              {
+                name: 'Sell currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}},rendering: renderTokenLink,
+              },
+              {
+                name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+              },
+              {
+                name: 'Buy amount', cell: function(row){return row.Trade.Buy.Amount}, rendering: renderNumbers,
+              },
+              {
+                name: 'Buy currency', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}},rendering: renderTokenLink,
+              },
+              {
+                name: 'Protocol',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+              },
+              {
+                name: 'Smart Contract', cell: function(row){ return {currency: null, smartContract: row.Trade.Dex.SmartContract}},rendering: renderTokenLink,
+              },
+              {
+                name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+              },
+            ]
+          }
+        }
+    }
 
   const variables = {
     network:'<%= @streaming%>',
@@ -141,6 +142,6 @@
     renderComponent(TradesByTimeAddreses, "#Trades-By-Time-Addreses",'Trades-By-Time',variables);
     renderComponent(TradesByTimeCurrencies, "#Trades-By-Time-Currencies",'Trades-By-Time',variables);
     renderComponent(TradesByTimeContracts, "#Trades-By-Time-Contracts",'Trades-By-Time',variables);
-    // renderComponent(TopTradedNFTTokens, "#Top-traded-NFT-tokens",'Top-traded-NFT-tokens-in-network_1',variables);
+    renderComponent(TokenTradesTable, "#Token-Trades",'Token-Trades_1_1',variables);
   })
 </script>

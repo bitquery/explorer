@@ -1,2 +1,135 @@
-<%= render partial: 'ethereum_streaming/network/calls_by_time' %>
-<%= render partial: 'ethereum_streaming/network/calls_table' %>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Trades"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Addreses" ></div>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Currencies"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Trades-By-Time-Contracts" ></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="Latest-Smart-Contract-Calls" class="card"></div>
+  </div>
+</div>
+<script >
+  //   class TradesByTimeTrades extends TimeChartComponent {
+  //     configuration() {
+  //       return {
+  //         topElement: function(response) { return response.EVM.DEXTrades },
+  //         chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+  //         columns: [
+  //           {name: 'Date', cell: function (row) { return row.Block.Date } },
+  //           {name: 'Trades', cell: function (row) { return +row.trades } }
+  //         ],
+  //         options: {
+  //             title: 'Trades by time',
+  //             height: 300,
+  //             colors: ['FFC106'],
+  //         }
+  //       }
+  //     }
+  //   }
+    //   class TradesByTimeAddreses extends TimeChartComponent {
+    //     configuration() {
+    //       return {
+    //         topElement: function(response) { return response.EVM.DEXTrades },
+    //         chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+    //         columns: [
+    //           {name: 'Date', cell: function (row) { return row.Block.Date } },
+    //           {name: 'Trades addresses', cell: function (row) { return +row.traders } }
+    //         ],
+    //         options: {
+    //             title: 'Trade Takers',
+    //             height: 300,
+    //             colors: ['28A745'],
+    //         }
+    //       }
+    //     }
+    //   }
+    //   class TradesByTimeCurrencies extends TimeChartComponent {
+    //     configuration() {
+    //       return {
+    //         topElement: function(response) { return response.EVM.DEXTrades },
+    //         chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+    //         columns: [
+    //           {name: 'Date', cell: function (row) { return row.Block.Date } },
+    //           {name: 'Currencies', cell: function (row) { return +row.contracts } }
+    //         ],
+    //         options: {
+    //             title: 'Traded currencies by time',
+    //             height: 300,
+    //             colors: ['28A745'],
+    //         }
+    //       }
+    //     }
+    //   }
+    //   class TradesByTimeContracts extends TimeChartComponent {
+    //     configuration() {
+    //       return {
+    //         topElement: function(response) { return response.EVM.DEXTrades },
+    //         chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+    //         columns: [
+    //           {name: 'Date', cell: function (row) { return row.Block.Date } },
+    //           {name: 'Uniq Contracts', cell: function (row) { return +row.currencies } }
+    //         ],
+    //         options: {
+    //             title: 'DEX Smart Contracts by time',
+    //             height: 300,
+    //             colors: ['FFC106'],
+    //         }
+    //       }
+    //     }
+    //   }
+
+      class LatestSmartContractCalls extends BootstrapTableComponent {
+          configuration() {
+            return  {
+              topElement: function (response){ return response.EVM.Calls},
+              chainId: function (response){ return response.EVM.Calls[0].ChainId},
+              columns: [
+                {
+                  name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+                },
+                {
+                  name: 'Block', cell: function(row){ return row.Block.Number},
+                },
+                // {
+                //   name: 'Sell amount', cell: function(row){return row.Trade.Sell.Amount}, rendering: renderNumbers,
+                // },
+                {
+                  name: 'Smart Contract', cell: function(row){ return  row.Call.To},rendering: renderSmartContractLink,
+                },
+                {
+                  name: 'Method', cell: function(row){ return row.Call.Signature.Name},
+                },
+                {
+                  name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+                },
+              ]
+            }
+          }
+      }
+
+    const variables = {
+      network:'<%= @streaming%>',
+      offset: 0,
+      address: '<%= @address %>',
+      token: '<%= @address %>',
+      id: '<%= @id %>',
+    }
+    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+      // renderComponent(TradesByTimeTrades, "#Trades-By-Time-Trades",'Trades-By-Time',variables);
+      // renderComponent(TradesByTimeAddreses, "#Trades-By-Time-Addreses",'Trades-By-Time',variables);
+      // renderComponent(TradesByTimeCurrencies, "#Trades-By-Time-Currencies",'Trades-By-Time',variables);
+      // renderComponent(TradesByTimeContracts, "#Trades-By-Time-Contracts",'Trades-By-Time',variables);
+      renderComponent(LatestSmartContractCalls, "#Latest-Smart-Contract-Calls",'Latest-Smart-Contract-Calls_1',variables);
+    })
+</script>

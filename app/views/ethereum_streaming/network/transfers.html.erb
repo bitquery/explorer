@@ -51,8 +51,5 @@
   }
 
 
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-      renderComponent(LatestTransfers, "#Latest-Transfers",'Latest-Transfers_1',variables);
-
-  })
+  renderComponent(LatestTransfers, "#Latest-Transfers",'Subscription-Latest-Transfers',variables , 'Latest-Transfers_1');
 </script>
