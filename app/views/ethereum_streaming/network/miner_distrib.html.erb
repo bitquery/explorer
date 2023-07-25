@@ -46,7 +46,7 @@
               name: 'Miner', cell: function(row){ return row.Block.Coinbase}, rendering: renderJustAddressLink
             },
             {
-              name: 'Count', cell: function(row){ return row.count},
+              name: 'Count', cell: function(row){ return row.count}, rendering: renderNumbers,
             },
           ]
         }

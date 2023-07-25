@@ -1,6 +1,5 @@
 import images from "../../images/no-images.jpeg"
 export default async function renderImgFromURI(uri) {
-  console.log('starOn',images)
   const createContainer = () => {
     const div = document.createElement('div');
     div.classList.add('position-relative');

@@ -69,7 +69,7 @@
         chainId: function (response){ return response.EVM.Transactions[0].ChainId},
         columns: [
           {name: 'Date', cell: function (row) { return row.Block.Date } },
-          {name: 'Count', cell: function (row) { return parseInt(row.Block.GasUsed) } }
+          {name: 'Count', cell: function (row) { return +row.Block.GasUsed } }
         ],
         options: {
             title: 'Gas spend',

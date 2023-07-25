@@ -25,55 +25,51 @@ class EthereumStreaming::AddressController < NetworkController
     }
   GRAPHQL
 
-  QUERY_CURRENCIES = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
-   query($network: EthereumNetwork!, $address: String!) {
-              ethereum(network: $network) {
-                address(address: {is: $address}){
-                  address 
-                  annotation
+  # QUERY_CURRENCIES = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
+  #  query($network: EthereumNetwork!, $address: String!) {
+  #             ethereum(network: $network) {
+  #               address(address: {is: $address}){
+  #                 address 
+  #                 annotation
                   
-                  smartContract {
-                    contractType
-                    currency{
-                      symbol
-                      name
-                      decimals
-                      tokenType
-                    }
-                  }
-                  balance
-                }
-    						tin: transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
-      							currency {
-                      address
-                      symbol
-                      name
-                    }
-      							count
-    						}
-    						tout: transfers(sender: {is: $address}, options: {desc: "count", limit: 100}){
-      							currency {
-                      address
-                      symbol
-                      name
-                    }
-      							count
-    						}
-              }
-            }
-  GRAPHQL
+  #                 smartContract {
+  #                   contractType
+  #                   currency{
+  #                     symbol
+  #                     name
+  #                     decimals
+  #                     tokenType
+  #                   }
+  #                 }
+  #                 balance
+  #               }
+  #   						tin: transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
+  #     							currency {
+  #                     address
+  #                     symbol
+  #                     name
+  #                   }
+  #     							count
+  #   						}
+  #   						tout: transfers(sender: {is: $address}, options: {desc: "count", limit: 100}){
+  #     							currency {
+  #                     address
+  #                     symbol
+  #                     name
+  #                   }
+  #     							count
+  #   						}
+  #             }
+  #           }
+  # GRAPHQL
 
   private
 
   def query_graphql
     @address = params[:address]
-    query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    if @address.starts_with?('0x')
-      result = BitqueryStreamingGraphql.instance.query_with_retry(query, variables: { network: @network[:streaming], address: @address }).data.evm.transfers
-      @info = result.transfer.currency.smart_contract
-      all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
-      @currencies = all_t.map(&:currency).sort_by { |c| c.transfer.currency.smart_contract == '-' ? 0 : 1 }.uniq { |x| x.transfer.currency.smart_contract }
-    end
+    # query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
+    query = action_name ==  QUERY
+
   end
 
   def redirect_by_type

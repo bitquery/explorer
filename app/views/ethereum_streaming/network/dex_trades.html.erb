@@ -19,6 +19,11 @@
     <div  id="Token-Trades" class="card"></div>
   </div>
 </div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="Sub-Token-Trades" class="card"></div>
+  </div>
+</div>
 <script >
   class TradesByTimeTrades extends TimeChartComponent {
     configuration() {
@@ -129,6 +134,46 @@
           }
         }
     }
+    class SubTokenTradesTable extends BootstrapTableComponent {
+        configuration() {
+          return  {
+            topElement: function (response){ return response.EVM.DEXTrades},
+            chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+            columns: [
+              {
+                name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+              },
+              {
+                name: 'Block', cell: function(row){ return row.Block.Number},
+              },
+              {
+                name: 'Sell amount', cell: function(row){return row.Trade.Sell.Amount}, rendering: renderNumbers,
+              },
+              {
+                name: 'Sell currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}},rendering: renderTokenLink,
+              },
+              {
+                name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+              },
+              {
+                name: 'Buy amount', cell: function(row){return row.Trade.Buy.Amount}, rendering: renderNumbers,
+              },
+              {
+                name: 'Buy currency', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}},rendering: renderTokenLink,
+              },
+              {
+                name: 'Protocol',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
+              },
+              {
+                name: 'Smart Contract', cell: function(row){ return {currency: null, smartContract: row.Trade.Dex.SmartContract}},rendering: renderTokenLink,
+              },
+              {
+                name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+              },
+            ]
+          }
+        }
+    }
 
   const variables = {
     network:'<%= @streaming%>',
@@ -144,4 +189,5 @@
     renderComponent(TradesByTimeContracts, "#Trades-By-Time-Contracts",'Trades-By-Time',variables);
     renderComponent(TokenTradesTable, "#Token-Trades",'Token-Trades_1_1',variables);
   })
+  renderComponent(SubTokenTradesTable, "#Sub-Token-Trades",'Subscription-Token-Trades_1_1',variables,'Token-Trades_1_1');
 </script>
