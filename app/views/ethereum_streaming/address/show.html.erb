@@ -1,21 +1,38 @@
-<div class="row">
- <%= render partial: 'ethereum_streaming/address/total_address_stats' %>
-  <%= render partial: 'ethereum_streaming/address/balance' %>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="ActiveMinersByTime"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="AddressBalanceByCurrencies" ></div>
+  </div>
 </div>
+<script >
+  class AddressBalanceByCurrencies extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.BalanceUpdates},
+            chainId: function (response){ return response.EVM.BalanceUpdates[0].ChainId},
+            columns: [
+                {
+                name: 'Currency',  cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
+                },
+                {
+                name: 'Balance Count', cell: function(row){ return row.sum}, rendering: renderNumbers,
+                },
+            ]
+        }
+    }
+  }
 
-<div class="row">
-<%= render partial: "ethereum_streaming/address/outbound_native_by_time" %>
-<%= render partial: "ethereum_streaming/address/inbound_native_by_time" %>
-</div>
 
-<%= render partial: 'ethereum_streaming/address/transactions_by_time' %>
-
-<div class="row">
-  <%= render partial: 'ethereum_streaming/address/in_out_transfers_by_time' %>
-  <%= render partial: 'ethereum_streaming/address/calls_by_time' %>
-</div>
-
-<div class="row">
-  <%= render partial: 'ethereum_streaming/address/currencies_table' %>
-</div>
-
+  const variables = {
+    network:'<%= @streaming%>',
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+  }
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Address-balance-by-currencies',variables);
+  })
+</script>
