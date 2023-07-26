@@ -62,14 +62,16 @@ export default async function renderComponent(component, selector, queryID, expl
 		}
 		function HistoryDataSource(payload) {
 
-			const setCallback = callback => {
-				this.callback = callback
+			let callback
+
+			const setCallback = cb => {
+				callback = cb
 			}
 
 			const changeVariables = async deltaVariables => {
 				this.variables = { ...payload.variables, ...deltaVariables }
-				this.data = await getData({ ...payload, variables: this.variables })
-				this.callback(data)
+				const data = await getData({ ...payload, variables: this.variables })
+				callback(data)
 			}
 
 			return {
@@ -81,26 +83,23 @@ export default async function renderComponent(component, selector, queryID, expl
 		const historyDataSource = new HistoryDataSource(historyPayload)
 
 		const componentObject = new component(compElement, historyDataSource, subscriptionDataSource);
+		componentObject.init()
 
 		const data = getBaseClass(component, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });
 		
 		widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, queryID)
 		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, prepopulateQueryID)
-		widgetFrame.button2.onclick = getNewLimitForShowMoreButton
+		// widgetFrame.button2.onclick = getNewLimitForShowMoreButton
 		widgetFrame.onquerystarted();
 
 
 		
 		
-		if (componentObject.constructor.name === 'OHLCbyIntervalsGraph') {
-			componentObject.onData(undefined, true)
-		} else {
-			widgetFrame.getHistoryAPIButton.style.display = 'none'
-			await runWidget(payload, componentObject, widgetFrame.onerror)
-		}
+		
 		widgetFrame.onqueryend();
 	} catch (error) {
+		console.log(error)
 		widgetFrame.onerror(error);
 	}
 }

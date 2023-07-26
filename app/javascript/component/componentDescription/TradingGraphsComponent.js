@@ -1,21 +1,16 @@
 export default class TradingGraphsComponent {
-	constructor(element, { query, variables, endpoint_url }, getData) {
+	constructor(element, historyDataSource, subscriptionDataSource) {
+		this.historyDataSource = historyDataSource
+		this.subscriptionDataSource = subscriptionDataSource
 		this.container = element;
-		this.variables = variables
-		this.historyQuery = null
-		this.historyVariables = null
-		this.getData = getData
-		this.streamingPayload = null
-		this.query = query
-		this.endpointURL = endpoint_url
-		this.subscribers = {}
 		this.lastBar = null
 		this.config = this.configuration();
 		this.lastData = null;
 		this.widget = null;
 		this.wrapper = document.createElement('div');
-		this.interval = this.config.interval(this.variables);
-		this.subscription = undefined
+		this.interval = '15'
+		this.onHistoryCallback = undefined
+		this.periodParams = undefined
 		this.minuteIntervals = {
 			'1D': 24 * 60,
 			'2D': 2 * 24 * 60,
@@ -26,6 +21,7 @@ export default class TradingGraphsComponent {
 			'6M': 6 * 30 * 24 * 60
 		}
 	}
+
 	initWidget() {
 		const configurationData = {
 			supports_marks: true,
@@ -77,71 +73,45 @@ export default class TradingGraphsComponent {
 				},
 				getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
 					this.interval = resolution;
-
+					this.onHistoryCallback = onHistoryCallback
+					this.periodParams = periodParams
+					this.historyDataSource.setCallback( this.onHistoryData.bind(this) )
 					const till = new Date().toISOString().slice(0, 10);
 					const tillDate = new Date(till);
 					const minutesInterval = this.getIntervalInMinutes(resolution)
 					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor(minutesInterval / 5), tillDate.getDate() - (minutesInterval == 1 ? 5 : minutesInterval == 5 ? 0 : 0)).toISOString().slice(0, 10)
-					let data
-					if (this.query) {
-						const payload = {
-							endpoint_url: this.endpointURL,
-							query: this.query,
-							variables: {
-								...this.variables,
-								from, till,
-								interval: `${minutesInterval}`,
-								limit: '9990'
-							}
-						}
-						data = await this.getData(payload)
-					} else {
-						if (!this.historyQuery) {
-							const { endpoint_url, variables, query } = await this.getQueryParams(this.config.historyID)
-							this.endpointURL = endpoint_url
-							this.historyVariables = variables
-							this.historyQuery = query
-						}
-						const variables = {
-							...this.historyVariables,
-							...this.variables,
-							from, till,
-							interval: `${minutesInterval}`,
-							limit: '9990'
-						}
-						const payload = {
-							variables,
-							query: this.historyQuery,
-							endpoint_url: this.endpointURL
-						}
-						data = await this.getData(payload)
+					const deltaVariables = {
+						from, till,
+						interval: `${minutesInterval}`,
+						limit: '9990'
 					}
-					const compatibleData = this.composeBars(data, periodParams);
-					this.lastBar = compatibleData.at(-1)
-					compatibleData.length > 0 ? onHistoryCallback(compatibleData, { noData: false }) : onHistoryCallback([], { noData: true });
+					this.historyDataSource.changeVariables( deltaVariables )
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-					this.subscription && this.subscribeOnStream(
+					/* this.subscription && this.subscribeOnStream(
 						symbolInfo,
 						resolution,
 						onRealtimeCallback,
 						subscriberUID,
 						onResetCacheNeededCallback
-					);
+					); */
 				},
 				unsubscribeBars: subscriberUID => {
-					this.subscription && this.unsubscribeFromStream(subscriberUID)
+					// this.subscription && this.unsubscribeFromStream(subscriberUID)
 				},
 			}
 		});
 	}
 
-	onData(data, subscription) {
+	onHistoryData(data) {
+		console.log('onHistory this - ', this, data)
+		const compatibleData = this.composeBars(data, this.periodParams);
+		this.lastBar = compatibleData.at(-1)
+		compatibleData.length > 0 ? this.onHistoryCallback(compatibleData, { noData: false }) : this.onHistoryCallback([], { noData: true });
+	}
+
+	init() {
 		if (this.widget === null) {
-			if (data) {
-				this.config.symbol = `${this.config.token1(data)} / ${this.config.token2(data)}`
-			}
-			this.subscription = subscription
 			this.wrapper.style.height = '600px';
 			this.container.appendChild(this.wrapper);
 			this.initWidget();
@@ -210,7 +180,7 @@ export default class TradingGraphsComponent {
 		return resultData;
 	}
 
-	async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
+	/* async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
 		console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
 		if (!this.subscribers[subscriberUID]) {
 			const minutesInterval = this.getIntervalInMinutes(resolution)
@@ -256,5 +226,5 @@ export default class TradingGraphsComponent {
 			this.subscribers[subscriberUID]()
 			delete this.subscribers[subscriberUID]
 		}
-	}
+	} */
 }
