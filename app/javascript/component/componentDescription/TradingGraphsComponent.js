@@ -10,6 +10,7 @@ export default class TradingGraphsComponent {
 		this.wrapper = document.createElement('div');
 		this.interval = '15'
 		this.onHistoryCallback = undefined
+		this.onRealtimeCallback = undefined
 		this.periodParams = undefined
 		this.minuteIntervals = {
 			'1D': 24 * 60,
@@ -88,13 +89,10 @@ export default class TradingGraphsComponent {
 					this.historyDataSource.changeVariables( deltaVariables )
 				},
 				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-					/* this.subscription && this.subscribeOnStream(
-						symbolInfo,
-						resolution,
-						onRealtimeCallback,
-						subscriberUID,
-						onResetCacheNeededCallback
-					); */
+					this.onRealtimeCallback = onRealtimeCallback
+					const interval = `${this.getIntervalInMinutes(resolution)}`
+					this.subscriptionDataSource.setCallback( this.onSubscriptionData.bind(this) )
+					this.subscriptionDataSource.changeVariables({ interval })
 				},
 				unsubscribeBars: subscriberUID => {
 					// this.subscription && this.unsubscribeFromStream(subscriberUID)
@@ -108,6 +106,12 @@ export default class TradingGraphsComponent {
 		const compatibleData = this.composeBars(data, this.periodParams);
 		this.lastBar = compatibleData.at(-1)
 		compatibleData.length > 0 ? this.onHistoryCallback(compatibleData, { noData: false }) : this.onHistoryCallback([], { noData: true });
+	}
+	onSubscriptionData({data}) {
+		const newBar = this.composeBars(data)[0]
+		const bar = this.getNextBar(this.lastBar, newBar)
+		this.lastBar = { ...bar }
+		this.onRealtimeCallback(bar)
 	}
 
 	init() {
@@ -180,7 +184,7 @@ export default class TradingGraphsComponent {
 		return resultData;
 	}
 
-	/* async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
+	async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
 		console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
 		if (!this.subscribers[subscriberUID]) {
 			const minutesInterval = this.getIntervalInMinutes(resolution)
@@ -226,5 +230,5 @@ export default class TradingGraphsComponent {
 			this.subscribers[subscriberUID]()
 			delete this.subscribers[subscriberUID]
 		}
-	} */
+	}
 }

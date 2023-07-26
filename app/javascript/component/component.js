@@ -21,12 +21,14 @@ export default async function renderComponent(component, selector, queryID, expl
 
 		function SubscriptionDataSource(payload, onerror) {
 
+			let callback, variables, cleanSubscription
+
 			const subscribe = () => {
 				const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
 				const client = createClient({ url: currentUrl });
 
-				this.cleanSubscription = client.subscribe({ query: payload.query, variables: payload.variables }, {
-					next: this.callback,
+				cleanSubscription = client.subscribe({ query: payload.query, variables }, {
+					next: callback,
 					error: error => {
 						console.log(error)
 						onerror(error);
@@ -35,21 +37,17 @@ export default async function renderComponent(component, selector, queryID, expl
 				});
 			} 
 
-			const setCallback = callback => {
-				this.callback = callback
+			this.setCallback = cb => {
+				callback = cb
+			}
+
+			this.changeVariables = async deltaVariables => {
+				variables = { ...payload.variables, ...deltaVariables }
+				cleanSubscription && cleanSubscription()
 				subscribe()
 			}
 
-			const changeVariables = async deltaVariables => {
-				this.variables = { ...payload.variables, ...deltaVariables }
-				this.cleanSubscription()
-				subscribe()
-			}
-
-			return {
-				setCallback,
-				changeVariables
-			}
+			return this
 
 		}
 		const subscriptionDataSource = new SubscriptionDataSource( subscriptionPayload, widgetFrame.onerror )
@@ -62,22 +60,19 @@ export default async function renderComponent(component, selector, queryID, expl
 		}
 		function HistoryDataSource(payload) {
 
-			let callback
+			let callback, variables
 
-			const setCallback = cb => {
+			this.setCallback = cb => {
 				callback = cb
 			}
 
-			const changeVariables = async deltaVariables => {
-				this.variables = { ...payload.variables, ...deltaVariables }
-				const data = await getData({ ...payload, variables: this.variables })
+			this.changeVariables = async deltaVariables => {
+				variables = { ...payload.variables, ...deltaVariables }
+				const data = await getData({ ...payload, variables })
 				callback(data)
 			}
 
-			return {
-				setCallback,
-				changeVariables
-			}
+			return this
 
 		}
 		const historyDataSource = new HistoryDataSource(historyPayload)
