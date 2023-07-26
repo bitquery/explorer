@@ -1,12 +1,132 @@
 <div class="row mb-4">
   <div class="col-12 col-lg-6">
-    <div class="card" id="ActiveMinersByTime"></div>
+    <div class="card" id="TotalAddressStatisticsReceiver"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="TotalAddressStatisticsSender" ></div>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="vfgdfgd"></div>
   </div>
   <div class="col-12 col-lg-6">
     <div class="card" id="AddressBalanceByCurrencies" ></div>
   </div>
 </div>
 <script >
+  class TotalAddressStatisticsReceiver extends BootstrapVerticalTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.receiver},
+        chainId: function (response){  return response.EVM.receiver[0].ChainId },
+        columns: [
+          {
+            name: 'Address', cell: function(row){ return row.Transfer.Receiver},
+          },
+
+          // {
+          //   name: 'Transfers', cell: function(row){ return (row.updates)/2},
+          // },
+
+          {
+            name: 'Receive Amount', cell: function(row){ return row.receivAmount},
+          },
+          // {
+          //   name: 'Receive Tx Count', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Receive To Count', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Receive From Currencies', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Fee Amount', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Balance', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'First Tx at', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Last Tx at', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Days with received', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Days with sent', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Call TX count', cell: function(row){ return row.Block.last},
+          // },
+        ]
+      }
+    }
+  }
+  class TotalAddressStatisticsSender extends BootstrapVerticalTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.sender},
+        chainId: function (response){  return response.EVM.sender[0].ChainId },
+        columns: [
+          {
+            name: 'Address', cell: function(row){ return row.Transfer.Sender},
+          },
+          {
+            name: 'Send Amount', cell: function(row){ return row.receivAmount},
+          },
+          // {
+          //   name: 'Send To Count', cell: function(row){ return row.ids},
+          // },
+          // {
+          //   name: 'Send Tx Count', cell: function(row){ return row.holders},
+          // },
+          // {
+          //   name: 'Transfers', cell: function(row){ return (row.updates)/2},
+          // },
+          // {
+          //   name: 'Send To Currencies', cell: function(row){ return row.Block.first},
+          // },
+          // {
+          //   name: 'Receive Amount', cell: function(row){ return row.receivAmount},
+          // },
+          // {
+          //   name: 'Receive Tx Count', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Receive To Count', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Receive From Currencies', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Fee Amount', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Balance', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'First Tx at', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Last Tx at', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Days with received', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Days with sent', cell: function(row){ return row.Block.last},
+          // },
+          // {
+          //   name: 'Call TX count', cell: function(row){ return row.Block.last},
+          // },
+        ]
+      }
+    }
+  }
   class AddressBalanceByCurrencies extends BootstrapTableComponent {
     configuration() {
         return  {
@@ -33,6 +153,8 @@
     id: '<%= @id %>',
   }
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Address-balance-by-currencies',variables);
+    renderComponent(TotalAddressStatisticsReceiver, "#TotalAddressStatisticsReceiver",'Total-Address-Statistics_1_1_1',variables);
+    renderComponent(TotalAddressStatisticsSender, "#TotalAddressStatisticsSender",'Total-Address-Statistics_1_1_1',variables);
+    renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Address-balance-by-currencies_1',variables);
   })
 </script>
