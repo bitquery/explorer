@@ -10,12 +10,9 @@ export function SubscriptionDataSource(payload, onerror) {
 		const client = createClient({ url: currentUrl });
 
 		cleanSubscription = client.subscribe({ query: payload.query, variables }, {
-			next: callback,
-			error: error => {
-				console.log(error)
-				onerror(error);
-			},
-			complete: () => console.log('complete'),
+			next: ({ data }) => callback(data, variables),
+			error: error => { onerror(error) },
+			complete: () => {},
 		});
 	} 
 
@@ -34,18 +31,30 @@ export function SubscriptionDataSource(payload, onerror) {
 
 export function HistoryDataSource(payload, widgetFrame) {
 
-	let callback, variables
+	let callback
+	let variables = payload.variables
+
+	const getNewData = async () => {
+		widgetFrame.onquerystarted()
+		const data = await getData({ ...payload, variables })
+		widgetFrame.onqueryend()
+		callback(data, variables)
+	}
 
 	this.setCallback = cb => {
 		callback = cb
 	}
 
+	this.increaseLimit = async () => {
+		variables.limit += 10
+		getNewData()
+	}
+
 	this.changeVariables = async deltaVariables => {
-		variables = { ...payload.variables, ...deltaVariables }
-		widgetFrame.onquerystarted()
-		const data = await getData({ ...payload, variables })
-		widgetFrame.onqueryend()
-		callback(data)
+		if (deltaVariables) {
+			variables = { ...payload.variables, ...deltaVariables }
+		}
+		await getNewData()
 	}
 
 	return this
@@ -112,6 +121,11 @@ export const getAPIButton = (data, variables, queryID) => () => {
 	document.body.removeChild(form);
 }
 
+export const increaseLimitButton = (clearData, historyDataSource) => () => {
+	clearData()
+	historyDataSource.increaseLimit()
+}
+
 export const getQueryParams = async (queryID) => {
 	const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
 	const { endpoint_url, variables, query, name } = await response.json()
@@ -141,43 +155,6 @@ export const getData = async ({ endpoint_url, query, variables }) => {
 		throw new Error(data.errors[0].message);
 	}
 	return data
-};
-
-export const renderQueryInComponent = async (payload, widgetInstance) => {
-	let currentPayload
-	if (payload.prepopulateQueryID) {
-		currentPayload = await getQueryParams(payload.prepopulateQueryID)
-		currentPayload.variables = { ...currentPayload.variables, ...payload.variables }
-	} else {
-		currentPayload = payload
-	}
-	const data = await getData(currentPayload);
-	widgetInstance && widgetInstance.onData(data);
-	return data
-};
-
-export const subscribeWidget = async ({ endpoint_url, query, variables }, widgetInstance, onerror) => {
-	const currentUrl = endpoint_url.replace(/^http/, 'ws');
-	const client = createClient({ url: currentUrl });
-
-	client.subscribe({ query, variables }, {
-		next: ({ data }) => {
-			const sub = 'subscription';
-			widgetInstance.onData(data, sub);
-		},
-		error: error => {
-			console.log(error)
-			onerror(error);
-		},
-		complete: () => console.log('complete'),
-	});
-};
-
-export const runWidget = async (payload, widgetInstance, onerror) => {
-
-	renderQueryInComponent(payload, widgetInstance)
-	payload.query.startsWith('subscription') && subscribeWidget(payload, widgetInstance, onerror)
-
 }
 
 export const createWidgetFrame = selector => {
@@ -269,7 +246,7 @@ export const createWidgetFrame = selector => {
 		frame: widgetFrame,
 		getHistoryAPIButton,
 		getStreamingAPIButton,
-		button2: showMoreButton,
+		showMoreButton,
 		onloadmetadata,
 		onquerystarted,
 		onqueryend,

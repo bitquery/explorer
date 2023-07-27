@@ -3,16 +3,17 @@ import {
 	getAPIButton,
 	getQueryParams,
 	createWidgetFrame,
-	SubscriptionDataSource,
-	HistoryDataSource
+	HistoryDataSource,
+	increaseLimitButton,
+	SubscriptionDataSource
 } from "./helper";
 
-export default async function renderComponent(component, selector, queryID, explorerVariables = {}, prepopulateQueryID) {
+export default async function renderComponent(component, selector, subscriptionQueryID, explorerVariables = {}, historyQueryID) {
 	document.querySelector(selector).textContent = '';
 	const widgetFrame = createWidgetFrame(selector);
 	try {
 		//get subscription query parameters, setup widget frame
-		const subscriptionQueryParams = await getQueryParams(queryID)
+		const subscriptionQueryParams = await getQueryParams(subscriptionQueryID)
 		const { endpoint_url, query, variables: rawVariables } = subscriptionQueryParams
 		widgetFrame.onloadmetadata(subscriptionQueryParams);
 		const compElement = widgetFrame.frame;
@@ -23,7 +24,7 @@ export default async function renderComponent(component, selector, queryID, expl
 		const subscriptionDataSource = new SubscriptionDataSource( subscriptionPayload, widgetFrame.onerror )
 
 		//setup history datasource
-		const historyQueryParams = await getQueryParams(prepopulateQueryID)
+		const historyQueryParams = await getQueryParams(historyQueryID)
 		const historyPayload = {
 			variables,
 			query: historyQueryParams.query,
@@ -40,9 +41,9 @@ export default async function renderComponent(component, selector, queryID, expl
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });
 		
 		//setup buttons
-		widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, queryID)
-		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, prepopulateQueryID)
-		widgetFrame.button2.onclick = getNewLimitForShowMoreButton
+		widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
+		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
+		// widgetFrame.showMoreButton.onclick = increaseLimitButton(componentObject.clearData(), historyDataSource)
 	} catch (error) {
 		console.log(error)
 		widgetFrame.onerror(error);
