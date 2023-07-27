@@ -1,6 +1,56 @@
 const isNotEmptyArray = subj => Array.isArray(subj) && subj.length;
 const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 
+export function SubscriptionDataSource(payload, onerror) {
+
+	let callback, variables, cleanSubscription
+
+	const subscribe = () => {
+		const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
+		const client = createClient({ url: currentUrl });
+
+		cleanSubscription = client.subscribe({ query: payload.query, variables }, {
+			next: callback,
+			error: error => {
+				console.log(error)
+				onerror(error);
+			},
+			complete: () => console.log('complete'),
+		});
+	} 
+
+	this.setCallback = cb => {
+		callback = cb
+	}
+
+	this.changeVariables = async deltaVariables => {
+		variables = { ...payload.variables, ...deltaVariables }
+		cleanSubscription && cleanSubscription()
+		subscribe()
+	}
+
+	return this
+}
+
+export function HistoryDataSource(payload, widgetFrame) {
+
+	let callback, variables
+
+	this.setCallback = cb => {
+		callback = cb
+	}
+
+	this.changeVariables = async deltaVariables => {
+		variables = { ...payload.variables, ...deltaVariables }
+		widgetFrame.onquerystarted()
+		const data = await getData({ ...payload, variables })
+		widgetFrame.onqueryend()
+		callback(data)
+	}
+
+	return this
+}
+
 export const getBaseClass = (targetClass, config) => {
 	// discover functions used in class config function
 	const discoverFunctions = (subj, prop) => {

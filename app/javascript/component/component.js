@@ -1,98 +1,48 @@
 import { 
-	getData,
-	runWidget,
 	getBaseClass,
 	getAPIButton,
 	getQueryParams,
 	createWidgetFrame,
-	renderQueryInComponent
+	SubscriptionDataSource,
+	HistoryDataSource
 } from "./helper";
 
 export default async function renderComponent(component, selector, queryID, explorerVariables = {}, prepopulateQueryID) {
 	document.querySelector(selector).textContent = '';
 	const widgetFrame = createWidgetFrame(selector);
 	try {
+		//get subscription query parameters, setup widget frame
 		const subscriptionQueryParams = await getQueryParams(queryID)
 		const { endpoint_url, query, variables: rawVariables } = subscriptionQueryParams
 		widgetFrame.onloadmetadata(subscriptionQueryParams);
 		const compElement = widgetFrame.frame;
+		
+		//setup subscription datasource
 		const variables = { ...rawVariables, ...explorerVariables };
 		const subscriptionPayload = { query, variables, endpoint_url }
-
-		function SubscriptionDataSource(payload, onerror) {
-
-			let callback, variables, cleanSubscription
-
-			const subscribe = () => {
-				const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
-				const client = createClient({ url: currentUrl });
-
-				cleanSubscription = client.subscribe({ query: payload.query, variables }, {
-					next: callback,
-					error: error => {
-						console.log(error)
-						onerror(error);
-					},
-					complete: () => console.log('complete'),
-				});
-			} 
-
-			this.setCallback = cb => {
-				callback = cb
-			}
-
-			this.changeVariables = async deltaVariables => {
-				variables = { ...payload.variables, ...deltaVariables }
-				cleanSubscription && cleanSubscription()
-				subscribe()
-			}
-
-			return this
-
-		}
 		const subscriptionDataSource = new SubscriptionDataSource( subscriptionPayload, widgetFrame.onerror )
 
+		//setup history datasource
 		const historyQueryParams = await getQueryParams(prepopulateQueryID)
 		const historyPayload = {
 			variables,
 			query: historyQueryParams.query,
 			endpoint_url: historyQueryParams.endpoint_url
 		}
-		function HistoryDataSource(payload) {
+		const historyDataSource = new HistoryDataSource(historyPayload, widgetFrame)
 
-			let callback, variables
-
-			this.setCallback = cb => {
-				callback = cb
-			}
-
-			this.changeVariables = async deltaVariables => {
-				variables = { ...payload.variables, ...deltaVariables }
-				const data = await getData({ ...payload, variables })
-				callback(data)
-			}
-
-			return this
-
-		}
-		const historyDataSource = new HistoryDataSource(historyPayload)
-
+		//create component instance and initialize
 		const componentObject = new component(compElement, historyDataSource, subscriptionDataSource);
 		componentObject.init()
 
+		//compose code widget code for IDE
 		const data = getBaseClass(component, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });
 		
+		//setup buttons
 		widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, queryID)
 		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, prepopulateQueryID)
-		// widgetFrame.button2.onclick = getNewLimitForShowMoreButton
-		widgetFrame.onquerystarted();
-
-
-		
-		
-		
-		widgetFrame.onqueryend();
+		widgetFrame.button2.onclick = getNewLimitForShowMoreButton
 	} catch (error) {
 		console.log(error)
 		widgetFrame.onerror(error);

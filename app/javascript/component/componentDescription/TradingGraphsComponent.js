@@ -94,15 +94,12 @@ export default class TradingGraphsComponent {
 					this.subscriptionDataSource.setCallback( this.onSubscriptionData.bind(this) )
 					this.subscriptionDataSource.changeVariables({ interval })
 				},
-				unsubscribeBars: subscriberUID => {
-					// this.subscription && this.unsubscribeFromStream(subscriberUID)
-				},
+				unsubscribeBars: () => {},
 			}
 		});
 	}
 
 	onHistoryData(data) {
-		console.log('onHistory this - ', this, data)
 		const compatibleData = this.composeBars(data, this.periodParams);
 		this.lastBar = compatibleData.at(-1)
 		compatibleData.length > 0 ? this.onHistoryCallback(compatibleData, { noData: false }) : this.onHistoryCallback([], { noData: true });
@@ -124,17 +121,6 @@ export default class TradingGraphsComponent {
 
 	getIntervalInMinutes(resolution) {
 		return isNaN(+resolution) ? this.minuteIntervals[resolution] : resolution
-	}
-
-	async getQueryParams(queryID) {
-		const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
-		const { endpoint_url, variables, query, name } = await response.json()
-		return {
-			variables: JSON.parse(variables),
-			query,
-			endpoint_url,
-			name
-		}
 	}
 
 	getNextBar(lastBar, newBar) {
@@ -182,53 +168,5 @@ export default class TradingGraphsComponent {
 			}
 		}
 		return resultData;
-	}
-
-	async subscribeOnStream(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
-		console.log('[subscribeBars]: Method call with subscriberUID:', subscriberUID);
-		if (!this.subscribers[subscriberUID]) {
-			const minutesInterval = this.getIntervalInMinutes(resolution)
-			if (!this.streamingPayload) {
-				if (!this.query) {	//comes from explorer with subscriptionID
-					const { endpoint_url, variables, query } = await this.getQueryParams(this.config.subscriptionID)
-					this.streamingPayload = {
-						query, 
-						endpoint_url,
-						variables: { ...variables, ...this.variables }
-					}
-				} else {	//comes from IDE with payload
-					this.streamingPayload = {
-						query: this.query,
-						endpoint_url: this.endpointURL,
-						variables: { ...this.variables }
-					}
-				}
-			}
-			this.streamingPayload.variables.interval = `${minutesInterval}`
-			const { endpoint_url, query, variables } = this.streamingPayload
-			const currentUrl = endpoint_url.replace(/^http/, 'ws');
-			const client = createClient({ url: currentUrl });
-			const cleanup = client.subscribe({ query, variables }, {
-				next: ({ data }) => {
-					const newBar = this.composeBars(data)[0]
-					const bar = this.getNextBar(this.lastBar, newBar)
-					this.lastBar = { ...bar }
-					onRealtimeCallback(bar)
-				},
-				error: error => {
-					console.log(error)
-				},
-				complete: () => console.log('complete')
-			});
-			this.subscribers[subscriberUID] = cleanup
-		}
-	}
-
-	unsubscribeFromStream(subscriberUID) {
-		console.log('[unsubscribeBars]: Method call with subscriberUID:', subscriberUID);
-		if (this.subscribers[subscriberUID]) {
-			this.subscribers[subscriberUID]()
-			delete this.subscribers[subscriberUID]
-		}
 	}
 }
