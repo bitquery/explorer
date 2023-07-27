@@ -49,10 +49,12 @@ export default class BootstrapVerticalTableComponent {
   }
 
   async onData(data, sub) {
-  const array = this.config.topElement(data);
-	const chainId =  this.config.chainId(data)
+    const array = this.config.topElement(data);
+        console.log('data',data)
+    console.log('array',array)
+    const chainId = this.config.chainId(data)
     const maxRows = 15;
-    for (const rowData of array) {
+    for (const rowData in array) {
       for (const column of this.config.columns) {
         const tr = this.createElementWithClasses('tr');
 
@@ -62,10 +64,10 @@ export default class BootstrapVerticalTableComponent {
         this.appendChildren(td1, textCell1);
 
         const td2 = this.createElementWithClasses('td');
-                      td2.style.whiteSpace = 'nowrap';
-              td2.style.overflow = 'hidden';
-              td2.style.textOverflow = 'ellipsis';
-              td2.setAttribute('title', column.cell(rowData))
+        td2.style.whiteSpace = 'nowrap';
+        td2.style.overflow = 'hidden';
+        td2.style.textOverflow = 'ellipsis';
+        td2.setAttribute('title', column.cell(rowData))
         const textCell2 = this.createElementWithClasses('span');
         textCell2.textContent = column.cell(rowData);
 

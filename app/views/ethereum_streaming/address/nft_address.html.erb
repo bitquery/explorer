@@ -28,7 +28,7 @@
     configuration() {
       return  {
           topElement: function (response){ return response.EVM.BalanceUpdates},
-          chainId: function (response){ return response.EVM.BalanceUpdates[0].ChainId},
+          chainId: function (response){ return response.EVM.BalanceUpdates[0]?.ChainId},
           image: [
           {
             cell: function(row){ return row.BalanceUpdate.URI}, rendering: renderImgFromURI,
@@ -56,7 +56,7 @@
     configuration() {
       return  {
         topElement: function (response){ return response.EVM.Transfers},
-        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
         columns: [
           {
             name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
@@ -84,7 +84,7 @@
     configuration() {
       return  {
         topElement: function (response){ return response.EVM.Transfers},
-        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
         columns: [
           {
             name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
@@ -112,7 +112,7 @@
     configuration() {
       return  {
         topElement: function (response){ return response.EVM.DEXTrades},
-        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        chainId: function (response){ return response.EVM.DEXTrades[0]?.ChainId},
         columns: [
           {
             name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
@@ -144,7 +144,7 @@
     configuration() {
       return  {
         topElement: function (response){ return response.EVM.DEXTrades},
-        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+        chainId: function (response){ return response.EVM.DEXTrades[0]?.ChainId},
         columns: [
           {
             name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,

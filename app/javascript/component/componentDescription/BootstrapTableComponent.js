@@ -18,12 +18,10 @@ export default class BootstrapTableComponent {
 
   createTable() {
     this.tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
-    this.tableElement.style.tableLayout = 'fixed';
-    this.tableElement.style.width = '100%';
+    this.tableElement.style.cssText = 'table-layout: fixed; width: 100%;';
     this.appendChildren(this.wrapper, this.tableElement);
     this.createThead();
     this.createTbody();
-    this.createTfooter();
   }
 
   createThead() {
@@ -32,11 +30,11 @@ export default class BootstrapTableComponent {
     this.appendChildren(this.tableElement, thead);
     this.appendChildren(thead, tr);
 
-    this.config.columns.forEach(({ name , rendering}) => {
+    this.config.columns.forEach(({ name, rendering }) => {
       const th = this.createElementWithClasses('th');
       th.setAttribute('scope', 'row');
       th.textContent = name;
-      if(rendering === renderNumbers ){
+      if (rendering === renderNumbers) {
         th.style.textAlign = 'end'
       }
       this.appendChildren(tr, th);
@@ -48,29 +46,26 @@ export default class BootstrapTableComponent {
     this.appendChildren(this.tableElement, this.tbody);
   }
 
-  createTfooter() {
-    const tfooter = this.createElementWithClasses('div');
-    this.appendChildren(this.tableElement, tfooter);
-  }
-
   async onData(data, sub) {
     this.data = this.config.topElement(data);
     let chainId = ''
+    const maxRows = 15;
+    if (Object.keys(this.data).length === 0) {
+      this.wrapper.textContent = 'No Data. Response is empty'
+      return;
+    }
     if (this.data.length > 0) {
       chainId = this.config.chainId(data)
     }
-    const maxRows = 15;
 
     for (const rowData of this.data) {
       const tr = this.createElementWithClasses('tr');
 
       for (const column of this.config.columns) {
         const td = this.createElementWithClasses('td');
-          if (column.name !== 'Date' && column.name !== 'Time' && column.name !== 'Timestamp') {
-              td.style.whiteSpace = 'nowrap';
-              td.style.overflow = 'hidden';
-              td.style.textOverflow = 'ellipsis';
-          }
+        if (column.name !== 'Date' && column.name !== 'Time' && column.name !== 'Timestamp') {
+          td.style.cssText = "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;";
+        }
 
         td.setAttribute('title', column.cell(rowData))
 
