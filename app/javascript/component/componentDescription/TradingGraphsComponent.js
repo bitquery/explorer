@@ -104,7 +104,7 @@ export default class TradingGraphsComponent {
 		this.lastBar = compatibleData.at(-1)
 		compatibleData.length > 0 ? this.onHistoryCallback(compatibleData, { noData: false }) : this.onHistoryCallback([], { noData: true });
 	}
-	onSubscriptionData({data}) {
+	onSubscriptionData(data) {
 		const newBar = this.composeBars(data)[0]
 		const bar = this.getNextBar(this.lastBar, newBar)
 		this.lastBar = { ...bar }

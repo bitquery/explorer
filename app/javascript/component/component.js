@@ -32,8 +32,9 @@ export default async function renderComponent(component, selector, subscriptionQ
 				widgetFrame.onloadmetadata(historyQueryParams);
 				compElement = widgetFrame.frame;
 			}
+			variables = variables || { ...historyQueryParams.variables, ...explorerVariables }
 			const historyPayload = {
-				variables: variables || { ...historyQueryParams.variables, ...explorerVariables },
+				variables,
 				query: historyQueryParams.query,
 				endpoint_url: historyQueryParams.endpoint_url
 			}
