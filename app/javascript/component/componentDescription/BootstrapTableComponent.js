@@ -49,10 +49,14 @@ export default class BootstrapTableComponent {
 	}
 
 	async init() {
-		this.historyDataSource.setCallback( this.onHistoryData.bind(this) )
-		this.subscriptionDataSource.setCallback( this.onSubscriptionData.bind(this) )
-		await this.historyDataSource.changeVariables()
-		this.subscriptionDataSource.changeVariables()
+		if (this.historyDataSource) {
+			this.historyDataSource.setCallback(this.onHistoryData.bind(this))
+			this.historyDataSource && await this.historyDataSource.changeVariables()
+		}
+		if (this.subscriptionDataSource) {
+			this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
+			this.subscriptionDataSource.changeVariables()
+		}
 	}
 	
 	async onHistoryData(data, variables) {
