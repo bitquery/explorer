@@ -59,9 +59,13 @@ export default class BootstrapTableComponent {
     }
 
     for (const rowData of this.data) {
+        //       console.log(' rowData',  rowData)
+        // console.log('typeof rowData', typeof rowData)
       const tr = this.createElementWithClasses('tr');
 
       for (const column of this.config.columns) {
+        //         console.log(' column',  column)
+        // console.log('typeof column', typeof column)
         const td = this.createElementWithClasses('td');
         if (column.name !== 'Date' && column.name !== 'Time' && column.name !== 'Timestamp') {
           td.style.cssText = "white-space: nowrap; overflow: hidden; text-overflow: ellipsis;";

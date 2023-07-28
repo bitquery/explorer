@@ -1,12 +1,157 @@
-
-<%= render partial: "ethereum_streaming/address/outbound_transfers" %>
-
 <div class="row">
-  <%= render partial: "ethereum_streaming/address/outbound_native_by_time" %>
-  <%= render partial: "ethereum_streaming/address/outbound_tokens_by_time" %>
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="LatestOutboundTransfers"></div>
+  </div>
 </div>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="OutboundTransfersInNativeCurrency"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="OutboundTransfersInTokens" ></div>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="TopReceiversInNativeCurrency"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="TopReceiversInTokens" ></div>
+  </div>
+</div>
+<script >
+  class LatestOutboundTransfers extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Transfers},
+            chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+            columns: [
+                {
+                    name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+                },
+                {
+                    name: 'Block', cell: function(row){return row.Block.Number}
+                },
+                {
+                    name: 'Sender', cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink,
+                },
+                {
+                    name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+                },
+                {
+                    name: 'Amount', cell: function(row) { return row.sum }, rendering: renderNumbers
+                },
+                {
+                    name: 'Currency',  cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+                },
+                {
+                    name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+                },
 
-<div class="row">
-  <%= render partial: "ethereum_streaming/address/outbound_native_table" %>
-  <%= render partial: "ethereum_streaming/address/outbound_tokens_table" %>
-</div>
+            ]
+        }
+    }
+  }
+  class OutboundTransfersInNativeCurrency extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Volume', cell: function (row) { return +row.sum } }
+        ],
+        options: {
+            height: 300,
+            colors: ['28A745'],
+        }
+      }
+    }
+  }
+  class OutboundTransfersInTokens extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Receive count', cell: function (row) { return +row.count } }
+        ],
+        options: {
+            height: 300,
+            colors: ['FFC106'],
+        }
+      }
+    }
+  }
+
+  class TopReceiversInNativeCurrency extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Transfers},
+            chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+            columns: [
+                {
+                    name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
+                },
+                {
+                    name: 'Amount', cell: function(row) { return row.Transfer.Amount }, rendering: renderNumbers
+                },
+                {
+                    name: 'Currency',  cell: function(row){ return row.Transfer.Currency.Symbol},
+                },
+                {
+                    name: 'Latest Date',  cell: function(row){ return row.Block.Date},
+                },
+                {
+                  name: 'Transaction Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+                },
+            ]
+        }
+    }
+  }
+  class TopReceiversInTokens extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Transfers},
+            chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+            columns: [
+                {
+                    name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
+                },
+                {
+                    name: 'Amount', cell: function(row) { return row.Transfer.Amount }, rendering: renderNumbers
+                },
+                {
+                    name: 'Currency',  cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+                },
+                {
+                    name: 'Latest Date',  cell: function(row){ return row.Block.Date},
+                },
+                {
+                  name: 'Transaction Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+                },
+            ]
+        }
+    }
+  }
+
+
+  const variables = {
+    network:'<%= @streaming%>',
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+  //        network:'eth',
+  //   address: '0xcf523864704a502d36e8e24cd73a2aee6cda00e1',
+
+  }
+  renderComponent(LatestOutboundTransfers, "#LatestOutboundTransfers",'Latest-Outbound-Transfers',variables);
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(OutboundTransfersInNativeCurrency, "#OutboundTransfersInNativeCurrency",'Outbound-transfers-in-native-currency',variables);
+    renderComponent(OutboundTransfersInTokens, "#OutboundTransfersInTokens",'Outbound-transfers-in-tokens',variables);
+    renderComponent(TopReceiversInNativeCurrency, "#TopReceiversInNativeCurrency",'Top-Receivers-in-native-currency_1',variables);
+    renderComponent(TopReceiversInTokens, "#TopReceiversInTokens",'Top-Receivers-in-tokens',variables);
+  })
+</script>

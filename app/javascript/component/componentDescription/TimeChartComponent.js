@@ -8,6 +8,10 @@ export default class TimeChartComponent {
 	async onData(data, sub) {
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
+			if (Object.keys(dataArray).length === 0) {
+				this.container.textContent = 'No Data. Response is empty'
+				return;
+			}
 			const chainId =  this.config.chainId(data)
 			let dataToVizualize = []
 			let annotation = []

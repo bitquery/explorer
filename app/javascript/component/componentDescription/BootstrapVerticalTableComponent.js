@@ -1,3 +1,42 @@
+const d = `{
+  "EVM": {
+    "EVM": {
+      "fee": [
+        {
+          "tx_count": "0",
+          "tx_fee": "0.000000000000000000"
+        }
+      ],
+      "receiver": [
+        {
+          "Block": {
+            "from": "2023-02-07T20:39:13Z",
+            "to": "2023-07-28T05:09:50Z"
+          },
+          "ChainId": "42161",
+          "amount": "10120.123479613338332388",
+          "count": "123617",
+          "currencies": "4",
+          "days": "89"
+        }
+      ],
+      "sender": [
+        {
+          "Block": {
+            "from": "2023-02-07T20:39:13Z",
+            "to": "2023-07-28T05:09:50Z"
+          },
+          "ChainId": "42161",
+          "amount": "119.286107783338332388",
+          "count": "123606",
+          "currencies": "1",
+          "days": "89"
+        }
+      ]
+    }
+  }
+}`
+
 export default class BootstrapVerticalTableComponent {
   constructor(element, variables) {
     this.container = element;
@@ -52,10 +91,16 @@ export default class BootstrapVerticalTableComponent {
     const array = this.config.topElement(data);
         console.log('data',data)
     console.log('array',array)
+    console.log('typeof array',typeof array)
     const chainId = this.config.chainId(data)
     const maxRows = 15;
-    for (const rowData in array) {
+  
+    for (const rowData of array) {
+                    console.log(' rowData',  rowData)
+        console.log('typeof rowData', typeof rowData)
       for (const column of this.config.columns) {
+                        console.log(' column',  column)
+        console.log('typeof column', typeof column)
         const tr = this.createElementWithClasses('tr');
 
         const td1 = this.createElementWithClasses('td');
@@ -64,9 +109,8 @@ export default class BootstrapVerticalTableComponent {
         this.appendChildren(td1, textCell1);
 
         const td2 = this.createElementWithClasses('td');
-        td2.style.whiteSpace = 'nowrap';
-        td2.style.overflow = 'hidden';
-        td2.style.textOverflow = 'ellipsis';
+        td2.style.cssText = 'white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';
+
         td2.setAttribute('title', column.cell(rowData))
         const textCell2 = this.createElementWithClasses('span');
         textCell2.textContent = column.cell(rowData);
