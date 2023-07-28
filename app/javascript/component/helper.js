@@ -157,9 +157,13 @@ export const getData = async ({ endpoint_url, query, variables }) => {
 	return data
 }
 
-export const createWidgetFrame = selector => {
-	const createButton = title => {
+export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID) => {
+	const createButton = (title, display) => {
 		const button = document.createElement('a');
+		if (!display) {
+			button.style.display = 'none'
+			return button
+		}
 		button.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api', 'mr-2');
 		button.setAttribute('role', 'button');
 		button.setAttribute('target', '_blank');
@@ -173,8 +177,8 @@ export const createWidgetFrame = selector => {
 	const cardBody = document.createElement('div');
 	const widgetFrame = document.createElement('div');
 	const tableFooter = document.createElement('div');
-	const getStreamingAPIButton = createButton('Get Streaming API')
-	const getHistoryAPIButton = createButton('Get History API')
+	const getStreamingAPIButton = createButton('Get Streaming API', subscriptionQueryID)
+	const getHistoryAPIButton = createButton('Get History API', historyQueryID)
 	const showMoreButton = document.createElement('a');
 	const loader = document.createElement('div');
 	const blinkerWrapper = document.createElement('div');

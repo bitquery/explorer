@@ -10,7 +10,7 @@ import {
 
 export default async function renderComponent(component, selector, subscriptionQueryID, explorerVariables = {}, historyQueryID) {
 	document.querySelector(selector).textContent = '';
-	const widgetFrame = createWidgetFrame(selector);
+	const widgetFrame = createWidgetFrame(selector, subscriptionQueryID, historyQueryID);
 	try {
 		let variables, compElement, subscriptionDataSource, historyDataSource
 		//get subscription query parameters, setup widget frame
