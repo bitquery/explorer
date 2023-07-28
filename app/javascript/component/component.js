@@ -12,25 +12,33 @@ export default async function renderComponent(component, selector, subscriptionQ
 	document.querySelector(selector).textContent = '';
 	const widgetFrame = createWidgetFrame(selector);
 	try {
+		let variables, compElement, subscriptionDataSource, historyDataSource
 		//get subscription query parameters, setup widget frame
-		const subscriptionQueryParams = await getQueryParams(subscriptionQueryID)
-		const { endpoint_url, query, variables: rawVariables } = subscriptionQueryParams
-		widgetFrame.onloadmetadata(subscriptionQueryParams);
-		const compElement = widgetFrame.frame;
-		
-		//setup subscription datasource
-		const variables = { ...rawVariables, ...explorerVariables };
-		const subscriptionPayload = { query, variables, endpoint_url }
-		const subscriptionDataSource = new SubscriptionDataSource( subscriptionPayload, widgetFrame.onerror )
-
-		//setup history datasource
-		const historyQueryParams = await getQueryParams(historyQueryID)
-		const historyPayload = {
-			variables,
-			query: historyQueryParams.query,
-			endpoint_url: historyQueryParams.endpoint_url
+		if (subscriptionQueryID) {
+			const subscriptionQueryParams = await getQueryParams(subscriptionQueryID)
+			const { endpoint_url, query, variables: rawVariables } = subscriptionQueryParams
+			widgetFrame.onloadmetadata(subscriptionQueryParams);
+			compElement = widgetFrame.frame;
+			
+			//setup subscription datasource
+			variables = { ...rawVariables, ...explorerVariables };
+			const subscriptionPayload = { query, variables, endpoint_url }
+			subscriptionDataSource = new SubscriptionDataSource( subscriptionPayload, widgetFrame.onerror )
 		}
-		const historyDataSource = new HistoryDataSource(historyPayload, widgetFrame)
+		if (historyQueryID) {
+			//setup history datasource
+			const historyQueryParams = await getQueryParams(historyQueryID)
+			if (!compElement) {
+				widgetFrame.onloadmetadata(historyQueryParams);
+				compElement = widgetFrame.frame;
+			}
+			const historyPayload = {
+				variables: variables || { ...historyQueryParams.variables, ...explorerVariables },
+				query: historyQueryParams.query,
+				endpoint_url: historyQueryParams.endpoint_url
+			}
+			historyDataSource = new HistoryDataSource(historyPayload, widgetFrame)
+		}
 
 		//create component instance and initialize
 		const componentObject = new component(compElement, historyDataSource, subscriptionDataSource);

@@ -107,8 +107,6 @@ export default class BootstrapTableComponent {
 	}
 
 	appendChildren(parent, children) {
-		children.forEach(child => {
-			console.log(child)
-			parent.appendChild(child)});
+		children.forEach(child => parent.appendChild(child));
 	}
 }
