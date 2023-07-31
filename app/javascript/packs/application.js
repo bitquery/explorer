@@ -54,6 +54,7 @@ import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieve
 import renderPairLink from '../component/rendering/renderPairLink';
 import renderNumbers from '../component/rendering/renderNumbers';
 import renderSmartContractLink from '../component/rendering/renderSmartContractLink';
+import renderMethodLink from '../component/rendering/renderMethodLink';
 const Datafeeds = require("packs/datafeeds/bundle")
 const TradingView = require("packs/charting_library/charting_library")
 const TreeView = require('js-treeview');
@@ -87,6 +88,7 @@ global.renderSenderRecieverIcon = renderSenderRecieverIcon;
 global.renderPairLink = renderPairLink;
 global.renderNumbers = renderNumbers;
 global.renderSmartContractLink = renderSmartContractLink;
+global.renderMethodLink = renderMethodLink;
 
 global.widgetRenderer = {
   'vega.bar': barWidgetRenderer,

@@ -1,1 +1,40 @@
-<%= render partial: 'ethereum_streaming/block/calls_table' %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="CallsSmartContracts"></div>
+  </div>
+</div>
+<script >
+  class CallsSmartContracts extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Calls},
+            chainId: function (response){ return response.EVM.Calls[0].ChainId},
+            columns: [
+
+                {
+                    name: 'Caller', cell: function(row){return row.Call.From}, rendering:renderAddressLink,
+                },
+                {
+                    name: 'Smart Contract', cell: function(row){return row.Call.To}, rendering:renderAddressLink,
+                },
+                {
+                    name: 'Method', cell: function(row) { return {method:row.Call.Signature.Signature, hash:row.Call.Signature.Signature} },rendering: renderMethodLink
+                },
+                {
+                    name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+                },
+            ]
+        }
+    }
+  }
+
+  const variables = {
+    network:'<%= @streaming%>',
+    height:' <%= @height%>',
+    //     network:'eth',
+    // height:'17809274'
+
+  }
+    renderComponent(CallsSmartContracts, "#CallsSmartContracts",'Calls-smart-contracts',variables);
+</script>
+Calls-smart-contracts

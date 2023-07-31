@@ -1,5 +1,3 @@
-import { LineStyle } from "lightweight-charts";
-
 export default function renderAddressLink(data, variables, chainId) {
 	const div = document.createElement('div');
 	div.classList.add('text-truncate')
