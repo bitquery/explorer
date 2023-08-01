@@ -8,7 +8,7 @@ import {
 	SubscriptionDataSource
 } from "./helper";
 
-export default async function renderComponent(component, selector, subscriptionQueryID, explorerVariables = {}, historyQueryID) {
+export default async function renderComponent(component, selector, historyQueryID, explorerVariables = {}, subscriptionQueryID) {
 	document.querySelector(selector).textContent = '';
 	const widgetFrame = createWidgetFrame(selector, subscriptionQueryID, historyQueryID);
 	let variables, compElement, subscriptionDataSource, historyDataSource

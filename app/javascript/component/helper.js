@@ -114,8 +114,7 @@ export const getAPIButton = (data, variables, queryID) => () => {
 	};
 	let form = document.createElement('form');
 	form.setAttribute('method', 'post');
-	// form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
-	form.setAttribute('action', `http://localhost:3005/api/widgetconfig`);
+	form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
 	form.setAttribute('enctype', 'application/json');
 	form.setAttribute('target', '_blank');
 	form.appendChild(createHiddenField('data', JSON.stringify(data)));
