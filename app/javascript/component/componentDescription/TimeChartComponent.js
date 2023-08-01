@@ -1,11 +1,23 @@
 export default class TimeChartComponent {
-	constructor(element, variables) {
+	constructor(element, historyDataSource, subscriptionDataSource) {
 		this.container = element
 		this.config = this.configuration()
-		this.variables = variables
+		this.historyDataSource = historyDataSource
+		this.subscriptionDataSource = subscriptionDataSource
 	}
 
-	async onData(data, sub) {
+	async init() {
+		if (this.historyDataSource) {
+			this.historyDataSource.setCallback(this.onHistoryData.bind(this))
+			this.historyDataSource && await this.historyDataSource.changeVariables()
+		}
+		if (this.subscriptionDataSource) {
+			this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
+			this.subscriptionDataSource.changeVariables()
+		}
+	}
+
+	async onHistoryData(data) {
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
 			if (Object.keys(dataArray).length === 0) {
