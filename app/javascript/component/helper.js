@@ -1,7 +1,7 @@
 const isNotEmptyArray = subj => Array.isArray(subj) && subj.length;
 const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 
-export function SubscriptionDataSource(payload, onerror) {
+export function SubscriptionDataSource(payload, widgetFrame) {
 
 	let callback, variables, cleanSubscription
 
@@ -11,7 +11,7 @@ export function SubscriptionDataSource(payload, onerror) {
 
 		cleanSubscription = client.subscribe({ query: payload.query, variables }, {
 			next: ({ data }) => callback(data, variables),
-			error: error => { onerror(error) },
+			error: error => { widgetFrame.onerror(error) },
 			complete: () => {},
 		});
 	} 
@@ -36,9 +36,13 @@ export function HistoryDataSource(payload, widgetFrame) {
 
 	const getNewData = async () => {
 		widgetFrame.onquerystarted()
-		const data = await getData({ ...payload, variables })
-		widgetFrame.onqueryend()
-		callback(data, variables)
+		try {
+			const data = await getData({ ...payload, variables })
+			widgetFrame.onqueryend()
+			callback(data, variables)
+		} catch (error) {
+			widgetFrame.onerror(error)
+		}
 	}
 
 	this.setCallback = cb => {
