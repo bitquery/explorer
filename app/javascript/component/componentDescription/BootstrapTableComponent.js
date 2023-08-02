@@ -30,13 +30,22 @@ export default class BootstrapTableComponent {
 		this.tableElement.appendChild(thead)
 		thead.appendChild(tr)
 
-		this.config.columns.forEach(({ name }) => {
+		this.config.columns.forEach(({ name, rendering }) => {
 			const th = this.createElementWithClasses('th');
 			th.setAttribute('scope', 'row');
 			th.textContent = name;
+
+			if (rendering === renderNumbers) {
+				th.style.textAlign = 'end';
+			}
+			if(rendering === renderSenderRecieverIcon){
+				th.style.width = '50px'
+			}
+
 			tr.appendChild(th)
 		});
 	}
+
 
 	createTbody() {
 		this.tbody = this.createElementWithClasses('tbody');
@@ -60,6 +69,10 @@ export default class BootstrapTableComponent {
 	}
 	
 	async onHistoryData(data, variables) {
+		if (Object.keys(this.config.topElement(data)).length === 0) {
+			this.container.textContent = 'No Data. Response is empty'
+			return;
+		}
 		const rows = await this.composeRows(data, variables)
 		this.appendChildren(this.tbody, rows);
 	}
@@ -77,6 +90,10 @@ export default class BootstrapTableComponent {
 
 	async composeRows(rawData, variables) {
 		const data = this.config.topElement(rawData);
+		if (Object.keys(data).length === 0) {
+			this.container.textContent = 'No Data. Response is empty'
+			return;
+		}
 		let chainId = ''
 		if (data.length > 0) {
 			chainId = this.config.chainId(rawData)
@@ -93,7 +110,6 @@ export default class BootstrapTableComponent {
 
 				if (column.rendering) {
 					const div = await column.rendering(column.cell(row), variables, chainId);
-
 					td.replaceChild(div, textCell);
 				}
 

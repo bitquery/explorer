@@ -26,170 +26,179 @@
   <div class="col-12 col-lg-6">
     <div class="card" id="SMCalls"></div>
   </div>
-  <%# <div class="col-12 col-lg-6">
+  <div class="col-12 col-lg-6">
     <div class="card" id="OutboundTransferCountByDate" ></div>
   </div>
-</div> %>
-  <script >
-    // class TotalAddressStatistics extends BootstrapVerticalTableComponent {
-    //   configuration() {
-    //     return  {
-    //       topElement: function (response){ return response.EVM},
-    //       chainId: function (response){  return response.EVM.receiver[0].ChainId },
-    //       columns: [
-    //         {
-    //           name: 'Fee TX count', cell: function(row){ return row[0].tx_count},
-    //         },
-    //         {
-    //           name: 'TX fee', cell: function(row){ return row[0].tx_fee},
-    //         },
-    //         {
-    //           name: 'Receive from', cell: function(row){ return row[1].count},
-    //         },
-    //         {
-    //           name: 'Receive  currencies', cell: function(row){ return row[1].currencies},
-    //         },
-    //         {
-    //           name: 'Send to', cell: function(row){ return row[2].count},
-    //         },
-    //         {
-    //           name: 'Send  currencies', cell: function(row){ return row[2].currencies},
-    //         },
-    //         {
-    //           name: 'Receive amount', cell: function(row){ return row[1].amount},
-    //         },
-    //         {
-    //           name: 'Send amount', cell: function(row){ return row[2].amount},
-    //         },
-    //         {
-    //           name: 'First Tx at', cell: function(row){ return row[2].Block.from}, rendering: renderDate,
-    //         },
-    //         {
-    //           name: 'Last Tx at', cell: function(row){ return row[1].Block.to}, rendering: renderDate,
-    //         },
-    //         {
-    //           name: 'Days with receive', cell: function(row){ return row[1].days},
-    //         },
-    //       ]
-    //     }
-    //   }
-    // }
-    class AddressBalanceByCurrencies extends BootstrapTableComponent {
-      configuration() {
-          return  {
-              topElement: function (response){ return response.EVM.BalanceUpdates},
-              chainId: function (response){ return response.EVM.BalanceUpdates[0].ChainId},
-              columns: [
-                  {
-                  name: 'Currency',  cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
-                  },
-                  {
-                  name: 'Balance Count', cell: function(row){ return row.sum}, rendering: renderNumbers,
-                  },
-              ]
-          }
+</div>
+<script >
+  class TotalAddressStatistics extends BootstrapVerticalTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return [...response.EVM.fee,...response.EVM.receiver,...response.EVM.sender, ...response.EVM.currencies_reciiver, ...response.EVM.currencies_sender]},
+        chainId: function (response){  return response.EVM.receiver[0].ChainId },
+        columns: [
+          {
+            name: 'Fee TX count', cell: function(row){ return row.tx_count},
+          },
+          {
+            name: 'TX fee', cell: function(row){ return row.tx_fee},
+          },
+          {
+            name: 'Receive from', cell: function(row){ return row.r},
+          },
+          {
+            name: 'Receive  currencies', cell: function(row){ return row.r_currencies},
+          },
+          {
+            name: 'Send to', cell: function(row){ return row.s},
+          },
+          {
+            name: 'Send  currencies', cell: function(row){ return row.s_currencies},
+          },
+          {
+            name: 'Receive amount', cell: function(row){ return row.r_amount},
+          },
+          {
+            name: 'Send amount', cell: function(row){ return row.s_amount},
+          },
+          {
+            name: 'First Receiver Tx at', cell: function(row){ return row.Block?.r_from}, rendering: renderDate,
+          },
+          {
+            name: 'Last Receiver Tx at', cell: function(row){ return row.Block?.r_to}, rendering: renderDate,
+          },
+          {
+            name: 'First Sender Tx at', cell: function(row){ return row.Block?.s_from}, rendering: renderDate,
+          },
+          {
+            name: 'Last Sender Tx at', cell: function(row){ return row.Block?.s_to}, rendering: renderDate,
+          },
+          {
+            name: 'Days with receive', cell: function(row){ return row.r_days},
+          },
+          {
+            name: 'Days with sender', cell: function(row){ return row.s_days},
+          },
+        ]
       }
     }
-    class TransactionsByDate extends TimeChartComponent {
-      configuration() {
-        return {
-          topElement: function(response) { return response.EVM.Transfers },
-          chainId: function (response){ return response.EVM.Transfers[0].ChainId},
-          columns: [
-            {name: 'Date', cell: function (row) { return row.Block.Date } },
-            {name: 'Transactionns count', cell: function (row) { return +row.count } }
-          ],
-          options: {
-              title: 'Transactionns count by date',
-              height: 300,
-              colors: ['28A745'],
-          }
+  }
+  class AddressBalanceByCurrencies extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.BalanceUpdates},
+            chainId: function (response){ return response.EVM.BalanceUpdates[0].ChainId},
+            columns: [
+                {
+                name: 'Currency',  cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
+                },
+                {
+                name: 'Balance Count', cell: function(row){ return row.sum}, rendering: renderNumbers,
+                },
+            ]
+        }
+    }
+  }
+  class TransactionsByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Transactionns count', cell: function (row) { return +row.count } }
+        ],
+        options: {
+            title: 'Transactionns count by date',
+            height: 300,
+            colors: ['28A745'],
         }
       }
     }
-    class GasSpentByDate extends TimeChartComponent {
-      configuration() {
-        return {
-          topElement: function(response) { return response.EVM.Transactions },
-          chainId: function (response){ return response.EVM.Transactions[0].ChainId},
-          columns: [
-            {name: 'Date', cell: function (row) { return row.Block.Date } },
-            {name: 'Gas cost', cell: function (row) { return +row.sum } }
-          ],
-          options: {
-              title: 'Gas Spent By Date',
-              height: 300,
-              colors: ['FFC106'],
-          }
+  }
+  class GasSpentByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transactions },
+        chainId: function (response){ return response.EVM.Transactions[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Gas cost', cell: function (row) { return +row.sum } }
+        ],
+        options: {
+            title: 'Gas Spent By Date',
+            height: 300,
+            colors: ['FFC106'],
         }
       }
     }
-    class InboundTransferCountByDate extends TimeChartComponent {
-      configuration() {
-        return {
-          topElement: function(response) { return response.EVM.Transfers },
-          chainId: function (response){ return response.EVM.Transfers[0].ChainId},
-          columns: [
-            {name: 'Date', cell: function (row) { return row.Block.Date } },
-            {name: 'Send count', cell: function (row) { return +row.count } }
-          ],
-          options: {
-              height: 300,
-              colors: ['FFC106'],
-          }
+  }
+  class InboundTransferCountByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Send count', cell: function (row) { return +row.count } }
+        ],
+        options: {
+            height: 300,
+            colors: ['FFC106'],
         }
       }
     }
-    class OutboundTransferCountByDate extends TimeChartComponent {
-      configuration() {
-        return {
-          topElement: function(response) { return response.EVM.Transfers },
-          chainId: function (response){ return response.EVM.Transfers[0].ChainId},
-          columns: [
-            {name: 'Date', cell: function (row) { return row.Block.Date } },
-            {name: 'Receive count', cell: function (row) { return +row.count } }
-          ],
-          options: {
-              height: 300,
-              colors: ['FFC106'],
-          }
+  }
+  class OutboundTransferCountByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Receive count', cell: function (row) { return +row.count } }
+        ],
+        options: {
+            height: 300,
+            colors: ['FFC106'],
         }
       }
     }
-    class SMCalls extends TimeChartComponent {
-      configuration() {
-        return {
-          topElement: function(response) { return response.EVM.Calls },
-          chainId: function (response){ return response.EVM.Calls[0].ChainId},
-          columns: [
-            {name: 'Date', cell: function (row) { return row.Block.Date } },
-            {name: 'Receive count', cell: function (row) { return +row.count } }
-          ],
-          options: {
-              height: 300,
-          }
+  }
+  class SMCalls extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Calls },
+        chainId: function (response){ return response.EVM.Calls[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Receive count', cell: function (row) { return +row.count } }
+        ],
+        options: {
+            height: 300,
         }
       }
     }
+  }
 
 
-    const variables = {
-      network:'<%= @streaming%>',
-      offset: 0,
-      address: '<%= @address %>',
-      token: '<%= @address %>',
-      id: '<%= @id %>',
-    //      network:'eth',
-    // address: '0xcf523864704a502d36e8e24cd73a2aee6cda00e1',
+  const variables = {
+    network:'<%= @streaming%>',
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+  //      network:'eth',
+  // address: '0xcf523864704a502d36e8e24cd73a2aee6cda00e1',
 
-    }
-      // renderComponent(TotalAddressStatistics, "#TotalAddressStatistics",'Total-Address-Statistics_1_1_1_1_1_1_1',variables);
-      renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Address-balance-by-currencies_1',variables);
-    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-      renderComponent(TransactionsByDate, "#TransactionsByDate",'Transactions-By-Date_1_1_1_1',variables);
-      renderComponent(GasSpentByDate, "#GasSpentByDate",'Gas-Spent-By-Date_1_1',variables);
-      renderComponent(InboundTransferCountByDate, "#InboundTransferCountByDate",'Inbound-transfer-count-by-date',variables);
-      renderComponent(OutboundTransferCountByDate, "#OutboundTransferCountByDate",'Outbound-transfer-count-by-date',variables);
-      renderComponent(SMCalls, "#SMCalls",'Smart-contract-calls--including-internal--by-date',variables);
-    })
-  </script>
+  }
+    renderComponent(TotalAddressStatistics, "#TotalAddressStatistics",'Total-Address-Statistics_1_1_1_1_1_1_1_1_1_1',variables);
+    renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Address-balance-by-currencies_1',variables);
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(TransactionsByDate, "#TransactionsByDate",'Transactions-By-Date_1_1_1_1',variables);
+    renderComponent(GasSpentByDate, "#GasSpentByDate",'Gas-Spent-By-Date_1_1',variables);
+    renderComponent(InboundTransferCountByDate, "#InboundTransferCountByDate",'Inbound-transfer-count-by-date',variables);
+    renderComponent(OutboundTransferCountByDate, "#OutboundTransferCountByDate",'Outbound-transfer-count-by-date',variables);
+    renderComponent(SMCalls, "#SMCalls",'Smart-contract-calls--including-internal--by-date',variables);
+  })
+</script>

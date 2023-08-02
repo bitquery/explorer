@@ -29,6 +29,11 @@ export default class BootstrapCardComponent {
 
 	async onHistoryData(data, variables) {
 		const array = this.config.topElement(data);
+		if (Object.keys(array).length === 0) {
+			this.wrapper.style.marginLeft = '15px'
+			this.wrapper.textContent = 'No Data. Response is empty'
+			return;
+		}
 		this.chainId = this.config.chainId(data);
 		for (const row of array) {
 			const cardElement = await this.createCardElement(row, variables);
@@ -38,6 +43,10 @@ export default class BootstrapCardComponent {
 
 	async onSubscriptionData(data, variables) {
 		const array = this.config.topElement(data);
+		if (Object.keys(array).length === 0) {
+			this.container.textContent = 'No Data. Response is empty'
+			return;
+		}
 		this.chainId = this.config.chainId(data);
 		const maxRows = 10;
 		for (const row of array) {

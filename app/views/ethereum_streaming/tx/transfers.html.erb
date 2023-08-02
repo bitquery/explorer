@@ -1,1 +1,43 @@
-<%= render partial: 'arbitrum/tx/transfers' %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="TransactionAttributes"></div>
+  </div>
+</div>
+<script >
+  class TransactionAttributes extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Transfers},
+        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
+        columns: [
+          {
+            name: 'Sender', cell: function(row){ return row.Transaction?.From},rendering: renderAddressLink,
+          },
+          {
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+          },
+          {
+            name: 'Receiver', cell: function(row){ return row.Transaction?.To},rendering: renderAddressLink,
+          },
+          {
+            name: 'Amount', cell: function(row){ return row.sum}, rendering:renderNumbers
+          },
+          {
+            name: 'Currency', cell: function(row){ return row.Transfer?.Currency.Symbol},
+          },
+          {
+            name: 'Success?', cell: function(row){ return row.Transfer?.Success},
+          },
+        ]
+      }
+    }
+  }
+  const variables = {
+    network:'<%= @streaming%>',
+    hash:' <%= @hash%>',
+  //   network:'eth',
+  //   hash: "0x42c84ae92884bfec73f9c04a75daee32c76ac9d72b98ee48f5b9b59b61afa7ae"
+
+  }
+    renderComponent(TransactionAttributes, "#TransactionAttributes",'Token-Transfers-in-Transaction',variables);
+</script>
