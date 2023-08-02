@@ -187,11 +187,11 @@ BLOCKCHAINS = [
   },
 
   {
-    tag: 'bsc',
-    network: 'bsc',
-    streaming: 'bsc',
+    tag: 'bnb',
+    network: 'bnb',
+    streaming: 'bnb',
     chainId: '56',
-    name: 'Binance Smart Chain Mainnet',
+    name: 'BNB Chain (BSC)',
     family: 'ethereum',
     platform: 'Smart Contract',
     currency: 'BNB',
