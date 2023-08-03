@@ -8,7 +8,13 @@ export default class TradingGraphsComponent {
 		this.lastData = null;
 		this.widget = null;
 		this.wrapper = document.createElement('div');
-		this.interval = '15'
+		if ( this.historyDataSource && 'getInterval' in this.historyDataSource ) {
+			this.interval = this.historyDataSource.getInterval()
+		} else if ( this.subscriptionDataSource && 'getInterval' in this.subscriptionDataSource ) {
+			this.interval = this.subscriptionDataSource.getInterval()
+		} else {
+			this.interval = '15'
+		}
 		this.onHistoryCallback = undefined
 		this.onRealtimeCallback = undefined
 		this.periodParams = undefined
