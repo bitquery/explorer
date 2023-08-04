@@ -1,7 +1,5 @@
 <footer>
-
   <div class="container-fluid mt-5 mb-5 text-center">
-
     <div style="margin-bottom: 5px;">
         <% for chain in BLOCKCHAINS %>
           <%= link_to network_icon(chain), "/#{chain[:network]}", {title: t("pages.footer.explorer", network:chain[:name])}%>
@@ -15,10 +13,11 @@
             class="adsbyslise"
             style="display:inline-block;width:728px;height:90px"
             data-ad-slot="leaderboard"
-            data-ad-pub="pub-10"
+            data-ad-pub="pub-11"
             id="ad-ins"
           ></ins>
         </div>
+        <script async src="https://v1.slise.xyz/scripts/embed.js"></script>
         <script>
           var adElement = document.getElementById('ad-ins');
           if(window.innerWidth < 728) {
@@ -29,15 +28,8 @@
           }
 
           setTimeout(function(){
-            var script = document.createElement('script');
-            script.async = true;
-            script.src = "https://v1.slise.xyz/scripts/embed.js";
-            document.body.appendChild(script);
-            
-            script.onload = function() {
-              ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
-              window.adsbyslisesync&&window.adsbyslisesync();
-            };
+            ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
+            window.adsbyslisesync&&window.adsbyslisesync();
           }, 2200);
         </script>
       </div>
