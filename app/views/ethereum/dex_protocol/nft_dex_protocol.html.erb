@@ -73,7 +73,7 @@
   }
 
     renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-      renderComponent(DEXProtocolNFTTokenTradesByDate, "#DEX-Protocol-NFT-Token-Trades-By-Date",'DEX-Protocol-NFT-Token-Trades-By-Date_1',variables);
-      renderComponent(LiveTradesNFTTokenDEXProtocol, "#Live-Trades-of-NFT-Token-on-DEX-Protocol_1",'Live-Trades-of-NFT-on-DEX-Protocol_1',variables, 'Latest-Trades-of-NFT-Token-on-DEX-Protocol_1_1_1_1_1');
+      renderComponent(DEXProtocolNFTTokenTradesByDate, "#DEX-Protocol-NFT-Token-Trades-By-Date", 'DEX-Protocol-NFT-Token-Trades-By-Date_1', variables);
+      renderComponent(LiveTradesNFTTokenDEXProtocol, "#Live-Trades-of-NFT-Token-on-DEX-Protocol_1", 'Latest-Trades-of-NFT-Token-on-DEX-Protocol_1_1_1_1_1', variables, 'Live-Trades-of-NFT-on-DEX-Protocol_1');
     })
 </script>

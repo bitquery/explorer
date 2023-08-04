@@ -106,8 +106,8 @@
   }
 
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(LatestNFTTransfersTable, "#latest-nft-id-transfers-table",'NFT-Token-Information-By-ID_1_1',variables);
-    renderComponent(IdNFTTransfersTable2, "#latest-nft-transfers-table2",'NFT-Transfers-List-By-Id_1',variables);
-    renderComponent(IdNFTTransfersTable, "#latest-nft-transfers-table",'NFT-Transfers-List-By-Id_1',variables);
+    renderComponent(LatestNFTTransfersTable, "#latest-nft-id-transfers-table", 'NFT-Token-Information-By-ID_1_1', variables);
+    renderComponent(IdNFTTransfersTable2, "#latest-nft-transfers-table2", 'NFT-Transfers-List-By-Id_1', variables);
+    renderComponent(IdNFTTransfersTable, "#latest-nft-transfers-table", 'NFT-Transfers-List-By-Id_1', variables);
   })
 </script>

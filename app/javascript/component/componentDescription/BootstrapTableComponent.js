@@ -1,98 +1,116 @@
 export default class BootstrapTableComponent {
-  constructor(element, variables) {
-    this.container = element;
-    this.config = this.configuration();
-    this.variables = variables;
-    this.createWrapper();
-    this.createTable();
-    this.data = null;
-  }
- async clearData() {
-    await this.data;
-    this.tbody.textContent=''
-  }
-  createWrapper() {
-    this.wrapper = this.createElementWithClasses('div', 'table-responsive-md');
-    this.appendChildren(this.container, this.wrapper);
-  }
+	constructor(element, historyDataSource, subscriptionDataSource) {
+		this.container = element;
+		this.historyDataSource = historyDataSource
+		this.subscriptionDataSource = subscriptionDataSource
+		this.config = this.configuration();
+		this.createWrapper();
+		this.createTable();
+	}
+	clearData() {
+		this.tbody.textContent = ''
+	}
+	createWrapper() {
+		this.wrapper = this.createElementWithClasses('div', 'table-responsive-md');
+		this.container.appendChild(this.wrapper);
+	}
 
-  createTable() {
-    this.tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
-    this.tableElement.style.tableLayout = 'fixed';
-    this.appendChildren(this.wrapper, this.tableElement);
-    this.createThead();
-    this.createTbody();
-    this.createTfooter();
-  }
+	createTable() {
+		this.tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
+		this.tableElement.style.tableLayout = 'fixed';
+		this.wrapper.appendChild(this.tableElement)
+		this.createThead();
+		this.createTbody();
+		this.createTfooter();
+	}
 
-  createThead() {
-    const thead = this.createElementWithClasses('thead');
-    const tr = this.createElementWithClasses('tr');
-    this.appendChildren(this.tableElement, thead);
-    this.appendChildren(thead, tr);
+	createThead() {
+		const thead = this.createElementWithClasses('thead');
+		const tr = this.createElementWithClasses('tr');
+		this.tableElement.appendChild(thead)
+		thead.appendChild(tr)
 
-    this.config.columns.forEach(({name}) => {
-      const th = this.createElementWithClasses('th');
-      th.setAttribute('scope', 'row');
-      th.textContent = name;
-      this.appendChildren(tr, th);
-    });
-  }
+		this.config.columns.forEach(({ name }) => {
+			const th = this.createElementWithClasses('th');
+			th.setAttribute('scope', 'row');
+			th.textContent = name;
+			tr.appendChild(th)
+		});
+	}
 
-  createTbody() {
-    this.tbody = this.createElementWithClasses('tbody');
-    this.appendChildren(this.tableElement, this.tbody);
-  }
+	createTbody() {
+		this.tbody = this.createElementWithClasses('tbody');
+		this.tableElement.appendChild(this.tbody)
+	}
 
-  createTfooter() {
-    const tfooter = this.createElementWithClasses('div');
-    this.appendChildren(this.tableElement, tfooter);
-  }
+	createTfooter() {
+		const tfooter = this.createElementWithClasses('div');
+		this.tableElement.appendChild(tfooter)
+	}
 
-  async onData(data, sub) {
-     this.data = this.config.topElement(data);
-    let chainId=''
-    if(this.data.length > 0){
-       chainId =  this.config.chainId(data)
-    }
-    const maxRows = 15;
+	async init() {
+		if (this.historyDataSource) {
+			this.historyDataSource.setCallback(this.onHistoryData.bind(this))
+			this.historyDataSource && await this.historyDataSource.changeVariables()
+		}
+		if (this.subscriptionDataSource) {
+			this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
+			this.subscriptionDataSource.changeVariables()
+		}
+	}
+	
+	async onHistoryData(data, variables) {
+		const rows = await this.composeRows(data, variables)
+		this.appendChildren(this.tbody, rows);
+	}
 
-    for (const rowData of this.data) {
-      const tr = this.createElementWithClasses('tr');
+	async onSubscriptionData(data, variables) {
+		const maxRows = 15;
+		const rows = await this.composeRows(data, variables)
+		rows.forEach(tr => {
+			this.tbody.insertBefore(tr, this.tbody.firstChild)
+			if (this.tbody.childElementCount > maxRows) {
+			  this.tbody.removeChild(this.tbody.lastChild);
+			}
+		})
+	}
 
-      for (const column of this.config.columns) {
-        const td = this.createElementWithClasses('td');
-        // ,"text-truncate"
-        const textCell = this.createElementWithClasses('span');
-        textCell.textContent = column.cell(rowData);
-        this.appendChildren(td, textCell);
+	async composeRows(rawData, variables) {
+		const data = this.config.topElement(rawData);
+		let chainId = ''
+		if (data.length > 0) {
+			chainId = this.config.chainId(rawData)
+		}
+		const rows = []
+		for (const row of data) {
+			const tr = this.createElementWithClasses('tr');
 
-        if (column.rendering) {
-          const div = await column.rendering(column.cell(rowData), this.variables, chainId);
+			for (const column of this.config.columns) {
+				const td = this.createElementWithClasses('td');
+				const textCell = this.createElementWithClasses('span');
+				textCell.textContent = column.cell(row);
+				td.appendChild(textCell)
 
-          td.replaceChild(div, textCell);
-        }
+				if (column.rendering) {
+					const div = await column.rendering(column.cell(row), variables, chainId);
 
-        tr.appendChild(td);
-      }
-      if (sub) {
-        this.tbody.insertBefore(tr, this.tbody.firstChild);
-        if (this.tbody.childElementCount > maxRows) {
-          this.tbody.removeChild(this.tbody.lastChild);
-        }
-      } else {
-        this.appendChildren(this.tbody, tr);
-      }
-    }
-  }
+					td.replaceChild(div, textCell);
+				}
 
-  createElementWithClasses(elementType, ...classes) {
-    const element = document.createElement(elementType);
-    element.classList.add(...classes);
-    return element;
-  }
+				tr.appendChild(td);
+				rows.push(tr)
+			}
+		}
+		return rows
+	}
 
-  appendChildren(parent, ...children) {
-    children.forEach(child => parent.appendChild(child));
-  }
+	createElementWithClasses(elementType, ...classes) {
+		const element = document.createElement(elementType);
+		element.classList.add(...classes);
+		return element;
+	}
+
+	appendChildren(parent, children) {
+		children.forEach(child => parent.appendChild(child));
+	}
 }

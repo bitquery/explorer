@@ -1,15 +1,25 @@
 export default class PieChartComponent {
-	constructor(element, variables) {
+	constructor(element, historyDataSource, subscriptionDataSource) {
 		this.container = element
 		this.config = this.configuration()
-		this.variables = variables
+		this.historyDataSource = historyDataSource
+		this.subscriptionDataSource = subscriptionDataSource
 	}
 
-	async onData(data, sub) {
+	async init() {
+		if (this.historyDataSource) {
+			this.historyDataSource.setCallback(this.onHistoryData.bind(this))
+			this.historyDataSource && await this.historyDataSource.changeVariables()
+		}
+		if (this.subscriptionDataSource) {
+			this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
+			this.subscriptionDataSource.changeVariables()
+		}
+	}
 
+	async onHistoryData(data) {
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
-			const chainId =  this.config.chainId(data)
 			let dataToVizualize = []
 			let annotation = []
 			for (let i=0; i < dataArray.length; i++) {
