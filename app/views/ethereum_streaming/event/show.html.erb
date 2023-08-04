@@ -1,1 +1,64 @@
-<%= render partial: 'shared/not_implemented' %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="EventInformation"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="EventTransactions"></div>
+  </div>
+</div>
+<script >
+  class EventInformation extends BootstrapVerticalTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Events},
+        chainId: function (response){ return response.EVM.Events[0].ChainId},
+        columns: [
+          {
+            name: 'Method Name', cell: function(row){ return row.Log.Signature.Name},
+          },
+          {
+            name: 'Method signature', cell: function(row){ return row.Log.Signature.Signature},
+          },
+          {
+            name: 'Signature Hash', cell: function(row){ return row.Log.Signature.SignatureHash},
+          },
+        ]
+      }
+    }
+  }
+  class EventTransactions extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Events},
+        chainId: function (response){ return response.EVM.Events[0]?.ChainId},
+        columns: [
+          {
+            name: 'Transaction', cell: function(row){ return row.Transaction.Hash},rendering: renderTX,
+          },
+          {
+            name: 'Method', cell: function(row) { return row.Log.Signature.Name },
+          },
+          {
+            name: 'Block', cell: function(row){ return row.Block.Number }, rendering: renderBlockLink,
+          },
+          {
+            name: 'Gas Cost', cell: function(row){return row.Fee.SenderFee}, rendering:renderNumbers,
+          },
+          {
+            name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+          },
+        ]
+      }
+    }
+  }
+  const variables = {
+    network:'<%= @streaming%>',
+    method: '<%= @signature%>',
+    // network:'eth',
+    // method: '8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925',
+  }
+    renderComponent(EventInformation, "#EventInformation",'Event-Information_1',variables);
+    renderComponent(EventTransactions, "#EventTransactions",'Event-Transactions',variables);
+</script>

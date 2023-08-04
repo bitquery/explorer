@@ -1,10 +1,73 @@
 <% if @native_token %>
-  <div class="row">
-    <%= render partial: 'arbitrum/token/token_statistics' %>
-  </div>
+  if if if
 <% else %>
-  <div class="row">
-    <%= render partial: 'arbitrum/token/token_attributes' %>
-    <%= render partial: 'arbitrum/token/token_statistics' %>
+  <div class="row mb-4">
+    <div class="col-12 col-lg-6">
+      <div class="card" id="TokenAttributes"></div>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="card" id="AddressBalanceByCurrencies" ></div>
+    </div>
   </div>
+  <script >
+    class TokenAttributes extends BootstrapVerticalTableComponent {
+      configuration() {
+        return  {
+        topElement: function (response){ return response.EVM.DEXTrades},
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+          columns: [
+            {
+              name: 'Symbol', cell: function(row){ return row.Trade.Buy.Currency.Symbol},
+            },
+            {
+              name: 'Name', cell: function(row){ return row.Trade.Buy.Currency.Name},
+            },
+            {
+              name: 'Number of Decimals', cell: function(row){ return row.Trade.Buy.Currency.Decimals},
+            },
+            {
+              name: 'Protocol name', cell: function(row){ return row.Trade.Buy.Currency.ProtocolName},
+            },
+          ]
+        }
+      }
+    }
+    class AddressBalanceByCurrencies extends BootstrapTableComponent {
+      configuration() {
+          return  {
+              topElement: function (response){ return response.EVM.BalanceUpdates},
+              chainId: function (response){ return response.EVM.BalanceUpdates[0].ChainId},
+              columns: [
+                  {
+                  name: 'Currency',  cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
+                  },
+                  {
+                  name: 'Balance Count', cell: function(row){ return row.sum}, rendering: renderNumbers,
+                  },
+              ]
+          }
+      }
+    }
+     const variables = {
+      network:'<%= @streaming%>',
+      offset: 0,
+      address: '<%= @address %>',
+      token: '<%= @address %>',
+      id: '<%= @id %>',
+    //      network:'eth',
+    // address: '0xcf523864704a502d36e8e24cd73a2aee6cda00e1',
+    //0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9 (arbitrum token)
+
+    }
+
+      renderComponent(TokenAttributes, "#TokenAttributes",'Token-attributes_1_1_1_1',variables);
+      renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Address-balance-by-currencies_1',variables);
+    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+      // renderComponent(TransactionsByDate, "#TransactionsByDate",'Transactions-By-Date_1_1_1_1',variables);
+      // renderComponent(GasSpentByDate, "#GasSpentByDate",'Gas-Spent-By-Date_1_1',variables);
+      // renderComponent(InboundTransferCountByDate, "#InboundTransferCountByDate",'Inbound-transfer-count-by-date',variables);
+      // renderComponent(OutboundTransferCountByDate, "#OutboundTransferCountByDate",'Outbound-transfer-count-by-date',variables);
+      // renderComponent(SMCalls, "#SMCalls",'Smart-contract-calls--including-internal--by-date',variables);
+    })
+  </script>
 <% end  %>

@@ -3,12 +3,13 @@ class EthereumStreaming::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
+  # QUERY = BitqueryStreamingGraphql.parse "Data-for-token"
+
   QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
     query ($network: evm_network, $token: String!) {
       EVM(dataset: archive, network: $network) {
         Transfers(
           where: {Transfer: {Currency: {SmartContract: {is: $token}}}}
-          limitBy: {}
           limit: {count: 1}
         ) {
           Transfer {
@@ -24,52 +25,18 @@ class EthereumStreaming::AddressController < NetworkController
       }
     }
   GRAPHQL
-
-  # QUERY_CURRENCIES = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
-  #  query($network: EthereumNetwork!, $address: String!) {
-  #             ethereum(network: $network) {
-  #               address(address: {is: $address}){
-  #                 address 
-  #                 annotation
-                  
-  #                 smartContract {
-  #                   contractType
-  #                   currency{
-  #                     symbol
-  #                     name
-  #                     decimals
-  #                     tokenType
-  #                   }
-  #                 }
-  #                 balance
-  #               }
-  #   						tin: transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
-  #     							currency {
-  #                     address
-  #                     symbol
-  #                     name
-  #                   }
-  #     							count
-  #   						}
-  #   						tout: transfers(sender: {is: $address}, options: {desc: "count", limit: 100}){
-  #     							currency {
-  #                     address
-  #                     symbol
-  #                     name
-  #                   }
-  #     							count
-  #   						}
-  #             }
-  #           }
-  # GRAPHQL
-
   private
 
   def query_graphql
     @address = params[:address]
-    # query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    query = action_name ==  QUERY
 
+    query = QUERY
+    if @address.starts_with?('0x')
+      result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:streaming], token: @address }).data.evm.transfers
+      @info = result.first.transfer.currency
+      all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
+      @currencies = all_t.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
+    end
   end
 
   def redirect_by_type

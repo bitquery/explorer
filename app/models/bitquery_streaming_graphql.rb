@@ -22,6 +22,12 @@ class BitqueryStreamingGraphql
 
   Client = BitqueryStreamingGraphql.instance.client
 
+  # def self.parse query_id
+  #   uri = URI.parse("#{BITQUERY_IDE_API}/getquery/#{query_id}")
+  #   response = Net::HTTP.get(uri)
+  #   Client.parse JSON.parse(response)['query']
+  # end
+
   ATTEMPTS = 2
 
   def query_with_retry(definition, variables: {}, context: {})

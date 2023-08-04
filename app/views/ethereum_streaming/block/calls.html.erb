@@ -18,7 +18,7 @@
                     name: 'Smart Contract', cell: function(row){return row.Call.To}, rendering:renderAddressLink,
                 },
                 {
-                    name: 'Method', cell: function(row) { return {method:row.Call.Signature.Signature, hash:row.Call.Signature.Signature} },rendering: renderMethodLink
+                    name: 'Method', cell: function(row) { return {method:row.Call.Signature.Name, hash:row.Call.Signature.SignatureHash} },rendering: renderMethodLink
                 },
                 {
                     name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
@@ -30,11 +30,10 @@
 
   const variables = {
     network:'<%= @streaming%>',
-    height:' <%= @height%>',
+    height:'<%= @height%>',
     //     network:'eth',
     // height:'17809274'
 
   }
-    renderComponent(CallsSmartContracts, "#CallsSmartContracts",'Calls-smart-contracts',variables);
+    renderComponent(CallsSmartContracts, "#CallsSmartContracts",'Calls-smart-contracts_1',variables);
 </script>
-Calls-smart-contracts

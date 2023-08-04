@@ -22,7 +22,7 @@
               name: 'Timestamp', cell: function(row){ return row.Block.Time }, rendering: renderDate,
             },
             {
-              name: 'Block', cell: function(row){ return row.Block.Number},
+              name: 'Block', cell: function(row){ return row.Block.Number}, rendering: renderBlockLink,
             },
             {
               name: 'Sender', cell: function(row){ return row.Transaction.To}, rendering: renderAddressLink,
@@ -34,13 +34,13 @@
               name: 'Hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
             },
             {
-              name: 'Gas used', cell: function(row){ return row.Receipt.GasUsed},
+              name: 'Gas used', cell: function(row){ return row.Receipt.GasUsed},rendering: renderNumbers,
             },
             {
-              name: 'Gas price', cell: function(row){ return row.Fee.EffectiveGasPrice},
+              name: 'Gas price', cell: function(row){ return row.Fee.EffectiveGasPrice}, rendering: renderNumbers,
             },
             {
-              name: 'Sender fee', cell: function(row){ return row.Fee.SenderFee},
+              name: 'Sender fee', cell: function(row){ return row.Fee.SenderFee},rendering: renderNumbers,
             },
           ]
         }

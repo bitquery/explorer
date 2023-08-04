@@ -1,3 +1,80 @@
-<%= render partial: 'arbitrum/smart_contract/methods_table' %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="SmartContractMethods"></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="AddressesUsedInMethodParameters"></div>
+  </div>
+</div>
+<script >
+  class SmartContractMethods extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Calls},
+        chainId: function (response){ return response.EVM.Calls[0].ChainId},
+        columns: [
+          {
+            name: 'Method', cell: function(row) { return {method:row.Call.Signature.Name, hash:row.Call.Signature.SignatureHash} },rendering:renderMethodLink,
+          },
+          {
+            name: 'Method signature', cell: function(row){ return row.Call.Signature.Signature},
+          },
+          {
+            name: 'Gas Cost/Call', cell: function(row){ return row.average},
+          },
+          {
+            name: 'Latest Date', cell: function(row){ return row.Block.Date},
+          },
+          {
+            name: 'TX Sender', cell: function(row){ return row.txs}, rendering: renderNumbers,
+          },
+          {
+            name: 'Internal calls', cell: function(row){ return row.internal_count}, rendering: renderNumbers,
+          },
+          {
+            name: 'External calls', cell: function(row){ return row.external_count}, rendering: renderNumbers,
+          },
+          {
+            name: 'Calls Count', cell: function(row){ return row.count}, rendering: renderNumbers,
+          },
+        ]
+      }
+    }
+  }
+  class AddressesUsedInMethodParameters extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Calls},
+        chainId: function (response){ return response.EVM.Calls[0]?.ChainId},
+        columns: [
+          {
+            name: 'Address', cell: function(row){ return row.Call.From},rendering: renderAddressLink,
+          },
+          {
+            name: 'Arbument', cell: function(row) { return row.Arguments.Name },
+          },
+          {
+            name: 'Method', cell: function(row) { return {method:row.Call.Signature.Name, hash:row.Call.Signature.SignatureHash} },rendering:renderMethodLink,
+          },
+          {
+            name: 'Calls Count', cell: function(row){ return row.count }, rendering: renderNumbers,
+          },
+        ]
+      }
+    }
+  }
+  const variables = {
+    // network:'<%= @streaming%>',
+    // method: '<%= @signature%>',
+    // token: '<%= @address %>',
+      "network": "eth",
+  "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
 
-<%= render partial: 'arbitrum/smart_contract/method_references_table' %>
+  }
+   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+       renderComponent(SmartContractMethods, "#SmartContractMethods",'Smart-Contract-Methods_1',variables);
+       renderComponent(AddressesUsedInMethodParameters, "#AddressesUsedInMethodParameters",'Addresses-used-in-Method-Parameters',variables);
+  })
+</script>

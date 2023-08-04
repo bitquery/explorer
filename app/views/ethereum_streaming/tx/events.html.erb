@@ -1,165 +1,33 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="LatestSmartContractCalls"></div>
-  </div>
-</div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-5">
-    <div class="card" id="SmartContractCallsIncludingInternalByDate"></div>
-  </div>
-  <div class="col-12 col-lg-7">
-    <div class="card" id="TopGasCostCalls"></div>
-  </div>
-</div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="SmartContractsCalled"></div>
-  </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="SmartContractMethodsCalled"></div>
+    <div class="card" id="TransactionAttributes"></div>
   </div>
 </div>
 <script >
-  class LatestSmartContractCalls extends BootstrapTableComponent {
+  class TransactionAttributes extends BootstrapTableComponent {
     configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Calls},
-            chainId: function (response){ return response.EVM.Calls[0].ChainId},
-            columns: [
-                {
-                    name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-                },
-                {
-                    name: 'Block', cell: function(row){return row.Block.Number}, rendering:renderBlockLink,
-                },
-                {
-                    name: 'Smart Contract', cell: function(row){ return row.Call.To}, rendering: renderAddressLink,
-                },
-                {
-                    name: 'Method', cell: function(row) { return {method:row.Call.Signature.Signature, hash:row.Call.Signature.Signature} },rendering: renderMethodLink
-                },
-                {
-                    name: 'Gas Cost',  cell: function(row){ return  row.Fee.SenderFee}, rendering: renderNumbers,
-                },
-                {
-                    name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-                },
-            ]
-        }
-    }
-  }
-  class SmartContractCallsIncludingInternalByDate extends TimeChartComponent {
-    configuration() {
-      return {
-        topElement: function(response) { return response.EVM.Calls },
-        chainId: function (response){ return response.EVM.Calls[0].ChainId},
+      return  {
+        topElement: function (response){ return response.EVM.Events},
+        chainId: function (response){ return response.EVM.Events[0]?.ChainId},
         columns: [
-          {name: 'Date', cell: function (row) { return row.Block.Date } },
-          {name: 'Calls count', cell: function (row) { return +row.count } }
-        ],
-        options: {
-          height: 300,
-        }
+          {
+            name: 'Event', cell: function(row) { return {event:row.Log.Signature.Name, hash:row.Log.Signature.SignatureHash} },rendering: renderEventLink
+          },
+          {
+            name: 'Event count', cell: function(row){return row.count},
+          },
+          {
+            name: 'Smart Contract', cell: function(row){return row.Log.SmartContract}, rendering:renderAddressLink,
+          },
+        ]
       }
     }
   }
-
-  class TopGasCostCalls extends BootstrapTableComponent {
-    configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Calls},
-            chainId: function (response){ return response.EVM.Calls[0].ChainId},
-            columns: [
-                {
-                    name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-                },
-                {
-                    name: 'Block', cell: function(row){return row.Block.Number},rendering:renderBlockLink,
-                },
-                {
-                    name: 'Smart Contract', cell: function(row){ return row.Call.To}, rendering: renderAddressLink,
-                },
-                {
-                    name: 'Method', cell: function(row) { return {method:row.Call.Signature.Signature, hash:row.Call.Signature.Signature} },rendering:renderMethodLink,
-                },
-                {
-                    name: 'Gas Cost',  cell: function(row){ return  row.Fee.SenderFee}, rendering: renderNumbers,
-                },
-                {
-                    name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-                },
-            ]
-        }
-    }
-  }
-
-  class SmartContractsCalled extends BootstrapTableComponent {
-    configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Calls},
-            chainId: function (response){ return response.EVM.Calls[0].ChainId},
-            columns: [
-                {
-                    name: 'Smart Contract', cell: function(row){ return row.Call.To}, rendering: renderAddressLink,
-                },
-                {
-                    name: 'Latest Date', cell: function(row) { return row.Block.Date },
-                },
-                {
-                    name: 'Gas Cost/Call',  cell: function(row){ return row.sum},
-                },
-                {
-                    name: 'Uniq Methods',  cell: function(row){ return row.uniq},rendering: renderNumbers
-                },
-                {
-                  name: 'Calls Count', cell: function(row){ return row.count},rendering: renderNumbers
-                },
-            ]
-        }
-    }
-  }
-  class SmartContractMethodsCalled extends BootstrapTableComponent {
-    configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Calls},
-            chainId: function (response){ return response.EVM.Calls[0].ChainId},
-            columns: [
-                {
-                  name: 'Method', cell: function(row){ return {method:row.Call.Signature.Signature, hash:row.Call.Signature.Signature}}, rendering: renderMethodLink,
-                },
-                {
-                  name: 'Latest Date', cell: function(row) { return row.Block.Date },
-                },
-                {
-                  name: 'Gas Cost/Call',  cell: function(row){ return row.sum}, rendering: renderNumbers
-                },
-                {
-                  name: 'Uniq Methods',  cell: function(row){ return row.uniq},rendering: renderNumbers
-                },
-                {
-                  name: 'Calls Count', cell: function(row){ return row.count},rendering: renderNumbers
-                },
-            ]
-        }
-    }
-  }
-
-
   const variables = {
     network:'<%= @streaming%>',
-    offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
-  //        network:'eth',
-  //   address: '0xcf523864704a502d36e8e24cd73a2aee6cda00e1',
-
+    hash:' <%= @hash%>',
+    // network:'eth',
+    // hash: '0xe809cf73543ccf1ebca47cc1b2e2ba7d5a41926a1c38daeb600e701ae2f7c7e9'
   }
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(LatestSmartContractCalls, "#LatestSmartContractCalls",'Latest-Smart-Contract-Calls_1_1_1_1_1_1',variables);
-    renderComponent(SmartContractCallsIncludingInternalByDate, "#SmartContractCallsIncludingInternalByDate",'Smart-contract-calls--including-internal--by-date_1',variables);
-    renderComponent(TopGasCostCalls, "#TopGasCostCalls",'Top-Gas-Cost-Calls_1',variables);
-    renderComponent(SmartContractsCalled, "#SmartContractsCalled",'Smart-Contracts-Called',variables);
-    renderComponent(SmartContractMethodsCalled, "#SmartContractMethodsCalled",'Smart-Contract-Methods-Called_1',variables);
-  })
+    renderComponent(TransactionAttributes, "#TransactionAttributes",'Smart-Contract-Events-logged-in-Transaction',variables);
 </script>

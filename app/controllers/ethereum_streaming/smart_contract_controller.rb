@@ -12,9 +12,6 @@ class EthereumStreaming::SmartContractController < EthereumStreaming::AddressCon
     render 'ethereum_streaming/address/calls_contracts'
   end
 
-  def money_flow
-    render 'ethereum_streaming/address/money_flow'
-  end
 
   private
 

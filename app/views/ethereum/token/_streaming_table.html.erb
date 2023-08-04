@@ -26,18 +26,13 @@
               name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
             },
             {
-              name: 'Receiver', cell: function(row) {return row.Transfer.Receiver},
-              rendering: renderJustAddressLink
+              name: 'Receiver', cell: function(row) {return row.Transfer.Receiver}, rendering: renderJustAddressLink
             },
             {
               name: 'Currency', cell: function(row) { return row.Transfer.Currency.Symbol},
-
             },
             {
-              name: 'Amount',
-              cell: function(row) {
-                return parseFloat(row.Transfer.Amount).toFixed(3)
-              }
+              name: 'Amount', cell: function(row) { return parseFloat(row.Transfer.Amount).toFixed(3) }
             },
             {
               name: 'Hash',

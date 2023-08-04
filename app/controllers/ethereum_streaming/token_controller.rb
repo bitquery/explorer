@@ -6,6 +6,10 @@ class EthereumStreaming::TokenController < EthereumStreaming::AddressController
     render 'ethereum_streaming/smart_contract/show'
   end
 
+  def nft
+    render 'ethereum_streaming/token/nft_smart_contract'
+  end
+
   def methods
     render 'ethereum_streaming/smart_contract/methods'
   end
@@ -36,7 +40,7 @@ class EthereumStreaming::TokenController < EthereumStreaming::AddressController
     @token = params[:address]
     @id= params[:id]
     @native_token = native_token?
-    @token_info = !@native_token && @info.smart_contract.currency
+    @token_info = !@native_token && @info.smart_contract
   end
 
   def native_token?

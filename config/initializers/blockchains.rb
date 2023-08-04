@@ -482,10 +482,10 @@ BLOCKCHAINS = [
     chainId: '42161',
     network: 'arbitrum',
     streaming: 'arbitrum',
-    name: 'Ethereum Mainnet',
+    name: 'Arbitrum Mainnet',
     family: 'ethereum_streaming',
     platform: 'Smart Contract',
-    currency: 'ETH',
+    currency: 'ARB',
     icon: 'currency/arbitrum.svg'
   },
 ].freeze
