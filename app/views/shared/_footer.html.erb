@@ -7,31 +7,41 @@
           <%= link_to network_icon(chain), "/#{chain[:network]}", {title: t("pages.footer.explorer", network:chain[:name])}%>
         <% end %>
     </div>
-<div class="row justify-content-center">
-  <div class="col-lg-auto col-12 ad-container mx-auto">
-    <div style="display: flex; justify-content: center;">
-      <script async src="https://v1.slise.xyz/scripts/embed.js"></script>
-      <ins
-        class="adsbyslise"
-        style="display:inline-block;width:728px;height:90px"
-        data-ad-slot="leaderboard"
-        data-ad-pub="pub-10"
-        id="ad-ins"
-      ></ins>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-auto col-12 ad-container mx-auto">
+        <div style="display: flex; justify-content: center;">
+          <ins
+            class="adsbyslise"
+            style="display:inline-block;width:728px;height:90px"
+            data-ad-slot="leaderboard"
+            data-ad-pub="pub-10"
+            id="ad-ins"
+          ></ins>
+        </div>
+        <script>
+          var adElement = document.getElementById('ad-ins');
+          if(window.innerWidth < 728) {
+            adElement.style.width = '270px';
+            adElement.setAttribute('data-ad-format', '270x90');
+          } else {
+            adElement.setAttribute('data-ad-format', '728x90');
+          }
+
+          setTimeout(function(){
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = "https://v1.slise.xyz/scripts/embed.js";
+            document.body.appendChild(script);
+            
+            script.onload = function() {
+              ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
+              window.adsbyslisesync&&window.adsbyslisesync();
+            };
+          }, 2200);
+        </script>
+      </div>
     </div>
-    <script>
-      var adElement = document.getElementById('ad-ins');
-      if(window.innerWidth < 728) {
-        adElement.setAttribute('data-ad-format', '270x90');
-        adElement.style.width = '270px';
-      } else {
-        adElement.setAttribute('data-ad-format', '728x90');
-      }
-      ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
-      window.adsbyslisesync&&window.adsbyslisesync();
-    </script>
-  </div>
-</div>
     <%= t 'pages.footer.built' %>
     <%= link_to t('pages.footer.widgets'), 'https://github.com/bitquery/widgets' %>
     <i class="fab fa-github"></i>
