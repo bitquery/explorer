@@ -30,12 +30,13 @@ export default class BootstrapVerticalTableComponent {
 
 		const th1 = this.createElementWithClasses('th');
 		th1.setAttribute('scope', 'row');
-		th1.textContent = 'Property';
+		th1.textContent = (this.config && this.config.options && this.config.options.columnTitle1) ? this.config.options.columnTitle1 : 'Property';
+
 		this.appendChildren(tr, th1);
 
 		const th2 = this.createElementWithClasses('th');
 		th2.setAttribute('scope', 'row');
-		th2.textContent = 'Value';
+		th2.textContent =  (this.config && this.config.options && this.config.options.columnTitle2) ? this.config.options.columnTitle2 :'Value';
 		this.appendChildren(tr, th2);
 	}
 

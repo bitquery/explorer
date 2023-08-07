@@ -1,4 +1,96 @@
-<%= render partial: 'arbitrum/token/token_dex_trade_live' %>
-<%= render partial: 'arbitrum/token/token_pairs_table' %>
-<%= render partial: 'arbitrum/token/dex_exchanges' %>
-<%= render partial: 'arbitrum/token/dex_trades_by_time' %>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div id="Latest-Trades-of-Token-in-Network"></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div id="TokenPairs"></div>
+    </div>
+  </div>
+</div>
+<script>
+  class LatestTradesofTokeninNetwork extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.DEXTradeByTokens},
+          chainId: function (response){ return response.EVM.DEXTradeByTokens[0].ChainId},
+        columns: [
+          {
+            name: 'Timestamp', cell: function(row){ return row.Block.Time}, rendering: renderDate,
+          },
+          {
+            name: 'Block', cell: function(row){ return row.Block.Number }, rendering: renderBlockLink
+          },
+          {
+            name: 'Seller', cell: function(row) { return row.Trade.Seller}, rendering: renderJustAddressLink
+          },
+          {
+          name: 'Sell amount',cell: function(row) {return parseFloat(row.Trade.Amount).toFixed(3)}
+          },
+          {
+          name: 'Sell currency', cell: function(row) { return row.Trade.Currency.Symbol},
+          },
+          {
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon,
+          },
+          {
+            name: 'Buyer', cell: function(row) {return row.Trade.Buyer},rendering: renderJustAddressLink,
+          },
+          {
+            name: 'Buy amount', cell: function(row) {return parseFloat(row.Trade.Side.Amount).toFixed(3)}
+          },
+          {
+          name: 'Buy currency', cell: function(row) { return row.Trade.Side.Currency.Symbol},
+          },
+          {
+            name: 'Price', cell: function(row) {return parseFloat(row.Trade.Price).toFixed(3)}
+          },
+          {name: 'Transaction', cell: function(row) { return row.Transaction.Hash},rendering: renderTX
+          }
+        ]
+      }
+    }
+  }
+  class TokenPairs extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.DEXTradeByTokens},
+          chainId: function (response){ return response.EVM.DEXTradeByTokens[0].ChainId},
+        columns: [
+          {
+            name: 'Pair', cell: function(row){ return {buyCurrencySymbol: row.Trade.Currency.Symbol, buyCurrencySC: row.Trade.Currency.SmartContract, sellCurrencySymbol: row.Trade.Side.Currency.Symbol, sellCurrencySC: row.Trade.Side.Currency.SmartContract, }}, rendering: renderPairLink,
+          },
+          {
+            name: 'Name', cell: function(row){ return row.Trade.Side.Currency.Name },
+          },
+          {
+            name: 'Address', cell: function(row) { return row.Trade.Side.Currency.SmartContract}, rendering: renderJustAddressLink,
+          },
+          {
+          name: 'Count',cell: function(row) {return row.count}, rendering: renderNumbers,
+          },
+        ]
+      }
+    }
+  }
+
+  const variables = {
+    // network:'<%= @streaming%>',
+    limit: 10,
+    offset: 0,
+    // address: '<%= @address %>',
+    // token: '<%= @address %>',
+    id: '<%= @id %>',
+          "network": "eth",
+  "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  "token": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  }
+    renderComponent(LatestTradesofTokeninNetwork, "#Latest-Trades-of-Token-in-Network", 'Latest-Trades-of-Token-in-Network_1_1_1_1', variables, 'Latest-Trades-of-Token-in-Network');
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(TokenPairs, "#TokenPairs", 'Token-pairs_1_1', variables);
+  })
+</script>

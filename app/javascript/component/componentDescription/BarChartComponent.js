@@ -1,4 +1,4 @@
-export default class TimeChartComponent {
+export default class BarChartComponent {
 	constructor(element, historyDataSource, subscriptionDataSource) {
 		this.container = element
 		this.config = this.configuration()
@@ -18,7 +18,6 @@ export default class TimeChartComponent {
 	}
 
 	async onHistoryData(data) {
-		console.log(data)
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
 			if (Object.keys(dataArray).length === 0) {
@@ -58,7 +57,7 @@ export default class TimeChartComponent {
 			dataToVizualize.unshift(annotation)
 
 			const dataTable = google.visualization.arrayToDataTable(dataToVizualize)
-			const chart = new google.visualization.ColumnChart(this.container)
+			const chart = new google.visualization.BarChart(this.container)
 			chart.draw(dataTable, this.config.options)
 		}
 		google.charts.load('current', {packages: ['corechart', 'bar']});

@@ -32,19 +32,36 @@
         }
       }
     }
-    class AddressBalanceByCurrencies extends BootstrapTableComponent {
+    class AddressBalanceByCurrencies extends BootstrapVerticalTableComponent {
       configuration() {
           return  {
-              topElement: function (response){ return response.EVM.BalanceUpdates},
-              chainId: function (response){ return response.EVM.BalanceUpdates[0].ChainId},
+            topElement: function (response){ return response.EVM.DEXTrades},
+            chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
               columns: [
-                  {
-                  name: 'Currency',  cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
-                  },
-                  {
-                  name: 'Balance Count', cell: function(row){ return row.sum}, rendering: renderNumbers,
-                  },
-              ]
+                {
+                  name: 'Transfer Count', cell: function(row){ return row.count},
+                },
+                {
+                  name: 'Uniq Senders', cell: function(row){ return row.sender_count},
+                },
+                {
+                  name: 'Uniq Receivers', cell: function(row){ return row.receiver_count},
+                },
+                {
+                  name: 'First transfer date', cell: function(row){ return row.Block.min_date},
+                },
+                {
+                  name: 'Last transfer date', cell: function(row){ return row.Block.max_date},
+                },
+                {
+                  name: 'Days token transfered', cell: function(row){ return row.days},
+                },
+
+              ],
+              options: {
+                  columnTitle1: 'Metric',
+                  columnTitle2: 'Value',
+              },
           }
       }
     }
@@ -61,13 +78,6 @@
     }
 
       renderComponent(TokenAttributes, "#TokenAttributes",'Token-attributes_1_1_1_1',variables);
-      renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Address-balance-by-currencies_1',variables);
-    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-      // renderComponent(TransactionsByDate, "#TransactionsByDate",'Transactions-By-Date_1_1_1_1',variables);
-      // renderComponent(GasSpentByDate, "#GasSpentByDate",'Gas-Spent-By-Date_1_1',variables);
-      // renderComponent(InboundTransferCountByDate, "#InboundTransferCountByDate",'Inbound-transfer-count-by-date',variables);
-      // renderComponent(OutboundTransferCountByDate, "#OutboundTransferCountByDate",'Outbound-transfer-count-by-date',variables);
-      // renderComponent(SMCalls, "#SMCalls",'Smart-contract-calls--including-internal--by-date',variables);
-    })
+      renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Token-transfer-statistics_1_1',variables);
   </script>
 <% end  %>

@@ -1,7 +1,119 @@
-<% unless @native_token %>
-<%= render partial: 'arbitrum/token/senders' %>
-<% end  %>
-
 <div class="row">
-  <%= render partial: 'arbitrum/token/senders_by_time' %>
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div id="Senders"></div>
+    </div>
+  </div>
 </div>
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div id="SendersStats"></div>
+    </div>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="UniqSenders"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="MedianTransferAmount"></div>
+  </div>
+</div>
+<script>
+  class Senders extends BarChartComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
+        columns: [
+          { name: 'senders', cell: function(row) { return row.Transfer.Sender } },
+          { name: 'Amount', cell: function(row) { return +row.amount } } ,
+        ],
+        options: {
+          isStacked: true,
+          theme: 'material'
+        }
+      }
+    }
+  }
+  class SendersStats extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Transfers},
+          chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+        columns: [
+          {
+            name: 'Sender', cell: function(row) { return row.Transfer.Sender}, rendering: renderJustAddressLink,
+          },
+          {
+            name: 'Amount', cell: function(row){ return row.amount },rendering:renderNumbers,
+          },
+          {
+            name: 'Max Transfer Amount', cell: function(row) { return row.Transfer.max_amount}, rendering: renderNumbers,
+          },
+          {
+          name: 'Currency',cell: function(row) {return row.Transfer.Currency.Symbol},
+          },
+          {
+          name: 'Uniq Receiver',cell: function(row) {return row.receiver_count},rendering:renderNumbers,
+          },
+          {
+          name: 'Last Date',cell: function(row) {return row.Block.Date},
+          },
+          {
+          name: 'Transfer Count',cell: function(row) {return row.count},rendering:renderNumbers,
+          },
+        ]
+      }
+    }
+  }
+
+  class UniqSenders extends TimeChartComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
+        columns: [
+          { name: 'Date', cell: function(row) { return row.Block.Date } },
+          { name: 'Uniq Senders', cell: function(row) { return +row.count } } ,
+        ],
+        options: {
+          theme: 'material'
+        }
+      }
+    }
+  }
+    class MedianTransferAmount extends TimeChartComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Transfers },
+        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
+        columns: [
+          { name: 'Date', cell: function(row) { return row.Block.Date } },
+          { name: 'median transfer amount', cell: function(row) { return row.median } } ,
+        ],
+        options: {
+          theme: 'material'
+        }
+      }
+    }
+  }
+  const variables = {
+    // network:'<%= @streaming%>',
+    limit: 10,
+    offset: 0,
+    // address: '<%= @address %>',
+    // token: '<%= @address %>',
+    id: '<%= @id %>',
+          "network": "eth",
+  "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  "token": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  }
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(Senders, "#Senders", 'Senders',variables);
+    renderComponent(SendersStats, "#SendersStats", 'Senders-Stats_1', variables);
+    renderComponent(UniqSenders, "#UniqSenders", 'Uniq-Senders_1', variables);
+    renderComponent(MedianTransferAmount, "#MedianTransferAmount", 'Median-Transfer-Amount_1', variables);
+  })
+</script>
