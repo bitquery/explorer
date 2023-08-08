@@ -6,11 +6,11 @@
 <script>
   const till = new Date().toISOString().slice(0, 10);
   const tillDate = new Date(till);
-  const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate());
+  const fromDate = new Date(tillDate.getFullYear(), tillDate.getMonth() - 3, tillDate.getDate()); //change here data for more date
   const from = fromDate.toISOString().slice(0, 10);
 
   const variables = {
-  interval: 15,
+  interval: 15,   //change here for new data
   network:'<%= @streaming%>',
   baseCurrency: '<%= @token1 %>',
   quoteCurrency: '<%= @token2 %>',
@@ -21,14 +21,14 @@
   class OHLCbyIntervalsGraph extends TradingGraphsComponent {
     configuration() {
         return  {
+            symbol: '<%= @token1symbol%> / <%= @token2symbol%>',
             topElement: function (response){ return response.EVM.DEXTradeByTokens},
             chainId: function (response){return response.EVM.DEXTradeByTokens[0].ChainId},
             token1: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol},
             token2: function (response){return response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol} ,
-            interval:variables.interval,
         }
     }
   }
 
-  renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph",'OHLC-by-intervalschange-interval-for-test_1_1_1_1_1_1_1',variables,'Subscription-OHLC-by-intervals_1_1' );
+  renderComponent(OHLCbyIntervalsGraph, "#OHLC-by-intervals-Graph", 'OHLC-by-intervalschange-interval-for-test_1', variables, 'Subscription-OHLC-with-interval');
 </script>
