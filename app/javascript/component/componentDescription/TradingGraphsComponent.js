@@ -8,7 +8,13 @@ export default class TradingGraphsComponent {
 		this.lastData = null;
 		this.widget = null;
 		this.wrapper = document.createElement('div');
-		this.interval = '15'
+		if ( this.historyDataSource && 'getInterval' in this.historyDataSource ) {
+			this.interval = this.historyDataSource.getInterval()
+		} else if ( this.subscriptionDataSource && 'getInterval' in this.subscriptionDataSource ) {
+			this.interval = this.subscriptionDataSource.getInterval()
+		} else {
+			this.interval = '15'
+		}
 		this.onHistoryCallback = undefined
 		this.onRealtimeCallback = undefined
 		this.periodParams = undefined
@@ -73,26 +79,32 @@ export default class TradingGraphsComponent {
 					}, 0);
 				},
 				getBars: async (symbolInfo, resolution, periodParams, onHistoryCallback, onErrorCallback, firstDataRequest) => {
-					this.interval = resolution;
-					this.onHistoryCallback = onHistoryCallback
-					this.periodParams = periodParams
-					this.historyDataSource.setCallback( this.onHistoryData.bind(this) )
-					const till = new Date().toISOString().slice(0, 10);
-					const tillDate = new Date(till);
-					const minutesInterval = this.getIntervalInMinutes(resolution)
-					const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor(minutesInterval / 5), tillDate.getDate() - (minutesInterval == 1 ? 5 : minutesInterval == 5 ? 0 : 0)).toISOString().slice(0, 10)
-					const deltaVariables = {
-						from, till,
-						interval: `${minutesInterval}`,
-						limit: '9990'
+					if (this.historyDataSource) {
+						this.interval = resolution;
+						this.onHistoryCallback = onHistoryCallback
+						this.periodParams = periodParams
+						this.historyDataSource.setCallback( this.onHistoryData.bind(this) )
+						const till = new Date().toISOString().slice(0, 10);
+						const tillDate = new Date(till);
+						const minutesInterval = this.getIntervalInMinutes(resolution)
+						const from = new Date(tillDate.getFullYear(), tillDate.getMonth() - Math.floor(minutesInterval / 5), tillDate.getDate() - (minutesInterval == 1 ? 5 : minutesInterval == 5 ? 0 : 0)).toISOString().slice(0, 10)
+						const deltaVariables = {
+							from, till,
+							interval: `${minutesInterval}`,
+							limit: '9990'
+						}
+						this.historyDataSource.changeVariables( deltaVariables )
+					} else {
+						onHistoryCallback([], { noData: true })
 					}
-					this.historyDataSource.changeVariables( deltaVariables )
 				},
-				subscribeBars: (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
-					this.onRealtimeCallback = onRealtimeCallback
-					const interval = `${this.getIntervalInMinutes(resolution)}`
-					this.subscriptionDataSource.setCallback( this.onSubscriptionData.bind(this) )
-					this.subscriptionDataSource.changeVariables({ interval })
+				subscribeBars: async (symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) => {
+					if (this.subscriptionDataSource) {
+						this.onRealtimeCallback = onRealtimeCallback
+						const interval = `${this.getIntervalInMinutes(resolution)}`
+						this.subscriptionDataSource.setCallback( this.onSubscriptionData.bind(this) )
+						await this.subscriptionDataSource.changeVariables({ interval })
+					}
 				},
 				unsubscribeBars: () => {},
 			}
@@ -125,6 +137,9 @@ export default class TradingGraphsComponent {
 
 	getNextBar(lastBar, newBar) {
 		let bar
+		if (!this.lastBar) {
+			return newBar
+		}
 		if (newBar.time > lastBar.time) {
 			//create new bar
 			bar = {

@@ -160,9 +160,9 @@ BLOCKCHAINS = [
     start: Date.parse('2020-04-10')
   },
   {
-    tag: 'bsc_testnet',
+    tag: 'bnb_testnet',
     network: 'bsc_testnet',
-    name: 'Binance Smart Chain Testnet',
+    name: 'Binance (BNB) Smart Chain Testnet',
     family: 'ethereum',
     platform: 'Testnet',
     currency: 'BNB',
@@ -170,11 +170,11 @@ BLOCKCHAINS = [
     start: Date.parse('2020-04-20')
   },
   {
-    tag: 'bsc',
+    tag: 'bnb',
     network: 'bsc',
     streaming: 'bsc',
     chainId: '56',
-    name: 'Binance Smart Chain Mainnet',
+    name: 'Binance (BNB) Smart Chain Mainnet',
     family: 'ethereum',
     platform: 'Smart Contract',
     currency: 'BNB',
