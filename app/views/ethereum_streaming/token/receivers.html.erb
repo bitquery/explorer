@@ -99,15 +99,15 @@
     }
   }
   const variables = {
-    // network:'<%= @streaming%>',
+    network:'<%= @streaming%>',
     limit: 10,
     offset: 0,
-    // address: '<%= @address %>',
-    // token: '<%= @address %>',
+    address: '<%= @address %>',
+    token: '<%= @address %>',
     id: '<%= @id %>',
-          "network": "eth",
-  "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
-  "token": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+  //         "network": "eth",
+  // "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+  // "token": "0xdac17f958d2ee523a2206206994597c13d831ec7",
   }
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
     renderComponent(Receivers, "#Receivers", 'Receivers_1_1',variables);

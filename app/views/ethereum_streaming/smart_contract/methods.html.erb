@@ -66,11 +66,11 @@
     }
   }
   const variables = {
-    // network:'<%= @streaming%>',
-    // method: '<%= @signature%>',
-    // token: '<%= @address %>',
-      "network": "eth",
-  "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+    network:'<%= @streaming%>',
+    method: '<%= @signature%>',
+    token: '<%= @address %>',
+  //     "network": "eth",
+  // "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
 
   }
    renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){

@@ -143,9 +143,6 @@
     address: '<%= @address %>',
     token: '<%= @address %>',
     id: '<%= @id %>',
-    //      network:'eth',
-    // address: '0xcf523864704a502d36e8e24cd73a2aee6cda00e1',
-
   }
   renderComponent(LatestInboundTransfers, "#LatestInboundTransfers",'Latest-Inbound-Transfers_1_1',variables);
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){

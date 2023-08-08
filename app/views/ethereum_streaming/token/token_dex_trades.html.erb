@@ -79,15 +79,12 @@
   }
 
   const variables = {
-    // network:'<%= @streaming%>',
+    network:'<%= @streaming%>',
     limit: 10,
     offset: 0,
-    // address: '<%= @address %>',
-    // token: '<%= @address %>',
+    address: '<%= @address %>',
+    token: '<%= @address %>',
     id: '<%= @id %>',
-          "network": "eth",
-  "address": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-  "token": "0xdac17f958d2ee523a2206206994597c13d831ec7",
   }
     renderComponent(LatestTradesofTokeninNetwork, "#Latest-Trades-of-Token-in-Network", 'Latest-Trades-of-Token-in-Network_1_1_1_1', variables, 'Latest-Trades-of-Token-in-Network');
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
