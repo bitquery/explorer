@@ -95,4 +95,20 @@ module ApplicationHelper
       [from, till]
     end
   end
+
+  def date_range_from_now(interval, unit = :hours)
+    till = Time.now.utc
+    from = case unit
+          when :days
+            till - interval.days
+          when :hours
+            till - interval.hours
+          when :minutes
+            till - interval.minutes
+          else
+            raise ArgumentError, "Unit must be :days, :hours, or :minutes"
+          end
+    [from.strftime('%Y-%m-%dT%H:%M:%S.000Z'), till.strftime('%Y-%m-%dT%H:%M:%S.000Z')]
+  end
+
 end

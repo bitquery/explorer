@@ -1291,7 +1291,13 @@ en:
         title: "%{network} NFTs"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs"
-   
+      instructions:
+        name: "Instructions"
+        title: "%{network} Explorer | Bitquery"
+        description: "Search %{network} transactions, address and blocks on the blockchain, and check your %{network} balance and transaction fee, status and other analytics, charts and widgets"
+        keywords: "%{network} address lookup, explore %{network} transactions, track %{network} transactions,
+          %{network} wallet explorer,%{network} address check, search %{network} address, %{network} address validation,
+          %{network} blocks, %{network} block height, %{network} block size, %{network} block time, %{network} block reward, %{network} block explorer"
     home:
       index:
         name: "All"
@@ -1708,7 +1714,7 @@ en:
       blocks_on_height: "Blocks on Height"
       latest_transactions: "Latest Transactions"
       latest_contracts: "Latest Contracts"
-
+      latest_instructions: "Latest Instructions"
       latest_transfers: "Latest Transfers"
       latest_calls: "Latest Smart Contract Calls"
       gas_burners: "Smart Contracts Burning Maximum of Gas"
@@ -1846,6 +1852,7 @@ en:
       base_reserve: 'Base Reserve'
       max_tx_set_size: 'Max Tx Set Size'
       protocol_version: 'Protocol Version'
+      protocol_name: 'Protocol Name'
       instruction_account_index: "Account index in Instruction"
       operations_count: "Operations Count"
       action: "Action"
@@ -2108,6 +2115,7 @@ en:
       external: "External?"
       attribute: "Attribute"
       tx_sender: "Sender"
+      program_id: "Program ID"
       tx_to: "Receiver"
       tx_creates: "Created"
       gas_price: "Avg. Gas Price, GWei"
@@ -2146,6 +2154,7 @@ en:
       difficulty: "Difficulty"
       total_difficulty: "Total Difficulty"
       hash: "Hash"
+      signature: "Signature"
       transaction_hash: "Transaction Hash"
       parent_hash: "Parent Hash"
       block_count: "Block Count"

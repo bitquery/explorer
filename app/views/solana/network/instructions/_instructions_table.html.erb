@@ -1,0 +1,94 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_instructions') %></div>
+      <div class="card-body">
+        <div id="latest_instructions"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $( document ).ready(function() {
+
+
+      var query = new widgets.query(`
+      query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+  solana(network: $network) {
+    instructions(
+      options: {desc: "block.height", limit: $limit, offset: $offset}
+      time: {since: $from, till: $till}
+    ) {
+      block {
+        timestamp {
+          time(format: "%Y-%m-%d %H:%M:%S")
+        }
+        height
+      }
+      program {
+        id
+      }
+      transaction {
+        signature
+        success
+      }
+      log {
+        totalGas
+      }
+    }
+  }
+  }
+  `);
+
+      new widgets.table('#latest_instructions', query, 'solana.instructions', {
+          title: '<%= t('widgets.headers.latest_instructions') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.timestamp') %>',
+                  type: 'string',
+                  path: 'block.timestamp.time',
+                  style: 'width: 170px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.block') %>',
+                  type: 'string',
+                  path: 'block.height',
+                  urlCallbackName: 'block_height_path',
+                  style: 'width: 80px;'
+              },
+
+              {
+                  title: '<%= t('widgets.titles.program_id') %>',
+                  type: 'string-ellipsis',
+                  path: ['program.id'],
+                  urlCallbackName: 'address_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.signature') %>',
+                  type: 'string-ellipsis',
+                  path: 'transaction.signature',
+                  urlCallbackName: 'signature_path'
+              },
+
+              {
+                  title: '<%= t('widgets.titles.total_gas') %>, <%= @network[:currency] %>',
+                  type: 'amount',
+                  path: 'log.totalGas',
+                  style: 'width: 110px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.success') %>',
+                  type: 'string-ellipsis',
+                  path: 'transaction.success',
+              },
+          ]
+      });
+
+      <% from, till = date_range_from_now(5, :minutes) %>
+  queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+  network: '<%= params['network']['network'] %>'
+  });
+
+
+  });
+</script>

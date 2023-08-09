@@ -8,83 +8,81 @@
     </div>
   </div>
 </div>
-
 <script>
+  $( document ).ready(function() {
 
-    $( document ).ready(function() {
 
+      var query = new widgets.query(`
+                      query ($network: EthereumNetwork!,
+                      $limit: Int!,
+                      $offset: Int!,
 
-        var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
-                        $limit: Int!,
-                        $offset: Int!,
-
-                        $from: ISO8601DateTime,
-                        $till: ISO8601DateTime){
-                    ethereum(network: $network ){
-                      smartContractCalls(options:{desc: "gasValue" limit: $limit offset:$offset}, date: {
-                        since: $from
-                        till: $till
-                      }
-                      external: true
-                      ) {
-
-                        smartContract{
-                          address {
-                            address
-                            annotation
-                          }
-                        }
-
-                        gasValue
-                        gas_value_usd: gasValue(in: USD)
-                        average: gasValue(calculate: average)
-                        average_usd: gasValue(in: USD, calculate: average)
-                        count
-
-                      }
+                      $from: ISO8601DateTime,
+                      $till: ISO8601DateTime){
+                  ethereum(network: $network ){
+                    smartContractCalls(options:{desc: "gasValue" limit: $limit offset:$offset}, date: {
+                      since: $from
+                      till: $till
                     }
-                  }`);
+                    external: true
+                    ) {
 
-        new widgets.table('#gas_burners', query, 'ethereum.smartContractCalls', {
-            title: '<%= t('widgets.headers.gas_burners') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.smart_contract') %>',
-                    type: 'string-ellipsis',
-                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
-                    urlCallbackName: 'smart_contract_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.calls_count') %>',
-                    path: 'count',
-                    style: 'width: 110px;'
-                },
-                {
-                    title: '<%= t('widgets.titles.gas_value') %>, <%= @network[:currency] %>',
-                    type: 'amount',
-                    path: 'gasValue',
-                    style: 'width: 110px;'
-                },
-                {
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
-                },
-                {
-                    title: '<%= t('widgets.titles.avg_gas_value') %>, <%= @network[:currency] %>',
-                    type: 'amount',
-                    path: 'average',
-                    style: 'width: 110px;'
-                },
-                {
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.average_usd'} %>
-                }
-            ]
-        });
+                      smartContract{
+                        address {
+                          address
+                          annotation
+                        }
+                      }
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+                      gasValue
+                      gas_value_usd: gasValue(in: USD)
+                      average: gasValue(calculate: average)
+                      average_usd: gasValue(in: USD, calculate: average)
+                      count
 
-    });
+                    }
+                  }
+                }`);
 
+      new widgets.table('#gas_burners', query, 'ethereum.smartContractCalls', {
+          title: '<%= t('widgets.headers.gas_burners') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.smart_contract') %>',
+                  type: 'string-ellipsis',
+                  path: ['smartContract.address.annotation', 'smartContract.address.address'],
+                  urlCallbackName: 'smart_contract_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.calls_count') %>',
+                  path: 'count',
+                  style: 'width: 110px;'
+              },
+              {
+                  title: '<%= t('widgets.titles.gas_value') %>, <%= @network[:currency] %>',
+                  type: 'amount',
+                  path: 'gasValue',
+                  style: 'width: 110px;'
+              },
+              {
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
+              },
+              {
+                  title: '<%= t('widgets.titles.avg_gas_value') %>, <%= @network[:currency] %>',
+                  type: 'amount',
+                  path: 'average',
+                  style: 'width: 110px;'
+              },
+              {
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.average_usd'} %>
+              }
+          ]
+      });
+
+      <% from, till = date_range_from_now(24, :hours) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
+
+  });
 </script>

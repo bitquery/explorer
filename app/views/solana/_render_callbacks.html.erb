@@ -21,6 +21,13 @@
       if (item.account) {
         return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.account;
       }
+
+      if (item.program.id){
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.program.id;
+      }
+    },
+    signature_path: function(item){
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.signature || item.transaction.signature);
     },
   });
 </script>

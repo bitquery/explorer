@@ -11,53 +11,41 @@
 <script>
   $( document ).ready(function() {
 
-
       var query = new widgets.query(`
-                      query ($network: EthereumNetwork!,
-                              $limit: Int!,
-                              $offset: Int!
-                              $from: ISO8601DateTime,
-                              $till: ISO8601DateTime){
-                  ethereum(network: $network){
-                    transfers(options:{desc: "block.height", limit: $limit, offset: $offset},
-                      time: {since: $from till: $till }
-                      amount: {gt: 0}
-                      ) {
+  query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+    solana(network: $network) {
+  transfers(
+    options: {desc: "block.height", limit: $limit, offset: $offset}
+    time: {since: $from, till: $till}
+    amount: {gt: 0}
+  ) {
+    block {
+      timestamp {
+        time(format: "%Y-%m-%d %H:%M:%S")
+      }
+      height
+    }
+    sender {
+      address
+    }
+    receiver {
+      address
+    }
+    currency {
+      address
+      symbol
+    }
+    amount
+    amount_usd: amount(in: USD)
+    transaction {
+      signature
+    }
+  }
+    }
+  }
+  `);
 
-                        block {
-                          timestamp {
-                            time (format: "%Y-%m-%d %H:%M:%S")
-                          }
-                          height
-                        }
-
-                        sender {
-                          address
-                          annotation
-                        }
-                        receiver {
-                          address
-                          annotation
-                        }
-
-                        currency {
-                          address
-                          symbol
-                        }
-
-                        amount
-                        amount_usd: amount(in: USD)
-
-                        transaction {
-                          hash
-                        }
-                        external
-
-                    }
-                  }
-                }`);
-
-      new widgets.table('#latest_transfers', query, 'ethereum.transfers', {
+      new widgets.table('#latest_transfers', query, 'solana.transfers', {
           title: '<%= t('widgets.headers.latest_transfers') %>',
           dataOptions: [
               {
@@ -76,7 +64,7 @@
               {
                   title: '<%= t('widgets.titles.sender') %>',
                   type: 'string-ellipsis',
-                  path: ['sender.annotation','sender.address'],
+                  path: ['sender.address'],
                   urlCallbackName: 'sender_address_path'
               },
               {
@@ -88,7 +76,7 @@
               {
                   title: '<%= t('widgets.titles.receiver') %>',
                   type: 'string-ellipsis',
-                  path: ['receiver.annotation','receiver.address'],
+                  path: ['receiver.address'],
                   urlCallbackName: 'receiver_address_path'
               },
               {
@@ -101,23 +89,19 @@
                   type: 'string',
                   path: 'currency.symbol',
                   urlCallbackName: 'token_path',
-                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
               },
               {
                   title: '<%= t('widgets.titles.hash') %>',
                   type: 'string-ellipsis',
-                  path: 'transaction.hash',
+                  path: 'transaction.signature',
                   urlCallbackName: 'transaction_path'
               },
-
-
           ]
       });
 
-      <% from, till = date_range_from_now(30, :minutes) %>
+      <% from, till = date_range_from_now(5, :minutes) %>
         queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
             network: '<%= params['network']['network'] %>'
         });
-
   });
 </script>
