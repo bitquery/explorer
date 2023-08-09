@@ -63,11 +63,8 @@
   const variables = {
     network:'<%= @streaming%>',
     offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
   }
 
   renderComponent(LatestBlocks, "#latestBlocks",'Latest-Blocks_1_1_1_1_1',variables)
-  renderComponent(SubLatestBlocks, "#Sub-latestBlocks",'Latest-Blocks_1_1_1_1',variables,'Subscription-Latest-Blocks_1')
+  renderComponent(SubLatestBlocks, "#Sub-latestBlocks",'Latest-Blocks_1_1_1_1_1',variables,'Subscription-Latest-Blocks_1')
 </script>

@@ -179,7 +179,7 @@
     network:'<%= @streaming%>',
     offset: 0,
     till: new Date().toISOString().slice(0, 10),
-    from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
+    from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
   }
 
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
@@ -189,5 +189,5 @@
     renderComponent(TradesByTimeContracts, "#TradesByTimeContracts",'Trades-By-Time',variables);
     renderComponent(TokenTradesTable, "#TokenTradesTable",'Token-Trades_1_1',variables);
   })
-  renderComponent(SubTokenTradesTable, "#SubTokenTradesTable",null,variables,'Subscription-Token-Trades_1_1');
+  renderComponent(SubTokenTradesTable, "#SubTokenTradesTable",'Token-Trades_1_1',variables,'Subscription-Token-Trades_1_1');
 </script>
