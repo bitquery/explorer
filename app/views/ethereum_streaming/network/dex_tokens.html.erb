@@ -98,17 +98,20 @@
     }
   }
 
-   const variables = {
+  const variables = {
     network:'<%= @streaming%>',
     offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
+    till: new Date().toISOString().slice(0, 10),
+    from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
+
   }
+  console.log(variables)
+
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
     renderComponent(TradedCurrenciesByTime, "#Traded-currencies-by-time",'Traded-currencies-by-time_1',variables);
     renderComponent(TradesByPairs, '#Trades-By-Pairs','Trades-By-Pairs_1_1_1',variables);
 
   })
-    renderComponent(SubTokenTradePairs, "#Sub-Token-Trade-Pairs",'Token-Trade-Pairs_1_1_1_1_1_1_1',variables,'Subscription-Token-Trade-Pairs_1');
+    renderComponent(SubTokenTradePairs, "#Sub-Token-Trade-Pairs",'Token-Trade-Pairs_1_1_1_1_1_1_1_1_1',variables,'Subscription-Token-Trade-Pairs_1');
+    //
 </script>

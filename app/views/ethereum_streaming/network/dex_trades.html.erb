@@ -1,27 +1,27 @@
 <div class="row mb-4">
   <div class="col-12 col-lg-6">
-    <div class="card" id="Trades-By-Time-Trades"></div>
+    <div class="card" id="TradesByTimeTrades"></div>
   </div>
   <div class="col-12 col-lg-6">
-    <div class="card" id="Trades-By-Time-Addreses" ></div>
+    <div class="card" id="TradesByTimeAddreses" ></div>
   </div>
 </div>
 <div class="row mb-4">
   <div class="col-12 col-lg-6">
-    <div class="card" id="Trades-By-Time-Currencies"></div>
+    <div class="card" id="TradesByTimeCurrencies"></div>
   </div>
   <div class="col-12 col-lg-6">
-    <div class="card" id="Trades-By-Time-Contracts" ></div>
+    <div class="card" id="TradesByTimeContracts" ></div>
   </div>
 </div>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div  id="Token-Trades" class="card"></div>
+    <div  id="TokenTradesTable" class="card"></div>
   </div>
 </div>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div  id="Sub-Token-Trades" class="card"></div>
+    <div  id="SubTokenTradesTable" class="card"></div>
   </div>
 </div>
 <script >
@@ -104,7 +104,7 @@
                 name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
               },
               {
-                name: 'Block', cell: function(row){ return row.Block.Number},
+                name: 'Block', cell: function(row){ return row.Block.Number}, rendering: renderBlockLink,
               },
               {
                 name: 'Sell amount', cell: function(row){return row.Trade.Sell.Amount}, rendering: renderNumbers,
@@ -144,7 +144,7 @@
                 name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
               },
               {
-                name: 'Block', cell: function(row){ return row.Block.Number},
+                name: 'Block', cell: function(row){ return row.Block.Number}, rendering: renderBlockLink,
               },
               {
                 name: 'Sell amount', cell: function(row){return row.Trade.Sell.Amount}, rendering: renderNumbers,
@@ -178,16 +178,16 @@
   const variables = {
     network:'<%= @streaming%>',
     offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
+    till: new Date().toISOString().slice(0, 10),
+    from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
   }
+
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(TradesByTimeTrades, "#Trades-By-Time-Trades",'Trades-By-Time',variables);
-    renderComponent(TradesByTimeAddreses, "#Trades-By-Time-Addreses",'Trades-By-Time',variables);
-    renderComponent(TradesByTimeCurrencies, "#Trades-By-Time-Currencies",'Trades-By-Time',variables);
-    renderComponent(TradesByTimeContracts, "#Trades-By-Time-Contracts",'Trades-By-Time',variables);
-    renderComponent(TokenTradesTable, "#Token-Trades",'Token-Trades_1_1',variables);
+    renderComponent(TradesByTimeTrades, "#TradesByTimeTrades",'Trades-By-Time',variables);
+    renderComponent(TradesByTimeAddreses, "#TradesByTimeAddreses",'Trades-By-Time',variables);
+    renderComponent(TradesByTimeCurrencies, "#TradesByTimeCurrencies",'Trades-By-Time',variables);
+    renderComponent(TradesByTimeContracts, "#TradesByTimeContracts",'Trades-By-Time',variables);
+    renderComponent(TokenTradesTable, "#TokenTradesTable",'Token-Trades_1_1',variables);
   })
-  renderComponent(SubTokenTradesTable, "#Sub-Token-Trades",'Token-Trades_1_1',variables,'Subscription-Token-Trades_1_1');
+  renderComponent(SubTokenTradesTable, "#SubTokenTradesTable",null,variables,'Subscription-Token-Trades_1_1');
 </script>

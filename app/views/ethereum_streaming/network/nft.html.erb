@@ -124,16 +124,16 @@
               name: 'Trades', cell: function(row){ return row.count},
             },
             {
-              name: 'Paid Amount', cell: function(row){ return parseFloat(row.sell_amount).toFixed(3)},
+              name: 'Paid Amount', cell: function(row){ return row.sell_amount},rendering: renderNumbers,
             },
             {
               name: 'Currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}},rendering: renderTokenLink,
             },
             {
-              name: 'Min Price', cell: function(row){ return parseFloat(row.Trade.Buy.min_price).toFixed(3)},
+              name: 'Min Price', cell: function(row){ return row.Trade.Buy.min_price},rendering: renderNumbers,
             },
             {
-              name: 'Max Price', cell: function(row){ return parseFloat(row.Trade.Buy.max_rice).toFixed(3)},
+              name: 'Max Price', cell: function(row){ return row.Trade.Buy.max_rice},rendering: renderNumbers,
             },
           ]
         }
@@ -224,10 +224,10 @@
               name: 'ID', cell: function(row){ return {id:row.Trade.Buy.Ids[0],address: row.Trade.Buy.Currency.SmartContract }}, rendering: renderIdLink
             },
             {
-              name: 'Buy amount', cell: function(row){return parseFloat(row.Trade.Buy.Amount).toFixed(2)}
+              name: 'Buy amount', cell: function(row){return row.Trade.Buy.Amount},rendering: renderNumbers,
             },
             {
-              name: 'Price', cell: function(row){ return parseFloat(row.Trade.Buy.Price).toFixed(3) },
+              name: 'Price', cell: function(row){ return row.Trade.Buy.Price },rendering: renderNumbers,
             },
             {
               name: 'Dex',cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
@@ -256,6 +256,6 @@
     renderComponent(TopTradedNFTTokensPie, "#Top-traded-NFT-tokens-Pie",'Top-traded-NFT-tokens-in-network_1',variables);
     renderComponent(TopExchangesForNFTs, "#Top-exchange-protocols-trading-NFT",'Top-exchange-protocols-trading-NFT-tokens-in-network_1',variables);
     renderComponent(TopExchangesForNFTsPie, "#Top-exchange-protocols-trading-NFT-Pie",'Top-exchange-protocols-trading-NFT-tokens-in-network_1',variables);
-    renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Latest-Trades-of-NFT-Tokens-in-Network_1_1_1_1_1_1_1_1',variables);
   })
+    renderComponent(SubscriptionLatestTradesNFTToken, "#Subscription-Latest-Trades-NFT-Token",'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1',variables,'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
 </script>

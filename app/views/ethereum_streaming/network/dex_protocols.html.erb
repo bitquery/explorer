@@ -5,15 +5,15 @@
 </div>
 <div class="row mb-4">
   <div class="col-12 col-lg-7">
-    <div class="card" id="DEX-Smart-Contract-Protocols"></div>
+    <div class="card" id="DEXSmartContractProtocols"></div>
   </div>
   <div class="col-12 col-lg-5">
-    <div class="card" id="DEX-Smart-Contract-Protocols-Pie"></div>
+    <div class="card" id="DEXSmartContractProtocolsPie""></div>
   </div>
 </div>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div  id="DEX-Smart-Contracts" class="card"></div>
+    <div  id="DEXSmartContracts" class="card"></div>
   </div>
 </div>
 <script>
@@ -29,7 +29,8 @@
 
         options: {
           isStacked: true,
-          theme: 'material'
+          theme: 'material',
+          height: 363
         }
       }
   }
@@ -67,7 +68,7 @@
           ],
           options: {
             title: 'Count',
-            height: 403
+            height: 363
           }
         }
       }
@@ -98,17 +99,15 @@
       }
     }
 
-   const variables = {
+  const variables = {
     network:'<%= @streaming%>',
     offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
   }
+
   renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(CountofDEXTradesByProtocol, "#Count-of-DEX-Trades-By-Protocol",'Count-of-DEX-Trades-By-Protocol_1',variables);//Graph Barchart
-    renderComponent(DEXSmartContractProtocols, '#DEX-Smart-Contract-Protocols','DEX-Smart-Contract-Protocols_1_1_1',variables);//Graph Barchart
-    renderComponent(DEXSmartContractProtocolsPie, "#DEX-Smart-Contract-Protocols-Pie",'DEX-Smart-Contract-Protocols_1_1_1',variables);
-    renderComponent(DEXSmartContracts, "#DEX-Smart-Contracts",'DEX-Smart-Contracts',variables);
+    renderComponent(CountofDEXTradesByProtocol, '#Count-of-DEX-Trades-By-Protocol','Count-of-DEX-Trades-By-Protocol_1',variables);
+    renderComponent(DEXSmartContractProtocols, '#DEXSmartContractProtocols','DEX-Smart-Contract-Protocols_1_1_1',variables);
+    renderComponent(DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie','DEX-Smart-Contract-Protocols_1_1_1',variables);
+    renderComponent(DEXSmartContracts, '#DEXSmartContracts','DEX-Smart-Contracts',variables);
   })
 </script>
