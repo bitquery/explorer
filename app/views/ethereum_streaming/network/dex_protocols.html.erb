@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div  id="Count-of-DEX-Trades-By-Protocol" class="card"></div>
+    <div id="CountOfDEXTradesByProtocol" class="card"></div>
   </div>
 </div>
 <div class="row mb-4">
@@ -13,101 +13,161 @@
 </div>
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div  id="DEXSmartContracts" class="card"></div>
+    <div id="DEXSmartContracts" class="card"></div>
   </div>
 </div>
 <script>
-  class CountofDEXTradesByProtocol extends TimeChartComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.DEXTrades },
-        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-        columns: [
-          { name: 'Date', cell: function(row) { return row.Block.Date } },
-          { name: function(row) { return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}` }, cell: function(row) { return +row.count } } ,
-        ],
+    class CountOfDEXTradesByProtocol extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: function (row) {
+                            return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}`
+                        }, cell: function (row) {
+                            return +row.count
+                        }
+                    },
+                ],
 
-        options: {
-          isStacked: true,
-          theme: 'material',
-          height: 363
+                options: {
+                    isStacked: true,
+                    theme: 'material',
+                    height: 363
+                }
+            }
         }
-      }
-  }
-  }
+    }
+
     class DEXSmartContractProtocols extends BootstrapTableComponent {
         configuration() {
-          return  {
-            topElement: function (response){ return response.EVM.DEXTrades},
-            chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-            columns: [
-              {
-                name: 'Protocol', cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
-              },
-              {
-                name: 'Trades', cell: function(row){ return row.trades},
-              },
-              {
-                name: 'Currencies', cell: function(row){ return row.currencies},
-              },
-              {
-                name: 'Contracts', cell: function(row){ return row.contracts},
-              },
-            ]
-          }
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Protocol', cell: function (row) {
+                            return {
+                                ProtocolFamily: row.Trade.Dex.ProtocolFamily,
+                                ProtocolName: row.Trade.Dex.ProtocolName,
+                                ProtocolVersion: row.Trade.Dex.ProtocolVersion
+                            }
+                        }, rendering: renderDexProtocolLink,
+                    },
+                    {
+                        name: 'Trades', cell: function (row) {
+                            return row.trades
+                        },
+                    },
+                    {
+                        name: 'Currencies', cell: function (row) {
+                            return row.currencies
+                        },
+                    },
+                    {
+                        name: 'Contracts', cell: function (row) {
+                            return row.contracts
+                        },
+                    },
+                ]
+            }
         }
     }
+
     class DEXSmartContractProtocolsPie extends PieChartComponent {
-      configuration() {
-        return {
-          topElement: function(response) { return response.EVM.DEXTrades },
-          chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-          columns: [
-          {name: 'Protocol', cell: function(row){ return  `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`}},
-          {name: 'Count', cell: function(row){ return +row.trades} }
-          ],
-          options: {
-            title: 'Count',
-            height: 363
-          }
-        }
-      }
-    }
-
-     class DEXSmartContracts extends BootstrapTableComponent {
         configuration() {
-          return  {
-            topElement: function (response){ return response.EVM.DEXTrades},
-            chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-            columns: [
-              {
-                name: 'Smart Contract', cell: function(row){ return  row.Trade.Dex.SmartContract}, rendering: renderJustAddressLink,
-              },
-              {
-                name: 'Protocol', cell: function(row){ return {ProtocolFamily: row.Trade.Dex.ProtocolFamily, ProtocolName: row.Trade.Dex.ProtocolName, ProtocolVersion:row.Trade.Dex.ProtocolVersion }}, rendering: renderDexProtocolLink,
-              },
-              {
-                name: 'Trades', cell: function(row){ return row.trades},
-              },
-              {
-                name: 'Currencies', cell: function(row){ return row.currencies},
-              },
-
-
-            ]
-          }
-      }
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Protocol', cell: function (row) {
+                            return `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`
+                        }
+                    },
+                    {
+                        name: 'Count', cell: function (row) {
+                            return +row.trades
+                        }
+                    }
+                ],
+                options: {
+                    title: 'Count',
+                    height: 363
+                }
+            }
+        }
     }
 
-  const variables = {
-    network:'<%= @streaming%>',
-    offset: 0,
-  }
+    class DEXSmartContracts extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Smart Contract', cell: function (row) {
+                            return row.Trade.Dex.SmartContract
+                        }, rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Protocol', cell: function (row) {
+                            return {
+                                ProtocolFamily: row.Trade.Dex.ProtocolFamily,
+                                ProtocolName: row.Trade.Dex.ProtocolName,
+                                ProtocolVersion: row.Trade.Dex.ProtocolVersion
+                            }
+                        }, rendering: renderDexProtocolLink,
+                    },
+                    {
+                        name: 'Trades', cell: function (row) {
+                            return row.trades
+                        },
+                    },
+                    {
+                        name: 'Currencies', cell: function (row) {
+                            return row.currencies
+                        },
+                    },
 
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(CountofDEXTradesByProtocol, '#Count-of-DEX-Trades-By-Protocol','Count-of-DEX-Trades-By-Protocol_1',variables);
-    renderComponent(DEXSmartContractProtocols, '#DEXSmartContractProtocols','DEX-Smart-Contract-Protocols_1_1_1',variables);
-    renderComponent(DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie','DEX-Smart-Contract-Protocols_1_1_1',variables);
-    renderComponent(DEXSmartContracts, '#DEXSmartContracts','DEX-Smart-Contracts',variables);
-  })
+
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        offset: 0,
+    };
+
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol', 'Count-of-DEX-Trades-By-Protocol_1', variables);
+        renderComponent(DEXSmartContractProtocols, '#DEXSmartContractProtocols', 'DEX-Smart-Contract-Protocols_1_1_1', variables);
+        renderComponent(DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie', 'DEX-Smart-Contract-Protocols_1_1_1', variables);
+        renderComponent(DEXSmartContracts, '#DEXSmartContracts', 'DEX-Smart-Contracts', variables);
+    })
 </script>

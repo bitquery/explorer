@@ -18,7 +18,6 @@ export default class TimeChartComponent {
 	}
 
 	async onHistoryData(data) {
-		console.log(data)
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
 			if (Object.keys(dataArray).length === 0) {

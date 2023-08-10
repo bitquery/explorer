@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
-    <div  id="latestBlocks" class="card"></div>
+    <div id="latestBlocks" class="card"></div>
   </div>
 </div>
 <div class="row">
@@ -9,62 +9,91 @@
   </div>
 </div>
 <script>
-  class LatestBlocks extends BootstrapTableComponent {
-      configuration() {
-        return  {
-          topElement: function (response){ return response.EVM.Blocks},
-          chainId: function (response){ return response.EVM.Blocks[0].ChainId},
-          columns: [
-            {
-              name: 'Timestamp', cell: function(row){ return row.Block.Time}, rendering: renderDate,
-            },
-            {
-              name: 'Block', cell: function(row){ return row.Block.Number},rendering: renderBlockLink,
-            },
-            {
-              name: 'Miner', cell: function(row){ return row.Block.Coinbase}, rendering: renderAddressLink,
-            },
-            {
-              name: 'TX', cell: function(row){ return row.Block.Hash}, rendering: renderTX,
-            },
-            {
-              name: 'Transactions count', cell: function(row){ return row.Block.TxCount}, rendering: renderNumbers,
-            },
-          ],
+    class LatestBlocks extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Blocks
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Miner', cell: function (row) {
+                            return row.Block.Coinbase
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'TX', cell: function (row) {
+                            return row.Block.Hash
+                        }, rendering: renderTX,
+                    },
+                    {
+                        name: 'Transactions count', cell: function (row) {
+                            return row.Block.TxCount
+                        }, rendering: renderNumbers,
+                    },
+                ],
+            }
         }
-      }
-  }
-  class SubLatestBlocks extends BootstrapTableComponent {
-      configuration() {
-        return  {
-          topElement: function (response){ return response.EVM.Blocks},
-          chainId: function (response){ return response.EVM.Blocks[0].ChainId},
-          columns: [
-            {
-              name: 'Timestamp', cell: function(row){ return row.Block.Time}, rendering: renderDate,
-            },
-            {
-              name: 'Block', cell: function(row){ return row.Block.Number}, rendering: renderBlockLink
-            },
-            {
-              name: 'Miner', cell: function(row){ return row.Block.Coinbase}, rendering: renderAddressLink,
-            },
-            {
-              name: 'TX', cell: function(row){ return row.Block.Hash}, rendering: renderTX,
-            },
-            {
-              name: 'Transactions count', cell: function(row){ return row.Block.TxCount}, rendering: renderNumbers,
-            },
-          ]
+    }
+
+    class SubLatestBlocks extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Blocks
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink
+                    },
+                    {
+                        name: 'Miner', cell: function (row) {
+                            return row.Block.Coinbase
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'TX', cell: function (row) {
+                            return row.Block.Hash
+                        }, rendering: renderTX,
+                    },
+                    {
+                        name: 'Transactions count', cell: function (row) {
+                            return row.Block.TxCount
+                        }, rendering: renderNumbers,
+                    },
+                ]
+            }
         }
-      }
-  }
+    }
 
-  const variables = {
-    network:'<%= @streaming%>',
-    offset: 0,
-  }
+    const variables = {
+        network: '<%= @streaming%>',
+        offset: 0,
+    }
 
-  renderComponent(LatestBlocks, "#latestBlocks",'Latest-Blocks_1_1_1_1_1',variables)
-  renderComponent(SubLatestBlocks, "#Sub-latestBlocks",'Latest-Blocks_1_1_1_1_1',variables,'Subscription-Latest-Blocks_1')
+    renderComponent(LatestBlocks, "#latestBlocks", 'Latest-Blocks_1_1_1_1_1', variables)
+    renderComponent(SubLatestBlocks, "#Sub-latestBlocks", 'Latest-Blocks_1_1_1_1_1', variables, 'Subscription-Latest-Blocks_1')
 </script>

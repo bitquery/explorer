@@ -70,7 +70,6 @@ export default class BootstrapTableComponent {
 	}
 	
 	async onHistoryData(data, variables) {
-		console.log(data)
 		if (Object.keys(this.config.topElement(data)).length === 0) {
 			this.container.textContent = 'No Data. Response is empty'
 			return;

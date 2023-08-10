@@ -62,7 +62,6 @@ export default class BootstrapVerticalTableComponent {
 	}
 
 	async onHistoryData(data, variables) {
-		console.log(data)
 		const array = this.config.topElement(data);
 		if (Object.keys(array).length === 0) {
 			this.wrapper.textContent = 'No Data. Response is empty'
