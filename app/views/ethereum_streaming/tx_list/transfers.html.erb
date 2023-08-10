@@ -1,7 +1,0 @@
-<%= render partial: "shared/header/#{controller_name}" %>
-
-<% if @sender %>
-  <%= render partial: 'arbitrum/tx_list/outbound_transfers' %>
-<% elsif @receiver %>
-  <%= render partial: 'arbitrum/tx_list/inbound_transfers' %>
-<% end %>
