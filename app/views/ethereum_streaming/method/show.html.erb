@@ -8,56 +8,82 @@
     <div class="card" id="MethodTransactions"></div>
   </div>
 </div>
-<script >
-  class MethodInformation extends BootstrapVerticalTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.Calls},
-        chainId: function (response){ return response.EVM.Calls[0].ChainId},
-        columns: [
-          {
-            name: 'Method Name', cell: function(row){ return row.Call.Signature.Name},
-          },
-          {
-            name: 'Method signature', cell: function(row){ return row.Call.Signature.Signature},
-          },
-          {
-            name: 'Signature Hash', cell: function(row){ return row.Call.Signature.SignatureHash},
-          },
-        ]
-      }
+<script>
+    class MethodInformation extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Calls
+                },
+                chainId: function (response) {
+                    return response.EVM.Calls[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Method Name', cell: function (row) {
+                            return row.Call.Signature.Name
+                        },
+                    },
+                    {
+                        name: 'Method signature', cell: function (row) {
+                            return row.Call.Signature.Signature
+                        },
+                    },
+                    {
+                        name: 'Signature Hash', cell: function (row) {
+                            return row.Call.Signature.SignatureHash
+                        },
+                    },
+                ]
+            }
+        }
     }
-  }
-  class MethodTransactions extends BootstrapTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.Calls},
-        chainId: function (response){ return response.EVM.Calls[0]?.ChainId},
-        columns: [
-          {
-            name: 'Transaction', cell: function(row){ return row.Transaction.Hash},rendering: renderTX,
-          },
-          {
-            name: 'Method', cell: function(row) { return row.Call.Signature.Name },
-          },
-          {
-            name: 'Block', cell: function(row){ return row.Block.Number }, rendering: renderBlockLink,
-          },
-          {
-            name: 'Gas Cost', cell: function(row){return row.Fee.SenderFee}, rendering:renderNumbers,
-          },
-          {
-            name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-          },
-        ]
-      }
+
+    class MethodTransactions extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Calls
+                },
+                chainId: function (response) {
+                    return response.EVM.Calls[0]?.ChainId
+                },
+                columns: [
+                    {
+                        name: 'Transaction', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                    {
+                        name: 'Method', cell: function (row) {
+                            return row.Call.Signature.Name
+                        },
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Gas Cost', cell: function (row) {
+                            return row.Fee.SenderFee
+                        }, rendering: renderNumbers,
+                    },
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                ]
+            }
+        }
     }
-  }
-  const variables = {
-    network:'<%= @streaming%>',
-    method: '<%= @signature%>',
-  }
-  console.log('variables',variables)
-    renderComponent(MethodInformation, "#MethodInformation",'Method-Information_1',variables);
-    renderComponent(MethodTransactions, "#MethodTransactions",'Method-Transactions_1_1',variables);
+
+    const variables = {
+        network: '<%= @streaming%>',
+        method: '<%= @signature%>',
+    }
+    console.log('variables', variables)
+    renderComponent(MethodInformation, "#MethodInformation", 'Method-Information_1', variables);
+    renderComponent(MethodTransactions, "#MethodTransactions", 'Method-Transactions_1_1', variables);
 </script>
