@@ -3,50 +3,70 @@
     <div class="card" id="TransactionAttributes"></div>
   </div>
 </div>
-<script >
-  class TransactionAttributes extends BootstrapVerticalTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return [...response.EVM.Transactions, ...response.EVM.Transfers]},
-        chainId: function (response){ return response.EVM.Transactions[0]?.ChainId},
-        columns: [
-          {
-            name: 'Block', cell: function(row){ return row.Block?.Number},  rendering: renderBlockLink,
-          },
-          {
-            name: 'Timestamp', cell: function(row){ return row.Block?.Time},  rendering: renderDate,
-          },
-          {
-            name: 'Sender', cell: function(row){ return row.Transaction?.From},rendering: renderAddressLink,
-          },
-          {
-            name: 'Receiver', cell: function(row){ return row.Transaction?.To},rendering: renderAddressLink,
-          },
-          {
-            name: 'Amount', cell: function(row){ return row.Transfer?.Amount},
-          },
-          {
-            name: 'Gas Cost', cell: function(row){ return row.Fee?.SenderFee},
-          },
-          {
-            name: 'Currency', cell: function(row){ return row.Transfer?.Currency.Symbol},
-          },
-          {
-            name: 'Gas Used', cell: function(row){ return row.Block?.GasUsed},
-          },
-          {
-            name: 'Success?', cell: function(row){ return row.TransactionStatus?.Success},
-          },
-        ]
-      }
+<script>
+    class TransactionAttributes extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return [...response.EVM.Transactions, ...response.EVM.Transfers]
+                },
+                chainId: function (response) {
+                    return response.EVM.Transactions[0]?.ChainId
+                },
+                columns: [
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block?.Number
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block?.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Sender', cell: function (row) {
+                            return row.Transaction?.From
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'Receiver', cell: function (row) {
+                            return row.Transaction?.To
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Transfer?.Amount
+                        },
+                    },
+                    {
+                        name: 'Gas Cost', cell: function (row) {
+                            return row.Fee?.SenderFee
+                        },
+                    },
+                    {
+                        name: 'Currency', cell: function (row) {
+                            return row.Transfer?.Currency.Symbol
+                        },
+                    },
+                    {
+                        name: 'Gas Used', cell: function (row) {
+                            return row.Block?.GasUsed
+                        },
+                    },
+                    {
+                        name: 'Success?', cell: function (row) {
+                            return row.TransactionStatus?.Success
+                        },
+                    },
+                ]
+            }
+        }
     }
-  }
-  const variables = {
-    network:'<%= @streaming%>',
-    hash:' <%= @hash%>',
-  // network:'eth',
-  // hash: "0x42c84ae92884bfec73f9c04a75daee32c76ac9d72b98ee48f5b9b59b61afa7ae"
 
-  }
-    renderComponent(TransactionAttributes, "#TransactionAttributes",'Transaction-Attributes_1_1_1_1',variables);
+    const variables = {
+        network: '<%= @streaming%>',
+        hash: '<%= @hash%>',
+    };
+    renderComponent(TransactionAttributes, "#TransactionAttributes", 'Transaction-Attributes_1_1_1_1', variables);
 </script>
