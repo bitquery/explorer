@@ -99,7 +99,7 @@
           ]
       });
 
-      <% from, till = date_range_from_now(5, :minutes) %>
+      <% from, till = date_range_from_now(15, :minutes) %>
         queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
             network: '<%= params['network']['network'] %>'
         });
