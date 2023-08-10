@@ -20,79 +20,47 @@
                   $from: ISO8601DateTime,
                   $till: ISO8601DateTime){
                    tron{
-                      transfers(
-                      options:{desc: "count", limit: $limit, offset: $offset},
-                      amount: {gt: 0},
-                      date: {
-                        since: $from
-                        till: $till}
-
-                      ) {
-                          currency {
-                            symbol
-                            address
-                            tokenId
-                            tokenType
-                          }
-                          count
-
-                          senders: count(uniq: senders)
-                          receivers: count(uniq: receivers)
-                          days: count(uniq:dates)
-
-                          from_date: minimum(of: date)
-                          till_date: maximum(of: date)
-
-                          amount
-                          amount_usd: amount(in: USD)
-                      }
+                    transfers(
+                        options: {desc: "count", limit: $limit, offset: $offset}
+                        amount: {gt: 0}
+                        time: {since: $from, till: $till}
+                    ) {
+                        currency {
+                        symbol
+                        address
+                        }
+                        count
+                        senders: count(uniq: senders)
+                        receivers: count(uniq: receivers)
+                        amount
+                        amount_usd: amount(in: USD)
                     }
-                  }`);
+                        }
+                    }`);
 
         new widgets.table('#transfers_by_currencies', query, 'tron.transfers', {
             title: '<%= t('widgets.headers.transfers_by_currencies') %>',
             dataOptions: [
 
                 {
-                    title: '<%= t('widgets.titles.currency') %>',
-                    type: 'string-ellipsis',
-                    path: ['currency.symbol','currency.name','currency.address'],
-                    urlCallbackName: 'token_path'
-                },
-
-                {
-                    title: '<%= t('widgets.titles.token_type') %>',
-                    type: 'string',
-                    path: 'currency.tokenType'
-                },
-
-                {
-                    title: '<%= t('widgets.titles.first_transfer_date') %>',
-                    path: 'from_date'
-                },
-                {
-                    title: '<%= t('widgets.titles.last_transfer_date') %>',
-                    path: 'till_date'
-                },
-
-                {
-                    title: '<%= t('widgets.titles.transfer_days') %>',
-                    path: 'days'
-                },
-
-                {
-                    title: '<%= t('widgets.titles.uniq_senders') %>',
-                    path: 'senders'
-                },
-                {
-                    title: '<%= t('widgets.titles.uniq_receivers') %>',
-                    path: 'receivers'
-                },
-                {
-                    title: '<%= t('widgets.titles.transfer_amount') %>',
-                    path: 'amount',
-                    type: 'amount'
-                },
+                  title: '<%= t('widgets.titles.currency') %>',
+                  type: 'string-ellipsis',
+                  path: ['currency.symbol','currency.name','currency.address'],
+                  urlCallbackName: 'token_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.uniq_senders') %>',
+                  path: 'senders'
+              },
+              {
+                  title: '<%= t('widgets.titles.uniq_receivers') %>',
+                  path: 'receivers'
+              },
+              {
+                  title: '<%= t('widgets.titles.transfer_amount') %>',
+                  path: 'amount',
+                  type: 'amount'
+              },
                 {
                     title: '',
                     data: '',
@@ -105,9 +73,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+      <% from, till = date_range_from_now(24, :hours) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
 
     });
 </script>

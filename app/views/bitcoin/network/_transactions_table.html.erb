@@ -22,7 +22,7 @@
                       $till: ISO8601DateTime){
           bitcoin(network: $network){
             transactions(options:{desc: ["block.height","index"], limit: $limit, offset: $offset},
-              date: {since: $from till: $till }
+              time: {since: $from till: $till }
               ) {
 
                 block {
@@ -111,9 +111,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+      <% from, till = date_range_from_now(45, :minutes) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
 
     });
 
