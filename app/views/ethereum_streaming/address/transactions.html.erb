@@ -1,95 +1,130 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="Transactions"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='Transactions'></div>
   </div>
 </div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="TransactionsByDate"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='TransactionsByDate'></div>
   </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="GasSpentByDate" ></div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='GasSpentByDate'></div>
   </div>
 </div>
-<script >
-  class Transactions extends BootstrapTableComponent {
-    configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Transactions},
-            chainId: function (response){ return response.EVM.Transactions[0].ChainId},
-            columns: [
-                {
-                    name: 'Timestamp', cell: function(row){ return row.Block.Time},  rendering: renderDate,
+<script>
+    class Transactions extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transactions
                 },
-                {
-                    name: 'Block', cell: function(row){return row.Block.Number}
+                chainId: function (response) {
+                    return response.EVM.Transactions[0].ChainId
                 },
-                {
-                    name: 'Receiver', cell: function(row){ return row.Transaction.To}, rendering: renderAddressLink,
-                },
-                {
-                    name: 'Transaction', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-                },
-                {
-                    name: 'Gas Cost',  cell: function(row){ return row.gas_cost}, rendering: renderNumbers,
-                },
-                {
-                name: 'Success?', cell: function(row){ return row.TransactionStatus.Success},
-                },
-            ]
+                columns: [
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Receiver', cell: function (row) {
+                            return row.Transaction.To
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'Transaction', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                    {
+                        name: 'Gas Cost', cell: function (row) {
+                            return row.gas_cost
+                        }, rendering: renderNumbers,
+                    },
+                    {
+                        name: 'Success?', cell: function (row) {
+                            return row.TransactionStatus.Success
+                        },
+                    },
+                ]
+            }
         }
     }
-  }
-  class TransactionsByDate extends TimeChartComponent {
-    configuration() {
-      return {
-        topElement: function(response) { return response.EVM.Transfers },
-        chainId: function (response){ return response.EVM.Transfers[0].ChainId},
-        columns: [
-          {name: 'Date', cell: function (row) { return row.Block.Date } },
-          {name: 'Transactionns count', cell: function (row) { return +row.count } }
-        ],
-        options: {
-            title: 'Transactionns count by date',
-            height: 300,
-            colors: ['28A745'],
+
+    class TransactionsByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transfers
+                },
+                chainId: function (response) {
+                    return response.EVM.Transfers[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: 'Transactions count', cell: function (row) {
+                            return +row.count
+                        }
+                    }
+                ],
+                options: {
+                    title: 'Transactions count by date',
+                    height: 300,
+                    colors: ['28A745'],
+                }
+            }
         }
-      }
     }
-  }
-  class GasSpentByDate extends TimeChartComponent {
-    configuration() {
-      return {
-        topElement: function(response) { return response.EVM.Transactions },
-        chainId: function (response){ return response.EVM.Transactions[0].ChainId},
-        columns: [
-          {name: 'Date', cell: function (row) { return row.Block.Date } },
-          {name: 'Gas cost', cell: function (row) { return +row.sum } }
-        ],
-        options: {
-            title: 'Gas Spent By Date',
-            height: 300,
-            colors: ['FFC106'],
+
+    class GasSpentByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transactions
+                },
+                chainId: function (response) {
+                    return response.EVM.Transactions[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Gas cost', cell: function (row) {
+                            return +row.sum
+                        }
+                    }
+                ],
+                options: {
+                    title: 'Gas Spent By Date',
+                    height: 300,
+                    colors: ['FFC106'],
+                }
+            }
         }
-      }
     }
-  }
 
 
-
-  const variables = {
-    network:'<%= @streaming%>',
-    offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
-    //      network:'eth',
-    // address: '0x1ed3286aa6d6611b60e1d9c99ccc2feb79c74463',
-
-  }
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-      renderComponent(Transactions, "#Transactions",'Transactions_1_1_1_1_1_1',variables);
-    renderComponent(TransactionsByDate, "#TransactionsByDate",'Transactions-By-Date_1_1_1_1',variables);
-    renderComponent(GasSpentByDate, "#GasSpentByDate",'Gas-Spent-By-Date_1_1',variables);
-  })
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address %>',
+    }
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(Transactions, '#Transactions', 'Transactions_1_1_1_1_1_1', variables);
+        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_1_1_1_1', variables);
+        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_1_1', variables);
+    })
 </script>

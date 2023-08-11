@@ -1,11 +1,11 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="TransfersByCurrencies" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='TransfersByCurrencies' class='card'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="SubTransfersByCurrencies" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubTransfersByCurrencies' class='card'></div>
   </div>
 </div>
 <script>
@@ -126,7 +126,7 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TransfersByCurrencies, "#TransfersByCurrencies", 'Transfers-By-Currencies_1_1', variables);
+        renderComponent(TransfersByCurrencies, '#TransfersByCurrencies', 'Transfers-By-Currencies_1_1', variables);
     })
-    renderComponent(SubTransfersByCurrencies, "#SubTransfersByCurrencies", 'Transfers-By-Currencies_1_1', variables, 'Subscription-Transfers-By-Currencies');
+    renderComponent(SubTransfersByCurrencies, '#SubTransfersByCurrencies', 'Transfers-By-Currencies_1_1', variables, 'Subscription-Transfers-By-Currencies');
 </script>

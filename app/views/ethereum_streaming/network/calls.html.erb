@@ -1,27 +1,27 @@
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="Smart-Contracts-By-Date"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='Smart-Contracts-By-Date'></div>
   </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="UniqueSmartContracts"></div>
-  </div>
-</div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="SmartContractsCallers"></div>
-  </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="SmartContractsMethods"></div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='UniqueSmartContracts'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="LatestSmartContractCalls" class="card"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='SmartContractsCallers'></div>
+  </div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='SmartContractsMethods'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="SubLatestSmartContractCalls" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='LatestSmartContractCalls' class='card'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubLatestSmartContractCalls' class='card'></div>
   </div>
 </div>
 <script>
@@ -242,11 +242,11 @@
         offset: 0,
     };
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(SmartContractsByDate, "#Smart-Contracts-By-Date", 'Smart-Contracts_1_1', variables);
-        renderComponent(UniqueSmartContracts, "#UniqueSmartContracts", 'Smart-Contracts_1_1', variables);
-        renderComponent(SmartContractsCallers, "#SmartContractsCallers", 'Smart-Contracts_1_1', variables);
-        renderComponent(SmartContractsMethods, "#SmartContractsMethods", 'Smart-Contracts_1_1', variables);
-        renderComponent(LatestSmartContractCalls, "#LatestSmartContractCalls", 'Latest-Smart-Contract-Calls_1_1_1', variables);
+        renderComponent(SmartContractsByDate, '#Smart-Contracts-By-Date', 'Smart-Contracts_1_1', variables);
+        renderComponent(UniqueSmartContracts, '#UniqueSmartContracts', 'Smart-Contracts_1_1', variables);
+        renderComponent(SmartContractsCallers, '#SmartContractsCallers', 'Smart-Contracts_1_1', variables);
+        renderComponent(SmartContractsMethods, '#SmartContractsMethods', 'Smart-Contracts_1_1', variables);
+        renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_1_1_1', variables);
     });
-    renderComponent(SubLatestSmartContractCalls, "#SubLatestSmartContractCalls", 'Latest-Smart-Contract-Calls_1_1_1', variables, 'Subscription-Latest-Smart-Contract-Calls');
+    renderComponent(SubLatestSmartContractCalls, '#SubLatestSmartContractCalls', 'Latest-Smart-Contract-Calls_1_1_1', variables, 'Subscription-Latest-Smart-Contract-Calls');
 </script>

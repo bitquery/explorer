@@ -1,12 +1,12 @@
 <% if @native_token %>
   if if if
 <% else %>
-  <div class="row mb-4">
-    <div class="col-12 col-lg-6">
-      <div class="card" id="TokenAttributes"></div>
+  <div class='row mb-4'>
+    <div class='col-12 col-lg-6'>
+      <div class='card' id='TokenAttributes'></div>
     </div>
-    <div class="col-12 col-lg-6">
-      <div class="card" id="AddressBalanceByCurrencies"></div>
+    <div class='col-12 col-lg-6'>
+      <div class='card' id='AddressBalanceByCurrencies'></div>
     </div>
   </div>
   <script>
@@ -81,7 +81,7 @@
                           },
                       },
                       {
-                          name: 'Days token transfered', cell: function (row) {
+                          name: 'Days token transferred', cell: function (row) {
                               return row.days
                           },
                       },
@@ -101,7 +101,7 @@
           address: '<%= @address %>',
       }
 
-      renderComponent(TokenAttributes, "#TokenAttributes", 'Token-attributes_1_1_1_1', variables);
-      renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies", 'Token-transfer-statistics_1_1', variables);
+      renderComponent(TokenAttributes, '#TokenAttributes', 'Token-attributes_1_1_1_1', variables);
+      renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Token-transfer-statistics_1_1', variables);
   </script>
 <% end %>

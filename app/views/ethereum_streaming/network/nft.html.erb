@@ -1,40 +1,40 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="NFTTransfersByDate" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='NFTTransfersByDate' class='card'></div>
   </div>
 </div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-7">
-    <div class="card" id="TopTransferNFT"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-7'>
+    <div class='card' id='TopTransferNFT'></div>
   </div>
-  <div class="col-12 col-lg-5">
-    <div class="card" id="NFTTransfersByDatePie"></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="NFTTokenTradesByDate" class="card"></div>
+  <div class='col-12 col-lg-5'>
+    <div class='card' id='NFTTransfersByDatePie'></div>
   </div>
 </div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-7">
-    <div class="card" id="TopTradedNFTTokens"></div>
-  </div>
-  <div class="col-12 col-lg-5">
-    <div class="card" id="TopTradedNFTTokensPie"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='NFTTokenTradesByDate' class='card'></div>
   </div>
 </div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-7">
-    <div class="card" id="TopExchangesForNFTs"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-7'>
+    <div class='card' id='TopTradedNFTTokens'></div>
   </div>
-  <div class="col-12 col-lg-5">
-    <div class="card" id="TopExchangesForNFTsPie"></div>
+  <div class='col-12 col-lg-5'>
+    <div class='card' id='TopTradedNFTTokensPie'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="SubscriptionLatestTradesNFTToken" class="card "></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-7'>
+    <div class='card' id='TopExchangesForNFTs'></div>
+  </div>
+  <div class='col-12 col-lg-5'>
+    <div class='card' id='TopExchangesForNFTsPie'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubscriptionLatestTradesNFTToken' class='card '></div>
   </div>
 </div>
 <script>
@@ -408,14 +408,14 @@
         offset: 0,
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(NFTTransfersByDate, "#NFTTransfersByDate", 'NFT-Token-Transfers-By-Date_1', variables);
-        renderComponent(NFTTransfersByDatePie, "#NFTTransfersByDatePie", 'Copy-of-Top-transfered-NFT-tokens-in-network', variables);
-        renderComponent(TopTransferNFT, "#TopTransferNFT", 'Top-transfered-NFT-tokens-in-network_1', variables);
-        renderComponent(NFTTokenTradesByDate, "#NFTTokenTradesByDate", 'NFT-Token-Trades-By-Date_1_1', variables);
-        renderComponent(TopTradedNFTTokens, "#TopTradedNFTTokens", 'Top-traded-NFT-tokens-in-network_1', variables);
-        renderComponent(TopTradedNFTTokensPie, "#TopTradedNFTTokensPie", 'Top-traded-NFT-tokens-in-network_1', variables);
-        renderComponent(TopExchangesForNFTs, "#TopExchangesForNFTs", 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
-        renderComponent(TopExchangesForNFTsPie, "#TopExchangesForNFTsPie", 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
+        renderComponent(NFTTransfersByDate, '#NFTTransfersByDate', 'NFT-Token-Transfers-By-Date_1', variables);
+        renderComponent(NFTTransfersByDatePie, '#NFTTransfersByDatePie', 'Copy-of-Top-transfered-NFT-tokens-in-network', variables);
+        renderComponent(TopTransferNFT, '#TopTransferNFT', 'Top-transfered-NFT-tokens-in-network_1', variables);
+        renderComponent(NFTTokenTradesByDate, '#NFTTokenTradesByDate', 'NFT-Token-Trades-By-Date_1_1', variables);
+        renderComponent(TopTradedNFTTokens, '#TopTradedNFTTokens', 'Top-traded-NFT-tokens-in-network_1', variables);
+        renderComponent(TopTradedNFTTokensPie, '#TopTradedNFTTokensPie', 'Top-traded-NFT-tokens-in-network_1', variables);
+        renderComponent(TopExchangesForNFTs, '#TopExchangesForNFTs', 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
+        renderComponent(TopExchangesForNFTsPie, '#TopExchangesForNFTsPie', 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
     })
-    renderComponent(SubscriptionLatestTradesNFTToken, "#SubscriptionLatestTradesNFTToken", 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
+    renderComponent(SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken', 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
 </script>

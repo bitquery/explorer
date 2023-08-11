@@ -1,11 +1,11 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="LatestTransfers" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='LatestTransfers' class='card'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="SubLatestTransfers" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubLatestTransfers' class='card'></div>
   </div>
 </div>
 <script>
@@ -132,6 +132,6 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
     }
 
-    renderComponent(LatestTransfers, "#LatestTransfers", 'Latest-Transfers_1_1', variables);
-    renderComponent(SubLatestTransfers, "#SubLatestTransfers", 'Latest-Transfers_1_1', variables, 'Subscription-Latest-Transfers_1')
+    renderComponent(LatestTransfers, '#LatestTransfers', 'Latest-Transfers_1_1', variables);
+    renderComponent(SubLatestTransfers, '#SubLatestTransfers', 'Latest-Transfers_1_1', variables, 'Subscription-Latest-Transfers_1')
 </script>

@@ -1,17 +1,17 @@
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="MinersBlockCountByTime"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockCountByTime'></div>
   </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="MinersBlockCountByTimeTable"></div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockCountByTimeTable'></div>
   </div>
 </div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="MinersBlockRewardByTime"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockRewardByTime'></div>
   </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="MinersBlockRewardByTimeTable"></div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockRewardByTimeTable'></div>
   </div>
 </div>
 <script>
@@ -147,9 +147,9 @@
     };
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(MinersBlockCountByTime, "#MinersBlockCountByTime", 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
-        renderComponent(MinersBlockCountByTimeTable, "#MinersBlockCountByTimeTable", 'Miners-Block-Count-By-Time_1_1', variables);
-        renderComponent(MinersBlockRewardByTime, "#MinersBlockRewardByTime", 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
-        renderComponent(MinersBlockRewardByTimeTable, "#MinersBlockRewardByTimeTable", 'Miners-Block-Count-By-Time_1_1_1_1_1_1_1_1', variables);
+        renderComponent(MinersBlockCountByTime, '#MinersBlockCountByTime', 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
+        renderComponent(MinersBlockCountByTimeTable, '#MinersBlockCountByTimeTable', 'Miners-Block-Count-By-Time_1_1', variables);
+        renderComponent(MinersBlockRewardByTime, '#MinersBlockRewardByTime', 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
+        renderComponent(MinersBlockRewardByTimeTable, '#MinersBlockRewardByTimeTable', 'Miners-Block-Count-By-Time_1_1_1_1_1_1_1_1', variables);
     })
 </script>

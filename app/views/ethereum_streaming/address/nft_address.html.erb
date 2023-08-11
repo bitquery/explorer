@@ -1,193 +1,272 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="Address-Holding-NFTs_1"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='AddressHoldingNFT'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="Outcoming-NFT-Transfers-By-Address"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='OutcomingNFTTransfersByAddress'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="Incoming-NFT-Transfers-By-Address"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='IncomingNFTTransfersByAddress'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="Trades-of-NFT-Token-with-Address-as-Seller"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='TradesNFTTokenAddressSeller'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="Trades-of-NFT-Token-with-Address-as-Buyer"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='TradesNFTTokenAddressBuyer'></div>
   </div>
 </div>
-<script >
-  class AddressHoldingNFT extends BootstrapCardComponent {
-    configuration() {
-      return  {
-          topElement: function (response){ return response.EVM.BalanceUpdates},
-          chainId: function (response){ return response.EVM.BalanceUpdates[0]?.ChainId},
-          image: [
-          {
-            cell: function(row){ return row.BalanceUpdate.URI}, rendering: renderImgFromURI,
-          }
-            ] ,
-          columns: [
-            {
-              name: 'NFT', cell: function(row){ return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}}, rendering: renderTokenLink,
-            },
-            {
-              name: 'ID', cell: function(row){ return {id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}}, rendering: renderIdLink
-            },
-            {
-              name: 'Last Transaction', cell: function(row){ return row.Transaction.Hash},rendering: renderTX,
-            },
-            {
-              name: 'Amount',  cell: function(row){ return row.amount},
-            },
+<script>
+    class AddressHoldingNFT extends BootstrapCardComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.BalanceUpdates
+                },
+                chainId: function (response) {
+                    return response.EVM.BalanceUpdates[0]?.ChainId
+                },
+                image: [
+                    {
+                        cell: function (row) {
+                            return row.BalanceUpdate.URI
+                        }, rendering: renderImgFromURI,
+                    }
+                ],
+                columns: [
+                    {
+                        name: 'NFT', cell: function (row) {
+                            return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}
+                        }, rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'ID', cell: function (row) {
+                            return {id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}
+                        }, rendering: renderIdLink
+                    },
+                    {
+                        name: 'Last Transaction', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.amount
+                        },
+                    },
 
-          ]
+                ]
+            }
         }
     }
-  }
-  class OutcomingNFTTransfersByAddress extends BootstrapTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.Transfers},
-        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
-        columns: [
-          {
-            name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-          },
-          {
-            name: 'ID', cell: function(row){ return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}}, rendering: renderIdLink
-          },
-          {
-            name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink,
-          },
-          {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
-          },
-          {
-            name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
-          },
-          {
-            name: 'TX', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
-          },
-        ]
-      }
-    }
-  }
-  class IncomingNFTTransfersByAddress extends BootstrapTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.Transfers},
-        chainId: function (response){ return response.EVM.Transfers[0]?.ChainId},
-        columns: [
-          {
-            name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-          },
-          {
-            name: 'ID', cell: function(row){ return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}}, rendering: renderIdLink
-          },
-          {
-            name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink,
-          },
-          {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
-          },
-          {
-            name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
-          },
-          {
-            name: 'TX', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
-          },
-        ]
-      }
-    }
-  }
-  class TradesNFTTokenAddressSeller extends BootstrapTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.DEXTrades},
-        chainId: function (response){ return response.EVM.DEXTrades[0]?.ChainId},
-        columns: [
-          {
-            name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-          },
-          {
-            name: 'Prise', cell: function(row){ return parseFloat(row.Trade.Sell.Price).toFixed(3)},
-          },
-          {
-            name: 'Amount', cell: function(row){ return parseFloat(row.Trade.Sell.Amount).toFixed(3) },
-          },
 
-          {
-            name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
-          },
-          {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon,
-          },
-          {
-            name: 'Buyer', cell: function(row){ return row.Trade.Sell.Buyer}, rendering: renderAddressLink,
-          },
-          {
-            name: 'TX', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-          },
-        ]
-      }
+    class OutcomingNFTTransfersByAddress extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transfers
+                },
+                chainId: function (response) {
+                    return response.EVM.Transfers[0]?.ChainId
+                },
+                columns: [
+                    {
+                        name: 'Time', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'ID', cell: function (row) {
+                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
+                        }, rendering: renderIdLink
+                    },
+                    {
+                        name: 'Sender', cell: function (row) {
+                            return row.Transfer.Sender
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon
+                    },
+                    {
+                        name: 'Receiver', cell: function (row) {
+                            return row.Transfer.Receiver
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'TX', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
+        }
     }
-  }
-  class TradesNFTTokenAddressBuyer extends BootstrapTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.DEXTrades},
-        chainId: function (response){ return response.EVM.DEXTrades[0]?.ChainId},
-        columns: [
-          {
-            name: 'Time', cell: function(row){ return row.Block.Time},  rendering: renderDate,
-          },
-          {
-            name: 'Prise', cell: function(row){ return parseFloat(row.Trade.Buy.Price).toFixed(3)},
-          },
-          {
-            name: 'Amount', cell: function(row){ return parseFloat(row.Trade.Buy.Amount).toFixed(3)}
-          },
-          {
-            name: 'Seller', cell: function(row){ return row.Trade.Buy.Seller}, rendering: renderAddressLink,
-          },
-          {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon,
-          },
-          {
-            name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer}, rendering: renderAddressLink,
-          },
-          {
-            name: 'TX', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-          },
-        ]
-      }
+
+    class IncomingNFTTransfersByAddress extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transfers
+                },
+                chainId: function (response) {
+                    return response.EVM.Transfers[0]?.ChainId
+                },
+                columns: [
+                    {
+                        name: 'Time', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'ID', cell: function (row) {
+                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
+                        }, rendering: renderIdLink
+                    },
+                    {
+                        name: 'Sender', cell: function (row) {
+                            return row.Transfer.Sender
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon
+                    },
+                    {
+                        name: 'Receiver', cell: function (row) {
+                            return row.Transfer.Receiver
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'TX', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
+        }
     }
-  }
 
-  const variables = {
-    network:'<%= @streaming%>',
-    offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
-      //      network:'eth',
-  // address: '0xcf523864704a502d36e8e24cd73a2aee6cda00e1',
+    class TradesNFTTokenAddressSeller extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0]?.ChainId
+                },
+                columns: [
+                    {
+                        name: 'Time', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Prise', cell: function (row) {
+                            return row.Trade.Sell.Price
+                        }, rendering: renderNumbers,
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Trade.Sell.Amount
+                        }, rendering: renderNumbers,
+                    },
+                    {
+                        name: 'Seller', cell: function (row) {
+                            return row.Trade.Sell.Seller
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon,
+                    },
+                    {
+                        name: 'Buyer', cell: function (row) {
+                            return row.Trade.Sell.Buyer
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'TX', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
+        }
+    }
 
-  }
+    class TradesNFTTokenAddressBuyer extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0]?.ChainId
+                },
+                columns: [
+                    {
+                        name: 'Time', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Prise', cell: function (row) {
+                            return row.Trade.Buy.Price
+                        }, rendering: renderNumbers,
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Trade.Buy.Amount
+                        }, rendering: renderNumbers,
+                    },
+                    {
+                        name: 'Seller', cell: function (row) {
+                            return row.Trade.Buy.Seller
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon,
+                    },
+                    {
+                        name: 'Buyer', cell: function (row) {
+                            return row.Trade.Buy.Buyer
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'TX', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
+        }
+    }
 
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(AddressHoldingNFT, "#Address-Holding-NFTs_1",'Address-Holding-NFTs_1_1_1_1',variables);
-    renderComponent(OutcomingNFTTransfersByAddress, "#Outcoming-NFT-Transfers-By-Address",'Outcoming-NFT-Transfers-By-Address_1_1_1',variables);
-    renderComponent(IncomingNFTTransfersByAddress, "#Incoming-NFT-Transfers-By-Address",'Incoming-NFT-Transfers-By-Address_1_1',variables);
-    renderComponent(TradesNFTTokenAddressSeller, "#Trades-of-NFT-Token-with-Address-as-Seller",'Trades-of-NFT-Token-with-Address-as-Seller_1_1_1',variables);
-    renderComponent(TradesNFTTokenAddressBuyer, "#Trades-of-NFT-Token-with-Address-as-Buyer",'Trades-of-NFT-Token-with-Address-as-Buyer_1_1_1',variables);
-  })
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address %>',
+    }
+
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(AddressHoldingNFT, '#AddressHoldingNFT', 'Address-Holding-NFTs_1_1_1_1', variables);
+        renderComponent(OutcomingNFTTransfersByAddress, '#OutcomingNFTTransfersByAddress', 'Outcoming-NFT-Transfers-By-Address_1_1_1', variables);
+        renderComponent(IncomingNFTTransfersByAddress, '#IncomingNFTTransfersByAddress', 'Incoming-NFT-Transfers-By-Address_1_1', variables);
+        renderComponent(TradesNFTTokenAddressSeller, '#TradesNFTTokenAddressSeller', 'Trades-of-NFT-Token-with-Address-as-Seller_1_1_1', variables);
+        renderComponent(TradesNFTTokenAddressBuyer, '#TradesNFTTokenAddressBuyer', 'Trades-of-NFT-Token-with-Address-as-Buyer_1_1_1', variables);
+    })
 </script>

@@ -1,14 +1,14 @@
-<div class="row mb-4">
-  <div class="col-12 col-lg-5">
-    <div class="card" id="LatestNFTTransfersTable"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-5'>
+    <div class='card' id='LatestNFTTransfersTable'></div>
   </div>
-  <div class="col-12 col-lg-7">
-    <div class="card" id="IdNFTTransfersTable"></div>
+  <div class='col-12 col-lg-7'>
+    <div class='card' id='IdNFTTransfersTable'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="IdNFTTransfersGraph" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='IdNFTTransfersGraph' class='card'></div>
   </div>
 </div>
 <script>
@@ -144,13 +144,14 @@
 
     const variables = {
         network: '<%= @streaming%>',
+        token: '<%= @token %>',
         offset: 0,
         id: '<%= @id %>',
-        token: '<%= @token %>',
+
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestNFTTransfersTable, "#LatestNFTTransfersTable", 'NFT-Token-Information-By-ID_1_1', variables);
-        renderComponent(IdNFTTransfersGraph, "#IdNFTTransfersGraph", 'NFT-Transfers-List-By-Id_1', variables);
-        renderComponent(IdNFTTransfersTable, "#IdNFTTransfersTable", 'NFT-Transfers-List-By-Id_1', variables);
+        renderComponent(LatestNFTTransfersTable, '#LatestNFTTransfersTable', 'NFT-Token-Information-By-ID_1_1', variables);
+        renderComponent(IdNFTTransfersGraph, '#IdNFTTransfersGraph', 'NFT-Transfers-List-By-Id_1', variables);
+        renderComponent(IdNFTTransfersTable, '#IdNFTTransfersTable', 'NFT-Transfers-List-By-Id_1', variables);
     })
 </script>

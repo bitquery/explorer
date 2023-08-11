@@ -1,19 +1,19 @@
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="ActiveMinersByTime"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='ActiveMinersByTime'></div>
   </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="BlockRewardsByDate"></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="Latest-Smart-Contract-Calls" class="card"></div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='BlockRewardsByDate'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="Miners" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='Latest-Smart-Contract-Calls' class='card'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='Miners' class='card'></div>
   </div>
 </div>
 <script>
@@ -131,8 +131,8 @@
     };
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(ActiveMinersByTime, "#ActiveMinersByTime", 'Active-Miners-By-Time', variables);
-        renderComponent(BlockRewardsByDate, "#BlockRewardsByDate", 'Block-Rewards-By-Date', variables);
-        renderComponent(Miners, "#Miners", 'Miners_1', variables);
+        renderComponent(ActiveMinersByTime, '#ActiveMinersByTime', 'Active-Miners-By-Time', variables);
+        renderComponent(BlockRewardsByDate, '#BlockRewardsByDate', 'Block-Rewards-By-Date', variables);
+        renderComponent(Miners, '#Miners', 'Miners_1', variables);
     })
 </script>

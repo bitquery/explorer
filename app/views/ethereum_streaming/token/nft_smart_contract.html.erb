@@ -1,24 +1,24 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="NFTTokenInformation" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='NFTTokenInformation' class='card'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="PopularTokenIDsNFT" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='PopularTokenIDsNFT' class='card'></div>
   </div>
 </div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-7">
-    <div class="card" id="TopNFTHolders"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-7'>
+    <div class='card' id='TopNFTHolders'></div>
   </div>
-  <div class="col-12 col-lg-5">
-    <div class="card" id="TopNFTHoldersPie"></div>
+  <div class='col-12 col-lg-5'>
+    <div class='card' id='TopNFTHoldersPie'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="SubscriptionLatestTradesNFTToken" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubscriptionLatestTradesNFTToken' class='card'></div>
   </div>
 </div>
 <script>
@@ -95,7 +95,7 @@
                         }, rendering: renderIdLink
                     },
                     {
-                        name: "Transfers Count", cell: function (row) {
+                        name: 'Transfers Count', cell: function (row) {
                             return row.count
                         },
                     },
@@ -244,21 +244,19 @@
     }
 
     const variables = {
-<!--        network: '<%= @streaming%>',-->
-<!--        token: '<%= @address %>',-->
-        network: 'eth',
-        token:'0x5cc5b05a8a13e3fbdb0bb9fccd98d38e50f90c38',
-        limit:10,
+        network: '<%= @streaming%>',
+        token: '<%= @address %>',
+        limit: 10,
         offset: 0,
         id: '<%= @id %>',
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
     }
-    renderComponent(NFTTokenInformation, "#NFTTokenInformation", 'NFT-token-information_1_1_1', variables);
+    renderComponent(NFTTokenInformation, '#NFTTokenInformation', 'NFT-token-information_1_1_1', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(PopularTokenIDsNFT, "#PopularTokenIDsNFT", 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_1', variables);
-        renderComponent(TopNFTHolders, "#TopNFTHolders", 'Top-NFT-Holders_1', variables);
-        renderComponent(TopNFTHoldersPie, "#TopNFTHoldersPie", 'Top-NFT-Holders_1', variables);
+        renderComponent(PopularTokenIDsNFT, '#PopularTokenIDsNFT', 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_1', variables);
+        renderComponent(TopNFTHolders, '#TopNFTHolders', 'Top-NFT-Holders_1', variables);
+        renderComponent(TopNFTHoldersPie, '#TopNFTHoldersPie', 'Top-NFT-Holders_1', variables);
     })
-    renderComponent(SubscriptionLatestTradesNFTToken, "#SubscriptionLatestTradesNFTToken", "Latest-Trades-of-NFT-Token_1_1_1_1_1_1", variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_1_1_1_1_1_1_1');
+    renderComponent(SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken', 'Latest-Trades-of-NFT-Token_1_1_1_1_1_1_1', variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_1_1_1_1_1_1_1_1');
 </script>

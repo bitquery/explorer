@@ -1,14 +1,14 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="LatestTransactions" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='LatestTransactions' class='card'></div>
   </div>
 </div>
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="TransactionsByDate"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='TransactionsByDate'></div>
   </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="GasSpentByDate"></div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='GasSpentByDate'></div>
   </div>
 </div>
 <script>
@@ -132,9 +132,9 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
     }
 
-    renderComponent(LatestTransactions, "#LatestTransactions", 'Latest-Transactions_1_1_1', variables);
+    renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_1_1_1', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TransactionsByDate, "#TransactionsByDate", 'Transactions-By-Date_1_1', variables);
-        renderComponent(GasSpentByDate, "#GasSpentByDate", 'Gas-Spent-By-Date_1_1_1', variables);
+        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_1_1', variables);
+        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_1_1_1', variables);
     })
 </script>

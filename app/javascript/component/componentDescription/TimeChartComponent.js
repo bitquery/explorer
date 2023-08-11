@@ -20,7 +20,7 @@ export default class TimeChartComponent {
 	async onHistoryData(data) {
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
-			if (Object.keys(dataArray).length === 0) {
+			if (!dataArray || Object.keys(dataArray).length === 0) {
 				this.container.textContent = 'No Data. Response is empty'
 				return;
 			}
