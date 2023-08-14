@@ -50,17 +50,17 @@
                     {
                         name: 'Gas used', cell: function (row) {
                             return row.Receipt.GasUsed
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Gas price', cell: function (row) {
                             return row.Fee.EffectiveGasPrice
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Sender fee', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

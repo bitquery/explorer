@@ -67,7 +67,7 @@
                     {
                         name: 'Gas Cost', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Timestamp', cell: function (row) {
@@ -83,7 +83,6 @@
         network: '<%= @streaming%>',
         method: '<%= @signature%>',
     }
-    console.log('variables', variables)
     renderComponent(MethodInformation, '#MethodInformation', 'Method-Information_1', variables);
     renderComponent(MethodTransactions, '#MethodTransactions', 'Method-Transactions_1_1', variables);
 </script>

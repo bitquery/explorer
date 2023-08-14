@@ -212,7 +212,7 @@
                     {
                         name: '', cell: function (row) {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Buyer', cell: function (row) {
@@ -222,7 +222,7 @@
                     {
                         name: 'Price', cell: function (row) {
                             return row.Trade.Buy.Price
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Dex', cell: function (row) {
@@ -248,7 +248,6 @@
         token: '<%= @address %>',
         limit: 10,
         offset: 0,
-        id: '<%= @id %>',
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
     }

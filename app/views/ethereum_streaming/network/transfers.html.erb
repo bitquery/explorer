@@ -27,7 +27,7 @@
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        },
+                        }, rendering: renderBlockLink,
                     },
                     {
                         name: 'Sender', cell: function (row) {
@@ -37,17 +37,17 @@
                     {
                         name: '', cell: function (row) {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
-                        name: 'Reciver', cell: function (row) {
+                        name: 'Receiver', cell: function (row) {
                             return row.Transfer.Sender
                         }, rendering: renderAddressLink,
                     },
                     {
                         name: 'Amount', cell: function (row) {
                             return row.Transfer.Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: function (row) {
@@ -85,7 +85,7 @@
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        },
+                        }, rendering: renderBlockLink,
                     },
                     {
                         name: 'Sender', cell: function (row) {
@@ -95,17 +95,17 @@
                     {
                         name: '', cell: function (row) {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
-                        name: 'Reciver', cell: function (row) {
+                        name: 'Receiver', cell: function (row) {
                             return row.Transfer.Sender
                         }, rendering: renderAddressLink,
                     },
                     {
                         name: 'Amount', cell: function (row) {
                             return row.Transfer.Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: function (row) {

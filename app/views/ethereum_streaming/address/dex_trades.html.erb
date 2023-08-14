@@ -173,7 +173,7 @@
                     {
                         name: 'Gas Cost', cell: function (row) {
                             return row.gas_cost
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Success?', cell: function (row) {
@@ -186,8 +186,8 @@
     }
 
     const variables = {
-<!--        network: '<%= @streaming%>',-->
-<!--        address: '<%= @address %>',-->
+        <!--        network: '<%= @streaming%>',-->
+        <!--        address: '<%= @address %>',-->
         network: 'eth',
         address: '0x1ed3286aa6d6611b60e1d9c99ccc2feb79c74463',
     }

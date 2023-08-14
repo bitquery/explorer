@@ -4,11 +4,11 @@ export default function renderAddressLink(data, variables, chainId) {
 	const link = document.createElement('a');
 	
 	if(data.smartContract ) {
-		link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/${variables.address}/${data.smartContract}/nft_address`;
+		link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/${variables.address}/${data.smartContract}`;
 		link.textContent = data.currency
 		link.setAttribute('title',data.currency)
 	} else {
-		link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}/nft_address`;
+		link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
 		link.textContent = data
 		link.setAttribute('title',data)
 

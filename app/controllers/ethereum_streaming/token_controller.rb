@@ -52,7 +52,7 @@ class EthereumStreaming::TokenController < EthereumStreaming::AddressController
     if !(sc = @info.try(:smart_contract))
       change_controller!  'ethereum_streaming/address'
     elsif !sc.try(:currency)
-    #  change_controller! 'ethereum_streaming/smart_contract'
+     change_controller! 'ethereum_streaming/smart_contract'
     end
   end
 

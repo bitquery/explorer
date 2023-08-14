@@ -75,7 +75,7 @@
                     {
                         name: 'Amount', cell: function (row) {
                             return row.Buy_Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Started', cell: function (row) {
@@ -85,7 +85,7 @@
                     {
                         name: 'Days traded', cell: function (row) {
                             return row.uniq
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -110,7 +110,7 @@
                     {
                         name: 'Sell amount', cell: function (row) {
                             return row.Sell_Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Sell currency', cell: function (row) {
@@ -123,12 +123,12 @@
                     {
                         name: '', cell: function (row) {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Buy amount', cell: function (row) {
                             return row.Buy_Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Buy currency', cell: function (row) {
@@ -146,12 +146,12 @@
                     {
                         name: 'Median Price', cell: function (row) {
                             return row.median_price
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Last Price', cell: function (row) {
                             return row.Trade.Buy.last_price
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

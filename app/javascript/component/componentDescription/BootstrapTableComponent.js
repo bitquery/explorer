@@ -33,19 +33,16 @@ export default class BootstrapTableComponent {
         this.tableElement.appendChild(thead)
         thead.appendChild(tr)
 
-        this.config.columns.forEach(({name, rendering}) => {
+        this.config.columns.forEach(({name, headerStyle}) => {
             const th = this.createElementWithClasses('th');
-            th.setAttribute('scope', 'row');
+            th.setAttribute('scope', 'col');
             th.textContent = name;
-
-            if (rendering === renderNumbers) {
-                th.style.textAlign = 'end';
+            if (headerStyle) {
+                for (let styleKey in headerStyle) {
+                    th.style[styleKey] = headerStyle[styleKey];
+                }
             }
-            if (rendering === renderSenderRecieverIcon) {
-                th.style.width = '50px'
-            }
-
-            tr.appendChild(th)
+            tr.appendChild(th);
         });
     }
 

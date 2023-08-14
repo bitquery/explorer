@@ -68,12 +68,12 @@
                     {
                         name: 'Amount', cell: function (row) {
                             return row.amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Max Transfer Amount', cell: function (row) {
                             return row.Transfer.max_amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: function (row) {
@@ -86,7 +86,7 @@
                     {
                         name: 'Uniq Receiver', cell: function (row) {
                             return row.receiver_count
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Last Date', cell: function (row) {
@@ -96,7 +96,7 @@
                     {
                         name: 'Transfer Count', cell: function (row) {
                             return row.count
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

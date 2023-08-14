@@ -26,9 +26,6 @@
   <div class='col-12 col-lg-6'>
     <div class='card' id='SMCalls'></div>
   </div>
-  <%# <div class='col-12 col-lg-6'>
-    <div class='card' id='OutboundTransferCountByDate' ></div>
-  </div> %>
 </div>
 <script>
     class TotalAddressStatistics extends BootstrapVerticalTableComponent {
@@ -38,7 +35,7 @@
                     return [...response.EVM.fee, ...response.EVM.receiver, ...response.EVM.sender, ...response.EVM.currencies_reciiver, ...response.EVM.currencies_sender]
                 },
                 chainId: function (response) {
-                    return response.EVM.receiver[0].ChainId
+                    return response.EVM.receiver[0]?.ChainId
                 },
                 columns: [
                     {
@@ -134,7 +131,7 @@
                     {
                         name: 'Balance Count', cell: function (row) {
                             return row.sum
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

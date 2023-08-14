@@ -98,7 +98,7 @@
                     {
                         name: '', cell: function () {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'}
                     },
                     {
                         name: 'Unique Receivers', cell: function (row) {
@@ -196,7 +196,7 @@
                     {
                         name: 'Paid Amount', cell: function (row) {
                             return row.sell_amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Currency', cell: function (row) {
@@ -209,14 +209,14 @@
                     {
                         name: 'Min Price', cell: function (row) {
                             return row.Trade.Buy.min_price
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Max Price', cell: function (row) {
                             return row.Trade.Buy.max_rice
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
-                ]
+                ],
             }
         }
     }
@@ -354,7 +354,7 @@
                     {
                         name: '', cell: function () {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Buyer', cell: function (row) {
@@ -377,12 +377,12 @@
                     {
                         name: 'Sell amount', cell: function (row) {
                             return row.Trade.Sell.Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Price', cell: function (row) {
                             return row.Trade.Buy.Price
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Dex', cell: function (row) {

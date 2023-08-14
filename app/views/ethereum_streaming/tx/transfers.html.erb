@@ -22,7 +22,7 @@
                     {
                         name: '', cell: function (row) {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Receiver', cell: function (row) {
@@ -32,7 +32,7 @@
                     {
                         name: 'Amount', cell: function (row) {
                             return row.sum
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: function (row) {

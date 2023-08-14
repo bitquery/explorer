@@ -3,34 +3,46 @@
     <div class='card' id='CallsSmartContracts'></div>
   </div>
 </div>
-<script >
-  class CallsSmartContracts extends BootstrapTableComponent {
-    configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Calls},
-            chainId: function (response){ return response.EVM.Calls[0].ChainId},
-            columns: [
+<script>
+    class CallsSmartContracts extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Calls
+                },
+                chainId: function (response) {
+                    return response.EVM.Calls[0].ChainId
+                },
+                columns: [
 
-                {
-                    name: 'Caller', cell: function(row){return row.Call.From}, rendering:renderAddressLink,
-                },
-                {
-                    name: 'Smart Contract', cell: function(row){return row.Call.To}, rendering:renderAddressLink,
-                },
-                {
-                    name: 'Method', cell: function(row) { return {method:row.Call.Signature.Name, hash:row.Call.Signature.SignatureHash} },rendering: renderMethodLink
-                },
-                {
-                    name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-                },
-            ]
+                    {
+                        name: 'Caller', cell: function (row) {
+                            return row.Call.From
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'Smart Contract', cell: function (row) {
+                            return row.Call.To
+                        }, rendering: renderAddressLink,
+                    },
+                    {
+                        name: 'Method', cell: function (row) {
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                        }, rendering: renderMethodLink
+                    },
+                    {
+                        name: 'Hash', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
         }
     }
-  }
 
-  const variables = {
-    network:'<%= @streaming%>',
-    height:'<%= @height%>',
-  }
-    renderComponent(CallsSmartContracts, '#CallsSmartContracts','Calls-smart-contracts_1_1',variables);
+    const variables = {
+        network: '<%= @streaming%>',
+        height: '<%= @height%>',
+    }
+    renderComponent(CallsSmartContracts, '#CallsSmartContracts', 'Calls-smart-contracts_1_1', variables);
 </script>

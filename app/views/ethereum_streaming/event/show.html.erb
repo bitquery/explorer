@@ -67,7 +67,7 @@
                     {
                         name: 'Gas Cost', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Timestamp', cell: function (row) {
@@ -80,10 +80,8 @@
     }
 
     const variables = {
-<!--        network: '<%= @streaming%>',-->
-<!--        method: '<%= @signature%>',-->
-         network:'eth',
-         method: '8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925',
+        network: '<%= @streaming%>',
+        method: '<%= @signature%>',
     }
     renderComponent(EventInformation, '#EventInformation', 'Event-Information_1', variables);
     renderComponent(EventTransactions, '#EventTransactions', 'Event-Transactions', variables);

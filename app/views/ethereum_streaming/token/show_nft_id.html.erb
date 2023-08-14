@@ -85,7 +85,7 @@
                     {
                         name: '', cell: function (row) {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Receiver', cell: function (row) {
@@ -100,7 +100,7 @@
                     {
                         name: 'Amount', cell: function (row) {
                             return row.Transfer.Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     }
                 ]
             }

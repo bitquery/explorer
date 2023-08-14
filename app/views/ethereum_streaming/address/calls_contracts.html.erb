@@ -55,7 +55,7 @@
                     {
                         name: 'Gas Cost', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transaction', cell: function (row) {
@@ -128,7 +128,7 @@
                     {
                         name: 'Gas Cost', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transaction', cell: function (row) {
@@ -163,17 +163,17 @@
                     {
                         name: 'Gas Cost/Call', cell: function (row) {
                             return row.sum
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Uniq Methods', cell: function (row) {
                             return row.uniq
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Calls Count', cell: function (row) {
                             return row.count
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -203,17 +203,17 @@
                     {
                         name: 'Gas Cost/Call', cell: function (row) {
                             return row.sum
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Uniq Methods', cell: function (row) {
                             return row.uniq
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Calls Count', cell: function (row) {
                             return row.count
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

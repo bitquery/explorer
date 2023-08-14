@@ -68,7 +68,7 @@
             name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink,
           },
           {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
           },
           {
             name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
@@ -96,7 +96,7 @@
             name: 'Sender', cell: function(row){ return row.Transfer.Sender},  rendering: renderAddressLink,
           },
           {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
           },
           {
             name: 'Receiver', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
@@ -128,7 +128,7 @@
             name: 'Seller', cell: function(row){ return row.Trade.Sell.Seller}, rendering: renderAddressLink,
           },
           {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon,
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
           },
           {
             name: 'Buyer', cell: function(row){ return row.Trade.Sell.Buyer}, rendering: renderAddressLink,
@@ -159,7 +159,7 @@
             name: 'Seller', cell: function(row){ return row.Trade.Buy.Seller}, rendering: renderAddressLink,
           },
           {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon,
+            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
           },
           {
             name: 'Buyer', cell: function(row){ return row.Trade.Buy.Buyer}, rendering: renderAddressLink,

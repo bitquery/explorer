@@ -27,7 +27,7 @@
                     {
                         name: 'Sell amount', cell: function (row) {
                             return row.Trade.Sell.Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Sell currency', cell: function (row) {
@@ -45,7 +45,7 @@
                     {
                         name: '', cell: function (row) {
                             return ''
-                        }, rendering: renderSenderRecieverIcon
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Buyer', cell: function (row) {
@@ -55,7 +55,7 @@
                     {
                         name: 'Buy amount', cell: function (row) {
                             return row.Trade.Buy.Amount
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Buy currency', cell: function (row) {

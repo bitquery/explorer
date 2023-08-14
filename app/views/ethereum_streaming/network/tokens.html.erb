@@ -45,27 +45,27 @@
                     {
                         name: 'Days token transferred', cell: function (row) {
                             return row.count_days
-                        }, rendering: renderNumbers,
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Uniq Senders', cell: function (row) {
                             return row.senders
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Uniq Receivers', cell: function (row) {
                             return row.receivers
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transferred Amount', cell: function (row) {
                             return row.sum_amount
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transfer Count', cell: function (row) {
                             return row.count
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -98,22 +98,22 @@
                     {
                         name: 'Transferred Amount', cell: function (row) {
                             return row.sum_amount
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Uniq Senders', cell: function (row) {
                             return row.senders
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Uniq Receivers', cell: function (row) {
                             return row.receivers
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transfer Count', cell: function (row) {
                             return row.count
-                        }, rendering: renderNumbers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
