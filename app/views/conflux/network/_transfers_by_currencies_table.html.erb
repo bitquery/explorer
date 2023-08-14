@@ -23,7 +23,7 @@
                       transfers(
                       options:{desc: "count"  asc: "currency.symbol" limit: $limit, offset: $offset},
                       amount: {gt: 0},
-                      date: {
+                      time: {
                         since: $from
                         till: $till}
 
@@ -98,9 +98,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+      <% from, till = date_range_from_now(24, :hours) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
 
     });
 </script>

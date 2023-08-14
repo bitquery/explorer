@@ -22,7 +22,7 @@
                     binance {
                       transfers(
                       options:{desc: "count" asc: "currency.symbol" limit: $limit, offset: $offset},
-                      date: {
+                      time: {
                         since: $from
                         till: $till}
                         transferType:{notIn: [DEX_FEE,TX_FEE,BLOCK_REWARD,TRADE_BUY,TRADE_SELL]}
@@ -92,7 +92,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>);
+      <% from, till = date_range_from_now(24, :hours) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
 
 
     });

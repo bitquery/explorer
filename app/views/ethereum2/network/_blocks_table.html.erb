@@ -22,7 +22,7 @@
                                 $till: ISO8601DateTime){
                     ethereum2(network: $network){
                       blocks(options:{desc: "height", limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
+                        time: {since: $from till: $till }
                         ) {
                           timestamp {
                             time(format: "%Y-%m-%d %H:%M:%S")
@@ -70,9 +70,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+      <% from, till = date_range_from_now(30, :minutes) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
 
     });
 

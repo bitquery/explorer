@@ -22,7 +22,7 @@
                                 $till: ISO8601DateTime){
                     ethereum2(network: $network){
                       attesterSlashings(options:{desc: "block.height", limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
+                        time: {since: $from till: $till }
                         ) {
 
 
@@ -62,8 +62,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+      <% from, till = date_range_from_now(3, :days) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
+
     });
 </script>

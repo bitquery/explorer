@@ -22,7 +22,7 @@
                                 $till: ISO8601DateTime){
                     binance{
                       trades(options:{desc: "block.height" asc: "quoteCurrency.symbol" limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
+                        time: {since: $from till: $till }
                         ) {
 
                           block {
@@ -152,7 +152,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>);
+      <% from, till = date_range_from_now(30, :minutes) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
 
     });
 

@@ -15,7 +15,7 @@
         stellar(network: $network) {
           tradeEffects(
             options: {desc: "block", asc: "transaction.index", limit: $limit, offset: $offset}
-            date: {since: $from, till: $till}
+            time: {since: $from, till: $till}
           ) {
             timestamp {
               time(format: "%Y-%m-%d %H:%M:%S")
@@ -130,9 +130,11 @@
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
-      network: '<%= params['network']['network'] %>'
-    });
+      <% from, till = date_range_from_now(30, :minutes) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+          network: '<%= params['network']['network'] %>'
+      });
+
   });
 </script>
 

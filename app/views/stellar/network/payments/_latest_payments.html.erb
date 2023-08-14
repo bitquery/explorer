@@ -24,7 +24,7 @@
           stellar(network: $network){
             payments(
                 options:{desc: "timestamp.time", limit: $limit, offset: $offset},
-                date: {since: $from till: $till }
+                time: {since: $from till: $till }
               ) {
                 timestamp {
                   time
@@ -126,9 +126,11 @@
             ] 
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+      <% from, till = date_range_from_now(30, :minutes) %>
+      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
           network: '<%= params['network']['network'] %>'
-        });
+      });
+
     });
 
 </script>
