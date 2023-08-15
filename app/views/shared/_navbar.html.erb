@@ -1,12 +1,31 @@
 <header class="header border-bottom mb-2">
+    <div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
+        <div style="display: flex; justify-content: center;">
+            <ins
+                class="adsbyslise"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-slot="leaderboard"
+                data-ad-pub="pub-11"
+                id="ad-ins"
+            ></ins>
+        </div>
+        <script async src="https://v1.slise.xyz/scripts/embed.js"></script>
+        <script>
+            var adElement = document.getElementById('ad-ins');
+            if(window.innerWidth < 728) {
+                adElement.style.width = '270px';
+                adElement.setAttribute('data-ad-format', '270x90');
+            } else {
+                adElement.setAttribute('data-ad-format', '728x90');
+            }
+
+            ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
+            window.adsbyslisesync&&window.adsbyslisesync();
+        </script>
+    </div>
   <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
     <a href="/"><%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %>
     </a>
-
-    <!--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-<!--      <span class="navbar-toggler-icon"></span>-->
-<!--    </button>-->
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="navbar-nav navbar-nav-search">
       <%= render partial: 'shared/search' %>
