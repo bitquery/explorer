@@ -72,12 +72,12 @@
                     {
                         name: 'Miner', cell: function (row) {
                             return row.Block.Coinbase
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'TX', cell: function (row) {
                             return row.Block.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Transactions count', cell: function (row) {
@@ -92,8 +92,10 @@
     const variables = {
         network: '<%= @streaming%>',
         offset: 0,
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
 
-    renderComponent(LatestBlocks, '#latestBlocks', 'Latest-Blocks_1_1_1_1_1', variables)
-    renderComponent(SubLatestBlocks, '#Sub-latestBlocks', 'Latest-Blocks_1_1_1_1_1', variables, 'Subscription-Latest-Blocks_1')
+    renderComponent(LatestBlocks, '#latestBlocks', 'Latest-Blocks_1_1_1_1_1_1', variables)
+    renderComponent(SubLatestBlocks, '#Sub-latestBlocks', 'Latest-Blocks_1_1_1_1_1_1', variables, 'Subscription-Latest-Blocks_1')
 </script>

@@ -22,12 +22,12 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transaction.From
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink,  headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Gas Cost', cell: function (row) {

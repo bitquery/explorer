@@ -27,7 +27,7 @@
                     {
                         name: 'Method signature', cell: function (row) {
                             return row.Call.Signature.Signature
-                        },
+                        },  headerStyle: {width: '25%'},
                     },
                     {
                         name: 'Gas Cost/Call', cell: function (row) {
@@ -77,7 +77,7 @@
                     {
                         name: 'Address', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '44%'},
                     },
                     {
                         name: 'Argument', cell: function (row) {

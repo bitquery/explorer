@@ -122,6 +122,7 @@
                     },
                 ],
                 options: {
+                    title: 'External calls',
                     isStacked: true,
                     height: 395,
                 }
@@ -129,7 +130,7 @@
         }
     }
 
-    class DailySmartContractCallsInt extends PieChartComponent {
+    class DailySmartContractCallsInt extends TimeChartComponent {
         configuration() {
             return {
                 topElement: function (response) {
@@ -151,6 +152,7 @@
                     },
                 ],
                 options: {
+                    title: 'Internal calls',
                     isStacked: true,
                     height: 395,
                 }
@@ -164,7 +166,7 @@
         offset: 0,
     };
 
-    renderComponent(SmartContractStatistics, '#SmartContractStatistics', 'Smart-Contract-Statistics', variables);
+    renderComponent(SmartContractStatistics, '#SmartContractStatistics', 'Smart-Contract-Statistics_1', variables);
     renderComponent(SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies', 'Smart-Contract-balance-by-currencies_1', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(DailySmartContractCalls, '#DailySmartContractCalls', 'Daily-Smart-Contract-Calls', variables);

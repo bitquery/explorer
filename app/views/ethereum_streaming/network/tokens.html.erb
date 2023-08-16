@@ -30,7 +30,7 @@
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'First transfer date', cell: function (row) {
@@ -93,7 +93,7 @@
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Transferred Amount', cell: function (row) {
@@ -123,6 +123,8 @@
     const variables = {
         network: '<%= @streaming%>',
         offset: 0,
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {

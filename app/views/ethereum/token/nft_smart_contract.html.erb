@@ -131,8 +131,8 @@
                     },
                     {
                         name: 'Balance', cell: function (row) {
-                            return parseFloat(row.balance).toFixed(3)
-                        },
+                            return row.balance
+                        }, rendering: renderNumbers,
                     },
                     {
                         name: 'Unique Ids Owned Lifetime', cell: function (row) {

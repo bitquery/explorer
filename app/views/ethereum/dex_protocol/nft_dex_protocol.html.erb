@@ -60,8 +60,8 @@
                     },
                     {
                         name: 'Price', cell: function (row) {
-                            return parseFloat(row.Trade.Buy.Price).toFixed(3)
-                        },
+                            return row.Trade.Buy.Price
+                        }, rendering: renderNumbers,
                     },
                     {
                         name: 'Currency', cell: function (row) {

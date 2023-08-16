@@ -35,12 +35,12 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transaction.To
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
                     },
                     {
-                        name: 'Reciver', cell: function (row) {
+                        name: 'Receiver', cell: function (row) {
                             return row.Transaction.To
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Hash', cell: function (row) {
@@ -129,7 +129,7 @@
         network: '<%= @streaming%>',
         offset: 0,
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
 
     renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_1_1_1', variables);

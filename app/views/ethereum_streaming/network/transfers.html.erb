@@ -32,7 +32,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -42,7 +42,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -90,7 +90,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -100,7 +100,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -129,7 +129,7 @@
         network: '<%= @streaming%>',
         offset: 0,
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
     }
 
     renderComponent(LatestTransfers, '#LatestTransfers', 'Latest-Transfers_1_1', variables);

@@ -35,7 +35,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -45,7 +45,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Currency', cell: function (row) {
@@ -91,7 +91,6 @@
                     },
                 ],
                 options: {
-                    theme: 'material',
                     title: 'Transfer Count',
                 }
             }
@@ -120,8 +119,6 @@
                     },
                 ],
                 options: {
-                    isStacked: true,
-                    theme: 'material',
                     title: 'Transfer Amount',
                     colors: ['28A745'],
                 }
@@ -131,12 +128,12 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        token: '<%= @address %>',
+        token: '<%= @token%>',
         offset: 0,
     }
     renderComponent(LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork', 'Latest-Trades-of-NFT-Token-subscription_1_1', variables, 'Latest-Trades-of-NFT-Token-subscription_1');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TokenTransfers, '#TokenTransfers', 'Token-Transfers', variables);
-        renderComponent(TokenTransfersAmount, '#TokenTransfersAmount', 'Token-Transfers', variables);
+        renderComponent(TokenTransfers, '#TokenTransfers', 'Token-Transfers_1', variables);
+        renderComponent(TokenTransfersAmount, '#TokenTransfersAmount', 'Token-Transfers_1', variables);
     })
 </script>

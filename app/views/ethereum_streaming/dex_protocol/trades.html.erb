@@ -1,6 +1,6 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div id="TokenTrades" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='TokenTrades' class='card'></div>
   </div>
 </div>
 <script>
@@ -40,7 +40,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -50,7 +50,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
                     },
                     {
                         name: 'Buy amount', cell: function (row) {
@@ -88,6 +88,6 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TokenTrades, "#TokenTrades", 'Token-Trades_1_1_1_1_1_1_1_1', variables);
+        renderComponent(TokenTrades, '#TokenTrades', 'Token-Trades_1_1_1_1_1_1_1_1', variables);
     })
 </script>

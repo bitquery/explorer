@@ -13,36 +13,33 @@ class EthereumStreaming::AddressController < NetworkController
           limit: {count: 1}
         ) {
           Transfer {
-            Currency {
-              SmartContract
-              Symbol
-              Name
-              Decimals
-              ProtocolName
-            }
             Sender
+            Receiver
           }
-          ChainId
         }
-        smart_contract: Transfers(
+        token: Transfers(
           where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
           limit: {count: 1}
         ) {
           Transfer {
+            Sender
             Currency {
-              SmartContract
               Symbol
+              SmartContract
               Name
               Decimals
-              ProtocolName
             }
-            Sender
           }
-          ChainId
+        }
+        calls: Calls(where: {Call: {To: {is: $address}}}, limit: {count: 1}) {
+          Call {
+            Signature {
+              Signature
+            }
+          }
         }
       }
     }
-
   GRAPHQL
 
   private
@@ -52,19 +49,20 @@ class EthereumStreaming::AddressController < NetworkController
 
     if @address.starts_with?('0x')
       result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }).data.evm
-      if result.address.any?
-        @info = result.address.first.transfer.sender
-      elsif result.smart_contract.any?
-        @info = result.smart_contract.first.transfer.currency.smart_contract
+      if result.token.any?
+        @info = result.token.first.transfer
+      elsif result.calls.any?
+        @info = 'smart_contract'
       end
     end
   end
 
 
   def redirect_by_type
-    sc = @info.try(:currency)
-    if sc
-      change_controller! (sc.currency ? 'ethereum_streaming/token' : 'ethereum_streaming/smart_contract')
+    if @info.try(:currency)
+      change_controller! 'ethereum_streaming/token'
+      elsif @info == 'smart_contract'
+      change_controller! 'ethereum_streaming/smart_contract'
     end
   end
 

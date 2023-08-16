@@ -117,7 +117,7 @@
                     {
                         name: 'Address', cell: function (row) {
                             return row.Trade.Side.Currency.SmartContract
-                        }, rendering: renderJustAddressLink,
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
                     },
                     {
                         name: 'Count', cell: function (row) {
@@ -137,6 +137,6 @@
     }
     renderComponent(LatestTradesOfTokenInNetwork, '#Latest-Trades-of-Token-in-Network', 'Latest-Trades-of-Token-in-Network_1_1_1_1_1', variables, 'Latest-Trades-of-Token-in-Network-subscription');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TokenPairs, '#TokenPairs', 'Token-pairs_1_1_1', variables);
+        renderComponent(TokenPairs, '#TokenPairs', 'Token-pairs_1_1_1_1', variables);
     })
 </script>

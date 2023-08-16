@@ -34,7 +34,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
-                        }
+                        },
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -62,7 +62,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink,
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '25%'}
                     },
                     {
                         name: 'Amount', cell: function (row) {

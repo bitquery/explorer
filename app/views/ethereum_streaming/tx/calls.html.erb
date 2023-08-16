@@ -22,12 +22,12 @@
                     {
                         name: 'Method', cell: function (row) {
                             return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
-                        }, rendering: renderMethodLink
+                        }, rendering: renderMethodLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Caller', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Gas used', cell: function (row) {

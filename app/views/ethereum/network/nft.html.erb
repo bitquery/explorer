@@ -83,7 +83,7 @@
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Transfers', cell: function (row) {
@@ -98,7 +98,7 @@
                     {
                         name: '', cell: function () {
                             return ''
-                        }, rendering: renderSenderRecieverIcon,headerStyle: {width: '50px'}
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'}
                     },
                     {
                         name: 'Unique Receivers', cell: function (row) {
@@ -186,7 +186,7 @@
                                 currency: row.Trade.Buy.Currency.Symbol,
                                 smartContract: row.Trade.Buy.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Trades', cell: function (row) {
@@ -317,7 +317,7 @@
                 ],
                 options: {
                     title: 'Trades Count',
-                    height: 395
+                    height: 300,
                 }
             }
         }
@@ -349,7 +349,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
                     },
                     {
                         name: '', cell: function () {
@@ -359,7 +359,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
                     },
                     {
                         name: 'NFT', cell: function (row) {
@@ -377,12 +377,12 @@
                     {
                         name: 'Sell amount', cell: function (row) {
                             return row.Trade.Sell.Amount
-                        }, rendering: renderNumbers,headerStyle: {textAlign: 'end'}
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Price', cell: function (row) {
                             return row.Trade.Buy.Price
-                        }, rendering: renderNumbers,headerStyle: {textAlign: 'end'}
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Dex', cell: function (row) {
@@ -406,6 +406,8 @@
     const variables = {
         network: '<%= @streaming%>',
         offset: 0,
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(NFTTransfersByDate, '#NFTTransfersByDate', 'NFT-Token-Transfers-By-Date_1', variables);
@@ -417,5 +419,5 @@
         renderComponent(TopExchangesForNFTs, '#TopExchangesForNFTs', 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
         renderComponent(TopExchangesForNFTsPie, '#TopExchangesForNFTsPie', 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
     })
-    renderComponent(SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken', 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
+    renderComponent(SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken', 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1_1', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
 </script>
