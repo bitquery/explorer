@@ -1,0 +1,30 @@
+<% if innovation_in_blockchain? %>
+  <div class="row">
+    <div class="col-12 col-lg-12 mb-4">
+      <div class="card">
+<!--        <span class="live-header">Live</span>-->
+<!--        <span class="blinker"></span>-->
+        <div class="card-header">
+          <div class="row">
+            <div class="col-8">
+              <%=  params['action'] === 'transfers' ? 'Latest transfers' : 'Pair last trades'%>
+            </div>
+            <div class="col-4 text-success text-right">
+              <span class="d-none d-sm-inline">Live </span><div class="blink blnkr bg-success"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div id="pair-last-trades"><%= t('loading') %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" charset="utf-8">
+      createWidget('pair_dex_trades', 'pair-last-trades', {
+          baseCurrency: '<%=@token2 %>',
+          quoteCurrency: '<%=@token1 %>',
+          network: '<%= params['network']['network'] %>'
+      }, '<%= BITQUERY_IDE_API %>/querytransfer')
+  </script>
+<% end %>

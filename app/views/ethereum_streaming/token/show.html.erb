@@ -1,0 +1,79 @@
+<% if @native_token %>
+  if if if
+<% else %>
+  <div class="row mb-4">
+    <div class="col-12 col-lg-6">
+      <div class="card" id="TokenAttributes"></div>
+    </div>
+    <div class="col-12 col-lg-6">
+      <div class="card" id="AddressBalanceByCurrencies" ></div>
+    </div>
+  </div>
+  <script >
+    class TokenAttributes extends BootstrapVerticalTableComponent {
+      configuration() {
+        return  {
+        topElement: function (response){ return response.EVM.DEXTrades},
+        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+          columns: [
+            {
+              name: 'Symbol', cell: function(row){ return row.Trade.Buy.Currency.Symbol},
+            },
+            {
+              name: 'Name', cell: function(row){ return row.Trade.Buy.Currency.Name},
+            },
+            {
+              name: 'Number of Decimals', cell: function(row){ return row.Trade.Buy.Currency.Decimals},
+            },
+            {
+              name: 'Protocol name', cell: function(row){ return row.Trade.Buy.Currency.ProtocolName},
+            },
+          ]
+        }
+      }
+    }
+    class AddressBalanceByCurrencies extends BootstrapVerticalTableComponent {
+      configuration() {
+          return  {
+            topElement: function (response){ return response.EVM.DEXTrades},
+            chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
+              columns: [
+                {
+                  name: 'Transfer Count', cell: function(row){ return row.count},
+                },
+                {
+                  name: 'Uniq Senders', cell: function(row){ return row.sender_count},
+                },
+                {
+                  name: 'Uniq Receivers', cell: function(row){ return row.receiver_count},
+                },
+                {
+                  name: 'First transfer date', cell: function(row){ return row.Block.min_date},
+                },
+                {
+                  name: 'Last transfer date', cell: function(row){ return row.Block.max_date},
+                },
+                {
+                  name: 'Days token transfered', cell: function(row){ return row.days},
+                },
+
+              ],
+              options: {
+                  columnTitle1: 'Metric',
+                  columnTitle2: 'Value',
+              },
+          }
+      }
+    }
+     const variables = {
+      network:'<%= @streaming%>',
+      offset: 0,
+      address: '<%= @address %>',
+      token: '<%= @address %>',
+      id: '<%= @id %>',
+    }
+
+      renderComponent(TokenAttributes, "#TokenAttributes",'Token-attributes_1_1_1_1',variables);
+      renderComponent(AddressBalanceByCurrencies, "#AddressBalanceByCurrencies",'Token-transfer-statistics_1_1',variables);
+  </script>
+<% end  %>

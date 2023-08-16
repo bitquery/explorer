@@ -1,0 +1,6 @@
+<%= render partial: 'shared/tabs', locals: {
+   
+    tabs:  @streaming ?  
+        ['show','nft_address','transactions','inflow','outflow','calls_contracts', 'dex_trades'] :
+        ['show','transactions','inflow','outflow','calls_contracts', 'dex_trades'] 
+} %>

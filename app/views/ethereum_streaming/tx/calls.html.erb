@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="TransactionAttributes"></div>
+  </div>
+</div>
+<script >
+  class TransactionAttributes extends BootstrapTableComponent {
+    configuration() {
+      return  {
+        topElement: function (response){ return response.EVM.Calls},
+        chainId: function (response){ return response.EVM.Calls[0]?.ChainId},
+        columns: [
+          {
+            name: 'Call Depth', cell: function(row){ return row.Call.Depth},
+          },
+          {
+            name: 'Method', cell: function(row) { return {method:row.Call.Signature.Name, hash:row.Call.Signature.SignatureHash} },rendering: renderMethodLink
+          },
+          {
+            name: 'Caller', cell: function(row){return row.Call.From}, rendering:renderAddressLink,
+          },
+          {
+            name: 'Gas used', cell: function(row){return row.Call.GasUsed}, rendering:renderNumbers,
+          },
+          {
+            name: 'Success?', cell: function(row){ return row.Call?.Success},
+          },
+        ]
+      }
+    }
+  }
+  const variables = {
+    // network:'<%= @streaming%>',
+    // hash:' <%= @hash%>',
+    network:'eth',
+    hash: '0x9334957f03ab9942a882e27b685af0ade7a5a48a0852660b15b61f1b95cdce8c'
+  }
+    renderComponent(TransactionAttributes, "#TransactionAttributes",'Smart-Contract-Calls-in-Transaction_1',variables);
+</script>

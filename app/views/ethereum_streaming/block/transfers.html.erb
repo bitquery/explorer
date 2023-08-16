@@ -1,0 +1,39 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="Transfers"></div>
+  </div>
+</div>
+<script >
+  class Transfers extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Transfers},
+            chainId: function (response){ return response.EVM.Transfers[0].ChainId},
+            columns: [
+
+                {
+                    name: 'Sender', cell: function(row){return row.Transfer.Sender}, rendering:renderAddressLink,
+                },
+                {
+                    name: 'Receiver', cell: function(row){return row.Transfer.Receiver}, rendering:renderAddressLink,
+                },
+                {
+                    name: 'Amount', cell: function(row){return row.Transfer.Amount}, rendering:renderNumbers,
+                },
+                {
+                    name: 'Currency',  cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
+                },
+                {
+                    name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+                },
+            ]
+        }
+    }
+  }
+
+  const variables = {
+    network:'<%= @streaming%>',
+    height:'<%= @height%>',
+  }
+    renderComponent(Transfers, "#Transfers",'Transfers_1_1',variables);
+</script>

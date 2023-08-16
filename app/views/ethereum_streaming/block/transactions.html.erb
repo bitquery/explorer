@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card" id="Transactions"></div>
+  </div>
+</div>
+<script >
+  class Transactions extends BootstrapTableComponent {
+    configuration() {
+        return  {
+            topElement: function (response){ return response.EVM.Transactions},
+            chainId: function (response){ return response.EVM.Transactions[0].ChainId},
+            columns: [
+                {
+                    name: 'Index in Block', cell: function(row){ return row.Transaction.Index},
+                },
+                {
+                    name: 'Sender', cell: function(row){return row.Transaction.From}, rendering:renderAddressLink,
+                },
+                {
+                    name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
+                },
+                {
+                    name: 'Gas Cost',  cell: function(row){ return  row.Fee.SenderFee}, rendering: renderNumbers,
+                },
+            ]
+        }
+    }
+  }
+
+  const variables = {
+    network:'<%= @streaming%>',
+    height:'<%= @height%>',
+  //       network:'eth',
+  // height:'17809274'
+  }
+    renderComponent(Transactions, "#Transactions",'Transactions_1_1_1_1_1_1_1_1',variables);
+</script>

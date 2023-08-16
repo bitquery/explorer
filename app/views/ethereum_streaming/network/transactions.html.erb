@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div  id="Latest-Transactions" class="card"></div>
+  </div>
+</div>
+<div class="row mb-4">
+  <div class="col-12 col-lg-6">
+    <div class="card" id="Transactions-By-Date"></div>
+  </div>
+  <div class="col-12 col-lg-6">
+    <div class="card" id="GasSpentByDate"></div>
+  </div>
+</div>
+<script>
+  class LatestTransactions extends BootstrapTableComponent {
+      configuration() {
+        return  {
+          topElement: function (response){ return response.EVM.Transactions},
+          chainId: function (response){ return response.EVM.Transactions[0].ChainId},
+          columns: [
+            {
+              name: 'Timestamp', cell: function(row){ return row.Block.Time }, rendering: renderDate,
+            },
+            {
+              name: 'Block', cell: function(row){ return row.Block.Number}, rendering: renderBlockLink,
+            },
+            {
+              name: 'Sender', cell: function(row){ return row.Transaction.To}, rendering: renderAddressLink,
+            },
+            {
+              name: 'Reciver', cell: function(row){ return row.Transaction.To}, rendering: renderAddressLink,
+            },
+            {
+              name: 'Hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
+            },
+            {
+              name: 'Gas used', cell: function(row){ return row.Receipt.GasUsed},rendering: renderNumbers,
+            },
+            {
+              name: 'Gas price', cell: function(row){ return row.Fee.EffectiveGasPrice}, rendering: renderNumbers,
+            },
+            {
+              name: 'Sender fee', cell: function(row){ return row.Fee.SenderFee},rendering: renderNumbers,
+            },
+          ]
+        }
+      }
+  }
+    class TransactionsByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transactions },
+        chainId: function (response){ return response.EVM.Transactions[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Count', cell: function (row) { return parseInt(row.count) } }
+        ],
+        options: {
+            title: 'Transactions Count',
+            height: 300
+        }
+      }
+    }
+  }
+    class GasSpentByDate extends TimeChartComponent {
+    configuration() {
+      return {
+        topElement: function(response) { return response.EVM.Transactions },
+        chainId: function (response){ return response.EVM.Transactions[0].ChainId},
+        columns: [
+          {name: 'Date', cell: function (row) { return row.Block.Date } },
+          {name: 'Count', cell: function (row) { return +row.Block.GasUsed } }
+        ],
+        options: {
+            title: 'Gas spend',
+            height: 300
+        }
+      }
+    }
+  }
+
+  const variables = {
+    network:'<%= @streaming%>',
+    offset: 0,
+    address: '<%= @address %>',
+    token: '<%= @address %>',
+    id: '<%= @id %>',
+    till: new Date().toISOString().slice(0, 10),
+    from: new Date().toISOString().slice(0, 10),
+  }
+
+  renderComponent(LatestTransactions, "#Latest-Transactions",'Latest-Transactions_1_1_1',variables);
+
+  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
+    renderComponent(TransactionsByDate, "#Transactions-By-Date",'Transactions-By-Date_1_1',variables);
+    renderComponent(GasSpentByDate, "#GasSpentByDate",'Gas-Spent-By-Date',variables);
+  })
+</script>

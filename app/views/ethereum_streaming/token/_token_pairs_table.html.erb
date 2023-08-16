@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <% if @token_info && @token_info.name && @token_info.symbol %>
+          <%= @token_info.name %> / <%= @token_info.symbol %> Token pairs
+        <% else %>
+          Token pairs
+        <% end %>
+      </div>
+      <div class="card-body">
+        <div id="token-pairs"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    var query = new widgets.query(`query ($network: EthereumNetwork!,
+            $from: ISO8601DateTime,
+            $till: ISO8601DateTime,
+            $baseCurrency: String,
+            $limit: Int!,
+            $offset: Int!) {
+          ethereum(network: $network){
+            dexTrades(baseCurrency: {is: $baseCurrency},
+              date: {since: $from till: $till }
+              options: {desc: "count", limit: $limit, offset: $offset}) {
+              quoteCurrency {
+                symbol
+                name
+                address
+              }
+              count
+            }
+          }
+        }
+    `);
+
+    new widgets.table('#token-pairs', query, 'arbitrum.dexTrades', {
+      title: 'Token pairs',
+      dataOptions: [
+        {
+          title: 'Symbol',
+          type: 'string',
+          path: 'quoteCurrency.symbol',
+          renderCallback: function(item){
+            return '<%= @token_info.symbol %> / ' + item.quoteCurrency.symbol;
+          },
+          urlCallbackName: 'token_pair_path'
+        },
+        {
+          title: 'name',
+          type: 'string',
+          path: 'quoteCurrency.name',
+
+        },
+        {
+          title: 'address',
+          type: 'string',
+          path: 'quoteCurrency.address'
+        },
+        {
+          title: 'Count',
+          type: 'amount',
+          path: 'count',
+        }
+      ]
+    });
+
+    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+      network: '<%= params['network']['network'] %>',
+      baseCurrency: '<%= @token %>'
+    });
+
+  });
+</script>
