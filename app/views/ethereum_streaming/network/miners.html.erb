@@ -1,98 +1,138 @@
-<div class="row mb-4">
-  <div class="col-12 col-lg-6">
-    <div class="card" id="ActiveMinersByTime"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='ActiveMinersByTime'></div>
   </div>
-  <div class="col-12 col-lg-6">
-    <div class="card" id="BlockRewardsByDate" ></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div  id="Latest-Smart-Contract-Calls" class="card"></div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='BlockRewardsByDate'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div  id="Miners" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='Latest-Smart-Contract-Calls' class='card'></div>
   </div>
 </div>
-<script >
-  class ActiveMinersByTime extends TimeChartComponent {
-    configuration() {
-      return {
-        topElement: function(response) { return response.EVM.MinerRewards },
-        chainId: function (response){ return response.EVM.MinerRewards[0].ChainId},
-        columns: [
-          {name: 'Date', cell: function (row) { return row.Block.Date } },
-          {name: 'Uniq Mainers', cell: function (row) { return +row.mainers } }
-        ],
-        options: {
-            height: 300,
-            colors: ['FFC106'],
-        }
-      }
-    }
-  }
-  class BlockRewardsByDate extends TimeChartComponent {
-    configuration() {
-        return {
-            topElement: function(response) { return response.EVM.MinerRewards },
-            chainId: function (response){ return response.EVM.MinerRewards[0].ChainId},
-            columns: [
-                {name: 'Date', cell: function (row) { return row.Block.Date } },
-                {name: 'Rewards', cell: function (row) { return +row.reward } }
-            ],
-            options: {
-                height: 300,
-                colors: ['28A745'],
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='Miners' class='card'></div>
+  </div>
+</div>
+<script>
+    class ActiveMinersByTime extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.MinerRewards
+                },
+                chainId: function (response) {
+                    return response.EVM.MinerRewards[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: 'Uniq Mainers', cell: function (row) {
+                            return +row.mainers
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    colors: ['FFC106'],
+                }
             }
         }
     }
-  }
 
-  class Miners extends BootstrapTableComponent {
-    configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.MinerRewards},
-            chainId: function (response){ return response.EVM.MinerRewards[0].ChainId},
-            columns: [
-                {
-                name: 'Miner', cell: function(row){ return row.Block.Coinbase}, rendering: renderSmartContractLink,
+    class BlockRewardsByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.MinerRewards
                 },
-                {
-                name: 'Block Count', cell: function(row){ return row.count},
+                chainId: function (response) {
+                    return response.EVM.MinerRewards[0].ChainId
                 },
-                {
-                name: 'First block date', cell: function(row){return row.Block.min_date},
-                },
-                {
-                name: 'Last block date', cell: function(row){ return  row.Block.max_date},
-                },
-                {
-                name: 'Block Reward Total', cell: function(row){ return row.reward_Total}, rendering: renderNumbers,
-                },
-                {
-                name: 'Reward Burnt Fees', cell: function(row){ return row.reward_BurntFees}, rendering: renderNumbers,
-                },
-                {
-                name: 'Reward Tx Fees', cell: function(row){ return row.reward_TxFees}, rendering: renderNumbers,
-                },
-            ]
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: 'Rewards', cell: function (row) {
+                            return +row.reward
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    colors: ['28A745'],
+                }
+            }
         }
     }
-  }
 
+    class Miners extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.MinerRewards
+                },
+                chainId: function (response) {
+                    return response.EVM.MinerRewards[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Miner', cell: function (row) {
+                            return row.Block.Coinbase
+                        }, rendering: renderSmartContractLink, headerStyle: {width: '20%'}
+                    },
+                    {
+                        name: 'Block Count', cell: function (row) {
+                            return row.count
+                        },
+                    },
+                    {
+                        name: 'First block date', cell: function (row) {
+                            return row.Block.min_date
+                        },
+                    },
+                    {
+                        name: 'Last block date', cell: function (row) {
+                            return row.Block.max_date
+                        },
+                    },
+                    {
+                        name: 'Block Reward Total', cell: function (row) {
+                            return row.reward_Total
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Reward Burnt Fees', cell: function (row) {
+                            return row.reward_BurntFees
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Reward Tx Fees', cell: function (row) {
+                            return row.reward_TxFees
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
 
-  const variables = {
-    network:'<%= @streaming%>',
-    offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
-  }
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(ActiveMinersByTime, "#ActiveMinersByTime",'Active-Miners-By-Time',variables);
-    renderComponent(BlockRewardsByDate, "#BlockRewardsByDate",'Block-Rewards-By-Date',variables);
-    renderComponent(Miners, "#Miners",'Miners_1',variables);
-  })
+    const variables = {
+        network: '<%= @streaming%>',
+        offset: 0,
+    };
+
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(ActiveMinersByTime, '#ActiveMinersByTime', 'Active-Miners-By-Time', variables);
+        renderComponent(BlockRewardsByDate, '#BlockRewardsByDate', 'Block-Rewards-By-Date', variables);
+        renderComponent(Miners, '#Miners', 'Miners_1', variables);
+    })
 </script>

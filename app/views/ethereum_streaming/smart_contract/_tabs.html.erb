@@ -4,7 +4,7 @@
 <%= render partial: 'shared/tabs', locals: {
     tabs: 
         (@info.try(:smart_contract).try(:contract_type)=='DEX') ?
-            ['show','transactions','methods','events','dex_trades','dex_tokens','inflow','outflow','calls_contracts','graph'] :
-            ['show','transactions','methods','events','inflow','outflow','calls_contracts','graph']
+            ['show','transactions','methods','events','dex_trades','dex_tokens','inflow','outflow','calls_contracts'] :
+            ['show','transactions','methods','events','inflow','outflow','calls_contracts']
 
 } %>

@@ -86,7 +86,6 @@ Rails.application.routes.draw do
       get ":blockchain/token/:address", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/token/:address/id/:id", controller: "#{blockchain[:family]}/token", action: 'show_nft_id', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/token/:smart_contract/nft_smart_contract", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/token/:smart_contract/trading", controller: "#{blockchain[:family]}/token", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/tx/:hash/:action", controller: "#{blockchain[:family]}/tx", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }

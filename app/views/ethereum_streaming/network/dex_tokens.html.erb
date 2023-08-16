@@ -1,114 +1,174 @@
-<div class="row mb-4">
-  <div class="col-12 col-xl-6">
-    <div class="card" id="Traded-currencies-by-time"></div>
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='TradedCurrenciesByTime'></div>
   </div>
-  <div class="col-12 col-xl-6">
-    <div class="card" id="Trades-By-Pairs"></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div  id="Token-Trade-Pairs" class="card"></div>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='TradesByPairs'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div  id="Sub-Token-Trade-Pairs" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='Token-Trade-Pairs' class='card'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubTokenTradePairs' class='card'></div>
   </div>
 </div>
 <script>
-  class TradedCurrenciesByTime extends TimeChartComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.DEXTrades },
-        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-        columns: [
-          { name: 'Days', cell: function(row) { return row.Block.Date } },
-          { name: 'Currencies', cell: function(row) { return +row.uniq } },
-        ],
-        options: {
-          isStacked: true,
-          theme: 'Currencies',
-          height: 403
+    class TradedCurrenciesByTime extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Days', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: 'Currencies', cell: function (row) {
+                            return +row.uniq
+                        }
+                    },
+                ],
+                options: {
+                    isStacked: true,
+                    theme: 'Currencies',
+                    height: 403
+                }
+            }
         }
-      }
-  }
-  }
-  class TradesByPairs extends BootstrapTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.DEXTrades},
-        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-        columns: [
-          {
-            name: 'Pair', cell: function(row){ return {buyCurrencySymbol: row.Trade.Buy.Currency.Symbol, buyCurrencySC: row.Trade.Buy.Currency.SmartContract, sellCurrencySymbol: row.Trade.Sell.Currency.Symbol, sellCurrencySC: row.Trade.Sell.Currency.SmartContract, }}, rendering: renderPairLink,
-          },
-          {
-            name: 'Trades', cell: function(row){ return row.count},
-          },
-          {
-            name: 'Amount', cell: function(row){ return row.Buy_Amount},rendering: renderNumbers,
-          },
-          {
-            name: 'Started', cell: function(row){ return row.Block.Date},
-          },
-          {
-            name: 'Days traded', cell: function(row){ return row.uniq},rendering: renderNumbers,
-          },
-        ]
-      }
     }
-  }
 
-  class SubTokenTradePairs extends BootstrapTableComponent {
-    configuration() {
-      return  {
-        topElement: function (response){ return response.EVM.DEXTrades},
-        chainId: function (response){ return response.EVM.DEXTrades[0].ChainId},
-        columns: [
-          {
-              name: 'Timestamp', cell: function(row){ return row.Block.Time }, rendering: renderDate,
-          },
-          {
-            name: 'Sell amount', cell: function(row){ return  row.Sell_Amount},rendering: renderNumbers,
-          },
-          {
-            name: 'Sell currency', cell: function(row){ return {currency: row.Trade.Sell.Currency.Symbol, smartContract: row.Trade.Sell.Currency.SmartContract}}, rendering: renderTokenLink,
-          },
-          {
-            name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
-          },
-          {
-            name: 'Buy amount', cell: function(row){ return row.Buy_Amount},rendering: renderNumbers,
-          },
-          {
-            name: 'Buy currency', cell: function(row){ return {currency: row.Trade.Buy.Currency.Symbol, smartContract: row.Trade.Buy.Currency.SmartContract}}, rendering: renderTokenLink,
-          },
-          {
-            name: 'Trades', cell: function(row){ return row.count},
-          },
-          {
-            name: 'Median Price', cell: function(row){ return row.median_price},rendering: renderNumbers,
-          },
-          {
-            name: 'Last Price', cell: function(row){ return row.Trade.Buy.last_price},rendering: renderNumbers,
-          },
-        ]
-      }
+    class TradesByPairs extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Pair', cell: function (row) {
+                            return {
+                                buyCurrencySymbol: row.Trade.Buy.Currency.Symbol,
+                                buyCurrencySC: row.Trade.Buy.Currency.SmartContract,
+                                sellCurrencySymbol: row.Trade.Sell.Currency.Symbol,
+                                sellCurrencySC: row.Trade.Sell.Currency.SmartContract,
+                            }
+                        }, rendering: renderPairLink,
+                    },
+                    {
+                        name: 'Trades', cell: function (row) {
+                            return row.count
+                        },
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Buy_Amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Started', cell: function (row) {
+                            return row.Block.Date
+                        },
+                    },
+                    {
+                        name: 'Days traded', cell: function (row) {
+                            return row.uniq
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
     }
-  }
 
-   const variables = {
-    network:'<%= @streaming%>',
-    offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
-  }
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(TradedCurrenciesByTime, "#Traded-currencies-by-time",'Traded-currencies-by-time_1',variables);
-    renderComponent(TradesByPairs, '#Trades-By-Pairs','Trades-By-Pairs_1_1_1',variables);
+    class SubTokenTradePairs extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,headerStyle: {width: '15%'},
+                    },
+                    {
+                        name: 'Sell amount', cell: function (row) {
+                            return row.Sell_Amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Sell currency', cell: function (row) {
+                            return {
+                                currency: row.Trade.Sell.Currency.Symbol,
+                                smartContract: row.Trade.Sell.Currency.SmartContract
+                            }
+                        }, rendering: renderTokenLink,
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Buy amount', cell: function (row) {
+                            return row.Buy_Amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Buy currency', cell: function (row) {
+                            return {
+                                currency: row.Trade.Buy.Currency.Symbol,
+                                smartContract: row.Trade.Buy.Currency.SmartContract
+                            }
+                        }, rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'Trades', cell: function (row) {
+                            return row.count
+                        },
+                    },
+                    {
+                        name: 'Median Price', cell: function (row) {
+                            return row.median_price
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Last Price', cell: function (row) {
+                            return row.Trade.Buy.last_price
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
 
-  })
-    renderComponent(SubTokenTradePairs, "#Sub-Token-Trade-Pairs",'Token-Trade-Pairs_1_1_1_1_1_1_1',variables,'Subscription-Token-Trade-Pairs_1');
+    const variables = {
+        network: '<%= @streaming%>',
+        offset: 0,
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
+    };
+
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(TradedCurrenciesByTime, '#TradedCurrenciesByTime', 'Traded-currencies-by-time_1', variables);
+        renderComponent(TradesByPairs, '#TradesByPairs', 'Trades-By-Pairs_1_1_1', variables);
+    });
+
+    renderComponent(SubTokenTradePairs, '#SubTokenTradePairs', 'Token-Trade-Pairs_1_1_1_1_1_1_1_1_1', variables, 'Subscription-Token-Trade-Pairs_1');
 </script>

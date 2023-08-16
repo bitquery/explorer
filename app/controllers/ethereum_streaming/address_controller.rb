@@ -6,43 +6,65 @@ class EthereumStreaming::AddressController < NetworkController
   # QUERY = BitqueryStreamingGraphql.parse "Data-for-token"
 
   QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
-    query ($network: evm_network, $token: String!) {
+    query ($network: evm_network, $address: String!) {
       EVM(dataset: archive, network: $network) {
-        Transfers(
-          where: {Transfer: {Currency: {SmartContract: {is: $token}}}}
+        address: Transfers(
+          where: {Transfer: {Sender: {is: $address}}}
           limit: {count: 1}
         ) {
           Transfer {
+            Sender
+            Receiver
+          }
+        }
+        token: Transfers(
+          where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
+          limit: {count: 1}
+        ) {
+          Transfer {
+            Sender
             Currency {
-              SmartContract
               Symbol
+              SmartContract
               Name
               Decimals
-              ProtocolName
+            }
+          }
+        }
+        calls: Calls(where: {Call: {To: {is: $address}}}, limit: {count: 1}) {
+          Call {
+            Signature {
+              Signature
             }
           }
         }
       }
     }
   GRAPHQL
+
   private
 
   def query_graphql
     @address = params[:address]
 
-    query = QUERY
     if @address.starts_with?('0x')
-      result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:streaming], token: @address }).data.evm.transfers
-      @info = result.first.transfer.currency
-      all_t = (result.try(:tin) || []) + (result.try(:tout) || [])
-      @currencies = all_t.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
+      result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }).data.evm
+      if result.token.any?
+        @info = result.token.first.transfer
+      elsif result.calls.any?
+        @info = 'smart_contract'
+      end
     end
   end
 
+
   def redirect_by_type
-    if sc = @info.try(:smart_contract)
-      change_controller! (sc.currency ? 'ethereum_streaming/token' : 'ethereum_streaming/smart_contract')
+    if @info.try(:currency)
+      change_controller! 'ethereum_streaming/token'
+      elsif @info == 'smart_contract'
+      change_controller! 'ethereum_streaming/smart_contract'
     end
   end
+
 
 end

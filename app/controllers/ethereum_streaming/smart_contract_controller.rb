@@ -16,10 +16,10 @@ class EthereumStreaming::SmartContractController < EthereumStreaming::AddressCon
   private
 
   def redirect_by_type
-    if !(sc = @info.try(:smart_contract))
+    if !@info == 'smart_contract'
       change_controller! 'ethereum_streaming/address'
-    elsif sc.try(:currency)
-      change_controller! 'ethereum_streaming/token'
+    # elsif sc.try(:currency)
+    #   change_controller! 'ethereum_streaming/token'
     end
   end
 

@@ -20,6 +20,10 @@ export default class PieChartComponent {
 	async onHistoryData(data) {
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
+			if (!dataArray || Object.keys(dataArray).length === 0) {
+				this.container.textContent = 'No Data. Response is empty'
+				return;
+			}
 			let dataToVizualize = []
 			let annotation = []
 			for (let i=0; i < dataArray.length; i++) {

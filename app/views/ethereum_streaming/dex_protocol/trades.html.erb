@@ -1,1 +1,93 @@
-<%= render partial: 'ethereum_streaming/dex_protocol/trades_table' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='TokenTrades' class='card'></div>
+  </div>
+</div>
+<script>
+    class TokenTrades extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Time', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink
+                    },
+                    {
+                        name: 'Sell amount', cell: function (row) {
+                            return row.Trade.Sell.Amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Sell currency', cell: function (row) {
+                            return {
+                                currency: row.Trade.Sell.Currency.Symbol,
+                                smartContract: row.Trade.Sell.Currency.SmartContract
+                            }
+                        }, rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'Seller', cell: function (row) {
+                            return row.Trade.Buy.Seller
+                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Buyer', cell: function (row) {
+                            return row.Trade.Buy.Buyer
+                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
+                    },
+                    {
+                        name: 'Buy amount', cell: function (row) {
+                            return row.Trade.Buy.Amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Buy currency', cell: function (row) {
+                            return {
+                                currency: row.Trade.Buy.Currency.Symbol,
+                                smartContract: row.Trade.Buy.Currency.SmartContract
+                            }
+                        }, rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'Dex', cell: function (row) {
+                            return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}`
+                        }
+                    },
+                    {
+                        name: 'Transaction', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        limit: 10,
+        offset: 0,
+        protocol: '<%= @protocol %>'
+    }
+
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(TokenTrades, '#TokenTrades', 'Token-Trades_1_1_1_1_1_1_1_1', variables);
+    })
+</script>

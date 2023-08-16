@@ -1,1 +1,78 @@
-<%= render partial: 'ethereum_streaming/dex_protocol/dex_trades_by_time' %>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='TokenTrades'></div>
+  </div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='TradedCurrenciesByTime'></div>
+  </div>
+</div>
+
+
+<script>
+    class TokenTrades extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: 'Trades', cell: function (row) {
+                            return +row.count
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    colors: ['28A745'],
+                }
+            }
+        }
+    }
+
+    class TradedCurrenciesByTime extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.DEXTrades
+                },
+                chainId: function (response) {
+                    return response.EVM.DEXTrades[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: 'Currencies', cell: function (row) {
+                            return +row.count
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    colors: ['FFC106'],
+                }
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        protocol: '<%= @protocol %>',
+    };
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(TokenTrades, '#TokenTrades', 'Token-Trades_1_1_1_1_1_1', variables);
+        renderComponent(TradedCurrenciesByTime, '#TradedCurrenciesByTime', 'Traded-currencies-by-time_1_1', variables);
+    });
+</script>

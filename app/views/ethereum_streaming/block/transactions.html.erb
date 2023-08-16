@@ -1,37 +1,47 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div class="card" id="Transactions"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='Transactions'></div>
   </div>
 </div>
-<script >
-  class Transactions extends BootstrapTableComponent {
-    configuration() {
-        return  {
-            topElement: function (response){ return response.EVM.Transactions},
-            chainId: function (response){ return response.EVM.Transactions[0].ChainId},
-            columns: [
-                {
-                    name: 'Index in Block', cell: function(row){ return row.Transaction.Index},
+<script>
+    class Transactions extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transactions
                 },
-                {
-                    name: 'Sender', cell: function(row){return row.Transaction.From}, rendering:renderAddressLink,
+                chainId: function (response) {
+                    return response.EVM.Transactions[0].ChainId
                 },
-                {
-                    name: 'Hash', cell: function(row){ return row.Transaction.Hash},  rendering: renderTX,
-                },
-                {
-                    name: 'Gas Cost',  cell: function(row){ return  row.Fee.SenderFee}, rendering: renderNumbers,
-                },
-            ]
+                columns: [
+                    {
+                        name: 'Index in Block', cell: function (row) {
+                            return row.Transaction.Index
+                        },
+                    },
+                    {
+                        name: 'Sender', cell: function (row) {
+                            return row.Transaction.From
+                        }, rendering: renderAddressLink,  headerStyle: {width: '30%'},
+                    },
+                    {
+                        name: 'Hash', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX, headerStyle: {width: '30%'},
+                    },
+                    {
+                        name: 'Gas Cost', cell: function (row) {
+                            return row.Fee.SenderFee
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
         }
     }
-  }
 
-  const variables = {
-    network:'<%= @streaming%>',
-    height:'<%= @height%>',
-  //       network:'eth',
-  // height:'17809274'
-  }
-    renderComponent(Transactions, "#Transactions",'Transactions_1_1_1_1_1_1_1_1',variables);
+    const variables = {
+        network: '<%= @streaming%>',
+        height: '<%= @height%>',
+    }
+    renderComponent(Transactions, '#Transactions', 'Transactions_1_1_1_1_1_1_1_1_1', variables);
 </script>

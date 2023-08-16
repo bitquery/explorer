@@ -1,97 +1,137 @@
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div  id="Latest-Transfers" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='LatestTransfers' class='card'></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-12 col-lg-12 mb-4">
-    <div  id="Sub-Latest-Transfers" class="card"></div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubLatestTransfers' class='card'></div>
   </div>
 </div>
 <script>
-  class LatestTransfers extends BootstrapTableComponent {
-      configuration() {
-        return  {
-          topElement: function (response){ return response.EVM.Transfers},
-          chainId: function (response){ return response.EVM.Transfers[0].ChainId},
-          columns: [
-            {
-                name: 'Timestamp', cell: function(row){ return row.Block.Time }, rendering: renderDate,
-            },
-            {
-                name: 'Block', cell: function(row){ return row.Block.Number},
-            },
-            {
-                name: 'Sender', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
-            },
-            {
-                name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
-            },
-            {
-                name: 'Reciver', cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink,
-            },
-            {
-                name: 'Amount', cell: function(row){ return row.Transfer.Amount}, rendering: renderNumbers,
-            },
-            {
-                name: 'Currency', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
-            },
-            {
-                name: 'Hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
-            },
-          ]
+    class LatestTransfers extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transfers
+                },
+                chainId: function (response) {
+                    return response.EVM.Transfers[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Sender', cell: function (row) {
+                            return row.Transfer.Receiver
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Receiver', cell: function (row) {
+                            return row.Transfer.Sender
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Transfer.Amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Currency', cell: function (row) {
+                            return {
+                                currency: row.Transfer.Currency.Symbol,
+                                smartContract: row.Transfer.Currency.SmartContract
+                            }
+                        }, rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'Hash', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
         }
-      }
-  }
-  class SubLatestTransfers extends BootstrapTableComponent {
-      configuration() {
-        return  {
-          topElement: function (response){ return response.EVM.Transfers},
-          chainId: function (response){ return response.EVM.Transfers[0].ChainId},
-          columns: [
-            {
-                name: 'Timestamp', cell: function(row){ return row.Block.Time }, rendering: renderDate,
-            },
-            {
-                name: 'Block', cell: function(row){ return row.Block.Number},
-            },
-            {
-                name: 'Sender', cell: function(row){ return row.Transfer.Receiver}, rendering: renderAddressLink,
-            },
-            {
-                name: '', cell: function(row) { return '' }, rendering: renderSenderRecieverIcon
-            },
-            {
-                name: 'Reciver', cell: function(row){ return row.Transfer.Sender}, rendering: renderAddressLink,
-            },
-            {
-                name: 'Amount', cell: function(row){ return row.Transfer.Amount}, rendering: renderNumbers,
-            },
-            {
-                name: 'Currency', cell: function(row){ return {currency: row.Transfer.Currency.Symbol, smartContract: row.Transfer.Currency.SmartContract}}, rendering: renderTokenLink,
-            },
-            {
-                name: 'Hash', cell: function(row){ return row.Transaction.Hash}, rendering: renderTX,
-            },
-          ]
+    }
+
+    class SubLatestTransfers extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Transfers
+                },
+                chainId: function (response) {
+                    return response.EVM.Transfers[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Sender', cell: function (row) {
+                            return row.Transfer.Receiver
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                    },
+                    {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Receiver', cell: function (row) {
+                            return row.Transfer.Sender
+                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Transfer.Amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Currency', cell: function (row) {
+                            return {
+                                currency: row.Transfer.Currency.Symbol,
+                                smartContract: row.Transfer.Currency.SmartContract
+                            }
+                        }, rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'Hash', cell: function (row) {
+                            return row.Transaction.Hash
+                        }, rendering: renderTX,
+                    },
+                ]
+            }
         }
-      }
-  }
+    }
 
+    const variables = {
+        network: '<%= @streaming%>',
+        offset: 0,
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
+    }
 
-  const variables = {
-    network:'<%= @streaming%>',
-    offset: 0,
-    address: '<%= @address %>',
-    token: '<%= @address %>',
-    id: '<%= @id %>',
-    till: new Date().toISOString().slice(0, 10),
-    from: new Date().toISOString().slice(0, 10),
-  }
-
-  renderWithTime(variables,<%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables){
-    renderComponent(SubLatestTransfers, "#Latest-Transfers",'Latest-Transfers_1',variables )
-  })
-
-  renderComponent(LatestTransfers, "#Sub-Latest-Transfers",'Latest-Transfers_1',variables , 'Subscription-Latest-Transfers');
+    renderComponent(LatestTransfers, '#LatestTransfers', 'Latest-Transfers_1_1', variables);
+    renderComponent(SubLatestTransfers, '#SubLatestTransfers', 'Latest-Transfers_1_1', variables, 'Subscription-Latest-Transfers_1')
 </script>
