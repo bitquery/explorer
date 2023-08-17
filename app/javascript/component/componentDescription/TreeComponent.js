@@ -21,27 +21,27 @@ export default class TreeComponent {
 		const allData = this.config.topElement(data);
 		this.chainId = this.config.chainId(data);
 
-		var tree = new TreeView(
-			[
-				{ name: 'Item 1', children: [] },
-				{
-					name: 'Item 2',
-					expanded: true,
-					children: [
-						{ name: 'Sub Item 1', children: [] },
-						{ name: 'Sub Item 2', children: [] },
-					],
-				},
-			],
-			this.container
-		);
-		tree.on('select', function (e) {
-			console.log(JSON.stringify(e));
-		});
-
-		allData.Calls.forEach(e => {
-
-		})
+		// var tree = new TreeView(
+		// 	[
+		// 		{ name: 'Item 1', children: [] },
+		// 		{
+		// 			name: 'Item 2',
+		// 			expanded: true,
+		// 			children: [
+		// 				{ name: 'Sub Item 1', children: [] },
+		// 				{ name: 'Sub Item 2', children: [] },
+		// 			],
+		// 		},
+		// 	],
+		// 	this.container
+		// );
+		// tree.on('select', function (e) {
+		// 	console.log(JSON.stringify(e));
+		// });
+		//
+		// allData.Calls.forEach(e => {
+		//
+		// })
 
 	}
 }
