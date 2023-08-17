@@ -125,8 +125,8 @@ export const getAPIButton = (data, variables, queryID) => () => {
 	document.body.removeChild(form);
 }
 
-export const increaseLimitButton = (clearData, historyDataSource) => () => {
-	clearData()
+export const increaseLimitButton = (historyDataSource) => () => {
+	// clearData()
 	historyDataSource.increaseLimit()
 }
 
@@ -174,6 +174,10 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		button.textContent = title;
 		return button
 	}
+	const setupShowMoreButton = (tableFooter, showMoreButton) => () => {
+		tableFooter.style.justifyContent = 'space-between';
+		tableFooter.insertBefore(showMoreButton, tableFooter.firstChild)
+	}
 	const componentContainer = document.querySelector(selector);
 	const widgetHeader = document.createElement('div');
 	const row = document.createElement('div');
@@ -184,16 +188,14 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	const getStreamingAPIButton = createButton('Get Streaming API', subscriptionQueryID)
 	const getHistoryAPIButton = createButton('Get History API', historyQueryID)
 	const showMoreButton = document.createElement('a');
+	showMoreButton.classList.add('more-link', 'badge');
+	showMoreButton.textContent = 'Show more...';
+	showMoreButton.style.cursor = 'pointer';
 	const loader = document.createElement('div');
 	const blinkerWrapper = document.createElement('div');
 	loader.classList.add('lds-dual-ring');
-	showMoreButton.classList.add('more-link', 'badge');
-	showMoreButton.textContent = 'Show more...';
-	showMoreButton.style.display = 'none';
-	showMoreButton.style.cursor = 'pointer';
 	tableFooter.style.display = 'flex';
 	tableFooter.style.justifyContent = 'end';
-	tableFooter.appendChild(showMoreButton);
 	tableFooter.appendChild(getHistoryAPIButton);
 	tableFooter.appendChild(getStreamingAPIButton);
 	widgetHeader.classList.add('card-header');
@@ -208,6 +210,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	cardBody.appendChild(tableFooter);
 	widgetHeader.appendChild(row);
 	row.appendChild(col8);
+	const f = setupShowMoreButton(tableFooter, showMoreButton)
 	const onloadmetadata = queryMetaData => {
 		col8.textContent = queryMetaData?.name || 'No query presented';
 		if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
@@ -255,6 +258,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		getHistoryAPIButton,
 		getStreamingAPIButton,
 		showMoreButton,
+		setupShowMoreButton: f,
 		onloadmetadata,
 		onquerystarted,
 		onqueryend,

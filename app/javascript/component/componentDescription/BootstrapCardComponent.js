@@ -16,7 +16,7 @@ export default class BootstrapCardComponent {
 		return element;
 	}
 
-	async init() {
+	async init(widgetFrame) {
 		if (this.historyDataSource) {
 			this.historyDataSource.setCallback(this.onHistoryData.bind(this))
 			this.historyDataSource && await this.historyDataSource.changeVariables()
@@ -24,7 +24,9 @@ export default class BootstrapCardComponent {
 		if (this.subscriptionDataSource) {
 			this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
 			this.subscriptionDataSource.changeVariables()
-		}
+		} else {
+            widgetFrame.setupShowMoreButton()
+        }
 	}
 
 	async onHistoryData(data, variables) {

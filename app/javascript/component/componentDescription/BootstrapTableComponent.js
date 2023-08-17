@@ -57,7 +57,7 @@ export default class BootstrapTableComponent {
         this.tableElement.appendChild(tfooter)
     }
 
-    async init() {
+    async init(widgetFrame) {
         if (this.historyDataSource) {
             this.historyDataSource.setCallback(this.onHistoryData.bind(this))
             this.historyDataSource && await this.historyDataSource.changeVariables()
@@ -65,6 +65,8 @@ export default class BootstrapTableComponent {
         if (this.subscriptionDataSource) {
             this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
             this.subscriptionDataSource.changeVariables()
+        } else {
+            widgetFrame.setupShowMoreButton()
         }
     }
 
