@@ -75,6 +75,9 @@ export default class BootstrapTableComponent {
             this.container.textContent = 'No Data. Response is empty'
             return;
         }
+        while(this.tbody.children.length) {
+            this.tbody.removeChild(this.tbody.firstChild)
+        }
         const rows = await this.composeRows(data, variables)
         this.appendChildren(this.tbody, rows);
     }

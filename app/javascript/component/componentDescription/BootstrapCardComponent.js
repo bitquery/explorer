@@ -36,6 +36,9 @@ export default class BootstrapCardComponent {
 			this.wrapper.textContent = 'No Data. Response is empty'
 			return;
 		}
+		while (this.wrapper.children.length) {
+			this.wrapper.removeChild(this.wrapper.firstChild)
+		}
 		this.chainId = this.config.chainId(data);
 		for (const row of array) {
 			const cardElement = await this.createCardElement(row, variables);
