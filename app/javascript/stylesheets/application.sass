@@ -10,19 +10,18 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts'
 @import "../../assets/stylesheets/application"
 
 
-
 .dropdown:has(.wallet-options)
   min-width: 320px
 
 .wallet-options
   width: 100%
 
-svg[visibility="hidden"] 
+svg[visibility="hidden"]
   position: absolute
   width: 0
   height: 0
 
-.address 
+.address
   background-color: #888
   padding: 5px
   border-radius: 10px
@@ -32,27 +31,29 @@ svg[visibility="hidden"]
   color: #efefef
   font-weight: bold
 
-#chains 
+#chains
   padding: 10px
   min-width: 300px
   cursor: pointer
 
-.add-connection 
+.add-connection
   margin: 0.25rem 1.5rem
 
-.wallet-icon 
+.wallet-icon
   width: 30px
   height: 30px
   margin-right: .5rem
 
-.modal-body-wallets use, .modal-body-wallets svg, .wallet-dropdown-menu .dropdown-item > * 
+.modal-body-wallets use, .modal-body-wallets svg, .wallet-dropdown-menu .dropdown-item > *
   pointer-events: none
 
 .modal-wallet-selection
   display: flex
   align-items: center
+
   &:disabled
     filter: grayscale(100%) blur(1px)
+
   &:hover:enabled
     background-color: #ccc
 
@@ -97,7 +98,7 @@ svg[visibility="hidden"]
 @keyframes blinker
   50%
     opacity: 0
-    
+
 #greenButton
   background-color: #1c87c9
   -webkit-border-radius: 60px
@@ -111,31 +112,31 @@ svg[visibility="hidden"]
   text-align: center
   text-decoration: none
 
-@keyframes glowing 
-  0% 
+@keyframes glowing
+  0%
     background-color: #2ba805
     box-shadow: 0 0 5px #2ba805
-  50% 
+  50%
     background-color: #49e819
     box-shadow: 0 0 20px #49e819
-  100% 
+  100%
     background-color: #2ba805
     box-shadow: 0 0 5px #2ba805
 
 #greenButton
   animation: glowing 1300ms infinite
 
-.underline-blue-font 
+.underline-blue-font
   text-decoration: underline
   color: blue
 
-.gold-border 
+.gold-border
   border: 3px solid gold
 
-.orange-background 
+.orange-background
   background-color: orange
 
-.orchid-background 
+.orchid-background
   background-color: orchid
 
 
@@ -169,3 +170,46 @@ svg[visibility="hidden"]
 
   100%
     transform: rotate(360deg)
+
+.tree-leaf
+  position: relative
+
+.tree-leaf .tree-child-leaves
+  display: block
+  margin-left: 15px
+
+.tree-leaf .hidden
+  display: none
+
+.tree-leaf .tree-expando
+  background: #ddd
+  border-radius: 3px
+  cursor: pointer
+  float: left
+  height: 10px
+  line-height: 10px
+  position: relative
+  text-align: center
+  top: 5px
+  width: 10px
+
+.tree-leaf .hidden
+  visibility: hidden
+
+.tree-leaf .tree-expando:hover
+  background: #aaa
+
+.tree-leaf .tree-leaf-text
+  cursor: pointer
+  float: left
+  margin-left: 5px
+
+.tree-leaf .tree-leaf-text:hover
+  color: blue
+
+.tree-leaf .tree-leaf-content:before, .tree-leaf .tree-leaf-content:after
+  content: " "
+  display: table
+
+.tree-leaf .tree-leaf-content:after
+  clear: both
