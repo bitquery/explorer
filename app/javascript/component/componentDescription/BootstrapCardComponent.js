@@ -16,7 +16,7 @@ export default class BootstrapCardComponent {
 		return element;
 	}
 
-	async init() {
+	async init(widgetFrame) {
 		if (this.historyDataSource) {
 			this.historyDataSource.setCallback(this.onHistoryData.bind(this))
 			this.historyDataSource && await this.historyDataSource.changeVariables()
@@ -24,7 +24,9 @@ export default class BootstrapCardComponent {
 		if (this.subscriptionDataSource) {
 			this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
 			this.subscriptionDataSource.changeVariables()
-		}
+		} else {
+            widgetFrame && widgetFrame.setupShowMoreButton()
+        }
 	}
 
 	async onHistoryData(data, variables) {
@@ -33,6 +35,9 @@ export default class BootstrapCardComponent {
 			this.wrapper.style.marginLeft = '15px'
 			this.wrapper.textContent = 'No Data. Response is empty'
 			return;
+		}
+		while (this.wrapper.children.length) {
+			this.wrapper.removeChild(this.wrapper.firstChild)
 		}
 		this.chainId = this.config.chainId(data);
 		for (const row of array) {

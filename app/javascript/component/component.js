@@ -42,7 +42,7 @@ export default async function renderComponent(component, selector, historyQueryI
 
 	//create component instance and initialize
 	const componentObject = new component(compElement, historyDataSource, subscriptionDataSource);
-	componentObject.init()
+	componentObject.init(widgetFrame)
 
 	//compose code widget code for IDE
 	const data = getBaseClass(component, componentObject.config);
@@ -51,5 +51,5 @@ export default async function renderComponent(component, selector, historyQueryI
 	//setup buttons
 	widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
 	widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
-	// widgetFrame.showMoreButton.onclick = increaseLimitButton(componentObject.clearData(), historyDataSource)
+	widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
 }

@@ -57,7 +57,7 @@ export default class BootstrapTableComponent {
         this.tableElement.appendChild(tfooter)
     }
 
-    async init() {
+    async init(widgetFrame) {
         if (this.historyDataSource) {
             this.historyDataSource.setCallback(this.onHistoryData.bind(this))
             this.historyDataSource && await this.historyDataSource.changeVariables()
@@ -65,6 +65,8 @@ export default class BootstrapTableComponent {
         if (this.subscriptionDataSource) {
             this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
             this.subscriptionDataSource.changeVariables()
+        } else {
+            widgetFrame && widgetFrame.setupShowMoreButton()
         }
     }
 
@@ -72,6 +74,9 @@ export default class BootstrapTableComponent {
         if (!this.config.topElement(data) || Object.keys(this.config.topElement(data)).length === 0) {
             this.container.textContent = 'No Data. Response is empty'
             return;
+        }
+        while(this.tbody.children.length) {
+            this.tbody.removeChild(this.tbody.firstChild)
         }
         const rows = await this.composeRows(data, variables)
         this.appendChildren(this.tbody, rows);

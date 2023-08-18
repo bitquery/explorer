@@ -1,4 +1,3 @@
-
 <div class="row">
 
 <% for fgroup in grouped_families %>
@@ -21,26 +20,5 @@
       &nbsp;
     <% end  %>
   </div>
-
 <% end %>
-
-<% for group in DATASETS.group_by{|bc| bc[:family]} %>
-  <div class="col-lg-3 mb-4">
-  <div class="card">
-    <div class="card-header"><%= link_to t("pages.home.offchain", family: group.first.capitalize),
-                                         action: group.first.gsub(' ','').underscore %></div>
-    <div class="card-body">
-      <ul class="list-group list-group-flush">
-        <% for dataset in group.second %>
-          <li class="list-group-item">
-            <%= dataset_icon dataset %>&nbsp;
-            <%= link_to dataset[:name], "/#{dataset[:path]}", class: 'text-default' %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  </div>
-  </div>
-<% end %>
-
 </div>
