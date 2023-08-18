@@ -25,7 +25,7 @@ export default class BootstrapCardComponent {
 			this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
 			this.subscriptionDataSource.changeVariables()
 		} else {
-            widgetFrame.setupShowMoreButton()
+            widgetFrame && widgetFrame.setupShowMoreButton()
         }
 	}
 
