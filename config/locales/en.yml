@@ -1288,9 +1288,9 @@ en:
         keywords: "%{network} Payments"
       nft:
         name: "NFTs"
-        title: "%{network} NFTs"
-        description: "Non-Fungible Tokens on %{network}"
-        keywords: "%{network}, Non-Fungible Tokens, NFTs"
+        title: "NFT Data %{network} - Bitquery"
+        description: "Check NFT data analytics and API on %{network}, See Bored ape Yacht NFT, Milady and other NFT tokens data such as transfers, holders, trades on different NFT marketplace such as Opensea, BLUR"
+        keywords: "%{network}, NFT data, NFT data analytics, NFT data analysis, NFT transactions, NFT Transfers, NFT crypto, NFT Opensea, NFT marketplace, Monkey NFT, bored ape NFT, Gamestop NFT, Solana NFT Drops, most expensive nft, nft drop calendar, bored ape yacht club nft, trump nft cards, Non Fungible tokens"
       instructions:
         name: "Instructions"
         title: "%{network} Explorer | Bitquery"
