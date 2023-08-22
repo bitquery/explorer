@@ -22,6 +22,7 @@
                 chainId: function (response) {
                     return response.EVM.DEXTradeByTokens[0].ChainId
                 },
+                title: 'Latest Trades of Token in Network',
                 columns: [
                     {
                         name: 'Timestamp', cell: function (row) {
@@ -134,8 +135,10 @@
         token: '<%= @address %>',
         limit: 10,
         offset: 0,
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
     }
-    renderComponent(LatestTradesOfTokenInNetwork, '#Latest-Trades-of-Token-in-Network', 'Latest-Trades-of-Token-in-Network_1_1_1_1_1', variables, 'Latest-Trades-of-Token-in-Network-subscription');
+    renderComponent(LatestTradesOfTokenInNetwork, '#Latest-Trades-of-Token-in-Network', 'Latest-Trades-of-Token', variables, 'Latest-Trades-of-Token-in-Network-subscription');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(TokenPairs, '#TokenPairs', 'Token-pairs_1_1_1_1', variables);
     })

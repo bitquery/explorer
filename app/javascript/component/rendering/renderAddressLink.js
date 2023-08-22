@@ -4,13 +4,13 @@ export default function renderAddressLink(data, variables, chainId) {
 	const link = document.createElement('a');
 	
 	if(data.smartContract ) {
-		link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/${variables.address}/${data.smartContract}`;
-		// link.href = `/${WidgetConfig.getNetwork(chainId)}/${variables.address}/${data.smartContract}`;
+		// link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/${variables.address}/${data.smartContract}`;
+		link.href = `/${WidgetConfig.getNetwork(chainId)}/${variables.address}/${data.smartContract}`;
 		link.textContent = data.currency
 		link.setAttribute('title',data.currency)
 	} else {
-		link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
-		// link.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
+		// link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
+		link.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
 		link.textContent = data
 		link.setAttribute('title',data)
 

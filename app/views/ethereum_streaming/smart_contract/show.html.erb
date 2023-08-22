@@ -109,6 +109,7 @@
                 chainId: function (response) {
                     return response.EVM.Calls[0]?.ChainId
                 },
+                title: 'External calls',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -122,7 +123,6 @@
                     },
                 ],
                 options: {
-                    title: 'External calls',
                     isStacked: true,
                     height: 395,
                 }
@@ -139,6 +139,7 @@
                 chainId: function (response) {
                     return response.EVM.Calls[0]?.ChainId
                 },
+                title: 'Internal calls',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -152,7 +153,6 @@
                     },
                 ],
                 options: {
-                    title: 'Internal calls',
                     isStacked: true,
                     height: 395,
                 }

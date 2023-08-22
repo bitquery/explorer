@@ -78,6 +78,7 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0]?.ChainId
                 },
+                title: 'Transfer Count',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -90,9 +91,6 @@
                         }
                     },
                 ],
-                options: {
-                    title: 'Transfer Count',
-                }
             }
         }
     }
@@ -106,6 +104,7 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0]?.ChainId
                 },
+                title: 'Transfer Amount',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -119,7 +118,6 @@
                     },
                 ],
                 options: {
-                    title: 'Transfer Amount',
                     colors: ['28A745'],
                 }
             }
