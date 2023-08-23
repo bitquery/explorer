@@ -4,15 +4,15 @@
 </div>
 
 <div class="row">
-<%= render partial: "ethereum/address/outbound_native_by_time" %>
-<%= render partial: "ethereum/address/inbound_native_by_time" %>
+<%= render partial: "ethereum/address/outbound/outbound_native_by_time" %>
+<%= render partial: "ethereum/address/inbound/inbound_native_by_time" %>
 </div>
 
-<%= render partial: 'ethereum/address/transactions_by_time' %>
+<%= render partial: 'ethereum/address/transactions/transactions_by_time' %>
 
 <div class="row">
   <%= render partial: 'ethereum/address/in_out_transfers_by_time' %>
-  <%= render partial: 'ethereum/address/calls_by_time' %>
+  <%= render partial: 'ethereum/address/calls/calls_by_time' %>
 </div>
 
 <div class="row">

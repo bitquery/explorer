@@ -1,7 +1,7 @@
 <% unless @native_token %>
-<%= render partial: 'ethereum/token/receivers' %>
+<%= render partial: 'ethereum/token/transfers/receivers' %>
 <% end %>
 
 <div class="row">
-  <%= render partial: 'ethereum/token/receivers_by_time' %>
+  <%= render partial: 'ethereum/token/transfers/receivers_by_time' %>
 </div>
