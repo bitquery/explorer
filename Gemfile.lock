@@ -178,7 +178,8 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    prometheus-client-mmap (0.16.0)
+    prometheus-client-mmap (0.27.0)
+      rb_sys (~> 0.9)
     puma (4.3.10)
       nio4r (~> 2.0)
     racc (1.7.1)
@@ -218,6 +219,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rb_sys (0.9.81)
     regexp_parser (2.1.1)
     request_store (1.5.1)
       rack (>= 1.4)
