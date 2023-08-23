@@ -310,7 +310,7 @@ GEM
     yabeda-prometheus-mmap (0.3.0)
       prometheus-client-mmap
       yabeda (~> 0.10)
-    yabeda-puma-plugin (0.6.0)
+    yabeda-puma-plugin (0.7.1)
       json
       puma
       yabeda (~> 0.5)
