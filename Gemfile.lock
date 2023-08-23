@@ -275,7 +275,7 @@ GEM
       net-ssh (>= 2.8.0)
     sshkit-sudo (0.1.0)
       sshkit (~> 1.8)
-    thor (1.1.0)
+    thor (1.2.2)
     thread_safe (0.3.6)
     tilt (2.0.10)
     timeout (0.4.0)
