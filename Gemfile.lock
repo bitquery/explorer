@@ -297,7 +297,7 @@ GEM
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
-    yabeda (0.11.0)
+    yabeda (0.12.0)
       anyway_config (>= 1.0, < 3)
       concurrent-ruby
       dry-initializer
