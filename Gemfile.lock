@@ -277,7 +277,7 @@ GEM
       sshkit (~> 1.8)
     thor (1.2.2)
     thread_safe (0.3.6)
-    tilt (2.0.10)
+    tilt (2.2.0)
     timeout (0.4.0)
     tzinfo (1.2.9)
       thread_safe (~> 0.1)
