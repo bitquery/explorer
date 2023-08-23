@@ -120,9 +120,9 @@ GEM
     globalid (1.1.0)
       activesupport (>= 5.0)
     graphql (1.13.19)
-    graphql-client (0.17.0)
+    graphql-client (0.18.0)
       activesupport (>= 3.0)
-      graphql (~> 1.10)
+      graphql
     i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     jbuilder (2.11.3)
