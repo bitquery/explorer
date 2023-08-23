@@ -154,7 +154,7 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.5)
     mini_portile2 (2.6.1)
-    minitest (5.14.4)
+    minitest (5.19.0)
     msgpack (1.7.2)
     net-imap (0.3.7)
       date
