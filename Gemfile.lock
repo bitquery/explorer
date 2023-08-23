@@ -105,7 +105,7 @@ GEM
     dotenv-rails (2.8.1)
       dotenv (= 2.8.1)
       railties (>= 3.2)
-    dry-initializer (3.0.4)
+    dry-initializer (3.1.1)
     erubi (1.10.0)
     exception_notification (4.5.0)
       actionmailer (>= 5.2, < 8)
