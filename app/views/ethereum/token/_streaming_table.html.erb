@@ -16,6 +16,7 @@
                   chainId: function (response) {
                       return response.EVM.Transfers[0].ChainId
                   },
+                  title: 'Latest Transfers of Token in Network',
                   columns: [
                       {
                           name: 'Time', cell: function (row) {
@@ -25,7 +26,7 @@
                       {
                           name: 'Block', cell: function (row) {
                               return row.Block.Number
-                          }, rendering: renderBlockLink
+                          }, rendering: renderBlockLink, headerStyle: {width: '96px'},
                       },
                       {
                           name: 'Sender', cell: function (row) {
@@ -44,13 +45,16 @@
                       },
                       {
                           name: 'Currency', cell: function (row) {
-                              return row.Transfer.Currency.Symbol
-                          },
+                              return {
+                                  currency: row.Transfer.Currency.Symbol,
+                                  smartContract: row.Transfer.Currency.SmartContract
+                              }
+                          }, rendering: renderTokenLink,
                       },
                       {
                           name: 'Amount', cell: function (row) {
                               return row.Transfer.Amount
-                          }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                          }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '75px'},
                       },
                       {
                           name: 'Hash',
@@ -68,10 +72,8 @@
           network: '<%= @streaming%>',
           limit: 20,
           offset: 0,
-          address: '<%= @address %>',
           token: '<%= @address %>',
-          id: '<%= @id %>',
       }
-      renderComponent(LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork', 'Latest-Transfers-of-Token-in-Network_1_1_1', variables, 'Subscription-Latest-Transfers-of-Token-in-Network_1');
+      renderComponent(LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork', 'Latest-Transfers-of-Token', variables, 'Subscription-Latest-Transfers-of-Token-in-Network_1');
   </script>
 <% end %>
