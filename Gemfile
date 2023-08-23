@@ -62,7 +62,7 @@ gem 'tzinfo-data'
 
 # Use Capistrano for deployment
 group :development, :test do
-  gem 'capistrano', '3.11.1'
+  gem 'capistrano', '3.17.3'
   gem 'capistrano-bundler'
   gem 'capistrano-rails'
   # gem 'capistrano-rvm'
