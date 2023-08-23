@@ -301,7 +301,7 @@ GEM
       anyway_config (>= 1.0, < 3)
       concurrent-ruby
       dry-initializer
-    yabeda-graphql (0.2.2)
+    yabeda-graphql (0.2.3)
       graphql (>= 1.9, < 3)
       yabeda (~> 0.2)
     yabeda-http_requests (0.2.0)
