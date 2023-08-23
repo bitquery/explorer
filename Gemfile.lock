@@ -175,8 +175,9 @@ GEM
     oj (3.13.23)
     oj_mimic_json (1.0.1)
     parallel (1.23.0)
-    parser (3.0.2.0)
+    parser (3.2.2.3)
       ast (~> 2.4.1)
+      racc
     prometheus-client-mmap (0.16.0)
     puma (4.3.10)
       nio4r (~> 2.0)
