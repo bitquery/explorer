@@ -119,7 +119,7 @@ GEM
     ffi (1.15.5)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    graphql (1.12.19)
+    graphql (1.13.19)
     graphql-client (0.17.0)
       activesupport (>= 3.0)
       graphql (~> 1.10)
