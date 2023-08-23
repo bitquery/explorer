@@ -80,4 +80,4 @@ gem 'yabeda-prometheus-mmap'
 # Find all missing translations
 # gem 'i18n-tasks', '~> 1.0.12'
 
-gem 'sprockets', '~> 4.0.3'
+gem 'sprockets', '~> 4.2.0'
