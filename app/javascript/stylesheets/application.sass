@@ -202,7 +202,7 @@ svg[visibility="hidden"]
 .tree-leaf .tree-leaf-text
   cursor: pointer
   float: left
-  margin-left: 5px
+  margin-left: 15px
 
 .tree-leaf .tree-leaf-text:hover
   color: blue
@@ -213,3 +213,14 @@ svg[visibility="hidden"]
 
 .tree-leaf .tree-leaf-content:after
   clear: both
+
+.tree-leaf-text
+  margin-left: 15px
+
+.show-tree::before
+    content: "▶ "
+
+.hide-tree::before
+  content: "▼ "
+
+

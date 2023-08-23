@@ -18,7 +18,6 @@ export default class TreeComponent {
     }
 
     async onHistoryData(data) {
-        console.log(data)
         if (!this.config.topElement(data) || Object.keys(this.config.topElement(data)).length === 0) {
             this.container.textContent = 'No Data. Response is empty'
             return;
@@ -29,22 +28,22 @@ export default class TreeComponent {
         function buildTree(evmData) {
             let tree = [];
             let calls = evmData.Calls;
-            let logs = evmData.Events;
+            let events = evmData.Events;
             let lastNodes = {};
 
             calls.forEach(call => {
                 if (call && call.Call) {
-                    let nodeName = `Depth: ${call.Call.Depth}  CallerIndex: ${call.Call.CallerIndex}  Method: ${call.Call.Signature.Signature}        From:   ${call.Call.From} -> To:   ${call.Call.To}`;
-                    let logForCall = logs.filter(log => log.Log && log.Log.LogAfterCallIndex === call.Call.Index);
-                    let children = logForCall.map(log => {
+                    let nodeName = `Depth: ${call.Call.Depth} +++Index: ${call.Call.Index}  CallerIndex: ${call.Call.CallerIndex} ====EnterIndex: ${call.Call.EnterIndex}  ====ExitIndex: ${call.Call.ExitIndex}  Method: ${call.Call.Signature.Signature}        From:   ${call.Call.From} -> To:   ${call.Call.To}`;
+                    let EventForCall = events.filter(event => event.Log && event.Log.LogAfterCallIndex === call.Call.Index);
+                    let children = EventForCall.map(event => {
                         return {
-                            name: `LogAfterCallIndex: ${log.Log.LogAfterCallIndex}   Event:   ${log.Log.Signature.Signature}`,
+                            name: `+++Index: ${event.Log.Index} LogAfterCallIndex: ${event.Log.LogAfterCallIndex}   Event:   ${event.Log.Signature.Signature} ====EnterIndex: ${event.Log.EnterIndex}  ====ExitIndex: ${event.Log.ExitIndex}`,
                             children: []
                         };
                     });
                     let newNode = {
                         name: nodeName,
-                        children: children
+                        children: children || []
                     };
                     if (call.Call.Depth === 1) {
                         tree.push(newNode);
@@ -57,11 +56,51 @@ export default class TreeComponent {
                     lastNodes[call.Call.Depth] = newNode;
                 }
             });
+            console.log(tree)
             return tree;
         }
 
         const dataTree = buildTree(allData);
+        dataTree
         console.log(dataTree);
-        const tree = new TreeView(dataTree, this.container);
+
+        // const tree = new TreeView(dataTree, this.container);
+        function createTree(data) {
+            let ul = document.createElement('ul');
+            for (let item of data) {
+                let li = document.createElement('li');
+                li.textContent = item.name;
+                if (item.children && item.children.length) {
+                    li.append(createTree(item.children));
+                }
+                ul.append(li);
+            }
+            return ul;
+        }
+
+        let tree = createTree(dataTree);
+        this.container.append(tree);
+
+        for (let i of tree.querySelectorAll('li')) {
+            let span = document.createElement('span');
+            span.classList.add('show-tree');
+            i.prepend(span);
+            span.append(span.nextSibling);
+        }
+
+        tree.onclick = event => {
+            if (event.target.tagName != 'SPAN') return;
+            let childrenContainer = event.target.parentNode.querySelector('ul');
+            if (!childrenContainer) return;
+            childrenContainer.hidden = !childrenContainer.hidden;
+            if (childrenContainer.hidden) {
+                event.target.classList.add('hide-tree');
+                event.target.classList.remove('show-tree');
+            } else {
+                event.target.classList.add('show-tree');
+                event.target.classList.remove('hide-tree');
+            }
+        };
+
     }
 }
