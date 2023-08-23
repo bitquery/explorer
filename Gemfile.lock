@@ -153,7 +153,7 @@ GEM
     marcel (1.0.2)
     method_source (1.0.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.6.1)
+    mini_portile2 (2.8.4)
     minitest (5.19.0)
     msgpack (1.7.2)
     net-imap (0.3.7)
@@ -169,8 +169,8 @@ GEM
       net-protocol
     net-ssh (7.2.0)
     nio4r (2.5.9)
-    nokogiri (1.12.5)
-      mini_portile2 (~> 2.6.1)
+    nokogiri (1.15.4)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
     oj (3.13.23)
     oj_mimic_json (1.0.1)
@@ -180,7 +180,7 @@ GEM
     prometheus-client-mmap (0.16.0)
     puma (4.3.10)
       nio4r (~> 2.0)
-    racc (1.6.0)
+    racc (1.7.1)
     rack (2.2.7)
     rack-proxy (0.7.2)
       rack
