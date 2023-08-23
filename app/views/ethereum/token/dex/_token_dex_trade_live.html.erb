@@ -1,8 +1,8 @@
 <% if innovation_in_blockchain? %>
-  <div class="row">
-    <div class="col-12 col-lg-12 mb-4">
-      <div class="card">
-        <div id="LatestTradesOfTokenInNetwork"></div>
+  <div class='row'>
+    <div class='col-12 col-lg-12 mb-4'>
+      <div class='card'>
+        <div id='LatestTradesOfTokenInNetwork'></div>
       </div>
     </div>
   </div>
@@ -16,6 +16,7 @@
                   chainId: function (response) {
                       return response.EVM.DEXTradeByTokens[0].ChainId
                   },
+                  title: 'Latest Trades of Token in Network',
                   columns: [
                       {
                           name: 'Timestamp', cell: function (row) {
@@ -25,7 +26,7 @@
                       {
                           name: 'Block', cell: function (row) {
                               return row.Block.Number
-                          }, rendering: renderBlockLink
+                          }, rendering: renderBlockLink, headerStyle: {width: '96px'},
                       },
                       {
                           name: 'Seller', cell: function (row) {
@@ -35,7 +36,7 @@
                       {
                           name: 'Sell amount', cell: function (row) {
                               return row.Trade.Amount
-                          }, headerStyle: {textAlign: 'end'}, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                          }, headerStyle: {textAlign: 'end'}, rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
                       },
                       {
                           name: 'Sell currency', cell: function (row) {
@@ -68,7 +69,7 @@
                                   currency: row.Trade.Side.Currency.Symbol,
                                   smartContract: row.Trade.Side.Currency.SmartContract
                               }
-                          }, rendering: renderTokenLink,
+                          }, rendering: renderTokenLink, headerStyle: {width: '106px'},
                       },
                       {
                           name: 'Price',
@@ -92,8 +93,6 @@
           network: '<%= @streaming%>',
           token: '<%= @token %>',
       }
-      renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-          renderComponent(LatestTradesOfTokenInNetwork, "#LatestTradesOfTokenInNetwork", 'Latest-Trades-of-Token-in-Network', variables);
-      })
+      renderComponent(LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork', 'Latest-Trades-of-Token-in-Network_dextrades', variables, 'Subscription-latest-Trades-of-Token_dextrades');
   </script>
 <% end %>
