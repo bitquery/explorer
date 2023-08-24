@@ -76,7 +76,7 @@
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
                     urlCallbackName: 'transaction_path',
-                    renderCallback: <%= render partial: 'eos/tx_external_display.text' %>
+                    renderCallback: <%= render partial: 'eos/tx_external_display', formats: :text %>
                 },
             ]
         });

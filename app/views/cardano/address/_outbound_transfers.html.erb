@@ -85,7 +85,7 @@
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
                     style: 'width: 120px',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {amount: 'item.value_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {amount: 'item.value_usd'} %>
                 },
 
                 {

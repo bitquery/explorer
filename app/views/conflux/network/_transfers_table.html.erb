@@ -96,7 +96,7 @@
                     type: 'string',
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text %>
                 },
                 {
                     title: '<%= t('widgets.titles.hash') %>',

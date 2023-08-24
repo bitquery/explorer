@@ -72,7 +72,7 @@
                     type: 'string',
                     path: 'sellCurrency.symbol',
                     urlCallbackName: 'sell_token_path',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.sellCurrency.symbol', amount: 'item.sell_amount_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: 'item.sellCurrency.symbol', amount: 'item.sell_amount_usd'} %>
                 },
                 {
                     title: '',
@@ -91,7 +91,7 @@
                     type: 'string',
                     path: 'buyCurrency.symbol',
                     urlCallbackName: 'buy_token_path',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.buyCurrency.symbol', amount: 'item.buy_amount_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: 'item.buyCurrency.symbol', amount: 'item.buy_amount_usd'} %>
                 },
 
                 {

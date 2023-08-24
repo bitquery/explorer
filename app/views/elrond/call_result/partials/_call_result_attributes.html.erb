@@ -87,7 +87,7 @@
               address: item.receiver.address
             },
             {name: '<%= t('widgets.titles.index_in_transaction') %>', value: item.index},
-            {name: '<%= t('widgets.titles.value') %>', value: item.value + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {currency: 'item.amount'} %>},
+            {name: '<%= t('widgets.titles.value') %>', value: item.value + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {currency: 'item.amount'} %>},
             {name: '<%= t('widgets.titles.gas_limit') %>', value: item.gasLimit},
             {name: '<%= t('widgets.titles.gas_price') %>', value: item.gasPrice},
             {name: '<%= t('widgets.titles.nonce') %>', value: item.nonce},

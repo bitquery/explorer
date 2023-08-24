@@ -65,7 +65,7 @@
                     title: '',
                     data: '',
                     style: 'width: 100px',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', precision: 4} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', precision: 4} %>
                 },
                 {
                     title: '<%= t('widgets.titles.currency') %>',

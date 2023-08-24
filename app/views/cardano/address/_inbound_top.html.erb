@@ -77,7 +77,7 @@
                     type: 'string-ellipsis',
                     data: '<%= @network[:currency] %>',
                     style: 'width: 120px',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: "'#{@network[:currency]}'", amount: 'item.value_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: "'#{@network[:currency]}'", amount: 'item.value_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transfer_type') %>',

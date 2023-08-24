@@ -58,7 +58,7 @@
 
         new widgets.table('#calls_table', query, 'eos.smartContractCalls', {
             title: '<%= t('widgets.headers.calls_table') %>',
-            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            renderData: <%= render partial: 'shared/redirect_tx', formats: :text %>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',

@@ -57,7 +57,7 @@
 
         new widgets.table('#inbound_transfers', query, 'algorand.transfers', {
             title: '<%= t('widgets.headers.inbound_transfers') %>',
-            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            renderData: <%= render partial: 'shared/redirect_tx'  formats: :text,%>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',
@@ -92,7 +92,7 @@
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {precision: 4} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {precision: 4} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',

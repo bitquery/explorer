@@ -85,7 +85,7 @@
                     type: 'amount',
                     path: 'gas_value_usd',
                     style: 'width: 110px;',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd', precision: 8} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.gas_value_usd', precision: 8} %>
                 }
             ]
         });

@@ -154,7 +154,7 @@
             },
             {
               name: '<%= t('widgets.titles.fee') %>',
-              value: item.accountFees + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {currency: 'item.fee_usd'} %>
+              value: item.accountFees + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {currency: 'item.fee_usd'} %>
             },
             {
               name: '<%= t('widgets.titles.ext_in_and_ihr_in_fees') %>',

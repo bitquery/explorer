@@ -72,7 +72,7 @@
                 {
                     title: '',
                     data: '',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.reward_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.reward_usd'} %>
                 }
             ]
         });

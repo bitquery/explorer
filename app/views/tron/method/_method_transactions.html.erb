@@ -47,7 +47,7 @@
           title: '<%= t('widgets.titles.transaction') %>',
           type: 'string-ellipsis',
           urlCallbackName: 'transaction_path',
-          renderCallback: <%= render partial: 'tron/tx_external_display.text' %>
+          renderCallback: <%= render partial: 'tron/tx_external_display', formats: :text %>
         },
         {
           title: '<%= t('widgets.titles.method') %>',
@@ -70,7 +70,7 @@
           type: 'string',
           path: 'fee_usd',
           style: 'width: 90px;',
-          renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_usd', precision: 4} %>
+          renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.fee_usd', precision: 4} %>
         },
         {
           title: '<%= t('widgets.titles.timestamp') %>',
