@@ -46,7 +46,7 @@
                     viewWindow: { min: 0 }
                 }
             },
-            hAxis: <%= render partial: 'shared/date_axis.json' %>,
+            hAxis: <%= render partial: 'shared/date_axis', formats: :json %>,
             bar: {groupWidth: "95%"},
             isStacked: true
         },

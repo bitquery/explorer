@@ -67,7 +67,7 @@
                     style: 'width: 110px;'
                 },
                 {
-                    renderCallback: <%= render partial: 'ethereum_streaming/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum_streaming/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.gas_value_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.avg_gas_value') %>, <%= @network[:currency] %>',
@@ -76,7 +76,7 @@
                     style: 'width: 110px;'
                 },
                 {
-                    renderCallback: <%= render partial: 'ethereum_streaming/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.average_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum_streaming/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.average_usd'} %>
                 }
             ]
         });

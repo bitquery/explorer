@@ -54,7 +54,7 @@
 
         new widgets.table('#inbound_transfers', query, 'tron.transfers', {
             title: '<%= t('widgets.headers.inbound_transfers') %>',
-            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            renderData: <%= render partial: 'shared/redirect_tx', formats: :text %>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',
@@ -89,13 +89,13 @@
                     type: 'string-ellipsis',
                     path: 'currency.symbol',
                     urlCallbackName: 'token_path',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {amount: 'item.amount_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {amount: 'item.amount_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
                     urlCallbackName: 'transaction_path',
-                    renderCallback: <%= render partial: 'tron/tx_external_display.text' %>
+                    renderCallback: <%= render partial: 'tron/tx_external_display', formats: :text %>
                 },
             ]
         });

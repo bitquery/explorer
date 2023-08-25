@@ -80,7 +80,7 @@
                     title: '',
                     type: 'string',
                     path: 'sum_in_usd',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.sum_in_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_in_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.txs') %>',
@@ -98,7 +98,7 @@
                     title: '',
                     type: 'string',
                     path: 'sum_out_usd',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.sum_out_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_out_usd'} %>
                 },
                 {
                     title: '',
