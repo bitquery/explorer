@@ -33,19 +33,22 @@ export default class TreeComponent {
 
             calls.forEach(call => {
                 if (call && call.Call) {
-                    let nodeName = `Depth: ${call.Call.Depth} +++Index: ${call.Call.Index}  CallerIndex: ${call.Call.CallerIndex} ====EnterIndex: ${call.Call.EnterIndex}  ====ExitIndex: ${call.Call.ExitIndex}  Method: ${call.Call.Signature.Signature}        From:   ${call.Call.From} -> To:   ${call.Call.To}`;
+                    let nodeName = `Depth: ${call.Call.Depth} `;
+                    let nodeText = `+++Index: ${call.Call.Index}  CallerIndex: ${call.Call.CallerIndex} ====EnterIndex: ${call.Call.EnterIndex}  ====ExitIndex: ${call.Call.ExitIndex}  Method: ${call.Call.Signature.Signature}        From:   ${call.Call.From} -> To:   ${call.Call.To}`
                     let EventForCall = events.filter(event => event.Log && event.Log.LogAfterCallIndex === call.Call.Index);
                     let children = EventForCall.map(event => {
                         return {
-                            name: `+++Index: ${event.Log.Index} LogAfterCallIndex: ${event.Log.LogAfterCallIndex}   Event:   ${event.Log.Signature.Signature} ====EnterIndex: ${event.Log.EnterIndex}  ====ExitIndex: ${event.Log.ExitIndex}`,
+                            name: 'Event',
+                            text: `+++Index: ${event.Log.Index} LogAfterCallIndex: ${event.Log.LogAfterCallIndex}   Event:   ${event.Log.Signature.Signature} ====EnterIndex: ${event.Log.EnterIndex}  ====ExitIndex: ${event.Log.ExitIndex}`,
                             children: []
                         };
                     });
                     let newNode = {
                         name: nodeName,
+                        text: nodeText,
                         children: children || []
                     };
-                    if (call.Call.Depth === 1) {
+                    if (call.Call.Depth === 0) {
                         tree.push(newNode);
                     } else {
                         let parentDepth = call.Call.Depth - 1;
@@ -56,51 +59,52 @@ export default class TreeComponent {
                     lastNodes[call.Call.Depth] = newNode;
                 }
             });
-            console.log(tree)
             return tree;
         }
 
         const dataTree = buildTree(allData);
-        dataTree
         console.log(dataTree);
 
-        // const tree = new TreeView(dataTree, this.container);
-        function createTree(data) {
+        function createTree(data, isRoot = false) {
             let ul = document.createElement('ul');
+            ul.classList.add('ul-tree')
+            ul.classList.add('resetcss-tree')
+            if (isRoot) {
+                ul.id = 'tree';
+            }
+
             for (let item of data) {
                 let li = document.createElement('li');
-                li.textContent = item.name;
-                if (item.children && item.children.length) {
-                    li.append(createTree(item.children));
+                li.classList.add('li-tree')
+
+                let details = document.createElement('details');
+                let summary = document.createElement('summary');
+                summary.classList.add('summary-tree')
+                summary.textContent = item.name;
+
+                details.append(summary);
+
+                let contentDiv = document.createElement('span');
+                contentDiv.textContent = item.text;
+
+                details.append(contentDiv);
+                li.append(details);
+
+                if (item.children && item.children.length > 0) {
+                    let childUl = createTree(item.children);
+                    details.append(childUl);
+                // } else {
+                //     summary.classList.add('no-children');
                 }
+
                 ul.append(li);
             }
+
             return ul;
         }
 
-        let tree = createTree(dataTree);
+        let tree = createTree(dataTree, true);
         this.container.append(tree);
-
-        for (let i of tree.querySelectorAll('li')) {
-            let span = document.createElement('span');
-            span.classList.add('show-tree');
-            i.prepend(span);
-            span.append(span.nextSibling);
-        }
-
-        tree.onclick = event => {
-            if (event.target.tagName != 'SPAN') return;
-            let childrenContainer = event.target.parentNode.querySelector('ul');
-            if (!childrenContainer) return;
-            childrenContainer.hidden = !childrenContainer.hidden;
-            if (childrenContainer.hidden) {
-                event.target.classList.add('hide-tree');
-                event.target.classList.remove('show-tree');
-            } else {
-                event.target.classList.add('show-tree');
-                event.target.classList.remove('hide-tree');
-            }
-        };
 
     }
 }

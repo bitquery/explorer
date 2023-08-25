@@ -171,56 +171,72 @@ svg[visibility="hidden"]
   100%
     transform: rotate(360deg)
 
-.tree-leaf
+
+
+  //tree
+// Общие стили для дерева
+.ul-tree, .li-tree, #tree
   position: relative
-
-.tree-leaf .tree-child-leaves
-  display: block
-  margin-left: 15px
-
-.tree-leaf .hidden
+  list-style: none
+  line-height: 2em
+#tree > li-tree:after, #tree > .li-tree:before
   display: none
-
-.tree-leaf .tree-expando
-  background: #ddd
-  border-radius: 3px
+// Стили для summary
+.summary-tree
   cursor: pointer
-  float: left
-  height: 10px
-  line-height: 10px
-  position: relative
-  text-align: center
-  top: 5px
-  width: 10px
+  list-style: none
+  &:hover
+    color:  #007BFF
+  &.no-children
+    cursor: default
+    &:hover
+      color: inherit
+  &::marker, &::-webkit-details-marker
+    display: none
 
-.tree-leaf .hidden
-  visibility: hidden
+// Стили для вложенных элементов
+.ul-tree
+  .li-tree:last-child:after
+    display: none
+  .li-tree:before, .li-tree:after
+    position: absolute
+    left: -15px
+    border-left: 2px solid gray
+    content: ''
+    width: 8px
+  .li-tree:before
+    top: 0
+    border-bottom: 2px solid gray
+    height: 1.1em
+  .li-tree:after
+    bottom: 0
+    height: 100%
 
-.tree-leaf .tree-expando:hover
-  background: #aaa
+// Сброс стилей
+.resetcss-tree
+  list-style: none
 
-.tree-leaf .tree-leaf-text
-  cursor: pointer
-  float: left
-  margin-left: 15px
+//Стили дял иконки
+.ul-tree
+  .summary-tree:before
+    position: absolute
+    left: -1.35em
+    top: .48em
+    content: '+'
+    background: whitesmoke
+    font-weight: bold
+    border: 2px solid grey
+    display: block
+    width: 16px
+    height: 16px
+    z-index: 100500
+    text-align: center
+    line-height: .80em
 
-.tree-leaf .tree-leaf-text:hover
-  color: blue
+  details[open]
+    > .summary-tree:before
+      content: '-'
 
-.tree-leaf .tree-leaf-content:before, .tree-leaf .tree-leaf-content:after
-  content: " "
-  display: table
-
-.tree-leaf .tree-leaf-content:after
-  clear: both
-
-.tree-leaf-text
-  margin-left: 15px
-
-.show-tree::before
-    content: "▶ "
-
-.hide-tree::before
-  content: "▼ "
-
-
+.ul-tree
+  .summary-tree.no-children:before
+    content: '-'
