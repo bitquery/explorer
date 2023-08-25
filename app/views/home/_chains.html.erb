@@ -1,6 +1,6 @@
 <div class="row">
   <% for chain in BLOCKCHAINS.select{|bc| bc[:platform]==platform} %>
     <%= render partial: 'home/chain', locals: {chain: chain,
-                                               query: (render partial: chain[:family]+'/network/query_transactions.text')} %>
+                                               query: (render partial: chain[:family]+'/network/query_transactions', formats: :text)} %>
   <% end %>
 </div>
