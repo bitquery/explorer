@@ -411,13 +411,13 @@
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(NFTTransfersByDate, '#NFTTransfersByDate', 'NFT-Token-Transfers-By-Date_1', variables);
-        renderComponent(NFTTransfersByDatePie, '#NFTTransfersByDatePie', 'Copy-of-Top-transfered-NFT-tokens-in-network', variables);
+        renderComponent(NFTTransfersByDatePie, '#NFTTransfersByDatePie', 'Top-transfered-NFT-tokens-in-network_1', variables);
         renderComponent(TopTransferNFT, '#TopTransferNFT', 'Top-transfered-NFT-tokens-in-network_1', variables);
         renderComponent(NFTTokenTradesByDate, '#NFTTokenTradesByDate', 'NFT-Token-Trades-By-Date_1_1', variables);
         renderComponent(TopTradedNFTTokens, '#TopTradedNFTTokens', 'Top-traded-NFT-tokens-in-network_1', variables);
         renderComponent(TopTradedNFTTokensPie, '#TopTradedNFTTokensPie', 'Top-traded-NFT-tokens-in-network_1', variables);
-        renderComponent(TopExchangesForNFTs, '#TopExchangesForNFTs', 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
-        renderComponent(TopExchangesForNFTsPie, '#TopExchangesForNFTsPie', 'Top-exchange-protocols-trading-NFT-tokens-in-network_1', variables);
+        renderComponent(TopExchangesForNFTs, '#TopExchangesForNFTs', 'NFT-Marketplace-Data_1_1', variables);
+        renderComponent(TopExchangesForNFTsPie, '#TopExchangesForNFTsPie', 'NFT-Marketplace-Data_1_1', variables);
     })
     renderComponent(SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken', 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1_1', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
 </script>

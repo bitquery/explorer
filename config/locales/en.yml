@@ -1817,6 +1817,8 @@ en:
       currencies_sent: "Currencies sent"
       currencies_received: "Currencies received"
       balance_effects: "Balance Effects"
+      latest_payments_received: "Latest Payments Received"
+      latest_payments_sent: "Latest Payments Sent"
     titles:
       annotation: "Annotation"
       send_amount: "Send Amount"
