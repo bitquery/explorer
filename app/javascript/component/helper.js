@@ -212,6 +212,11 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	widgetHeader.appendChild(row);
 	row.appendChild(col8);
 	const f = setupShowMoreButton(tableFooter, showMoreButton)
+	const onchangetitle = (queryTitle) => {
+		if (queryTitle) {
+			col8.textContent = queryTitle
+		}
+	}
 	const onloadmetadata = queryMetaData => {
 		col8.textContent = queryMetaData?.name || 'No query presented';
 		if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
@@ -264,5 +269,6 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		onquerystarted,
 		onqueryend,
 		onerror,
+		onchangetitle,
 	};
 }
