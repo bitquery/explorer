@@ -204,6 +204,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	cardBody.classList.add('card-body', 'text-center');
 	widgetFrame.classList.add('widget-container', 'tabulator');
 	widgetFrame.style.height = 'fit-content';
+	widgetFrame.style.background = 'inherit';
 	componentContainer.appendChild(widgetHeader);
 	componentContainer.appendChild(cardBody);
 	cardBody.appendChild(widgetFrame);
