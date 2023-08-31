@@ -26,13 +26,12 @@ export default class TreeComponent {
         }
 
         const expandButton = document.createElement('button');
-        expandButton.classList.add('btn','btn-primary','btn-sm', 'expand-button-tree')
+        expandButton.classList.add('btn','btn-outline-secondary','btn-sm', 'expand-button-tree')
         expandButton.textContent = '+';
         expandButton.addEventListener('click', this.expandAll.bind(this));
 
         const collapseButton = document.createElement('button');
-        collapseButton.style.display = 'none';
-        collapseButton.classList.add('btn','btn-primary','btn-sm', 'collapse-button-tree')
+        collapseButton.classList.add('btn','btn-outline-secondary','btn-sm', 'collapse-button-tree')
         collapseButton.textContent = '-';
         collapseButton.addEventListener('click', this.collapseAll.bind(this));
         this.chainId = this.config.chainId(data);
@@ -43,13 +42,28 @@ export default class TreeComponent {
 
         this.container.append(tree);
 
+        window.addEventListener('scroll', () => {
+            const containerRect = this.container.getBoundingClientRect();
+            const collapseButton = this.container.querySelector('.collapse-button-tree');
 
-        window.addEventListener('scroll', function () {
-            if (collapseButton.style.display !== 'none') {
-                const scrolled = window.scrollY;
-                collapseButton.style.top = 50 + scrolled + 'px';
+            const containerTop = containerRect.top + window.scrollY;
+            const containerBottom = containerRect.bottom + window.scrollY;
+
+            const proposedPosition = window.scrollY + (window.innerHeight / 2);
+
+            let newPosition = proposedPosition;
+            if (newPosition < containerTop) {
+                newPosition = containerTop;
+            } else if (newPosition > containerBottom) {
+                newPosition = containerBottom;
+            }
+
+            if (collapseButton) {
+                collapseButton.style.position = 'fixed';
+                collapseButton.style.top = `${newPosition - window.scrollY}px`;
             }
         });
+
     }
 
     buildTree(evmData) {
@@ -104,6 +118,9 @@ export default class TreeComponent {
             const li = document.createElement('li');
             li.className = 'li-tree';
             const details = document.createElement('details');
+            details.addEventListener('toggle', () => {
+                this.updateCollapseButton();
+            });
             const summary = document.createElement('summary');
             summary.className = 'summary-tree';
             // summary.textContent = item.text;
@@ -170,6 +187,14 @@ export default class TreeComponent {
         });
         const collapseButton = this.container.querySelector('.collapse-button-tree');
         if (collapseButton) collapseButton.style.display = 'none';
+    }
+    updateCollapseButton() {
+        const detailsElements = this.container.querySelectorAll('details');
+        const isOpen = Array.from(detailsElements).some(details => details.open);
+        const collapseButton = this.container.querySelector('.collapse-button-tree');
+        if (collapseButton) {
+            collapseButton.style.display = isOpen ? 'block' : 'none';
+        }
     }
 
 
