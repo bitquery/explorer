@@ -1,7 +1,7 @@
 <%= render partial: "shared/header/#{controller_name}" %>
 
 <% if @sender %>
-  <%= render partial: 'eos/tx_list/outbound_transfers' %>
+  <%= render partial: 'eos/tx_list/partials/outbound_transfers' %>
 <% elsif @receiver %>
-  <%= render partial: 'eos/tx_list/inbound_transfers' %>
+  <%= render partial: 'eos/tx_list/partials/inbound_transfers' %>
 <% end %>

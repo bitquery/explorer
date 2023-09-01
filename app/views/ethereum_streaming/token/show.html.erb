@@ -1,12 +1,30 @@
 <% if @native_token %>
   if if if
 <% else %>
-  <div class='row mb-4'>
+  <!--  <div class='row mb-4'>-->
+  <!--    <div class='col-12 col-lg-6'>-->
+  <!--      <div class='card' id='TokenAttributes'></div>-->
+  <!--    </div>-->
+  <!--    <div class='col-12 col-lg-6'>-->
+  <!--      <div class='card' id='AddressBalanceByCurrencies'></div>-->
+  <!--    </div>-->
+  <!--  </div>  <div class='row mb-4'>-->
+  <!--    <div class='col-12 col-lg-6'>-->
+  <!--      <div class='card' id='TokenHolderOfToken'></div>-->
+  <!--    </div>-->
+  <!--    <div class='col-12 col-lg-6'>-->
+  <!--      <div class='card' id='AddressBalanceByCurrencies'></div>-->
+  <!--    </div>-->
+  <!--  </div>-->
+  <div class="row d-flex">
     <div class='col-12 col-lg-6'>
       <div class='card' id='TokenAttributes'></div>
     </div>
     <div class='col-12 col-lg-6'>
       <div class='card' id='AddressBalanceByCurrencies'></div>
+    </div>
+    <div class='col-12 col-lg-6'>
+      <div class='card' id='TokenHolderOfToken'></div>
     </div>
   </div>
   <script>
@@ -95,13 +113,41 @@
           }
       }
 
+      class TokenHolderOfToken extends BootstrapTableComponent {
+          configuration() {
+              return {
+                  topElement: function (response) {
+                      return response.EVM.BalanceUpdates
+                  },
+                  chainId: function (response) {
+                      return response.EVM.BalanceUpdates[0].ChainId
+                  },
+                  columns: [
+                      {
+                          name: 'Holder', cell: function (row) {
+                              return row.BalanceUpdate.Address
+                          }, rendering: renderJustAddressLink,
+                      },
+                      {
+                          name: 'Balance of the token', cell: function (row) {
+                              return row.Balance
+                          }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                      },
+                  ]
+              }
+          }
+      }
+
       const variables = {
-          network: '<%= @streaming%>',
+                    network: '<%= @streaming%>',
+                    address: '<%= @address %>',
+          // network: "eth",
+          // address: "0x95ad61b0a150d79219dcf64e1e6cc01f0b64c4ce",
           offset: 0,
-          address: '<%= @address %>',
       }
 
       renderComponent(TokenAttributes, '#TokenAttributes', 'Token-attributes_1_1_1_1', variables);
       renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Token-transfer-statistics_1_1', variables);
+      renderComponent(TokenHolderOfToken, '#TokenHolderOfToken', 'Token-holder-of-token_1', variables);
   </script>
 <% end %>

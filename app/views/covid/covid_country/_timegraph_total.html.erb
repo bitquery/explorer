@@ -46,7 +46,7 @@
                     title: 'Total Cases'
                 }
             },
-            hAxis: <%= render partial: 'shared/date_axis.json' %>,
+            hAxis: <%= render partial: 'shared/date_axis', formats: :json %>,
             seriesType: 'line',
             colors: [ '#ffc107', 'lightgreen', 'red']
         },

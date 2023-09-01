@@ -96,7 +96,7 @@
               },
               {
                   style: 'width: 80px;',
-                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.taker_gets_amount_usd'} %>
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.taker_gets_amount_usd'} %>
               },
               {
                   title: '<%= t('widgets.titles.taker_gets_currency') %>',
@@ -111,7 +111,7 @@
               },
               {
                   style: 'width: 80px;',
-                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.taker_pays_amount_usd'} %>
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.taker_pays_amount_usd'} %>
               },
               {
                   title: '<%= t('widgets.titles.taker_pays_currency') %>',

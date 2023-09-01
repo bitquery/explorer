@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.latest_token_transfers') %></div>
+      <div class="card-body">
+        <div id="latest_token_transfers"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+        var query = new widgets.query(`query (
+                                  $token: String!,
+                                  $limit: Int!,
+                                  $offset: Int!
+                                  $from: ISO8601DateTime,
+                                  $till: ISO8601DateTime){
+                              eos{
+                                transfers(options:{desc: "block.timestamp.time"  limit: $limit, offset: $offset},
+                                  date: {since: $from till: $till },
+                                  currency: {is: $token}) {
+
+                                  block {
+                                    timestamp {
+                                      time (format: "%Y-%m-%d %H:%M:%S")
+                                    }
+                                    height
+                                  }
+                                  sender {
+                                    address
+                                    annotation
+                                  }
+
+                                  receiver {
+                                    address
+                                    annotation
+                                  }
+
+                                  txHash
+
+                                  amount
+
+                                  currency {
+                                    symbol
+                                  }
+                                }
+                              }
+                            }`);
+
+        new widgets.table('#latest_token_transfers', query, 'eos.transfers', {
+            title: '<%= t('widgets.headers.latest_token_transfers') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.timestamp') %>',
+                    type: 'string',
+                    path: 'block.timestamp.time'
+                },
+                {
+                    title: '<%= t('widgets.titles.block') %>',
+                    type: 'string',
+                    path: 'block.height',
+                    urlCallbackName: 'block_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.sender') %>',
+                    type: 'string-ellipsis',
+                    path: ['sender.annotation','sender.address'],
+                    urlCallbackName: 'sender_address_path'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    data: '<i class="fa fa-sign-in text-success"></i>',
+                    html_class: 'text-center'
+                },
+                {
+                    title: '<%= t('widgets.titles.receiver') %>',
+                    type: 'string-ellipsis',
+                    path: ['receiver.annotation','receiver.address'],
+                    urlCallbackName: 'receiver_address_path'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    type: 'amount',
+                    path: 'amount'
+                },
+                {
+                    title: '<%= t('widgets.titles.currency') %>',
+                    type: 'string',
+                    path: 'currency.symbol'
+                },
+                {
+                    title: '<%= t('widgets.titles.transaction') %>',
+                    type: 'string-ellipsis',
+                    urlCallbackName: 'transaction_path',
+                    renderCallback: <%= render partial: 'eos/tx_external_display', formats: :text %>
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+
+            token: '<%= @address %>'
+        });
+
+
+    });
+
+</script>

@@ -46,6 +46,7 @@
                 chainId: function (response) {
                     return response.EVM.Events[0]?.ChainId
                 },
+                title: 'Smart Contract events',
                 columns: [
                     {
                         name: 'Event', cell: function (row) {
@@ -76,6 +77,6 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     };
-    renderComponent(EventsDistribution, '#EventsDistribution', 'Events-Distribution', variables);
-    renderComponent(SmartContractEvents, '#SmartContractEvents', 'Smart-Contract-Events_1', variables);
+    renderComponent(EventsDistribution, '#EventsDistribution', 'Events-Distribution_1', variables);
+    renderComponent(SmartContractEvents, '#SmartContractEvents', 'SC-events', variables);
 </script>

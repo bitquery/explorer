@@ -59,7 +59,7 @@
 
         new widgets.table('#outbound_transfers', query, 'binance.transfers', {
             title: '<%= t('widgets.headers.outbound_transfers') %>',
-            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            renderData: <%= render partial: 'shared/redirect_tx', formats: :text %>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',

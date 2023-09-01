@@ -1,0 +1,81 @@
+
+  <div class="col-12 col-lg-6 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.outputs') %></div>
+      <div class="card-body">
+        <div id="outputs"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`query ($network: BitcoinNetwork!,
+                      $hash:String!
+                      $limit: Int!
+                      $offset: Int!
+                      ){
+                        bitcoin(network: $network ){
+                          outputs(txHash: {is: $hash}
+                          options:{asc: "outputIndex", limit: $limit, offset: $offset}
+                          ) {
+
+                            outputIndex
+                            address: outputAddress{
+                              address
+                              annotation
+                            }
+                            value
+                            value_usd: value(in: USD)
+                            outputDirection
+                        }
+                      }
+                }`);
+
+
+
+        new widgets.table('#outputs', query, 'bitcoin.outputs', {
+            title: '<%= t('widgets.headers.outputs') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.output_index') %>',
+                    path: 'outputIndex',
+                    style: 'width: 80px'
+                },
+                {
+                    title: '<%= t('widgets.titles.amount') %>',
+                    path: 'value',
+                    style: 'width: 80px',
+                    type: 'amount'
+                },
+                {
+                    data: '<%= @network[:currency] %>',
+                    style: 'width: 120px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: "'#{@network[:currency]}'", amount: 'item.value_usd'} %>
+                },
+                {
+                    title: '<%= t('widgets.titles.transfer_type') %>',
+                    path: 'outputDirection',
+                    style: 'width: 80px',
+                },
+
+                {
+                    title: '<%= t('widgets.titles.address') %>',
+                    type: 'string-ellipsis',
+                    path: ['address.annotation','address.address'],
+                    urlCallbackName: 'address_path'
+                },
+            ]
+        });
+
+        query.request({
+            network: '<%= @network[:network] %>',
+            hash: '<%= @hash %>'
+        });
+
+    });
+</script>

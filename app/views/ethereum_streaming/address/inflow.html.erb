@@ -29,6 +29,7 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0].ChainId
                 },
+                title:'Latest Inbound Transfers',
                 columns: [
                     {
                         name: 'Timestamp', cell: function (row) {
@@ -218,8 +219,10 @@
     const variables = {
         network: '<%= @streaming%>',
         address: '<%= @address %>',
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
-    renderComponent(LatestInboundTransfers, '#LatestInboundTransfers', 'Latest-Inbound-Transfers_1_1', variables);
+    renderComponent(LatestInboundTransfers, '#LatestInboundTransfers', 'Latest-Inbound', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency', 'Inbound-transfers-in-native-currency_1', variables);
         renderComponent(InboundTransfersInTokens, '#InboundTransfersInTokens', 'Inbound-transfers-in-tokens', variables);

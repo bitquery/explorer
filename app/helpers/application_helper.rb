@@ -21,7 +21,7 @@ module ApplicationHelper
     layout = "layouts/#{layout}" unless layout.include?('/')
     # Capture the content to be placed inside the extended layout
     @view_flow.get(:layout).replace capture(&block)
-    render file: layout
+    render template: layout
   end
 
   def current_ad(tag, ad_type = :ad)

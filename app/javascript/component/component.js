@@ -43,6 +43,7 @@ export default async function renderComponent(component, selector, historyQueryI
 	//create component instance and initialize
 	const componentObject = new component(compElement, historyDataSource, subscriptionDataSource);
 	componentObject.init(widgetFrame)
+	widgetFrame.onchangetitle(componentObject.config.title)
 
 	//compose code widget code for IDE
 	const data = getBaseClass(component, componentObject.config);

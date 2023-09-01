@@ -96,7 +96,7 @@
                     type: 'string',
                     path: 'baseCurrency.symbol',
                     urlCallbackName: 'base_token_path',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.baseCurrency.symbol', amount: 'item.base_amount_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: 'item.baseCurrency.symbol', amount: 'item.base_amount_usd'} %>
                 },
                 {
                     title: '',
@@ -115,7 +115,7 @@
                     type: 'string',
                     path: 'quoteCurrency.symbol',
                     urlCallbackName: 'quote_token_path',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: 'item.quoteCurrency.symbol', amount: 'item.quote_amount_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: 'item.quoteCurrency.symbol', amount: 'item.quote_amount_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.protocol') %>',
