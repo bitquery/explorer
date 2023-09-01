@@ -52,7 +52,7 @@
 
         new widgets.table('#events_table', query, 'tron.smartContractEvents', {
             title: '<%= t('widgets.headers.events_table') %>',
-            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            renderData: <%= render partial: 'shared/redirect_tx', formats: :text %>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',

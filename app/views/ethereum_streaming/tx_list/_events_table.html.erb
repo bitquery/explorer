@@ -54,7 +54,7 @@
 
         new widgets.table('#events_table', query, 'arbitrum.smartContractEvents', {
             title: '<%= t('widgets.headers.events_table') %>',
-            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            renderData: <%= render partial: 'shared/redirect_tx', formats: :text %>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',

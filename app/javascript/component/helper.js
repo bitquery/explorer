@@ -212,9 +212,9 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	widgetHeader.appendChild(row);
 	row.appendChild(col8);
 	const f = setupShowMoreButton(tableFooter, showMoreButton)
-	const onchangetitle = (queryTitle) => {
-		if (queryTitle) {
-			col8.textContent = queryTitle
+	const onchangetitle = (title) => {
+		if (title) {
+			col8.textContent = title
 		}
 	}
 	const onloadmetadata = queryMetaData => {

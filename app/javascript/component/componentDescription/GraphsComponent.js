@@ -39,14 +39,14 @@ export default class GraphsComponent {
 							nodes.push({
 								id: cellData,
 								label: this.shortenText(cellData),
-								url: `/${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Sender']}/nft_address`,
+								url: `https://explorer.bitquery.io//${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Sender']}`,
 							});
 						}
 						if (column.name === 'Receiver') {
 							nodes.push({
 								id: cellData,
 								label: this.shortenText(cellData),
-								url: `/${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Receiver']}/nft_address`,
+								url: `https://explorer.bitquery.io//${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Receiver']}`,
 							});
 						}
 					}

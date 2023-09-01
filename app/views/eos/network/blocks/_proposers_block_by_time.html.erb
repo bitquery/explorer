@@ -1,0 +1,74 @@
+<div class="row">
+  <div class="col-12 mb-4">
+    <span style="color:red; font-weight: bold"><%= t('tabs.network.proposer_distrib.attention') %></span>
+  </div>
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.titles.proposers_block_count_by_time') %></div>
+      <div class="card-body">
+        <div id="miners_block_count"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    $( document ).ready(function() {
+        var query = new widgets.query(`
+                        query (
+                                $dateFormat: String!,
+                                $from: ISO8601DateTime,
+                                $till: ISO8601DateTime){
+                    eos{
+                      blocks(options:{asc: "date.date"},
+                        date: {since: $from till: $till }
+                        ) {
+
+                          address: producer {
+                            address
+                            annotation
+                          }
+                          date {
+                            date(format: $dateFormat)
+                          }
+                          count
+                      }
+                    }
+                  }`);
+
+        new widgets.pivotChart('#miners_block_count', query, 'eos.blocks', {
+            title: '<%= t('widgets.titles.miners_block_count_by_time') %>',
+            chartOptions: {
+                vAxes: {
+                    '0': {
+                        title: '<%= t('widgets.titles.proposers_block_count') %>',
+                        viewWindow: { min: 0 }
+                    }
+                },
+                hAxis: <%= render partial: 'shared/date_axis', formats: :json %>,
+                bar: {groupWidth: "100%"},
+                isStacked: true
+            },
+            cols: [{
+                title: '<%= t('widgets.headers.proposers') %>',
+                path: ['address.annotation', 'address.address'],
+                metrics: [
+                    {
+                        title: 'Count',
+                        path: 'count'
+                    }
+                ]
+            }],
+            rows: [{
+                title: 'Date',
+                path: 'date.date'
+            }],
+            sort: {metric: 'Count', direction: 'desc', axis: 'col'},
+            limit: {length: 10, other: true, axis: 'col'},
+        });
+        
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+
+        });
+    });
+</script>

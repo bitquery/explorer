@@ -86,7 +86,7 @@
           title: '<%= t('widgets.titles.currency') %>',
           type: 'string',
           path: 'currency.symbol',
-            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {} %>
+            renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {} %>
         },
       ]
     });

@@ -58,7 +58,7 @@
 
         new widgets.table('#outbound_transfers', query, 'arbitrum.transfers', {
             title: '<%= t('widgets.headers.outbound_transfers') %>',
-            renderData: <%= render partial: 'shared/redirect_tx.text' %>,
+            renderData: <%= render partial: 'shared/redirect_tx', formats: :text %>,
             dataOptions: [
                 {
                     title: '<%= t('widgets.titles.timestamp') %>',
@@ -98,7 +98,7 @@
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
                     urlCallbackName: 'transaction_path',
-                    renderCallback: <%= render partial: 'arbitrum/tx_external_display.text' %>
+                    renderCallback: <%= render partial: 'arbitrum/tx_external_display', formats: :text %>
                 },
             ]
         });

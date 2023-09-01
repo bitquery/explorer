@@ -107,7 +107,7 @@
                 },
                 {
                     style: 'width: 80px;',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_from_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.amount_from_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.currency_from') %>',
@@ -122,7 +122,7 @@
                 },
                 {
                     style: 'width: 80px;',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.amount_to_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.amount_to_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.currency_to') %>',

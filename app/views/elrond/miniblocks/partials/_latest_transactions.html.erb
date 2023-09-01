@@ -86,7 +86,7 @@
           path: 'value'
         },
           {
-              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.value_usd'} %>
+              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.value_usd'} %>
           }
       ]
     });

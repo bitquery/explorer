@@ -66,7 +66,7 @@
                     type: 'string',
                     data: '<%= @network[:currency] %>',
                     style: 'width: 130px',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text' %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text%>
                 },
                 {
                     title: '<%= t('widgets.titles.max_date') %>',

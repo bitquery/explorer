@@ -15,7 +15,7 @@ export default class BootstrapVerticalTableComponent {
 
 	createTable() {
 		this.tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
-		this.tableElement.style.tableLayout = 'auto';
+		this.tableElement.style.tableLayout = 'fixed';
 		this.appendChildren(this.wrapper, this.tableElement);
 		this.createThead();
 		this.createTbody();
@@ -31,7 +31,7 @@ export default class BootstrapVerticalTableComponent {
 		const th1 = this.createElementWithClasses('th');
 		th1.setAttribute('scope', 'row');
 		th1.textContent = (this.config && this.config.options && this.config.options.columnTitle1) ? this.config.options.columnTitle1 : 'Property';
-
+		th1.style.width ='30%'
 		this.appendChildren(tr, th1);
 
 		const th2 = this.createElementWithClasses('th');

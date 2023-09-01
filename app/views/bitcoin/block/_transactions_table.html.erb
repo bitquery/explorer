@@ -73,7 +73,7 @@
               },
               {
                   style: 'width: 80px;',
-                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.fee_value_usd'} %>
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.fee_value_usd'} %>
               },
               {
                   title: '<%= t('widgets.titles.input_value') %>, <%= @network[:currency] %>',
@@ -83,7 +83,7 @@
               },
               {
                   style: 'width: 110px;',
-                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.input_value_usd'} %>
+                  renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.input_value_usd'} %>
               }
 
 

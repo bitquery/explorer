@@ -150,7 +150,7 @@
             },
             {
               name: '<%= t('widgets.titles.value') %>',
-              value: item.value + <%= render partial: 'ethereum/data_currency_with_amount_usd.text', locals: {currency: 'item.value_usd'} %>
+              value: item.value + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {currency: 'item.value_usd'} %>
             },
             {
               name: '<%= t('widgets.titles.hash') %>',

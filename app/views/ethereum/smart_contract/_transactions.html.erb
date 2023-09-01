@@ -89,13 +89,13 @@
                     path: 'gasValue'
                 },
                 {
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd.text', locals: {currency: '""', amount: 'item.gas_value_usd'} %>
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.gas_value_usd'} %>
                 },
                 {
                     title: '<%= t('widgets.titles.transaction') %>',
                     type: 'string-ellipsis',
                     urlCallbackName: 'transaction_path',
-                    renderCallback: <%= render partial: 'ethereum/tx_external_display.text' %>
+                    renderCallback: <%= render partial: 'ethereum/tx_external_display', formats: :text %>
                 },
             ]
         });
