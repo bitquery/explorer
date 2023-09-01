@@ -35,7 +35,7 @@ export default async function renderComponent(component, selector, historyQueryI
 		const historyPayload = {
 			variables,
 			query: historyQueryParams.query,
-			endpoint_url: historyQueryParams.endpoint_urlonloadmetadata
+			endpoint_url: historyQueryParams.endpoint_url
 		}
 		historyDataSource = new HistoryDataSource(historyPayload, widgetFrame)
 	}
