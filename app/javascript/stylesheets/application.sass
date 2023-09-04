@@ -179,14 +179,17 @@ svg[visibility="hidden"]
   position: relative
   list-style: none
   line-height: 2em
-#tree > li-tree:after, #tree > .li-tree:before
-  display: none
+#tree
+  > .li-tree:after
+    display: none
+  > .li-tree:before
+    display: none
 // Стили для summary
 .summary-tree
   cursor: pointer
   list-style: none
   &:hover
-    color:  #007BFF
+    color:  #CACED1
   &.no-children
     cursor: default
     &:hover
@@ -196,18 +199,21 @@ svg[visibility="hidden"]
 
 // Стили для вложенных элементов
 .ul-tree
+  line-height: 1.5em
   .li-tree:last-child:after
     display: none
   .li-tree:before, .li-tree:after
     position: absolute
-    left: -15px
-    border-left: 2px solid gray
+    left: -3.4em
+    border-left: 2.5px solid #9AA1A6
     content: ''
-    width: 8px
+    width: 2.17em
+    opacity: 0.7
   .li-tree:before
     top: 0
-    border-bottom: 2px solid gray
-    height: 1.1em
+    //margin-top: -2.6em
+    border-bottom: 2.5px solid #9AA1A6
+    height: 0.9em
   .li-tree:after
     bottom: 0
     height: 100%
@@ -222,21 +228,75 @@ svg[visibility="hidden"]
     position: absolute
     left: -1.35em
     top: .48em
-    content: '+'
-    background: whitesmoke
+    font-family: "Font Awesome 5 Free"
+    content: "\f063"
+    font-weight: 900
+    background: inherit
     font-weight: bold
-    border: 2px solid grey
+    opacity: 0.7
+
+    //border: 2.5px solid #9AA1A6
+    color: #9AA1A6
     display: block
-    width: 16px
-    height: 16px
+    width: 17px
+    height: 17px
     z-index: 100500
     text-align: center
     line-height: .80em
 
   details[open]
     > .summary-tree:before
-      content: '-'
+      font-family: "Font Awesome 5 Free"
+      content: "\f061"
+      font-weight: 900
+      opacity: 0.7
+
 
 .ul-tree
   .summary-tree.no-children:before
-    content: '-'
+    font-family: "Font Awesome 5 Free"
+    content: "\f061"
+    font-weight: 900
+    opacity: 0.7
+
+
+//Стили для текста
+.event-tree
+  //padding-left: 40px
+  display: flex
+  align-items: center
+  gap: 6px
+
+
+.content-tree
+  display: flex
+  align-items: center
+  gap: 6px
+
+
+.no-children
+  &::before
+    font-family: "Font Awesome 5 Free"
+    content: "\f061"
+    font-weight: 900
+    opacity: 0.7
+
+//стили для кнопок дерева
+.collapse-button-tree
+  display: none
+  position: fixed
+  content: "\f063"
+  left: 0
+  top: 50px
+  z-index: 1000
+
+.expand-button-tree
+  font-family: "Font Awesome 5 Free"
+  content: "\f061"
+
+.expand-button-tree, .collapse-button-tree
+  font-family: "Font Awesome 5 Free"
+  font-weight: 900
+  font-size: .7rem
+  line-height: 1
+  opacity: 0.7
