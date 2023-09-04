@@ -18,6 +18,23 @@ export default class BarChartComponent {
 	}
 
 	async onHistoryData(data) {
+		const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
+		const darkTheme = {
+			backgroundColor:  'transparent',
+			titleTextStyle: { color: parentTextColor },
+			hAxis: {
+				textStyle: { color: parentTextColor },
+				titleTextStyle: { color: parentTextColor }
+			},
+			vAxis: {
+				textStyle: { color: parentTextColor },
+				titleTextStyle: { color: parentTextColor }
+			},
+			legend: {
+				textStyle: { color: parentTextColor }
+			},
+		};
+		this.config.options = {...this.config.options,...darkTheme}
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
 			if (Object.keys(dataArray).length === 0) {
