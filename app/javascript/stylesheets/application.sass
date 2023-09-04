@@ -189,7 +189,8 @@ svg[visibility="hidden"]
   cursor: pointer
   list-style: none
   &:hover
-    color:  #CACED1
+    opacity: 0.7
+
   &.no-children
     cursor: default
     &:hover
@@ -213,14 +214,18 @@ svg[visibility="hidden"]
     top: 0
     //margin-top: -2.6em
     border-bottom: 2.5px solid #9AA1A6
-    height: 0.9em
+    height: 0.93em
   .li-tree:after
     bottom: 0
     height: 100%
 
+
 // Сброс стилей
 .resetcss-tree
   list-style: none
+//.ul-tree
+//  .summary-tree.no-children:before
+//    display: none
 
 //Стили дял иконки
 .ul-tree
@@ -275,6 +280,8 @@ svg[visibility="hidden"]
 
 
 .no-children
+  &:hover
+    opacity: 1
   &::before
     font-family: "Font Awesome 5 Free"
     content: "\f061"
@@ -287,16 +294,22 @@ svg[visibility="hidden"]
   position: fixed
   content: "\f063"
   left: 0
-  top: 50px
+  top: 100px
   z-index: 1000
+  transition: top 0.3s ease
+
 
 .expand-button-tree
+  display: block
   font-family: "Font Awesome 5 Free"
   content: "\f061"
 
 .expand-button-tree, .collapse-button-tree
   font-family: "Font Awesome 5 Free"
   font-weight: 900
-  font-size: .7rem
+  font-size: .7em
   line-height: 1
   opacity: 0.7
+
+  details
+    transition: all 0.3s ease

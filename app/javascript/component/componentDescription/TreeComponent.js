@@ -18,7 +18,7 @@ export default class TreeComponent {
     }
 
     async onHistoryData(data) {
-
+        this.container.style.scrollBehavior = 'smooth';
         const allData = this.config.topElement(data);
         if (!allData || Object.keys(allData).length === 0) {
             this.container.textContent = 'No Data. Response is empty';
@@ -26,12 +26,12 @@ export default class TreeComponent {
         }
 
         const expandButton = document.createElement('button');
-        expandButton.classList.add('btn','btn-outline-secondary','btn-sm', 'expand-button-tree')
+        expandButton.classList.add('btn', 'btn-outline-secondary', 'btn-sm', 'expand-button-tree')
         expandButton.textContent = '+';
         expandButton.addEventListener('click', this.expandAll.bind(this));
 
         const collapseButton = document.createElement('button');
-        collapseButton.classList.add('btn','btn-outline-secondary','btn-sm', 'collapse-button-tree')
+        collapseButton.classList.add('btn', 'btn-outline-secondary', 'btn-sm', 'collapse-button-tree')
         collapseButton.textContent = '-';
         collapseButton.addEventListener('click', this.collapseAll.bind(this));
         this.chainId = this.config.chainId(data);
@@ -42,25 +42,31 @@ export default class TreeComponent {
 
         this.container.append(tree);
 
+
+        let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
             const containerRect = this.container.getBoundingClientRect();
             const collapseButton = this.container.querySelector('.collapse-button-tree');
-
-            const containerTop = containerRect.top + window.scrollY;
-            const containerBottom = containerRect.bottom + window.scrollY;
-
+            const containerTop = containerRect.top + window.scrollY + 25;
+            const containerBottom = containerRect.bottom + window.scrollY - collapseButton.offsetHeight;
             const proposedPosition = window.scrollY + (window.innerHeight / 2);
-
             let newPosition = proposedPosition;
+
             if (newPosition < containerTop) {
                 newPosition = containerTop;
             } else if (newPosition > containerBottom) {
                 newPosition = containerBottom;
             }
 
+            if (lastScrollY > window.scrollY) {
+                if (newPosition < containerTop + 100) {
+                    newPosition = containerTop + 100;
+                }
+            }
+            lastScrollY = window.scrollY;
             if (collapseButton) {
-                collapseButton.style.position = 'fixed';
-                collapseButton.style.top = `${newPosition - window.scrollY}px`;
+                collapseButton.style.position = 'absolute';
+                collapseButton.style.top = `${newPosition - containerTop}px`;
             }
         });
 
@@ -72,14 +78,16 @@ export default class TreeComponent {
 
         evmData.Calls.forEach(call => {
             if (call && call.Call) {
-                const nodeText = `Depth:${call.Call.Depth} +++Index: ${call.Call.Index}  CallerIndex: ${call.Call.CallerIndex} ====EnterIndex: ${call.Call.EnterIndex}  ====ExitIndex: ${call.Call.ExitIndex} `;
+                // const nodeText = `Depth:${call.Call.Depth} +++Index: ${call.Call.Index}  CallerIndex: ${call.Call.CallerIndex} ====EnterIndex: ${call.Call.EnterIndex}  ====ExitIndex: ${call.Call.ExitIndex} `;
                 const newNode = {
-                    text: nodeText,
+                    // text: nodeText,
                     name: 'Call',
                     from: call.Call.From,
                     to: call.Call.To,
+                    value:call.Call.Value,
                     method: call.Call.Signature.Signature,
                     methodHash: call.Call.Signature.SignatureHash,
+                    callArguments: call.Arguments,
                     children: []
                 };
                 const parentArray = call.Call.Depth === 0 ? tree : lastParentNodes[call.Call.Depth - 1].children;
@@ -91,12 +99,14 @@ export default class TreeComponent {
                     .filter(event => event.Log && event.Call.Index === call.Call.Index);
 
                 eventForCall.forEach(event => {
-                    const eventNodeText = `Event:  ^^^^Call.Index: ${event.Call.Index}  +++Index: ${event.Log.Index} LogAfterCallIndex: ${event.Log.LogAfterCallIndex}   Event:   ${event.Log.Signature.Signature} ====EnterIndex: ${event.Log.EnterIndex}  ====ExitIndex: ${event.Log.ExitIndex}`;
+                    // const eventNodeText = `Event:  ^^^^Call.Index: ${event.Call.Index}  +++Index: ${event.Log.Index} LogAfterCallIndex: ${event.Log.LogAfterCallIndex}   Event:   ${event.Log.Signature.Signature} ====EnterIndex: ${event.Log.EnterIndex}  ====ExitIndex: ${event.Log.ExitIndex}`;
                     const eventNode = {
-                        text: eventNodeText,
+                        // text: eventNodeText,
                         name: 'Event',
                         event: event.Log.Signature.Signature,
                         eventHash: event.Log.Signature.SignatureHash,
+                        arguments: event.Arguments,
+                        // value: event.Arguments[2].Value.bigInteger,
                         children: [],
                     };
                     parentArray.push(eventNode);
@@ -129,6 +139,8 @@ export default class TreeComponent {
             li.append(details);
             const contentDiv = document.createElement('div');
             if (item.name === "Call") {
+                console.log(item)
+
                 const callDiv = document.createElement('div');
                 const method = this.config.rendering.renderMethodLink({
                     method: item.method,
@@ -140,24 +152,57 @@ export default class TreeComponent {
 
                 callDiv.classList.add('content-tree');
                 callDiv.appendChild(method);
-                callDiv.insertAdjacentHTML('beforeend', '<strong>From:  </strong> ');
+                // callDiv.insertAdjacentHTML('beforeend', '<strong>From:  </strong> ');
                 callDiv.appendChild(addressFrom);
                 callDiv.appendChild(renderSenderRecieverIcon);
-                callDiv.insertAdjacentHTML('beforeend', '<strong>To:  </strong> ');
+                // callDiv.insertAdjacentHTML('beforeend', '<strong>To:  </strong> ');
                 callDiv.appendChild(addressTo);
+
                 contentDiv.appendChild(callDiv);
             }
             if (item.name === 'Event') {
                 let eventDiv = document.createElement('div');
-                eventDiv.classList.add('event-tree');
-                eventDiv.insertAdjacentHTML('beforeend', '<strong>Event:</strong> ');
-                const eventLink = this.config.rendering.renderEventLink({
-                    event: item.event,
-                    hash: item.eventHash
-                }, null, this.chainId);
-                eventDiv.appendChild(eventLink);
+                eventDiv.style.border ='2px solid red'
 
-                contentDiv.appendChild(eventDiv);
+                // const eventValue= this.config.rendering.renderNumbers(item.value)
+                let argumentsDiv = document.createElement('div')
+                argumentsDiv.classList.add('d-flex','flex-wrap','event-tree')
+                argumentsDiv.style.gap = '10px'
+                item.arguments.forEach(element =>{
+
+                    if(element.Type === "address"){
+                        let argName = document.createElement('div')
+                        let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address,null, this.chainId)
+                        argName.textContent = `${element.Name}:`
+                        argumentsDiv.appendChild(argName)
+                        argumentsDiv.appendChild(addressLink)
+                    }
+                    if(element.Type === "uint256"){
+                        let argName = document.createElement('div')
+
+                        argName.textContent = `${element.Name}:`
+
+                        let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
+                        argumentsDiv.appendChild(argName)
+                        argumentsDiv.appendChild(addressNumber)
+                    }
+                    if(element.Type === "bytes32"){
+                        let argName = document.createElement('div')
+                        argName.textContent = `${element.Name}:`
+                        let valueBytes = this.config.rendering.renderBytes32(element.Value.hex)
+                        argumentsDiv.appendChild(argName)
+                        argumentsDiv.appendChild(valueBytes)
+                    }
+                })
+                // eventDiv.classList.add('event-tree');
+                // eventDiv.insertAdjacentHTML('beforeend', '<strong>Event:</strong> ');
+                // const eventLink = this.config.rendering.renderEventLink({
+                //     event: item.event,
+                //     hash: item.eventHash
+                // }, null, this.chainId);
+                // eventDiv.appendChild(eventLink);
+                // eventDiv.appendChild(argumentsDiv);
+                contentDiv.appendChild(argumentsDiv);
             }
             if (item.children && item.children.length > 0) {
                 const childUl = this.createTree(item.children);
@@ -171,6 +216,7 @@ export default class TreeComponent {
 
         return ul;
     }
+
     expandAll() {
         const detailsElements = this.container.querySelectorAll('details');
         detailsElements.forEach((details) => {
@@ -188,6 +234,7 @@ export default class TreeComponent {
         const collapseButton = this.container.querySelector('.collapse-button-tree');
         if (collapseButton) collapseButton.style.display = 'none';
     }
+
     updateCollapseButton() {
         const detailsElements = this.container.querySelectorAll('details');
         const isOpen = Array.from(detailsElements).some(details => details.open);
