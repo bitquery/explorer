@@ -18,7 +18,6 @@ export default class TreeComponent {
     }
 
     async onHistoryData(data) {
-
         const allData = this.config.topElement(data);
         if (!allData || Object.keys(allData).length === 0) {
             this.container.textContent = 'No Data. Response is empty';
