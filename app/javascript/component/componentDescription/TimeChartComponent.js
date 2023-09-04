@@ -18,13 +18,30 @@ export default class TimeChartComponent {
 	}
 
 	async onHistoryData(data) {
+		const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
+		const darkTheme = {
+			titleTextStyle: { color: parentTextColor },
+			backgroundColor:  'transparent',
+			hAxis: {
+				textStyle : { color: parentTextColor },
+				titleTextStyle: { color: parentTextColor }
+			},
+			vAxis: {
+				textStyle : { color: parentTextColor },
+				titleTextStyle: { color: parentTextColor }
+			},
+			legend: {
+				textStyle: { color: parentTextColor }
+			},
+		};
+		this.config.options = {...this.config.options,...darkTheme}
+
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)
 			if (!dataArray || Object.keys(dataArray).length === 0) {
 				this.container.textContent = 'No Data. Response is empty'
 				return;
 			}
-			const chainId =  this.config.chainId(data)
 			let dataToVizualize = []
 			let annotation = []
 			let k = 0
