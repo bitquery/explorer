@@ -67,7 +67,7 @@
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        }, rendering: renderBlockLink
+                        }, rendering: renderBlockLink,headerStyle: {width: '100px'},
                     },
                     {
                         name: 'Miner', cell: function (row) {
@@ -97,5 +97,5 @@
     }
 
     renderComponent(LatestBlocks, '#latestBlocks', 'Latest-Blocks_1_1_1_1_1_1', variables)
-    renderComponent(SubLatestBlocks, '#Sub-latestBlocks', 'Latest-Blocks_1_1_1_1_1_1', variables, 'Subscription-Latest-Blocks_1')
+    renderComponent(SubLatestBlocks, '#Sub-latestBlocks', null, variables, 'Subscription-Latest-Blocks_1')
 </script>

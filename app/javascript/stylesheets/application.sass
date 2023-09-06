@@ -172,16 +172,17 @@ svg[visibility="hidden"]
     transform: rotate(360deg)
 
 
-
-  //tree
+//tree
 // Общие стили для дерева
 .ul-tree, .li-tree, #tree
   position: relative
   list-style: none
   line-height: 1.6em
+
 #tree
   > .li-tree:after
     display: none
+
   > .li-tree:before
     display: none
 // Стили для summary
@@ -189,20 +190,22 @@ svg[visibility="hidden"]
   cursor: pointer
   list-style: none
   &:hover
-    opacity: 0.8
-
+    //opacity: 0.8
   &.no-children
     cursor: default
     &:hover
       color: inherit
+
   &::marker, &::-webkit-details-marker
     display: none
 
 // Стили для вложенных элементов
 .ul-tree
   line-height: 1.5em
+
   .li-tree:last-child:after
     display: none
+
   .li-tree:before, .li-tree:after
     position: absolute
     left: -1.9em
@@ -210,11 +213,13 @@ svg[visibility="hidden"]
     content: ''
     width: 0.65em
     opacity: 0.7
+
   .li-tree:before
     top: 0
     //margin-top: -2.6em
     border-bottom: 2.5px solid #9AA1A6
     height: 0.93em
+
   .li-tree:after
     bottom: 0
     height: 100%
@@ -283,6 +288,7 @@ svg[visibility="hidden"]
 .no-children
   &:hover
     opacity: 1
+
   &::before
     font-family: "Font Awesome 5 Free"
     content: "\f061"
@@ -314,3 +320,11 @@ svg[visibility="hidden"]
 
   details
     transition: all 0.3s ease
+
+.text-block
+  display: flex
+  gap: 0 6px
+  overflow: hidden
+  text-overflow: ellipsis
+  max-width: 300px
+

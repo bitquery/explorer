@@ -1,20 +1,13 @@
 export default class TreeComponent {
-    constructor(element, historyDataSource, subscriptionDataSource) {
+    constructor(element, historyDataSource ) {
         this.container = element;
         this.config = this.configuration();
         this.historyDataSource = historyDataSource;
-        this.subscriptionDataSource = subscriptionDataSource;
     }
 
     async init() {
-        if (this.historyDataSource) {
             this.historyDataSource.setCallback(this.onHistoryData.bind(this));
             await this.historyDataSource.changeVariables();
-        }
-        if (this.subscriptionDataSource) {
-            this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this));
-            this.subscriptionDataSource.changeVariables();
-        }
     }
 
     async onHistoryData(data) {
@@ -84,7 +77,7 @@ export default class TreeComponent {
                     name: 'Call',
                     from: call.Call.From,
                     to: call.Call.To,
-                    value:call.Call.Value,
+                    value: call.Call.Value,
                     method: call.Call.Signature.Signature,
                     methodHash: call.Call.Signature.SignatureHash,
                     returns: call.Returns,
@@ -107,7 +100,6 @@ export default class TreeComponent {
                         event: event.Log.Signature.Signature,
                         eventHash: event.Log.Signature.SignatureHash,
                         arguments: event.Arguments,
-                        // value: event.Arguments[2].Value.bigInteger,
                         children: [],
                     };
                     parentArray.push(eventNode);
@@ -139,10 +131,9 @@ export default class TreeComponent {
             details.append(summary);
             li.append(details);
             const contentDiv = document.createElement('div');
-            // contentDiv.style.border ='2px solid red'
+            contentDiv.style.border ='2px solid red'
 
             if (item.name === "Call") {
-
                 const callDiv = document.createElement('div');
                 callDiv.classList.add('content-tree');
                 const method = this.config.rendering.renderMethodLink({
@@ -152,94 +143,178 @@ export default class TreeComponent {
                 const addressFrom = this.config.rendering.renderJustAddressLink(item.from, null, this.chainId);
                 const addressTo = this.config.rendering.renderJustAddressLink(item.to, null, this.chainId);
                 const renderSenderRecieverIcon = this.config.rendering.renderSenderRecieverIcon();
-
-                callDiv.appendChild(method);
-                callDiv.insertAdjacentHTML('beforeend', '<strong>From:  </strong> ');
-                callDiv.appendChild(addressFrom);
+                const block1 = document.createElement('div')
+                const block2 = document.createElement('div')
+                const block3 = document.createElement('div')
+                block1.classList.add('text-block')
+                block1.appendChild(method);
+                block2.appendChild(addressFrom);
+                block3.appendChild(addressTo);
+                callDiv.appendChild(block1)
+                callDiv.appendChild(block2)
                 callDiv.appendChild(renderSenderRecieverIcon);
-                callDiv.insertAdjacentHTML('beforeend', '<strong>To:  </strong> ');
-                callDiv.appendChild(addressTo);
+                callDiv.appendChild(block3)
                 let argumentsDiv = document.createElement('div')
                 argumentsDiv.classList.add('event-tree')
-                item.callArguments.forEach(element =>{
 
-                    if(element.Type === "address"){
+                item.callArguments.forEach(element => {
+                    if (element.Type === "address") {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
                         let argName = document.createElement('span')
-                        let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address,null, this.chainId)
+                        argName.classList.add('font-weight-bold')
+                        let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
                         argName.textContent = `${element.Name}:`
-                        callDiv.appendChild(argName)
-                        callDiv.appendChild(addressLink)
+
+                        block.appendChild(argName)
+                        block.appendChild(addressLink)
+                        callDiv.appendChild(block)
                     }
-                    if(element.Type === "uint256"){
+                    if (element.Type.startsWith('uint') ) {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
                         let argName = document.createElement('span')
-
-                        argName.textContent = `${element.Name}:`
-
+                        argName.classList.add('font-weight-bold')
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
                         let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
-                        callDiv.appendChild(argName)
-                        callDiv.appendChild(addressNumber)
+                        block.appendChild(argName)
+                        block.appendChild(addressNumber)
+                        callDiv.appendChild(block)
                     }
-                    if(element.Type === "bytes32"){
+                    if (element.Type.startsWith('bytes')) {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
                         let argName = document.createElement('span')
-                        argName.textContent = `${element.Name}:`
+                        argName.classList.add('font-weight-bold')
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
+
+                        let valueBytes =  this.config.rendering.renderBytes32(element.Value.hex)
+                        console.log(valueBytes)
+                        block.appendChild(argName)
+                        block.appendChild(valueBytes)
+                        callDiv.appendChild(block)
+
+                    }
+
+
+                })
+                if(item.returns.length >0){
+                    const returnContent = document.createElement('div')
+                    returnContent.classList.add('d-flex')
+                    returnContent.style.gap = '0 6px'
+                    const returnContentText = document.createElement('div')
+                    returnContent.classList.add('font-weight-bold')
+                    returnContent.textContent = 'Return:'
+                item.returns.forEach(element => {
+                    if (element.Type === "address") {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
+                        block.style.background = 'red'
+                        let argName = document.createElement('span')
+                        argName.classList.add('font-weight-bold')
+                        let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
+
+                        block.appendChild(argName)
+                        block.appendChild(addressLink)
+                        returnContent.appendChild(block)
+                    }
+                    if (element.Type.startsWith('uint')) {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
+                        block.style.background = 'red'
+
+                        let argName = document.createElement('span')
+                        argName.classList.add('font-weight-bold')
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
+                        let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
+                        block.appendChild(argName)
+                        block.appendChild(addressNumber)
+                        returnContent.appendChild(block)
+                    }
+                    if (element.Type.startsWith('bytes')) {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
+                        block.style.background = 'red'
+
+                        let argName = document.createElement('span')
+                        argName.classList.add('font-weight-bold')
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
                         let valueBytes = this.config.rendering.renderBytes32(element.Value.hex)
-                        callDiv.appendChild(argName)
-                        callDiv.appendChild(valueBytes)
+                        block.appendChild(argName)
+                        block.appendChild(valueBytes)
+                        returnContent.appendChild(block)
+                    }
+                    if (element.Type === "bool") {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
+                        block.style.background = 'red'
+
+                        let argName = document.createElement('span')
+                        argName.classList.add('font-weight-bold')
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
+                        let valueBytes = document.createElement('span')
+                        valueBytes.textContent = element.Value.bool
+                        block.appendChild(argName)
+                        block.appendChild(valueBytes)
+                        returnContent.appendChild(block)
                     }
                 })
-                item.returns.forEach(element =>{
-                    let returns = document.createElement('span')
-                    returns.textContent = element ?  `${element.Name} value: ${element.Value.bigInteger}` : `[]`
-                    callDiv.insertAdjacentHTML('beforeend', '<strong>Returns:  </strong> ');
-
-                    callDiv.appendChild(returns)
-                })
+                    callDiv.appendChild(returnContent)
+                }
                 // callDiv.appendChild(argumentsDiv);
                 contentDiv.appendChild(callDiv);
 
             }
             if (item.name === 'Event') {
-                let eventDiv = document.createElement('div');
-                // eventDiv.style.border ='2px solid red'
-
-                // const eventValue= this.config.rendering.renderNumbers(item.value)
                 let argumentsDiv = document.createElement('div')
-                argumentsDiv.classList.add('d-flex','flex-wrap','event-tree')
-                // argumentsDiv.style.gap = '10px'
-                item.arguments.forEach(element =>{
+                argumentsDiv.style.background ='lightgreen'
 
-                    if(element.Type === "address"){
+                argumentsDiv.classList.add('d-flex', 'flex-wrap', 'event-tree')
+                const block = document.createElement('div')
+                block.classList.add('text-block')
+
+                item.arguments.forEach(element => {
+                    if (element.Type === "address") {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
                         let argName = document.createElement('div')
-                        let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address,null, this.chainId)
-                        argName.textContent = `${element.Name}:`
-                        argumentsDiv.appendChild(argName)
-                        argumentsDiv.appendChild(addressLink)
+                        let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
+
+                        argName.classList.add('font-weight-bold')
+                        block.appendChild(argName)
+                        block.appendChild(addressLink)
+                        argumentsDiv.appendChild(block)
+
                     }
-                    if(element.Type === "uint256"){
+                    if (element.Type.startsWith('uint')) {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
                         let argName = document.createElement('div')
+                        argName.classList.add('font-weight-bold')
 
-                        argName.textContent = `${element.Name}:`
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
 
                         let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
-                        argumentsDiv.appendChild(argName)
-                        argumentsDiv.appendChild(addressNumber)
+                        block.appendChild(argName)
+                        block.appendChild(addressNumber)
+                        argumentsDiv.appendChild(block)
                     }
-                    if(element.Type === "bytes32"){
+                    if (element.Type.startsWith('bytes')) {
+                        const block = document.createElement('div')
+                        block.classList.add('text-block')
                         let argName = document.createElement('div')
-                        argName.textContent = `${element.Name}:`
+                        argName.classList.add('font-weight-bold')
+
+                        argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
+
                         let valueBytes = this.config.rendering.renderBytes32(element.Value.hex)
-                        argumentsDiv.appendChild(argName)
-                        argumentsDiv.appendChild(valueBytes)
+                        block.appendChild(argName)
+                        block.appendChild(valueBytes)
+                        argumentsDiv.appendChild(block)
                     }
                 })
-                // eventDiv.classList.add('event-tree');
-                // eventDiv.insertAdjacentHTML('beforeend', '<strong>Event:</strong> ');
-                // const eventLink = this.config.rendering.renderEventLink({
-                //     event: item.event,
-                //     hash: item.eventHash
-                // }, null, this.chainId);
-                // eventDiv.appendChild(eventLink);
-                // eventDiv.appendChild(argumentsDiv);
                 contentDiv.appendChild(argumentsDiv);
             }
             if (item.children && item.children.length > 0) {

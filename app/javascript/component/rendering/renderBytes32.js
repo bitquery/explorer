@@ -3,7 +3,7 @@ export default function renderBytes32(data) {
     div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;'
 
     const span = document.createElement('span')
-    span.textContent = data
+    span.textContent = data.length > 1 ? data : '-'
 
     div.setAttribute('title', data)
     div.appendChild(span)
