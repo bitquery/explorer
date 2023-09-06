@@ -87,6 +87,7 @@ export default class TreeComponent {
                     value:call.Call.Value,
                     method: call.Call.Signature.Signature,
                     methodHash: call.Call.Signature.SignatureHash,
+                    returns: call.Returns,
                     callArguments: call.Arguments,
                     children: []
                 };
@@ -138,10 +139,12 @@ export default class TreeComponent {
             details.append(summary);
             li.append(details);
             const contentDiv = document.createElement('div');
+            // contentDiv.style.border ='2px solid red'
+
             if (item.name === "Call") {
-                console.log(item)
 
                 const callDiv = document.createElement('div');
+                callDiv.classList.add('content-tree');
                 const method = this.config.rendering.renderMethodLink({
                     method: item.method,
                     hash: item.methodHash
@@ -150,24 +153,59 @@ export default class TreeComponent {
                 const addressTo = this.config.rendering.renderJustAddressLink(item.to, null, this.chainId);
                 const renderSenderRecieverIcon = this.config.rendering.renderSenderRecieverIcon();
 
-                callDiv.classList.add('content-tree');
                 callDiv.appendChild(method);
-                // callDiv.insertAdjacentHTML('beforeend', '<strong>From:  </strong> ');
+                callDiv.insertAdjacentHTML('beforeend', '<strong>From:  </strong> ');
                 callDiv.appendChild(addressFrom);
                 callDiv.appendChild(renderSenderRecieverIcon);
-                // callDiv.insertAdjacentHTML('beforeend', '<strong>To:  </strong> ');
+                callDiv.insertAdjacentHTML('beforeend', '<strong>To:  </strong> ');
                 callDiv.appendChild(addressTo);
+                let argumentsDiv = document.createElement('div')
+                argumentsDiv.classList.add('event-tree')
+                item.callArguments.forEach(element =>{
 
+                    if(element.Type === "address"){
+                        let argName = document.createElement('span')
+                        let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address,null, this.chainId)
+                        argName.textContent = `${element.Name}:`
+                        callDiv.appendChild(argName)
+                        callDiv.appendChild(addressLink)
+                    }
+                    if(element.Type === "uint256"){
+                        let argName = document.createElement('span')
+
+                        argName.textContent = `${element.Name}:`
+
+                        let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
+                        callDiv.appendChild(argName)
+                        callDiv.appendChild(addressNumber)
+                    }
+                    if(element.Type === "bytes32"){
+                        let argName = document.createElement('span')
+                        argName.textContent = `${element.Name}:`
+                        let valueBytes = this.config.rendering.renderBytes32(element.Value.hex)
+                        callDiv.appendChild(argName)
+                        callDiv.appendChild(valueBytes)
+                    }
+                })
+                item.returns.forEach(element =>{
+                    let returns = document.createElement('span')
+                    returns.textContent = element ?  `${element.Name} value: ${element.Value.bigInteger}` : `[]`
+                    callDiv.insertAdjacentHTML('beforeend', '<strong>Returns:  </strong> ');
+
+                    callDiv.appendChild(returns)
+                })
+                // callDiv.appendChild(argumentsDiv);
                 contentDiv.appendChild(callDiv);
+
             }
             if (item.name === 'Event') {
                 let eventDiv = document.createElement('div');
-                eventDiv.style.border ='2px solid red'
+                // eventDiv.style.border ='2px solid red'
 
                 // const eventValue= this.config.rendering.renderNumbers(item.value)
                 let argumentsDiv = document.createElement('div')
                 argumentsDiv.classList.add('d-flex','flex-wrap','event-tree')
-                argumentsDiv.style.gap = '10px'
+                // argumentsDiv.style.gap = '10px'
                 item.arguments.forEach(element =>{
 
                     if(element.Type === "address"){
