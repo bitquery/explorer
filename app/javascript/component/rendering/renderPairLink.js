@@ -1,4 +1,4 @@
-export default function renderPairLink(data, chainId) {
+export default function renderPairLink(data,variables, chainId) {
     const div = document.createElement('div');
     div.classList.add('text-truncate');
     const elementType = data.buyCurrencySC.length > 2 && data.sellCurrencySC.length > 3 ? 'a' : 'span';

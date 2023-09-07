@@ -6,7 +6,7 @@ export default function renderEventLink(data, variables, chainId) {
 
     // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/event/${data.hash}`;
     link.href = `/${WidgetConfig.getNetwork(chainId)}/event/${data.hash}`;
-    link.textContent = data.event || '-'
+    link.textContent = data.event || data.hash
 
 	div.appendChild(link)
 	return div;

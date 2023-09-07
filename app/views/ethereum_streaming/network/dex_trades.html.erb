@@ -297,9 +297,8 @@
 
     const variables = {
         network: '<%= @streaming %>',
-        offset: 0,
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10),
     };
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {

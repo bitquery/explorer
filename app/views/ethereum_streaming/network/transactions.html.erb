@@ -127,9 +127,8 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        offset: 0,
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
     }
 
     renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_1_1_1', variables);

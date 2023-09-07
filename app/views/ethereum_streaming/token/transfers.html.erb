@@ -127,7 +127,6 @@
     const variables = {
         network: '<%= @streaming%>',
         token: '<%= @token%>',
-        offset: 0,
     }
     renderComponent(LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork', 'Latest-Trades-of-NFT-Token-subscription_1_1', variables, 'Latest-Trades-of-NFT-Token-subscription_1');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
