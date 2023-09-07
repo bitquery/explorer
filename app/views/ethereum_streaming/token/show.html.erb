@@ -17,7 +17,7 @@
           configuration() {
               return {
                   topElement: function (response) {
-                      return response.EVM.DEXTrades
+                      return [...response.EVM.DEXTrades,...response.EVM.BalanceUpdates]
                   },
                   chainId: function (response) {
                       return response.EVM.DEXTrades[0].ChainId
@@ -37,6 +37,11 @@
                           name: 'Number of Decimals', cell: function (row) {
                               return row.Trade.Buy.Currency.Decimals
                           },
+                      },
+                      {
+                         name: "Balance", cell: function (row){
+                             return row.sum
+                          }
                       },
                       {
                           name: 'Protocol name', cell: function (row) {
