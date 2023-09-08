@@ -17,7 +17,7 @@
           configuration() {
               return {
                   topElement: function (response) {
-                      return [...response.EVM.DEXTrades,...response.EVM.BalanceUpdates]
+                      return response.EVM.DEXTrades
                   },
                   chainId: function (response) {
                       return response.EVM.DEXTrades[0].ChainId
