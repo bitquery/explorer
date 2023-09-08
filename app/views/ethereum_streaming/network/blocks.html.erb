@@ -1,11 +1,11 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='latestBlocks' class='card'></div>
+    <div id='Sub-latestBlocks' class='card'></div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='Sub-latestBlocks' class='card'></div>
+    <div id='latestBlocks' class='card'></div>
   </div>
 </div>
 <script>
@@ -35,7 +35,7 @@
                         }, rendering: renderAddressLink,
                     },
                     {
-                        name: 'TX', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Block.Hash
                         }, rendering: renderTX,
                     },
@@ -75,7 +75,7 @@
                         }, rendering: renderAddressLink, headerStyle: {width: '30%'},
                     },
                     {
-                        name: 'TX', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Block.Hash
                         }, rendering: renderTX, headerStyle: {width: '30%'},
                     },
@@ -91,7 +91,6 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        offset: 0,
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
