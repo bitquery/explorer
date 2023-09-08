@@ -76,6 +76,17 @@ BLOCKCHAINS = [
     start: Date.parse('2022-09-15')
   },
   {
+    tag: 'arbitrum',
+    chainId: '42161',
+    network: 'arbitrum',
+    streaming: 'arbitrum',
+    name: 'Arbitrum Mainnet',
+    family: 'ethereum_streaming',
+    platform: 'Smart Contract',
+    currency: 'ARB',
+    icon: 'currency/arbitrum.svg'
+  },
+  {
     tag: 'zcash',
     network: 'zcash',
     name: 'ZCash',
@@ -477,17 +488,7 @@ BLOCKCHAINS = [
     currency: 'EVER',
     icon: 'currency/everscale-logo.png'
   },
-  {
-    tag: 'arbitrum',
-    chainId: '42161',
-    network: 'arbitrum',
-    streaming: 'arbitrum',
-    name: 'Arbitrum Mainnet',
-    family: 'ethereum_streaming',
-    platform: 'Smart Contract',
-    currency: 'ARB',
-    icon: 'currency/arbitrum.svg'
-  },
+
 ].freeze
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }

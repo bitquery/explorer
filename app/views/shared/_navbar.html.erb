@@ -1,3 +1,10 @@
+<style>
+  @media (max-width: 728px) {
+    .ad-container {
+      display: none !important;
+    }
+  }
+</style>
 <header class="header border-bottom mb-2">
     <div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
         <div style="display: flex; justify-content: center;">
@@ -11,17 +18,22 @@
         </div>
         <script async src="https://v1.slise.xyz/scripts/embed.js"></script>
         <script>
-            var adElement = document.getElementById('ad-ins');
-            if(window.innerWidth < 728) {
-                adElement.style.width = '270px';
-                adElement.setAttribute('data-ad-format', '270x90');
-            } else {
+            let adElement = document.getElementById('ad-ins');
+            
+            if(window.innerWidth >= 728) {
+                adElement.style.width = '728px';
                 adElement.setAttribute('data-ad-format', '728x90');
+                
+                let script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = "https://v1.slise.xyz/scripts/embed.js";
+                script.async = true;
+                document.head.appendChild(script);
+                
+                ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
+                window.adsbyslisesync&&window.adsbyslisesync();
             }
-
-            ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
-            window.adsbyslisesync&&window.adsbyslisesync();
-        </script>
+        </script> 
     </div>
   <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
     <a href="/"><%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %>

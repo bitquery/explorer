@@ -163,7 +163,6 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
         limit: 10,
-        offset: 0,
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(Senders, '#Senders', 'Senders', variables);

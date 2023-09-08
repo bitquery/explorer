@@ -39,14 +39,14 @@ export default class GraphsComponent {
 							nodes.push({
 								id: cellData,
 								label: this.shortenText(cellData),
-								url: `https://explorer.bitquery.io//${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Sender']}`,
+								url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Sender']}`,
 							});
 						}
 						if (column.name === 'Receiver') {
 							nodes.push({
 								id: cellData,
 								label: this.shortenText(cellData),
-								url: `https://explorer.bitquery.io//${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Receiver']}`,
+								url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${dataObject['Receiver']}`,
 							});
 						}
 					}
@@ -66,7 +66,7 @@ export default class GraphsComponent {
 				from: dataObject['Sender'],
 				to: dataObject['Receiver'],
 				label: dataObject['Time'],
-				url: `/${WidgetConfig.getNetwork(chainId)}/tx/${dataObject['TX Hash']}`,
+				url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/tx/${dataObject['TX Hash']}`,
 			});
 		}
 
