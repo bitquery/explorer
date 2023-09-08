@@ -9,46 +9,6 @@
   </div>
 </div>
 <script>
-    class LatestBlocks extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.Blocks
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                columns: [
-                    {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
-                    },
-                    {
-                        name: 'Miner', cell: function (row) {
-                            return row.Block.Coinbase
-                        }, rendering: renderAddressLink,
-                    },
-                    {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Block.Hash
-                        }, rendering: renderTX,
-                    },
-                    {
-                        name: 'Transactions count', cell: function (row) {
-                            return row.Block.TxCount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                ],
-            }
-        }
-    }
-
     class SubLatestBlocks extends BootstrapTableComponent {
         configuration() {
             return {
@@ -88,6 +48,46 @@
             }
         }
     }
+    class LatestBlocks extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.Blocks
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                columns: [
+                    {
+                        name: 'Timestamp', cell: function (row) {
+                            return row.Block.Time
+                        }, rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: function (row) {
+                            return row.Block.Number
+                        }, rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Miner', cell: function (row) {
+                            return row.Block.Coinbase
+                        }, rendering: renderAddressLink,headerStyle: {width: '25%'},
+                    },
+                    {
+                        name: 'Transaction hash', cell: function (row) {
+                            return row.Block.Hash
+                        }, rendering: renderTX,headerStyle: {width: '30%'},
+                    },
+                    {
+                        name: 'Transactions count', cell: function (row) {
+                            return row.Block.TxCount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ],
+            }
+        }
+    }
+
 
     const variables = {
         network: '<%= @streaming%>',
@@ -95,6 +95,6 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
 
-    renderComponent(LatestBlocks, '#latestBlocks', 'Latest-Blocks_1_1_1_1_1_1', variables)
     renderComponent(SubLatestBlocks, '#Sub-latestBlocks', 'Latest-Blocks_1_1_1_1_1_1', variables, 'Subscription-Latest-Blocks_1')
+    renderComponent(LatestBlocks, '#latestBlocks', 'Latest-Blocks_1_1_1_1_1_1', variables)
 </script>
