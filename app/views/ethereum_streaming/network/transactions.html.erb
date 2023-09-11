@@ -131,8 +131,8 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
     }
 
-    renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_1_1_1', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_2', variables);
         renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_1_1', variables);
         renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_1_1_1', variables);
     })
