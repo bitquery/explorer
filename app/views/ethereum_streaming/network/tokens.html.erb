@@ -127,7 +127,7 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TransfersByCurrencies, '#TransfersByCurrencies', 'Transfers-By-Currencies_2', variables);
+        renderComponent(TransfersByCurrencies, '#TransfersByCurrencies', 'Transfers-By-Currencies_3', variables);
     })
-    renderComponent(SubTransfersByCurrencies, '#SubTransfersByCurrencies', 'Transfers-By-Currencies_2', variables, 'Subscription-Transfers-By-Currencies');
+    renderComponent(SubTransfersByCurrencies, '#SubTransfersByCurrencies', 'Transfers-By-Currencies_3', variables, 'Subscription-Transfers-By-Currencies');
 </script>
