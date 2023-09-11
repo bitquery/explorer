@@ -109,7 +109,7 @@ export default class TreeComponent {
         return tree;
     }
 
-    createTree(data, isRoot = false, counter = 0) {
+    createTree(data, isRoot = false) {
         const ul = document.createElement('ul');
         ul.className = 'ul-tree resetcss-tree';
 
@@ -118,7 +118,6 @@ export default class TreeComponent {
         }
 
         data.forEach(item => {
-            counter++
             const li = document.createElement('li');
             li.className = 'li-tree';
             const details = document.createElement('details');
@@ -126,7 +125,7 @@ export default class TreeComponent {
                 this.updateCollapseButton();
             });
             const summary = document.createElement('summary');
-            summary.className = 'summary-tree card mb-1';
+            summary.className = 'summary-tree';
             // summary.textContent = item.text;
 
             details.append(summary);
@@ -135,12 +134,8 @@ export default class TreeComponent {
             // contentDiv.style.border ='2px solid red'
 
             if (item.name === "Call") {
-
                 const callDiv = document.createElement('div');
                 callDiv.classList.add('content-tree');
-                if (counter % 2 !== 0) {
-                    callDiv.style.boxShadow = "inset 0 0 0 1000px rgba(0, 0, 0, 0.03)";
-                }
                 const method = this.config.rendering.renderMethodLink({
                     method: item.method,
                     hash: item.methodHash
@@ -151,7 +146,7 @@ export default class TreeComponent {
                 const block1 = document.createElement('div')
                 const block2 = document.createElement('div')
                 const block3 = document.createElement('div')
-                block1.classList.add('text-block', 'ml-2')
+                block1.classList.add('text-block')
                 block1.appendChild(method);
                 block2.appendChild(addressFrom);
                 block3.appendChild(addressTo);
@@ -165,9 +160,9 @@ export default class TreeComponent {
                 item.callArguments.forEach(element => {
                     if (element.Type === "address") {
                         const block = document.createElement('div')
-                        block.classList.add('text-block', 'ml-2')
+                        block.classList.add('text-block')
                         let argName = document.createElement('span')
-                        argName.classList.add('name-tree')
+                        argName.classList.add('font-weight-bold')
                         let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
                         argName.textContent = `${element.Name}:`
 
@@ -177,9 +172,9 @@ export default class TreeComponent {
                     }
                     if (element.Type.startsWith('uint') ) {
                         const block = document.createElement('div')
-                        block.classList.add('text-block', 'ml-2')
+                        block.classList.add('text-block')
                         let argName = document.createElement('span')
-                        argName.classList.add('name-tree')
+                        argName.classList.add('font-weight-bold')
                         argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
                         let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
                         block.appendChild(argName)
@@ -188,31 +183,35 @@ export default class TreeComponent {
                     }
                     if (element.Type.startsWith('bytes')) {
                         const block = document.createElement('div')
-                        block.classList.add('text-block', 'ml-2')
+                        block.classList.add('text-block')
                         let argName = document.createElement('span')
-                        argName.classList.add('name-tree')
+                        argName.classList.add('font-weight-bold')
                         argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
 
                         let valueBytes =  this.config.rendering.renderBytes32(element.Value.hex)
+                        console.log(valueBytes)
                         block.appendChild(argName)
                         block.appendChild(valueBytes)
                         callDiv.appendChild(block)
 
                     }
+
+
                 })
                 if(item.returns.length >0){
                     const returnContent = document.createElement('div')
                     returnContent.classList.add('d-flex')
                     returnContent.style.gap = '0 6px'
                     const returnContentText = document.createElement('div')
-                    returnContent.classList.add('name-tree')
+                    returnContent.classList.add('font-weight-bold')
                     returnContent.textContent = 'Return:'
                     item.returns.forEach(element => {
                         if (element.Type === "address") {
                             const block = document.createElement('div')
-                            block.classList.add('text-block', 'ml-2')
+                            block.classList.add('text-block')
+                            // block.style.background = 'red'
                             let argName = document.createElement('span')
-                            argName.classList.add('name-tree')
+                            argName.classList.add('font-weight-bold')
                             let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
                             argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
 
@@ -222,10 +221,11 @@ export default class TreeComponent {
                         }
                         if (element.Type.startsWith('uint')) {
                             const block = document.createElement('div')
-                            block.classList.add('text-block', 'ml-2')
+                            block.classList.add('text-block')
+                            block.style.background = 'red'
 
                             let argName = document.createElement('span')
-                            argName.classList.add('name-tree')
+                            argName.classList.add('font-weight-bold')
                             argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
                             let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
                             block.appendChild(argName)
@@ -234,10 +234,11 @@ export default class TreeComponent {
                         }
                         if (element.Type.startsWith('bytes')) {
                             const block = document.createElement('div')
-                            block.classList.add('text-block', 'ml-2')
+                            block.classList.add('text-block')
+                            block.style.background = 'red'
 
                             let argName = document.createElement('span')
-                            argName.classList.add('name-tree')
+                            argName.classList.add('font-weight-bold')
                             argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
                             let valueBytes = this.config.rendering.renderBytes32(element.Value.hex)
                             block.appendChild(argName)
@@ -246,10 +247,11 @@ export default class TreeComponent {
                         }
                         if (element.Type === "bool") {
                             const block = document.createElement('div')
-                            block.classList.add('text-block', 'ml-2')
+                            block.classList.add('text-block')
+                            block.style.background = 'red'
 
                             let argName = document.createElement('span')
-                            argName.classList.add('name-tree')
+                            argName.classList.add('font-weight-bold')
                             argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
                             let valueBytes = document.createElement('span')
                             valueBytes.textContent = element.Value.bool
@@ -266,23 +268,21 @@ export default class TreeComponent {
             }
             if (item.name === 'Event') {
                 let argumentsDiv = document.createElement('div')
-                if (counter % 2 !== 0) {
-                    argumentsDiv.style.boxShadow = "inset 0 0 0 1000px rgba(0, 0, 0, 0.03)";
-                }
+                // argumentsDiv.style.background ='lightgreen'
+
                 argumentsDiv.classList.add('d-flex', 'flex-wrap', 'event-tree')
                 const block = document.createElement('div')
-                block.classList.add('text-block', 'ml-2')
+                block.classList.add('text-block')
 
                 item.arguments.forEach(element => {
                     if (element.Type === "address") {
                         const block = document.createElement('div')
-                        block.classList.add('text-block', 'ml-2')
+                        block.classList.add('text-block')
                         let argName = document.createElement('div')
                         let addressLink = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
                         argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
 
-                        argName.classList.add('name-tree')
-                        addressLink.classList.add('value-tree')
+                        argName.classList.add('font-weight-bold')
                         block.appendChild(argName)
                         block.appendChild(addressLink)
                         argumentsDiv.appendChild(block)
@@ -290,10 +290,12 @@ export default class TreeComponent {
                     }
                     if (element.Type.startsWith('uint')) {
                         const block = document.createElement('div')
-                        block.classList.add('text-block', 'ml-2')
+                        block.classList.add('text-block')
                         let argName = document.createElement('div')
-                        argName.classList.add('name-tree')
+                        argName.classList.add('font-weight-bold')
+
                         argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
+
                         let addressNumber = this.config.rendering.renderNumbers(element.Value.bigInteger)
                         block.appendChild(argName)
                         block.appendChild(addressNumber)
@@ -301,9 +303,9 @@ export default class TreeComponent {
                     }
                     if (element.Type.startsWith('bytes')) {
                         const block = document.createElement('div')
-                        block.classList.add('text-block', 'ml-2')
+                        block.classList.add('text-block')
                         let argName = document.createElement('div')
-                        argName.classList.add('name-tree')
+                        argName.classList.add('font-weight-bold')
 
                         argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
 
@@ -316,7 +318,7 @@ export default class TreeComponent {
                 contentDiv.appendChild(argumentsDiv);
             }
             if (item.children && item.children.length > 0) {
-                const childUl = this.createTree(item.children, false, counter);
+                const childUl = this.createTree(item.children);
                 details.append(childUl);
             } else {
                 summary.classList.add('no-children');
