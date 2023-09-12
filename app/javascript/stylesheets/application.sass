@@ -189,10 +189,11 @@ svg[visibility="hidden"]
 .summary-tree
   cursor: pointer
   list-style: none
-  &:hover
-    //opacity: 0.8
+  //&:hover
+  //opacity: 0.8
   &.no-children
     cursor: default
+
     &:hover
       color: inherit
 
@@ -229,6 +230,7 @@ svg[visibility="hidden"]
 .resetcss-tree
   list-style: none
   padding-left: 27px
+
 .ul-tree
   .summary-tree.no-children:before
     display: none
@@ -324,10 +326,48 @@ svg[visibility="hidden"]
   details
     transition: all 0.3s ease
 
-.text-block
+.text-block, .value-tree
   display: flex
   gap: 0 6px
   overflow: hidden
   text-overflow: ellipsis
   max-width: 200px
 
+
+//icons
+.event-icon
+  content: ""
+  display: inline-block
+  width: 20px
+  height: 20px
+  flex-grow: 0
+  flex-shrink: 0
+  fill: none
+  stroke: currentColor
+  stroke-width: 1.5
+  background-size: contain
+  background-repeat: no-repeat
+
+.call-icon
+  content: ""
+  display: inline-block
+  width: 20px
+  height: 20px
+  flex-grow: 0
+  flex-shrink: 0
+  fill: currentColor
+  stroke: currentColor
+  background-size: contain
+  background-repeat: no-repeat
+
+.argument-icon
+  content: ""
+  display: inline-block
+  width: 24px
+  height: 24px
+  flex-grow: 0
+  flex-shrink: 0
+  fill: none
+  stroke: currentColor
+  background-size: contain
+  background-repeat: no-repeat
