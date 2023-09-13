@@ -1,4 +1,4 @@
-export default function renderNumbers(data) {
+export default function renderNumbersWithCurrency(data, variables, chainId) {
     const div = document.createElement('div');
     div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';
     const span = document.createElement('span');

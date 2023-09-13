@@ -48,4 +48,14 @@ export default class WidgetConfig {
     });
     return network;
   }
+  static getCurrency(chainId) {
+    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    let currency;
+    blockchainsInfo.forEach(element => {
+      if (element.chainId === chainId) {
+        currency = element.currency;
+      }
+    });
+    return currency;
+  }
 }

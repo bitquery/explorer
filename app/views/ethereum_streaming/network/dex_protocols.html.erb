@@ -164,7 +164,7 @@
     };
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol', 'Count-of-DEX-Trades-By-Protocol_1', variables);
+        renderComponent(CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol', 'Count-of-DEX-Trades-By-Protocol_3', variables);
         renderComponent(DEXSmartContractProtocols, '#DEXSmartContractProtocols', 'DEX-Smart-Contract-Protocols_1_1_1', variables);
         renderComponent(DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie', 'DEX-Smart-Contract-Protocols_1_1_1', variables);
         renderComponent(DEXSmartContracts, '#DEXSmartContracts', 'DEX-Smart-Contracts', variables);

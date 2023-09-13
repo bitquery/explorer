@@ -25,42 +25,47 @@
                     {
                         name: 'Timestamp', cell: function (row) {
                             return row.Block.Time
-                        }, rendering: renderDate,
+                        }, rendering: renderDate,headerStyle: {width: '10%'},
                     },
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        }, rendering: renderBlockLink,
+                        }, rendering: renderBlockLink, headerStyle: {width: '100px'},
                     },
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transaction.To
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderAddressLink,
                     },
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transaction.To
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderAddressLink,
                     },
                     {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX,headerStyle: {width: '10%'},
+                    },
+                    {
+                        name: 'Value', cell: function (row) {
+                            return row.Transaction.Value
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
                     },
                     {
                         name: 'Gas used', cell: function (row) {
                             return row.Receipt.GasUsed
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'}
                     },
                     {
                         name: 'Gas price', cell: function (row) {
                             return row.Fee.EffectiveGasPrice
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
                     },
                     {
                         name: 'Sender fee', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
                     },
                 ]
             }
@@ -112,7 +117,7 @@
                         }
                     },
                     {
-                        name: 'Count', cell: function (row) {
+                        name: 'Gas Cost per day', cell: function (row) {
                             return +row.sum
                         }
                     }
@@ -132,7 +137,7 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-    renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_2', variables);
+        renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_3', variables);
         renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_1_1', variables);
         renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_1_1_1', variables);
     })

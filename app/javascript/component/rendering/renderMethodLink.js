@@ -9,5 +9,8 @@ export default function renderMethodLink(data, variables, chainId) {
     link.textContent = data.method || data.hash
 
 	div.appendChild(link)
+	if(data.hash.length<1){
+
+	}
 	return div;
 }

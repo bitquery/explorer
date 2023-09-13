@@ -3,11 +3,6 @@
     <div id='TransfersByCurrencies' class='card'></div>
   </div>
 </div>
-<div class='row'>
-  <div class='col-12 col-lg-12 mb-4'>
-    <div id='SubTransfersByCurrencies' class='card'></div>
-  </div>
-</div>
 <script>
     class TransfersByCurrencies extends BootstrapTableComponent {
         configuration() {
@@ -20,100 +15,47 @@
                 },
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
                         name: 'Currency', cell: function (row) {
                             return {
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink, headerStyle: {width: '15%'},
+                        }, rendering: renderTokenLink, headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'First transfer date', cell: function (row) {
+                        name: 'First transfer', cell: function (row) {
                             return row.Block.first_date
-                        },
+                        }, headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Last transfer date', cell: function (row) {
+                        name: 'Last transfer', cell: function (row) {
                             return row.Block.last_date
-                        },
+                        }, headerStyle: {width: '110px'},
+                    },
+                    {
+                        name: 'Uniq Senders', cell: function (row) {
+                            return row.senders
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '115px'},
+                    },
+                    {
+                        name: 'Uniq Receivers', cell: function (row) {
+                            return row.receivers
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '125px'},
+                    },
+                    {
+                        name: 'Transfer Count', cell: function (row) {
+                            return row.count
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '125px'},
+                    },
+                    {
+                        name: 'Transferred Amount', cell: function (row) {
+                            return row.sum_amount
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Days token transferred', cell: function (row) {
                             return row.count_days
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Uniq Senders', cell: function (row) {
-                            return row.senders
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Uniq Receivers', cell: function (row) {
-                            return row.receivers
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Transferred Amount', cell: function (row) {
-                            return row.sum_amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Transfer Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                ]
-            }
-        }
-    }
-
-    class SubTransfersByCurrencies extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
-                columns: [
-                    {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink, headerStyle: {width: '15%'},
-                    },
-                    {
-                        name: 'Transferred Amount', cell: function (row) {
-                            return row.sum_amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Uniq Senders', cell: function (row) {
-                            return row.senders
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Uniq Receivers', cell: function (row) {
-                            return row.receivers
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Transfer Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '181px'},
                     },
                 ]
             }
@@ -127,7 +69,6 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TransfersByCurrencies, '#TransfersByCurrencies', 'Transfers-By-Currencies_3', variables);
+        renderComponent(TransfersByCurrencies, '#TransfersByCurrencies', 'Transfers-By-Currencies_5', variables);
     })
-    renderComponent(SubTransfersByCurrencies, '#SubTransfersByCurrencies', 'Transfers-By-Currencies_3', variables, 'Subscription-Transfers-By-Currencies');
 </script>

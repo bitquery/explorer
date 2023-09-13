@@ -21,6 +21,11 @@
                         }, rendering: renderAddressLink, headerStyle: {width: '30%'},
                     },
                     {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
                         }, rendering: renderAddressLink, headerStyle: {width: '30%'},

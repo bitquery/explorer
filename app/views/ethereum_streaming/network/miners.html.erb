@@ -16,6 +16,22 @@
     <div id='Miners' class='card'></div>
   </div>
 </div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockCountByTime'></div>
+  </div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockCountByTimeTable'></div>
+  </div>
+</div>
+<div class='row mb-4'>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockRewardByTime'></div>
+  </div>
+  <div class='col-12 col-lg-6'>
+    <div class='card' id='MinersBlockRewardByTimeTable'></div>
+  </div>
+</div>
 <script>
     class ActiveMinersByTime extends TimeChartComponent {
         configuration() {
@@ -33,7 +49,7 @@
                         }
                     },
                     {
-                        name: 'Uniq Mainers', cell: function (row) {
+                        name: 'Uniq Miners', cell: function (row) {
                             return +row.mainers
                         }
                     }
@@ -93,17 +109,17 @@
                     {
                         name: 'Block Count', cell: function (row) {
                             return row.count
-                        },
+                        }, headerStyle: {width: '120px'},
                     },
                     {
-                        name: 'First block date', cell: function (row) {
+                        name: 'First date', cell: function (row) {
                             return row.Block.min_date
-                        },
+                        }, headerStyle: {width: '120px'},
                     },
                     {
-                        name: 'Last block date', cell: function (row) {
+                        name: 'Last date', cell: function (row) {
                             return row.Block.max_date
-                        },
+                        }, headerStyle: {width: '120px'},
                     },
                     {
                         name: 'Block Reward Total', cell: function (row) {
@@ -125,13 +141,146 @@
         }
     }
 
+    class MinersBlockCountByTime extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.MinerRewards
+                },
+                chainId: function (response) {
+                    return response.EVM.MinerRewards[0].ChainId
+                },
+                title: 'Miners Block Count By Time',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: function (row) {
+                            return row.Block.Coinbase
+                        }, cell: function (row) {
+                            return +row.count
+                        }
+                    },
+                ],
+                options: {
+                    title: 'Miners Block Count',
+                    isStacked: true,
+                    theme: 'material',
+                    height: 405
+                }
+            }
+        }
+    }
+
+    class MinersBlockCountByTimeTable extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.MinerRewards
+                },
+                chainId: function (response) {
+                    return response.EVM.MinerRewards[0].ChainId
+                },
+                title: 'Miners Block Count By Time',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        },
+                    },
+                    {
+                        name: 'Miner', cell: function (row) {
+                            return row.Block.Coinbase
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'}
+                    },
+                    {
+                        name: 'Count', cell: function (row) {
+                            return row.count
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class MinersBlockRewardByTime extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.MinerRewards
+                },
+                chainId: function (response) {
+                    return response.EVM.MinerRewards[0].ChainId
+                },
+                title: 'Miners Block Reward By Time',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        }
+                    },
+                    {
+                        name: function (row) {
+                            return row.Block.Coinbase
+                        }, cell: function (row) {
+                            return +row.sum
+                        }
+                    },
+                ],
+                options: {
+                    title: 'Miners Block Reward',
+                    isStacked: true,
+                    theme: 'material',
+                    height: 405
+                }
+            }
+        }
+    }
+
+    class MinersBlockRewardByTimeTable extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return response.EVM.MinerRewards
+                },
+                chainId: function (response) {
+                    return response.EVM.MinerRewards[0].ChainId
+                },
+                title: 'Miners Block Reward By Time',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.Block.Date
+                        },
+                    },
+                    {
+                        name: 'Miner', cell: function (row) {
+                            return row.Block.Coinbase
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'}
+                    },
+                    {
+                        name: 'Reward', cell: function (row) {
+                            return row.sum
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
     const variables = {
         network: '<%= @streaming%>',
     };
-
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(ActiveMinersByTime, '#ActiveMinersByTime', 'Active-Miners-By-Time', variables);
         renderComponent(BlockRewardsByDate, '#BlockRewardsByDate', 'Block-Rewards-By-Date', variables);
         renderComponent(Miners, '#Miners', 'Miners_1', variables);
+        renderComponent(MinersBlockCountByTime, '#MinersBlockCountByTime', 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
+        renderComponent(MinersBlockCountByTimeTable, '#MinersBlockCountByTimeTable', 'Miners-Block-Count-By-Time_1_1', variables);
+        renderComponent(MinersBlockRewardByTime, '#MinersBlockRewardByTime', 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
+        renderComponent(MinersBlockRewardByTimeTable, '#MinersBlockRewardByTimeTable', 'Miners-Block-Count-By-Time_1_1_1_1_1_1_1_1', variables);
     })
 </script>

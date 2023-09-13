@@ -31,10 +31,13 @@ class EthereumStreaming::AddressController < NetworkController
             }
           }
         }
-        calls: Calls(where: {Call: {To: {is: $address}}}, limit: {count: 1}) {
+        calls: Calls(
+          where: {Call: {To: {is: $address}, Signature: {SignatureHash: {not: ""}}}}
+          limit: {count: 1}
+        ) {
           Call {
             Signature {
-              Signature
+              SignatureHash
             }
           }
         }
