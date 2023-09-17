@@ -15,6 +15,11 @@ class EthereumStreaming::AddressController < NetworkController
           Transfer {
             Sender
             Receiver
+            Currency{
+              Symbol
+              SmartContract
+              Name
+            }
           }
         }
         token: Transfers(
@@ -31,10 +36,13 @@ class EthereumStreaming::AddressController < NetworkController
             }
           }
         }
-        calls: Calls(where: {Call: {To: {is: $address}}}, limit: {count: 1}) {
+        calls: Calls(
+          where: {Call: {To: {is: $address}, Signature: {SignatureHash: {not: ""}}}}
+          limit: {count: 1}
+        ) {
           Call {
             Signature {
-              Signature
+              SignatureHash
             }
           }
         }
@@ -51,8 +59,10 @@ class EthereumStreaming::AddressController < NetworkController
       result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }).data.evm
       if result.token.any?
         @info = result.token.first.transfer
+        @check_token = 'token'
       elsif result.calls.any?
-        @info = 'smart_contract'
+        @info = result.address.first.transfer
+        @check_call = 'calls'
       end
     end
   end

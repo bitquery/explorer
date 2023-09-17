@@ -80,6 +80,9 @@ export default class BootstrapTableComponent {
         }
         const rows = await this.composeRows(data, variables)
         this.appendChildren(this.tbody, rows);
+        this.appendChildren(this.tbody, rows);
+        // $(this.tbody).find('[data-toggle="tooltip"]').tooltip();
+
     }
 
     async onSubscriptionData(data, variables) {
@@ -91,6 +94,7 @@ export default class BootstrapTableComponent {
                 this.tbody.removeChild(this.tbody.lastChild);
             }
         })
+
     }
 
     async composeRows(rawData, variables) {
@@ -108,9 +112,12 @@ export default class BootstrapTableComponent {
             const tr = this.createElementWithClasses('tr');
 
             for (const column of this.config.columns) {
-                const td = this.createElementWithClasses('td');
+                const td = this.createElementWithClasses('td','text-truncate');
                 const textCell = this.createElementWithClasses('span');
                 textCell.textContent = column.cell(row);
+                if(textCell.textContent === 'true'){
+                    textCell.style.color = '#2EA848'
+                }
                 td.appendChild(textCell)
 
                 if (column.rendering) {

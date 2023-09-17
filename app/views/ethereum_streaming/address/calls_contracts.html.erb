@@ -49,7 +49,7 @@
                     },
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink
                     },
                     {
@@ -122,7 +122,7 @@
                     },
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink,
                     },
                     {
@@ -192,7 +192,7 @@
                 columns: [
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink, headerStyle: {width: '30%'},
                     },
                     {
@@ -226,10 +226,10 @@
         address: '<%= @address %>',
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_1_1_1_1_1_1_1', variables);
+        renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_3', variables);
         renderComponent(SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate', 'Smart-contract-calls--including-internal--by-date_1', variables);
-        renderComponent(TopGasCostCalls, '#TopGasCostCalls', 'Top-Gas-Cost-Calls_1_1', variables);
+        renderComponent(TopGasCostCalls, '#TopGasCostCalls', 'Top-Gas-Cost-Calls_2', variables);
         renderComponent(SmartContractsCalled, '#SmartContractsCalled', 'Smart-Contracts-Called', variables);
-        renderComponent(SmartContractMethodsCalled, '#SmartContractMethodsCalled', 'Smart-Contract-Methods-Called_1_1', variables);
+        renderComponent(SmartContractMethodsCalled, '#SmartContractMethodsCalled', 'Smart-Contract-Methods-Called_2', variables);
     })
 </script>

@@ -21,6 +21,11 @@
                         }, rendering: renderAddressLink, headerStyle: {width: '30%'},
                     },
                     {
+                        name: '', cell: function (row) {
+                            return ''
+                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
                         }, rendering: renderAddressLink, headerStyle: {width: '30%'},
@@ -39,6 +44,11 @@
                         }, rendering: renderTokenLink,
                     },
                     {
+                        name: 'Id', cell: function (row) {
+                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
+                        }, rendering: renderIdLink
+                    },
+                    {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
                         }, rendering: renderTX,
@@ -52,5 +62,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent(Transfers, '#Transfers', 'Transfers_1_1_1', variables);
+    renderComponent(Transfers, '#Transfers', 'Transfers_2', variables);
 </script>

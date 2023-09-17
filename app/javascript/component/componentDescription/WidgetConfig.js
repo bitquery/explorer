@@ -29,11 +29,11 @@ export default class WidgetConfig {
         chainId: '42161',
         network: 'arbitrum',
         streaming: 'arbitrum',
-        name: 'Ethereum Mainnet',
+        name: 'Arbitrum Mainnet',
         family: 'ethereum_streaming',
         platform: 'Smart Contract',
-        currency: 'ETH',
-        icon: 'arbitrum.svg',
+        currency: 'ARB',
+        icon: 'currency/arbitrum.svg'
       },
     ];
     return data;
@@ -47,5 +47,15 @@ export default class WidgetConfig {
       }
     });
     return network;
+  }
+  static getCurrency(chainId) {
+    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    let currency;
+    blockchainsInfo.forEach(element => {
+      if (element.chainId === chainId) {
+        currency = element.currency;
+      }
+    });
+    return currency;
   }
 }

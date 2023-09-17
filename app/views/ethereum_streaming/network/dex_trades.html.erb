@@ -14,11 +14,7 @@
     <div class='card' id='TradesByTimeContracts'></div>
   </div>
 </div>
-<div class='row'>
-  <div class='col-12 col-lg-12 mb-4'>
-    <div id='TokenTradesTable' class='card'></div>
-  </div>
-</div>
+
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
     <div id='SubTokenTradesTable' class='card'></div>
@@ -145,80 +141,6 @@
         }
     }
 
-    class TokenTradesTable extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
-                columns: [
-                    {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
-                    },
-                    {
-                        name: 'Sell amount', cell: function (row) {
-                            return row.Trade.Sell.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Sell currency', cell: function (row) {
-                            return {
-                                currency: row.Trade.Sell.Currency.Symbol,
-                                smartContract: row.Trade.Sell.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
-                    },
-                    {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
-                    },
-                    {
-                        name: 'Buy amount', cell: function (row) {
-                            return row.Trade.Buy.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Buy currency', cell: function (row) {
-                            return {
-                                currency: row.Trade.Buy.Currency.Symbol,
-                                smartContract: row.Trade.Buy.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
-                    },
-                    {
-                        name: 'Protocol', cell: function (row) {
-                            return {
-                                ProtocolFamily: row.Trade.Dex.ProtocolFamily,
-                                ProtocolName: row.Trade.Dex.ProtocolName,
-                                ProtocolVersion: row.Trade.Dex.ProtocolVersion
-                            }
-                        }, rendering: renderDexProtocolLink,
-                    },
-                    {
-                        name: 'Smart Contract', cell: function (row) {
-                            return {currency: null, smartContract: row.Trade.Dex.SmartContract}
-                        }, rendering: renderTokenLink,
-                    },
-                    {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
-                    },
-                ]
-            }
-        }
-    }
 
     class SubTokenTradesTable extends BootstrapTableComponent {
         configuration() {
@@ -238,7 +160,7 @@
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        }, rendering: renderBlockLink,
+                        }, rendering: renderBlockLink,headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Sell amount', cell: function (row) {
@@ -251,7 +173,7 @@
                                 currency: row.Trade.Sell.Currency.Symbol,
                                 smartContract: row.Trade.Sell.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink,headerStyle: {width: '108px'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -269,7 +191,7 @@
                                 currency: row.Trade.Buy.Currency.Symbol,
                                 smartContract: row.Trade.Buy.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink,headerStyle: {width: '108px'},
                     },
                     {
                         name: 'Protocol', cell: function (row) {
@@ -283,12 +205,12 @@
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return {currency: null, smartContract: row.Trade.Dex.SmartContract}
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink,headerStyle: {width: '126px'},
                     },
                     {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX,headerStyle: {width: '110px'},
                     },
                 ]
             }
@@ -307,6 +229,5 @@
         renderComponent(TradesByTimeCurrencies, '#TradesByTimeCurrencies', 'Trades-By-Time', variables);
         renderComponent(TradesByTimeContracts, '#TradesByTimeContracts', 'Trades-By-Time', variables);
     });
-    renderComponent(TokenTradesTable, '#TokenTradesTable', 'Token-Trades_1_1', variables);
-    renderComponent(SubTokenTradesTable, '#SubTokenTradesTable', 'Token-Trades_1_1', variables, 'Subscription-Token-Trades_1_1');
+    renderComponent(SubTokenTradesTable, '#SubTokenTradesTable', 'Token-Trades_2', variables, 'Subscription-Token-Trades_1_1');
 </script>

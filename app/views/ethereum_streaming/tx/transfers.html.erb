@@ -36,13 +36,21 @@
                     },
                     {
                         name: 'Currency', cell: function (row) {
-                            return row.Transfer?.Currency.Symbol
-                        },
+                            return {
+                                currency: row.Transfer.Currency.Symbol,
+                                smartContract: row.Transfer.Currency.SmartContract
+                            }
+                        }, rendering: renderTokenLink,headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Id', cell: function (row) {
+                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
+                        }, rendering: renderIdLink
                     },
                     {
                         name: 'Success?', cell: function (row) {
                             return row.Transfer?.Success
-                        },
+                        },headerStyle: {width: '100px'},
                     },
                 ]
             }
@@ -53,5 +61,5 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     }
-    renderComponent(TransactionAttributes, '#TransactionAttributes', 'Token-Transfers-in-Transaction', variables);
+    renderComponent(TransactionAttributes, '#TransactionAttributes', 'Token-Transfers-in-Transaction_1', variables);
 </script>

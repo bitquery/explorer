@@ -27,7 +27,7 @@
                     {
                         name: 'Block Reward', cell: function (row) {
                             return row.sum
-                        },
+                        },rendering: renderNumbersWithCurrency,headerStyle: {textAlign: 'start'},
                     },
                     {
                         name: 'Transactions count', cell: function (row) {
@@ -40,14 +40,24 @@
                         },
                     },
                     {
+                        name: 'Gas used', cell: function (row) {
+                            return row.Block?.GasUsed
+                        },
+                    },
+                    {
+                        name: 'Tx count', cell: function (row) {
+                            return row.Block?.TxCount
+                        },
+                    },
+                    {
                         name: 'Hash', cell: function (row) {
                             return row.Block?.Hash
-                        }, rendering: renderTX,
+                        },
                     },
                     {
                         name: 'Parent Hash', cell: function (row) {
                             return row.Block?.ParentHash
-                        }, rendering: renderTX,
+                        },
                     },
                 ]
             }
