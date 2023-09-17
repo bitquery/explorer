@@ -27,7 +27,7 @@
                     },
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink
                     },
                     {

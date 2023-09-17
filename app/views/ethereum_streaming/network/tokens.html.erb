@@ -20,32 +20,32 @@
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink, headerStyle: {width: '100px'},
+                        }, rendering: renderTokenLink,
                     },
                     {
                         name: 'First transfer', cell: function (row) {
                             return row.Block.first_date
-                        }, headerStyle: {width: '110px'},
+                        },
                     },
                     {
                         name: 'Last transfer', cell: function (row) {
                             return row.Block.last_date
-                        }, headerStyle: {width: '110px'},
+                        },
                     },
                     {
                         name: 'Uniq Senders', cell: function (row) {
                             return row.senders
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '115px'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Uniq Receivers', cell: function (row) {
                             return row.receivers
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '125px'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transfer Count', cell: function (row) {
                             return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '125px'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transferred Amount', cell: function (row) {

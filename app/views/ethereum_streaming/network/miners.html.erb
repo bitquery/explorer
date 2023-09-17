@@ -124,17 +124,17 @@
                     {
                         name: 'Block Reward Total', cell: function (row) {
                             return row.reward_Total
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Reward Burnt Fees', cell: function (row) {
                             return row.reward_BurntFees
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Reward Tx Fees', cell: function (row) {
                             return row.reward_TxFees
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -264,7 +264,7 @@
                     {
                         name: 'Reward', cell: function (row) {
                             return row.sum
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

@@ -12,6 +12,7 @@
   </div>
 </div>
 <script>
+
     class LatestTransactions extends BootstrapTableComponent {
         configuration() {
             return {
@@ -25,7 +26,7 @@
                     {
                         name: 'Timestamp', cell: function (row) {
                             return row.Block.Time
-                        }, rendering: renderDate,headerStyle: {width: '10%'},
+                        }, rendering: renderDate,
                     },
                     {
                         name: 'Block', cell: function (row) {
@@ -45,7 +46,7 @@
                     {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,headerStyle: {width: '10%'},
+                        }, rendering: renderTX,headerStyle: {width: '100px'},
                     },
                     {
                         name: 'Value', cell: function (row) {
@@ -133,12 +134,12 @@
     const variables = {
         network: '<%= @streaming%>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_3', variables);
-        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_1_1', variables);
-        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_1_1_1', variables);
+        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_3', variables);
+        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_4', variables);
     })
 </script>

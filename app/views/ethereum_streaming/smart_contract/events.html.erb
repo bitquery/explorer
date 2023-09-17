@@ -61,12 +61,12 @@
                     {
                         name: 'Latest Date', cell: function (row) {
                             return row.Block.Date
-                        },
+                        },headerStyle: {width:'110px'},
                     },
                     {
                         name: 'Event Count', cell: function (row) {
                             return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width:'110px'},
                     },
                 ]
             }
@@ -77,6 +77,6 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     };
-    renderComponent(EventsDistribution, '#EventsDistribution', 'Events-Distribution_1', variables);
-    renderComponent(SmartContractEvents, '#SmartContractEvents', 'SC-events', variables);
+    renderComponent(EventsDistribution, '#EventsDistribution', 'Events-Distribution_2', variables);
+    renderComponent(SmartContractEvents, '#SmartContractEvents', 'SC-events_1', variables);
 </script>

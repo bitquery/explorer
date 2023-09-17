@@ -177,7 +177,7 @@
                     },
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink,
 
                     },
@@ -223,7 +223,7 @@
                     },
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink,
 
                     },
@@ -248,6 +248,6 @@
         renderComponent(SmartContractsCallers, '#SmartContractsCallers', 'Smart-Contracts_1_1', variables);
         renderComponent(SmartContractsMethods, '#SmartContractsMethods', 'Smart-Contracts_1_1', variables);
     });
-    renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_1_1_1', variables);
-    renderComponent(SubLatestSmartContractCalls, '#SubLatestSmartContractCalls', 'Latest-Smart-Contract-Calls_1_1_1', variables, 'Subscription-Latest-Smart-Contract-Calls');
+    renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_2', variables);
+    renderComponent(SubLatestSmartContractCalls, '#SubLatestSmartContractCalls', 'Latest-Smart-Contract-Calls_2', variables, 'Subscription-Latest-Smart-Contract-Calls');
 </script>

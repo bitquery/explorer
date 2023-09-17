@@ -44,6 +44,11 @@
                         }, rendering: renderTokenLink,
                     },
                     {
+                        name: 'Id', cell: function (row) {
+                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
+                        }, rendering: renderIdLink
+                    },
+                    {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
                         }, rendering: renderTX,
@@ -57,5 +62,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent(Transfers, '#Transfers', 'Transfers_1_1_1', variables);
+    renderComponent(Transfers, '#Transfers', 'Transfers_2', variables);
 </script>

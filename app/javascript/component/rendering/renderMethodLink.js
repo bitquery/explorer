@@ -1,16 +1,19 @@
 export default function renderMethodLink(data, variables, chainId) {
-	const div = document.createElement('div');
-	div.classList.add('text-truncate')
-	const link = document.createElement('a');
-    link.setAttribute('title',data.method)
+    const div = document.createElement('div');
+    div.classList.add('text-truncate')
+    let link = document.createElement('a');
 
     link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
     // link.href = `/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
     link.textContent = data.method || data.hash
+    link.setAttribute('title', data.method)
 
-	div.appendChild(link)
-	if(data.hash.length<1){
+    if (data.hash.length < 1) {
+        link = document.createElement('span')
+        link.textContent = `value: ${parseFloat(+data.value)}`
+        link.setAttribute('title', data.value)
 
-	}
-	return div;
+    }
+    div.appendChild(link)
+    return div;
 }
