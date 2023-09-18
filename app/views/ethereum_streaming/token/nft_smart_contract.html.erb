@@ -253,7 +253,7 @@
     }
     renderComponent(NFTTokenInformation, '#NFTTokenInformation', 'NFT-token-information_1_1_1', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(PopularTokenIDsNFT, '#PopularTokenIDsNFT', 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_1', variables);
+        renderComponent(PopularTokenIDsNFT, '#PopularTokenIDsNFT', 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_2', variables);
         renderComponent(TopNFTHolders, '#TopNFTHolders', 'Top-NFT-Holders_1', variables);
         renderComponent(TopNFTHoldersPie, '#TopNFTHoldersPie', 'Top-NFT-Holders_1', variables);
     })

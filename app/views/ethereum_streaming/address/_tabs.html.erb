@@ -1,6 +1,10 @@
+<%
+  nft_tabs = (@streaming && @fungible == false) ? ['nft_address'] : ['show']
+
+%>
 <%= render partial: 'shared/tabs', locals: {
-   
-    tabs:  @streaming ?  
+
+    tabs:  @streaming ?
         ['show','nft_address','transactions','inflow','outflow','calls_contracts'] :
         ['show','transactions','inflow','outflow','calls_contracts']
 } %>
