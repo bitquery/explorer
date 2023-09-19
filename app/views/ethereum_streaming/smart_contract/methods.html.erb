@@ -21,7 +21,7 @@
                 columns: [
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink,
                     },
                     {
@@ -86,7 +86,7 @@
                     },
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash}
+                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
                         }, rendering: renderMethodLink,
                     },
                     {
@@ -104,7 +104,7 @@
         token: '<%= @address %>',
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(SmartContractMethods, '#SmartContractMethods', 'Smart-Contract-Methods_1', variables);
-        renderComponent(AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters', 'Addresses-used-in-Method-Parameters', variables);
+        renderComponent(SmartContractMethods, '#SmartContractMethods', 'Smart-Contract-Methods_2', variables);
+        renderComponent(AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters', 'Addresses-used-in-Method-Parameters_1', variables);
     })
 </script>

@@ -35,18 +35,18 @@
                         }, rendering: renderAddressLink,
                     },
                     {
+                        name: 'Transfers count', cell: function (row) {
+                            return row.t_count
+                        },
+                    },
+                    {
                         name: 'Amount', cell: function (row) {
-                            return row.Transfer?.Amount
+                            return row.t_sum
                         },
                     },
                     {
                         name: 'Gas Cost', cell: function (row) {
-                            return row.Fee?.SenderFee
-                        },
-                    },
-                    {
-                        name: 'Currency', cell: function (row) {
-                            return row.Transfer?.Currency.Symbol
+                            return row.sum
                         },
                     },
                     {
@@ -55,8 +55,33 @@
                         },
                     },
                     {
+                        name: 'Transaction Fee', cell: function (row) {
+                            return row.sum
+                        },
+                    },
+                    {
+                        name: 'Gas', cell: function (row) {
+                            return row.Transaction?.Gas
+                        },
+                    },
+                    {
+                        name: 'Value', cell: function (row) {
+                            return row.Transaction?.Value
+                        },
+                    },
+                    {
+                        name: 'Protected?', cell: function (row) {
+                            return row.Transaction?.Protected
+                        },
+                    },
+                    {
                         name: 'Success?', cell: function (row) {
-                            return row.TransactionStatus?.Success
+                            return row.Transfer?.Success
+                        },
+                    },
+                    {
+                        name: 'Hash', cell: function (row) {
+                            return row.Transaction?.Hash
                         },
                     },
                 ]
@@ -68,5 +93,5 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     };
-    renderComponent(TransactionAttributes, '#TransactionAttributes', 'Transaction-Attributes_1_1_1_1', variables);
+    renderComponent(TransactionAttributes, '#TransactionAttributes', 'Transaction-Attributes_5', variables);
 </script>

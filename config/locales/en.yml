@@ -1473,8 +1473,8 @@ en:
         title: "Statistics of %{protocol} DEX at %{network}"
         description: "Statistics of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades,statistics"
-      nft_dex_protocol:
-        name: "NFT Dex Protocols"
+      protocol_smart_contracts:
+        name: "Protocol Smart Contracts"
         title: "%{network} NFT Dex Protocols"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"

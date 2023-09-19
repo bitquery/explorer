@@ -6,7 +6,7 @@ export default function renderTokenLink(data, variables, chainId) {
 	link.textContent = data.currency;
 	link.setAttribute('title', data.currency)
 
-	if (!data.currency) {
+	if (data.currency === '') {
 		link.textContent = data.smartContract;
 		link.setAttribute('title', data.smartContract)
 

@@ -1,29 +1,29 @@
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='TotalAddressStatistics'></div>
   </div>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='AddressBalanceByCurrencies'></div>
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='TransactionsByDate'></div>
   </div>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='GasSpentByDate'></div>
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='InboundTransferCountByDate'></div>
   </div>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='OutboundTransferCountByDate'></div>
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='SMCalls'></div>
   </div>
 </div>
@@ -292,10 +292,10 @@
     renderComponent(TotalAddressStatistics, '#TotalAddressStatistics', 'Total-Address-Statistics_1_1_1_1_1_1_1_1_1_1', variables);
     renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Address-balance-by-currencies_4', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_1_1_1_1', variables);
-        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_1_1', variables);
-        renderComponent(InboundTransferCountByDate, '#InboundTransferCountByDate', 'Inbound-transfer-count-by-date', variables);
-        renderComponent(OutboundTransferCountByDate, '#OutboundTransferCountByDate', 'Outbound-transfer-count-by-date', variables);
-        renderComponent(SMCalls, '#SMCalls', 'Smart-contract-calls--including-internal--by-date', variables);
+        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_2', variables);
+        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_2', variables);
+        renderComponent(InboundTransferCountByDate, '#InboundTransferCountByDate', 'Inbound-transfer-count-by-date_1', variables);
+        renderComponent(OutboundTransferCountByDate, '#OutboundTransferCountByDate', 'Outbound-transfer-count-by-date_1', variables);
+        renderComponent(SMCalls, '#SMCalls', 'Smart-contract-calls--including-internal--by-date_2', variables);
     })
 </script>

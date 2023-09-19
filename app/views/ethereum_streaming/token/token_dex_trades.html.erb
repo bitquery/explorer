@@ -1,7 +1,7 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
     <div class='card'>
-      <div id='Latest-Trades-of-Token-in-Network'></div>
+      <div id='LatestTradesOfTokenInNetwork'></div>
     </div>
   </div>
 </div>
@@ -32,7 +32,7 @@
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        }, rendering: renderBlockLink
+                        }, rendering: renderBlockLink, headerStyle: {width: '96px'},
                     },
                     {
                         name: 'Seller', cell: function (row) {
@@ -40,9 +40,13 @@
                         }, rendering: renderJustAddressLink
                     },
                     {
-                        name: 'Sell amount', cell: function (row) {
+                        name: 'Sell amount',
+                        cell: function (row) {
                             return row.Trade.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        },
+                        headerStyle: {textAlign: 'end'},
+                        rendering: renderNumbers,
+                        headerStyle: {textAlign: 'end', width: '100px'},
                     },
                     {
                         name: 'Sell currency', cell: function (row) {
@@ -60,10 +64,12 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buyer
-                        }, rendering: renderJustAddressLink,
+                        },
+                        rendering: renderJustAddressLink
                     },
                     {
-                        name: 'Buy amount', cell: function (row) {
+                        name: 'Buy amount',
+                        cell: function (row) {
                             return row.Trade.Side.Amount
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
@@ -73,17 +79,20 @@
                                 currency: row.Trade.Side.Currency.Symbol,
                                 smartContract: row.Trade.Side.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '106px'},
                     },
                     {
-                        name: 'Price', cell: function (row) {
+                        name: 'Price',
+                        cell: function (row) {
                             return row.Trade.Price
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Transaction',
+                        cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX
+                        },
+                        rendering: renderTX
                     }
                 ]
             }
@@ -134,12 +143,10 @@
         network: '<%= @streaming%>',
         token: '<%= @address %>',
         limit: 10,
-        offset: 0,
-        till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
     }
-    renderComponent(LatestTradesOfTokenInNetwork, '#Latest-Trades-of-Token-in-Network', 'Latest-Trades-of-Token_1', variables, 'Latest-Trades-of-Token-in-Network-subscription');
+    renderComponent(LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork', 'Latest-Trades-of-Token-in-Network_dextrades', variables, 'Subscription-latest-Trades-of-Token_dextrades');
+
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TokenPairs, '#TokenPairs', 'Token-pairs_1_1_1_1', variables);
+        renderComponent(TokenPairs, '#TokenPairs', 'Token-pairs_2', variables);
     })
 </script>

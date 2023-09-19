@@ -2,13 +2,13 @@
   if if if
 <% else %>
   <div class="row d-flex">
-    <div class='col-12 col-lg-6'>
+    <div class='col-12 col-xl-6'>
       <div class='card' id='TokenAttributes'></div>
     </div>
-    <div class='col-12 col-lg-6'>
+    <div class='col-12 col-xl-6'>
       <div class='card' id='AddressBalanceByCurrencies'></div>
     </div>
-    <div class='col-12 col-lg-6'>
+    <div class='col-12 col-xl-6'>
       <div class='card' id='TokenHolderOfToken'></div>
     </div>
   </div>
@@ -17,35 +17,40 @@
           configuration() {
               return {
                   topElement: function (response) {
-                      return response.EVM.DEXTrades
+                      return response.EVM.Transfers
                   },
                   chainId: function (response) {
-                      return response.EVM.DEXTrades[0].ChainId
+                      return response.EVM.Transfers[0].ChainId
                   },
                   columns: [
                       {
                           name: 'Symbol', cell: function (row) {
-                              return row.Trade.Buy.Currency.Symbol
+                              return row.Transfer.Currency.Symbol
                           },
                       },
                       {
                           name: 'Name', cell: function (row) {
-                              return row.Trade.Buy.Currency.Name
+                              return row.Transfer.Currency.Name
                           },
                       },
+                      // {
+                      //     name: 'ID', cell: function (row) {
+                      //         return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
+                      //     }, rendering: renderIdLink
+                      // },
                       {
                           name: 'Number of Decimals', cell: function (row) {
-                              return row.Trade.Buy.Currency.Decimals
+                              return row.Transfer.Currency.Decimals
                           },
                       },
                       {
-                         name: "Balance", cell: function (row){
-                             return row.sum
+                          name: "Balance", cell: function (row) {
+                              return row.sum
                           }
                       },
                       {
                           name: 'Protocol name', cell: function (row) {
-                              return row.Trade.Buy.Currency.ProtocolName
+                              return row.Transfer.Currency.ProtocolName
                           },
                       },
                   ]
@@ -57,10 +62,10 @@
           configuration() {
               return {
                   topElement: function (response) {
-                      return response.EVM.DEXTrades
+                      return response.EVM.Transfers
                   },
                   chainId: function (response) {
-                      return response.EVM.DEXTrades[0].ChainId
+                      return response.EVM.Transfers[0].ChainId
                   },
                   columns: [
                       {
@@ -133,8 +138,8 @@
           address: '<%= @address %>',
       }
 
-      renderComponent(TokenAttributes, '#TokenAttributes', 'Token-attributes_1_1_1_1', variables);
-      renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Token-transfer-statistics_1_1', variables);
+      renderComponent(TokenAttributes, '#TokenAttributes', 'Token-attributes_4', variables);
+      renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Token-transfer-statistics_2', variables);
       renderComponent(TokenHolderOfToken, '#TokenHolderOfToken', 'Token-holder-of-token_1', variables);
   </script>
 <% end %>
