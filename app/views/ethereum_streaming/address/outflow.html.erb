@@ -38,17 +38,12 @@
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        }, rendering: renderBlockLink
+                        }, rendering: renderBlockLink, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink,
-                    },
-                    {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                        }, rendering: renderAddressLink,headerStyle: {width: '25%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -64,9 +59,9 @@
                         }, rendering: renderTokenLink,
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX, headerStyle: {width: '136px'},
                     },
 
                 ]
@@ -163,9 +158,9 @@
                         },
                     },
                     {
-                        name: 'Transaction Hash', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX, headerStyle: {width: '136px'},
                     },
                 ]
             }
@@ -206,9 +201,9 @@
                         },
                     },
                     {
-                        name: 'Transaction Hash', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX, headerStyle: {width: '136px'},
                     },
                 ]
             }
@@ -220,10 +215,9 @@
         address: '<%= @address %>',
     };
     renderComponent(LatestOutboundTransfers, '#LatestOutboundTransfers', 'Latest-Outbound-Transfers', variables);
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency', 'Outbound-transfers-in-native-currency', variables);
-        renderComponent(OutboundTransfersInTokens, '#OutboundTransfersInTokens', 'Outbound-transfers-in-tokens', variables);
-        renderComponent(TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency', 'Top-Receivers-in-native-currency_1', variables);
-        renderComponent(TopReceiversInTokens, '#TopReceiversInTokens', 'Top-Receivers-in-tokens', variables);
-    })
+    renderComponent(OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency', 'Outbound-transfers-in-native-currency_1', variables);
+    renderComponent(OutboundTransfersInTokens, '#OutboundTransfersInTokens', 'Outbound-transfers-in-tokens', variables);
+    renderComponent(TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency', 'Top-Receivers-in-native-currency_2', variables);
+    renderComponent(TopReceiversInTokens, '#TopReceiversInTokens', 'Top-Receivers-in-tokens_1', variables);
+
 </script>

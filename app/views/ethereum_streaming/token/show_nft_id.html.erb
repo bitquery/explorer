@@ -1,8 +1,8 @@
 <div class='row mb-4'>
-  <div class='col-12 col-lg-5'>
+  <div class='col-12 col-xl-5'>
     <div class='card' id='LatestNFTTransfersTable'></div>
   </div>
-  <div class='col-12 col-lg-7'>
+  <div class='col-12 col-xl-7'>
     <div class='card' id='IdNFTTransfersTable'></div>
   </div>
 </div>
@@ -95,12 +95,12 @@
                     {
                         name: 'TX Hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
                             return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end', width: '80px'},
                     }
                 ]
             }
@@ -145,13 +145,10 @@
     const variables = {
         network: '<%= @streaming%>',
         token: '<%= @token %>',
-        offset: 0,
         id: '<%= @id %>',
-
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestNFTTransfersTable, '#LatestNFTTransfersTable', 'NFT-Token-Information-By-ID_1_1', variables);
-        renderComponent(IdNFTTransfersGraph, '#IdNFTTransfersGraph', 'NFT-Transfers-List-By-Id_1', variables);
-        renderComponent(IdNFTTransfersTable, '#IdNFTTransfersTable', 'NFT-Transfers-List-By-Id_1', variables);
-    })
+    renderComponent(LatestNFTTransfersTable, '#LatestNFTTransfersTable', 'NFT-Token-Information-By-ID_5', variables);
+    renderComponent(IdNFTTransfersGraph, '#IdNFTTransfersGraph', 'NFT-Transfers-List-By-Id_2', variables);
+    renderComponent(IdNFTTransfersTable, '#IdNFTTransfersTable', 'NFT-Transfers-List-By-Id_2', variables);
+
 </script>

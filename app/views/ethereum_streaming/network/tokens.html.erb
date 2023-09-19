@@ -20,7 +20,7 @@
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'First transfer', cell: function (row) {
@@ -35,22 +35,22 @@
                     {
                         name: 'Uniq Senders', cell: function (row) {
                             return row.senders
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '110px'},
                     },
                     {
                         name: 'Uniq Receivers', cell: function (row) {
                             return row.receivers
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '121px'},
                     },
                     {
-                        name: 'Transfer Count', cell: function (row) {
+                        name: 'Count', cell: function (row) {
                             return row.count
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Transferred Amount', cell: function (row) {
+                        name: 'Amount', cell: function (row) {
                             return row.sum_amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Days token transferred', cell: function (row) {
