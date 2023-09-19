@@ -27,7 +27,7 @@
                     {
                         name: 'Block Reward', cell: function (row) {
                             return row.sum
-                        },rendering: renderNumbersWithCurrency,headerStyle: {textAlign: 'start'},
+                        },rendering: renderNumbersWithCurrency, cellStyle: {display:'flex',justifyContent: 'start'},
                     },
                     {
                         name: 'Transactions count', cell: function (row) {
@@ -69,5 +69,5 @@
         height: '<%= @height%>',
     }
 
-    renderComponent(BlockAttributes, '#BlockAttributes', 'Block-Attributes_1_1', variables);
+    renderComponent(BlockAttributes, '#BlockAttributes', 'Block-Attributes_2', variables);
 </script>

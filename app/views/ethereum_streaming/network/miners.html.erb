@@ -1,8 +1,8 @@
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='ActiveMinersByTime'></div>
   </div>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='BlockRewardsByDate'></div>
   </div>
 </div>
@@ -17,18 +17,18 @@
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='MinersBlockCountByTime'></div>
   </div>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='MinersBlockCountByTimeTable'></div>
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='MinersBlockRewardByTime'></div>
   </div>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='MinersBlockRewardByTimeTable'></div>
   </div>
 </div>
@@ -194,7 +194,7 @@
                     {
                         name: 'Miner', cell: function (row) {
                             return row.Block.Coinbase
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
                     },
                     {
                         name: 'Count', cell: function (row) {
@@ -259,7 +259,7 @@
                     {
                         name: 'Miner', cell: function (row) {
                             return row.Block.Coinbase
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
                     },
                     {
                         name: 'Reward', cell: function (row) {

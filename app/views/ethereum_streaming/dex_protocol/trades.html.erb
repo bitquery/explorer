@@ -40,7 +40,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
+                        }, rendering: renderAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -50,7 +50,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
+                        }, rendering: renderAddressLink,
                     },
                     {
                         name: 'Buy amount', cell: function (row) {
@@ -68,7 +68,7 @@
                     {
                         name: 'Dex', cell: function (row) {
                             return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}`
-                        }
+                        },
                     },
                     {
                         name: 'Transaction', cell: function (row) {

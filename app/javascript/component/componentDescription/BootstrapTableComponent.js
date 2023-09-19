@@ -124,7 +124,12 @@ export default class BootstrapTableComponent {
                     const div = await column.rendering(column.cell(row), variables, chainId);
                     td.replaceChild(div, textCell);
                 }
-
+                if (column.cellStyle) {
+                    const cellStyle = column.cellStyle;
+                    for (let styleKey in cellStyle) {
+                        td.style[styleKey] = cellStyle[styleKey];
+                    }
+                }
                 tr.appendChild(td);
                 rows.push(tr)
             }

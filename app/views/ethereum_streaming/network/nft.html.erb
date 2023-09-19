@@ -4,10 +4,10 @@
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-7'>
+  <div class='col-12 col-xl-7'>
     <div class='card' id='TopTransferNFT'></div>
   </div>
-  <div class='col-12 col-lg-5'>
+  <div class='col-12 col-xl-5'>
     <div class='card' id='NFTTransfersByDatePie'></div>
   </div>
 </div>
@@ -17,18 +17,18 @@
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-7'>
+  <div class='col-12 col-xl-7'>
     <div class='card' id='TopTradedNFTTokens'></div>
   </div>
-  <div class='col-12 col-lg-5'>
+  <div class='col-12 col-xl-5'>
     <div class='card' id='TopTradedNFTTokensPie'></div>
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-7'>
+  <div class='col-12 col-xl-7'>
     <div class='card' id='TopExchangesForNFTs'></div>
   </div>
-  <div class='col-12 col-lg-5'>
+  <div class='col-12 col-xl-5'>
     <div class='card' id='TopExchangesForNFTsPie'></div>
   </div>
 </div>
@@ -346,12 +346,12 @@
                                 currency: row.Trade.Sell.Currency.Symbol,
                                 smartContract: row.Trade.Sell.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
+                        }, rendering: renderAddressLink,
                     },
                     {
                         name: '', cell: function () {
@@ -361,7 +361,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink, headerStyle: {width: '15%'},
+                        }, rendering: renderAddressLink,
                     },
                     {
                         name: 'NFT', cell: function (row) {
@@ -398,7 +398,7 @@
                     {
                         name: 'Transaction', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX,  headerStyle: {width: '110px'},
                     },
                 ]
             }

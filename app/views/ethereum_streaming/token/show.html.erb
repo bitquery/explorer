@@ -2,13 +2,13 @@
   if if if
 <% else %>
   <div class="row d-flex">
-    <div class='col-12 col-lg-6'>
+    <div class='col-12 col-xl-6'>
       <div class='card' id='TokenAttributes'></div>
     </div>
-    <div class='col-12 col-lg-6'>
+    <div class='col-12 col-xl-6'>
       <div class='card' id='AddressBalanceByCurrencies'></div>
     </div>
-    <div class='col-12 col-lg-6'>
+    <div class='col-12 col-xl-6'>
       <div class='card' id='TokenHolderOfToken'></div>
     </div>
   </div>
@@ -33,11 +33,11 @@
                               return row.Transfer.Currency.Name
                           },
                       },
-                      {
-                          name: 'ID', cell: function (row) {
-                              return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
-                          }, rendering: renderIdLink
-                      },
+                      // {
+                      //     name: 'ID', cell: function (row) {
+                      //         return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
+                      //     }, rendering: renderIdLink
+                      // },
                       {
                           name: 'Number of Decimals', cell: function (row) {
                               return row.Transfer.Currency.Decimals
