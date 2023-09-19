@@ -4,10 +4,10 @@
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='TransactionsByDate'></div>
   </div>
-  <div class='col-12 col-lg-6'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='GasSpentByDate'></div>
   </div>
 </div>
@@ -140,6 +140,6 @@
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_3', variables);
         renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_3', variables);
-        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_4', variables);
+        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_5', variables);
     })
 </script>

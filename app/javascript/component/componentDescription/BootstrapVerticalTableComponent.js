@@ -88,6 +88,12 @@ export default class BootstrapVerticalTableComponent {
 						const div = await column.rendering(column.cell(rowData), variables, chainId);
 						td2.replaceChild(div, textCell2);
 					}
+					if (column.cellStyle) {
+						const cellStyle = column.cellStyle;
+						for (let styleKey in cellStyle) {
+							td2.style[styleKey] = cellStyle[styleKey];
+						}
+					}
 					this.appendChildren(tr, td1, td2);
 					this.appendChildren(this.tbody, tr);
 
