@@ -147,8 +147,7 @@
         token: '<%= @token %>',
         id: '<%= @id %>',
     }
-    renderComponent(LatestNFTTransfersTable, '#LatestNFTTransfersTable', 'NFT-Token-Information-By-ID_5', variables);
-    renderComponent(IdNFTTransfersGraph, '#IdNFTTransfersGraph', 'NFT-Transfers-List-By-Id_2', variables);
-    renderComponent(IdNFTTransfersTable, '#IdNFTTransfersTable', 'NFT-Transfers-List-By-Id_2', variables);
+    renderComponent([[LatestNFTTransfersTable, '#LatestNFTTransfersTable']], 'NFT-Token-Information-By-ID_5', variables);
+    renderComponent([[IdNFTTransfersGraph, '#IdNFTTransfersGraph'], [IdNFTTransfersTable, '#IdNFTTransfersTable']], 'NFT-Transfers-List-By-Id_2', variables);
 
 </script>

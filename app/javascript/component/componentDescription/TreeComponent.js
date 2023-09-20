@@ -7,7 +7,6 @@ export default class TreeComponent {
 
     async init() {
         this.historyDataSource.setCallback(this.onHistoryData.bind(this));
-        await this.historyDataSource.changeVariables();
     }
 
     async onHistoryData(data) {

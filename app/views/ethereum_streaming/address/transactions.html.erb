@@ -122,8 +122,8 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     }
-        renderComponent(Transactions, '#Transactions', 'Transactions_6', variables);
-        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_5', variables);
-        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_7', variables);
+    renderComponent([[Transactions, '#Transactions']], 'Transactions_6', variables);
+    renderComponent([[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_5', variables);
+    renderComponent([[GasSpentByDate, '#GasSpentByDate']], 'Gas-Spent-By-Date_7', variables);
 
 </script>

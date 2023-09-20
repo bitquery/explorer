@@ -1,23 +1,29 @@
 const isNotEmptyArray = subj => Array.isArray(subj) && subj.length;
 const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 
-export function SubscriptionDataSource(payload, widgetFrame) {
+export function SubscriptionDataSource(payload) {
 
-	let callback, variables, cleanSubscription
+	let variables, cleanSubscription
+	let callbacks = []
+	let widgetFrames = []
 
 	const subscribe = () => {
 		const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
 		const client = createClient({ url: currentUrl });
 
 		cleanSubscription = client.subscribe({ query: payload.query, variables }, {
-			next: ({ data }) => callback(data, variables),
-			error: error => { widgetFrame.onerror(error) },
+			next: ({ data }) => callbacks.forEach(cb => cb(data, variables)),
+			error: error => { widgetFrames.forEach(wf => wf.onerror(error)) },
 			complete: () => {},
 		});
 	} 
 
 	this.setCallback = cb => {
-		callback = cb
+		callbacks.push(cb)
+	}
+
+	this.setWidgetFrame = wf => {
+		widgetFrames.push(wf)
 	}
 
 	this.changeVariables = async deltaVariables => {
@@ -29,24 +35,29 @@ export function SubscriptionDataSource(payload, widgetFrame) {
 	return this
 }
 
-export function HistoryDataSource(payload, widgetFrame) {
+export function HistoryDataSource(payload) {
 
-	let callback
+	let callbacks = []
+	let widgetFrames = []
 	let variables = payload.variables
 
 	const getNewData = async () => {
-		widgetFrame.onquerystarted()
+		widgetFrames.forEach(wf => wf.onquerystarted())
 		try {
 			const data = await getData({ ...payload, variables })
-			widgetFrame.onqueryend()
-			callback(data, variables)
+			widgetFrames.forEach(wf => wf.onqueryend())
+			callbacks.forEach(cb => cb(data, variables))
 		} catch (error) {
-			widgetFrame.onerror(error)
+			widgetFrames.forEach(wf => wf.onerror(error))
 		}
 	}
 
 	this.setCallback = cb => {
-		callback = cb
+		callbacks.push(cb)
+	}
+
+	this.setWidgetFrame = wf => {
+		widgetFrames.push(wf)
 	}
 
 	this.increaseLimit = async () => {
@@ -235,7 +246,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		cardBody.appendChild(loader);
 	};
 	const onqueryend = () => {
-		cardBody.removeChild(loader);
+		loader.parentElement === cardBody && cardBody.removeChild(loader); 
 	};
 	const onerror = error => {
 		if (row.contains(blinkerWrapper)) {

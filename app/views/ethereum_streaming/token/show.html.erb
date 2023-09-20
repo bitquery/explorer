@@ -133,9 +133,9 @@
           address: '<%= @address %>',
       }
       renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-          renderComponent(TokenHolderOfToken, '#TokenHolderOfToken', 'Token-holder-of-token_3', variables);
+          renderComponent([[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_3', variables);
       })
-      renderComponent(TokenAttributes, '#TokenAttributes', 'Token-attributes_4', variables);
-      renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Token-transfer-statistics_3', variables);
+      renderComponent([[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
+      renderComponent([[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Token-transfer-statistics_3', variables);
   </script>
 <% end %>

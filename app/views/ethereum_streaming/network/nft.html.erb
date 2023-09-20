@@ -411,14 +411,11 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(NFTTransfersByDate, '#NFTTransfersByDate', 'NFT-Token-Transfers-By-Date_1', variables);
-        renderComponent(NFTTransfersByDatePie, '#NFTTransfersByDatePie', 'Top-transfered-NFT-tokens-in-network_1', variables);
-        renderComponent(TopTransferNFT, '#TopTransferNFT', 'Top-transfered-NFT-tokens-in-network_1', variables);
-        renderComponent(NFTTokenTradesByDate, '#NFTTokenTradesByDate', 'NFT-Token-Trades-By-Date_1_1', variables);
-        renderComponent(TopTradedNFTTokens, '#TopTradedNFTTokens', 'Top-traded-NFT-tokens-in-network_1', variables);
-        renderComponent(TopTradedNFTTokensPie, '#TopTradedNFTTokensPie', 'Top-traded-NFT-tokens-in-network_1', variables);
-        renderComponent(TopExchangesForNFTs, '#TopExchangesForNFTs', 'NFT-Marketplace-Data_1_1', variables);
-        renderComponent(TopExchangesForNFTsPie, '#TopExchangesForNFTsPie', 'NFT-Marketplace-Data_1_1', variables);
+        renderComponent([[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_1', variables);
+        renderComponent([[NFTTransfersByDatePie, '#NFTTransfersByDatePie'], [TopTransferNFT, '#TopTransferNFT']], 'Top-transfered-NFT-tokens-in-network_1', variables);
+        renderComponent([[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_1_1', variables);
+        renderComponent([[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-traded-NFT-tokens-in-network_1', variables);
+        renderComponent([[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_1_1', variables);
     })
-    renderComponent(SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken', 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1_1', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
+    renderComponent([[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_1_1', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network');
 </script>

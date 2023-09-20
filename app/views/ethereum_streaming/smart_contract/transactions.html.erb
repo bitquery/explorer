@@ -133,8 +133,8 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestTransactions, '#LatestTransactions', 'Latest--Transactions_2', variables);
-        renderComponent(TopSmartContractCaller, '#TopSmartContractCaller', 'Top-Smart-Contract-Caller', variables);
-        renderComponent(TopGasBurnerForSmartContract, '#TopGasBurnerForSmartContract', 'Top-Gas-burner-for-Smart-Contract_1', variables);
+        renderComponent([[LatestTransactions, '#LatestTransactions']], 'Latest--Transactions_2', variables);
+        renderComponent([[TopSmartContractCaller, '#TopSmartContractCaller']], 'Top-Smart-Contract-Caller', variables);
+        renderComponent([[TopGasBurnerForSmartContract, '#TopGasBurnerForSmartContract']], 'Top-Gas-burner-for-Smart-Contract_1', variables);
     })
 </script>
