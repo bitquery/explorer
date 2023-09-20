@@ -170,7 +170,7 @@
     renderComponent(SmartContractStatistics, '#SmartContractStatistics', 'Smart-Contract-Statistics_1', variables);
     renderComponent(SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies', 'Smart-Contract-balance-by-currencies_1', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(DailySmartContractCalls, '#DailySmartContractCalls', 'Daily-Smart-Contract-Calls_2', variables);
-        renderComponent(DailySmartContractCallsInt, '#DailySmartContractCallsInt', 'Daily-Smart-Contract-Calls_1', variables);
+        renderComponent(DailySmartContractCalls, '#DailySmartContractCalls', 'Daily-Smart-Contract-Calls_3', variables);
+        renderComponent(DailySmartContractCallsInt, '#DailySmartContractCallsInt', 'Daily-Smart-Contract-Calls_3', variables);
     })
 </script>
