@@ -1,8 +1,6 @@
 export default function renderNumbersWithCurrency(data, variables, chainId) {
     const container = document.createElement('div');
     container.style.cssText = 'display: flex; flex-direction: row; gap: 0px 6px; justify-content: end;'
-    // container.style.gap = '0 6px';
-    // container.style.justifyContent = 'end';
 
     const div = document.createElement('div');
     div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;';

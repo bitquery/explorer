@@ -124,7 +124,7 @@
                 columns: [
                     {
                         name: 'NFT', cell: function (row) {
-                            return row.Transfer.Currency.Symbol
+                            return row.Transfer.Currency.Symbol || row.Transfer.Currency.SmartContract
                         }
                     },
                     {
@@ -235,7 +235,7 @@
                 columns: [
                     {
                         name: 'NFT', cell: function (row) {
-                            return row.Trade.Buy.Currency.Symbol
+                            return row.Trade.Buy.Currency.Symbol || row.Trade.Buy.Currency.SmartContract
                         }
                     },
                     {
