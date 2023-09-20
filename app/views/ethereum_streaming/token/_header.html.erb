@@ -1,29 +1,9 @@
- <% if @native_token %>
-  <% content_for :token, @address %>
-  <% content_for :header, t('pages.token.native.header',currency: @address, network: @network[:name] ) %>
-<% else %>
-  <% content_for :token, t('network.ethereum_streaming.token.name',
-                           name: @token_info.currency.name=='-' ? t('pages.token.unnamed') : @token_info.currency.name,
-                           symbol: @token_info.currency.symbol=='-' ? nil : @token_info.currency.symbol) %>
-
-  <% content_for :header do %>
-    <%= t "tabs.#{controller_name}.header", network: @network[:name],
-           token: content_for(:token) %>.
-
-    <%= t "network.ethereum_streaming.token.smart_contract"%>
-    <%= copy_text(@address, 'text-info').html_safe %>
-
-    <br><%= render partial: 'shared/address_annotation', locals: {annotation:  @info.annotation } %>
-
-  <% end %>
-
-<% end %>
-
-<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], token: content_for(:token)) %>
-<% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], token: content_for(:token), address: @address) %>
-<% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name], token: content_for(:token), address: @address) %>
+<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], address: @address) %>
+<% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], address: @address) %>
+<% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name], address: @address) %>
 
 <%= render partial: 'shared/title', locals: {
-    icon: t("tabs.#{controller_name}.icon"),
-    header: content_for(:header),
-    reportrange: true} %>
+  icon: t("tabs.#{controller_name}.icon"),
+  header: t( "tabs.#{controller_name}.header", network: @network[:name], address: copy_text(@address, 'text-info')).html_safe,
+  reportrange: (params[:action] == 'show_nft_id' ? false : true) } %>
+

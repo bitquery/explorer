@@ -38,7 +38,7 @@
                         }, rendering: renderAddressLink,
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
                         }, rendering: renderTX,
                     },
@@ -50,7 +50,7 @@
                     {
                         name: 'Success?', cell: function (row) {
                             return row.TransactionStatus.Success
-                        },
+                        }, headerStyle: {width: '110px'},
                     },
                 ]
             }
@@ -122,9 +122,8 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(Transactions, '#Transactions', 'Transactions_3', variables);
-        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_1_1_1_1', variables);
-        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_1_1', variables);
-    })
+        renderComponent(Transactions, '#Transactions', 'Transactions_6', variables);
+        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_5', variables);
+        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_7', variables);
+
 </script>

@@ -58,7 +58,7 @@
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
                         }, rendering: renderTX,
                     },
@@ -89,7 +89,7 @@
                     }
                 ],
                 options: {
-                    height: 250,
+                    height: 450,
                 }
             }
         }
@@ -131,7 +131,7 @@
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
                         }, rendering: renderTX,
                     },

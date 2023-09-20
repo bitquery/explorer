@@ -21,17 +21,10 @@
     <div class='card' id='MinersBlockCountByTime'></div>
   </div>
   <div class='col-12 col-xl-6'>
-    <div class='card' id='MinersBlockCountByTimeTable'></div>
-  </div>
-</div>
-<div class='row mb-4'>
-  <div class='col-12 col-xl-6'>
     <div class='card' id='MinersBlockRewardByTime'></div>
   </div>
-  <div class='col-12 col-xl-6'>
-    <div class='card' id='MinersBlockRewardByTimeTable'></div>
-  </div>
 </div>
+
 <script>
     class ActiveMinersByTime extends TimeChartComponent {
         configuration() {
@@ -175,37 +168,6 @@
         }
     }
 
-    class MinersBlockCountByTimeTable extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.MinerRewards
-                },
-                chainId: function (response) {
-                    return response.EVM.MinerRewards[0].ChainId
-                },
-                title: 'Miners Block Count By Time',
-                columns: [
-                    {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        },
-                    },
-                    {
-                        name: 'Miner', cell: function (row) {
-                            return row.Block.Coinbase
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
-                    },
-                    {
-                        name: 'Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                ]
-            }
-        }
-    }
-
     class MinersBlockRewardByTime extends TimeChartComponent {
         configuration() {
             return {
@@ -215,7 +177,7 @@
                 chainId: function (response) {
                     return response.EVM.MinerRewards[0].ChainId
                 },
-                title: 'Miners Block Reward By Time',
+                title: 'Miners Block Reward By Date',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -240,36 +202,6 @@
         }
     }
 
-    class MinersBlockRewardByTimeTable extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.MinerRewards
-                },
-                chainId: function (response) {
-                    return response.EVM.MinerRewards[0].ChainId
-                },
-                title: 'Miners Block Reward By Time',
-                columns: [
-                    {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        },
-                    },
-                    {
-                        name: 'Miner', cell: function (row) {
-                            return row.Block.Coinbase
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
-                    },
-                    {
-                        name: 'Reward', cell: function (row) {
-                            return row.sum
-                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
-                    },
-                ]
-            }
-        }
-    }
 
     const variables = {
         network: '<%= @streaming%>',
@@ -278,9 +210,7 @@
         renderComponent(ActiveMinersByTime, '#ActiveMinersByTime', 'Active-Miners-By-Time', variables);
         renderComponent(BlockRewardsByDate, '#BlockRewardsByDate', 'Block-Rewards-By-Date', variables);
         renderComponent(Miners, '#Miners', 'Miners_1', variables);
-        renderComponent(MinersBlockCountByTime, '#MinersBlockCountByTime', 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
-        renderComponent(MinersBlockCountByTimeTable, '#MinersBlockCountByTimeTable', 'Miners-Block-Count-By-Time_1_1', variables);
-        renderComponent(MinersBlockRewardByTime, '#MinersBlockRewardByTime', 'Miners-Block-Count-By-Time_1_1_1_1_1', variables);
-        renderComponent(MinersBlockRewardByTimeTable, '#MinersBlockRewardByTimeTable', 'Miners-Block-Count-By-Time_1_1_1_1_1_1_1_1', variables);
+        renderComponent(MinersBlockCountByTime, '#MinersBlockCountByTime', 'Miners-Block-Count-By-Time_2', variables);
+        renderComponent(MinersBlockRewardByTime, '#MinersBlockRewardByTime', 'Miners-Block-Count-By-Time_3', variables);
     })
 </script>

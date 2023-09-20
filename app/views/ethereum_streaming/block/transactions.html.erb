@@ -32,11 +32,11 @@
                     {
                         name: 'Value', cell: function (row) {
                             return row.Transaction.Value
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },                    {
                         name: 'Sender fee', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

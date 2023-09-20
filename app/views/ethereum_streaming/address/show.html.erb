@@ -142,10 +142,10 @@
         configuration() {
             return {
                 topElement: function (response) {
-                    return response.EVM.Transfers
+                    return response.EVM.Transactions
                 },
                 chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
+                    return response.EVM.Transactions[0].ChainId
                 },
                 columns: [
                     {
@@ -291,11 +291,10 @@
 
     renderComponent(TotalAddressStatistics, '#TotalAddressStatistics', 'Total-Address-Statistics_1_1_1_1_1_1_1_1_1_1', variables);
     renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Address-balance-by-currencies_4', variables);
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_2', variables);
-        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_2', variables);
-        renderComponent(InboundTransferCountByDate, '#InboundTransferCountByDate', 'Inbound-transfer-count-by-date_1', variables);
-        renderComponent(OutboundTransferCountByDate, '#OutboundTransferCountByDate', 'Outbound-transfer-count-by-date_1', variables);
-        renderComponent(SMCalls, '#SMCalls', 'Smart-contract-calls--including-internal--by-date_2', variables);
-    })
+    renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_4', variables);
+    renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_6', variables);
+    renderComponent(InboundTransferCountByDate, '#InboundTransferCountByDate', 'Inbound-transfer-count-by-date_2', variables);
+    renderComponent(OutboundTransferCountByDate, '#OutboundTransferCountByDate', 'Outbound-transfer-count-by-date_2', variables);
+    renderComponent(SMCalls, '#SMCalls', 'Smart-contract-calls--including-internal--by-date_3', variables);
+
 </script>

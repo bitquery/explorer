@@ -33,11 +33,11 @@
                     {
                         name: 'Gas used', cell: function (row) {
                             return row.Call.GasUsed
-                        },  rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        },  rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },                    {
                         name: 'Value', cell: function (row) {
                             return row.Call.Value
-                        },  rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        },  rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },                    {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash

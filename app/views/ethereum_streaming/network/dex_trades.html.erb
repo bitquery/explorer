@@ -204,8 +204,8 @@
                     },
                     {
                         name: 'Smart Contract', cell: function (row) {
-                            return {currency: null, smartContract: row.Trade.Dex.SmartContract}
-                        }, rendering: renderTokenLink,headerStyle: {width: '126px'},
+                            return  row.Trade.Dex.SmartContract
+                        }, rendering: renderAddressLink,headerStyle: {width: '126px'},
                     },
                     {
                         name: 'Hash', cell: function (row) {
