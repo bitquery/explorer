@@ -39,25 +39,22 @@
                     {
                         name: 'Block', cell: function (row) {
                             return row.Block.Number
-                        }, rendering: renderBlockLink,headerStyle: {width: '110px'},
+                        }, rendering: renderBlockLink, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink, headerStyle: {width: '25%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '25%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
                             return row.sum
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
+                            return row.Transfer.Currency.Symbol
+                        },
                     },
                     {
                         name: 'Transaction hash', cell: function (row) {
@@ -141,7 +138,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -181,7 +178,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -215,12 +212,14 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
     }
-    renderComponent(LatestInboundTransfers, '#LatestInboundTransfers', 'Latest-Inbound_1', variables);
-    renderComponent(InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency', 'Inbound-transfers-in-native-currency_2', variables);
-    renderComponent(InboundTransfersInTokens, '#InboundTransfersInTokens', 'Inbound-transfers-in-tokens_1', variables);
-    renderComponent(TopSendersInNativeCurrency, '#TopSendersInNativeCurrency', 'Top-Senders-in-native-currency_2', variables);
-    renderComponent(TopSendersInTokens, '#TopSendersInTokens', 'Top-Senders-in-tokens_1', variables);
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent(LatestInboundTransfers, '#LatestInboundTransfers', 'Latest-Inbound_2', variables);
+        renderComponent(TopSendersInNativeCurrency, '#TopSendersInNativeCurrency', 'Top-Senders-in-native-currency_1', variables);
+        renderComponent(TopSendersInTokens, '#TopSendersInTokens', 'Top-Senders-in-tokens', variables);
+        renderComponent(InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency', 'Inbound-transfers-in-native-currency_1', variables);
+        renderComponent(InboundTransfersInTokens, '#InboundTransfersInTokens', 'Inbound-transfers-in-tokens', variables);
+    })
 
 </script>
