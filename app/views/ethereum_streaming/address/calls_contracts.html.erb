@@ -226,10 +226,10 @@
         address: '<%= @address %>',
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_3', variables);
-        renderComponent(SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate', 'Smart-contract-calls--including-internal--by-date_1', variables);
-        renderComponent(TopGasCostCalls, '#TopGasCostCalls', 'Top-Gas-Cost-Calls_2', variables);
-        renderComponent(SmartContractsCalled, '#SmartContractsCalled', 'Smart-Contracts-Called', variables);
-        renderComponent(SmartContractMethodsCalled, '#SmartContractMethodsCalled', 'Smart-Contract-Methods-Called_2', variables);
+        renderComponent([[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_3', variables);
+        renderComponent([[SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate']], 'Smart-contract-calls--including-internal--by-date_1', variables);
+        renderComponent([[TopGasCostCalls, '#TopGasCostCalls']], 'Top-Gas-Cost-Calls_2', variables);
+        renderComponent([[SmartContractsCalled, '#SmartContractsCalled']], 'Smart-Contracts-Called', variables);
+        renderComponent([[SmartContractMethodsCalled, '#SmartContractMethodsCalled']], 'Smart-Contract-Methods-Called_2', variables);
     })
 </script>

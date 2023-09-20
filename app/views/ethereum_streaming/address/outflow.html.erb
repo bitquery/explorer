@@ -219,11 +219,11 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     };
-    renderComponent(LatestOutboundTransfers, '#LatestOutboundTransfers', 'Latest-Outbound-Transfers', variables);
+    renderComponent([[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency', 'Outbound-transfers-in-native-currency', variables);
-        renderComponent(OutboundTransfersInTokens, '#OutboundTransfersInTokens', 'Outbound-transfers-in-tokens', variables);
-        renderComponent(TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency', 'Top-Receivers-in-native-currency_1', variables);
-        renderComponent(TopReceiversInTokens, '#TopReceiversInTokens', 'Top-Receivers-in-tokens', variables);
+        renderComponent([[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency', variables);
+        renderComponent([[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens', variables);
+        renderComponent([[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_1', variables);
+        renderComponent([[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens', variables);
     })
 </script>

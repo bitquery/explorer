@@ -164,9 +164,9 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(Receivers, '#Receivers', 'Receivers_1_1', variables);
-        renderComponent(ReceiversStats, '#ReceiversStats', 'Receivers-Stats_1', variables);
-        renderComponent(UniqSenders, '#UniqSenders', 'Uniq-Receivers', variables);
-        renderComponent(MedianTransferAmount, '#MedianTransferAmount', 'Median-Transfer-Amount_1', variables);
+        renderComponent([[Receivers, '#Receivers']], 'Receivers_1_1', variables);
+        renderComponent([[ReceiversStats, '#ReceiversStats']], 'Receivers-Stats_1', variables);
+        renderComponent([[UniqSenders, '#UniqSenders']], 'Uniq-Receivers', variables);
+        renderComponent([[MedianTransferAmount, '#MedianTransferAmount']], 'Median-Transfer-Amount_1', variables);
     })
 </script>

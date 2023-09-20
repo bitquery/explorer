@@ -165,9 +165,9 @@
         limit: 10,
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(Senders, '#Senders', 'Senders', variables);
-        renderComponent(SendersStats, '#SendersStats', 'Senders-Stats_1_1', variables);
-        renderComponent(UniqSenders, '#UniqSenders', 'Uniq-Senders_1', variables);
-        renderComponent(MedianTransferAmount, '#MedianTransferAmount', 'Median-Transfer-Amount_1', variables);
+        renderComponent([[Senders, '#Senders']], 'Senders', variables);
+        renderComponent([[SendersStats, '#SendersStats']], 'Senders-Stats_1_1', variables);
+        renderComponent([[UniqSenders, '#UniqSenders']], 'Uniq-Senders_1', variables);
+        renderComponent([[MedianTransferAmount, '#MedianTransferAmount']], 'Median-Transfer-Amount_1', variables);
     })
 </script>

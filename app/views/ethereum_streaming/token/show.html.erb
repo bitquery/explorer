@@ -138,8 +138,8 @@
           address: '<%= @address %>',
       }
 
-      renderComponent(TokenAttributes, '#TokenAttributes', 'Token-attributes_4', variables);
-      renderComponent(AddressBalanceByCurrencies, '#AddressBalanceByCurrencies', 'Token-transfer-statistics_2', variables);
-      renderComponent(TokenHolderOfToken, '#TokenHolderOfToken', 'Token-holder-of-token_1', variables);
+      renderComponent([[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
+      renderComponent([[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Token-transfer-statistics_2', variables);
+      renderComponent([[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_1', variables);
   </script>
 <% end %>

@@ -224,10 +224,12 @@
     };
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TradesByTimeTrades, '#TradesByTimeTrades', 'Trades-By-Time', variables);
-        renderComponent(TradesByTimeAddress, '#TradesByTimeAddress', 'Trades-By-Time', variables);
-        renderComponent(TradesByTimeCurrencies, '#TradesByTimeCurrencies', 'Trades-By-Time', variables);
-        renderComponent(TradesByTimeContracts, '#TradesByTimeContracts', 'Trades-By-Time', variables);
+        renderComponent([
+            [TradesByTimeTrades, '#TradesByTimeTrades'],
+            [TradesByTimeAddress, '#TradesByTimeAddress'],
+            [TradesByTimeCurrencies, '#TradesByTimeCurrencies'],
+            [TradesByTimeContracts, '#TradesByTimeContracts']
+        ], 'Trades-By-Time', variables);
     });
-    renderComponent(SubTokenTradesTable, '#SubTokenTradesTable', 'Token-Trades_2', variables, 'Subscription-Token-Trades_1_1');
+    renderComponent([[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades_2', variables, 'Subscription-Token-Trades_1_1');
 </script>

@@ -138,9 +138,8 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
     }
-    renderComponent(LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork', 'Latest-Trades-of-NFT-Token-subscription_5', variables, 'Latest-Trades-of-NFT-Token-subscription_4');
+    renderComponent([[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Trades-of-NFT-Token-subscription_5', variables, 'Latest-Trades-of-NFT-Token-subscription_4');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TokenTransfers, '#TokenTransfers', 'Token-Transfers_1', variables);
-        renderComponent(TokenTransfersAmount, '#TokenTransfersAmount', 'Token-Transfers_1', variables);
+        renderComponent([[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_1', variables);
     })
 </script>

@@ -15,13 +15,11 @@ export default async function renderComponent(components, historyQueryID, explor
 	if (subscriptionQueryID) {
 		subscriptionQueryParams = await getQueryParams(subscriptionQueryID)
 		const { endpoint_url, query, variables: rawVariables } = subscriptionQueryParams
-		//setup subscription datasource
 		variables = { ...rawVariables, ...explorerVariables };
 		const subscriptionPayload = { query, variables, endpoint_url }
 		subscriptionDataSource = new SubscriptionDataSource(subscriptionPayload)
 	}
 	if (historyQueryID) {
-		//setup history datasource
 		historyQueryParams = await getQueryParams(historyQueryID)
 		variables = variables || { ...historyQueryParams.variables, ...explorerVariables }
 		const historyPayload = {

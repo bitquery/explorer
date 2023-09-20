@@ -222,11 +222,11 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     }
-    renderComponent(LatestInboundTransfers, '#LatestInboundTransfers', 'Latest-Inbound', variables);
+    renderComponent([[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency', 'Inbound-transfers-in-native-currency_1', variables);
-        renderComponent(InboundTransfersInTokens, '#InboundTransfersInTokens', 'Inbound-transfers-in-tokens', variables);
-        renderComponent(TopSendersInNativeCurrency, '#TopSendersInNativeCurrency', 'Top-Senders-in-native-currency_1', variables);
-        renderComponent(TopSendersInTokens, '#TopSendersInTokens', 'Top-Senders-in-tokens', variables);
+        renderComponent([[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_1', variables);
+        renderComponent([[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens', variables);
+        renderComponent([[TopSendersInNativeCurrency, '#TopSendersInNativeCurrency']], 'Top-Senders-in-native-currency_1', variables);
+        renderComponent([[TopSendersInTokens, '#TopSendersInTokens']], 'Top-Senders-in-tokens', variables);
     })
 </script>
