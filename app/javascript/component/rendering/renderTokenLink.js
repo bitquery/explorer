@@ -11,8 +11,8 @@ export default function renderTokenLink(data, variables, chainId) {
 		link.setAttribute('title', data.smartContract)
 
 	}
-	// link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`;
-	link.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`;
+	link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`;
+	// link.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`;
 	div.appendChild(link);
 	return div;
 }
