@@ -1,57 +1,43 @@
-<style>
-  @media (min-width: 728px) {
-    #ad-ins-mobile {
-      display: none !important;
-    }
-  }
-
-  @media (max-width: 727px) {
-    .ad-container {
-      display: none !important;
-    }
-  }
-</style>
-
 <header class="header border-bottom mb-2">
-    <div style="display: flex; justify-content: center;">
-        <iframe 
-            id="ad-ins-mobile"
-            data-aa='2261284' 
-            src='//ad.a-ads.com/2261284?size=320x100' 
-            style='width:320px; height:100px; border:0px; padding:0; overflow:hidden; background-color: transparent;'
-        ></iframe>
+    <div id="ad-mobile-container" style="display: flex; justify-content: center;">
     </div>
 </header>
 
-<div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
-    <div style="display: flex; justify-content: center;">
-        <ins
-            class="adsbyslise"
-            style="display:inline-block;width:728px;height:90px"
-            data-ad-slot="leaderboard"
-            data-ad-pub="pub-11"
-            id="ad-ins-desktop"
-        ></ins>
+<div class="col-12" style="display: flex; justify-content: center; margin-top: 15px; margin-bottom: 10px;">
+    <div id="ad-desktop-container" style="width: 728px;">
     </div>
-    <script async src="https://v1.slise.xyz/scripts/embed.js"></script>
-    <script>
-        let adElementDesktop = document.getElementById('ad-ins-desktop');
-        
-        if(window.innerWidth >= 728) {
-            adElementDesktop.style.width = '728px';
-            adElementDesktop.setAttribute('data-ad-format', '728x90');
-            
-            let script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.src = "https://v1.slise.xyz/scripts/embed.js";
-            script.async = true;
-            document.head.appendChild(script);
-            
-            ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
-            window.adsbyslisesync&&window.adsbyslisesync();
-        }
-    </script> 
 </div>
+
+<script>
+    if(window.innerWidth >= 728) {
+        // desktop
+        let adElementDesktop = document.createElement('ins');
+        adElementDesktop.className = "adsbyslise";
+        adElementDesktop.style = "display:inline-block;width:728px;height:90px";
+        adElementDesktop.setAttribute('data-ad-slot', 'leaderboard');
+        adElementDesktop.setAttribute('data-ad-pub', 'pub-11');
+        adElementDesktop.setAttribute('data-ad-format', '728x90');
+        document.getElementById('ad-desktop-container').appendChild(adElementDesktop);
+        
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = "https://v1.slise.xyz/scripts/embed.js";
+        script.async = true;
+        document.head.appendChild(script);
+        
+        ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
+        window.adsbyslisesync && window.adsbyslisesync();
+
+    } else {
+        // mobile
+        let iframe = document.createElement('iframe');
+        iframe.id = 'ad-ins-mobile';
+        iframe.setAttribute('data-aa', '2261284');
+        iframe.src = '//ad.a-ads.com/2261284?size=320x100';
+        iframe.style = 'width:320px; height:100px; border:0px; padding:0; overflow:hidden; background-color: transparent;';
+        document.getElementById('ad-mobile-container').appendChild(iframe);
+    }
+</script>
 
   <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
     <a href="/"><%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %>
