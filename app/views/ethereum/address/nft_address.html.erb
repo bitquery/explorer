@@ -90,7 +90,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -100,7 +100,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'TX', cell: function (row) {
@@ -135,7 +135,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -145,7 +145,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'TX', cell: function (row) {
@@ -185,7 +185,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Sell.Seller
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -195,7 +195,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Sell.Buyer
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'TX', cell: function (row) {
@@ -235,7 +235,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -245,7 +245,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'TX', cell: function (row) {

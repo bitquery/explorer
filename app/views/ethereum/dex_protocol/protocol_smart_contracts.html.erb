@@ -72,7 +72,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -82,7 +82,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Sell price', cell: function (row) {

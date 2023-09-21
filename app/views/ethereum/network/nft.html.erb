@@ -345,12 +345,12 @@
                                 currency: row.Trade.Sell.Currency.Symbol,
                                 smartContract: row.Trade.Sell.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function () {
@@ -360,7 +360,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'NFT', cell: function (row) {
@@ -368,12 +368,12 @@
                                 currency: row.Trade.Buy.Currency.Symbol,
                                 smartContract: row.Trade.Buy.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink, headerStyle: {width: '100px'},
                     },
                     {
                         name: 'ID', cell: function (row) {
                             return {id: row.Trade.Buy.Ids[0], address: row.Trade.Buy.Currency.SmartContract}
-                        }, rendering: renderIdLink
+                        }, rendering: renderIdLink, headerStyle: {width: '70px'},
                     },
                     {
                         name: 'Sell amount', cell: function (row) {
@@ -392,12 +392,12 @@
                                 ProtocolName: row.Trade.Dex.ProtocolName,
                                 ProtocolVersion: row.Trade.Dex.ProtocolVersion
                             }
-                        }, rendering: renderDexProtocolLink,
+                        }, rendering: renderDexProtocolLink,headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Txn hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX, headerStyle: {width: '100px'},
                     },
                 ]
             }

@@ -43,7 +43,6 @@ import PieChartComponent from '../component/componentDescription/PieChartCompone
 import TreeComponent from '../component/componentDescription/TreeComponent';
 import renderComponent from '../component/component';
 import renderImgFromURI from '../component/rendering/renderImgFromURI';
-import renderAddressLink from '../component/rendering/renderAddressLink';
 import renderTokenLink from '../component/rendering/renderTokenLink';
 import renderDate from '../component/rendering/renderDate';
 import renderTX from '../component/rendering/renderTX';
@@ -79,7 +78,6 @@ global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
 global.TreeComponent = TreeComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
-global.renderAddressLink = renderAddressLink;
 global.renderTokenLink = renderTokenLink;
 global.renderIdLink = renderIdLink;
 global.renderBlockLink = renderBlockLink;

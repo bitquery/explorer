@@ -17,7 +17,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transaction?.From
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -27,7 +27,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transaction?.To
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {

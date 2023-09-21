@@ -45,7 +45,7 @@
                     {
                         name: 'Last owner', cell: function (row) {
                             return row.BalanceUpdate.Address
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Received in TX', cell: function (row) {
@@ -80,7 +80,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -90,7 +90,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'TX Hash', cell: function (row) {

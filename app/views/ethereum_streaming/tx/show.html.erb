@@ -27,12 +27,12 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transaction?.From
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transaction?.To
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Transfers count', cell: function (row) {

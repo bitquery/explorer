@@ -18,12 +18,12 @@
                     {
                         name: 'Caller', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return row.Call.To
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Method', cell: function (row) {

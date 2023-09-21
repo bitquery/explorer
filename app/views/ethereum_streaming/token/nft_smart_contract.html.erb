@@ -107,7 +107,7 @@
                     {
                         name: 'Last Receiver', cell: function (row) {
                             return row.Transfer.last_receiver
-                        }, rendering: renderAddressLink
+                        }, rendering: renderJustAddressLink
                     },
                 ]
             }
@@ -127,7 +127,7 @@
                     {
                         name: 'Address', cell: function (row) {
                             return row.BalanceUpdate.Address
-                        }, rendering: renderAddressLink, headerStyle: {width: '40%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'}
                     },
                     {
                         name: 'Balance', cell: function (row) {
@@ -207,7 +207,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'}
                     },
                     {
                         name: '', cell: function (row) {
@@ -217,7 +217,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'}
                     },
                     {
                         name: 'Price', cell: function (row) {

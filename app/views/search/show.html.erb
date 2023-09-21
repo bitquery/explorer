@@ -1,133 +1,33 @@
-<% header = (@network ? t('headers.search_in',network: @network[:name], query: @query) : t('headers.search', query: @query)) %>
+<% header = (@network ? t('headers.search_in', network: @network[:name], query: @query) : t('headers.search', query: @query)) %>
 <%= render partial: 'shared/title',
            locals: {
-               header: header,
-               icon: 'fas fa-search text-default'
+             header: header,
+             icon: 'fas fa-search text-default'
            } %>
-<%= content_for :title,  header %>
+<%= content_for :title, header %>
 <%= @query = @query.strip %>
-<div class="row">
-  <div class="col mb-4">
-    <div id="search"><%= t('loading') %></div>
+<ul class="list-grout list-group-flush">
+  <% network_finder(@query).each do |network_info| %>
+    <li class="list-group-item">
+<span>
+
+  <div class="media">
+    <% if network_info[:icon].present? %>
+      <%= image_tag(network_info[:icon], class: "mr-3", style: "max-width: 32px;", alt: network_info[:name]) %>
+    <% end %>
+    <div class="media-body word-wrap" style="min-width: 40%;">
+      <h6 class="mt-0">
+        <a href="<%= network_info[:link] %>">
+          <%= network_info[:name] %>
+          <strong class="text-success">Address: <%= @query %></strong>
+        </a>
+      </h6>
+      <a href="<%= network_info[:link] %>"><%= network_info[:link] %></a>
+    </div>
   </div>
-</div>
+</span>
+    </li>
+  <% end %>
+</ul>
 
 
-<script>
-
-$( document ).ready(function() {
-
-        var query = new widgets.query(`
-    query(<%= "$network: Network!, " if @network %>$query: String!){
-      search(<%= "network: $network, " if @network %>string: $query){
-          subject{
-            __typename
-            ... on Address {
-              address
-              annotation
-            }
-            ... on Currency {
-              symbol
-              name
-              address
-              tokenId
-              tokenType
-            }
-            ... on SmartContract {
-              address
-              annotation
-              contractType
-              protocol
-            }
-            ... on TransactionHash {
-              hash
-            }
-            ... on MessageHash {
-              messageHash
-            }
-          }
-          network{
-            network
-            protocol
-          }
-        }
-      }
-    `);
-
-    function item_type(item){
-      return (item.subject.hash ? 'tx' :
-              (item.subject.contractType ? 'smart_contract' : (item.subject.symbol ? 'token' :
-                  (item.subject.messageHash ? 'message' : 'address')))
-      );
-    }
-    function item_url(item) {
-        return '<%= locale_path_prefix %>' + item.network.network + '/' +item_type(item) + '/' +
-            (item.subject.address || item.subject.hash || item.subject.messageHash);
-    }
-
-    new widgets.list('#search', query, 'search', {
-        excludeButtons: ['csv', 'js'],
-        noData: '<%= t('search_no_data', query: @query) %>',
-        renderData: function(data){
-          if(Array.isArray(data) && data.length == 1){
-              window.location.replace(item_url(data[0]));
-          }
-          return data;
-        },
-        title: 'Search',
-        dataOptions:{
-            type: 'string',
-            renderCallback: function(item){
-                let a_type = item_type(item);
-                var item_name, item_icon = '';
-                switch (a_type) {
-                  case 'address':
-                      item_name = "<%= t('address') %> "+( item.subject.annotation || item.subject.address );
-                      item_icon = '<span class="<%= t 'tabs.address.icon' %>"></span>';
-                      break;
-                  case 'smart_contract':
-                      item_name = "<%= t('smart_contract') %> "+( item.subject.annotation || item.subject.address );
-                      item_icon = '<span class="<%= t 'tabs.smart_contract.icon' %>"></span>';
-                      break;
-                  case 'token':
-                      item_name = "<%= t('token') %> "+ item.subject.symbol + ', '+item.subject.name + ' '+ (item.subject.annotation || '') ;
-                      item_icon = '<span class="<%= t 'tabs.token.icon' %>"></span>';
-                      break;
-                  case 'tx':
-                      item_name = "<%= t('tx') %> "+( item.subject.hash );
-                      item_icon = '<span class="<%= t 'tabs.tx.icon' %>"></span>';
-                      break;
-                  case 'message':
-                      item_name = "<%= t('message') %> "+( item.subject.messageHash );
-                      item_icon = '<span class="<%= t 'tabs.message.icon' %>"></span>';
-                      break;
-                };
-
-                let chains = {<%= BLOCKCHAINS.collect{|chain| "#{chain[:network]}: {name: \"#{chain[:name]}\", icon: \"#{network_icon_path chain}\"}".html_safe}.join(",\n").html_safe %>};
-                let url = item_url(item);
-
-                let html = `
-                  <div class="media">
-                    <img src="${chains[item.network.network].icon}" class="mr-3;" style="max-width: 32px;" alt="${chains[item.network.network].name}">
-                    <div class="media-body word-wrap" style="min-width: 40%;">
-                      <h6 class="mt-0">
-                        ${item_icon}
-                        <a href="${url}">
-                          ${chains[item.network.network].name}
-                          <strong class="text-success">${item_name}</strong>
-                        </a>
-                      </h6>
-
-                      <a href="${url}">${url}</a>
-                    </div>
-                  </div>
-                `;
-
-                return html;
-            }
-        }
-    });
-    query.request({<%= "network: '#{@network[:network]}', ".html_safe if @network %>query: '<%= @query %>'});
-
-});
-</script>
