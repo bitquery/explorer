@@ -245,7 +245,7 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'BNB',
     icon: 'bnb.svg',
-    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)','([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
@@ -274,7 +274,7 @@ BLOCKCHAINS = [
     currency: 'BNB',
     icon: 'bnb.svg',
     start: Date.parse('2020-04-20'),
-    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)', '([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
@@ -291,7 +291,7 @@ BLOCKCHAINS = [
     icon: 'bnb.svg',
     start: Date.parse('2020-08-29'),
     innovation: true,
-    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)','([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
@@ -628,7 +628,7 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'CRO',
     icon: 'currency/cronos.png',
-    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)','([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',

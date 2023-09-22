@@ -136,7 +136,7 @@
         network: '<%= @streaming%>',
         token: '<%= @token%>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
     }
     renderComponent([[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Trades-of-NFT-Token-subscription_7', variables, 'Latest-Trades-of-NFT-Token-subscription_4');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {

@@ -7,10 +7,11 @@ class SearchController < ApplicationController
     @query = params[:query]
     @network = params[:network] && BLOCKCHAIN_BY_NAME[params[:network]]
   end
-  def network_finder(address)
+  def network_finder(address, network_name=nil)
     matching_networks = []
 
     BLOCKCHAINS.each do |network|
+      next if network_name.present? && network[:network] != network_name
       matches_address_pattern = false
       excluded_by_pattern = false
 
@@ -36,6 +37,7 @@ class SearchController < ApplicationController
           name: network[:name]
         }
       end
+
     end
 
     matching_networks

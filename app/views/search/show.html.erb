@@ -5,9 +5,13 @@
              icon: 'fas fa-search text-default'
            } %>
 <%= content_for :title, header %>
-<%= @query = @query.strip %>
+<% @query = @query.strip %>
 <ul class="list-grout list-group-flush">
-  <% network_finder(@query).each do |network_info| %>
+  <% networks = network_finder(@query, params[:network])  %>
+  <% if networks.empty? %>
+    On request "<%= @query %>" returned no results. Please clarify the request and try again.
+    <% else %>
+  <% networks.each do |network_info| %>
     <li class="list-group-item">
 <span>
 
@@ -28,6 +32,7 @@
 </span>
     </li>
   <% end %>
+    <% end %>
 </ul>
 
 
