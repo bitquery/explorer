@@ -7,13 +7,15 @@ BLOCKCHAINS = [
     platform: 'Bitcoin',
     currency: 'BTC',
     icon: 'btc.svg',
-    blockchainAddressPattern: ['([\\W]|^)(bc1[\\da-zA-Z]{39,59})([\\W]|$)', '([\\W]|^)([3,1][\\da-zA-Z]{32,34})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(bc1[\\da-zA-Z]{39,59})([\\W]|$)', '([\\W]|^)([3,1][\\da-zA-Z]{32,34})([\\W]|$)', '([\\W]|^)([m,d]-[\\da-zA-Z]{32})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{64})([\\W]|$)'],
+
   },
   {
     tag: 'ltc',
@@ -23,13 +25,14 @@ BLOCKCHAINS = [
     platform: 'Bitcoin',
     currency: 'LTC',
     icon: 'ltc.svg',
-    blockchainAddressPattern: ['([\\W]|^)([L,M][\\da-zA-Z]{33})([\\W]|$)', '([\\W]|^)(ltc1[\\da-zA-Z]{39,59})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)([L,M][\\da-zA-Z]{33})([\\W]|$)', '([\\W]|^)(ltc1[\\da-zA-Z]{39,59})([\\W]|$)', '([\\W]|^)([m,d]-[\\da-zA-Z]{32})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'doge',
@@ -39,13 +42,14 @@ BLOCKCHAINS = [
     platform: 'Bitcoin',
     currency: 'DOGE',
     icon: 'doge.svg',
-    blockchainAddressPattern: ['([\\W]|^)([9,A,D][\\da-zA-Z]{33})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)([9,A,D][\\da-zA-Z]{33})([\\W]|$)', '([\\W]|^)(d-[\\da-zA-Z]{32})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'dash',
@@ -55,13 +59,14 @@ BLOCKCHAINS = [
     platform: 'Bitcoin',
     currency: 'DASH',
     icon: 'dash.svg',
-    blockchainAddressPattern: ['([\\W]|^)([7,X][\\da-zA-Z]{33})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)([7,X][\\da-zA-Z]{33})([\\W]|$)', '([\\W]|^)(d-[\\da-zA-Z]{32})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'eth',
@@ -79,6 +84,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'],
   },
   {
     tag: 'etc',
@@ -93,6 +99,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'etc',
@@ -107,6 +114,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'ethpow',
@@ -122,6 +130,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'arbitrum',
@@ -138,6 +147,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'zcash',
@@ -154,6 +164,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'bch',
@@ -163,13 +174,15 @@ BLOCKCHAINS = [
     platform: 'Bitcoin',
     currency: 'BCH',
     icon: 'bch.svg',
-    blockchainAddressPattern: ['([\\W]|^)([q,p][\\da-zA-Z]{41})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)([q,p][\\da-zA-Z]{41})([\\W]|$)', '([\\W]|^)([m,d]-[\\da-zA-Z]{32})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{64})([\\W]|$)'],
+
   },
   {
     tag: 'bsv',
@@ -179,13 +192,14 @@ BLOCKCHAINS = [
     platform: 'Bitcoin',
     currency: 'BSV',
     icon: 'bsv.svg',
-    blockchainAddressPattern: ['([\\W]|^)([1,3][\\da-zA-Z]{33})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)([1,3][\\da-zA-Z]{33})([\\W]|$)', '([\\W]|^)([m,d]-[\\da-zA-Z]{32})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'cardano2',
@@ -195,8 +209,9 @@ BLOCKCHAINS = [
     platform: 'Cardano',
     currency: 'ADA',
     icon: 'ada.svg',
-    blockchainAddressPattern: ['([\\W]|^)((addr1)[2-49a-zA-Z][0-9a-zA-Z]{50,98})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)((addr1)[2-49a-zA-Z][0-9a-zA-Z]{50,98})([\\W]|$)', '([\\W]|^)(d-[\\da-zA-Z]{32})([\\W]|$)'],
     excludeNetworksPattern: ['([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)'],
+    txHashPattern: ['([\\W]|^)([0-9A-Fa-f]{64})([\\W]|$)'],
   },
   {
     tag: 'algorand',
@@ -210,6 +225,7 @@ BLOCKCHAINS = [
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)'],
   },
   {
     tag: 'algorand_testnet',
@@ -223,6 +239,7 @@ BLOCKCHAINS = [
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)'],
   },
   {
     tag: 'algorand_betanet',
@@ -236,6 +253,7 @@ BLOCKCHAINS = [
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)'],
   },
   {
     tag: 'binance',
@@ -245,10 +263,11 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'BNB',
     icon: 'bnb.svg',
-    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)','([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)', '([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['(0x[0-9a-f]{64})'],
   },
   {
     tag: 'alfajores',
@@ -264,6 +283,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'bnb_testnet',
@@ -278,6 +298,7 @@ BLOCKCHAINS = [
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['(0x[0-9a-f]{64})'],
   },
   {
     tag: 'bnb',
@@ -291,10 +312,11 @@ BLOCKCHAINS = [
     icon: 'bnb.svg',
     start: Date.parse('2020-08-29'),
     innovation: true,
-    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)','([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(bnb[0-9a-z]{39})([\\W]|$)', '([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['(0x[0-9a-f]{64})'],
   },
   {
     tag: 'goerli',
@@ -310,6 +332,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'baklava',
@@ -325,6 +348,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'celo',
@@ -340,6 +364,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'conflux_hydra',
@@ -356,6 +381,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'conflux_oceanus',
@@ -372,6 +398,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'hedera',
@@ -388,6 +415,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([\\da-fA-F]{96})([\\W]|$)'],
   },
   {
     tag: 'eos',
@@ -396,7 +424,12 @@ BLOCKCHAINS = [
     family: 'eos',
     platform: 'Smart Contract',
     currency: 'eosio.token',
-    icon: 'eos.svg'
+    icon: 'eos.svg',
+    blockchainAddressPattern: ['([\\W]|^)([\\w\\.]{2,32})([\\W]|$)'],
+    excludeNetworksPattern: [
+      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
+    ],
+    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'tron',
@@ -413,6 +446,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'solana',
@@ -451,7 +485,8 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{33})([\\W]|$)',
       '([\\W]|^)(t[1,3][\\da-zA-Z]{33})([\\W]|$)',
       '([\\W]|^)(d-[\\da-zA-Z]{32})([\\W]|$)',
-    ]
+    ],
+    txHashPattern: ['([\\W]|^)([0-9a-zA-Z]{86,88})([\\W]|$)'],
   },
   {
     tag: 'medalla',
@@ -467,6 +502,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'eth2',
@@ -482,6 +518,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'filecoin',
@@ -498,6 +535,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)bafy[0-9a-zA-Z]+([\\W]|$)']
   },
   {
     tag: 'matic',
@@ -513,6 +551,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'velas',
@@ -528,6 +567,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'velas_testnet',
@@ -543,6 +583,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'klaytn',
@@ -558,6 +599,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'elrond',
@@ -574,6 +616,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([A-Fa-f0-9]{64})'],
   },
   {
     tag: 'avalanche',
@@ -589,6 +632,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'fantom',
@@ -604,6 +648,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'moonbeam',
@@ -619,6 +664,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
   {
     tag: 'cronos',
@@ -628,13 +674,14 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'CRO',
     icon: 'currency/cronos.png',
-    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)','([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)', '([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'], # //check hash
   },
 
   {
@@ -645,14 +692,14 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'ATOM',
     icon: 'currency/cosmos-atom-logo.svg',
-    blockchainAddressPattern:
-      ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)', '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)', '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)'],
   },
   {
     tag: 'crypto_mainnet',
@@ -662,13 +709,14 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'CRO',
     icon: 'currency/cryptoorg-logo.png',
-    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)', '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)', '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)'],
   },
   {
     tag: 'crypto_testnet',
@@ -678,14 +726,14 @@ BLOCKCHAINS = [
     platform: 'Testnet',
     currency: 'TCRO',
     icon: 'currency/cryptoorg-logo.png',
-    blockchainAddressPattern:
-      ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)', '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)', '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)'],
   },
   {
     tag: 'heimdall',
@@ -695,13 +743,14 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'MATIC',
     icon: 'currency/matic-logo.png',
-    blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)','([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)',],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)'],
   },
   {
     tag: 'terra',
@@ -711,13 +760,14 @@ BLOCKCHAINS = [
     platform: 'Cosmos',
     currency: 'LUNA',
     icon: 'currency/terra-luna-logo.svg',
-    blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)','([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)',],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)'],
   },
   {
     tag: 'flow',
@@ -728,13 +778,14 @@ BLOCKCHAINS = [
     currency: 'FLOW',
     icon: 'currency/flow.png',
     start: Date.parse('2020-09-23'),
-    blockchainAddressPattern: ['([\\W]|^)(0[x][0-9a-f]{16})([\\W]|$)'],
+    blockchainAddressPattern: ['([\\W]|^)(0[x][0-9a-f]{16})([\\W]|$)','(^A\\.[0-9a-f]{16}\\.\\w+)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'stellar',
@@ -751,6 +802,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'ripple',
@@ -767,6 +819,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)'],
   },
   {
     tag: 'tezos',
@@ -783,6 +836,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['(o[\\w]{50})'],
   },
   {
     tag: 'everscale',
@@ -799,6 +853,7 @@ BLOCKCHAINS = [
       '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
     ],
+    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)'],
   },
 ].freeze
 
