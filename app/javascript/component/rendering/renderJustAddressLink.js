@@ -10,8 +10,7 @@ export default function renderJustAddressLink(data, variables, chainId) {
   } else {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
-    // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
-    link.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
+    link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
     link.textContent = data;
     link.setAttribute('title', data);
     div.appendChild(link);

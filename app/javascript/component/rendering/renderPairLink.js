@@ -7,8 +7,7 @@ export default function renderPairLink(data,variables, chainId) {
     link.setAttribute('title', `${data.buyCurrencySymbol} / ${data.sellCurrencySymbol}`)
 
     if (elementType === 'a') {
-        // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/tokenpair/${data.buyCurrencySC}/${data.sellCurrencySC}`;
-        link.href = `/${WidgetConfig.getNetwork(chainId)}/tokenpair/${data.buyCurrencySC}/${data.sellCurrencySC}`;
+        link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/tokenpair/${data.buyCurrencySC}/${data.sellCurrencySC}`;
     }
     div.appendChild(link);
 
