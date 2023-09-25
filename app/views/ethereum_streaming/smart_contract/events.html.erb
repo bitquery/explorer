@@ -77,6 +77,6 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     };
-    renderComponent(EventsDistribution, '#EventsDistribution', 'Events-Distribution_2', variables);
-    renderComponent(SmartContractEvents, '#SmartContractEvents', 'SC-events_1', variables);
+    renderComponent([[EventsDistribution, '#EventsDistribution']], 'Events-Distribution_2', variables);
+    renderComponent([[SmartContractEvents, '#SmartContractEvents']], 'SC-events_1', variables);
 </script>

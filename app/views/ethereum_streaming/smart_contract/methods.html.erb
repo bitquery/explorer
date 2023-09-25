@@ -21,13 +21,17 @@
                 columns: [
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
+                            return {
+                                method: row.Call.Signature.Name,
+                                hash: row.Call.Signature.SignatureHash,
+                                value: row.Call.Value
+                            }
                         }, rendering: renderMethodLink,
                     },
                     {
                         name: 'Method signature', cell: function (row) {
                             return row.Call.Signature.Signature
-                        },  headerStyle: {width: '25%'},
+                        }, headerStyle: {width: '25%'},
                     },
                     {
                         name: 'Gas Cost/Call', cell: function (row) {
@@ -77,16 +81,20 @@
                     {
                         name: 'Address', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderAddressLink, headerStyle: {width: '44%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '44%'},
                     },
                     {
                         name: 'Argument', cell: function (row) {
-                            return row.Arguments[0].Name
+                            return row.Arguments[0]?.Name
                         },
                     },
                     {
                         name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
+                            return {
+                                method: row.Call.Signature.Name,
+                                hash: row.Call.Signature.SignatureHash,
+                                value: row.Call.Value
+                            }
                         }, rendering: renderMethodLink,
                     },
                     {
@@ -104,7 +112,7 @@
         token: '<%= @address %>',
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(SmartContractMethods, '#SmartContractMethods', 'Smart-Contract-Methods_2', variables);
-        renderComponent(AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters', 'Addresses-used-in-Method-Parameters_1', variables);
+        renderComponent([[SmartContractMethods, '#SmartContractMethods']], 'Smart-Contract-Methods_3', variables);
+        renderComponent([[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_2', variables);
     })
 </script>

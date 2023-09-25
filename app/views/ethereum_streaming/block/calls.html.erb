@@ -18,12 +18,12 @@
                     {
                         name: 'Caller', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return row.Call.To
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Method', cell: function (row) {
@@ -33,11 +33,11 @@
                     {
                         name: 'Gas used', cell: function (row) {
                             return row.Call.GasUsed
-                        },  rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        },  rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },                    {
                         name: 'Value', cell: function (row) {
                             return row.Call.Value
-                        },  rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        },  rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },                    {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
@@ -52,5 +52,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent(CallsSmartContracts, '#CallsSmartContracts', 'Calls-smart-contracts_3', variables);
+    renderComponent([[CallsSmartContracts, '#CallsSmartContracts']], 'Calls-smart-contracts_3', variables);
 </script>

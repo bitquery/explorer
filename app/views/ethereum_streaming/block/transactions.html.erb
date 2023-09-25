@@ -22,7 +22,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transaction.From
-                        }, rendering: renderAddressLink,  headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink,  headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Hash', cell: function (row) {
@@ -32,11 +32,11 @@
                     {
                         name: 'Value', cell: function (row) {
                             return row.Transaction.Value
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },                    {
                         name: 'Sender fee', cell: function (row) {
                             return row.Fee.SenderFee
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -47,5 +47,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent(Transactions, '#Transactions', 'Transactions_5', variables);
+    renderComponent([[Transactions, '#Transactions']], 'Transactions_5', variables);
 </script>

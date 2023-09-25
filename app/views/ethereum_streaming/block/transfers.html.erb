@@ -18,7 +18,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -28,7 +28,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -62,5 +62,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent(Transfers, '#Transfers', 'Transfers_4', variables);
+    renderComponent([[Transfers, '#Transfers']], 'Transfers_4', variables);
 </script>

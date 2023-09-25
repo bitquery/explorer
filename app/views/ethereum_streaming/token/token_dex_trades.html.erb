@@ -54,7 +54,7 @@
                                 currency: row.Trade.Currency.Symbol,
                                 smartContract: row.Trade.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink,headerStyle: {width: '107px'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -88,11 +88,11 @@
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Transaction',
+                        name: 'Txn hash',
                         cell: function (row) {
                             return row.Transaction.Hash
                         },
-                        rendering: renderTX
+                        rendering: renderTX, headerStyle: {width: '106px'},
                     }
                 ]
             }
@@ -144,9 +144,8 @@
         token: '<%= @address %>',
         limit: 10,
     }
-    renderComponent(LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork', 'Latest-Trades-of-Token-in-Network_dextrades', variables, 'Subscription-latest-Trades-of-Token_dextrades');
-
+    renderComponent([[LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork']], 'Latest-Trades-of-Token-in-Network_dextrades_3', variables, 'Subscription-latest-Trades-of-Token_dextrades');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TokenPairs, '#TokenPairs', 'Token-pairs_2', variables);
+        renderComponent([[TokenPairs, '#TokenPairs']], 'Token-pairs_5', variables);
     })
 </script>

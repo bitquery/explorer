@@ -168,12 +168,12 @@
                     {
                         name: 'Caller', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderSmartContractLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return row.Call.To
-                        }, rendering: renderSmartContractLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Method', cell: function (row) {
@@ -214,12 +214,12 @@
                     {
                         name: 'Caller', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderSmartContractLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return row.Call.To
-                        }, rendering: renderSmartContractLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Method', cell: function (row) {
@@ -240,14 +240,16 @@
     const variables = {
         network: '<%= @streaming%>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     };
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(SmartContractsByDate, '#Smart-Contracts-By-Date', 'Smart-Contracts_1_1', variables);
-        renderComponent(UniqueSmartContracts, '#UniqueSmartContracts', 'Smart-Contracts_1_1', variables);
-        renderComponent(SmartContractsCallers, '#SmartContractsCallers', 'Smart-Contracts_1_1', variables);
-        renderComponent(SmartContractsMethods, '#SmartContractsMethods', 'Smart-Contracts_1_1', variables);
+        renderComponent([
+            [SmartContractsByDate, '#Smart-Contracts-By-Date'],
+            [UniqueSmartContracts, '#UniqueSmartContracts'],
+            [SmartContractsCallers, '#SmartContractsCallers'],
+            [SmartContractsMethods, '#SmartContractsMethods']
+        ], 'Smart-Contracts_1_1', variables);
     });
-    renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_2', variables);
-    renderComponent(SubLatestSmartContractCalls, '#SubLatestSmartContractCalls', 'Latest-Smart-Contract-Calls_2', variables, 'Subscription-Latest-Smart-Contract-Calls');
+    renderComponent([[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_2', variables);
+    renderComponent([[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_2', variables, 'Subscription-Latest-Smart-Contract-Calls');
 </script>

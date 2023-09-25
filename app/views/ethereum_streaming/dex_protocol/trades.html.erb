@@ -40,7 +40,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -50,7 +50,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Buy amount', cell: function (row) {
@@ -88,6 +88,6 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(TokenTrades, '#TokenTrades', 'Token-Trades_1_1_1_1_1_1_1_1', variables);
+        renderComponent([[TokenTrades, '#TokenTrades']], 'Token-Trades_1_1_1_1_1_1_1_1', variables);
     })
 </script>

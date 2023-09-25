@@ -32,7 +32,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -42,7 +42,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -95,7 +95,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: '', cell: function (row) {
@@ -105,7 +105,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -142,7 +142,7 @@
     }
     console.log(variables)
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestTransfers, '#LatestTransfers', 'Latest-Transfers_3', variables);
+        renderComponent([[LatestTransfers, '#LatestTransfers']], 'Latest-Transfers_5', variables);
     });
-    renderComponent(SubLatestTransfers, '#SubLatestTransfers', 'Latest-Transfers_3', variables, 'Subscription-Latest-Transfers_2')
+    renderComponent([[SubLatestTransfers, '#SubLatestTransfers']], 'Latest-Transfers_5', variables, 'Subscription-Latest-Transfers_2')
 </script>

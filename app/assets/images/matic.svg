@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:xodm="http://www.corel.com/coreldraw/odm/2003" xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 2500 2500"
+     style="enable-background:new 0 0 2500 2500;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:#FFFFFF;}
+</style>
+  <g id="Layer_x0020_1">
+	<g id="_1705781198752">
+		
+			<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-457.2336" y1="2294.8784" x2="2120.7664"
+                            y2="713.8783" gradientTransform="matrix(1 0 0 -1 0 2497.8899)">
+			<stop offset="0" style="stop-color:#A229C5"></stop>
+              <stop offset="1" style="stop-color:#7B3FE4"></stop>
+		</linearGradient>
+      <path class="st0"
+            d="M1250,2500L1250,2500c688,0,1250-563,1250-1250l0,0C2500,562,1937,0,1250,0l0,0C562,0,0,563,0,1250l0,0    C0,1938,563,2500,1250,2500z"></path>
+      <path class="st1"
+            d="M1612,1520l354-204c19-11,30-31,30-53V855c0-22-12-42-30-53l-354-204c-19-11-42-11-61,0l-354,204    c-19,11-30,31-30,53v730l-248,143l-248-143v-286l248-143l164,94v-192l-133-77c-9-5-20-8-30-8c-11,0-21,3-30,8l-354,204    c-19,11-30,31-30,53v408c0,22,12,42,30,53l354,204c19,11,42,11,61,0l354-204c19-11,30-31,30-53V916l4-3l244-141l248,143v286    l-248,143l-163-94v192l133,77c19,11,42,11,61,0l0,0L1612,1520z"></path>
+	</g>
+</g>
+</svg>

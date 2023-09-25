@@ -1,18 +1,18 @@
 export default function renderTokenLink(data, variables, chainId) {
 	const div = document.createElement('div');
-	div.classList.add('text-truncate')
-	div.style.maxWidth = '200px'
-	const link = document.createElement('a');
-	link.textContent = data.currency;
-	link.setAttribute('title', data.currency)
+	div.className = 'text-truncate';
+	div.style.maxWidth = '200px';
 
-	if (data.currency === '') {
-		link.textContent = data.smartContract;
-		link.setAttribute('title', data.smartContract)
+	const text = data.smartContract === '0x' ? data.currency : data.currency || data.smartContract;
+	const elem = data.smartContract === '0x' ? document.createElement('span') : document.createElement('a');
 
+	elem.textContent = text;
+	elem.title = text;
+
+	if (data.smartContract !== '0x') {
+		elem.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`;
 	}
-	link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/token/${data.smartContract}`;
-	// link.href = `/${WidgetConfig.getNetwork(chainId)}/token/${data.smartContract}`;
-	div.appendChild(link);
+
+	div.appendChild(elem);
 	return div;
 }

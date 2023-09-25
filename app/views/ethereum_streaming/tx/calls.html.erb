@@ -27,7 +27,7 @@
                     {
                         name: 'Caller', cell: function (row) {
                             return row.Call.From
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Gas used', cell: function (row) {
@@ -48,5 +48,5 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     }
-    renderComponent(TransactionAttributes, '#TransactionAttributes', 'Smart-Contract-Calls-in-Transaction_2', variables);
+    renderComponent([[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Calls-in-Transaction_2', variables);
 </script>

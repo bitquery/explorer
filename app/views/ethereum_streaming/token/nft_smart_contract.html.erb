@@ -9,10 +9,10 @@
   </div>
 </div>
 <div class='row mb-4'>
-  <div class='col-12 col-xl-7'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='TopNFTHolders'></div>
   </div>
-  <div class='col-12 col-xl-5'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='TopNFTHoldersPie'></div>
   </div>
 </div>
@@ -107,7 +107,7 @@
                     {
                         name: 'Last Receiver', cell: function (row) {
                             return row.Transfer.last_receiver
-                        }, rendering: renderAddressLink
+                        }, rendering: renderJustAddressLink
                     },
                 ]
             }
@@ -127,17 +127,17 @@
                     {
                         name: 'Address', cell: function (row) {
                             return row.BalanceUpdate.Address
-                        }, rendering: renderAddressLink,  headerStyle: {width: '40%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'}
                     },
                     {
                         name: 'Balance', cell: function (row) {
                             return row.balance
-                        }, rendering: renderNumbers,headerStyle: {textAlign: 'end'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Unique Ids Owned Lifetime', cell: function (row) {
                             return row.ids
-                        },
+                        },rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -207,7 +207,7 @@
                     {
                         name: 'Seller', cell: function (row) {
                             return row.Trade.Buy.Seller
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'}
                     },
                     {
                         name: '', cell: function (row) {
@@ -217,7 +217,7 @@
                     {
                         name: 'Buyer', cell: function (row) {
                             return row.Trade.Buy.Buyer
-                        }, rendering: renderAddressLink, headerStyle: {width: '20%'}
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'}
                     },
                     {
                         name: 'Price', cell: function (row) {
@@ -248,14 +248,9 @@
         token: '<%= @address %>',
         limit: 10,
         offset: 0,
-        till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
     }
-    renderComponent(NFTTokenInformation, '#NFTTokenInformation', 'NFT-token-information_1_1_1', variables);
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(PopularTokenIDsNFT, '#PopularTokenIDsNFT', 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_2', variables);
-        renderComponent(TopNFTHolders, '#TopNFTHolders', 'Top-NFT-Holders_1', variables);
-        renderComponent(TopNFTHoldersPie, '#TopNFTHoldersPie', 'Top-NFT-Holders_1', variables);
-    })
-    renderComponent(SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken', null, variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_1_1_1_1_1_1_1_1');
+    renderComponent([[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-token-information_1_1_1', variables);
+    renderComponent([[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_3', variables);
+    renderComponent([[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_1', variables);
+    renderComponent([[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], null, variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_1_1_1_1_1_1_1_1');
 </script>

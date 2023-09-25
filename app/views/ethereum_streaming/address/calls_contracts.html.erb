@@ -45,7 +45,7 @@
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return row.Call.To
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Method', cell: function (row) {
@@ -58,7 +58,7 @@
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
                         }, rendering: renderTX,
                     },
@@ -89,7 +89,7 @@
                     }
                 ],
                 options: {
-                    height: 250,
+                    height: 450,
                 }
             }
         }
@@ -118,7 +118,7 @@
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return row.Call.To
-                        }, rendering: renderAddressLink, headerStyle: {width: '25%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '25%'},
                     },
                     {
                         name: 'Method', cell: function (row) {
@@ -131,7 +131,7 @@
                         }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Transaction', cell: function (row) {
+                        name: 'Transaction hash', cell: function (row) {
                             return row.Transaction.Hash
                         }, rendering: renderTX,
                     },
@@ -153,7 +153,7 @@
                     {
                         name: 'Smart Contract', cell: function (row) {
                             return row.Call.To
-                        }, rendering: renderAddressLink, headerStyle: {width: '30%'},
+                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
                         name: 'Latest Date', cell: function (row) {
@@ -224,12 +224,14 @@
     const variables = {
         network: '<%= @streaming%>',
         address: '<%= @address %>',
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
     }
+    renderComponent([[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_5', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestSmartContractCalls, '#LatestSmartContractCalls', 'Latest-Smart-Contract-Calls_3', variables);
-        renderComponent(SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate', 'Smart-contract-calls--including-internal--by-date_1', variables);
-        renderComponent(TopGasCostCalls, '#TopGasCostCalls', 'Top-Gas-Cost-Calls_2', variables);
-        renderComponent(SmartContractsCalled, '#SmartContractsCalled', 'Smart-Contracts-Called', variables);
-        renderComponent(SmartContractMethodsCalled, '#SmartContractMethodsCalled', 'Smart-Contract-Methods-Called_2', variables);
+        renderComponent([[SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate']], 'Smart-contract-calls--including-internal--by-date_1', variables);
+        renderComponent([[TopGasCostCalls, '#TopGasCostCalls']], 'Top-Gas-Cost-Calls_5', variables);
+        renderComponent([[SmartContractsCalled, '#SmartContractsCalled']], 'Smart-Contracts-Called', variables);
+        renderComponent([[SmartContractMethodsCalled, '#SmartContractMethodsCalled']], 'Smart-Contract-Methods-Called_2', variables);
     })
 </script>

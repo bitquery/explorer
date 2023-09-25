@@ -36,12 +36,12 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transaction.To
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transaction.To
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Hash', cell: function (row) {
@@ -51,7 +51,7 @@
                     {
                         name: 'Value', cell: function (row) {
                             return row.Transaction.Value
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
+                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end',width: '100px'},
                     },
                     {
                         name: 'Gas used', cell: function (row) {
@@ -138,8 +138,8 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent(LatestTransactions, '#LatestTransactions', 'Latest-Transactions_3', variables);
-        renderComponent(TransactionsByDate, '#TransactionsByDate', 'Transactions-By-Date_3', variables);
-        renderComponent(GasSpentByDate, '#GasSpentByDate', 'Gas-Spent-By-Date_5', variables);
+        renderComponent([[LatestTransactions, '#LatestTransactions']], 'Latest-Transactions_5', variables);
+        renderComponent([[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_3', variables);
+        renderComponent([[GasSpentByDate, '#GasSpentByDate']], 'Gas-Spent-By-Date_5', variables);
     })
 </script>

@@ -22,7 +22,7 @@
                     {
                         name: 'Miner', cell: function (row) {
                             return row.Block?.Coinbase
-                        }, rendering: renderAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Block Reward', cell: function (row) {
@@ -69,5 +69,5 @@
         height: '<%= @height%>',
     }
 
-    renderComponent(BlockAttributes, '#BlockAttributes', 'Block-Attributes_2', variables);
+    renderComponent([[BlockAttributes, '#BlockAttributes']], 'Block-Attributes_2', variables);
 </script>
