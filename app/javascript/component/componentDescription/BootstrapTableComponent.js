@@ -69,17 +69,12 @@ export default class BootstrapTableComponent {
     }
 
     async onHistoryData(data, variables) {
-        if (!this.config.topElement(data) || Object.keys(this.config.topElement(data)).length === 0) {
-            this.container.textContent = 'No Data. Response is empty'
-            return;
-        }
+
         while(this.tbody.children.length) {
             this.tbody.removeChild(this.tbody.firstChild)
         }
         const rows = await this.composeRows(data, variables)
         this.appendChildren(this.tbody, rows);
-        this.appendChildren(this.tbody, rows);
-        // $(this.tbody).find('[data-toggle="tooltip"]').tooltip();
 
     }
 
@@ -141,7 +136,7 @@ export default class BootstrapTableComponent {
         return element;
     }
 
-    appendChildren(parent, ...children) {
+    appendChildren(parent, children) {
         children.forEach(child => parent.appendChild(child));
     }
 }

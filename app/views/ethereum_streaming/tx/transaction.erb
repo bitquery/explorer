@@ -17,7 +17,7 @@
                     return response.EVM
                 },
                 chainId: function (response) {
-                    return response.EVM.Calls[0]?.ChainId
+                    return response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId
                 },
                 rendering: {
                     renderJustAddressLink,
@@ -38,7 +38,7 @@
                     return response.EVM.Calls
                 },
                 chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
+                    return response.EVM.Calls[0]?.ChainId
                 },
                 title: 'Sender and receiver by TX',
                 columns: [
@@ -68,14 +68,15 @@
     }
 
     const variables = {
-        <!--        network: '<%= @streaming%>',-->
-        <!--        tx: '<%=@hash %>',-->
-        network: "eth",
-        tx: '0xc2685aa55d1365a75100eb8efcc44ddeb031dab1c7ad083775a8bd681d54d223'
+                network: '<%= @streaming%>',
+                tx: '<%=@hash %>',
+        // network: "eth",
+        // tx: '0xc2685aa55d1365a75100eb8efcc44ddeb031dab1c7ad083775a8bd681d54d223'
+        //0xefe0b843e57edc4f0fe77a43da6755308559a6ddab5b2a01918603670888da80  (arbitrum)
+        //0xefe0b843e57edc4f0fe77a43da6755308559a6ddab5b2a01918603670888da80  (arbitrum)
     }
 
-    renderComponent([[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash']], 'Events-and-Calls_7', variables);
-    renderComponent([[GraphTX, '#GraphTX']], 'Events-and-Calls_6', variables);
+    renderComponent([[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash'],[GraphTX, '#GraphTX']], 'Events-and-Calls_7', variables);
     //0xc2685aa55d1365a75100eb8efcc44ddeb031dab1c7ad083775a8bd681d54d223
     //0x93f1ecae8d620efe77cc089fcc829aea7efebe32e234c96c277a9c3f01fd8ad7
 </script>

@@ -20,6 +20,10 @@ export default class GraphsComponent {
 	}
 
 	async onHistoryData(data) {
+		if (data.EVM.Calls.length < 1 && data.EVM.Events.length < 1) {
+			this.container.textContent = 'No Data. Response is empty';
+			return;
+		}
 		const array = this.config.topElement(data);
 		const chainId = this.config.chainId(data)
 		let nodes = [];
