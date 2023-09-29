@@ -12,18 +12,22 @@ export default class TreeComponent {
     async onHistoryData(data) {
         this.container.style.scrollBehavior = 'smooth';
         this.chainId = this.config.chainId(data);
-        console.log('data', data)
         if (data.EVM.Calls.length < 1 && data.EVM.Events.length < 1) {
             this.container.textContent = 'No Data. Response is empty';
             return;
         }
 
         const expandButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'expand-button-tree');
-        expandButton.textContent = '+';
+        const iconElementExpand = this.createIcon('fa-expand', 'text-secondary')
+        // expandButton.textContent = '+';
+        this.appendChildren(expandButton,iconElementExpand)
         expandButton.addEventListener('click', this.expandAll.bind(this));
 
         const collapseButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'collapse-button-tree');
-        collapseButton.textContent = '-';
+        const iconElementCollapse = this.createIcon('fa-compress', 'text-secondary')
+        this.appendChildren(collapseButton,iconElementCollapse)
+
+        // collapseButton.textContent = '-';
         collapseButton.addEventListener('click', this.collapseAll.bind(this))
 
         const dataTree = this.buildTree(this.config.topElement(data));
@@ -55,7 +59,6 @@ export default class TreeComponent {
     buildTree(evmData) {
         let tree = [];
         let lastParentNodes = {};
-
         evmData.Calls.forEach(call => {
             if (call && call.Call) {
                 const newNode = {
@@ -84,16 +87,15 @@ export default class TreeComponent {
                 });
             }
         });
-        console.log('tree', tree)
         return tree;
     }
 
-    createTree(data, isRoot = false, counter = 0) {
+    createTree(data, isRoot = false, counter = {value: 0}) {
 
         const ul = this.createElementWithClasses('ul', 'ul-tree')
         if (isRoot) ul.id = 'tree';
         data.forEach(item => {
-            counter++
+            counter.value++;
             const li = this.createElementWithClasses('li', 'li-tree')
             const details = this.createElementWithClasses('details')
 
@@ -104,22 +106,24 @@ export default class TreeComponent {
             this.appendChildren(details, summary)
             this.appendChildren(li, details)
             let iconElement
-            const openingDiv = this.createElementWithClasses('span')
+            const openingDiv = this.createElementWithClasses('div')
             openingDiv.textContent = '('
-            const closingDiv = this.createElementWithClasses('span')
+            const closingDiv = this.createElementWithClasses('div')
             closingDiv.textContent = ')'
-            const pathName = this.createElementWithClasses('span', 'name-tree')
+            const pathName = this.createElementWithClasses('div', 'name-tree')
             const contentDiv = this.createElementWithClasses('div', 'content-tree')
-            if (counter % 2 !== 0) {
+            if (counter.value % 2 !== 0) {
                 contentDiv.style.boxShadow = 'inset 0 0 0 1000px rgba(0, 0, 0, 0.03)'
             }
             if (item.name === 'Call') {
-                iconElement = this.createIcon('fa-share', 'text-primary')
+                iconElement = this.createIcon('fa-share', 'text-primary','ml-2')
             }
 
 
-            const method = document.createElement('div');
-            method.textContent = item.signature.Signature.Name.length > 1 ? item.signature.Signature.Name : item.signature.Signature.SignatureHash
+            const method = this.config.rendering.renderMethodLink({
+                method: item.signature.Signature.Name,
+                hash: item.signature.Signature.SignatureHash,
+            }, null, this.chainId)
             if (item.signature.Signature.SignatureHash === '') method.textContent = 'transfer of money'
             const gas = this.createElementWithClasses('div')
             if (item.signature.Gas) {
@@ -133,22 +137,32 @@ export default class TreeComponent {
             const callArgumentsDiv = this.createElementWithClasses('div', 'content-tree')
             const callArgumentsPathDiv = this.createElementWithClasses('div', 'content-tree')
             let value
-            item.arguments.forEach(element => {
-                const block = this.createElementWithClasses('div', 'text-block', 'ml-2');
-                const argName = this.createElementWithClasses('span', 'name-tree');
+            item.arguments.forEach((element, index) => {
+                const block = this.createElementWithClasses('div', 'text-block');
+                const argName = this.createElementWithClasses('div', 'name-tree');
                 const value = this.getValueFromType(element);
 
                 if (element.Path.length > 0) {
-                    pathName.textContent = `${element.Path[0].Name}:`
-                    argName.textContent = `${element.Type}:`
-                    this.appendChildren(block, argName, value)
-                    this.appendChildren(callArgumentsPathDiv, block)
+                    pathName.textContent = `${element.Path[0].Name}:`;
+                    argName.textContent = `${element.Type}:`;
+                    this.appendChildren(block, argName, value);
+                    this.appendChildren(callArgumentsPathDiv, block);
                 } else {
-                    argName.textContent = element.Name.length > 1 ? `${element.Name}:` : `${element.Type}:`
-                    this.appendChildren(block, argName, value)
-                    this.appendChildren(callArgumentsDiv, block)
+                    argName.textContent = element.Name.length > 1 ? `${element.Name}:` : `${element.Type}:`;
+                    this.appendChildren(block, argName, value);
+                    this.appendChildren(callArgumentsDiv, block);
+                }
+
+                if (index < item.arguments.length - 1) {
+                    const comma = document.createTextNode(', ');
+                    if (element.Path.length > 0) {
+                        callArgumentsPathDiv.appendChild(comma);
+                    } else {
+                        callArgumentsDiv.appendChild(comma);
+                    }
                 }
             });
+
 
             if (item.arguments.length > 0) {
                 if (callArgumentsPathDiv.childElementCount !== 0) {
@@ -160,28 +174,34 @@ export default class TreeComponent {
                 this.appendChildren(contentDiv, callArgumentsDiv);
             }
             if (item.name === 'Event') {
-                const iconElement = this.createIcon('fa-bolt', 'text-warning')
-                contentDiv.insertBefore(iconElement, contentDiv.firstChild);
+                const iconElement = this.createIcon('fa-bolt', 'text-warning','ml-2')
+                callArgumentsDiv.insertBefore(iconElement, callArgumentsDiv.firstChild);
             }
 
             if (item.returns && item.returns.length > 0) {
-                const iconElement = this.createIcon('fa-undo', 'text-danger')
+                const iconElement = this.createIcon('fa-undo', 'text-danger','ml-2')
                 const returnContent = this.createElementWithClasses('div', 'content-tree')
                 returnContent.textContent = '[ Return:'
                 returnContent.style.gap = '0 5px'
                 const closingDiv = this.createElementWithClasses('div')
                 closingDiv.textContent = ']'
-                item.returns.forEach(element => {
-                    const block = this.createElementWithClasses('div', 'text-block', 'ml-2')
-                    const argName = this.createElementWithClasses('span', 'text-block', 'ml-2')
-                    const value = this.getValueFromType(element);
+
+                item.returns.forEach((element, index) => {
+                    const block = this.createElementWithClasses('div', 'content-tree')
+                    const argName = this.createElementWithClasses('div', 'text-block');
+                    const value = this.getValueFromType(element)
                     argName.textContent = element.Name ? `${element.Name}:` : `${element.Type}:`
 
-                    this.appendChildren(block, argName, value);
-                    this.appendChildren(returnContent, block, closingDiv);
+                    this.appendChildren(block, argName, value)
+                    this.appendChildren(returnContent, block, closingDiv)
+
+                    if (index < item.returns.length - 1) {
+                        const comma = document.createTextNode(', ')
+                        returnContent.appendChild(comma)
+                    }
                 })
 
-                returnContent.insertBefore(iconElement, returnContent.firstChild);
+                returnContent.insertBefore(iconElement, returnContent.firstChild)
                 this.appendChildren(contentDiv, returnContent)
             }
 
@@ -204,15 +224,15 @@ export default class TreeComponent {
         let value
         if (element.Type.startsWith('address')) {
             value = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
-        } else if (element.Type.startsWith('uint')) {
-            value = this.config.rendering.renderNumbers(element.Value.bigInteger)
+        } else if (element.Type.startsWith('uint') || element.Type.startsWith('int')) {
+            value = this.config.rendering.renderNumbers(element.Value.bigInteger || element.Value.integer);
         } else if (element.Type.startsWith('bytes')) {
             value = this.config.rendering.renderBytes32(element.Value.hex)
         } else if (element.Type.startsWith('bool')) {
-            value = document.createElement('span')
+            value = document.createElement('div')
             value.textContent = element.Value.bool
-        } else if(element.Type.startsWith('string')){
-            value = document.createElement('span')
+        } else if (element.Type.startsWith('string')) {
+            value = document.createElement('div')
             value.textContent = element.Value.string
         }
         return value
@@ -237,7 +257,7 @@ export default class TreeComponent {
     }
 
     createIcon(...classes) {
-        const icon = this.createElementWithClasses('i', 'fa', 'ml-2', ...classes)
+        const icon = this.createElementWithClasses('i', 'fa', ...classes)
         icon.style.width = '1rem'
         return icon
     }
@@ -249,7 +269,9 @@ export default class TreeComponent {
     }
 
     appendChildren(parent, ...children) {
+        // console.log('parent', parent)
         children.forEach(child => {
+            // console.log('child', child)
             parent.appendChild(child)
         });
     }

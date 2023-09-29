@@ -240,9 +240,10 @@ svg[visibility="hidden"]
   .summary-tree:before
     position: absolute
     left: -1.35em
-    top: .48em
+    //top: .48em
+    font-size: 20px
     font-family: "Font Awesome 5 Free"
-    content: "\f063"
+    content: "\25B8"
     font-weight: 900
     background: inherit
     font-weight: bold
@@ -250,8 +251,8 @@ svg[visibility="hidden"]
     //border: 2.5px dotted #9AA1A6
     color: #9AA1A6
     display: block
-    width: 17px
-    height: 17px
+    width: 20px
+    height: 20px
     z-index: 100500
     text-align: center
     line-height: .80em
@@ -259,7 +260,7 @@ svg[visibility="hidden"]
   details[open]
     > .summary-tree:before
       font-family: "Font Awesome 5 Free"
-      content: "\f061"
+      content: "\25BE"
       font-weight: 900
       opacity: 0.7
 
@@ -267,7 +268,7 @@ svg[visibility="hidden"]
 .ul-tree
   .summary-tree.no-children:before
     font-family: "Font Awesome 5 Free"
-    content: "\f061"
+    content: "\25BE"
     font-weight: 900
     opacity: 0.7
 
@@ -285,6 +286,7 @@ svg[visibility="hidden"]
   align-items: center
   gap: 0px 5px
   flex-wrap: wrap
+  padding: 0 2px
 
 
 .no-children
@@ -293,7 +295,7 @@ svg[visibility="hidden"]
 
   &::before
     font-family: "Font Awesome 5 Free"
-    content: "\f061"
+    content: "\25BE"
     font-weight: 900
     opacity: 0.7
 
@@ -301,7 +303,7 @@ svg[visibility="hidden"]
 .collapse-button-tree
   display: none
   position: fixed
-  content: "\f063"
+  content: "\25B8"
   left: 0
   top: 100px
   z-index: 1000
@@ -311,24 +313,25 @@ svg[visibility="hidden"]
 .expand-button-tree
   display: block
   font-family: "Font Awesome 5 Free"
-  content: "\f061"
+  content: "\25BE"
 
 .expand-button-tree, .collapse-button-tree
   font-family: "Font Awesome 5 Free"
   font-weight: 900
-  font-size: .7em
-  //width: 17px
-  //height: 17px
+  font-size: .8em
+  //width: 20px
+  //height: 20px
   line-height: 1
   //padding: 0
   opacity: 0.7
+  padding: 0.2rem 0.2rem
 
   details
     transition: all 0.3s ease
 
 .text-block, .value-tree
   display: flex
-  gap: 0 5px
+  gap: 0 3px
   overflow: hidden
   text-overflow: ellipsis
   max-width: 200px
