@@ -739,6 +739,13 @@ en:
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
         keywords: "%{network} transfer, %{network} transaction value"
+      transaction:
+        name: "Transaction"
+        title: "Transaction %{network} %{hash}"
+        keywords: "%{network} transaction, %{network} transaction explorer, %{network} explorer, token transaction, coin transaction, crypto transaction, %{network} transaction analytics,
+                 smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
+                 %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
+                 check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
       operations:
         name: 'Operations'
         title: "Operations %{network} %{hash}"
