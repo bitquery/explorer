@@ -300,29 +300,32 @@ svg[visibility="hidden"]
     opacity: 0.7
 
 //стили для кнопок дерева
+.button-container
+  display: flex
+  flex-direction: column
+  gap: 3px 0
+  margin-top: 25px
 .collapse-button-tree
   display: none
-  position: fixed
   content: "\25B8"
   left: 0
   top: 100px
   z-index: 1000
   transition: top 0.3s ease
 
-
 .expand-button-tree
   display: block
   font-family: "Font Awesome 5 Free"
   content: "\25BE"
+  z-index: 1000
+
 
 .expand-button-tree, .collapse-button-tree
+  display: inline-block
   font-family: "Font Awesome 5 Free"
   font-weight: 900
   font-size: .8em
-  //width: 20px
-  //height: 20px
   line-height: 1
-  //padding: 0
   opacity: 0.7
   padding: 0.2rem 0.2rem
 
@@ -331,7 +334,7 @@ svg[visibility="hidden"]
 
 .text-block, .value-tree
   display: flex
-  gap: 0 3px
+  gap:  3px 0
   overflow: hidden
   text-overflow: ellipsis
   max-width: 200px

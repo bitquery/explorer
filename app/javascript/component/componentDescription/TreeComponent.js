@@ -19,39 +19,38 @@ export default class TreeComponent {
 
         const expandButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'expand-button-tree');
         const iconElementExpand = this.createIcon('fa-expand', 'text-secondary')
-        // expandButton.textContent = '+';
-        this.appendChildren(expandButton,iconElementExpand)
+        this.appendChildren(expandButton, iconElementExpand)
         expandButton.addEventListener('click', this.expandAll.bind(this));
 
         const collapseButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'collapse-button-tree');
         const iconElementCollapse = this.createIcon('fa-compress', 'text-secondary')
-        this.appendChildren(collapseButton,iconElementCollapse)
-
-        // collapseButton.textContent = '-';
+        this.appendChildren(collapseButton, iconElementCollapse)
         collapseButton.addEventListener('click', this.collapseAll.bind(this))
+
+
+        const buttonContainer = this.createElementWithClasses('div', 'button-container');
+        this.appendChildren(buttonContainer, expandButton, collapseButton);
 
         const dataTree = this.buildTree(this.config.topElement(data));
         const tree = this.createTree(dataTree, true);
-        this.appendChildren(this.container, expandButton, collapseButton, tree)
-
+        this.appendChildren(this.container, buttonContainer, tree);
 
         let lastScrollY = window.scrollY;
 
         window.addEventListener('scroll', () => {
-            const {top, bottom} = this.container.getBoundingClientRect();
-            const collapseButton = this.container.querySelector('.collapse-button-tree');
-            if (!collapseButton) return;
+            const { top, bottom } = this.container.getBoundingClientRect();
 
             const containerTop = top + window.scrollY + 25;
-            const containerBottom = bottom + window.scrollY - collapseButton.offsetHeight;
+            const containerBottom = bottom + window.scrollY - buttonContainer.offsetHeight;
             let newPosition = window.scrollY + window.innerHeight / 2;
 
-            newPosition = Math.max(newPosition, (lastScrollY > window.scrollY && newPosition < containerTop + 100) ? containerTop + 100 : containerTop);
+            newPosition = Math.max(newPosition, (lastScrollY > window.scrollY && newPosition < containerTop ) ? containerTop  : containerTop);
             newPosition = Math.min(newPosition, containerBottom);
 
             lastScrollY = window.scrollY;
-            collapseButton.style.position = 'absolute';
-            collapseButton.style.top = `${newPosition - containerTop}px`;
+
+            buttonContainer.style.position = 'absolute';
+            buttonContainer.style.top = `${newPosition - containerTop}px`;
         });
 
     }
