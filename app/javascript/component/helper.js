@@ -14,7 +14,10 @@ export function SubscriptionDataSource(payload) {
 		cleanSubscription = client.subscribe({ query: payload.query, variables }, {
 			next: ({ data }) => {
 				this.alive = true
-				callbacks.forEach(cb => cb(data, variables))
+				callbacks.forEach((cb, i) => {
+					widgetFrames[i].onqueryend()
+					cb(data, variables)
+				})
 			},
 			error: error => { widgetFrames.forEach(wf => wf.onerror(error)) },
 			complete: () => {this.alive = false},
@@ -149,6 +152,34 @@ export const increaseLimitButton = (historyDataSource) => () => {
 	historyDataSource.increaseLimit()
 }
 
+export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSource) => e => {
+	const streamingActive = e.currentTarget.nextSibling.offsetParent !== null
+	if (streamingActive) { 
+		e.currentTarget.textContent = 'Switch to LIVE'
+		subscriptionDataSource.unsubscribe()
+		e.currentTarget.nextSibling.style.display = 'none'
+		e.currentTarget.parentElement.lastChild.classList.add('invisible')
+		historyDataSource.changeVariables()
+	} else {
+		e.currentTarget.textContent = 'Switch to HISTORY'
+		widgetFrame.onquerystarted()
+		subscriptionDataSource.changeVariables()
+		e.currentTarget.nextSibling.style.display = 'inline-block'
+		e.currentTarget.nextSibling.textContent = 'Stop streaming'
+		e.currentTarget.parentElement.lastChild.classList.remove('invisible')
+	}
+}
+
+export const streamControl = subscriptionDataSource => e => {
+	if (subscriptionDataSource.alive) {
+		subscriptionDataSource.unsubscribe()
+		e.currentTarget.textContent = 'Start streaming'
+	} else {
+		subscriptionDataSource.subscribe()
+		e.currentTarget.textContent = 'Stop streaming'
+	}
+}
+
 export const getQueryParams = async (queryID) => {
 	const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
 	const { endpoint_url, variables, query, name } = await response.json()
@@ -206,9 +237,13 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	const tableFooter = document.createElement('div');
 	const getStreamingAPIButton = createButton('Get Streaming API', subscriptionQueryID)
 	const getHistoryAPIButton = createButton('Get History API', historyQueryID)
-	const switchButton = createButton('Switch datasets', true)
+	const switchButton = createButton('Switch to LIVE', true)
 	const showMoreButton = document.createElement('a');
-	const streamControlButton = createButton('Stop subscription', true)
+	const streamControlButton = createButton('Stop streaming', true)
+	if (!subscriptionQueryID) {
+		switchButton.style.display = 'none'
+	}
+	streamControlButton.style.display = 'none'
 	showMoreButton.classList.add('more-link', 'badge');
 	showMoreButton.textContent = 'Show more...';
 	showMoreButton.style.cursor = 'pointer';
@@ -220,7 +255,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	tableFooter.appendChild(getHistoryAPIButton);
 	tableFooter.appendChild(getStreamingAPIButton);
 	widgetHeader.classList.add('card-header');
-	row.classList.add('row');
+	row.classList.add('row', 'align-items-center');
 	col8.classList.add('col');
 	cardBody.classList.add('card-body', 'text-center');
 	widgetFrame.classList.add('widget-container', 'tabulator');
@@ -245,10 +280,10 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
 			const liveSpan = document.createElement('span');
 			const blinker = document.createElement('div');
-			blinkerWrapper.classList.add('col-4', 'text-success', 'text-right');
+			blinkerWrapper.classList.add('text-success', 'text-right', 'invisible');
 			blinker.classList.add('blink', 'blnkr', 'bg-success');
 			row.appendChild(blinkerWrapper);
-			liveSpan.classList.add('d-none', 'd-sm-inline');
+			liveSpan.classList.add('d-sm-inline');
 			liveSpan.textContent = 'Live';
 			blinkerWrapper.appendChild(liveSpan);
 			blinkerWrapper.appendChild(blinker);

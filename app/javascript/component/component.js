@@ -1,6 +1,8 @@
 import {
 	getBaseClass,
 	getAPIButton,
+	streamControl,
+	switchDataset,
 	getQueryParams,
 	createWidgetFrame,
 	HistoryDataSource,
@@ -51,18 +53,9 @@ export default async function renderComponent(components, historyQueryID, explor
 		widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
 		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
 		widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
-		// widgetFrame.switchButton.onclick = 
-		widgetFrame.streamControlButton.onclick = e => {
-			if (subscriptionDataSource.alive) {
-				subscriptionDataSource.unsubscribe()
-				e.currentTarget.textContent = 'Start subscription'
-			} else {
-				subscriptionDataSource.subscribe()
-				e.currentTarget.textContent = 'Stop subscription'
-			}
-		}
+		widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
+		widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource)
 	})
 
-	subscriptionDataSource && subscriptionDataSource.changeVariables()
 	historyDataSource && historyDataSource.changeVariables()
 }
