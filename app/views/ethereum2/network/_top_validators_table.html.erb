@@ -30,7 +30,6 @@
                           }
 
                           validatorBalanceChange
-                          amount_usd: validatorBalanceChange(in: USD)
                       }
                     }
                   }`);
@@ -53,15 +52,7 @@
                     title: '<%= t('widgets.titles.balance_change') %>, ETH',
                     type: 'amount',
                     path: 'validatorBalanceChange'
-                }
-                ,
-                {
-                    title: '',
-                    type: '',
-                    path: '',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: "''"} %>
-                }
-
+                },
             ]
         });
 
