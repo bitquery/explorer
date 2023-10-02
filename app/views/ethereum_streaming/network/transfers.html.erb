@@ -141,8 +141,11 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
     }
     console.log(variables)
+    //render one widget
+    //streaming by default
+    //widget have between HISTORICAL DATA AND STREAMING
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent([[LatestTransfers, '#LatestTransfers']], 'Latest-Transfers_5', variables);
+        renderComponent([[LatestTransfers, '#LatestTransfers']], 'Latest-Transfers_5', variables, 'Subscription-Latest-Transfers_2');
     });
-    renderComponent([[SubLatestTransfers, '#SubLatestTransfers']], 'Latest-Transfers_5', variables, 'Subscription-Latest-Transfers_2')
+    // renderComponent([[SubLatestTransfers, '#SubLatestTransfers']], 'Latest-Transfers_5', variables, 'Subscription-Latest-Transfers_2')
 </script>

@@ -7,14 +7,17 @@ export function SubscriptionDataSource(payload) {
 	let callbacks = []
 	let widgetFrames = []
 
-	const subscribe = () => {
+	this.subscribe = () => {
 		const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
 		const client = createClient({ url: currentUrl });
 
 		cleanSubscription = client.subscribe({ query: payload.query, variables }, {
-			next: ({ data }) => callbacks.forEach(cb => cb(data, variables)),
+			next: ({ data }) => {
+				this.alive = true
+				callbacks.forEach(cb => cb(data, variables))
+			},
 			error: error => { widgetFrames.forEach(wf => wf.onerror(error)) },
-			complete: () => {},
+			complete: () => {this.alive = false},
 		});
 	} 
 
@@ -29,7 +32,12 @@ export function SubscriptionDataSource(payload) {
 	this.changeVariables = async deltaVariables => {
 		variables = { ...payload.variables, ...deltaVariables }
 		cleanSubscription && cleanSubscription()
-		subscribe()
+		this.subscribe()
+	}
+
+	this.unsubscribe = () => {
+		cleanSubscription && cleanSubscription()
+		cleanSubscription = null
 	}
 
 	return this
@@ -198,7 +206,9 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	const tableFooter = document.createElement('div');
 	const getStreamingAPIButton = createButton('Get Streaming API', subscriptionQueryID)
 	const getHistoryAPIButton = createButton('Get History API', historyQueryID)
+	const switchButton = createButton('Switch datasets', true)
 	const showMoreButton = document.createElement('a');
+	const streamControlButton = createButton('Stop subscription', true)
 	showMoreButton.classList.add('more-link', 'badge');
 	showMoreButton.textContent = 'Show more...';
 	showMoreButton.style.cursor = 'pointer';
@@ -222,6 +232,8 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	cardBody.appendChild(tableFooter);
 	widgetHeader.appendChild(row);
 	row.appendChild(col8);
+	row.appendChild(switchButton)
+	row.appendChild(streamControlButton)
 	const f = setupShowMoreButton(tableFooter, showMoreButton)
 	const onchangetitle = (title) => {
 		if (title) {
@@ -274,6 +286,8 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		frame: widgetFrame,
 		getHistoryAPIButton,
 		getStreamingAPIButton,
+		switchButton,
+		streamControlButton,
 		showMoreButton,
 		setupShowMoreButton: f,
 		onloadmetadata,
