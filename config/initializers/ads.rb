@@ -6,6 +6,11 @@ ADS={
         url: 'https://jn3rg.app.link/Bitquery_1inch',
         bgcolor: '#0570f2'
       },
+      {
+        text: 'Buy {token_symbol}',
+        url: 'https://www.bydfi.com/en/register?ru=Ee9cjN',
+        bgcolor: '#b86614'
+      },      
     ],
     # platform: {
     #   smart_contract: {

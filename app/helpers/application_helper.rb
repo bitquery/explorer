@@ -39,15 +39,27 @@ module ApplicationHelper
 
   def tab_ads html_class = 'nav-item nav-item-ad'
     if ads = current_ad(:tab, :ads)
-      ads.collect {|ad|
+      filtered_ads = ads.collect do |ad|
+        path_segments = request.fullpath.split('/').reject(&:empty?)
+        is_token_page = path_segments.length == 3 && path_segments[1].start_with?("token")
+  
+        if ad[:text].include?('{token_symbol}')
+          next unless is_token_page && @token_info && @token_info.symbol && @token_info.symbol != '-'
+          ad_text = ad[:text].gsub("{token_symbol}", @token_info.symbol)
+        else
+          ad_text = ad[:text]
+        end
+  
         tag.li(class: html_class) do
           link_to ad[:url], class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ''), target: :blank do
-            "#{ad[:text]} <sup class='fas fa-ad text-second'></sup>".html_safe
+            "#{ad_text} <sup class='fas fa-ad text-second'></sup>".html_safe
           end
         end
-      }.join("\n").html_safe
+      end.compact.join("\n").html_safe
     end
   end
+  
+  
 
   def tab_ad html_class = 'nav-item nav-item-ad'
     if ad = current_ad(:tab, :ad)

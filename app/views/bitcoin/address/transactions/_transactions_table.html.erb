@@ -1,0 +1,106 @@
+<div class="row">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
+      <div class="card-header"><%= t('widgets.headers.transactions') %></div>
+      <div class="card-body">
+        <div id="transactions"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $( document ).ready(function() {
+
+
+        var query = new widgets.query(`
+        query MyQuery($network: BitcoinNetwork!, $address: String!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+          bitcoin(network: $network) {
+            transactions(
+              options: {desc: "block.timestamp.time", limit: $limit, offset: $offset}
+              date: {since: $from, till: $till}
+              inputAddress: {is: $address}
+            ) {
+              block {
+                timestamp {
+                  time(format: "%Y-%m-%d %H:%M:%S")
+                }
+                height
+              }
+              inputCountBigInt
+              outputCountBigInt
+              minedValue
+              feeValue
+              fee_value_usd: feeValue(in: USD)
+              hash
+            }
+          }
+        }
+        `);
+
+        new widgets.table('#transactions', query, 'bitcoin.transactions', {
+            title: '<%= t('widgets.headers.transactions') %>',
+            dataOptions: [
+                {
+                    title: '<%= t('widgets.titles.timestamp') %>',
+                    type: 'string',
+                    path: 'block.timestamp.time',
+                    style: 'width: 180px'
+                },
+                {
+                    title: '<%= t('widgets.titles.block') %>',
+                    type: 'string',
+                    path: 'block.height',
+                    urlCallbackName: 'block_path',
+                    style: 'width: 90px'
+                },
+                {
+                    title: '<%= t('widgets.titles.hash') %>',
+                    type: 'string-ellipsis',
+                    urlCallbackName: 'transaction_path',
+                    path: 'hash'
+                },
+                {
+                    title: '<%= t('widgets.titles.fee_amount') %>',
+                    type: 'amount',
+                    path: 'feeValue',
+                    style: 'width: 90px'
+                },
+                {
+                    title: '',
+                    type: 'string',
+                    path: 'fee_value_usd',
+                    style: 'width: 90px',
+                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.fee_value_usd'} %>
+                },
+                {
+                    title: '<%= t('widgets.titles.mined_value') %>',
+                    type: 'string',
+                    path: 'minedValue', 
+                    style: 'width: 60px'
+                },
+                {
+                    title: '<%= t('widgets.titles.input_count') %>',
+                    type: 'string',
+                    path: 'inputCountBigInt',
+                    style: 'width: 60px'
+                },
+                {
+                    title: '<%= t('widgets.titles.output_count') %>',
+                    type: 'string',
+                    path: 'outputCountBigInt',
+                    style: 'width: 60px'
+                },
+            ]
+        });
+
+        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+            network: '<%= params['network']['network'] %>',
+            address: '<%= @address %>'
+        });
+
+
+    });
+
+</script>
