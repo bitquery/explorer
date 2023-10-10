@@ -40,6 +40,10 @@ module ApplicationHelper
   def tab_ads html_class = 'nav-item nav-item-ad'
     if ads = current_ad(:tab, :ads)
       filtered_ads = ads.collect do |ad|
+        if ad[:path_ends_with] && !request.fullpath.end_with?(ad[:path_ends_with])
+          next
+        end
+        
         path_segments = request.fullpath.split('/').reject(&:empty?)
         is_token_page = path_segments.length == 3 && path_segments[1].start_with?("token")
   
@@ -58,7 +62,6 @@ module ApplicationHelper
       end.compact.join("\n").html_safe
     end
   end
-  
   
 
   def tab_ad html_class = 'nav-item nav-item-ad'
