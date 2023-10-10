@@ -69,7 +69,7 @@
           path: 'gasValue'
         },
         {
-          renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', locals: { currency: '""', amount: 'item.gas_value_usd' } %>
+          renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.gas_value_usd'} %>
         },
         {
           title: '<%= t('widgets.titles.timestamp') %>',

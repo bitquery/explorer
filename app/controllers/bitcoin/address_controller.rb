@@ -26,7 +26,7 @@ class Bitcoin::AddressController < NetworkController
 
 
   def query_graphql
-    @info = BitqueryGraphql.instance.query_with_retry(QUERY, variables: {network: @network[:network], address: @address}).data.bitcoin.outputs.first.try(:output_address)
+    @info = BitqueryGraphql.instance.query_with_retry(QUERY, variables: {network: @network[:network], address: @address}).data&.bitcoin&.outputs&.first&.try(:output_address)
   end
 
 end
