@@ -105,6 +105,10 @@ class ApplicationController < ActionController::Base
                              link: link
                            },
                            {
+                             title: "NFT APIs",
+                             link: "https://bitquery.io/products/nft-api"
+                           },
+                           {
                              title: "Crypto News",
                              link: "https://coincodecap.com/?utm_source=bitquery"
                            }].sample
