@@ -10,7 +10,7 @@ ADS={
         text: 'Looking for Investigators?',
         url: 'https://starcompliance.io/unblock-account/?utm_source=bitquery&utm_content=money_flow_button',
         bgcolor: '#0570f2',
-        path_ends_with: '/graph'
+        path_matches: '/graph.*'
       },
       {
         text: 'Buy {token_symbol}',

@@ -40,7 +40,7 @@ module ApplicationHelper
   def tab_ads html_class = 'nav-item nav-item-ad'
     if ads = current_ad(:tab, :ads)
       filtered_ads = ads.collect do |ad|
-        if ad[:path_ends_with] && !request.fullpath.end_with?(ad[:path_ends_with])
+        if ad[:path_matches] && !(request.fullpath =~ Regexp.new(ad[:path_matches]))
           next
         end
         
