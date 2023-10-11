@@ -62,6 +62,12 @@ LC_COMPOSE_IPADDR should be your local IP, use `ipconfig` command in terminal to
 - In docker-compose folder, execute `docker-compose up` command via terminal. If you on Windows, make sure Docker service for windows is running.
 
 
+### Known issues
+
+If you see `Unable to load application: KeyError: key not found: "data"'`
+error when Puma starts, it means one of your API keys either corrupted or not provided.
+
+
 ## Installation
 
 Explorer is a typical [Ruby on Rails](https://rubyonrails.org/) project.
