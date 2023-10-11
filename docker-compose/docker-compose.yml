@@ -42,10 +42,7 @@ services:
       - BITQUERY_STREAMING=${LC_COMPOSE_BITQUERY_STREAMING}
     labels:
       - __log_type=explorer
-    <<: *common-dns
-    <<: *common-network
-    <<: *common-restart
-    <<: *elk-logging
+    <<: [*common-dns, *common-network, *common-restart, *elk-logging]
 
 networks:
   common:

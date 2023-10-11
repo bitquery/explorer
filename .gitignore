@@ -35,3 +35,4 @@ yarn-debug.log*
 
 # environment variables
 /.env
+/docker-compose/.env

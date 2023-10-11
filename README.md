@@ -53,6 +53,21 @@ We are following the following principles to execute the project:
   typical blockchain explorers do not
 - Free to use, extend, deploy and customize according to [MIT License](https://github.com/bitquery/explorer/blob/master/LICENSE)
 
+## Quick start with docker and docker-compose
+
+- Open [Env EXAMPLE](./docker-compose/.env.example) file.
+- Based on this file, create `.env` file in `docker-compose` directory
+- Populate fields `LC_COMPOSE_NAMESERVER`, `LC_COMPOSE_IPADDR`, `LC_COMPOSE_SECRET_KEY_BASE`, `LC_COMPOSE_EXPLORER_API_KEY` and `LC_COMPOSE_BITQUERY_IDE_API`.
+LC_COMPOSE_IPADDR should be your local IP, use `ipconfig` command in terminal to get it. If you don't have other values, ask for them in #development chat in Slack or your team-lead/buddy.
+- In docker-compose folder, execute `docker-compose up` command via terminal. If you on Windows, make sure Docker service for windows is running.
+
+
+### Known issues
+
+If you see `Unable to load application: KeyError: key not found: "data"'`
+error when Puma starts, it means one of your API keys either corrupted or not provided.
+
+
 ## Installation
 
 Explorer is a typical [Ruby on Rails](https://rubyonrails.org/) project.
@@ -64,7 +79,7 @@ Requirements are:
 - Ruby v.2.6.3
 - Rails v.6.0.1
 
-Refer to the [Rails Installation Guide](https://guides.rubyonrails.org/) how to setup environment and run the project.
+Refer to the [Rails Installation Guide](https://guides.rubyonrails.org/) how to set up environment and run the project.
 
 No database or backend is required, this is pure set of front-end UI.
 
