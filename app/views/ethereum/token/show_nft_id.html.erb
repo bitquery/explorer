@@ -116,28 +116,39 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0].ChainId
                 },
-                columns: [
+                pairs: [
                     {
-                        name: 'Time', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Sender
+                        name: 'Transfer',
+                        from: {
+                            name: 'Sender',
+                            cell: function (row) {
+                                return row.Transfer.Sender
+                            },
+                            rendering: renderJustAddressLink
+                        },
+                        to: {
+                            name: 'Receiver',
+                            cell: function (row) {
+                                return row.Transfer.Receiver
+                            },
+                            rendering: renderJustAddressLink
+                        },
+                        checkboxId: null,
+                        edgeLabel: {
+                            cell: function (row) {
+                                return row.Block.Time
+                            },
+                            rendering: renderDate
+                        },
+                        color: {
+                            color: '#2B7CE9',
+                            highlight: '#2B7CE9',
+                            hover: '#2B7CE9',
+                            inherit: false,
+                            opacity: 1.0
                         },
                     },
-                    {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        },
-                    },
-                    {
-                        name: 'TX Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        },
-                    },
-                ]
+                ],
             }
         }
     }

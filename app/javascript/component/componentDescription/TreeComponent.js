@@ -67,7 +67,8 @@ export default class TreeComponent {
                     arguments: call.Arguments,
                     children: []
                 };
-                const parentArray = call.Call.Depth === 0 ? tree : lastParentNodes[call.Call.Depth - 1].children;
+                const parentArray = call.Call.Depth === 0 ? tree : (lastParentNodes[call.Call.Depth - 1] && lastParentNodes[call.Call.Depth - 1].children) ? lastParentNodes[call.Call.Depth - 1].children : [];
+
                 parentArray.push(newNode);
                 lastParentNodes[call.Call.Depth] = newNode;
 

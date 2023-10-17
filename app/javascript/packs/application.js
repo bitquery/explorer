@@ -1055,6 +1055,7 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
 		query.request(data);
 	}
 
+
 	draw(from, till);
 	rr.change(draw);
 };

@@ -112,7 +112,12 @@ module ApplicationHelper
   end
 
   def date_range_from_now(interval, unit = :hours)
+    if params[:from] && params[:till]
+      return ["#{params[:from]}T00:00:00.000Z", "#{params[:till]}T23:59:59.999Z"]
+    end
+
     till = Time.now.utc
+
     from = case unit
           when :days
             till - interval.days
@@ -123,7 +128,7 @@ module ApplicationHelper
           else
             raise ArgumentError, "Unit must be :days, :hours, or :minutes"
           end
-    [from.strftime('%Y-%m-%dT%H:%M:%S.000Z'), till.strftime('%Y-%m-%dT%H:%M:%S.000Z')]
+    [from.strftime('%Y-%m-%dT%H:%M:%S.000Z'), till.strftime('%Y-%m-%dT%H:%M:%S.999Z')]
   end
 
 end

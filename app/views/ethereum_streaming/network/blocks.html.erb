@@ -3,11 +3,6 @@
     <div id='Sub-latestBlocks' class='card'></div>
   </div>
 </div>
-<div class='row'>
-  <div class='col-12 col-lg-12 mb-4'>
-    <div id='latestBlocks' class='card'></div>
-  </div>
-</div>
 <script>
     class SubLatestBlocks extends BootstrapTableComponent {
         configuration() {
@@ -48,46 +43,6 @@
             }
         }
     }
-    class LatestBlocks extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.Blocks
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                columns: [
-                    {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
-                    },
-                    {
-                        name: 'Miner', cell: function (row) {
-                            return row.Block.Coinbase
-                        }, rendering: renderJustAddressLink,headerStyle: {width: '25%'},
-                    },
-                    {
-                        name: 'Block hash', cell: function (row) {
-                            return row.Block.Hash
-                        }, rendering: renderTX,headerStyle: {width: '30%'},
-                    },
-                    {
-                        name: 'Transactions count', cell: function (row) {
-                            return row.Block.TxCount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                ],
-            }
-        }
-    }
-
 
     const variables = {
         network: '<%= @streaming%>',

@@ -12,22 +12,14 @@ export default class GraphsComponent {
     }
 
     shortenText(text, maxCharCount = 10) {
-        return text.length > maxCharCount ? `${text.substr(0, maxCharCount)}...` : text;
+        return (text && text.length > maxCharCount) ? `${text.substr(0, maxCharCount)}...` : text;
     }
 
     async init() {
-
         if (this.historyDataSource) {
-            this.historyDataSource.setCallback(this.onHistoryData.bind(this))
+            this.historyDataSource.setCallback(this.onHistoryData.bind(this));
         }
-        if (this.subscriptionDataSource) {
-            this.subscriptionDataSource.setCallback(this.onSubscriptionData.bind(this))
-        }
-        if (document.getElementById("fromToCheckbox")) {
-            document.getElementById("fromToCheckbox").addEventListener("change", () => this.updateGraph());
-            document.getElementById("moneyFlowCheckbox").addEventListener("change", () => this.updateGraph());
-
-        }
+        this.initCheckboxes();
 
     }
 
@@ -36,159 +28,159 @@ export default class GraphsComponent {
             this.container.textContent = 'No Data. Response is empty';
             return;
         }
-        if(data.EVM && data.EVM.Transfers.length <1){
-            document.getElementById("DisplayFromToCheckbox").style.display = 'none'
-            document.getElementById("DisplayMoneyFlowCheckbox").style.display = 'none'
-            this.container.textContent = 'No Data. Response is empty';
-            return;
-        }
+
+
         const array = this.config.topElement(data);
-        const chainId = this.config.chainId(data);
-        let nodes = [];
-        let edges = [];
         const addresses = new Set();
-        let linkReady = false
-        for (const rowData of array) {
-            let dataObject = {};
-            for (const column of this.config.columns) {
-                const cellData = column.cell(rowData);
-                if (column.name === 'Sender' || column.name === 'Receiver') {
-                    dataObject[column.name] = cellData;
-                    if (!addresses.has(cellData)) {
-                        addresses.add(cellData);
-                        nodes.push({
-                            id: cellData,
-                            label: this.shortenText(cellData),
-                            url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${dataObject[column.name]}`,
-                        });
-                    }
+        const nodes = [];
+        const edges = [];
+
+        for (const pair of this.config.pairs) {
+            const checkbox = document.getElementById(pair.checkboxId);
+
+            if (data.EVM && data.EVM.Transfers && data.EVM.Transfers.length > 0) {
+               if(checkbox){
+                   checkbox.style.display = 'inline';
+               }
+            } else {
+                if(checkbox){
+                    checkbox.style.display = 'none';
+                    continue;
                 }
-                if (column.name === 'Time') {
-                    dataObject[column.name] = cellData;
-                    if (column.rendering) {
-                        dataObject[column.name] = await column.rendering(column.cell(rowData)).textContent;
-                    }
-                }
-                if (column.name === 'TX Hash') {
-                    dataObject[column.name] = cellData;
-                    linkReady = true
-                }
-                if (column.name === 'Currency') {
-                    dataObject[column.name] = cellData;
-                }
-                if (column.name === 'Value') {
-                    if (column.rendering) {
-                        dataObject[column.name] = await column.rendering(column.cell(rowData)).textContent;
-                    }
-                }
+
             }
 
-            edges.push({
-                from: dataObject['Sender'],
-                to: dataObject['Receiver'],
-                label: dataObject['Time'],
-                url:  `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/tx/${dataObject['TX Hash']}` ,
-                type: "from-to",
-                value: null,
+            for (const rowData of array) {
+                if (checkbox && !checkbox.checked) continue;
 
-                font: {
-                    align: 'middle'
-                },
-                smooth: {
-                    type: 'dynamic'
+                const fromValue = pair.from.cell(rowData);
+                const toValue = pair.to.cell(rowData);
+
+                const fromLabel = pair.from.rendering ? await pair.from.rendering(fromValue).textContent : fromValue;
+                const toLabel = pair.to.rendering ? await pair.to.rendering(toValue).textContent : toValue;
+                const edgeLabel = pair.edgeLabel.cell(rowData);
+                const edgeLabelFormatted = pair.edgeLabel.rendering ? await pair.edgeLabel.rendering(edgeLabel).textContent : edgeLabel;
+
+                if (fromValue && !addresses.has(fromValue)) {
+                    addresses.add(fromValue);
+                    nodes.push({
+                        id: fromValue,
+                        label: this.shortenText(fromLabel),
+                        url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(this.config.chainId(data))}/address/${fromValue}`
+                    });
                 }
-            });
 
-            if (dataObject['Value']) {
+                if (toValue && !addresses.has(toValue)) {
+                    addresses.add(toValue);
+                    nodes.push({
+                        id: toValue,
+                        label: this.shortenText(toLabel),
+                        url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(this.config.chainId(data))}/address/${fromValue}`
+
+                    });
+                }
+
+
                 edges.push({
-                    from: dataObject['Sender'],
-                    to: dataObject['Receiver'],
-                    label: `${dataObject['Value']} ${dataObject['Currency']}`,
-                    type: "money-flow",
-                    value: dataObject['Value'],
-                    color: {
-                        color: '#00ff00',
-                        highlight: '#00ff00',
-                        hover: '#00ff00',
-                        inherit: false,
-                        opacity: 1.0
-                    },
-                    font: {
-                        align: 'middle'
-                    },
-                    smooth: {
-                        type: 'dynamic'
-                    }
+                    from: fromValue,
+                    to: toValue,
+                    label: edgeLabelFormatted,
+                    color: pair.color,
+                    type: pair.name.toLowerCase().replace(' ', '-'),
+                    font: { align: 'middle' },
+                    smooth: { type: 'dynamic' }
                 });
             }
         }
 
-        this.data2 = {
-            nodes: nodes,
-            edges: edges,
-        };
+        this.data2 = { nodes, edges };
+        this.network = new vis.Network(this.container, this.data2, this.getOptions());
+        this.initNetworkEvents();
 
-        const network = new vis.Network(this.container, this.data2, this.getOptions());
-        this.network = network
+        this.network.on('click', (properties) => {
+            const nodeId = properties.nodes[0];
+            const edgeId = properties.edges[0];
 
-        if (linkReady === true) {
-            network.on('click', function (properties) {
-                const nodeId = properties.nodes[0];
-                const edgeId = properties.edges[0];
-
-                if (nodeId) {
-                    const node = this.data2.nodes.find(node => node.id === nodeId);
-                    if (node && node.url) {
-                        window.open(node.url, '_blank');
-                    }
-                } else if (edgeId) {
-                    const edge = this.data2.edges.find(edge => edge.id === edgeId);
-                    if (edge && edge.url) {
-                        window.open(edge.url, '_blank');
-                    }
+            if (nodeId) {
+                const node = this.data2.nodes.find(node => node.id === nodeId);
+                if (node && node.url) {
+                    window.open(node.url, '_blank');
                 }
-            }.bind(this));
-        }
+            } else if (edgeId) {
+                const edge = this.data2.edges.find(edge => edge.id === edgeId);
+                if (edge && edge.url) {
+                    window.open(edge.url, '_blank');
+                }
+            }
+        });
     }
 
     updateGraph() {
-        if (!this.data2 || !this.data2.edges) return
-        const fromToCheckbox = document.getElementById("fromToCheckbox").checked;
-        const moneyFlowCheckbox = document.getElementById("moneyFlowCheckbox").checked;
+        if (!this.data2 || !this.data2.edges) return;
 
         let filteredEdges = [];
-
-        if (fromToCheckbox) {
-            filteredEdges = [...filteredEdges, ...this.data2.edges.filter(edge => edge.type === "from-to")];
+        for (const pair of this.config.pairs) {
+            const checkbox = document.getElementById(pair.checkboxId);
+            if (!checkbox || (checkbox && checkbox.checked)) {
+                filteredEdges = [...filteredEdges, ...this.data2.edges.filter(edge => edge.type === pair.name.toLowerCase().replace(' ', '-'))];
+            }
         }
 
-        if (moneyFlowCheckbox) {
-            filteredEdges = [...filteredEdges, ...this.data2.edges.filter(edge => edge.type === "money-flow")];
-        }
+        const connectedNodeIds = new Set();
+        filteredEdges.forEach(edge => {
+            connectedNodeIds.add(edge.from);
+            connectedNodeIds.add(edge.to);
+        });
 
-        const updatedData = {
-            nodes: this.data2.nodes,
+        const filteredNodes = this.data2.nodes.filter(node => connectedNodeIds.has(node.id));
+
+        this.network.setData({
+            nodes: filteredNodes,
             edges: filteredEdges
-        };
-        this.network.setData(updatedData);
+        });
+    }
+
+
+
+    initCheckboxes() {
+        for (const pair of this.config.pairs) {
+            const checkbox = document.getElementById(pair.checkboxId);
+
+            if (checkbox) {
+                checkbox.addEventListener("change", () => this.updateGraph());
+            }
+        }
+    }
+    initNetworkEvents() {
+        if (!this.network) return;
+        this.network.on('dragStart', () => this.network.setOptions({ physics: false }));
+        this.network.on('dragEnd', (params) => {
+            this.network.setOptions({ physics: true });
+
+            if (params.nodes && params.nodes.length === 1) {
+                let nodeId = params.nodes[0];
+                let updatedNode = this.network.body.data.nodes.get(nodeId);
+                updatedNode.physics = false;
+                this.network.body.data.nodes.update(updatedNode);
+            }
+        });
     }
 
 
     getOptions() {
         return {
             autoResize: true,
-            height: '500px',
+            height: '700px',
             width: '100%',
-            edges: {
-                arrows: 'to',
-            },
+            edges: { arrows: 'to' },
             physics: {
+                enabled: true,
                 barnesHut: {
                     gravitationalConstant: -4000,
                     centralGravity: 0.05,
                     springLength: 95,
                     springConstant: 0.01,
-                },
+                }
             }
         };
     }

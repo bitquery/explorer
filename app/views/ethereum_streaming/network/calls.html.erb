@@ -14,11 +14,7 @@
     <div class='card' id='SmartContractsMethods'></div>
   </div>
 </div>
-<div class='row'>
-  <div class='col-12 col-lg-12 mb-4'>
-    <div id='LatestSmartContractCalls' class='card'></div>
-  </div>
-</div>
+
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
     <div id='SubLatestSmartContractCalls' class='card'></div>
@@ -141,52 +137,6 @@
                     height: 300,
                     colors: ['FFC106'],
                 }
-            }
-        }
-    }
-
-    class LatestSmartContractCalls extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
-                },
-                columns: [
-                    {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
-                    },
-                    {
-                        name: 'Caller', cell: function (row) {
-                            return row.Call.From
-                        }, rendering: renderJustAddressLink,
-                    },
-                    {
-                        name: 'Smart Contract', cell: function (row) {
-                            return row.Call.To
-                        }, rendering: renderJustAddressLink,
-                    },
-                    {
-                        name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
-                        }, rendering: renderMethodLink,
-
-                    },
-                    {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
-                    },
-                ]
             }
         }
     }

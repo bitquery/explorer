@@ -3,11 +3,7 @@
     <div id='LatestTransfers' class='card'></div>
   </div>
 </div>
-<div class='row'>
-  <div class='col-12 col-lg-12 mb-4'>
-    <div id='SubLatestTransfers' class='card'></div>
-  </div>
-</div>
+
 <script>
     class LatestTransfers extends BootstrapTableComponent {
         configuration() {
@@ -32,7 +28,7 @@
                     {
                         name: 'Sender', cell: function (row) {
                             return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: function (row) {
@@ -42,7 +38,7 @@
                     {
                         name: 'Receiver', cell: function (row) {
                             return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Amount', cell: function (row) {
@@ -55,80 +51,17 @@
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
                             }
-                        }, rendering: renderTokenLink,
+                        }, rendering: renderTokenLink,headerStyle: {width: '100px'},
                     },
                     {
                         name: 'Id', cell: function (row) {
                             return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
-                        }, rendering: renderIdLink
+                        }, rendering: renderIdLink,headerStyle: {width: '70px'},
                     },
                     {
                         name: 'Hash', cell: function (row) {
                             return row.Transaction.Hash
-                        }, rendering: renderTX,
-                    },
-                ]
-            }
-        }
-    }
-
-    class SubLatestTransfers extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
-                columns: [
-                    {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
-                    },
-                    {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
-                    },
-                    {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
-                    },
-                    {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
-                    },
-                    {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
-                    },
-                    {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
-                    },
-                    {
-                        name: 'Id', cell: function (row) {
-                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
-                        }, rendering: renderIdLink
-                    },
-                    {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        }, rendering: renderTX,headerStyle: {width: '100px'},
                     },
                 ]
             }
@@ -140,7 +73,7 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
     }
-    
+
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent([[LatestTransfers, '#LatestTransfers']], 'Latest-Transfers_5', variables, 'Subscription-Latest-Transfers_2');
     });
