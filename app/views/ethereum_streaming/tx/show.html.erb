@@ -185,12 +185,8 @@
                         checkboxId: 'moneyFlowCheckbox',
                         edgeLabel: {
                             cell: function (row) {
-                                return {
-                                    method: row.Call?.Signature.Name,
-                                    hash: row.Call?.Signature.SignatureHash,
-                                    value: row.Call?.Value
-                                }
-                            }, rendering: renderMethodLink,
+                                return row.Call?.Signature.Name || row.Call?.Signature.SignatureHash|| `value: ${row.Call?.Value}`
+                            },
                         },
                         color: {
                             color: '#00ff00',
