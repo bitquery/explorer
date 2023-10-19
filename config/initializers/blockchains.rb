@@ -141,6 +141,7 @@ BLOCKCHAINS = [
     family: 'ethereum_streaming',
     platform: 'Smart Contract',
     currency: 'ARB',
+    currency2: 'ETH',
     icon: 'currency/arbitrum.svg',
     blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
