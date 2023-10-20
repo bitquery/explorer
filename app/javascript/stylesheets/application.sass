@@ -272,7 +272,6 @@ svg[visibility="hidden"]
     font-weight: 900
     opacity: 0.7
 
-
 //Стили для текста
 .event-tree
   //padding-left: 40px
@@ -280,14 +279,12 @@ svg[visibility="hidden"]
   align-items: center
   gap: 0px 5px
 
-
 .content-tree
   display: flex
   align-items: center
   gap: 0px 5px
   flex-wrap: wrap
   padding: 0 2px
-
 
 .no-children
   &:hover
@@ -302,34 +299,36 @@ svg[visibility="hidden"]
 //стили для кнопок дерева
 .button-container
   display: flex
-  flex-direction: column
-  gap: 3px 0
-  margin-top: 25px
+  flex-direction: row
+  gap: 0 20px
+  padding-bottom: 20px
+  padding-left: 40px
+  //margin-top: 25px
 .collapse-button-tree
-  display: none
-  content: "\25B8"
-  left: 0
-  top: 100px
-  z-index: 1000
-  transition: top 0.3s ease
+  //display: none
+  //content: "Close all"
+  //left: 0
+  //top: 100px
+  //z-index: 1000
+  //transition: top 0.3s ease
 
 .expand-button-tree
-  display: block
-  font-family: "Font Awesome 5 Free"
-  content: "\25BE"
-  z-index: 1000
+  //display: block
+  //font-family: "Font Awesome 5 Free"
+  //content: "Open all"
+  ////z-index: 1000
 
 
 .expand-button-tree, .collapse-button-tree
-  display: inline-block
-  font-family: "Font Awesome 5 Free"
-  font-weight: 900
-  font-size: .8em
-  //width: 20px
-  //height: 20px
-  line-height: 1
-  opacity: 0.7
-  padding: 0.2rem 0.2rem
+  //display: inline-block
+  //font-family: "Font Awesome 5 Free"
+  //font-weight: 900
+  //font-size: .8em
+  ////width: 20px
+  ////height: 20px
+  //line-height: 1
+  //opacity: 0.7
+  //padding: 0.2rem 0.2rem
 
   details
     transition: all 0.3s ease

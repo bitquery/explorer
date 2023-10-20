@@ -29,7 +29,6 @@ export default class GraphsComponent {
             return;
         }
 
-
         const array = this.config.topElement(data);
         const addresses = new Set();
         const nodes = [];
@@ -79,7 +78,6 @@ export default class GraphsComponent {
 
                     });
                 }
-
 
                 edges.push({
                     from: fromValue,
@@ -133,11 +131,14 @@ export default class GraphsComponent {
         });
 
         const filteredNodes = this.data2.nodes.filter(node => connectedNodeIds.has(node.id));
-
+        this.network.setOptions({ physics: false });
         this.network.setData({
-            nodes: filteredNodes,
+            nodes: this.data2.nodes,
             edges: filteredEdges
         });
+        setTimeout(() => {
+            this.network.setOptions({ physics: true });
+        }, 100);
     }
 
 

@@ -18,13 +18,12 @@ export default class TreeComponent {
         }
 
         const expandButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'expand-button-tree');
-        const iconElementExpand = this.createIcon('fa-expand', 'text-secondary')
-        this.appendChildren(expandButton, iconElementExpand)
+        expandButton.textContent = 'Expand all'
         expandButton.addEventListener('click', this.expandAll.bind(this));
 
         const collapseButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'collapse-button-tree');
-        const iconElementCollapse = this.createIcon('fa-compress', 'text-secondary')
-        this.appendChildren(collapseButton, iconElementCollapse)
+      collapseButton.textContent = 'Collaps all'
+
         collapseButton.addEventListener('click', this.collapseAll.bind(this))
 
 
@@ -35,23 +34,6 @@ export default class TreeComponent {
         const tree = this.createTree(dataTree, true);
         this.appendChildren(this.container, buttonContainer, tree);
 
-        let lastScrollY = window.scrollY;
-
-        window.addEventListener('scroll', () => {
-            const { top, bottom } = this.container.getBoundingClientRect();
-
-            const containerTop = top + window.scrollY + 25;
-            const containerBottom = bottom + window.scrollY - buttonContainer.offsetHeight;
-            let newPosition = window.scrollY + window.innerHeight / 2;
-
-            newPosition = Math.max(newPosition, (lastScrollY > window.scrollY && newPosition < containerTop ) ? containerTop  : containerTop);
-            newPosition = Math.min(newPosition, containerBottom);
-
-            lastScrollY = window.scrollY;
-
-            buttonContainer.style.position = 'absolute';
-            buttonContainer.style.top = `${newPosition - containerTop}px`;
-        });
 
     }
 
@@ -99,9 +81,6 @@ export default class TreeComponent {
             const li = this.createElementWithClasses('li', 'li-tree')
             const details = this.createElementWithClasses('details')
 
-            details.addEventListener('toggle', () => {
-                this.updateCollapseButton();
-            });
             const summary = this.createElementWithClasses('summary', 'summary-tree', 'card', 'mb-1')
             this.appendChildren(details, summary)
             this.appendChildren(li, details)
@@ -124,7 +103,7 @@ export default class TreeComponent {
                 method: item.signature.Signature.Name,
                 hash: item.signature.Signature.SignatureHash,
             }, null, this.chainId)
-            if (item.signature.Signature.SignatureHash === '') method.textContent = 'transfer of money'
+            // if (item.signature.Signature.SignatureHash === '') method.textContent = 'transfer of money'
             const gas = this.createElementWithClasses('div')
             if (item.signature.Gas) {
                 gas.textContent = `Gas: ${item.signature.Gas}`
@@ -247,13 +226,7 @@ export default class TreeComponent {
     collapseAll() {
         this.container.querySelectorAll('details').forEach(details => details.open = false)
         const collapseButton = this.container.querySelector('.collapse-button-tree');
-        if (collapseButton) collapseButton.style.display = 'none';
-    }
-
-    updateCollapseButton() {
-        const isOpen = [...this.container.querySelectorAll('details')].some(details => details.open);
-        const collapseButton = this.container.querySelector('.collapse-button-tree');
-        if (collapseButton) collapseButton.style.display = isOpen ? 'block' : 'none';
+        // if (collapseButton) collapseButton.style.display = 'none';
     }
 
     createIcon(...classes) {
@@ -269,9 +242,7 @@ export default class TreeComponent {
     }
 
     appendChildren(parent, ...children) {
-        // console.log('parent', parent)
         children.forEach(child => {
-            // console.log('child', child)
             parent.appendChild(child)
         });
     }
