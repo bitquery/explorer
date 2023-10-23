@@ -13,35 +13,34 @@
 
   $( document ).ready(function() {
     var query = new widgets.query(`
-      query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $date: ISO8601DateTime, $sender: String) {
-        solana(network: $network) {
-          transfers(
-            options: {limit: $limit, offset: $offset}
-            date: {is: $date}
-            senderAddress: {is: $sender }
-          ) {
-            block {
-              height
-              timestamp {
-                time
-              }
-            }
-            transaction {
-             signature
-            }
-            receiver{
-              address
-            }
-            currency{
-              symbol
-              address
-            }
-            amount
-
-            transferType
+  query ($network: SolanaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $sender: String) {
+    solana(network: $network) {
+      transfers(
+        options: {limit: $limit, offset: $offset}
+        senderAddress: {is: $sender}
+        time: {since: $from, till: $till}
+      ) {
+        block {
+          height
+          timestamp {
+            time
           }
         }
+        transaction {
+          signature
+        }
+        receiver {
+          address
+        }
+        currency {
+          symbol
+          address
+        }
+        amount
+        transferType
       }
+    }
+  }
     `);
 
     new widgets.table('#outflow_transfers', query, 'solana.transfers', {
