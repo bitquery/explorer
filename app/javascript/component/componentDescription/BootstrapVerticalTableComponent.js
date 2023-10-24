@@ -60,11 +60,12 @@ export default class BootstrapVerticalTableComponent {
 	}
 
 	async onHistoryData(data, variables) {
-		const array = this.config.topElement(data);
-		if (!array || Object.keys(array).length === 0) {
-			this.wrapper.textContent = 'No Data. Response is empty'
-			return;
-		}
+		try {
+			const array = this.config.topElement(data);
+			if (!array || Object.keys(array).length === 0) {
+				this.displayError('No Data. Response is empty');
+				return;
+			}
 		const chainId = this.config.chainId(data)
 		for (const rowData of array) {
 			for (const column of this.config.columns) {
@@ -98,14 +99,18 @@ export default class BootstrapVerticalTableComponent {
 			}
 
 		}
+	} catch (error) {
+			this.displayError(`Error processing data: ${error.message}`);
+		}
 	}
 
 	async onSubscriptionData(data, variables) {
-		const array = this.config.topElement(data);
-		if (Object.keys(array).length === 0) {
-			this.wrapper.textContent = 'No Data. Response is empty'
-			return;
-		}
+		try {
+			const array = this.config.topElement(data);
+			if (!array || Object.keys(array).length === 0) {
+				this.displayError('No Data. Response is empty');
+				return;
+			}
 		const chainId = this.config.chainId(data)
 
 		const maxRows = 15;
@@ -137,6 +142,15 @@ export default class BootstrapVerticalTableComponent {
 				}
 			}
 		}
+		} catch (error) {
+			this.displayError(`Error processing data: ${error.message}`)
+		}
+	}
+	displayError(message) {
+		this.wrapper.textContent = ''
+		const errorDiv = this.createElementWithClasses('div', 'alert', 'alert-danger')
+		errorDiv.textContent = message
+		this.appendChildren(this.wrapper, errorDiv)
 	}
 
 	createElementWithClasses(elementType, ...classes) {
