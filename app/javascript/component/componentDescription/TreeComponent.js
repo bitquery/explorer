@@ -10,49 +10,31 @@ export default class TreeComponent {
     }
 
     async onHistoryData(data) {
-        this.container.style.scrollBehavior = 'smooth';
-        this.chainId = this.config.chainId(data);
-        if (data.EVM.Calls.length < 1 && data.EVM.Events.length < 1) {
-            this.container.textContent = 'No Data. Response is empty';
-            return;
+        try {
+            this.container.style.scrollBehavior = 'smooth';
+            this.chainId = this.config.chainId(data);
+            if (data.EVM.Calls.length < 1 && data.EVM.Events.length < 1) {
+                this.container.textContent = 'No Data. Response is empty';
+                return;
+            }
+
+            const expandButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'expand-button-tree');
+            expandButton.textContent = 'Expand all'
+            expandButton.addEventListener('click', this.expandAll.bind(this));
+
+            const collapseButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'collapse-button-tree');
+            collapseButton.textContent = 'Collapse all'
+            collapseButton.addEventListener('click', this.collapseAll.bind(this))
+
+            const buttonContainer = this.createElementWithClasses('div', 'button-container');
+            this.appendChildren(buttonContainer, expandButton, collapseButton);
+
+            const dataTree = this.buildTree(this.config.topElement(data));
+            const tree = this.createTree(dataTree, true);
+            this.appendChildren(this.container, buttonContainer, tree);
+        } catch (error) {
+            this.displayError(`Error processing data: ${error.message}`)
         }
-
-        const expandButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'expand-button-tree');
-        const iconElementExpand = this.createIcon('fa-expand', 'text-secondary')
-        this.appendChildren(expandButton, iconElementExpand)
-        expandButton.addEventListener('click', this.expandAll.bind(this));
-
-        const collapseButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'collapse-button-tree');
-        const iconElementCollapse = this.createIcon('fa-compress', 'text-secondary')
-        this.appendChildren(collapseButton, iconElementCollapse)
-        collapseButton.addEventListener('click', this.collapseAll.bind(this))
-
-
-        const buttonContainer = this.createElementWithClasses('div', 'button-container');
-        this.appendChildren(buttonContainer, expandButton, collapseButton);
-
-        const dataTree = this.buildTree(this.config.topElement(data));
-        const tree = this.createTree(dataTree, true);
-        this.appendChildren(this.container, buttonContainer, tree);
-
-        let lastScrollY = window.scrollY;
-
-        window.addEventListener('scroll', () => {
-            const { top, bottom } = this.container.getBoundingClientRect();
-
-            const containerTop = top + window.scrollY + 25;
-            const containerBottom = bottom + window.scrollY - buttonContainer.offsetHeight;
-            let newPosition = window.scrollY + window.innerHeight / 2;
-
-            newPosition = Math.max(newPosition, (lastScrollY > window.scrollY && newPosition < containerTop ) ? containerTop  : containerTop);
-            newPosition = Math.min(newPosition, containerBottom);
-
-            lastScrollY = window.scrollY;
-
-            buttonContainer.style.position = 'absolute';
-            buttonContainer.style.top = `${newPosition - containerTop}px`;
-        });
-
     }
 
     buildTree(evmData) {
@@ -85,6 +67,21 @@ export default class TreeComponent {
                     };
                     parentArray.push(eventNode);
                 });
+                if (!evmData.Transfers) return
+                const transferForCall = evmData.Transfers
+                    .sort((a, b) => a.Call.Index - b.Call.Index)
+                    .filter(transfer => transfer.Call && transfer.Call.Index === call.Call.Index);
+
+                transferForCall.forEach(transfer => {
+                    const transferNode = {
+                        name: 'Transfers',
+                        signature: transfer.Call,
+                        dataTransfer: transfer.Transfer,
+                        arguments: [],
+                        children: [],
+                    };
+                    parentArray.push(transferNode);
+                });
             }
         });
         return tree;
@@ -98,10 +95,6 @@ export default class TreeComponent {
             counter.value++;
             const li = this.createElementWithClasses('li', 'li-tree')
             const details = this.createElementWithClasses('details')
-
-            details.addEventListener('toggle', () => {
-                this.updateCollapseButton();
-            });
             const summary = this.createElementWithClasses('summary', 'summary-tree', 'card', 'mb-1')
             this.appendChildren(details, summary)
             this.appendChildren(li, details)
@@ -116,17 +109,15 @@ export default class TreeComponent {
                 contentDiv.style.boxShadow = 'inset 0 0 0 1000px rgba(0, 0, 0, 0.03)'
             }
             if (item.name === 'Call') {
-                iconElement = this.createIcon('fa-share', 'text-primary','ml-2')
+                iconElement = this.createIcon('fa-share', 'text-primary', 'ml-2')
             }
 
-
-            const method = this.config.rendering.renderMethodLink({
-                method: item.signature.Signature.Name,
-                hash: item.signature.Signature.SignatureHash,
-            }, null, this.chainId)
-            if (item.signature.Signature.SignatureHash === '') method.textContent = 'transfer of money'
-            const gas = this.createElementWithClasses('div')
-            if (item.signature.Gas) {
+            if (item.signature.Gas && item.signature.Signature.SignatureHash !== '') {
+                const method = this.config.rendering.renderMethodLink({
+                    method: item.signature.Signature.Name,
+                    hash: item.signature.Signature.SignatureHash,
+                }, null, this.chainId)
+                const gas = this.createElementWithClasses('div')
                 gas.textContent = `Gas: ${item.signature.Gas}`
                 const gasUsed = this.createElementWithClasses('div')
                 gasUsed.textContent = `Gas used: ${item.signature.GasUsed}`
@@ -163,7 +154,6 @@ export default class TreeComponent {
                 }
             });
 
-
             if (item.arguments.length > 0) {
                 if (callArgumentsPathDiv.childElementCount !== 0) {
                     callArgumentsPathDiv.insertBefore(openingDiv, callArgumentsPathDiv.firstChild);
@@ -173,13 +163,31 @@ export default class TreeComponent {
                 }
                 this.appendChildren(contentDiv, callArgumentsDiv);
             }
+
             if (item.name === 'Event') {
-                const iconElement = this.createIcon('fa-bolt', 'text-warning','ml-2')
+                const iconElement = this.createIcon('fa-bolt', 'text-warning', 'ml-2')
                 callArgumentsDiv.insertBefore(iconElement, callArgumentsDiv.firstChild);
             }
+            if (item.name === 'Transfers') {
+                const senderDiv = this.createElementWithClasses('div', 'text-block');
+                const receiverDiv = this.createElementWithClasses('div', 'text-block');
+                const iconElement = this.createIcon('fa', 'fa-money', 'text-success', 'ml-2');
+                const iconSenderReceiver = this.createIcon('fa', 'fa-arrow-right', 'text-success');
+                const sender = this.config.rendering.renderJustAddressLink(item.dataTransfer.Sender, null, this.chainId)
+                const receiver = this.config.rendering.renderJustAddressLink(item.dataTransfer.Receiver, null, this.chainId)
+                const amountDiv = this.config.rendering.renderNumbers(item.dataTransfer.Amount)
+                const currency = this.createElementWithClasses('div')
+                currency.textContent = item.dataTransfer.Currency.Symbol
+
+                this.appendChildren(senderDiv, sender);
+                this.appendChildren(receiverDiv, receiver);
+                this.appendChildren(contentDiv, iconElement, senderDiv, iconSenderReceiver, receiverDiv, amountDiv, currency);
+
+            }
+
 
             if (item.returns && item.returns.length > 0) {
-                const iconElement = this.createIcon('fa-undo', 'text-danger','ml-2')
+                const iconElement = this.createIcon('fa-undo', 'text-danger', 'ml-2')
                 const returnContent = this.createElementWithClasses('div', 'content-tree')
                 returnContent.textContent = '[ Return:'
                 returnContent.style.gap = '0 5px'
@@ -215,6 +223,7 @@ export default class TreeComponent {
             }
             this.appendChildren(summary, contentDiv)
             this.appendChildren(ul, li)
+
         });
 
         return ul;
@@ -247,13 +256,6 @@ export default class TreeComponent {
     collapseAll() {
         this.container.querySelectorAll('details').forEach(details => details.open = false)
         const collapseButton = this.container.querySelector('.collapse-button-tree');
-        if (collapseButton) collapseButton.style.display = 'none';
-    }
-
-    updateCollapseButton() {
-        const isOpen = [...this.container.querySelectorAll('details')].some(details => details.open);
-        const collapseButton = this.container.querySelector('.collapse-button-tree');
-        if (collapseButton) collapseButton.style.display = isOpen ? 'block' : 'none';
     }
 
     createIcon(...classes) {
@@ -269,11 +271,18 @@ export default class TreeComponent {
     }
 
     appendChildren(parent, ...children) {
-        // console.log('parent', parent)
-        children.forEach(child => {
-            // console.log('child', child)
-            parent.appendChild(child)
-        });
+        children.forEach(child => parent.appendChild(child));
+
     }
+
+    displayError(message) {
+        this.container.textContent = ''
+        const errorDiv = this.createElementWithClasses('div', 'alert', 'alert-danger')
+        errorDiv.textContent = message
+        this.appendChildren(this.container, errorDiv)
+    }
+
+
+
 
 }

@@ -31,10 +31,10 @@
         configuration() {
             return {
                 topElement: function (response) {
-                    return [...response.EVM.Transactions, ...response.EVM.Transfers]
+                    return [...response.EVM?.Transactions, ...response.EVM?.Transfers]
                 },
                 chainId: function (response) {
-                    return response.EVM.Transactions[0]?.ChainId
+                    return response.EVM.Transactions[0]?.ChainId || response.EVM.Transfers[0]?.ChainId
                 },
                 columns: [
                     {
@@ -140,7 +140,7 @@
                     return [...response.EVM.Transfers, ...response.EVM.Calls]
                 },
                 chainId: function (response) {
-                    return response.EVM.Transfers[0]?.ChainId
+                    return response.EVM.Transfers[0]?.ChainId || response.EVM.Calls[0]?.ChainId
                 },
                 title: 'Transfers and money flow',
                 pairs: [
@@ -149,12 +149,10 @@
                         from: {
                             name: 'Sender',
                             cell: row => row.Transfer?.Sender,
-
                         },
                         to: {
                             name: 'Receiver',
                             cell: row => row.Transfer?.Receiver,
-
                         },
                         checkboxId: 'fromToCheckbox',
                         edgeLabel: {
@@ -175,7 +173,6 @@
                         from: {
                             name: 'CallFrom',
                             cell: row => row.Call?.From,
-
                         },
                         to: {
                             name: 'CallTo',
@@ -185,7 +182,7 @@
                         checkboxId: 'moneyFlowCheckbox',
                         edgeLabel: {
                             cell: function (row) {
-                                return row.Call?.Signature.Name || row.Call?.Signature.SignatureHash|| `value: ${row.Call?.Value}`
+                                return row.Call?.Signature?.Name || row.Call?.Signature?.SignatureHash ||''
                             },
                         },
                         color: {
@@ -196,7 +193,6 @@
                             opacity: 1.0
                         },
                     },
-
                 ],
             }
         }
@@ -207,6 +203,6 @@
         hash: '<%= @hash%>',
     };
     renderComponent([[TransactionAttributes, '#TransactionAttributes']], 'Transaction-Attributes_6', variables);
-    renderComponent([[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash'], [GraphTX, '#GraphTX']], 'Events-and-Calls_10_1', variables);
+    renderComponent([[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash'], [GraphTX, '#GraphTX']], 'Events-and-Calls0_6', variables);
 
 </script>
