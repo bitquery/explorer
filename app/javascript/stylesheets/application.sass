@@ -173,24 +173,71 @@ svg[visibility="hidden"]
 
 
 //tree
-// Общие стили для дерева
+$fontAwesomeFree: "Font Awesome 5 Free"
+$fontWeightBold: 900
+$opacity: 0.7
+$colorGray: #9AA1A6
+$borderStyle: 2.5px dotted $colorGray
+
+// Common styles for the tree
 .ul-tree, .li-tree, #tree
   position: relative
   list-style: none
   line-height: 1.6em
 
-#tree
-  > .li-tree:after
-    display: none
+  #tree &
+    > .li-tree:after, > .li-tree:before
+      display: none
 
-  > .li-tree:before
-    display: none
-// Стили для summary
+  .li-tree
+    &.last-child:after
+      display: none
+
+    &:before, &:after
+      position: absolute
+      left: -1.9em
+      content: ''
+      width: 0.65em
+      opacity: $opacity
+
+    &:before
+      top: 0
+      height: 0.93em
+
+    &:after
+      bottom: 0
+      height: 100%
+
+  .summary-tree
+    &.no-children:before
+      display: none
+
+    &:before
+      position: absolute
+      left: -1.35em
+      font-size: 20px
+      font-family: $fontAwesomeFree
+      content: "\25B8"
+      font-weight: $fontWeightBold
+      background: inherit
+      opacity: $opacity
+      color: $colorGray
+      display: block
+      width: 20px
+      height: 20px
+      z-index: 100500
+      text-align: center
+      line-height: .80em
+
+    details[open] &
+      &:before
+        content: "\25BE"
+
+// Styles for summary
 .summary-tree
   cursor: pointer
   list-style: none
-  //&:hover
-  //opacity: 0.8
+
   &.no-children
     cursor: default
 
@@ -200,89 +247,31 @@ svg[visibility="hidden"]
   &::marker, &::-webkit-details-marker
     display: none
 
-// Стили для вложенных элементов
-.ul-tree
-  line-height: 1.5em
+  &.no-children:before
+    font-family: $fontAwesomeFree
+    content: "\25BE"
+    font-weight: $fontWeightBold
+    opacity: $opacity
 
-  .li-tree:last-child:after
-    display: none
-
-  .li-tree:before, .li-tree:after
-    position: absolute
-    left: -1.9em
-    //border-left: 2.5px dotted #9AA1A6
-    content: ''
-    width: 0.65em
-    opacity: 0.7
-
-  .li-tree:before
-    top: 0
-    //margin-top: -2.6em
-    //border-bottom: 2.5px dotted #9AA1A6
-    height: 0.93em
-
-  .li-tree:after
-    bottom: 0
-    height: 100%
-
-
-// Сброс стилей
+// Reset styles
 .resetcss-tree
   list-style: none
   padding-left: 27px
 
+// Styles for nested elements
 .ul-tree
-  .summary-tree.no-children:before
-    display: none
+  line-height: 1.5em
+  padding-inline-start: 28px
+  padding-left: 23px
 
-//Стили дял иконки
-.ul-tree
-  .summary-tree:before
-    position: absolute
-    left: -1.35em
-    //top: .48em
-    font-size: 20px
-    font-family: "Font Awesome 5 Free"
-    content: "\25B8"
-    font-weight: 900
-    background: inherit
-    font-weight: bold
-    opacity: 0.7
-    //border: 2.5px dotted #9AA1A6
-    color: #9AA1A6
-    display: block
-    width: 20px
-    height: 20px
-    z-index: 100500
-    text-align: center
-    line-height: .80em
-
-  details[open]
-    > .summary-tree:before
-      font-family: "Font Awesome 5 Free"
-      content: "\25BE"
-      font-weight: 900
-      opacity: 0.7
-
-
-.ul-tree
-  .summary-tree.no-children:before
-    font-family: "Font Awesome 5 Free"
-    content: "\25BE"
-    font-weight: 900
-    opacity: 0.7
-
-//Стили для текста
-.event-tree
-  //padding-left: 40px
+// Styles for text
+.event-tree, .content-tree
   display: flex
   align-items: center
-  gap: 0px 5px
+  gap: 0 5px
 
 .content-tree
-  display: flex
-  align-items: center
-  gap: 0px 9px
+  gap: 0 9px
   flex-wrap: wrap
   padding: 0 2px
 
@@ -291,52 +280,37 @@ svg[visibility="hidden"]
     opacity: 1
 
   &::before
-    font-family: "Font Awesome 5 Free"
+    font-family: $fontAwesomeFree
     content: "\25BE"
-    font-weight: 900
-    opacity: 0.7
+    font-weight: $fontWeightBold
+    opacity: $opacity
 
-//стили для кнопок дерева
+// Styles for tree buttons
 .button-container
   display: flex
   flex-direction: row
   gap: 0 20px
-  padding-bottom: 20px
-  padding-left: 40px
-  //margin-top: 25px
-.collapse-button-tree
-  //display: none
-  //content: "Close all"
-  //left: 0
-  //top: 100px
-  //z-index: 1000
-  //transition: top 0.3s ease
+  padding: 0px 0px 8px 22px
 
-.expand-button-tree
-  //display: block
-  //font-family: "Font Awesome 5 Free"
-  //content: "Open all"
-  ////z-index: 1000
-
-
-.expand-button-tree, .collapse-button-tree
-  //display: inline-block
-  //font-family: "Font Awesome 5 Free"
-  //font-weight: 900
-  //font-size: .8em
-  ////width: 20px
-  ////height: 20px
-  //line-height: 1
-  //opacity: 0.7
-  //padding: 0.2rem 0.2rem
-
+.collapse-button-tree, .expand-button-tree
   details
     transition: all 0.3s ease
+  &:focus
+    outline: none
+    box-shadow: none
 
 .text-block, .value-tree
   display: flex
-  gap:  3px 5px
+  gap: 3px 5px
   overflow: hidden
   text-overflow: ellipsis
   max-width: 200px
 
+  //graph
+  .tooltip-graph
+    position: absolute
+    display: none
+    background: inherit
+    border: 1px solid $colorGray
+    border-radius: 5px
+    padding: 3px

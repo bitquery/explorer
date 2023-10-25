@@ -12,6 +12,7 @@ export default class TreeComponent {
     async onHistoryData(data) {
         try {
             this.container.style.scrollBehavior = 'smooth';
+            this.container.style.margin = '0';
             this.chainId = this.config.chainId(data);
             if (data.EVM.Calls.length < 1 && data.EVM.Events.length < 1) {
                 this.container.textContent = 'No Data. Response is empty';
@@ -117,6 +118,7 @@ export default class TreeComponent {
                     method: item.signature.Signature.Name,
                     hash: item.signature.Signature.SignatureHash,
                 }, null, this.chainId)
+                method.style.fontWeight = 'bold'
                 const gas = this.createElementWithClasses('div')
                 gas.textContent = `Gas: ${item.signature.Gas}`
                 const gasUsed = this.createElementWithClasses('div')
@@ -166,6 +168,13 @@ export default class TreeComponent {
 
             if (item.name === 'Event') {
                 const iconElement = this.createIcon('fa-bolt', 'text-warning', 'ml-2')
+                const method = this.config.rendering.renderMethodLink({
+                    method: item.signature.Signature.Name,
+                    hash: item.signature.Signature.SignatureHash,
+                }, null, this.chainId)
+                method.style.fontWeight = 'bold'
+
+                callArgumentsDiv.insertBefore(method, callArgumentsDiv.firstChild);
                 callArgumentsDiv.insertBefore(iconElement, callArgumentsDiv.firstChild);
             }
             if (item.name === 'Transfers') {
@@ -181,10 +190,9 @@ export default class TreeComponent {
 
                 this.appendChildren(senderDiv, sender);
                 this.appendChildren(receiverDiv, receiver);
-                this.appendChildren(contentDiv, iconElement, senderDiv, iconSenderReceiver, receiverDiv, amountDiv, currency);
+                this.appendChildren(contentDiv, iconElement,amountDiv, currency, senderDiv, iconSenderReceiver, receiverDiv);
 
             }
-
 
             if (item.returns && item.returns.length > 0) {
                 const iconElement = this.createIcon('fa-undo', 'text-danger', 'ml-2')
@@ -203,7 +211,7 @@ export default class TreeComponent {
                     this.appendChildren(block, argName, value)
                     this.appendChildren(returnContent, block, closingDiv)
 
-                    if (index < item.returns.length - 1) {
+                    if (index < item.returns.length - 2) {
                         const comma = document.createTextNode(', ')
                         returnContent.appendChild(comma)
                     }
@@ -281,8 +289,5 @@ export default class TreeComponent {
         errorDiv.textContent = message
         this.appendChildren(this.container, errorDiv)
     }
-
-
-
 
 }
