@@ -223,8 +223,8 @@ export default class GraphsComponent {
             physics: {
                 enabled: true,
                 barnesHut: {
-                    gravitationalConstant: -4000,
-                    centralGravity: 0.05,
+                    gravitationalConstant: -1000,
+                    centralGravity: 0.45,
                     springLength: 95,
                     springConstant: 0.01,
                 }
