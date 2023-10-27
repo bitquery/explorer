@@ -51,7 +51,7 @@ export default class TreeComponent {
                     children: []
                 };
                 const parentArray = call.Call.Depth === 0 ? tree : (lastParentNodes[call.Call.Depth - 1] && lastParentNodes[call.Call.Depth - 1].children) ? lastParentNodes[call.Call.Depth - 1].children : [];
-
+                if(call.Call && call.Call.Signature.SignatureHash === '')return
                 parentArray.push(newNode);
                 lastParentNodes[call.Call.Depth] = newNode;
 
@@ -66,6 +66,8 @@ export default class TreeComponent {
                         arguments: event.Arguments,
                         children: [],
                     };
+                    if(event.Log && event.Log.Signature.SignatureHash === '')return
+
                     parentArray.push(eventNode);
                 });
                 if (!evmData.Transfers) return
