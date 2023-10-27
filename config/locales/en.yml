@@ -749,10 +749,10 @@ en:
       tracing:
         name: "Tracing"
         title: "Tracing %{network} %{hash}"
-        keywords: "%{network} tracing, %{network} transaction explorer, %{network} explorer, token transaction, coin transaction, crypto transaction, %{network} transaction analytics,
-                 smart contract transaction, %{network} blockchain transaction,crypto transaction, currency, transaction fee,
+        keywords: "%{network} tracing, %{network} tracing explorer, %{network} explorer, token tracing, coin tracing, crypto tracing, %{network} tracing analytics,
+                 smart contract tracing, %{network} blockchain tracing,crypto tracing, currency, tracing fee,
                  %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
-                 check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
+                 check %{network} confirmations, %{network} transaction confirmation, unconfirmed %{network} transaction"
       operations:
         name: 'Operations'
         title: "Operations %{network} %{hash}"
@@ -788,7 +788,6 @@ en:
         title: "Offers %{network} %{hash}"
         description: "Offers in transaction %{hash} in %{network}"
         keywords: "%{network} Offers, %{network} transaction value"
-
       nftoken_offers:
         name: 'NFToken Offers'
         title: "NFToken Offers %{network} %{hash}"
@@ -1046,6 +1045,7 @@ en:
         keywords: "%{network} smart contracts calls results, latest %{network} smart contracts results,
           %{network} smart contracts calls analytics, %{network} smart contracts results methods analytics,
           %{network} smart contract users for miniblock %{miniblock_hash}"
+
     shards:
       icon: 'fas fa-cube'
       header: "%{network} Shard %{shard_id}"
@@ -1082,6 +1082,7 @@ en:
         title: "Operations on %{network} Explorer in operation %{shard_id}"
         description: "Shards %{shard_id} operations"
         keywords: "%{network} operations, shards %{shard_id} operations"
+
     validators:
       icon: 'fas fa-cube'
       header: "%{network} Validator %{validator_hash}"
@@ -1100,6 +1101,7 @@ en:
         keywords: "%{network} address lookup, explore %{network} transactions, track %{network} transactions,
           %{network} wallet explorer,%{network} address check, search %{network} address, %{network} address validation,
           %{network} blocks, %{network} block height, %{network} block size, %{network} block time, %{network} block reward, %{network} block explorer"
+
       transactions:
         name: "Transactions"
         title: "%{network} Transactions | Bitquery"
@@ -1107,6 +1109,7 @@ en:
         keywords: "explore %{network} transactions, track %{network} transactions, search %{network} transactions, 
           %{network} transactions per day, %{network} transaction fee, %{network} transaction live, %{network} transaction live, %{network} transaction time, %{network} transaction data,
          %{network} transactions per second chart, %{network} transactions chart, tracking %{network} transactions, %{network} transactions status, check %{network} transactions pending"
+
       messages:
         name: "Messages"
         title: "%{network} Messages | Bitquery"

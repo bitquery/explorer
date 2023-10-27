@@ -52,15 +52,13 @@ export default class GraphsComponent {
 
                 for (const rowData of array) {
                     if (checkbox && !checkbox.checked) continue;
-
+                    if (rowData.Call && rowData.Call.Signature && rowData.Call.Signature.SignatureHash === '') continue;
                     const fromValue = pair.from.cell(rowData);
                     const toValue = pair.to.cell(rowData);
-
                     const fromLabel = pair.from.rendering ? await pair.from.rendering(fromValue).textContent : fromValue;
                     const toLabel = pair.to.rendering ? await pair.to.rendering(toValue).textContent : toValue;
                     const edgeLabel = pair.edgeLabel.cell(rowData);
                     const edgeLabelFormatted = pair.edgeLabel.rendering ? await pair.edgeLabel.rendering(edgeLabel).textContent : edgeLabel;
-
                     if (fromValue && !addresses.has(fromValue)) {
                         addresses.add(fromValue);
                         nodes.push({
@@ -71,11 +69,12 @@ export default class GraphsComponent {
                     }
 
                     if (toValue && !addresses.has(toValue)) {
+
                         addresses.add(toValue);
                         nodes.push({
                             id: toValue,
                             label: this.shortenText(toLabel),
-                            url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(this.config.chainId(data))}/address/${fromValue}`
+                            url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(this.config.chainId(data))}/address/${toValue}`
 
                         });
                     }
@@ -189,7 +188,7 @@ export default class GraphsComponent {
 
         this.network.on('hoverNode', (params) => {
             const node = this.data2.nodes.find(node => node.id === params.node);
-            if (node && node.url) {
+            if (node) {
                 const nodePosition = this.network.getPositions([params.node])[params.node];
                 const canvasDOMPosition = this.network.canvasToDOM(nodePosition);
 
@@ -206,7 +205,6 @@ export default class GraphsComponent {
         });
 
 
-
         this.network.on('blurNode', () => {
             this.tooltip.style.display = 'none';
         });
@@ -218,14 +216,13 @@ export default class GraphsComponent {
             autoResize: true,
             height: '500px',
             width: '100%',
-            interaction:{hover:true},
-            edges: {arrows: 'to'},
+            interaction: {hover: true},
             physics: {
                 enabled: true,
                 barnesHut: {
-                    gravitationalConstant: -1000,
-                    centralGravity: 0.45,
-                    springLength: 95,
+                    gravitationalConstant: -2000,
+                    centralGravity: 0.35,
+                    springLength: 115,
                     springConstant: 0.01,
                 }
             },
@@ -240,11 +237,11 @@ export default class GraphsComponent {
                             return 0.5;
                         } else {
                             const scale = 1 / (max - min);
-                            return Math.max(0,(value - min)*scale);
+                            return Math.max(0, (value - min) * scale);
                         }
                     },
                     min: 1,
-                    max: 10
+                    max: 5
                 }
             }
         };

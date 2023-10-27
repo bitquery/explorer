@@ -65,10 +65,10 @@
                             cell: row => row.Transfer?.Receiver,
                         },
                         checkboxId: 'fromToCheckbox',
-                        amount: { cell: row => parseFloat(row.Transfer?.Amount) },
+                        amount: { cell: row => parseFloat(row.Transfer?.Amount).toFixed(5) },
                         edgeLabel: {
                             cell: function (row) {
-                                return `${parseFloat(row.Transfer?.Amount)}  ${row.Transfer?.Currency.Symbol}`
+                                return `${parseFloat(row.Transfer?.Amount).toFixed(5)}  ${row.Transfer?.Currency.Symbol}`
                             },
                         },
                         color: {
@@ -113,6 +113,6 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     };
-    renderComponent([[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash'], [GraphTX, '#GraphTX']], 'Events-and-Calls0_6', variables);
+    renderComponent([[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash'], [GraphTX, '#GraphTX']], 'Events-and-Calls0_7', variables);
 
 </script>
