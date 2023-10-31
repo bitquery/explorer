@@ -749,6 +749,7 @@ en:
       tracing:
         name: "Tracing"
         title: "Tracing %{network} %{hash}"
+        description: "Transfers in transaction %{hash} in %{network}"
         keywords: "%{network} tracing, %{network} tracing explorer, %{network} explorer, token tracing, coin tracing, crypto tracing, %{network} tracing analytics,
                  smart contract tracing, %{network} blockchain tracing,crypto tracing, currency, tracing fee,
                  %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,

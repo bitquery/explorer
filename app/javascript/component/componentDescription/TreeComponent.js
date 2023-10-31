@@ -51,7 +51,7 @@ export default class TreeComponent {
                     children: []
                 };
                 const parentArray = call.Call.Depth === 0 ? tree : (lastParentNodes[call.Call.Depth - 1] && lastParentNodes[call.Call.Depth - 1].children) ? lastParentNodes[call.Call.Depth - 1].children : [];
-                if(call.Call && call.Call.Signature.SignatureHash === '')return
+                if (call.Call && call.Call.Signature.SignatureHash === '') return
                 parentArray.push(newNode);
                 lastParentNodes[call.Call.Depth] = newNode;
 
@@ -66,14 +66,14 @@ export default class TreeComponent {
                         arguments: event.Arguments,
                         children: [],
                     };
-                    if(event.Log && event.Log.Signature.SignatureHash === '')return
-
+                    if (event.Log && event.Log.Signature.SignatureHash === '') return
                     parentArray.push(eventNode);
                 });
+
                 if (!evmData.Transfers) return
                 const transferForCall = evmData.Transfers
                     .sort((a, b) => a.Call.Index - b.Call.Index)
-                    .filter(transfer => transfer.Call && transfer.Call.Index === call.Call.Index);
+                    .filter(transfer =>transfer.Call && transfer.Call.Index === call.Call.Index);
 
                 transferForCall.forEach(transfer => {
                     const transferNode = {
@@ -192,7 +192,7 @@ export default class TreeComponent {
 
                 this.appendChildren(senderDiv, sender);
                 this.appendChildren(receiverDiv, receiver);
-                this.appendChildren(contentDiv, iconElement,amountDiv, currency, senderDiv, iconSenderReceiver, receiverDiv);
+                this.appendChildren(contentDiv, iconElement, amountDiv, currency, senderDiv, iconSenderReceiver, receiverDiv);
 
             }
 
