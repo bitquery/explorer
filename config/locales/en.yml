@@ -432,6 +432,12 @@ en:
         title: "%{network} NFTs trading"
         description: "Trades on decentralized exchanges (DEX), smart contract on %{network}"
         keywords: "%{network} Trading"
+      holders:
+        name: 'Holders'
+        title: "%{token} Holders | %{network}"
+        description: "Holders of token %{token} in %{network}"
+        keywords: "%{token} Holders, %{token} Holders, Latest %{token} Holders.
+          %{token} transaction volume"
       transfers:
         name: 'Transfers'
         title: "%{token} Transfers | %{network}"
