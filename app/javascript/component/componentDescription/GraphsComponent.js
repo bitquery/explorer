@@ -11,16 +11,11 @@ export default class GraphsComponent {
         this.network = null;
     }
 
-    shortenText(text, maxCharCount = 10) {
-        return (text && text.length > maxCharCount) ? `${text.substr(0, maxCharCount)}...` : text;
-    }
-
     async init() {
         if (this.historyDataSource) {
             this.historyDataSource.setCallback(this.onHistoryData.bind(this));
         }
         this.initCheckboxes();
-
     }
 
     async onHistoryData(data) {
@@ -55,27 +50,23 @@ export default class GraphsComponent {
                     if (rowData.Call && rowData.Call.Signature && rowData.Call.Signature.SignatureHash === '') continue;
                     const fromValue = pair.from.cell(rowData);
                     const toValue = pair.to.cell(rowData);
-                    const fromLabel = pair.from.rendering ? await pair.from.rendering(fromValue).textContent : fromValue;
-                    const toLabel = pair.to.rendering ? await pair.to.rendering(toValue).textContent : toValue;
                     const edgeLabel = pair.edgeLabel.cell(rowData);
                     const edgeLabelFormatted = pair.edgeLabel.rendering ? await pair.edgeLabel.rendering(edgeLabel).textContent : edgeLabel;
                     if (fromValue && !addresses.has(fromValue)) {
                         addresses.add(fromValue);
                         nodes.push({
                             id: fromValue,
-                            label: this.shortenText(fromLabel),
+                            label: this.shortenText(fromValue),
                             url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(this.config.chainId(data))}/address/${fromValue}`
                         });
                     }
 
                     if (toValue && !addresses.has(toValue)) {
-
                         addresses.add(toValue);
                         nodes.push({
                             id: toValue,
-                            label: this.shortenText(toLabel),
+                            label: this.shortenText(toValue),
                             url: `https://explorer.bitquery.io/${WidgetConfig.getNetwork(this.config.chainId(data))}/address/${toValue}`
-
                         });
                     }
 
@@ -84,6 +75,7 @@ export default class GraphsComponent {
                         edges.push({
                             from: fromValue,
                             to: toValue,
+                            checkboxLabel: pair.checkboxId,
                             label: edgeLabelFormatted,
                             color: pair.color,
                             type: pair.name.toLowerCase().replace(' ', '-'),
@@ -121,43 +113,28 @@ export default class GraphsComponent {
     }
 
     updateGraph() {
-        if (!this.data2 || !this.data2.edges) return;
-
-        let filteredEdges = [];
-        for (const pair of this.config.pairs) {
-            const checkbox = document.getElementById(pair.checkboxId);
-            if (!checkbox || (checkbox && checkbox.checked)) {
-                filteredEdges = [...filteredEdges, ...this.data2.edges.filter(edge => edge.type === pair.name.toLowerCase().replace(' ', '-'))];
+        const edges = this.network.body.data.edges
+        edges.forEach((edge) => {
+            const checkbox = document.getElementById(edge.checkboxLabel)
+            if (checkbox && checkbox.checked) {
+                edges.update({id: edge.id, hidden: false})
+            } else {
+                edges.update({id: edge.id, hidden: true})
             }
-        }
-
-        const connectedNodeIds = new Set();
-        filteredEdges.forEach(edge => {
-            connectedNodeIds.add(edge.from);
-            connectedNodeIds.add(edge.to);
-        });
-
-        const filteredNodes = this.data2.nodes.filter(node => connectedNodeIds.has(node.id));
-        this.network.setOptions({physics: false});
-        this.network.setData({
-            nodes: this.data2.nodes,
-            edges: filteredEdges
-        });
-        setTimeout(() => {
-            this.network.setOptions({physics: true});
-        }, 100);
+        })
     }
+
 
 
     initCheckboxes() {
         for (const pair of this.config.pairs) {
             const checkbox = document.getElementById(pair.checkboxId);
-
             if (checkbox) {
-                checkbox.addEventListener("change", () => this.updateGraph());
+                checkbox.addEventListener("change", () => this.updateGraph())
             }
         }
     }
+
 
     initNetworkEvents() {
         if (!this.network) return;
@@ -173,7 +150,6 @@ export default class GraphsComponent {
             }
         });
 
-
         this.tooltip = document.createElement('div');
         this.tooltip.style.position = 'absolute';
         this.tooltip.style.display = 'none';
@@ -184,7 +160,6 @@ export default class GraphsComponent {
         // this.tooltip.classList.add('tooltip-graph')
 
         document.body.appendChild(this.tooltip);
-
 
         this.network.on('hoverNode', (params) => {
             const node = this.data2.nodes.find(node => node.id === params.node);
@@ -210,7 +185,9 @@ export default class GraphsComponent {
         });
     }
 
-
+    shortenText(text, maxCharCount = 10) {
+        return (text && text.length > maxCharCount) ? `${text.substr(0, maxCharCount)}...` : text;
+    }
     getOptions() {
         return {
             autoResize: true,
