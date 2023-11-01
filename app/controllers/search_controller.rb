@@ -4,9 +4,16 @@ class SearchController < ApplicationController
   def show
     if request.post?
       redirect_to search_path(params[:query], network: (params[:network] && !params[:network].empty? ? params[:network] : nil))
+      return
     end
+
     @query = params[:query]
     @network = params[:network] && BLOCKCHAIN_BY_NAME[params[:network]]
+
+    networks = network_finder(@query, params[:network])
+    if networks.size == 1
+      redirect_to networks.first[:link] and return
+    end
   end
 
   def network_finder(input, network_name = nil)
@@ -53,8 +60,11 @@ class SearchController < ApplicationController
       end
 
     end
-
     matching_networks
+    #
+    # if matching_networks.size == 1
+    #   redirect_to matching_networks.first[:link] and return
+    # end
   end
 
 end

@@ -13,7 +13,6 @@
     <% else %>
   <% networks.each do |network_info| %>
     <li class="list-group-item">
-<span>
 
   <div class="media">
     <% if network_info[:icon].present? %>
@@ -29,7 +28,6 @@
       <a href="<%= network_info[:link] %>"><%= network_info[:link] %></a>
     </div>
   </div>
-</span>
     </li>
   <% end %>
     <% end %>
