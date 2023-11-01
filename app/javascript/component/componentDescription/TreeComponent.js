@@ -51,7 +51,6 @@ export default class TreeComponent {
                     children: []
                 };
                 const parentArray = call.Call.Depth === 0 ? tree : (lastParentNodes[call.Call.Depth - 1] && lastParentNodes[call.Call.Depth - 1].children) ? lastParentNodes[call.Call.Depth - 1].children : [];
-                if (call.Call && call.Call.Signature.SignatureHash === '') return
                 parentArray.push(newNode);
                 lastParentNodes[call.Call.Depth] = newNode;
 
@@ -73,7 +72,7 @@ export default class TreeComponent {
                 if (!evmData.Transfers) return
                 const transferForCall = evmData.Transfers
                     .sort((a, b) => a.Call.Index - b.Call.Index)
-                    .filter(transfer =>transfer.Call && transfer.Call.Index === call.Call.Index);
+                    .filter(transfer => transfer.Call && transfer.Call.Index === call.Call.Index);
 
                 transferForCall.forEach(transfer => {
                     const transferNode = {
@@ -95,6 +94,9 @@ export default class TreeComponent {
         const ul = this.createElementWithClasses('ul', 'ul-tree')
         if (isRoot) ul.id = 'tree';
         data.forEach(item => {
+            if (item.name === 'Call' && item.signature && item.signature.Signature.SignatureHash === '') {
+                return
+            }
             counter.value++;
             const li = this.createElementWithClasses('li', 'li-tree')
             const details = this.createElementWithClasses('details')
@@ -113,6 +115,7 @@ export default class TreeComponent {
             }
             if (item.name === 'Call') {
                 iconElement = this.createIcon('fa-share', 'text-primary', 'ml-2')
+
             }
 
             if (item.signature.Gas && item.signature.Signature.SignatureHash !== '') {
