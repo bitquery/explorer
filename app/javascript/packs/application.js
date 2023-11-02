@@ -399,9 +399,7 @@ global.createLayout = function (dashboard_container, unit, layout_item, name_ite
 	new_layout_element_container.style.flexDirection = 'column';
 	new_layout_element_container.style.border = '1px solid rgba(0, 0, 0, 0.125)';
 	new_layout_element_container.style.borderRadius = '0.25rem';
-	new_layout_element_container.style.transform = `translate(${layout_item.x * unit.width + 10}px, ${
-		layout_item.y * unit.height + 10
-	}px)`;
+	new_layout_element_container.style.transform = `translate(${layout_item.x * unit.width + 10}px, ${layout_item.y * unit.height + 10}px)`;
 	new_layout_element_container.style.width = `${layout_item.w * unit.width - 10}px`;
 	new_layout_element_container.style.height = `${layout_item.h * unit.height - 10}px`;
 	let title_element = document.createElement('div');
@@ -1070,7 +1068,21 @@ global.renderWithTime = function(variables={}, from, till, f){
 			till:  end ? end.split('T')[0] : start,
 			dateFormat: dateFormat,
 		});
+		const from = new Date(data.from);
+		const till = new Date(data.till);
+
+		if (from > till) {
+			const middleDate = new Date(till.getTime() + (from.getTime() - till.getTime()) / 2);
+			data.date_middle = middleDate.toISOString().split('T')[0];
+		} else if (till > from) {
+			const middleDate = new Date(from.getTime() + (till.getTime() - from.getTime()) / 2);
+			data.date_middle = middleDate.toISOString().split('T')[0];
+		} else {
+			data.date_middle = data.from;
+		}
+
 		const resultVariables = {...variables,...data}
+
 		f(resultVariables)
 		
 	}

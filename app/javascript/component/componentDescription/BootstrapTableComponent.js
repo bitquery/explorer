@@ -69,7 +69,6 @@ export default class BootstrapTableComponent {
     }
 
     async onHistoryData(data, variables) {
-
         while(this.tbody.children.length) {
             this.tbody.removeChild(this.tbody.firstChild)
         }

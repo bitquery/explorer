@@ -60,6 +60,7 @@ export default class BootstrapVerticalTableComponent {
 	}
 
 	async onHistoryData(data, variables) {
+
 		try {
 			const array = this.config.topElement(data);
 			if (!array || Object.keys(array).length === 0) {
