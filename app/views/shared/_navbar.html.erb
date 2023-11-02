@@ -11,15 +11,19 @@
         </div>
         <script async src="https://v1.slise.xyz/scripts/embed.js"></script>
         <script>
-            var adElement = document.getElementById('ad-ins');
-            if(window.innerWidth < 728) {
+            let adElement = document.getElementById('ad-ins');
+            let isMobile = window.innerWidth < 728;
+            if(isMobile) {
                 adElement.style.width = '270px';
                 adElement.setAttribute('data-ad-format', '270x90');
+                adElement.setAttribute('data-ad-slot', 'mobile-banner'); // slot for mobile
             } else {
                 adElement.setAttribute('data-ad-format', '728x90');
+                adElement.setAttribute('data-ad-slot', 'leaderboard-desktop'); // slot for desktop
             }
 
-            ;(adsbyslise=window.adsbyslise||[]).push({slot:"leaderboard"});
+            let adSlot = isMobile ? "mobile-banner" : "leaderboard-desktop";
+            ;(adsbyslise=window.adsbyslise||[]).push({slot:adSlot});
             window.adsbyslisesync&&window.adsbyslisesync();
         </script>
     </div>
