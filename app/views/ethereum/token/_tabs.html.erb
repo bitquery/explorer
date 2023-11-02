@@ -6,9 +6,9 @@
     tabs: (@native_token ? ['show','transfers','senders','receivers'] :
 
                ( (@info.try(:smart_contract).try(:contract_type)=='DEX') ?
-                     ['show',]+nft_tabs+nft_id+['transfers','token_dex_trades','dex_trades', 'senders','receivers','smart_contract','transactions',
+                     ['show',]+nft_tabs+nft_id+['holders','transfers','token_dex_trades','dex_trades', 'senders','receivers','smart_contract','transactions',
                       'methods','events','inflow','outflow','calls_contracts'] :
-                     ['show',]+nft_tabs+nft_id+['transfers','token_dex_trades', 'senders','receivers','smart_contract','transactions',
+                     ['show',]+nft_tabs+nft_id+['holders','transfers','token_dex_trades', 'senders','receivers','smart_contract','transactions',
                       'methods','events','inflow','outflow','calls_contracts'] )
 
                ),

@@ -1,0 +1,219 @@
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='BalanceHolderStatsLatestDate'></div>
+  </div>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='TopHolders'></div>
+  </div>
+</div>
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='HoldersCount'></div>
+  </div>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='GiniIndex'></div>
+  </div>
+</div>
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='NakamotoIndex'></div>
+  </div>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='SupplyTokens'></div>
+  </div>
+</div>
+<script>
+    class HoldersCount extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Count holders',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'Count', cell: function (row) {
+                            return +row.count
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    vAxis: {minValue: 0}
+                }
+            }
+        }
+    }
+    class GiniIndex extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Gini factor',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'gini', cell: function (row) {
+                            return +row.gini
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                }
+            }
+        }
+    }
+    class NakamotoIndex extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Nakamoto index',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'nakamoto', cell: function (row) {
+                            return +row.nakamoto
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                }
+            }
+        }
+    }
+    class SupplyTokens extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Supply tokens',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'supply', cell: function (row) {
+                            return +row.supply
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    vAxis: {minValue: 0}
+                }
+            }
+        }
+    }
+
+    class BalanceHolderStatsLatestDate extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return [...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Balance Holder Stats Latest Date',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'count', cell: function (row) {
+                            return row.count
+                        },
+                    },
+                    {
+                        name: 'gini', cell: function (row) {
+                            return row.gini
+                        },
+                    },
+                    {
+                        name: 'nakamoto', cell: function (row) {
+                            return row.nakamoto
+                        },
+                    },
+                    {
+                        name: 'supply', cell: function (row) {
+                            return row.supply
+                        },
+                    },
+                ]
+            }
+        }
+    }
+
+    class TopHolders extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return [...response.EVM.TokenHolders]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Balance Holder Stats Latest Date',
+                columns: [
+                    {
+                        name: 'Holder', cell: function (row) {
+                            return row.Holder.Address
+                        },rendering:  renderJustAddressLink,
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Balance.Amount
+                        }, rendering:renderNumbers, headerStyle: {textAlign: 'end',width: '35%'},
+                    },
+                ]
+            }
+        }
+    }
+
+
+    const variables = {
+        network: '<%= @streaming%>',
+        token: '<%= @address %>',
+        till: new Date().toISOString().slice(0, 10),
+    }
+
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent([[HoldersCount, '#HoldersCount'],[GiniIndex, '#GiniIndex'],[NakamotoIndex, '#NakamotoIndex'],[SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_3', variables);
+    })
+    renderComponent([[TopHolders, '#TopHolders']], 'Top-holders_3', variables);
+</script>

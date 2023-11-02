@@ -59,6 +59,7 @@ export default class TreeComponent {
                     .filter(event => event.Log && event.Call.Index === call.Call.Index);
 
                 eventForCall.forEach(event => {
+                    console.log('event',event)
                     const eventNode = {
                         name: 'Event',
                         signature: event.Log,
@@ -75,6 +76,8 @@ export default class TreeComponent {
                     .filter(transfer => transfer.Call && transfer.Call.Index === call.Call.Index);
 
                 transferForCall.forEach(transfer => {
+                    console.log('Transfers',transfer)
+
                     const transferNode = {
                         name: 'Transfers',
                         signature: transfer.Call,

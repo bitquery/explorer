@@ -26,7 +26,8 @@ export default class TimeChartComponent {
 			},
 			vAxis: {
 				textStyle : { color: parentTextColor },
-				titleTextStyle: { color: parentTextColor }
+				titleTextStyle: { color: parentTextColor },
+				...(this.config.options.vAxis && this.config.options.vAxis.minValue !== undefined && { minValue: this.config.options.vAxis.minValue })
 			},
 			legend: {
 				textStyle: { color: parentTextColor }
