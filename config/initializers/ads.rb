@@ -8,7 +8,7 @@ ADS={
       #},
       {
         text: 'Looking for Investigators?',
-        url: 'https://starcompliance.io/unblock-account/?utm_source=bitquery&utm_content=money_flow_button',
+        url: 'https://slashorbit.com/api/v3/offer/2?affiliate_id=3&url_id=1',
         bgcolor: '#0570f2',
         path_matches: '/graph.*'
       },
