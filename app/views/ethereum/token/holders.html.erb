@@ -23,6 +23,10 @@
   </div>
 </div>
 <script>
+    
+    const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';
+    const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';
+
     class BalanceHolderStatsLatestDate extends BootstrapVerticalTableComponent {
         configuration() {
             return {
@@ -32,7 +36,8 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Balance Holder Stats Latest Date',
+                title: `${tokenName} (${tokenSymbol}) Token Holder Stats`,
+
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -73,7 +78,7 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Balance Holder Stats Latest Date',
+                title: `Top ${tokenName} (${tokenSymbol}) Token Holders`,
                 columns: [
                     {
                         name: 'Holder', cell: function (row) {
@@ -98,7 +103,7 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Holder Count',
+                title: `${tokenName} (${tokenSymbol}) Token holders count`,
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -127,7 +132,8 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Gini Factor',
+                title: `${tokenName} (${tokenSymbol}) Gini Factor`,
+
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -155,7 +161,7 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Nakamoto Index',
+                title: `${tokenName} (${tokenSymbol}) Nakamoto Index`,
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -183,7 +189,7 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Total Supply',
+                title: `${tokenName} (${tokenSymbol}) Total Supply`,
                 columns: [
                     {
                         name: 'Date', cell: function (row) {

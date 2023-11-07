@@ -22,6 +22,10 @@
   </div>
 </div>
 <script>
+
+    const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';
+    const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';
+
     class NFTTokenInformation extends BootstrapVerticalTableComponent {
         configuration() {
             return {
@@ -31,6 +35,7 @@
                 chainId: function (response) {
                     return response.EVM.BalanceUpdates[0].ChainId
                 },
+                title: `Latest ${tokenName} (${tokenSymbol}) NFT Token info`,
                 columns: [
                     {
                         name: 'Name', cell: function (row) {
@@ -81,6 +86,7 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0].ChainId
                 },
+                title: `Most popular ${tokenName} (${tokenSymbol}) NFTs based on transfer count`,
                 image: [
                     {
                         cell: function (row) {
@@ -123,6 +129,7 @@
                 chainId: function (response) {
                     return response.EVM.BalanceUpdates[0].ChainId
                 },
+                title: `Top ${tokenName} (${tokenSymbol}) NFT Holders`,
                 columns: [
                     {
                         name: 'Address', cell: function (row) {
@@ -153,6 +160,7 @@
                 chainId: function (response) {
                     return response.EVM.BalanceUpdates[0].ChainId
                 },
+                title: `Richest ${tokenName} (${tokenSymbol}) NFT Holders`,
                 columns: [
                     {
                         name: 'Address', cell: function (row) {
@@ -182,6 +190,7 @@
                 chainId: function (response) {
                     return response.EVM.DEXTrades[0].ChainId
                 },
+                title: `Latest ${tokenName} (${tokenSymbol}) NFT Token Trades Stream (Websocket)`,
                 columns: [
                     {
                         name: 'Time', cell: function (row) {
