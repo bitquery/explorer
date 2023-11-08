@@ -1,6 +1,6 @@
 class Conflux::SitemapController < NetworkController
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
            query ($network: ConfluxNetwork! $from: ISO8601DateTime){
 
 
@@ -57,16 +57,12 @@ class Conflux::SitemapController < NetworkController
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          ) {
-                  
+                          ) {                  
                             currency {
                               address
-                            }
-                  
-                            count
-                  
-                        }
-                     
+                            }                  
+                            count                 
+                        }                     
                    }
 
                   callers: conflux(network: $network){
@@ -111,8 +107,8 @@ class Conflux::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { from: Date.today - 10,
-                                                                  network: @network[:network] }).data
+    @response = Graphql::V1.instance.query_with_retry(QUERY, variables: { from: Date.today - 10,
+                                                                  network: @network[:network] }, context: {'Authorization': @streaming_access_token}).data
   end
 
 end

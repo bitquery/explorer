@@ -3,7 +3,7 @@ class Algorand::TokenController < ::NetworkController
 
   before_action :query_graphql
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
    query($network: AlgorandNetwork!, $id: Int!) {
               algorand(network: $network ) {
 
@@ -24,7 +24,7 @@ class Algorand::TokenController < ::NetworkController
       @id = 0
     else
       @id = @id.to_i
-      @token_info = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:network], id: @id }).data.algorand.transactions.first.currency
+      @token_info = Graphql::V1.instance.query_with_retry(QUERY, variables: { network: @network[:network], id: @id }, context: {'Authorization': @streaming_access_token}).data.algorand.transactions.first.currency
     end
   end
 

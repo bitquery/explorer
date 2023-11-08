@@ -3,7 +3,7 @@ class Eos::BlockController < NetworkController
 
   before_action :query_date
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
            query ($height: Int!){
               eos{ blocks( height: {is: $height}) { date {date} } }
            }
@@ -12,8 +12,8 @@ class Eos::BlockController < NetworkController
   private
 
   def query_date
-    @block_date = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { height: @height.to_i,
-                                                                    network: @network[:network] }).data.eos.blocks[0].date.date
+    @block_date = Graphql::V1.instance.query_with_retry(QUERY, variables: { height: @height.to_i,
+                                                                    network: @network[:network] }, context: {'Authorization': @streaming_access_token}).data.eos.blocks[0].date.date
   end
 
 end

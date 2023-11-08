@@ -1,6 +1,6 @@
 module Flow
   class SitemapController < NetworkController
-    QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+    QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
       query ($network: FlowNetwork!, $from: ISO8601DateTime, $limit: Int!) {
         proposers: flow(network: $network) {
           transactions(options: {desc: "count", limit: $limit}, date: {since: $from}) {
@@ -38,7 +38,7 @@ module Flow
         from: Date.today
       }
 
-       @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data
+       @response = Graphql::V1.instance.query_with_retry(QUERY, variables: variables, context: {'Authorization': @streaming_access_token}).data
     end
   end
 end

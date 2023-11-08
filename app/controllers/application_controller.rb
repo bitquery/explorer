@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  before_action :set_locale, :set_theme, :set_date, :set_feed
+  before_action :set_locale, :set_theme, :set_date, :set_feed, :get_session_streaming_token
 
   def default_url_options
     {locale: I18n.locale == I18n.default_locale ? nil : I18n.locale}
@@ -113,4 +113,28 @@ class ApplicationController < ActionController::Base
                              link: "https://coincodecap.com/?utm_source=bitquery"
                            }].sample
   end
+  def get_session_streaming_token
+    get_streaming_access_token if session['streaming_access_token'].blank? && session['streaming_expires_in'] >= Time.now
+    @streaming_access_token = session['streaming_access_token']
+  end
+
+  def get_streaming_access_token
+    url = URI("https://oauth2.bitquery.io/oauth2/token")
+
+    https = Net::HTTP.new(url.host, url.port)
+    https.use_ssl = true
+
+    request = Net::HTTP::Post.new(url)
+    request["Content-Type"] = "application/x-www-form-urlencoded"
+    request.body = "grant_type=client_credentials&client_id=#{ENV['CLIENT_ID']}&client_secret=#{ENV['CLIENT_SECRET']}&scope=api"
+    response = https.request(request)
+    if response.is_a?(Net::HTTPSuccess)
+      body = JSON.parse(response.body)
+      session['streaming_access_token'] = body['access_token']
+      session['streaming_expires_in'] = Time.now +  body['expires_in'].seconds
+    else
+      nil
+    end
+  end
 end
+

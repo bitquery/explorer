@@ -5,7 +5,7 @@ module Elrond
     before_action :set_block
     before_action :query_date, only: %i[validators notarized_blocks]
 
-    QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+    QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
              query ($blockHash: String! $network: ElrondNetwork!){
                 elrond(network: $network ) { blockValidators( blockHash: {is: $blockHash}) { date {date} } }
              }
@@ -34,7 +34,7 @@ module Elrond
     def query_date
       variables = { blockHash: @block_hash.to_s,
                     network: @network[:network] }
-      @block_date = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data.elrond.block_validators[0].date.date
+      @block_date = Graphql::V1.instance.query_with_retry(QUERY, variables: variables, context: {'Authorization': @streaming_access_token}).data.elrond.block_validators[0].date.date
     end
   end
 end

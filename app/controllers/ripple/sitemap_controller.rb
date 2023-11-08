@@ -1,6 +1,6 @@
 class Ripple::SitemapController < NetworkController
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
            query ($network: RippleNetwork! $from: ISO8601DateTime){
 
                    senders: ripple(network: $network){
@@ -46,8 +46,8 @@ class Ripple::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { from: Date.today - 10,
-                                                                              network: @network[:network]  }).data
+    @response = Graphql::V1.instance.query_with_retry(QUERY, variables: { from: Date.today - 10,
+                                                                              network: @network[:network]  }, context: {'Authorization': @streaming_access_token}).data
   end
 
 end

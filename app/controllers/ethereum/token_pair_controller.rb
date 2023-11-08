@@ -3,7 +3,7 @@ class Ethereum::TokenPairController < NetworkController
   layout 'tabs'
   before_action :set_pair, :query_graphql
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
    query($network: EthereumNetwork!, $token1: String!,$token2: String!) {
               ethereum(network: $network) {
                 address(address: {in: [$token1,$token2]}){
@@ -47,8 +47,8 @@ class Ethereum::TokenPairController < NetworkController
 
   def query_graphql
 
-    result = BitqueryGraphql.instance.query_with_retry(QUERY, variables: {
-              network: @network[:network], token1: @token1, token2: @token2 }).data.ethereum
+    result = Graphql::V1.instance.query_with_retry(QUERY, variables: {
+              network: @network[:network], token1: @token1, token2: @token2 }, context: {'Authorization': @streaming_access_token}).data.ethereum
 
     @token1name = result.address.detect{|a| a.address==@token1 }
     @token2name = result.address.detect{|a| a.address==@token2 }

@@ -3,7 +3,7 @@ class EthereumStreaming::BlockController < NetworkController
 
   before_action :query_date
 
-QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
+QUERY = Graphql::V2::Client.parse <<-'GRAPHQL'
   query($network: evm_network, $height: String) {
     EVM(dataset: combined, network: $network) {
       Blocks(where: { Block: { Number: { eq: $height } } }, limit: { count: 10 }) {
@@ -20,8 +20,8 @@ GRAPHQL
   private
 
   def query_date
-    @block_date = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: { height: @height.to_i,
-                                                                    network: @network[:streaming] }).data.evm.blocks
+    @block_date = Graphql::V2.instance.query_with_retry(QUERY, variables: { height: @height.to_i,
+                                                                    network: @network[:streaming] }, context: {'Authorization': @streaming_access_token}).data.evm.blocks
   end
 
 end
