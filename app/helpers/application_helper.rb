@@ -113,7 +113,7 @@ module ApplicationHelper
 
   def date_range_from_now(interval, unit = :hours)
     if params[:from] && params[:till]
-      return ["#{params[:from]}T00:00:00.000Z", "#{params[:till]}T23:59:59.999Z"]
+      return ["#{params[:from]}T00:00:00.000Z", "#{params[:till]}T23:59:59.000Z"]
     end
 
     till = Time.now.utc

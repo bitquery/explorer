@@ -114,7 +114,7 @@ class ApplicationController < ActionController::Base
                            }].sample
   end
   def get_session_streaming_token
-    get_streaming_access_token if session['streaming_access_token'].blank? && session['streaming_expires_in'] >= Time.now
+    get_streaming_access_token if session['streaming_access_token'].blank? || session['streaming_expires_in'] >= Time.now
     @streaming_access_token = session['streaming_access_token']
   end
 
