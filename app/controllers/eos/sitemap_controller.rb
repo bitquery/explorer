@@ -1,6 +1,6 @@
 class Eos::SitemapController < NetworkController
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
            query ($from: ISO8601DateTime){
 
 
@@ -111,7 +111,7 @@ class Eos::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { from: Date.today - 1 }).data
+    @response = Graphql::V1.instance.query_with_retry(QUERY, variables: { from: Date.today - 1 }, context: {'Authorization': @streaming_access_token}).data
   end
 
 end

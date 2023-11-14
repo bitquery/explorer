@@ -1,5 +1,5 @@
 class Hedera::SitemapController < NetworkController
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
     query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
       topics: hedera(network: $network) {
         messages(
@@ -25,6 +25,6 @@ class Hedera::SitemapController < NetworkController
       dateFormat: '%Y-%m-%d'
     }
 
-    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data
+    @response = Graphql::V1.instance.query_with_retry(QUERY, variables: variables, context: {'Authorization': @streaming_access_token}).data
   end
 end

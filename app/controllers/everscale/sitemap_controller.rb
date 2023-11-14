@@ -1,6 +1,6 @@
 module Everscale
   class SitemapController < NetworkController
-    QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+    QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
       query ($network: EverscaleNetwork!, $from: ISO8601DateTime, $limit: Int!) {
         senders: everscale(network: $network) {
           transfers(options: {desc: "count", limit: $limit}, date: {since: $from}) {
@@ -40,7 +40,7 @@ module Everscale
         from: Date.today
       }
 
-      @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: variables).data
+      @response = Graphql::V1.instance.query_with_retry(QUERY, variables: variables, context: {'Authorization': @streaming_access_token}).data
     end
   end
 end

@@ -3,7 +3,8 @@ export default function renderBlockLink(data, variables, chainId) {
     div.classList.add('text-truncate');
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
-    link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/block/${data}`;
+    // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/block/${data}`;
+    link.href = `/${WidgetConfig.getNetwork(chainId)}/block/${data}`;
     link.textContent = data;
     link.setAttribute('title', data)
 

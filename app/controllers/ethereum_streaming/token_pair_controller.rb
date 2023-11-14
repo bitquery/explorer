@@ -3,7 +3,7 @@ class EthereumStreaming::TokenPairController < NetworkController
   layout 'tabs'
   before_action :set_pair, :query_graphql
 
-  QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V2::Client.parse <<-'GRAPHQL'
     query ($network: evm_network, $token1: String!, $token2: String!) {
       EVM(dataset: archive, network: $network) {
         Transfers(
@@ -44,8 +44,8 @@ class EthereumStreaming::TokenPairController < NetworkController
 
 
   def query_graphql
-    result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: {
-              network: @network[:streaming], token1: @token1, token2: @token2 }).data.evm.transfers
+    result = Graphql::V2.instance.query_with_retry(QUERY, variables: {
+              network: @network[:streaming], token1: @token1, token2: @token2 }, context: {'Authorization': @streaming_access_token}).data.evm.transfers
 
     @token1name = result.detect {|a| a.transfer.currency.smart_contract == @token1 }
     @token2name = result.detect {|a| a.transfer.currency.smart_contract == @token2 }

@@ -3,7 +3,7 @@ class Conflux::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
    query($network: ConfluxNetwork!, $address: String!) {
               conflux(network: $network) {
                 address(address: {is: $address}){
@@ -25,7 +25,7 @@ class Conflux::AddressController < NetworkController
             }
   GRAPHQL
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY_CURRENCIES = Graphql::V1::Client.parse <<-'GRAPHQL'
    query($network: ConfluxNetwork!, $address: String!) {
               conflux(network: $network) {
                 address(address: {is: $address}){
@@ -61,7 +61,7 @@ class Conflux::AddressController < NetworkController
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     if @address.starts_with?('cfx:')
-        result = BitqueryGraphql.instance.query_with_retry(query, variables: { network: @network[:network], address: @address }).data.conflux
+        result = Graphql::V1.instance.query_with_retry(query, variables: { network: @network[:network], address: @address }, context: {'Authorization': @streaming_access_token}).data.conflux
         @info = result.address.first
         @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
     end

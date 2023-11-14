@@ -1,6 +1,6 @@
 class Bitcoin::SitemapController < NetworkController
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
            query ($network: BitcoinNetwork! $from: ISO8601DateTime){
               miners: bitcoin(network: $network ) { 
                   
@@ -58,7 +58,7 @@ class Bitcoin::SitemapController < NetworkController
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { from: Date.today - 14,
-                                                                  network: @network[:network] }).data
+    @response = Graphql::V1.instance.query_with_retry(QUERY, variables: { from: Date.today - 14,
+                                                                          network: @network[:network] }, context: { 'Authorization': @streaming_access_token }).data
   end
 end

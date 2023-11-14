@@ -1,7 +1,7 @@
 require "graphql/client"
 require "graphql/client/http"
-
-class BitqueryStreamingGraphql
+module Graphql
+class V1
 
   include Singleton
 
@@ -9,10 +9,12 @@ class BitqueryStreamingGraphql
 
   def initialize
 
-    http_adapter = GraphQL::Client::HTTP.new(BITQUERY_STREAMING) do
+    http_adapter = GraphQL::Client::HTTP.new(BITQUERY_GRAPHQL) do
       def headers(context)
         # set http headers
-        { "X-API-KEY": ENV['EXPLORER_API_KEY'].to_s }
+        # { "X-API-KEY": ENV['EXPLORER_API_KEY'].to_s }
+        super(context).merge('Authorization' => context[:authorization],"X-API-KEY"=> ENV['EXPLORER_API_KEY'].to_s )
+
       end
     end
     schema = GraphQL::Client.load_schema(http_adapter)
@@ -20,13 +22,7 @@ class BitqueryStreamingGraphql
 
   end
 
-  Client = BitqueryStreamingGraphql.instance.client
-
-  # def self.parse query_id
-  #   uri = URI.parse("#{BITQUERY_IDE_API}/getquery/#{query_id}")
-  #   response = Net::HTTP.get(uri)
-  #   Client.parse JSON.parse(response)['query']
-  # end
+  Client = V1.instance.client
 
   ATTEMPTS = 2
 
@@ -62,4 +58,5 @@ class BitqueryStreamingGraphql
     resp
   end
 
+end
 end

@@ -4,7 +4,8 @@ export default function renderMethodLink(data, variables, chainId) {
     div.classList.add('text-truncate')
     let link = document.createElement('a');
 
-    link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
+    // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
+    link.href = `/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
     link.textContent = data.method || data.hash
     link.setAttribute('title', data.method)
 

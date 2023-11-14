@@ -3,7 +3,7 @@ class Tron::Trc10tokenController < NetworkController
 
   before_action :token, :breadcrumb
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
    query ( $token: String!){
                     tron{
                       transfers(
@@ -42,7 +42,7 @@ class Tron::Trc10tokenController < NetworkController
 
   def token
     @token = params[:address]
-    result = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { token: @token }).data.tron.transfers.first
+    result = Graphql::V1.instance.query_with_retry(QUERY, variables: { token: @token }, context: {'Authorization': @streaming_access_token}).data.tron.transfers.first
     @info = result.currency
   end
 

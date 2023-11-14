@@ -3,7 +3,7 @@ class Eos::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
   query($address: String!){
   eos {
     address(address: {is: $address}) {
@@ -24,7 +24,7 @@ class Eos::AddressController < NetworkController
 }
   GRAPHQL
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY_CURRENCIES = Graphql::V1::Client.parse <<-'GRAPHQL'
    query($address: String!) {
               eos{
 address(address: {is: $address}) {
@@ -56,11 +56,11 @@ address(address: {is: $address}) {
   private
 
   def query_graphql
-      @address = params[:address]
-      query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-      result = BitqueryGraphql.instance.query_with_retry(query, variables: { address: @address }).data.eos
-      @info = result.address.first
-      @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == 'eosio.token' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
+    @address = params[:address]
+    query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
+    result = Graphql::V1.instance.query_with_retry(query, variables: { address: @address }, context: { 'Authorization': @streaming_access_token }).data.eos
+    @info = result.address.first
+    @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == 'eosio.token' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
   end
 
   def redirect_by_type
