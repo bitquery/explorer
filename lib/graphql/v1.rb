@@ -12,9 +12,8 @@ class V1
     http_adapter = GraphQL::Client::HTTP.new(BITQUERY_GRAPHQL) do
       def headers(context)
         # set http headers
-        # { "X-API-KEY": ENV['EXPLORER_API_KEY'].to_s }
-        super(context).merge('Authorization' => context[:authorization],"X-API-KEY"=> ENV['EXPLORER_API_KEY'].to_s )
-
+        { "X-API-KEY": ENV['EXPLORER_API_KEY'].to_s }
+        # super(context).merge("X-API-KEY"=> ENV['EXPLORER_API_KEY'].to_s,'Authorization' => context[:authorization])
       end
     end
     schema = GraphQL::Client.load_schema(http_adapter)

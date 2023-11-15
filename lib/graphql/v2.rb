@@ -11,7 +11,7 @@ module Graphql
       http_adapter = GraphQL::Client::HTTP.new(BITQUERY_STREAMING) do
         def headers(context)
           # set http headers
-           super(context).merge('Authorization' => context[:authorization])
+          super(context).merge("X-API-KEY"=> ENV['EXPLORER_API_KEY'].to_s,'Authorization' => context[:authorization])
         end
       end
       schema = GraphQL::Client.load_schema(http_adapter)
