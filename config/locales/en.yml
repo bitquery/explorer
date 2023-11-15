@@ -418,10 +418,10 @@ en:
           %{token} crypto, %{token} transaction explorer, %{token} address explorer,
           %{token} transaction check, %{token} transaction data, %{token} transaction explorer"
       nft_smart_contract:
-        name: "NFT"
-        title: "%{network}NFT"
-        description: "Non-Fungible Tokens on %{network}"
-        keywords: "%{network}, Non-Fungible Tokens, NFT, nft ,NFT Smart Contract"    
+        name: "NFT" 
+        title: "%{token} NFT Token Analytics - %{network}"
+        description: "%{token} NFT Token price, holders, trades, transfers, events and other analytics for %{token} NFT collection on %{network}"
+        keywords: "%{token} nft, %{token} price history, %{token} floor price,%{token} price chart,%{token} most expensive, %{token} symbol, %{token} valuation,%{token} market cap, %{token} supply, %{token} holder, %{token} airdrop, %{token} coin, %{token} sales, %{token} trades, %{token} transfers, %{token} events, %{token} nft collection,%{token} nft value,%{token} current price, %{network}, Non-Fungible Tokens, NFT ,NFT Smart Contract"    
       show_nft_id:
         name: "NFT ID"
         title: "%{network} NFT ID"

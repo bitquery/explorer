@@ -7,6 +7,10 @@
     </div>
   </div>
   <script>
+      
+      const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';
+      const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';
+
       class LatestTransfersOfTokenInNetwork extends BootstrapTableComponent {
           configuration() {
               return {
@@ -16,7 +20,7 @@
                   chainId: function (response) {
                       return response.EVM.Transfers[0].ChainId
                   },
-                  title: 'Latest Transfers of Token in Network',
+                  title: `Latest ${tokenName} (${tokenSymbol}) Token Transfer Stream`,
                   columns: [
                       {
                           name: 'Time', cell: function (row) {

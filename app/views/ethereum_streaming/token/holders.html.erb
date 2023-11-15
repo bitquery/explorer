@@ -23,121 +23,6 @@
   </div>
 </div>
 <script>
-    class HoldersCount extends TimeChartComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                title: 'Count holders',
-                columns: [
-                    {
-                        name: 'Date', cell: function (row) {
-                            return row.BalanceUpdate.LastDate
-                        }
-                    },
-                    {
-                        name: 'Count', cell: function (row) {
-                            return +row.count
-                        }
-                    }
-                ],
-                options: {
-                    height: 300,
-                    vAxis: {minValue: 0}
-                }
-            }
-        }
-    }
-    class GiniIndex extends TimeChartComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                title: 'Gini factor',
-                columns: [
-                    {
-                        name: 'Date', cell: function (row) {
-                            return row.BalanceUpdate.LastDate
-                        }
-                    },
-                    {
-                        name: 'gini', cell: function (row) {
-                            return +row.gini
-                        }
-                    }
-                ],
-                options: {
-                    height: 300,
-                }
-            }
-        }
-    }
-    class NakamotoIndex extends TimeChartComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                title: 'Nakamoto index',
-                columns: [
-                    {
-                        name: 'Date', cell: function (row) {
-                            return row.BalanceUpdate.LastDate
-                        }
-                    },
-                    {
-                        name: 'nakamoto', cell: function (row) {
-                            return +row.nakamoto
-                        }
-                    }
-                ],
-                options: {
-                    height: 300,
-                }
-            }
-        }
-    }
-    class SupplyTokens extends TimeChartComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                title: 'Supply tokens',
-                columns: [
-                    {
-                        name: 'Date', cell: function (row) {
-                            return row.BalanceUpdate.LastDate
-                        }
-                    },
-                    {
-                        name: 'supply', cell: function (row) {
-                            return +row.supply
-                        }
-                    }
-                ],
-                options: {
-                    height: 300,
-                    vAxis: {minValue: 0}
-                }
-            }
-        }
-    }
-
     class BalanceHolderStatsLatestDate extends BootstrapVerticalTableComponent {
         configuration() {
             return {
@@ -155,22 +40,22 @@
                         }
                     },
                     {
-                        name: 'count', cell: function (row) {
+                        name: 'Holder Count', cell: function (row) {
                             return row.count
                         },
                     },
                     {
-                        name: 'gini', cell: function (row) {
+                        name: 'Gini Factor', cell: function (row) {
                             return row.gini
                         },
                     },
                     {
-                        name: 'nakamoto', cell: function (row) {
+                        name: 'Nakamoto Index', cell: function (row) {
                             return row.nakamoto
                         },
                     },
                     {
-                        name: 'supply', cell: function (row) {
+                        name: 'Total Supply', cell: function (row) {
                             return row.supply
                         },
                     },
@@ -204,6 +89,122 @@
             }
         }
     }
+    class HoldersCount extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Holder Count',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'Count', cell: function (row) {
+                            return +row.count
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    vAxis: {minValue: 0}
+                }
+            }
+        }
+    }
+    class GiniIndex extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Gini Factor',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'gini', cell: function (row) {
+                            return +row.gini
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                }
+            }
+        }
+    }
+    class NakamotoIndex extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Nakamoto Index',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'nakamoto', cell: function (row) {
+                            return +row.nakamoto
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                }
+            }
+        }
+    }
+    class SupplyTokens extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: 'Total Supply',
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'supply', cell: function (row) {
+                            return +row.supply
+                        }
+                    }
+                ],
+                options: {
+                    height: 300,
+                    vAxis: {minValue: 0}
+                }
+            }
+        }
+    }
+
+
 
 
     const variables = {

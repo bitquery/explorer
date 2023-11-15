@@ -23,6 +23,77 @@
   </div>
 </div>
 <script>
+    
+    const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';
+    const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';
+
+    class BalanceHolderStatsLatestDate extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return [...response.EVM.date3]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: `${tokenName} (${tokenSymbol}) Token Holder Stats`,
+
+                columns: [
+                    {
+                        name: 'Date', cell: function (row) {
+                            return row.BalanceUpdate.LastDate
+                        }
+                    },
+                    {
+                        name: 'Holder Count', cell: function (row) {
+                            return row.count
+                        },
+                    },
+                    {
+                        name: 'Gini Factor', cell: function (row) {
+                            return row.gini
+                        },
+                    },
+                    {
+                        name: 'Nakamoto Index', cell: function (row) {
+                            return row.nakamoto
+                        },
+                    },
+                    {
+                        name: 'Total Supply', cell: function (row) {
+                            return row.supply
+                        },
+                    },
+                ]
+            }
+        }
+    }
+
+    class TopHolders extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: function (response) {
+                    return [...response.EVM.TokenHolders]
+                },
+                chainId: function (response) {
+                    return response.EVM.Blocks[0].ChainId
+                },
+                title: `Top ${tokenName} (${tokenSymbol}) Token Holders`,
+                columns: [
+                    {
+                        name: 'Holder', cell: function (row) {
+                            return row.Holder.Address
+                        },rendering:  renderJustAddressLink,
+                    },
+                    {
+                        name: 'Amount', cell: function (row) {
+                            return row.Balance.Amount
+                        }, rendering:renderNumbers, headerStyle: {textAlign: 'end',width: '35%'},
+                    },
+                ]
+            }
+        }
+    }
     class HoldersCount extends TimeChartComponent {
         configuration() {
             return {
@@ -32,7 +103,7 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Count holders',
+                title: `${tokenName} (${tokenSymbol}) Token holders count`,
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -61,7 +132,8 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Gini factor',
+                title: `${tokenName} (${tokenSymbol}) Gini Factor`,
+
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -89,7 +161,7 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Nakamoto index',
+                title: `${tokenName} (${tokenSymbol}) Nakamoto Index`,
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -117,7 +189,7 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: 'Supply tokens',
+                title: `${tokenName} (${tokenSymbol}) Total Supply`,
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -138,72 +210,7 @@
         }
     }
 
-    class BalanceHolderStatsLatestDate extends BootstrapVerticalTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return [...response.EVM.date3]
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                title: 'Balance Holder Stats Latest Date',
-                columns: [
-                    {
-                        name: 'Date', cell: function (row) {
-                            return row.BalanceUpdate.LastDate
-                        }
-                    },
-                    {
-                        name: 'count', cell: function (row) {
-                            return row.count
-                        },
-                    },
-                    {
-                        name: 'gini', cell: function (row) {
-                            return row.gini
-                        },
-                    },
-                    {
-                        name: 'nakamoto', cell: function (row) {
-                            return row.nakamoto
-                        },
-                    },
-                    {
-                        name: 'supply', cell: function (row) {
-                            return row.supply
-                        },
-                    },
-                ]
-            }
-        }
-    }
 
-    class TopHolders extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: function (response) {
-                    return [...response.EVM.TokenHolders]
-                },
-                chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
-                },
-                title: 'Balance Holder Stats Latest Date',
-                columns: [
-                    {
-                        name: 'Holder', cell: function (row) {
-                            return row.Holder.Address
-                        },rendering:  renderJustAddressLink,
-                    },
-                    {
-                        name: 'Amount', cell: function (row) {
-                            return row.Balance.Amount
-                        }, rendering:renderNumbers, headerStyle: {textAlign: 'end',width: '35%'},
-                    },
-                ]
-            }
-        }
-    }
 
 
     const variables = {
