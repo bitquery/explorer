@@ -1,98 +1,71 @@
 class Algorand::SitemapController < NetworkController
 
-  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
            query ($network: AlgorandNetwork! $from: ISO8601DateTime){
-
-
                     proposers: algorand(network: $network){
                       blocks(options:{desc: "count", limit: 50},
                         date: {since: $from }
                         ) {
-
                           address: proposer {
                             address
                           }
-
                           count
-
                       }
                     }
-
                    senders: algorand(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          ) {
-                  
+                          )                 
                             sender(sender: {not: ""}) {
                               address
-                            }
-                  
-                            count
-                  
-                        }
-                     
+                            }                  
+                            count                 
+                        }                    
                    }
-
                   receivers: algorand(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          ) {
-                  
+                          ) {                
                             receiver(receiver: {not: ""}) {
                               address
-                            }
-                  
-                            count
-                  
-                        }
-                      
+                            }                 
+                            count                  
+                        }                      
                   }
-
 						      tokens: algorand(network: $network){
                         transfers(options:{
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          ) {
-                  
+                          ) {                 
                             currency {
                               tokenId
-                            }
-                  
+                            }                  
                             count
-                  
-                        }
-                     
+                        }                   
                    }
-
                   contracts: algorand(network: $network){
                         smartContractCalls(options:{
                           desc: "count", 
-                          limit: 100}
-  
-                          ) {
-                  
+                          limit: 100} 
+                          ) {                  
                     				smartContract {
                               address {
                                 address
                               }
-                            }
-
-                  
-                            count
-                  
+                            }                 
+                            count                 
                         }
                   }
-
            }
   GRAPHQL
 
   def index
-    @response = Graphql::V1.instance.query_with_retry(QUERY, variables: { from: Date.today - 60,
-                                                                  network: @network[:network] }, context: {'Authorization': @streaming_access_token}).data
+    @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Date.today - 60,
+                                                                 network: @network[:network] }, context: { authorization: @streaming_access_token }).data
   end
 end

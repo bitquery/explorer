@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale, :set_theme, :set_date, :set_feed, :get_session_streaming_token
 
   def default_url_options
-    {locale: I18n.locale == I18n.default_locale ? nil : I18n.locale}
+    { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
   end
 
   def innovation_in_blockchain?
@@ -59,18 +59,18 @@ class ApplicationController < ActionController::Base
   def set_locale
 
     I18n.locale =
-        if params[:locale]
-          locale = params[:locale].to_sym
-          redirect_to({locale: nil, status: 301}.merge(request.query_parameters)) if locale==I18n.default_locale
-          locale
-        elsif session[:locale]
-          I18n.default_locale
-        else
-          locale = extract_locale_from_accept_language_header || I18n.default_locale
-          cors_set_access_control_headers
-          redirect_to(locale: locale) unless locale==I18n.default_locale
-          locale
-        end
+      if params[:locale]
+        locale = params[:locale].to_sym
+        redirect_to({ locale: nil, status: 301 }.merge(request.query_parameters)) if locale == I18n.default_locale
+        locale
+      elsif session[:locale]
+        I18n.default_locale
+      else
+        locale = extract_locale_from_accept_language_header || I18n.default_locale
+        cors_set_access_control_headers
+        redirect_to(locale: locale) unless locale == I18n.default_locale
+        locale
+      end
 
     session[:locale] = I18n.locale
 
@@ -88,7 +88,7 @@ class ApplicationController < ActionController::Base
   end
 
   def change_controller! controller_name
-    redirect_to  params.permit!.merge({controller: controller_name})
+    redirect_to params.permit!.merge({ controller: controller_name })
   end
 
   def set_feed
@@ -113,6 +113,7 @@ class ApplicationController < ActionController::Base
                              link: "https://coincodecap.com/?utm_source=bitquery"
                            }].sample
   end
+
   def get_session_streaming_token
     get_streaming_access_token if session['streaming_access_token'].blank? || session['streaming_expires_in'] <= Time.now
     @streaming_access_token = session['streaming_access_token']
@@ -130,8 +131,8 @@ class ApplicationController < ActionController::Base
     response = https.request(request)
     if response.is_a?(Net::HTTPSuccess)
       body = JSON.parse(response.body)
-      session['streaming_access_token'] = body['access_token']
-      session['streaming_expires_in'] = Time.now +  body['expires_in'].seconds
+      session['streaming_access_token'] = "Bearer #{body['access_token']}"
+      session['streaming_expires_in'] = Time.now + body['expires_in'].seconds
     else
       nil
     end
