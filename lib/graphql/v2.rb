@@ -11,7 +11,7 @@ module Graphql
       @token = Oauth.get_session_streaming_token
 
       context = { authorization: @token }
-      http_adapter = GraphQL::Client::HTTP.new(BITQUERY_STREAMING) do
+      http_adapter = GraphQL::Client::HTTP.new(BITQUERY_STREAMING_GRAPHQL) do
         def headers(context)
           # set http headers
           {'Authorization'  => context[:authorization]}
