@@ -9,6 +9,7 @@ class V1
 
   def initialize
     @token = Oauth.get_session_streaming_token
+    context = { authorization: @token }
 
     http_adapter = GraphQL::Client::HTTP.new(BITQUERY_GRAPHQL) do
       def headers(context)
