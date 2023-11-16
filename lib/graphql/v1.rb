@@ -8,12 +8,12 @@ class V1
   attr_reader :client
 
   def initialize
+    @token = Oauth.get_session_streaming_token
 
     http_adapter = GraphQL::Client::HTTP.new(BITQUERY_GRAPHQL) do
       def headers(context)
         # set http headers
-        { "X-API-KEY": ENV['EXPLORER_API_KEY'].to_s }
-        # super(context).merge("X-API-KEY"=> ENV['EXPLORER_API_KEY'].to_s,'Authorization' => context[:authorization])
+        { "X-API-KEY" => ENV['EXPLORER_API_KEY'].to_s,'Authorization' => @token}
       end
     end
     schema = GraphQL::Client.load_schema(http_adapter)
