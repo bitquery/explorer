@@ -10,7 +10,7 @@ import {
 	SubscriptionDataSource
 } from "./helper";
 
-export default async function renderComponent('<%=@streaming_access_token %>',token,components, historyQueryID, explorerVariables = {}, subscriptionQueryID) {
+export default async function renderComponent(token,components, historyQueryID, explorerVariables = {}, subscriptionQueryID) {
 	let variables, subscriptionDataSource, historyDataSource, subscriptionQueryParams, historyQueryParams
 
 	if (subscriptionQueryID) {
