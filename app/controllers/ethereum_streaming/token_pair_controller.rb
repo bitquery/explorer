@@ -3,7 +3,7 @@ class EthereumStreaming::TokenPairController < NetworkController
   layout 'tabs'
   before_action :set_pair, :query_graphql
 
-  QUERY = Graphql::V2::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
     query ($network: evm_network, $token1: String!, $token2: String!) {
       EVM(dataset: archive, network: $network) {
         Transfers(
@@ -28,27 +28,26 @@ class EthereumStreaming::TokenPairController < NetworkController
   end
 
   def trading_view
-    @breadcrumbs << {name:'Trading view'}
+    @breadcrumbs << { name: 'Trading view' }
   end
 
   def last_trades
-    @breadcrumbs << {name: 'Last Trades'}
+    @breadcrumbs << { name: 'Last Trades' }
   end
-  
+
   private
-  
+
   def set_pair
     @token1 = params[:token1]
     @token2 = params[:token2]
   end
 
-
   def query_graphql
-    result = Graphql::V2.instance.query_with_retry(QUERY, variables: {
-              network: @network[:streaming], token1: @token1, token2: @token2 }, context: {'Authorization': @streaming_access_token}).data.evm.transfers
+    result = Graphql::V2.query_with_retry(QUERY, variables: {
+      network: @network[:streaming], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.evm.transfers
 
-    @token1name = result.detect {|a| a.transfer.currency.smart_contract == @token1 }
-    @token2name = result.detect {|a| a.transfer.currency.smart_contract == @token2 }
+    @token1name = result.detect { |a| a.transfer.currency.smart_contract == @token1 }
+    @token2name = result.detect { |a| a.transfer.currency.smart_contract == @token2 }
 
     @token1symbol = @token1name ? @token1name.transfer.currency.symbol : '-'
     @token2symbol = @token2name ? @token2name.transfer.currency.symbol : '-'

@@ -1,6 +1,6 @@
 module Elrond
   class SitemapController < NetworkController
-    QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+    QUERY = <<-'GRAPHQL'
       query ($network: ElrondNetwork!, $from: ISO8601DateTime, $limit: Int!) {
         senders: elrond(network: $network) {
           transfers(options: {desc: "count", limit: $limit}, date: {since: $from}) {
@@ -28,9 +28,7 @@ module Elrond
         from: Date.today
       }
 
-
-
-       @response = Graphql::V1.instance.query_with_retry(QUERY, variables: variables, context: {'Authorization': @streaming_access_token}).data
+      @response = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data
     end
   end
 end

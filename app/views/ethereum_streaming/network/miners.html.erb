@@ -203,10 +203,10 @@
         network: '<%= @streaming%>',
     };
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent([[ActiveMinersByTime, '#ActiveMinersByTime']], 'Active-Miners-By-Time', variables);
-        renderComponent([[BlockRewardsByDate, '#BlockRewardsByDate']], 'Block-Rewards-By-Date', variables);
-        renderComponent([[Miners, '#Miners']], 'Miners_1', variables);
-        renderComponent([[MinersBlockCountByTime, '#MinersBlockCountByTime']], 'Miners-Block-Count-By-Time_2', variables);
-        renderComponent([[MinersBlockRewardByTime, '#MinersBlockRewardByTime']], 'Miners-Block-Count-By-Time_3', variables);
+        renderComponent('<%=@streaming_access_token %>',[[ActiveMinersByTime, '#ActiveMinersByTime']], 'Active-Miners-By-Time', variables);
+        renderComponent('<%=@streaming_access_token %>',[[BlockRewardsByDate, '#BlockRewardsByDate']], 'Block-Rewards-By-Date', variables);
+        renderComponent('<%=@streaming_access_token %>',[[Miners, '#Miners']], 'Miners_1', variables);
+        renderComponent('<%=@streaming_access_token %>',[[MinersBlockCountByTime, '#MinersBlockCountByTime']], 'Miners-Block-Count-By-Time_2', variables);
+        renderComponent('<%=@streaming_access_token %>',[[MinersBlockRewardByTime, '#MinersBlockRewardByTime']], 'Miners-Block-Count-By-Time_3', variables);
     })
 </script>

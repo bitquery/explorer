@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  before_action :set_locale, :set_theme, :set_date, :set_feed, :get_session_streaming_token
+  before_action :get_session_streaming_token, :set_locale, :set_theme, :set_date, :set_feed
 
   def default_url_options
     { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
@@ -128,14 +128,17 @@ class ApplicationController < ActionController::Base
     request = Net::HTTP::Post.new(url)
     request["Content-Type"] = "application/x-www-form-urlencoded"
     request.body = "grant_type=client_credentials&client_id=#{ENV['GRAPHQL_CLIENT_ID']}&client_secret=#{ENV['GRAPHQL_CLIENT_SECRET']}&scope=api"
+
     response = https.request(request)
     if response.is_a?(Net::HTTPSuccess)
       body = JSON.parse(response.body)
       session['streaming_access_token'] = "Bearer #{body['access_token']}"
-      session['streaming_expires_in'] = Time.now + body['expires_in'].seconds
+      session['streaming_expires_in'] = Time.now + body['expires_in'].seconds - 5.minutes
+
     else
       nil
     end
   end
+
 end
 

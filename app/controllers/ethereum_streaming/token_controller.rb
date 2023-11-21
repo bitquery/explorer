@@ -38,7 +38,7 @@ class EthereumStreaming::TokenController < EthereumStreaming::AddressController
 
   def is_native
     @token = params[:address]
-    @id= params[:id]
+    @id = params[:id]
     @native_token = native_token?
     @token_info = !@native_token && @info
   end
@@ -54,7 +54,7 @@ class EthereumStreaming::TokenController < EthereumStreaming::AddressController
     elsif @check_call == 'calls'
       change_controller! 'ethereum_streaming/smart_contract'
     else
-      change_controller!  'ethereum_streaming/address'
+      change_controller! 'ethereum_streaming/address'
     end
   end
 

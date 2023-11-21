@@ -6,7 +6,7 @@ module Elrond
     before_action :breadcrumb
     before_action :query_date, only: %i[show]
 
-    QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+    QUERY = <<-'GRAPHQL'
              query ($hash: String! $network: ElrondNetwork!){
                 elrond(network: $network) { blockValidators(validator: {is: $hash}) { date {date} } }
              }
@@ -29,7 +29,7 @@ module Elrond
     def query_date
       variables = { hash: @hash.to_s,
                     network: @network[:network] }
-      @validator_data = Graphql::V1.instance.query_with_retry(QUERY, variables: variables, context: {'Authorization': @streaming_access_token}).data.elrond.block_validators[0].date.date
+      @validator_data = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data.elrond.block_validators[0].date.date
     end
   end
 end

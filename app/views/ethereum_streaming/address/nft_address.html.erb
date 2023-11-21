@@ -262,10 +262,10 @@
         address: '<%= @address %>',
     }
 
-    renderComponent([[AddressHoldingNFT, '#AddressHoldingNFT']], 'Address-Holding-NFTs_1_1_1_1', variables);
-    renderComponent([[OutcomingNFTTransfersByAddress, '#OutcomingNFTTransfersByAddress']], 'Outcoming-NFT-Transfers-By-Address_2', variables);
-    renderComponent([[IncomingNFTTransfersByAddress, '#IncomingNFTTransfersByAddress']], 'Incoming-NFT-Transfers-By-Address_2', variables);
-    renderComponent([[TradesNFTTokenAddressSeller, '#TradesNFTTokenAddressSeller']], 'Trades-of-NFT-Token-with-Address-as-Seller_2', variables);
-    renderComponent([[TradesNFTTokenAddressBuyer, '#TradesNFTTokenAddressBuyer']], 'Trades-of-NFT-Token-with-Address-as-Buyer_2', variables);
+    renderComponent('<%=@streaming_access_token %>',[[AddressHoldingNFT, '#AddressHoldingNFT']], 'Address-Holding-NFTs_1_1_1_1', variables);
+    renderComponent('<%=@streaming_access_token %>',[[OutcomingNFTTransfersByAddress, '#OutcomingNFTTransfersByAddress']], 'Outcoming-NFT-Transfers-By-Address_2', variables);
+    renderComponent('<%=@streaming_access_token %>',[[IncomingNFTTransfersByAddress, '#IncomingNFTTransfersByAddress']], 'Incoming-NFT-Transfers-By-Address_2', variables);
+    renderComponent('<%=@streaming_access_token %>',[[TradesNFTTokenAddressSeller, '#TradesNFTTokenAddressSeller']], 'Trades-of-NFT-Token-with-Address-as-Seller_2', variables);
+    renderComponent('<%=@streaming_access_token %>',[[TradesNFTTokenAddressBuyer, '#TradesNFTTokenAddressBuyer']], 'Trades-of-NFT-Token-with-Address-as-Buyer_2', variables);
 
 </script>

@@ -3,13 +3,12 @@ class Ethereum::TokenPairController < NetworkController
   layout 'tabs'
   before_action :set_pair, :query_graphql
 
-  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
    query($network: EthereumNetwork!, $token1: String!,$token2: String!) {
               ethereum(network: $network) {
                 address(address: {in: [$token1,$token2]}){
                   address 
-                  annotation
-                  
+                  annotation                  
                   smartContract {
                     contractType
                     currency{
@@ -25,33 +24,31 @@ class Ethereum::TokenPairController < NetworkController
             }
   GRAPHQL
 
-
   def show
   end
 
   def trading_view
-    @breadcrumbs << {name:'Trading view'}
+    @breadcrumbs << { name: 'Trading view' }
   end
 
   def last_trades
-    @breadcrumbs << {name: 'Last Trades'}
+    @breadcrumbs << { name: 'Last Trades' }
   end
-  
+
   private
-  
+
   def set_pair
     @token1 = params[:token1]
     @token2 = params[:token2]
   end
 
-
   def query_graphql
 
-    result = Graphql::V1.instance.query_with_retry(QUERY, variables: {
-              network: @network[:network], token1: @token1, token2: @token2 }, context: {'Authorization': @streaming_access_token}).data.ethereum
+    result = Graphql::V1.query_with_retry(QUERY, variables: {
+      network: @network[:network], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.ethereum
 
-    @token1name = result.address.detect{|a| a.address==@token1 }
-    @token2name = result.address.detect{|a| a.address==@token2 }
+    @token1name = result.address.detect { |a| a.address == @token1 }
+    @token2name = result.address.detect { |a| a.address == @token2 }
 
     @token1symbol = @token1name ? @token1name.smart_contract.currency.symbol : '-'
     @token2symbol = @token2name ? @token2name.smart_contract.currency.symbol : '-'

@@ -49,7 +49,8 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
     }
+<!--    console.log('<%=@streaming_access_token %>')-->
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent([[SubLatestBlocks, '#Sub-latestBlocks']], 'Latest-Blocks_3', variables, 'Subscription-Latest-Blocks_1')
+        renderComponent('<%=@streaming_access_token %>',[[SubLatestBlocks, '#Sub-latestBlocks']], 'Latest-Blocks_3', variables, 'Subscription-Latest-Blocks_1')
     });
 </script>

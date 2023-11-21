@@ -83,6 +83,6 @@
         network: '<%= @streaming%>',
         method: '<%= @signature%>',
     }
-    renderComponent([[MethodInformation, '#MethodInformation']], 'Method-Information_1', variables);
-    renderComponent([[MethodTransactions, '#MethodTransactions']], 'Method-Transactions_2', variables);
+    renderComponent('<%=@streaming_access_token %>',[[MethodInformation, '#MethodInformation']], 'Method-Information_1', variables);
+    renderComponent('<%=@streaming_access_token %>',[[MethodTransactions, '#MethodTransactions']], 'Method-Transactions_2', variables);
 </script>

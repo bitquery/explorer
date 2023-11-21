@@ -6,7 +6,7 @@ module Solana
 
     before_action :query_graphql, only: %i[money_flow]
 
-    MONEY_FLOW_QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+    MONEY_FLOW_QUERY = <<-'GRAPHQL'
       query ($network: SolanaNetwork!, $address: String!) {
         solana(network: $network) {
           outflow: transfers(
@@ -46,9 +46,9 @@ module Solana
     end
 
     def query_graphql
-      result = Graphql::V1.instance.query_with_retry(MONEY_FLOW_QUERY,
-                                             variables: { network: @network[:network],
-                                                          address: @address }, context: {'Authorization': @streaming_access_token}).data.solana
+      result = Graphql::V1.query_with_retry(MONEY_FLOW_QUERY,
+                                            variables: { network: @network[:network],
+                                                         address: @address }, context: { authorization: @streaming_access_token }).data.solana
 
       all_results = (result.outflow || []) + (result.inflow || [])
       @currencies = all_results.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq(&:address)

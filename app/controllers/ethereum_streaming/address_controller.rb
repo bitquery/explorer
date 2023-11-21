@@ -3,9 +3,7 @@ class EthereumStreaming::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  # QUERY = Graphql::V2.parse "Data-for-token"
-
-  QUERY = Graphql::V2::Client.parse <<-'GRAPHQL'
+  QUERY =  <<-'GRAPHQL'
     query ($network: evm_network, $address: String!) {
   EVM(dataset: archive, network: $network) {
     address: Transfers(
@@ -59,7 +57,7 @@ class EthereumStreaming::AddressController < NetworkController
     @address = params[:address]
 
     if @address.starts_with?('0x')
-      result = Graphql::V2.instance.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }, context: {'Authorization': @streaming_access_token}).data.evm
+      result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }, context: { authorization: @streaming_access_token }).data.evm
       if result.token.any?
         @info = result.token.first.transfer
         @check_token = 'token'

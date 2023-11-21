@@ -7,7 +7,7 @@ module Flow
     before_action :set_address
     before_action :breadcrumb
 
-    QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+    QUERY = <<-'GRAPHQL'
       query ($network: FlowNetwork!, $address: String!) {
         flow(network: $network) {
           outflow: inputs(
@@ -49,9 +49,9 @@ module Flow
     end
 
     def query_graphql
-      result = Graphql::V1.instance.query_with_retry(QUERY,
-                                             variables: { network: @network[:network],
-                                                          address: @address }, context: {'Authorization': @streaming_access_token}).data.flow
+      result = Graphql::V1.query_with_retry(QUERY,
+                                            variables: { network: @network[:network],
+                                                         address: @address }, context: { authorization: @streaming_access_token }).data.flow
       all_currencies = result.outflow + result.inflow
       @currencies = all_currencies.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
     end

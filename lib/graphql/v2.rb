@@ -3,47 +3,35 @@ require "graphql/client/http"
 module Graphql
   class V2
 
-    include Singleton
-
-    attr_reader :client
-
-    def initialize
-      @token = Oauth.get_session_streaming_token
-
-      context = { authorization: @token }
-      http_adapter = GraphQL::Client::HTTP.new(BITQUERY_STREAMING_GRAPHQL) do
-        def headers(context)
-          # set http headers
-          {'Authorization'  => context[:authorization]}
-        end
-      end
-
-
-      schema = GraphQL::Client.load_schema(http_adapter)
-      @client = GraphQL::Client.new(schema: schema, execute: http_adapter)
-
-    end
-
-    Client = V2.instance.client
-
-    # def self.parse query_id
-    #   uri = URI.parse("#{BITQUERY_IDE_API}/getquery/#{query_id}")
-    #   response = Net::HTTP.get(uri)
-    #   Client.parse JSON.parse(response)['query']
-    # end
-
     ATTEMPTS = 2
 
-    def query_with_retry(definition, variables: {}, context: {})
+    def self.query_with_retry(query, variables: {}, context: {})
+      url = URI(BITQUERY_STREAMING_GRAPHQL)
+
+      https = Net::HTTP.new(url.host, url.port)
+      https.use_ssl = true
+
+      request = Net::HTTP::Post.new(url)
+      request["Content-Type"] = "application/json"
+      request["Authorization"] = context[:authorization]
+      request["X-API-KEY"] = ENV['EXPLORER_API_KEY']
+
+      body = {
+        query: query,
+        variables: variables
+      }
+
+      request.body = body.to_json
       attempt = 1
 
-      ::BitqueryLogger.extra_context query: definition.source_document.to_query_string,
+      ::BitqueryLogger.extra_context query: query,
                                      variables: variables,
                                      context: context,
                                      attempt: attempt
 
       begin
-        resp = client.query definition, variables: variables, context: context
+        response = https.request(request)
+        resp = JSON.parse(response.read_body, object_class: OpenStruct)
         BitqueryLogger.extra_context errors: resp.errors.presence&.details&.to_h&.to_s
       rescue Net::ReadTimeout => e
         if attempt >= ATTEMPTS
@@ -55,11 +43,11 @@ module Graphql
         end
       end
 
-      if resp.errors.any? && resp.data.nil?
+      if resp&.errors&.any? && resp&.data&.nil?
         raise 'GraphQL response errors, data is nil'
-      elsif resp.errors.any?
+      elsif resp&.errors&.any?
         raise 'GraphQL response errors'
-      elsif resp.data.nil?
+      elsif resp&.data&.nil?
         raise 'GraphQL response data is nil'
       end
 

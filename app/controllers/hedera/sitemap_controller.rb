@@ -1,5 +1,5 @@
 class Hedera::SitemapController < NetworkController
-  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
     query ($network: HederaNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
       topics: hedera(network: $network) {
         messages(
@@ -25,6 +25,6 @@ class Hedera::SitemapController < NetworkController
       dateFormat: '%Y-%m-%d'
     }
 
-    @response = Graphql::V1.instance.query_with_retry(QUERY, variables: variables, context: {'Authorization': @streaming_access_token}).data
+    @response = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data
   end
 end

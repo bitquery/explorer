@@ -46,7 +46,7 @@ export function SubscriptionDataSource(payload) {
 	return this
 }
 
-export function HistoryDataSource(payload) {
+export function HistoryDataSource(token,payload) {
 
 	let callbacks = []
 	let widgetFrames = []
@@ -55,7 +55,7 @@ export function HistoryDataSource(payload) {
 	const getNewData = async () => {
 		widgetFrames.forEach(wf => wf.onquerystarted())
 		try {
-			const data = await getData({ ...payload, variables })
+			const data = await getData(token,{ ...payload, variables })
 			widgetFrames.forEach(wf => wf.onqueryend())
 			callbacks.forEach(cb => cb(data, variables))
 		} catch (error) {
@@ -181,7 +181,9 @@ export const streamControl = subscriptionDataSource => e => {
 }
 
 export const getQueryParams = async (queryID) => {
+
 	const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
+
 	const { endpoint_url, variables, query, name } = await response.json()
 	return {
 		variables: JSON.parse(variables),
@@ -191,12 +193,14 @@ export const getQueryParams = async (queryID) => {
 	}
 }
 
-export const getData = async ({ endpoint_url, query, variables }) => {
+export const getData = async (token,{ endpoint_url, query, variables }) => {
+
 	const response = await fetch(endpoint_url, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': token,
 		},
 		body: JSON.stringify({ query, variables }),
 		credentials: 'same-origin',
@@ -205,12 +209,12 @@ export const getData = async ({ endpoint_url, query, variables }) => {
 		throw new Error(response.error);
 	}
 	const { data } = await response.json();
+	console.log(data)
 	if (data.errors) {
 		throw new Error(data.errors[0].message);
 	}
 	return data
 }
-
 export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID) => {
 	const createButton = (title, display) => {
 		const button = document.createElement('a');

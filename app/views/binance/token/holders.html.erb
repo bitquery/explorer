@@ -214,7 +214,7 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent([[HoldersCount, '#HoldersCount'],[GiniIndex, '#GiniIndex'],[NakamotoIndex, '#NakamotoIndex'],[SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_3', variables);
+        renderComponent('<%=@streaming_access_token %>',[[HoldersCount, '#HoldersCount'],[GiniIndex, '#GiniIndex'],[NakamotoIndex, '#NakamotoIndex'],[SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_3', variables);
     })
-    renderComponent([[TopHolders, '#TopHolders']], 'Top-holders_3', variables);
+    renderComponent('<%=@streaming_access_token %>',[[TopHolders, '#TopHolders']], 'Top-holders_3', variables);
 </script>

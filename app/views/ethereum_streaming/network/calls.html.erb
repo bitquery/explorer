@@ -193,12 +193,12 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10)
     };
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent([
+        renderComponent('<%=@streaming_access_token %>',[
             [SmartContractsByDate, '#Smart-Contracts-By-Date'],
             [UniqueSmartContracts, '#UniqueSmartContracts'],
             [SmartContractsCallers, '#SmartContractsCallers'],
             [SmartContractsMethods, '#SmartContractsMethods']
         ], 'Smart-Contracts_1_1', variables);
-        renderComponent([[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_2', variables, 'Subscription-Latest-Smart-Contract-Calls');
+        renderComponent('<%=@streaming_access_token %>',[[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_2', variables, 'Subscription-Latest-Smart-Contract-Calls');
     });
 </script>

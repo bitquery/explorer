@@ -3,7 +3,7 @@ class Eos::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
   query($address: String!){
   eos {
     address(address: {is: $address}) {
@@ -24,7 +24,7 @@ class Eos::AddressController < NetworkController
 }
   GRAPHQL
 
-  QUERY_CURRENCIES = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY_CURRENCIES = <<-'GRAPHQL'
    query($address: String!) {
               eos{
 address(address: {is: $address}) {
@@ -38,8 +38,7 @@ address(address: {is: $address}) {
         tokenType
         decimals
       }
-      }
-      
+      }  
     }
     						transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
       							currency {
@@ -58,7 +57,7 @@ address(address: {is: $address}) {
   def query_graphql
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    result = Graphql::V1.instance.query_with_retry(query, variables: { address: @address }, context: { 'Authorization': @streaming_access_token }).data.eos
+    result = Graphql::V1.query_with_retry(query, variables: { address: @address }, context: { authorization: @streaming_access_token }).data.eos
     @info = result.address.first
     @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == 'eosio.token' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
   end

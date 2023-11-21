@@ -3,7 +3,7 @@ class Tron::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
    query($address: String!) {
               tron{
                 address(address: {is: $address}){
@@ -24,7 +24,7 @@ class Tron::AddressController < NetworkController
             }
   GRAPHQL
 
-  QUERY_CURRENCIES = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY_CURRENCIES = <<-'GRAPHQL'
    query($address: String!) {
               tron{
                 address(address: {is: $address}){
@@ -60,7 +60,7 @@ class Tron::AddressController < NetworkController
   def query_graphql
     @address = params[:address]
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    result = Graphql::V1.instance.query_with_retry(query, variables: { address: @address }, context: {'Authorization': @streaming_access_token}).data.tron
+    result = Graphql::V1.query_with_retry(query, variables: { address: @address }, context: { authorization: @streaming_access_token }).data.tron
     @info = result.address.first
     @currencies = result.transfers.map(&:currency).sort_by { |c| c.symbol == 'TRX' ? 0 : 1 }.uniq { |x| [x.address, x.token_id] } if result.try(:transfers)
   end

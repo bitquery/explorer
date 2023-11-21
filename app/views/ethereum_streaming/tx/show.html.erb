@@ -94,6 +94,6 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     };
-    renderComponent([[TransactionAttributes, '#TransactionAttributes']], 'Transaction-Attributes_6', variables);
+    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Transaction-Attributes_6', variables);
 
 </script>

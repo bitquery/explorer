@@ -2,7 +2,7 @@ class Eos::TokenController < Eos::AddressController
 
   before_action :is_native, :query_date
 
-  QUERY = Graphql::V1::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
   query{
     eos{
       blocks(options:{desc: "date.date", limit: 1}){
@@ -61,6 +61,6 @@ class Eos::TokenController < Eos::AddressController
   end
 
   def query_date
-    @block_date = Graphql::V1.instance.query_with_retry(QUERY, variables: {}, context: {'Authorization': @streaming_access_token}).data.eos.blocks[0].date.date
+    @block_date = Graphql::V1.query_with_retry(QUERY, variables: {}, context: { authorization: @streaming_access_token }).data.eos.blocks[0].date.date
   end
 end

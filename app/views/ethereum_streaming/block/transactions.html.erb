@@ -47,5 +47,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent([[Transactions, '#Transactions']], 'Transactions_5', variables);
+    renderComponent('<%=@streaming_access_token %>',[[Transactions, '#Transactions']], 'Transactions_5', variables);
 </script>

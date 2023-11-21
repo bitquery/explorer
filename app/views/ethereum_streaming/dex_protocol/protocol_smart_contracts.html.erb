@@ -84,7 +84,7 @@
         protocol: '<%= @protocol %>',
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent([[DEXProtocolNFTTokenTradesByDate, "#DEXProtocolNFTTokenTradesByDate"]], 'DEX-Protocol-NFT-Token-Trades-By-Date_1', variables);
-        renderComponent([[DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts', variables);
+        renderComponent('<%=@streaming_access_token %>',[[DEXProtocolNFTTokenTradesByDate, "#DEXProtocolNFTTokenTradesByDate"]], 'DEX-Protocol-NFT-Token-Trades-By-Date_1', variables);
+        renderComponent('<%=@streaming_access_token %>',[[DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts', variables);
     })
 </script>
