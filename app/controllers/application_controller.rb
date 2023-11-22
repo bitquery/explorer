@@ -115,13 +115,12 @@ class ApplicationController < ActionController::Base
   end
 
   def get_session_streaming_token
-    get_streaming_access_token if session['streaming_access_token'].blank? || session['streaming_expires_in'] <= Time.now - 5.minutes
+    get_streaming_access_token if session['streaming_access_token'].blank? || Time.now <= session['streaming_expires_in']
     @streaming_access_token = session['streaming_access_token']
   end
 
   def get_streaming_access_token
     url = URI("https://oauth2.bitquery.io/oauth2/token")
-
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
 
@@ -134,10 +133,10 @@ class ApplicationController < ActionController::Base
       body = JSON.parse(response.body)
       session['streaming_access_token'] = "Bearer #{body['access_token']}"
       session['streaming_expires_in'] = Time.now + body['expires_in'].seconds - 5.minutes
-
     else
       nil
     end
+
   end
 
 end

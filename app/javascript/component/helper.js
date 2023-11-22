@@ -194,7 +194,6 @@ export const getQueryParams = async (queryID) => {
 }
 
 export const getData = async (token,{ endpoint_url, query, variables }) => {
-
 	const response = await fetch(endpoint_url, {
 		method: 'POST',
 		headers: {
@@ -209,7 +208,6 @@ export const getData = async (token,{ endpoint_url, query, variables }) => {
 		throw new Error(response.error);
 	}
 	const { data } = await response.json();
-	console.log(data)
 	if (data.errors) {
 		throw new Error(data.errors[0].message);
 	}
