@@ -18,15 +18,16 @@ function isMobileDevice() {
   }
 
   let adElement = document.getElementById('ad-ins');
-  let mobileAdContainer = document.getElementById('mobile-ad-container');
+  //let mobileAdContainer = document.getElementById('mobile-ad-container');
   let isMobile = isMobileDevice();
 
   if(isMobile) {
-      mobileAdContainer.appendChild(adElement);
-      adElement.style.width = '270px';
-      adElement.style.height = '90px';
-      adElement.setAttribute('data-ad-format', '270x90');
-      adElement.setAttribute('data-ad-slot', 'mobile-banner');
+      adElement.style.display = 'none';
+      //mobileAdContainer.appendChild(adElement);
+      //adElement.style.width = '270px';
+      //adElement.style.height = '90px';
+      //adElement.setAttribute('data-ad-format', '270x90');
+      //adElement.setAttribute('data-ad-slot', 'mobile-banner');
   } else {
       adElement.setAttribute('data-ad-format', '728x90');
       adElement.setAttribute('data-ad-slot', 'leaderboard-desktop');
@@ -206,9 +207,6 @@ function isMobileDevice() {
   </nav>
 </header>
 
-<div style="display: flex; justify-content: center;">
-  <div id="mobile-ad-container"></div>
-</div>
 <script async src="https://v1.slise.xyz/scripts/embed.js"></script>
 
 <% if @breadcrumbs %>
