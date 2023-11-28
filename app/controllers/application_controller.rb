@@ -83,7 +83,7 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
     headers['Access-Control-Allow-Headers'] = '*'
     headers['Access-Control-Expose-Headers'] = '*'
-    headers['Access-Control-Max-Age'] = "1728000"
+    headers['Access-Control-Max-Age'] = '1728000'
     headers.delete('X-Frame-Options')
   end
 
@@ -105,39 +105,38 @@ class ApplicationController < ActionController::Base
                              link: link
                            },
                            {
-                             title: "NFT APIs",
-                             link: "https://bitquery.io/products/nft-api"
+                             title: 'NFT APIs',
+                             link: 'https://bitquery.io/products/nft-api'
                            },
                            {
-                             title: "Crypto News",
-                             link: "https://coincodecap.com/?utm_source=bitquery"
+                             title: 'Crypto News',
+                             link: 'https://coincodecap.com/?utm_source=bitquery'
                            }].sample
   end
 
   def get_session_streaming_token
-    get_streaming_access_token if session['streaming_access_token'].blank? || Time.now <= session['streaming_expires_in']
+    get_streaming_access_token if session['streaming_access_token'].blank? || Time.current > session['streaming_expires_in']
     @streaming_access_token = session['streaming_access_token']
   end
 
   def get_streaming_access_token
-    url = URI("https://oauth2.bitquery.io/oauth2/token")
+    url = URI('https://oauth2.bitquery.io/oauth2/token')
     https = Net::HTTP.new(url.host, url.port)
     https.use_ssl = true
 
     request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = "application/x-www-form-urlencoded"
+    request['Content-Type'] = 'application/x-www-form-urlencoded'
     request.body = "grant_type=client_credentials&client_id=#{ENV['GRAPHQL_CLIENT_ID']}&client_secret=#{ENV['GRAPHQL_CLIENT_SECRET']}&scope=api"
 
     response = https.request(request)
     if response.is_a?(Net::HTTPSuccess)
       body = JSON.parse(response.body)
       session['streaming_access_token'] = "Bearer #{body['access_token']}"
-      session['streaming_expires_in'] = Time.now + body['expires_in'].seconds - 5.minutes
+      session['streaming_expires_in'] = Time.current + body['expires_in'].seconds - 5.minutes
     else
       nil
     end
 
   end
-
 end
 

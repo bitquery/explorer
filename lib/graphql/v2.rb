@@ -1,5 +1,5 @@
-require "graphql/client"
-require "graphql/client/http"
+require 'graphql/client'
+require 'graphql/client/http'
 module Graphql
   class V2
 
@@ -12,9 +12,9 @@ module Graphql
       https.use_ssl = true
 
       request = Net::HTTP::Post.new(url)
-      request["Content-Type"] = "application/json"
-      request["Authorization"] = context[:authorization]
-      request["X-API-KEY"] = ENV['EXPLORER_API_KEY']
+      request['Content-Type'] = 'application/json'
+      request['Authorization'] = context[:authorization]
+      request['X-API-KEY'] = ENV['EXPLORER_API_KEY']
 
       body = {
         query: query,
@@ -35,7 +35,7 @@ module Graphql
         BitqueryLogger.extra_context errors: resp.errors.presence&.details&.to_h&.to_s
       rescue Net::ReadTimeout => e
         if attempt >= ATTEMPTS
-          raise "All attempts failed"
+          raise 'All attempts failed'
         else
           sleep(1)
           attempt += 1

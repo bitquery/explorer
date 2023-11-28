@@ -3,52 +3,51 @@ class EthereumStreaming::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  QUERY =  <<-'GRAPHQL'
-    query ($network: evm_network, $address: String!) {
-  EVM(dataset: archive, network: $network) {
-    address: Transfers(
-      where: {Transfer: {Sender: {is: $address}}}
-      limit: {count: 1}
-    ) {
-      Transfer {
-        Sender
-        Receiver
-        Currency {
-          Symbol
-          SmartContract
-          Name
-          Fungible
+  QUERY = <<-'GRAPHQL'
+          query ($network: evm_network, $address: String!) {
+        EVM(dataset: archive, network: $network) {
+          address: Transfers(
+            where: {Transfer: {Sender: {is: $address}}}
+            limit: {count: 1}
+          ) {
+            Transfer {
+              Sender
+              Receiver
+              Currency {
+                Symbol
+                SmartContract
+                Name
+                Fungible
+              }
+            }
+          }
+          token: Transfers(
+            where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
+            limit: {count: 1}
+          ) {
+            Transfer {
+              Sender
+              Receiver
+              Currency {
+                Symbol
+                SmartContract
+                Name
+                Fungible
+              }
+            }
+          }
+          calls: Calls(
+            where: {Call: {To: {is: $address}, Signature: {SignatureHash: {not: ""}}}}
+            limit: {count: 1}
+          ) {
+            Call {
+              Signature {
+                SignatureHash
+              }
+            }
+          }
         }
       }
-    }
-    token: Transfers(
-      where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
-      limit: {count: 1}
-    ) {
-      Transfer {
-        Sender
-        Receiver
-        Currency {
-          Symbol
-          SmartContract
-          Name
-          Fungible
-        }
-      }
-    }
-    calls: Calls(
-      where: {Call: {To: {is: $address}, Signature: {SignatureHash: {not: ""}}}}
-      limit: {count: 1}
-    ) {
-      Call {
-        Signature {
-          SignatureHash
-        }
-      }
-    }
-  }
-}
-
   GRAPHQL
 
   private
@@ -69,7 +68,6 @@ class EthereumStreaming::AddressController < NetworkController
     end
   end
 
-
   def redirect_by_type
     if @info.try(:currency)
       if @fungible == false
@@ -81,7 +79,5 @@ class EthereumStreaming::AddressController < NetworkController
       change_controller! 'ethereum_streaming/smart_contract'
     end
   end
-
-
 
 end
