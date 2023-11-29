@@ -50,7 +50,7 @@ class EthereumStreaming::TokenController < EthereumStreaming::AddressController
   def redirect_by_type
     return if native_token?
 
-    if @info.try(:currency) && @check_token
+    if @info.try(:Currency) && @check_token
     elsif @check_call == 'calls'
       change_controller! 'ethereum_streaming/smart_contract'
     else

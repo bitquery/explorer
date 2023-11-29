@@ -43,17 +43,17 @@ class EthereumStreaming::TokenPairController < NetworkController
   end
 
   def query_graphql
-    result = Graphql::V2.query_with_retry(QUERY, variables: {
-      network: @network[:streaming], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.evm.transfers
+    response = ::Graphql::V2.query_with_retry(QUERY, variables: {
+      network: @network[:network], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.EVM.Transfers
 
-    @token1name = result.detect { |a| a.transfer.currency.smart_contract == @token1 }
-    @token2name = result.detect { |a| a.transfer.currency.smart_contract == @token2 }
+      @token1entry = response.detect {|a| a.Transfer.Currency.SmartContract==@token1}
+      @token2entry = response.detect {|a| a.Transfer.Currency.SmartContract==@token2}
 
-    @token1symbol = @token1name ? @token1name.transfer.currency.symbol : '-'
-    @token2symbol = @token2name ? @token2name.transfer.currency.symbol : '-'
+      @token1symbol =@token1entry.Transfer.Currency.Symbol || '-'
+      @token2symbol =@token2entry.Transfer.Currency.Symbol || '-'
 
-    @token1name = @token1name ? @token1name.transfer.currency.name : '-'
-    @token2name = @token2name ? @token2name.transfer.currency.name : '-'
+      @token1name = @token1entry.Transfer.Currency.Name || '-'
+      @token2name = @token2entry.Transfer.Currency.Name || '-'
+
   end
-
 end

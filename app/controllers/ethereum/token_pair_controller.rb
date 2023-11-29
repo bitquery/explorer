@@ -43,19 +43,26 @@ class Ethereum::TokenPairController < NetworkController
   end
 
   def query_graphql
+    response = ::Graphql::V1.query_with_retry(QUERY, variables: {
+      network: @network[:network], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token })
 
-    result = Graphql::V1.query_with_retry(QUERY, variables: {
-      network: @network[:network], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.ethereum
+    if response.data.ethereum.address
+      addresses = response.data.ethereum.address
 
-    @token1name = result.address.detect { |a| a.address == @token1 }
-    @token2name = result.address.detect { |a| a.address == @token2 }
+      @token1entry = addresses.detect { |a| a.address==@token1 }
+      @token2entry = addresses.detect { |a| a.address==@token2 }
 
-    @token1symbol = @token1name ? @token1name.smart_contract.currency.symbol : '-'
-    @token2symbol = @token2name ? @token2name.smart_contract.currency.symbol : '-'
+      @token1symbol = @token1entry&.smartContract&.currency&.symbol || '-'
+      @token2symbol = @token2entry&.smartContract&.currency&.symbol || '-'
 
-    @token1name = @token1name ? @token1name.smart_contract.currency.name : '-'
-    @token2name = @token2name ? @token2name.smart_contract.currency.name : '-'
-
+      @token1name = @token1entry&.smartContract&.currency&.name || '-'
+      @token2name = @token2entry&.smartContract&.currency&.name || '-'
+    else
+      # Handle the case where ethereum.address is nil or not present
+      @token1symbol = @token2symbol = @token1name = @token2name = '-'
+    end
   end
+
+
 
 end
