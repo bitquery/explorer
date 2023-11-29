@@ -59,7 +59,6 @@ export default class TreeComponent {
                     .filter(event => event.Log && event.Call.Index === call.Call.Index);
 
                 eventForCall.forEach(event => {
-                    console.log('event',event)
                     const eventNode = {
                         name: 'Event',
                         signature: event.Log,
@@ -76,7 +75,6 @@ export default class TreeComponent {
                     .filter(transfer => transfer.Call && transfer.Call.Index === call.Call.Index);
 
                 transferForCall.forEach(transfer => {
-                    console.log('Transfers',transfer)
 
                     const transferNode = {
                         name: 'Transfers',
@@ -96,13 +94,14 @@ export default class TreeComponent {
 
         const ul = this.createElementWithClasses('ul', 'ul-tree')
         if (isRoot) ul.id = 'tree';
-        data.forEach(item => {
+        data.forEach((item, index) => {
             if (item.name === 'Call' && item.signature && item.signature.Signature.SignatureHash === '') {
                 return
             }
             counter.value++;
             const li = this.createElementWithClasses('li', 'li-tree')
             const details = this.createElementWithClasses('details')
+            details.setAttribute('open', '')
             const summary = this.createElementWithClasses('summary', 'summary-tree', 'card', 'mb-1')
             this.appendChildren(details, summary)
             this.appendChildren(li, details)
@@ -116,9 +115,9 @@ export default class TreeComponent {
             if (counter.value % 2 !== 0) {
                 contentDiv.style.boxShadow = 'inset 0 0 0 1000px rgba(0, 0, 0, 0.03)'
             }
+
             if (item.name === 'Call') {
                 iconElement = this.createIcon('fa-share', 'text-primary', 'ml-2')
-
             }
 
             if (item.signature.Gas && item.signature.Signature.SignatureHash !== '') {
@@ -127,16 +126,14 @@ export default class TreeComponent {
                     hash: item.signature.Signature.SignatureHash,
                 }, null, this.chainId)
                 method.style.fontWeight = 'bold'
-                const gas = this.createElementWithClasses('div')
-                gas.textContent = `Gas: ${item.signature.Gas}`
-                const gasUsed = this.createElementWithClasses('div')
-                gasUsed.textContent = `Gas used: ${item.signature.GasUsed}`
-                this.appendChildren(contentDiv, iconElement, method, gas, gasUsed)
+
+                this.appendChildren(contentDiv, iconElement, method)
             }
 
-            const argumentsDiv = this.createElementWithClasses('div', 'event-tree')
-            const callArgumentsDiv = this.createElementWithClasses('div', 'content-tree')
-            const callArgumentsPathDiv = this.createElementWithClasses('div', 'content-tree')
+
+            const argumentsDiv = this.createElementWithClasses('div', 'event-tree', 'argumentsDiv')
+            const callArgumentsDiv = this.createElementWithClasses('div', 'content-tree', 'callArgumentsDiv')
+            const callArgumentsPathDiv = this.createElementWithClasses('div', 'content-tree', 'callArgumentsPathDiv')
             let value
             item.arguments.forEach((element, index) => {
                 const block = this.createElementWithClasses('div', 'text-block');
@@ -163,13 +160,12 @@ export default class TreeComponent {
                     }
                 }
             });
-
             if (item.arguments.length > 0) {
-                if (callArgumentsPathDiv.childElementCount !== 0) {
-                    callArgumentsPathDiv.insertBefore(openingDiv, callArgumentsPathDiv.firstChild);
-                    callArgumentsPathDiv.appendChild(closingDiv);
-                    callArgumentsPathDiv.insertBefore(pathName, callArgumentsPathDiv.firstChild);
-                    this.appendChildren(contentDiv, callArgumentsPathDiv);
+                if (callArgumentsDiv.childElementCount !== 0) {
+                    callArgumentsDiv.insertBefore(openingDiv, callArgumentsDiv.firstChild);
+                    callArgumentsDiv.appendChild(closingDiv);
+                    callArgumentsDiv.insertBefore(pathName, callArgumentsDiv.firstChild);
+                    this.appendChildren(contentDiv, callArgumentsDiv);
                 }
                 this.appendChildren(contentDiv, callArgumentsDiv);
             }
@@ -200,6 +196,27 @@ export default class TreeComponent {
                 this.appendChildren(receiverDiv, receiver);
                 this.appendChildren(contentDiv, iconElement, amountDiv, currency, senderDiv, iconSenderReceiver, receiverDiv);
 
+            }
+            if (item.name === 'Call') {
+                const fromToDiv = this.createElementWithClasses('div', 'content-tree')
+                const senderDiv = this.createElementWithClasses('div', 'text-block');
+                const receiverDiv = this.createElementWithClasses('div', 'text-block');
+                const iconSenderReceiver = this.createIcon('fa', 'fa-arrow-right', 'text-success');
+                const sender = this.config.rendering.renderJustAddressLink(item.signature.From, null, this.chainId)
+                const receiver = this.config.rendering.renderJustAddressLink(item.signature.To, null, this.chainId)
+                const gas = this.createElementWithClasses('div')
+                gas.textContent = `Gas: ${item.signature.Gas}`
+                const gasUsed = this.createElementWithClasses('div')
+                gasUsed.textContent = `Gas used: ${item.signature.GasUsed}`
+                this.appendChildren(senderDiv, sender);
+                this.appendChildren(receiverDiv, receiver);
+                if (item.signature.CallerIndex === -1) {
+                    this.appendChildren(fromToDiv, senderDiv, iconSenderReceiver, receiverDiv, gas, gasUsed);
+                    this.appendChildren(contentDiv, fromToDiv);
+                } else {
+                    this.appendChildren(fromToDiv, iconSenderReceiver, receiverDiv, gas, gasUsed);
+                    this.appendChildren(contentDiv, fromToDiv);
+                }
             }
 
             if (item.returns && item.returns.length > 0) {
