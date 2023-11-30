@@ -131,6 +131,7 @@ class ApplicationController < ActionController::Base
     response = https.request(request)
     if response.is_a?(Net::HTTPSuccess)
       body = JSON.parse(response.body)
+      session['body_response']= body
       session['streaming_access_token'] = "Bearer #{body['access_token']}"
       session['streaming_expires_in'] = Time.current + body['expires_in'].seconds - 5.minutes
     else
