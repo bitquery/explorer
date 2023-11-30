@@ -194,6 +194,7 @@ export const getQueryParams = async (queryID) => {
 }
 
 export const getData = async (token,{ endpoint_url, query, variables }) => {
+	console.log('token', token)
 	const response = await fetch(endpoint_url, {
 		method: 'POST',
 		headers: {
