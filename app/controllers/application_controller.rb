@@ -127,11 +127,9 @@ class ApplicationController < ActionController::Base
     request = Net::HTTP::Post.new(url)
     request['Content-Type'] = 'application/x-www-form-urlencoded'
     request.body = "grant_type=client_credentials&client_id=#{ENV['GRAPHQL_CLIENT_ID']}&client_secret=#{ENV['GRAPHQL_CLIENT_SECRET']}&scope=api"
-    session['credentials']=request.body
     response = https.request(request)
     if response.is_a?(Net::HTTPSuccess)
       body = JSON.parse(response.body)
-      session['body_response']= body
       session['streaming_access_token'] = "Bearer #{body['access_token']}"
       session['streaming_expires_in'] = Time.current + body['expires_in'].seconds - 5.minutes
     else

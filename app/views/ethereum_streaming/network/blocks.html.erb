@@ -43,9 +43,6 @@
             }
         }
     }
-console.log("session['credentials']",'<%= session['credentials'] %>')
-console.log("session['streaming_access_token']",'<%= session['streaming_access_token'] %>')
-console.log("session['body_response']",'<%= session['body_response'] %>')
     const variables = {
         network: '<%= @streaming%>',
         till: new Date().toISOString().slice(0, 10),
