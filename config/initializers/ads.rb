@@ -10,7 +10,7 @@ ADS={
         text: 'Looking for Investigators?',
         url: 'https://slashorbit.com/api/v3/offer/2?affiliate_id=3&url_id=1',
         bgcolor: '#0570f2',
-        path_matches: '/graph.*'
+        path_matches: '/graph.*|\/tx.*'
       },
       {
         text: 'Buy {token_symbol}',
