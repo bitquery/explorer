@@ -115,27 +115,34 @@ class ApplicationController < ActionController::Base
   end
 
   def get_session_streaming_token
-    get_streaming_access_token if session['streaming_access_token'].blank? || Time.current > session['streaming_expires_in']
+    get_streaming_access_token if (session['streaming_access_token'].blank? || Time.current > session['streaming_expires_in'])
     @streaming_access_token = session['streaming_access_token']
   end
 
   def get_streaming_access_token
-    url = URI('https://oauth2.bitquery.io/oauth2/token')
-    https = Net::HTTP.new(url.host, url.port)
-    https.use_ssl = true
+    begin
+      url = URI('https://oauth2.bitquery.io/oauth2/token')
+      https = Net::HTTP.new(url.host, url.port)
+      https.use_ssl = true
 
-    request = Net::HTTP::Post.new(url)
-    request['Content-Type'] = 'application/x-www-form-urlencoded'
-    request.body = "grant_type=client_credentials&client_id=#{ENV['GRAPHQL_CLIENT_ID']}&client_secret=#{ENV['GRAPHQL_CLIENT_SECRET']}&scope=api"
-    response = https.request(request)
-    if response.is_a?(Net::HTTPSuccess)
-      body = JSON.parse(response.body)
-      session['streaming_access_token'] = "Bearer #{body['access_token']}"
-      session['streaming_expires_in'] = Time.current + body['expires_in'].seconds - 5.minutes
-    else
+      request = Net::HTTP::Post.new(url)
+      request['Content-Type'] = 'application/x-www-form-urlencoded'
+      request.body = "grant_type=client_credentials&client_id=#{ENV['GRAPHQL_CLIENT_ID']}&client_secret=#{ENV['GRAPHQL_CLIENT_SECRET']}&scope=api"
+      response = https.request(request)
+
+      if response.is_a?(Net::HTTPSuccess)
+        body = JSON.parse(response.body)
+        session['streaming_access_token'] = "Bearer #{body['access_token']}"
+        session['streaming_expires_in'] = Time.current + body['expires_in'].seconds - 5.minutes
+      else
+        Rails.logger.error("Failed to retrieve streaming access token: #{response.inspect}")
+        nil
+      end
+    rescue => e
+      Rails.logger.error("Error occurred while retrieving streaming access token: #{e.message}")
       nil
     end
-
   end
+
 end
 
