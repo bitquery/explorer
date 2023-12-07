@@ -9,7 +9,8 @@ module Graphql
       url = URI(BITQUERY_STREAMING_GRAPHQL)
 
       https = Net::HTTP.new(url.host, url.port)
-      http.use_ssl = true if uri.instance_of? URI::HTTPS
+      https.use_ssl = true if url.instance_of? URI::HTTPS
+
 
       request = Net::HTTP::Post.new(url)
       request['Content-Type'] = 'application/json'
