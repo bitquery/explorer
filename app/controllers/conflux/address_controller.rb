@@ -9,7 +9,6 @@ class Conflux::AddressController < NetworkController
                 address(address: {is: $address}){
                   address 
                   annotation
-                  
                   smartContract {
                     contractType
                     currency{
@@ -26,33 +25,32 @@ class Conflux::AddressController < NetworkController
   GRAPHQL
 
   QUERY_CURRENCIES = <<-'GRAPHQL'
-   query($network: ConfluxNetwork!, $address: String!) {
-              conflux(network: $network) {
-                address(address: {is: $address}){
-                  address 
-                  annotation
-                  
-                  smartContract {
-                    contractType
-                    currency{
-                      symbol
-                      name
-                      decimals
-                      tokenType
+                query ($network: ConfluxNetwork!, $address: String!) {
+                  conflux(network: $network) {
+                    address(address: {is: $address}) {
+                      address
+                      annotation
+                      smartContract {
+                        contractType
+                        currency {
+                          symbol
+                          name
+                          decimals
+                          tokenType
+                        }
+                      }
+                      balance
+                    }
+                    transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}) {
+                      currency {
+                        address
+                        symbol
+                        name
+                      }
+                      count
                     }
                   }
-                  balance
                 }
-    						transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
-      							currency {
-                      address
-                      symbol
-                      name
-                    }
-      							count
-    						}
-              }
-            }
   GRAPHQL
 
   private
@@ -68,7 +66,7 @@ class Conflux::AddressController < NetworkController
   end
 
   def redirect_by_type
-    if sc = @info.try(:smart_contract)
+    if sc = @info.try(:smartContract)
       change_controller! (sc.currency ? 'conflux/token' : 'conflux/smart_contract')
     end
   end

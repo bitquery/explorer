@@ -53,7 +53,7 @@ class Eos::TokenController < Eos::AddressController
 
   def redirect_by_type
     return if native_token?
-    if !(sc = @info.try(:smart_contract))
+    if !(sc = @info.try(:smartContract))
       change_controller! 'eos/address'
     elsif !sc.try(:currency)
       change_controller! 'eos/smart_contract'

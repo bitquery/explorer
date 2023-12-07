@@ -3,18 +3,16 @@ class Cardano::AddressController < NetworkController
   before_action :query_graphql
 
   QUERY = <<-'GRAPHQL'
-   query ($network: CardanoNetwork!,
-          $address:String!){
-            cardano(network: $network ){
-              outputs(
-                outputAddress: {is: $address}
-              ){
-                outputAddress {
-                  annotation
-                }
-              }
+      query ($network: CardanoNetwork!, $address: String!) {
+        cardano(network: $network) {
+          outputs(outputAddress: {is: $address}, options: {limit: 100}) {
+            outputAddress {
+              annotation
             }
           }
+        }
+      }
+
   GRAPHQL
 
   def query_graphql

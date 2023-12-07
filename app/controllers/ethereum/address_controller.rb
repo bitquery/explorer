@@ -76,7 +76,7 @@ class Ethereum::AddressController < NetworkController
   end
 
   def redirect_by_type
-    if sc = @info.try(:smart_contract)
+    if sc = @info.try(:smartContract)
       change_controller! (sc.currency ? 'ethereum/token' : 'ethereum/smart_contract')
     end
   end

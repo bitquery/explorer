@@ -25,31 +25,32 @@ class Eos::AddressController < NetworkController
   GRAPHQL
 
   QUERY_CURRENCIES = <<-'GRAPHQL'
-   query($address: String!) {
-              eos{
-address(address: {is: $address}) {
-      address
-      smartContract {
-        contractType
-        protocolType
-      currency {
-        symbol
-        name
-        tokenType
-        decimals
-      }
-      }  
-    }
-    						transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}){
-      							currency {
-                      address
-                      symbol
-                      name
-                    }
-      							count
-    						}
+          query ($address: String!) {
+            eos {
+              address(address: {is: $address}) {
+                address
+                smartContract {
+                  contractType
+                  protocolType
+                  currency {
+                    symbol
+                    name
+                    tokenType
+                    decimals
+                  }
+                }
+              }
+              transfers(receiver: {is: $address}, options: {desc: "count", limit: 100}) {
+                currency {
+                  address
+                  symbol
+                  name
+                }
+                count
               }
             }
+          }
+
   GRAPHQL
 
   private
@@ -63,7 +64,7 @@ address(address: {is: $address}) {
   end
 
   def redirect_by_type
-    if sc = @info.try(:smart_contract)
+    if sc = @info.try(:smartContract)
       change_controller! (sc.currency ? 'eos/token' : 'eos/smart_contract')
     end
   end

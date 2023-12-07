@@ -16,7 +16,7 @@ query ($network: BitcoinNetwork!, $address: String!) {
   GRAPHQL
 
   def query_graphql
-    @info = ::Graphql::V1.query_with_retry(QUERY, variables: { network: @network[:network], address: @address }, context: { authorization: @streaming_access_token }).data&.bitcoin&.outputs&.first&.try(:output_address)
+    @info = ::Graphql::V1.query_with_retry(QUERY, variables: { network: @network[:network], address: @address }, context: { authorization: @streaming_access_token }).data&.bitcoin&.outputs&.first&.try(:outputAddress)
   end
 
 end

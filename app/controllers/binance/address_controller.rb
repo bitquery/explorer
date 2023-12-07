@@ -4,17 +4,17 @@ class Binance::AddressController < NetworkController
   before_action :query_graphql
 
   QUERY_CURRENCIES = <<-'GRAPHQL'
-query (  $address: String!){
-                        binance{
-                          transfers(receiver: {is: $address}, options: {limit: 100}){
-                            currency{
-                              symbol
-                              tokenId
-                              name
-                            }
-                          }                    
+                  query ($address: String!) {
+                    binance {
+                      transfers(receiver: {is: $address}, options: {limit: 100}) {
+                        currency {
+                          symbol
+                          tokenId
+                          name
                         }
                       }
+                    }
+                  }
   GRAPHQL
 
   private

@@ -35,7 +35,7 @@ class Conflux::TokenController < Conflux::AddressController
   def is_native
     @token = params[:address]
     @native_token = native_token?
-    @token_info = !@native_token && @info.smart_contract.currency
+    @token_info = !@native_token && @info.smartContract.currency
   end
 
   def native_token?
@@ -44,7 +44,7 @@ class Conflux::TokenController < Conflux::AddressController
 
   def redirect_by_type
     return if native_token?
-    if !(sc = @info.try(:smart_contract))
+    if !(sc = @info.try(:smartContract))
       change_controller!  'conflux/address'
     elsif !sc.try(:currency)
       change_controller! 'conflux/smart_contract'
