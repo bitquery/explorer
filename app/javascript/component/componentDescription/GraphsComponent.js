@@ -19,22 +19,21 @@ export default class GraphsComponent {
     }
 
     async onHistoryData(data) {
+        console.log('data',data)
         try {
-            console.log(data)
             if (!data || Object.keys(data).length === 0) {
                 this.container.textContent = 'No Data. Response is empty';
                 return;
             }
 
             const array = this.config.topElement(data)
-            console.log('array',array)
             const addresses = new Set();
             const nodes = [];
             const edges = [];
 
             for (const pair of this.config.pairs) {
                 const checkbox = document.getElementById(pair.checkboxId);
-
+console.log('data.EVM.Transfers',data.EVM.Transfers)
                 if (data.EVM && data.EVM.Transfers && data.EVM.Transfers.length > 0) {
                     if (checkbox) {
                         checkbox.style.display = 'inline';
@@ -48,7 +47,6 @@ export default class GraphsComponent {
                 }
 
                 for (const rowData of array) {
-                    console.log('rowData',rowData)
                     if (checkbox && !checkbox.checked) continue;
                     if (rowData.Call && rowData.Call.Signature && rowData.Call.Signature.SignatureHash === '') continue;
                     const fromValue = pair.from.cell(rowData);

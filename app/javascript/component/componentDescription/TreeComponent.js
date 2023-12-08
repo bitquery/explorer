@@ -131,7 +131,7 @@ export default class TreeComponent {
             }
 
 
-            const argumentsDiv = this.createElementWithClasses('div', 'event-tree', 'argumentsDiv')
+            // const argumentsDiv = this.createElementWithClasses('div', 'event-tree', 'argumentsDiv')
             const callArgumentsDiv = this.createElementWithClasses('div', 'content-tree', 'callArgumentsDiv')
             const callArgumentsPathDiv = this.createElementWithClasses('div', 'content-tree', 'callArgumentsPathDiv')
             let value
@@ -246,7 +246,7 @@ export default class TreeComponent {
                 this.appendChildren(contentDiv, returnContent)
             }
 
-            this.appendChildren(contentDiv, argumentsDiv)
+            // this.appendChildren(contentDiv, argumentsDiv)
 
             if (item.children && item.children.length > 0) {
                 const childUl = this.createTree(item.children, false, counter);
@@ -254,7 +254,10 @@ export default class TreeComponent {
             } else {
                 summary.classList.add('no-children');
             }
-            this.appendChildren(summary, contentDiv)
+            // this.appendChildren(summary, contentDiv)
+            if (contentDiv.hasChildNodes()) {
+                this.appendChildren(summary, contentDiv);
+            }
             this.appendChildren(ul, li)
 
         });
