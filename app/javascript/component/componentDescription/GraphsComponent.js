@@ -23,11 +23,6 @@ export default class GraphsComponent {
             await this.getTitle(data)
         }
         try {
-            if (!data || Object.keys(data).length === 0) {
-                this.container.textContent = 'No Data. Response is empty';
-                return;
-            }
-
             const array = this.config.topElement(data)
             const addresses = new Set();
             const nodes = [];
@@ -127,8 +122,6 @@ export default class GraphsComponent {
         })
     }
 
-
-
     initCheckboxes() {
         for (const pair of this.config.pairs) {
             const checkbox = document.getElementById(pair.checkboxId);
@@ -137,7 +130,6 @@ export default class GraphsComponent {
             }
         }
     }
-
 
     initNetworkEvents() {
         if (!this.network) return;
@@ -191,6 +183,7 @@ export default class GraphsComponent {
     shortenText(text, maxCharCount = 10) {
         return (text && text.length > maxCharCount) ? `${text.substr(0, maxCharCount)}...` : text;
     }
+
     getOptions() {
         return {
             autoResize: true,
@@ -234,6 +227,7 @@ export default class GraphsComponent {
         errorDiv.textContent = message
         this.container.appendChild(errorDiv)
     }
+
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
 

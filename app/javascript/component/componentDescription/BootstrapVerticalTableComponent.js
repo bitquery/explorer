@@ -110,10 +110,6 @@ export default class BootstrapVerticalTableComponent {
     async onSubscriptionData(data, variables) {
         try {
             const array = this.config.topElement(data);
-            if (!array || Object.keys(array).length === 0) {
-                this.displayError('No Data. Response is empty');
-                return;
-            }
             const chainId = this.config.chainId(data)
 
             const maxRows = 15;

@@ -207,10 +207,11 @@ export const getData = async (token,{ endpoint_url, query, variables }) => {
 	if (response.status !== 200) {
 		throw new Error(response.error);
 	}
-	const { data } = await response.json();
-	if (data.errors) {
-		throw new Error(data.errors[0].message);
+	const { data,errors } = await response.json();
+	if (errors) {
+		throw new Error(errors[0].message);
 	}
+	console.log(data,errors)
 	return data
 }
 export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID) => {
