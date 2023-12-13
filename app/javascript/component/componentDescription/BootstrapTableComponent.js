@@ -4,6 +4,7 @@ export default class BootstrapTableComponent {
         this.historyDataSource = historyDataSource
         this.subscriptionDataSource = subscriptionDataSource
         this.config = this.configuration();
+        this.responseData;
         this.createWrapper();
         this.createTable();
     }
@@ -24,7 +25,6 @@ export default class BootstrapTableComponent {
         this.wrapper.appendChild(this.tableElement)
         this.createThead();
         this.createTbody();
-        this.createTfooter();
     }
 
     createThead() {
@@ -52,11 +52,6 @@ export default class BootstrapTableComponent {
         this.tableElement.appendChild(this.tbody)
     }
 
-    createTfooter() {
-        const tfooter = this.createElementWithClasses('div');
-        this.tableElement.appendChild(tfooter)
-    }
-
     async init(widgetFrame) {
         if (this.historyDataSource) {
             this.historyDataSource.setCallback(this.onHistoryData.bind(this))
@@ -66,15 +61,18 @@ export default class BootstrapTableComponent {
         } else {
             widgetFrame && widgetFrame.setupShowMoreButton()
         }
+
     }
 
     async onHistoryData(data, variables) {
-        while(this.tbody.children.length) {
+        if (this.config.title) {
+            await this.getTitle(data)
+        }
+        while (this.tbody.children.length) {
             this.tbody.removeChild(this.tbody.firstChild)
         }
         const rows = await this.composeRows(data, variables)
         this.appendChildren(this.tbody, rows);
-
     }
 
     async onSubscriptionData(data, variables) {
@@ -89,30 +87,34 @@ export default class BootstrapTableComponent {
 
     }
 
-    async composeRows(rawData, variables) {
-        const data = this.config.topElement(rawData);
+    async composeRows(rowData, variables) {
+        const data = this.config.topElement(rowData)
+
         const rows = []
         if (data) {
             if (Object.keys(data).length === 0) {
                 this.container.textContent = 'No Data. Response is empty'
                 return;
             }
+
             let chainId = ''
             if (data.length > 0) {
-                chainId = this.config.chainId(rawData)
+                chainId = this.config.chainId(rowData)
             }
+
+
             for (const row of data) {
                 const tr = this.createElementWithClasses('tr');
-    
+
                 for (const column of this.config.columns) {
-                    const td = this.createElementWithClasses('td','text-truncate');
+                    const td = this.createElementWithClasses('td', 'text-truncate');
                     const textCell = this.createElementWithClasses('span');
                     textCell.textContent = column.cell(row);
-                    if(textCell.textContent === 'true'){
+                    if (textCell.textContent === 'true') {
                         textCell.style.color = '#2EA848'
                     }
                     td.appendChild(textCell)
-    
+
                     if (column.rendering) {
                         const div = await column.rendering(column.cell(row), variables, chainId);
                         td.replaceChild(div, textCell);
@@ -129,6 +131,18 @@ export default class BootstrapTableComponent {
             }
         }
         return rows
+    }
+
+    async getTitle(data) {
+        if (this.config && this.config.title && this.config.id) {
+
+            const divTitle = document.querySelector(`.\\#${this.config.id}`)
+            if (divTitle) {
+                const textNode = document.createTextNode(this.config.title(data))
+                divTitle.textContent = ''
+                divTitle.appendChild(textNode)
+            }
+        }
     }
 
     createElementWithClasses(elementType, ...classes) {

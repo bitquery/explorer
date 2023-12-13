@@ -259,6 +259,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	widgetHeader.classList.add('card-header');
 	row.classList.add('row', 'align-items-center');
 	col8.classList.add('col');
+	col8.classList.add(selector);
 	cardBody.classList.add('card-body', 'text-center');
 	widgetFrame.classList.add('widget-container', 'tabulator');
 	widgetFrame.style.height = 'fit-content';
@@ -272,11 +273,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	row.appendChild(switchButton)
 	row.appendChild(streamControlButton)
 	const f = setupShowMoreButton(tableFooter, showMoreButton)
-	const onchangetitle = (title) => {
-		if (title) {
-			col8.textContent = title
-		}
-	}
+
 	const onloadmetadata = queryMetaData => {
 		col8.textContent = queryMetaData?.name || 'No query presented';
 		if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
@@ -331,6 +328,5 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		onquerystarted,
 		onqueryend,
 		onerror,
-		onchangetitle,
 	};
 }

@@ -112,6 +112,9 @@ export default class TradingGraphsComponent {
 	}
 
 	onHistoryData(data) {
+		if (this.config.title && data) {
+			 this.getTitle(data)
+		}
 		const compatibleData = this.composeBars(data, this.periodParams);
 		this.lastBar = compatibleData.at(-1)
 		compatibleData.length > 0 ? this.onHistoryCallback(compatibleData, { noData: false }) : this.onHistoryCallback([], { noData: true });
@@ -185,5 +188,16 @@ export default class TradingGraphsComponent {
 			}
 		}
 		return resultData;
+	}
+	async getTitle(data) {
+		if (this.config && this.config.title && this.config.id) {
+
+			const divTitle = document.querySelector(`.\\#${this.config.id}`)
+			if (divTitle) {
+				const textNode = document.createTextNode(this.config.title(data))
+				divTitle.textContent = ''
+				divTitle.appendChild(textNode)
+			}
+		}
 	}
 }

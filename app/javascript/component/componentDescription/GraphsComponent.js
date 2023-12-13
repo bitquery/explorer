@@ -19,7 +19,9 @@ export default class GraphsComponent {
     }
 
     async onHistoryData(data) {
-        console.log('data',data)
+        if (this.config.title && data) {
+            await this.getTitle(data)
+        }
         try {
             if (!data || Object.keys(data).length === 0) {
                 this.container.textContent = 'No Data. Response is empty';
@@ -33,7 +35,7 @@ export default class GraphsComponent {
 
             for (const pair of this.config.pairs) {
                 const checkbox = document.getElementById(pair.checkboxId);
-console.log('data.EVM.Transfers',data.EVM.Transfers)
+
                 if (data.EVM && data.EVM.Transfers && data.EVM.Transfers.length > 0) {
                     if (checkbox) {
                         checkbox.style.display = 'inline';
@@ -231,5 +233,16 @@ console.log('data.EVM.Transfers',data.EVM.Transfers)
         errorDiv.classList.add('alert', 'alert-danger')
         errorDiv.textContent = message
         this.container.appendChild(errorDiv)
+    }
+    async getTitle(data) {
+        if (this.config && this.config.title && this.config.id) {
+
+            const divTitle = document.querySelector(`.\\#${this.config.id}`)
+            if (divTitle) {
+                const textNode = document.createTextNode(this.config.title(data))
+                divTitle.textContent = ''
+                divTitle.appendChild(textNode)
+            }
+        }
     }
 }

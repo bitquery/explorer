@@ -11,6 +11,9 @@ export default class TreeComponent {
 
     async onHistoryData(data) {
         try {
+            if (this.config.title && data) {
+                await this.getTitle(data)
+            }
             this.container.style.scrollBehavior = 'smooth';
             this.container.style.margin = '0';
             this.chainId = this.config.chainId(data);
@@ -317,5 +320,15 @@ export default class TreeComponent {
         errorDiv.textContent = message
         this.appendChildren(this.container, errorDiv)
     }
+    async getTitle(data) {
+        if (this.config && this.config.title && this.config.id) {
 
+            const divTitle = document.querySelector(`.\\#${this.config.id}`)
+            if (divTitle) {
+                const textNode = document.createTextNode(this.config.title(data))
+                divTitle.textContent = ''
+                divTitle.appendChild(textNode)
+            }
+        }
+    }
 }

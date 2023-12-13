@@ -21,6 +21,12 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0].ChainId
                 },
+                title: function (response) {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                    return `Latest ${tokenName} (${tokenSymbol}) Token Transfer Stream`
+                },
+                id: 'LatestTransfersOfTokenInNetwork',
                 columns: [
                     {
                         name: 'Time', cell: function (row) {
@@ -86,7 +92,11 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0]?.ChainId
                 },
-                title: 'Transfer Count',
+                title: function (response) {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                    return ` ${tokenName} (${tokenSymbol}) Transfer Count`
+                },
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -115,7 +125,12 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0]?.ChainId
                 },
-                title: 'Transfer Amount',
+                title: function (response) {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                    return ` ${tokenName} (${tokenSymbol}) Transfer Amount`
+                },
+                id: 'TokenTransfersAmount',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -141,8 +156,8 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
     }
-    renderComponent('<%=@streaming_access_token %>',[[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Trades-of-NFT-Token-subscription_7', variables, 'Latest-Trades-of-NFT-Token-subscription_4');
+    renderComponent('<%=@streaming_access_token %>',[[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token_6', variables, 'Subscription-Latest-Transfers-of-Token-in-Network_3');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_1', variables);
+        renderComponent('<%=@streaming_access_token %>',[[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_2', variables);
     })
 </script>

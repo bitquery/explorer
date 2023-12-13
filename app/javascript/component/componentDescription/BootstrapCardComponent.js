@@ -28,6 +28,9 @@ export default class BootstrapCardComponent {
 	}
 
 	async onHistoryData(data, variables) {
+		if(this.config.title && data){
+			await this.getTitle(data)
+		}
 		const array = this.config.topElement(data);
 		if (Object.keys(array).length === 0) {
 			this.wrapper.style.marginLeft = '15px'
@@ -118,7 +121,17 @@ export default class BootstrapCardComponent {
 
 		return [cardImg, cardTable];
 	}
+	async getTitle(data) {
+		if (this.config && this.config.title && this.config.id) {
 
+			const divTitle = document.querySelector(`.\\#${this.config.id}`)
+			if (divTitle) {
+				const textNode = document.createTextNode(this.config.title(data))
+				divTitle.textContent = ''
+				divTitle.appendChild(textNode)
+			}
+		}
+	}
 	appendChildren(parent, ...children) {
 		children.forEach(child => parent.appendChild(child));
 	}
