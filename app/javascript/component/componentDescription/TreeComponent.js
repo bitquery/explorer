@@ -17,10 +17,6 @@ export default class TreeComponent {
             this.container.style.scrollBehavior = 'smooth';
             this.container.style.margin = '0';
             this.chainId = this.config.chainId(data);
-            if (data.EVM.Calls.length < 1 && data.EVM.Events.length < 1) {
-                this.container.textContent = 'No Data. Response is empty';
-                return;
-            }
 
             const expandButton = this.createElementWithClasses('button', 'btn', 'btn-outline-secondary', 'btn-sm', 'expand-button-tree');
             expandButton.textContent = 'Expand all'

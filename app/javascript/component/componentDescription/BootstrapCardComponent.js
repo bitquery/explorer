@@ -49,10 +49,6 @@ export default class BootstrapCardComponent {
 
 	async onSubscriptionData(data, variables) {
 		const array = this.config.topElement(data);
-		if (Object.keys(array).length === 0) {
-			this.container.textContent = 'No Data. Response is empty'
-			return;
-		}
 		this.chainId = this.config.chainId(data);
 		const maxRows = 10;
 		for (const row of array) {
