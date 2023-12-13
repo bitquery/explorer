@@ -19,15 +19,16 @@ export default class GraphsComponent {
     }
 
     async onHistoryData(data) {
+        if (this.config.title && data) {
+            await this.getTitle(data)
+        }
         try {
-            console.log(data)
             if (!data || Object.keys(data).length === 0) {
                 this.container.textContent = 'No Data. Response is empty';
                 return;
             }
 
             const array = this.config.topElement(data)
-            console.log('array',array)
             const addresses = new Set();
             const nodes = [];
             const edges = [];
@@ -48,7 +49,6 @@ export default class GraphsComponent {
                 }
 
                 for (const rowData of array) {
-                    console.log('rowData',rowData)
                     if (checkbox && !checkbox.checked) continue;
                     if (rowData.Call && rowData.Call.Signature && rowData.Call.Signature.SignatureHash === '') continue;
                     const fromValue = pair.from.cell(rowData);
@@ -233,5 +233,16 @@ export default class GraphsComponent {
         errorDiv.classList.add('alert', 'alert-danger')
         errorDiv.textContent = message
         this.container.appendChild(errorDiv)
+    }
+    async getTitle(data) {
+        if (this.config && this.config.title && this.config.id) {
+
+            const divTitle = document.querySelector(`.\\#${this.config.id}`)
+            if (divTitle) {
+                const textNode = document.createTextNode(this.config.title(data))
+                divTitle.textContent = ''
+                divTitle.appendChild(textNode)
+            }
+        }
     }
 }

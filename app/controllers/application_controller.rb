@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
 
-  before_action :set_locale, :set_theme, :set_date, :set_feed
+  before_action :get_session_streaming_token, :set_locale, :set_theme, :set_date, :set_feed
 
   def default_url_options
-    {locale: I18n.locale == I18n.default_locale ? nil : I18n.locale}
+    { locale: I18n.locale == I18n.default_locale ? nil : I18n.locale }
   end
 
   def innovation_in_blockchain?
@@ -59,18 +59,18 @@ class ApplicationController < ActionController::Base
   def set_locale
 
     I18n.locale =
-        if params[:locale]
-          locale = params[:locale].to_sym
-          redirect_to({locale: nil, status: 301}.merge(request.query_parameters)) if locale==I18n.default_locale
-          locale
-        elsif session[:locale]
-          I18n.default_locale
-        else
-          locale = extract_locale_from_accept_language_header || I18n.default_locale
-          cors_set_access_control_headers
-          redirect_to(locale: locale) unless locale==I18n.default_locale
-          locale
-        end
+      if params[:locale]
+        locale = params[:locale].to_sym
+        redirect_to({ locale: nil, status: 301 }.merge(request.query_parameters)) if locale == I18n.default_locale
+        locale
+      elsif session[:locale]
+        I18n.default_locale
+      else
+        locale = extract_locale_from_accept_language_header || I18n.default_locale
+        cors_set_access_control_headers
+        redirect_to(locale: locale) unless locale == I18n.default_locale
+        locale
+      end
 
     session[:locale] = I18n.locale
 
@@ -83,12 +83,12 @@ class ApplicationController < ActionController::Base
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
     headers['Access-Control-Allow-Headers'] = '*'
     headers['Access-Control-Expose-Headers'] = '*'
-    headers['Access-Control-Max-Age'] = "1728000"
+    headers['Access-Control-Max-Age'] = '1728000'
     headers.delete('X-Frame-Options')
   end
 
   def change_controller! controller_name
-    redirect_to  params.permit!.merge({controller: controller_name})
+    redirect_to params.permit!.merge({ controller: controller_name })
   end
 
   def set_feed
@@ -105,12 +105,44 @@ class ApplicationController < ActionController::Base
                              link: link
                            },
                            {
-                             title: "NFT APIs",
-                             link: "https://bitquery.io/products/nft-api"
+                             title: 'NFT APIs',
+                             link: 'https://bitquery.io/products/nft-api'
                            },
                            {
-                             title: "Crypto News",
-                             link: "https://coincodecap.com/?utm_source=bitquery"
+                             title: 'Crypto News',
+                             link: 'https://coincodecap.com/?utm_source=bitquery'
                            }].sample
   end
+
+  def get_session_streaming_token
+    get_streaming_access_token if (session['streaming_access_token'].blank? || Time.current > session['streaming_expires_in'])
+    @streaming_access_token = session['streaming_access_token']
+  end
+
+  def get_streaming_access_token
+    begin
+      url = URI('https://oauth2.bitquery.io/oauth2/token')
+      https = Net::HTTP.new(url.host, url.port)
+      https.use_ssl = true
+
+      request = Net::HTTP::Post.new(url)
+      request['Content-Type'] = 'application/x-www-form-urlencoded'
+      request.body = "grant_type=client_credentials&client_id=#{ENV['GRAPHQL_CLIENT_ID']}&client_secret=#{ENV['GRAPHQL_CLIENT_SECRET']}&scope=api"
+      response = https.request(request)
+
+      if response.is_a?(Net::HTTPSuccess)
+        body = JSON.parse(response.body)
+        session['streaming_access_token'] = "Bearer #{body['access_token']}"
+        session['streaming_expires_in'] = Time.current + body['expires_in'].seconds - 5.minutes
+      else
+        Rails.logger.error("Failed to retrieve streaming access token: #{response.inspect}")
+        nil
+      end
+    rescue => e
+      Rails.logger.error("Error occurred while retrieving streaming access token: #{e.message}")
+      nil
+    end
+  end
+
 end
+

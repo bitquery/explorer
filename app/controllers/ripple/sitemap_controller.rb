@@ -1,8 +1,7 @@
 class Ripple::SitemapController < NetworkController
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
            query ($network: RippleNetwork! $from: ISO8601DateTime){
-
                    senders: ripple(network: $network){
                         transfers(
                           sender: {not: ""},
@@ -10,18 +9,13 @@ class Ripple::SitemapController < NetworkController
                           desc: "count", 
                           limit: 100},
                           date: {since: $from }
-                          ) {
-                  
+                          ) {                 
                             sender {
                               address
-                            }
-                  
-                            count
-                  
-                        }
-                     
+                            }                 
+                            count              
+                        }     
                    }
-
                   receivers: ripple(network: $network){
                         transfers(
                           receiver: {not: ""},
@@ -30,24 +24,18 @@ class Ripple::SitemapController < NetworkController
                           limit: 100},
                           date: {since: $from }
                           ) {
-
                             receiver {
                               address
                             }
-
                             count
-
                         }
-
                   }
-
-
            }
   GRAPHQL
 
   def index
-    @response = BitqueryGraphql.instance.query_with_retry(QUERY, variables: { from: Date.today - 10,
-                                                                              network: @network[:network]  }).data
+    @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Date.today - 10,
+                                                                 network: @network[:network] }, context: { authorization: @streaming_access_token }).data
   end
 
 end

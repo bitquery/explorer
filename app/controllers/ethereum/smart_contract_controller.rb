@@ -19,7 +19,7 @@ class Ethereum::SmartContractController < Ethereum::AddressController
   private
 
   def redirect_by_type
-    if !(sc = @info.try(:smart_contract))
+    if !(sc = @info.try(:smartContract))
       change_controller! 'ethereum/address'
     elsif sc.try(:currency)
       change_controller! 'ethereum/token'

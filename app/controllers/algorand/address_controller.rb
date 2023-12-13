@@ -5,7 +5,7 @@ class Algorand::AddressController < NetworkController
 
   before_action :set_address
 
-  QUERY_CURRENCIES = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY_CURRENCIES = <<-'GRAPHQL'
     query ($address: String!){
       algorand{
         outbound: transfers(receiver: {is: $address}, options: {limit: 100}){
@@ -15,7 +15,6 @@ class Algorand::AddressController < NetworkController
             name
           }
         }
-
         inbound: transfers(sender: {is: $address}, options: {limit: 100}){
           currency{
             symbol
@@ -34,7 +33,7 @@ class Algorand::AddressController < NetworkController
   end
 
   def query_graphql
-    result = BitqueryGraphql.instance.query_with_retry(QUERY_CURRENCIES, variables: { address: @address }).data.algorand
+    result = Graphql::V1.query_with_retry(QUERY_CURRENCIES, variables: { address: @address }, context: { authorization: @streaming_access_token }).data.algorand
 
     all_currencies = result.outbound + result.inbound
     @currencies = all_currencies.map(&:currency).sort_by { |c| c.token_id == '' ? 0 : 1 }.uniq(&:token_id)

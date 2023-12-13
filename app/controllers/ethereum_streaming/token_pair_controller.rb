@@ -3,7 +3,7 @@ class EthereumStreaming::TokenPairController < NetworkController
   layout 'tabs'
   before_action :set_pair, :query_graphql
 
-  QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
     query ($network: evm_network, $token1: String!, $token2: String!) {
       EVM(dataset: archive, network: $network) {
         Transfers(
@@ -28,33 +28,32 @@ class EthereumStreaming::TokenPairController < NetworkController
   end
 
   def trading_view
-    @breadcrumbs << {name:'Trading view'}
+    @breadcrumbs << { name: 'Trading view' }
   end
 
   def last_trades
-    @breadcrumbs << {name: 'Last Trades'}
+    @breadcrumbs << { name: 'Last Trades' }
   end
-  
+
   private
-  
+
   def set_pair
     @token1 = params[:token1]
     @token2 = params[:token2]
   end
 
-
   def query_graphql
-    result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: {
-              network: @network[:streaming], token1: @token1, token2: @token2 }).data.evm.transfers
+    response = ::Graphql::V2.query_with_retry(QUERY, variables: {
+      network: @network[:network], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.EVM.Transfers
 
-    @token1name = result.detect {|a| a.transfer.currency.smart_contract == @token1 }
-    @token2name = result.detect {|a| a.transfer.currency.smart_contract == @token2 }
+      @token1entry = response.detect {|a| a.Transfer.Currency.SmartContract==@token1}
+      @token2entry = response.detect {|a| a.Transfer.Currency.SmartContract==@token2}
 
-    @token1symbol = @token1name ? @token1name.transfer.currency.symbol : '-'
-    @token2symbol = @token2name ? @token2name.transfer.currency.symbol : '-'
+      @token1symbol =@token1entry.Transfer.Currency.Symbol || '-'
+      @token2symbol =@token2entry.Transfer.Currency.Symbol || '-'
 
-    @token1name = @token1name ? @token1name.transfer.currency.name : '-'
-    @token2name = @token2name ? @token2name.transfer.currency.name : '-'
+      @token1name = @token1entry.Transfer.Currency.Name || '-'
+      @token2name = @token2entry.Transfer.Currency.Name || '-'
+
   end
-
 end

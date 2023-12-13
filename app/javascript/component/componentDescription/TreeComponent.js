@@ -11,6 +11,9 @@ export default class TreeComponent {
 
     async onHistoryData(data) {
         try {
+            if (this.config.title && data) {
+                await this.getTitle(data)
+            }
             this.container.style.scrollBehavior = 'smooth';
             this.container.style.margin = '0';
             this.chainId = this.config.chainId(data);
@@ -131,7 +134,7 @@ export default class TreeComponent {
             }
 
 
-            const argumentsDiv = this.createElementWithClasses('div', 'event-tree', 'argumentsDiv')
+            // const argumentsDiv = this.createElementWithClasses('div', 'event-tree', 'argumentsDiv')
             const callArgumentsDiv = this.createElementWithClasses('div', 'content-tree', 'callArgumentsDiv')
             const callArgumentsPathDiv = this.createElementWithClasses('div', 'content-tree', 'callArgumentsPathDiv')
             let value
@@ -246,7 +249,7 @@ export default class TreeComponent {
                 this.appendChildren(contentDiv, returnContent)
             }
 
-            this.appendChildren(contentDiv, argumentsDiv)
+            // this.appendChildren(contentDiv, argumentsDiv)
 
             if (item.children && item.children.length > 0) {
                 const childUl = this.createTree(item.children, false, counter);
@@ -254,7 +257,10 @@ export default class TreeComponent {
             } else {
                 summary.classList.add('no-children');
             }
-            this.appendChildren(summary, contentDiv)
+            // this.appendChildren(summary, contentDiv)
+            if (contentDiv.hasChildNodes()) {
+                this.appendChildren(summary, contentDiv);
+            }
             this.appendChildren(ul, li)
 
         });
@@ -314,5 +320,15 @@ export default class TreeComponent {
         errorDiv.textContent = message
         this.appendChildren(this.container, errorDiv)
     }
+    async getTitle(data) {
+        if (this.config && this.config.title && this.config.id) {
 
+            const divTitle = document.querySelector(`.\\#${this.config.id}`)
+            if (divTitle) {
+                const textNode = document.createTextNode(this.config.title(data))
+                divTitle.textContent = ''
+                divTitle.appendChild(textNode)
+            }
+        }
+    }
 }

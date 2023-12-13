@@ -19,7 +19,7 @@ class Eos::SmartContractController < Eos::AddressController
   private
 
   def redirect_by_type
-    if !(sc = @info.try(:smart_contract))
+    if !(sc = @info.try(:smartContract))
       change_controller! 'eos/address'
     elsif sc.try(:currency)
       change_controller! 'eos/token'

@@ -23,9 +23,9 @@
   </div>
 </div>
 <script>
-    
-    const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';
-    const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';
+
+<!--    const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';-->
+<!--    const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';-->
 
     class BalanceHolderStatsLatestDate extends BootstrapVerticalTableComponent {
         configuration() {
@@ -36,8 +36,12 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: `${tokenName} (${tokenSymbol}) Token Holder Stats`,
-
+                title: function (response) {
+                    const tokenName = response.EVM.date1[0]?.Currency?.Name || response.EVM.date2[0]?.Currency?.Name || response.EVM.date3[0]?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.date1[0]?.Currency?.Symbol || response.EVM.date2[0]?.Currency?.Symbol || response.EVM.date3[0]?.Currency?.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Token Holder Stats`
+                },
+                id: 'BalanceHolderStatsLatestDate',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -78,32 +82,43 @@
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: `Top ${tokenName} (${tokenSymbol}) Token Holders`,
+                title: function (response) {
+                    const tokenName = response.EVM.TokenHolders[0]?.Currency?.Name || '-'
+                    const tokenSymbol = response.EVM.TokenHolders[0]?.Currency?.Symbol || '-'
+                    return `Top ${tokenName} (${tokenSymbol}) Token Holders`
+                },
+                id: 'TopHolders',
                 columns: [
                     {
                         name: 'Holder', cell: function (row) {
                             return row.Holder.Address
-                        },rendering:  renderJustAddressLink,
+                        }, rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Amount', cell: function (row) {
                             return row.Balance.Amount
-                        }, rendering:renderNumbers, headerStyle: {textAlign: 'end',width: '35%'},
+                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '35%'},
                     },
                 ]
             }
         }
     }
+
     class HoldersCount extends TimeChartComponent {
         configuration() {
             return {
                 topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                    return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: `${tokenName} (${tokenSymbol}) Token holders count`,
+                title: function (response) {
+                    const tokenName = response.EVM.date1[0]?.Currency?.Name || response.EVM.date2[0]?.Currency?.Name || response.EVM.date3[0]?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.date1[0]?.Currency?.Symbol || response.EVM.date2[0]?.Currency?.Symbol || response.EVM.date3[0]?.Currency?.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Token holders count`
+                },
+                id: 'HoldersCount',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -123,17 +138,22 @@
             }
         }
     }
+
     class GiniIndex extends TimeChartComponent {
         configuration() {
             return {
                 topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                    return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: `${tokenName} (${tokenSymbol}) Gini Factor`,
-
+                title: function (response) {
+                    const tokenName = response.EVM.date1[0]?.Currency?.Name || response.EVM.date2[0]?.Currency?.Name || response.EVM.date3[0]?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.date1[0]?.Currency?.Symbol || response.EVM.date2[0]?.Currency?.Symbol || response.EVM.date3[0]?.Currency?.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Gini Factor`
+                },
+                id: 'GiniIndex',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -152,16 +172,22 @@
             }
         }
     }
+
     class NakamotoIndex extends TimeChartComponent {
         configuration() {
             return {
                 topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                    return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: `${tokenName} (${tokenSymbol}) Nakamoto Index`,
+                title: function (response) {
+                    const tokenName = response.EVM.date1[0]?.Currency?.Name || response.EVM.date2[0]?.Currency?.Name || response.EVM.date3[0]?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.date1[0]?.Currency?.Symbol || response.EVM.date2[0]?.Currency?.Symbol || response.EVM.date3[0]?.Currency?.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Nakamoto Index`
+                },
+                id: 'NakamotoIndex',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -180,16 +206,22 @@
             }
         }
     }
+
     class SupplyTokens extends TimeChartComponent {
         configuration() {
             return {
                 topElement: function (response) {
-                    return[...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
+                    return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
                     return response.EVM.Blocks[0].ChainId
                 },
-                title: `${tokenName} (${tokenSymbol}) Total Supply`,
+                title: function (response) {
+                    const tokenName = response.EVM.date1[0]?.Currency?.Name || response.EVM.date2[0]?.Currency?.Name || response.EVM.date3[0]?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.date1[0]?.Currency?.Symbol || response.EVM.date2[0]?.Currency?.Symbol || response.EVM.date3[0]?.Currency?.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Total Supply`
+                },
+                id: 'SupplyTokens',
                 columns: [
                     {
                         name: 'Date', cell: function (row) {
@@ -211,16 +243,13 @@
     }
 
 
-
-
     const variables = {
         network: '<%= @streaming%>',
         token: '<%= @address %>',
         till: new Date().toISOString().slice(0, 10),
     }
-
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent([[HoldersCount, '#HoldersCount'],[GiniIndex, '#GiniIndex'],[NakamotoIndex, '#NakamotoIndex'],[SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[HoldersCount, '#HoldersCount'], [GiniIndex, '#GiniIndex'], [NakamotoIndex, '#NakamotoIndex'], [SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_4', variables);
     })
-    renderComponent([[TopHolders, '#TopHolders']], 'Top-holders_3', variables);
+    renderComponent('<%=@streaming_access_token %>', [[TopHolders, '#TopHolders']], 'Top-holders_4', variables);
 </script>

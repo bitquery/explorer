@@ -6,7 +6,7 @@ module Everscale
     before_action :breadcrumb
     before_action :query_graphql, only: %i[money_flow]
 
-    QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+    QUERY = <<-'GRAPHQL'
       query ($network: EverscaleNetwork!, $address: String!) {
         everscale(network: $network) {
           outflow: transfers(
@@ -48,9 +48,9 @@ module Everscale
     end
 
     def query_graphql
-      result = BitqueryGraphql.instance.query_with_retry(QUERY,
-                                             variables: { network: @network[:network],
-                                                          address: @address }).data.everscale
+      result = Graphql::V1.query_with_retry(QUERY,
+                                            variables: { network: @network[:network],
+                                                         address: @address }, context: { authorization: @streaming_access_token }).data.everscale
       all_currencies = result.outflow + result.inflow
       @currencies = all_currencies.map(&:currency).sort_by { |c| c.symbol == @network[:currency] ? 0 : 1 }.uniq { |x| [x.name, x.symbol] }
     end

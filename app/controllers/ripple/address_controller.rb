@@ -3,7 +3,7 @@ class Ripple::AddressController < NetworkController
 
   before_action :query_graphql, only: %i[money_flow]
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
     query ($network: RippleNetwork!, $address: String!) {
       ripple(network: $network) {
         outflow: transfers(
@@ -35,9 +35,9 @@ class Ripple::AddressController < NetworkController
   private
 
   def query_graphql
-    result = BitqueryGraphql.instance.query_with_retry(QUERY,
-                                           variables: { network: @network[:network],
-                                                        address: @address }).data.ripple
+    result = Graphql::V1.query_with_retry(QUERY,
+                                          variables: { network: @network[:network],
+                                                       address: @address }, context: { authorization: @streaming_access_token }).data.ripple
     data_tables = result.outflow + result.inflow
 
     only_currencies = data_tables.map(&:currency)

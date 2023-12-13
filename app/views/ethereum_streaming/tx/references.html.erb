@@ -38,5 +38,5 @@
         network: '<%= @streaming%>',
         hash: ' <%= @hash%>',
     }
-    renderComponent([[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Events-logged-in-Transaction', variables);
+    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Events-logged-in-Transaction', variables);
 </script>

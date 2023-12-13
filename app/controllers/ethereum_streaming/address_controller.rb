@@ -3,54 +3,51 @@ class EthereumStreaming::AddressController < NetworkController
 
   before_action :query_graphql, :redirect_by_type
 
-  # QUERY = BitqueryStreamingGraphql.parse "Data-for-token"
-
-  QUERY = BitqueryStreamingGraphql::Client.parse <<-'GRAPHQL'
-    query ($network: evm_network, $address: String!) {
-  EVM(dataset: archive, network: $network) {
-    address: Transfers(
-      where: {Transfer: {Sender: {is: $address}}}
-      limit: {count: 1}
-    ) {
-      Transfer {
-        Sender
-        Receiver
-        Currency {
-          Symbol
-          SmartContract
-          Name
-          Fungible
+  QUERY = <<-'GRAPHQL'
+          query ($network: evm_network, $address: String!) {
+        EVM(dataset: archive, network: $network) {
+          address: Transfers(
+            where: {Transfer: {Sender: {is: $address}}}
+            limit: {count: 1}
+          ) {
+            Transfer {
+              Sender
+              Receiver
+              Currency {
+                Symbol
+                SmartContract
+                Name
+                Fungible
+              }
+            }
+          }
+          token: Transfers(
+            where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
+            limit: {count: 1}
+          ) {
+            Transfer {
+              Sender
+              Receiver
+              Currency {
+                Symbol
+                SmartContract
+                Name
+                Fungible
+              }
+            }
+          }
+          calls: Calls(
+            where: {Call: {To: {is: $address}, Signature: {SignatureHash: {not: ""}}}}
+            limit: {count: 1}
+          ) {
+            Call {
+              Signature {
+                SignatureHash
+              }
+            }
+          }
         }
       }
-    }
-    token: Transfers(
-      where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
-      limit: {count: 1}
-    ) {
-      Transfer {
-        Sender
-        Receiver
-        Currency {
-          Symbol
-          SmartContract
-          Name
-          Fungible
-        }
-      }
-    }
-    calls: Calls(
-      where: {Call: {To: {is: $address}, Signature: {SignatureHash: {not: ""}}}}
-      limit: {count: 1}
-    ) {
-      Call {
-        Signature {
-          SignatureHash
-        }
-      }
-    }
-  }
-}
-
   GRAPHQL
 
   private
@@ -59,31 +56,28 @@ class EthereumStreaming::AddressController < NetworkController
     @address = params[:address]
 
     if @address.starts_with?('0x')
-      result = BitqueryStreamingGraphql.instance.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }).data.evm
-      if result.token.any?
-        @info = result.token.first.transfer
+      result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }, context: { authorization: @streaming_access_token }).data.EVM
+      if result[:token].any?
+        @info = result[:token].first[:Transfer]
         @check_token = 'token'
-        @fungible = @info.currency.fungible
-      elsif result.calls.any?
-        @info = result.address.any? ? result.address.first.transfer : @address
+        @fungible = @info[:Currency][:Fungible] if @info[:Currency]
+      elsif result[:calls].any?
+        @info = result[:address].any? ? result[:address].first[:Transfer] : @address
         @check_call = 'calls'
       end
     end
   end
 
-
   def redirect_by_type
-    if @info.try(:currency)
+    if @info.try(:Currency)
       if @fungible == false
         redirect_to controller: 'ethereum_streaming/token', action: 'nft_smart_contract'
         return
       end
       change_controller! 'ethereum_streaming/token'
-    elsif @info == 'smart_contract'
+    elsif @check_call == 'calls'
       change_controller! 'ethereum_streaming/smart_contract'
     end
   end
-
-
 
 end

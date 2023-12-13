@@ -3,13 +3,12 @@ class Ethereum::TokenPairController < NetworkController
   layout 'tabs'
   before_action :set_pair, :query_graphql
 
-  QUERY = BitqueryGraphql::Client.parse <<-'GRAPHQL'
+  QUERY = <<-'GRAPHQL'
    query($network: EthereumNetwork!, $token1: String!,$token2: String!) {
               ethereum(network: $network) {
                 address(address: {in: [$token1,$token2]}){
                   address 
-                  annotation
-                  
+                  annotation                  
                   smartContract {
                     contractType
                     currency{
@@ -25,40 +24,45 @@ class Ethereum::TokenPairController < NetworkController
             }
   GRAPHQL
 
-
   def show
   end
 
   def trading_view
-    @breadcrumbs << {name:'Trading view'}
+    @breadcrumbs << { name: 'Trading view' }
   end
 
   def last_trades
-    @breadcrumbs << {name: 'Last Trades'}
+    @breadcrumbs << { name: 'Last Trades' }
   end
-  
+
   private
-  
+
   def set_pair
     @token1 = params[:token1]
     @token2 = params[:token2]
   end
 
-
   def query_graphql
+    response = ::Graphql::V1.query_with_retry(QUERY, variables: {
+      network: @network[:network], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token })
 
-    result = BitqueryGraphql.instance.query_with_retry(QUERY, variables: {
-              network: @network[:network], token1: @token1, token2: @token2 }).data.ethereum
+    if response.data.ethereum.address
+      addresses = response.data.ethereum.address
 
-    @token1name = result.address.detect{|a| a.address==@token1 }
-    @token2name = result.address.detect{|a| a.address==@token2 }
+      @token1entry = addresses.detect { |a| a.address==@token1 }
+      @token2entry = addresses.detect { |a| a.address==@token2 }
 
-    @token1symbol = @token1name ? @token1name.smart_contract.currency.symbol : '-'
-    @token2symbol = @token2name ? @token2name.smart_contract.currency.symbol : '-'
+      @token1symbol = @token1entry&.smartContract&.currency&.symbol || '-'
+      @token2symbol = @token2entry&.smartContract&.currency&.symbol || '-'
 
-    @token1name = @token1name ? @token1name.smart_contract.currency.name : '-'
-    @token2name = @token2name ? @token2name.smart_contract.currency.name : '-'
-
+      @token1name = @token1entry&.smartContract&.currency&.name || '-'
+      @token2name = @token2entry&.smartContract&.currency&.name || '-'
+    else
+      # Handle the case where ethereum.address is nil or not present
+      @token1symbol = @token2symbol = @token1name = @token2name = '-'
+    end
   end
+
+
 
 end

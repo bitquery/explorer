@@ -7,9 +7,9 @@
     </div>
   </div>
   <script>
-      
-      const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';
-      const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';
+
+<!--      const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';-->
+<!--      const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';-->
 
       class LatestTransfersOfTokenInNetwork extends BootstrapTableComponent {
           configuration() {
@@ -20,7 +20,12 @@
                   chainId: function (response) {
                       return response.EVM.Transfers[0].ChainId
                   },
-                  title: `Latest ${tokenName} (${tokenSymbol}) Token Transfer Stream`,
+                  title: function (response) {
+                      const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
+                      const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                      return `Latest ${tokenName} (${tokenSymbol}) Token Transfer Stream`
+                  },
+                  id: 'LatestTransfersOfTokenInNetwork',
                   columns: [
                       {
                           name: 'Time', cell: function (row) {
@@ -58,7 +63,7 @@
                       {
                           name: 'Amount', cell: function (row) {
                               return row.Transfer.Amount
-                          }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '75px'},
+                          }, rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '75px'},
                       },
                       {
                           name: 'Hash',
@@ -78,6 +83,6 @@
           offset: 0,
           token: '<%= @address %>',
       }
-      renderComponent([[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token_1', variables, 'Subscription-Latest-Transfers-of-Token-in-Network_1');
+      renderComponent('<%=@streaming_access_token %>', [[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token_6', variables, 'Subscription-Latest-Transfers-of-Token-in-Network_3');
   </script>
 <% end %>

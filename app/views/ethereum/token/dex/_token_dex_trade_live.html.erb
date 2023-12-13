@@ -92,6 +92,6 @@
           network: '<%= @streaming%>',
           token: '<%= @token %>',
       }
-      renderComponent([[LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork']], 'Latest-Trades-of-Token-in-Network_dextrades', variables, 'Subscription-latest-Trades-of-Token_dextrades');
+      renderComponent('<%=@streaming_access_token %>',[[LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork']], 'Latest-Trades-of-Token-in-Network_dextrades', variables, 'Subscription-latest-Trades-of-Token_dextrades');
   </script>
 <% end %>

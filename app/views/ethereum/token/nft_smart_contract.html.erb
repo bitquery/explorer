@@ -23,8 +23,8 @@
 </div>
 <script>
 
-    const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';
-    const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';
+<!--    const tokenName = '<%= @token_info && @token_info.name ? @token_info.name : "-" %>';-->
+<!--    const tokenSymbol = '<%= @token_info && @token_info.symbol ? @token_info.symbol : "-" %>';-->
 
     class NFTTokenInformation extends BootstrapVerticalTableComponent {
         configuration() {
@@ -35,7 +35,12 @@
                 chainId: function (response) {
                     return response.EVM.BalanceUpdates[0].ChainId
                 },
-                title: `Latest ${tokenName} (${tokenSymbol}) NFT Token info`,
+                title: function (response) {
+                    const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name  || 'no data'
+                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol  || 'no data'
+                    return `Latest ${tokenName} (${tokenSymbol}) NFT Token info`
+                },
+                id: 'NFTTokenInformation',
                 columns: [
                     {
                         name: 'Name', cell: function (row) {
@@ -86,7 +91,12 @@
                 chainId: function (response) {
                     return response.EVM.Transfers[0].ChainId
                 },
-                title: `Most popular ${tokenName} (${tokenSymbol}) NFTs based on transfer count`,
+                title: function (response) {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol  || 'no data'
+                    return  `Most popular ${tokenName} (${tokenSymbol}) NFTs based on transfer count`
+                },
+                id: 'PopularTokenIDsNFT',
                 image: [
                     {
                         cell: function (row) {
@@ -129,7 +139,12 @@
                 chainId: function (response) {
                     return response.EVM.BalanceUpdates[0].ChainId
                 },
-                title: `Top ${tokenName} (${tokenSymbol}) NFT Holders`,
+                title: function (response) {
+                    const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || '-'
+                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol || '-'
+                    return `Top ${tokenName} (${tokenSymbol}) NFT Holders`
+                },
+                id: 'TopNFTHolders',
                 columns: [
                     {
                         name: 'Address', cell: function (row) {
@@ -160,7 +175,12 @@
                 chainId: function (response) {
                     return response.EVM.BalanceUpdates[0].ChainId
                 },
-                title: `Richest ${tokenName} (${tokenSymbol}) NFT Holders`,
+                title: function (response) {
+                    const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || '-'
+                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol || '-'
+                    return `Richest ${tokenName} (${tokenSymbol}) NFT Holders`
+                },
+                id: 'TopNFTHoldersPie',
                 columns: [
                     {
                         name: 'Address', cell: function (row) {
@@ -190,7 +210,12 @@
                 chainId: function (response) {
                     return response.EVM.DEXTrades[0].ChainId
                 },
-                title: `Latest ${tokenName} (${tokenSymbol}) NFT Token Trades Stream (Websocket)`,
+                title: function (response) {
+                    const tokenName = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Name || '-'
+                    const tokenSymbol = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Symbol || '-'
+                    return  `Latest ${tokenName} (${tokenSymbol}) NFT Token Trades Stream (Websocket)`
+                },
+                id: 'SubscriptionLatestTradesNFTToken',
                 columns: [
                     {
                         name: 'Time', cell: function (row) {
@@ -258,8 +283,8 @@
         limit: 10,
         offset: 0,
     }
-    renderComponent([[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-token-information_1_1_1', variables);
-    renderComponent([[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_3', variables);
-    renderComponent([[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_1', variables);
-    renderComponent([[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], null, variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_1_1_1_1_1_1_1_1');
+    renderComponent('<%=@streaming_access_token %>',[[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-token-information_1_1_1', variables);
+    renderComponent('<%=@streaming_access_token %>',[[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_4', variables);
+    renderComponent('<%=@streaming_access_token %>',[[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_3', variables);
+    renderComponent('<%=@streaming_access_token %>',[[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], null, variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_3');
 </script>

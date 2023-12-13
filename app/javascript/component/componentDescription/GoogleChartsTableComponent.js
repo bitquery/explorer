@@ -18,6 +18,9 @@
 	}
 
 	onData(data) {
+		if (this.config.title && data) {
+			 this.getTitle(data)
+		}
 		let array = this.config.topElement(data);
 	const chainId =  this.config.chainId(data)
 
@@ -30,4 +33,15 @@
 		this.data.addRows(rows);
 		this.table.draw(this.data, this.options);
 	}
+	 async getTitle(data) {
+		 if (this.config && this.config.title && this.config.id) {
+
+			 const divTitle = document.querySelector(`.\\#${this.config.id}`)
+			 if (divTitle) {
+				 const textNode = document.createTextNode(this.config.title(data))
+				 divTitle.textContent = ''
+				 divTitle.appendChild(textNode)
+			 }
+		 }
+	 }
 }

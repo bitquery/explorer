@@ -46,7 +46,7 @@ export function SubscriptionDataSource(payload) {
 	return this
 }
 
-export function HistoryDataSource(payload) {
+export function HistoryDataSource(token,payload) {
 
 	let callbacks = []
 	let widgetFrames = []
@@ -55,7 +55,7 @@ export function HistoryDataSource(payload) {
 	const getNewData = async () => {
 		widgetFrames.forEach(wf => wf.onquerystarted())
 		try {
-			const data = await getData({ ...payload, variables })
+			const data = await getData(token,{ ...payload, variables })
 			widgetFrames.forEach(wf => wf.onqueryend())
 			callbacks.forEach(cb => cb(data, variables))
 		} catch (error) {
@@ -181,7 +181,9 @@ export const streamControl = subscriptionDataSource => e => {
 }
 
 export const getQueryParams = async (queryID) => {
+
 	const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
+
 	const { endpoint_url, variables, query, name } = await response.json()
 	return {
 		variables: JSON.parse(variables),
@@ -191,12 +193,13 @@ export const getQueryParams = async (queryID) => {
 	}
 }
 
-export const getData = async ({ endpoint_url, query, variables }) => {
+export const getData = async (token,{ endpoint_url, query, variables }) => {
 	const response = await fetch(endpoint_url, {
 		method: 'POST',
 		headers: {
 			Accept: 'application/json',
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			'Authorization': token,
 		},
 		body: JSON.stringify({ query, variables }),
 		credentials: 'same-origin',
@@ -210,7 +213,6 @@ export const getData = async ({ endpoint_url, query, variables }) => {
 	}
 	return data
 }
-
 export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID) => {
 	const createButton = (title, display) => {
 		const button = document.createElement('a');
@@ -257,6 +259,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	widgetHeader.classList.add('card-header');
 	row.classList.add('row', 'align-items-center');
 	col8.classList.add('col');
+	col8.classList.add(selector);
 	cardBody.classList.add('card-body', 'text-center');
 	widgetFrame.classList.add('widget-container', 'tabulator');
 	widgetFrame.style.height = 'fit-content';
@@ -270,11 +273,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 	row.appendChild(switchButton)
 	row.appendChild(streamControlButton)
 	const f = setupShowMoreButton(tableFooter, showMoreButton)
-	const onchangetitle = (title) => {
-		if (title) {
-			col8.textContent = title
-		}
-	}
+
 	const onloadmetadata = queryMetaData => {
 		col8.textContent = queryMetaData?.name || 'No query presented';
 		if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
@@ -329,6 +328,5 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
 		onquerystarted,
 		onqueryend,
 		onerror,
-		onchangetitle,
 	};
 }

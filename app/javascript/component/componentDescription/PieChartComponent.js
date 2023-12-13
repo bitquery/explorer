@@ -16,6 +16,9 @@ export default class PieChartComponent {
     }
 
     async onHistoryData(data) {
+        if (this.config.title && data) {
+            await this.getTitle(data)
+        }
         const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
         const darkTheme = {
             backgroundColor: 'transparent',
@@ -57,5 +60,16 @@ export default class PieChartComponent {
             this.container.removeChild(this.container.firstChild)
             drawChart()
         })
+    }
+    async getTitle(data) {
+        if (this.config && this.config.title && this.config.id) {
+
+            const divTitle = document.querySelector(`.\\#${this.config.id}`)
+            if (divTitle) {
+                const textNode = document.createTextNode(this.config.title(data))
+                divTitle.textContent = ''
+                divTitle.appendChild(textNode)
+            }
+        }
     }
 }
