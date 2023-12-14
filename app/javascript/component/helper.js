@@ -211,7 +211,6 @@ export const getData = async (token,{ endpoint_url, query, variables }) => {
 	if (errors) {
 		throw new Error(errors[0].message);
 	}
-	console.log(data,errors)
 	return data
 }
 export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID) => {
