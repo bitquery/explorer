@@ -14,7 +14,7 @@ class Bitcoin::BlockController < NetworkController
   def query_date
     @block_date = Graphql::V1.query_with_retry(QUERY, variables: { height: @height.to_i,
                                                                    network: @network[:network] }, context: { authorization: @streaming_access_token }).data.bitcoin.blocks[0].date.date
-
+    @is_block_section = true
     if @height.to_i == 666666
       BitqueryLogger.debug 'Secret debug message', height: @height.to_i
       BitqueryLogger.info 'Secret info message', height: @height.to_i

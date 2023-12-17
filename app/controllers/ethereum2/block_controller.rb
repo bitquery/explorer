@@ -13,7 +13,9 @@ class Ethereum2::BlockController < NetworkController
   def get_block
     @height = params[:block]
   end
-
+  def blocks
+    @is_block_section = true
+  end
   def breadcrumb
 
   end

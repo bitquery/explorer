@@ -8,8 +8,22 @@ module ApplicationHelper
   end
 
   def copy_text(addr, html_class = '')
-    "<span class=\"copy-text #{html_class}\">#{addr} <a href='javascript:void()' class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\" data-toggle=\"tooltip\" title=\"Copy\"></a></span>".html_safe
+    button_prev = ""
+    button_next = ""
+
+    if @is_block_section
+      prev_height = (@height.to_i - 1).to_s
+      next_height = (@height.to_i + 1).to_s
+      button_prev = "<button class=\"btn btn-outline-secondary btn-sm block-buttons\" onclick=\"location.href='#{prev_height}'\">&larr;</button>"
+      button_next = "<button class=\"btn btn-outline-secondary btn-sm block-buttons\" onclick=\"location.href='#{next_height}'\">&rarr;</button>"
+    end
+
+    "<span class=\"copy-text #{html_class}\">#{button_prev}#{addr} <a href='javascript:void()' class=\"fa fa-copy to-clipboard\" data-clipboard-text=\"#{addr}\" data-toggle=\"tooltip\" title=\"Copy\"></a>#{button_next}</span>".html_safe
   end
+
+
+
+
 
   def innovation_in_blockchain?
     @network && BLOCKCHAIN_BY_NAME[@network['network']][:innovation] == true || false

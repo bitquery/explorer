@@ -13,6 +13,7 @@ class Binance::BlockController < NetworkController
 
   def query_date
     @block_date = Graphql::V1.query_with_retry(QUERY, variables: { height: @height.to_i }, context: { authorization: @streaming_access_token }).data.binance.blocks[0].date.date
+    @is_block_section = true
   end
 end
 
