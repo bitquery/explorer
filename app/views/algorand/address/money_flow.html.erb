@@ -79,9 +79,9 @@
         theme: '<%= @theme %>',
         currencies: [
           <%= @currencies.collect do |cur|
-            value = cur.token_id == '' ? 0 : cur.token_id
+            value = cur.tokenId == '' ? 0 : cur.tokenId
 
-            "{token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+            "{token_id:\"#{cur.tokenId}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
           end.join(',').html_safe %>
         ]
     })
@@ -94,7 +94,7 @@
         theme: '<%= @theme %>',
         currencies: [
           <%= @currencies.collect do |cur|
-            value = cur.token_id == '' ? 0 : cur.token_id
+            value = cur.tokenId == '' ? 0 : cur.tokenId
 
             "{token_id:\"#{value}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
           end.join(',').html_safe %>
@@ -108,7 +108,7 @@
         "offset": 0,
         "network": "<%= params['network']['network'] %>",
         "address": "<%= @address %>",
-        "currency": <%= @currencies&.first&.token_id.present? || 0 %>,
+        "currency": <%= @currencies&.first&.tokenId.present? || 0 %>,
     })
   </script>
 </div>

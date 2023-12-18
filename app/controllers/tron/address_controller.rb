@@ -63,6 +63,7 @@ class Tron::AddressController < NetworkController
     result = Graphql::V1.query_with_retry(query, variables: { address: @address }, context: { authorization: @streaming_access_token }).data.tron
     @info = result.address.first
     @currencies = result.transfers.map(&:currency).sort_by { |c| c.symbol == 'TRX' ? 0 : 1 }.uniq { |x| [x.address, x.token_id] } if result.try(:transfers)
+
   end
 
   def redirect_by_type

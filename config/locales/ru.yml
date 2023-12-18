@@ -53,7 +53,7 @@ ru:
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов с %{address} в сети %{network}, статистика вызовов, используемые методы"
       money_flow:
-        name: 'Graph'
+        name: 'Money Flow'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
       balance_effects:
@@ -104,7 +104,7 @@ ru:
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов со смарт контракта %{address} в сети %{network}, статистика вызовов, используемые методы"
       money_flow:
-        name: 'Graph'
+        name: 'Money Flow'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     token:
@@ -165,7 +165,7 @@ ru:
         title: "Вызовы с %{network} %{address}"
         description: "Вызовы методов смарт контрактов со смарт контракта токена %{address} в сети %{network}, статистика вызовов, используемые методы"
       money_flow:
-        name: 'Graph'
+        name: 'Money Flow'
         title: "%{address} graph in %{network}"
         description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
     tx:
