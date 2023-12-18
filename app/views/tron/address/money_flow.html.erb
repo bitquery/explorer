@@ -91,14 +91,14 @@ query ( $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: In
           new graphs.addControls('#graph', query, {
               theme: '<%= @theme %>',
               currencies: [<%= @currencies.collect{|cur|
-            if (cur.token_id == '0' || cur.token_id == '') and cur.address == '-'
+            if (cur.tokenId == '0' || cur.tokenId == '') and cur.address == '-'
               value = cur.symbol
-            elsif cur.token_id == '0' || cur.token_id == ""
+            elsif cur.tokenId == '0' || cur.tokenId == ""
               value = cur.address
             else
-              value = cur.token_id
+              value = cur.tokenId
             end
-            "{address:\"#{cur.address}\",token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol.gsub('"','')}\",name:\"#{cur.name.gsub('"','')}\",search:\"#{value}\"}"
+            "{address:\"#{cur.address}\",token_id:\"#{cur.tokenId}\",symbol:\"#{cur.symbol.gsub('"','')}\",name:\"#{cur.name.gsub('"','')}\",search:\"#{value}\"}"
             }.join(',').html_safe %>],
           })
 
@@ -109,14 +109,14 @@ query ( $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: In
           new graphs.addControls('#sankey-graph', query, {
               theme: '<%= @theme %>',
               currencies: [<%= @currencies.collect{|cur|
-            if (cur.token_id == '0' || cur.token_id == '') and cur.address == '-'
+            if (cur.tokenId == '0' || cur.tokenId == '') and cur.address == '-'
               value = cur.symbol
-            elsif cur.token_id == '0' || cur.token_id == ""
+            elsif cur.tokenId == '0' || cur.tokenId == ""
               value = cur.address
             else
-              value = cur.token_id
+              value = cur.tokenId
             end
-            "{address:\"#{cur.address}\",token_id:\"#{cur.token_id}\",symbol:\"#{cur.symbol.gsub('"','')}\",name:\"#{cur.name.gsub('"','')}\",search:\"#{value}\"}"
+            "{address:\"#{cur.address}\",token_id:\"#{cur.tokenId}\",symbol:\"#{cur.symbol.gsub('"','')}\",name:\"#{cur.name.gsub('"','')}\",search:\"#{value}\"}"
             }.join(',').html_safe %>],
           })
 

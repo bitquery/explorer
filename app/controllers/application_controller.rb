@@ -117,6 +117,7 @@ class ApplicationController < ActionController::Base
   def get_session_streaming_token
     get_streaming_access_token if (session['streaming_access_token'].blank? || Time.current > session['streaming_expires_in'])
     @streaming_access_token = session['streaming_access_token']
+    gon.authorization_token =session['streaming_access_token']
   end
 
   def get_streaming_access_token
