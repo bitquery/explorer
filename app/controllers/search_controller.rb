@@ -27,14 +27,16 @@ class SearchController < ApplicationController
       link_type = nil
   
       network[:blockchainAddressPattern]&.each do |pattern|
-        is_address = true if input.match?(pattern)
+        if input.match?(pattern)
+          is_address = true
+          link_type = 'address'
+        end
       end
   
       network[:txHashPattern]&.each do |pattern|
         if input.match?(pattern)
           is_message_or_tx = true
-          # fix for filecoin
-          link_type = input.start_with?('bafy') ? 'message' : 'tx'
+          link_type = network[:network] == 'filecoin' ? (input.start_with?('bafy') ? 'message' : 'tx') : 'tx'
         end
       end
   
