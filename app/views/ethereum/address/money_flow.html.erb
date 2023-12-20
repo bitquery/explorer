@@ -91,7 +91,7 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
       new graphs.addControls('#graph', query, {
           theme: '<%= @theme %>',
           currencies: <%= @currencies.collect{|cur|
-            value = cur.address === '-' ? cur.symbol : cur.address
+            value = cur.address === '-' ? cur.symbol : cur.address.downcase
             {address:cur.address.downcase,symbol:cur.symbol,name:cur.name,search:value}
             }.to_json.to_s.html_safe %>,
       })
@@ -103,7 +103,7 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
       new graphs.addControls('#sankey-graph', query, {
           theme: '<%= @theme %>',
           currencies: <%= @currencies.collect{|cur|
-            value = cur.address === '-' ? cur.symbol : cur.address
+            value = cur.address === '-' ? cur.symbol : cur.address.downcase
             {address:cur.address.downcase,symbol:cur.symbol,name:cur.name,search:value}
             }.to_json.to_s.html_safe %>,
       })
