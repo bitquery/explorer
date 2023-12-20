@@ -92,7 +92,7 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
           theme: '<%= @theme %>',
           currencies: <%= @currencies.collect{|cur|
             value = cur.address === '-' ? cur.symbol : cur.address
-            {address:cur.address,symbol:cur.symbol,name:cur.name,search:value}
+            {address:cur.address.downcase,symbol:cur.symbol,name:cur.name,search:value}
             }.to_json.to_s.html_safe %>,
       })
 
@@ -104,7 +104,7 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
           theme: '<%= @theme %>',
           currencies: <%= @currencies.collect{|cur|
             value = cur.address === '-' ? cur.symbol : cur.address
-            {address:cur.address,symbol:cur.symbol,name:cur.name,search:value}
+            {address:cur.address.downcase,symbol:cur.symbol,name:cur.name,search:value}
             }.to_json.to_s.html_safe %>,
       })
 
@@ -114,8 +114,8 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
           "limit": 10,
           "offset": 0,
           "network": "<%= params['network']['network'] %>",
-          "address": "<%= @address %>",
-          "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"
+          "address": "<%= @address.downcase %>",
+          "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address.downcase) %>"
       })
 
   </script>
