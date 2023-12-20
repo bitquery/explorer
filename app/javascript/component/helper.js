@@ -9,8 +9,9 @@ export function SubscriptionDataSource(token,payload) {
 
     this.subscribe = () => {
         const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
+        const tokenForStreaming =token.replace(/^Bearer\s*/,'').trim()
         const client = createClient({
-            url: currentUrl, connectionParams: async () => {
+            url: `${currentUrl}?token=${tokenForStreaming}`, connectionParams: async () => {
                 return {
                     headers: {
                         'Authorization': token,
