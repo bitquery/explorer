@@ -50,12 +50,14 @@ module ApplicationHelper
         if ad[:text].include?('{token_symbol}')
           next unless is_token_page && @token_info && @token_info.symbol && @token_info.symbol != '-'
           ad_text = ad[:text].gsub("{token_symbol}", @token_info.symbol)
+          ad_url = ad[:urls].sample
         else
           ad_text = ad[:text]
+          ad_url = ad[:url]
         end
   
         tag.li(class: html_class) do
-          link_to ad[:url], class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ''), target: :blank do
+          link_to ad_url, class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ''), target: :blank do
             "#{ad_text} <sup class='fas fa-ad text-second'></sup>".html_safe
           end
         end

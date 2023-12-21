@@ -1,11 +1,6 @@
 ADS={
   tab: {
     ads: [
-      #{
-      #  text: 'Free DEX Swaps',
-      #  url: 'https://jn3rg.app.link/Bitquery_1inch',
-      #  bgcolor: '#0570f2'
-      #},
       {
         text: 'Looking for Investigators?',
         url: 'https://slashorbit.com/api/v3/offer/2?affiliate_id=3&url_id=1',
@@ -14,28 +9,23 @@ ADS={
       },
       {
         text: 'Buy {token_symbol}',
-        url: 'https://www.bydfi.com/en/register?ru=Ee9cjN',
+        urls: [
+          'https://www.bydfi.com/en/register?ru=Ee9cjN',
+          'https://www.kucoin.com/r/rf/QBSK241Z',
+          'https://bingx.pro/invite/OXN3NG',
+          'https://accounts.binance.com/register?ref=820827844',
+          'https://partner.bybit.com/b/68182',
+          'https://go.primexbt.direct/visit/?bta=35291&brand=primexbt'
+        ],
         bgcolor: '#b86614'
       },
     ],
-    # platform: {
-    #   smart_contract: {
-    #     ads: [{
-    #       text: '13',
-    #       url: '21'
-    #     }]
-    #   }
-    # }
   },
   widgets: {
     # ad: {
     #   text: 'Buy this ad',
     #   url: 'https://bitquery.io/forms/ads'
     # },
-    # ad: {
-    #   text: 'Download Tax Report',
-    #   url: 'https://bitquery.io/go/body_btn'
-    # }
   },
   fixed: {
     #ad: {
