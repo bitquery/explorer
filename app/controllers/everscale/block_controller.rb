@@ -11,9 +11,7 @@ module Everscale
       @graphql_fields = set_graphql_fields
       @is_block_section = true
     end
-    def blocks
-      @is_block_section = true
-    end
+
     def set_graphql_fields
       block_type = params[:blockType]
 

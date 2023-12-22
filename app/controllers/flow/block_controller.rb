@@ -1,5 +1,7 @@
 module Flow
   class BlockController < NetworkController
+    before_action :blocks
+
     def transactions; end
 
     private

@@ -35,7 +35,6 @@ module Elrond
       variables = { blockHash: @block_hash.to_s,
                     network: @network[:network] }
       @block_date = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data.elrond.block_validators[0].date.date
-      @is_block_section = true
     end
   end
 end
