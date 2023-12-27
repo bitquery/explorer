@@ -9,6 +9,7 @@ module Solana
 
     def set_block_id
       @block_id = params[:block_id]
+      @is_block_section = true
     end
 
     def breadcrumb

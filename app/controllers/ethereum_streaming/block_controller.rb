@@ -22,6 +22,7 @@ class EthereumStreaming::BlockController < NetworkController
   def query_date
     @block_date = ::Graphql::V2.query_with_retry(QUERY, variables: { height: @height,
                                                                    network: @network[:streaming] }, context: { authorization: @streaming_access_token }).data.evm
+    @is_block_section = true
   end
 
 end

@@ -8,6 +8,7 @@ class Stellar::BlockController < NetworkController
 
   def set_height
     @height = params[:block]
+    @is_block_section = true
   end
 
   def breadcrumb

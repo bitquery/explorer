@@ -9,6 +9,7 @@ module Everscale
     def set_block_variables
       @hash = params[:hash]
       @graphql_fields = set_graphql_fields
+      @is_block_section = true
     end
 
     def set_graphql_fields
