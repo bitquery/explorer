@@ -19,11 +19,15 @@ class Tron::SmartContractController < Tron::AddressController
   private
 
   def redirect_by_type
-    if !(sc = @info.try(:smart_contract))
+    unless @info&.smartContract
       change_controller! 'tron/address'
-    elsif sc.try(:currency)
+      return
+    end
+  
+    if @info.smartContract.currency && @info.smartContract.currency.tokenType == 'TRC20'
       change_controller! 'tron/trc20token'
     end
+  
   end
-
+  
 end
