@@ -32,10 +32,16 @@ export default async function renderComponent(token,components, historyQueryID, 
 	}
 
 	components.forEach(async component => {
-		const ComponentConstructor = component[0]
-		const componentSelector = component[1]
-		document.querySelector(componentSelector).textContent = ''
-		const widgetFrame = createWidgetFrame(componentSelector, subscriptionQueryID, historyQueryID)
+		const ComponentConstructor = component[0];
+		const componentSelector = component[1];
+	
+		const tempComponent = new ComponentConstructor();
+		
+		const headerTitleConfiguration = tempComponent.configuration().headerTitle;
+		const headerTitle = headerTitleConfiguration ? headerTitleConfiguration() : '';
+	
+		const widgetFrame = createWidgetFrame(componentSelector, subscriptionQueryID, historyQueryID, headerTitle);
+
 		if (subscriptionDataSource) {
 			widgetFrame.onloadmetadata(subscriptionQueryParams)
 			subscriptionDataSource.setWidgetFrame(widgetFrame)
