@@ -2,29 +2,32 @@
 <html>
   <%= render partial: 'shared/head' %>
   <body class="<%= "dark" if @theme == 'dark' %>">
-  </head>
-  <script>
-    const csrfToken = $('meta[name="csrf-token"]').attr('content')
-    widgets.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken, {
-        locale: '<%= I18n.locale %>',
-        theme: '<%= @theme %>'
-    });
-    graphs.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken);
+    <script>
+      const csrfToken = $('meta[name="csrf-token"]').attr('content')
+      widgets.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken, {
+          locale: '<%= I18n.locale %>',
+          theme: '<%= @theme %>'
+      });
+      graphs.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken);
 
-    const componentProperties = {
-      bitqueryAPI: window.bitqueryAPI = '<%= BITQUERY_IDE_API %>'
-    };
-  </script>
-  <%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
-  <div class="container-fluid">
-    <div class="row my-2 d-lg-none">
-      <div class="col">
-        <%= render partial: 'shared/search' %>
+      const componentProperties = {
+        bitqueryAPI: window.bitqueryAPI = '<%= BITQUERY_IDE_API %>'
+      };
+    </script>
+    <%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>
+    <div class="container-fluid">
+      <div class="row my-2 d-lg-none">
+        <div class="col">
+          <%= render partial: 'shared/search' %>
+        </div>
       </div>
+      <%= render(partial: "#{@network[:family]}/render_callbacks") if @network %>
+      <%= yield %>
+      <%= render partial: 'shared/footer' %>
     </div>
-    <%= render(partial: "#{@network[:family]}/render_callbacks") if @network %>
-    <%= yield %>
-    <%= render partial: 'shared/footer' %>
-  </div>
-</body>
+
+    <!-- Start of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/6314272.js"></script>
+    <!-- End of HubSpot Embed Code -->
+  </body>
 </html>
