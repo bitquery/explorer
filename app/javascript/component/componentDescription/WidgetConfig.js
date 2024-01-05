@@ -11,6 +11,8 @@ export default class WidgetConfig {
         currency: 'ETH',
         icon: 'eth.svg',
         innovation: true,
+        blockProducerName: 'Validator',
+
       },
       {
         tag: 'bsc',
@@ -23,6 +25,8 @@ export default class WidgetConfig {
         icon: 'bnb.svg',
         start: Date.parse('2020-08-29'),
         innovation: true,
+        blockProducerName: 'Validator',
+
       },
       {
         tag: 'arbitrum',
@@ -32,8 +36,9 @@ export default class WidgetConfig {
         name: 'Arbitrum Mainnet',
         family: 'ethereum_streaming',
         platform: 'Smart Contract',
-        currency: 'ARB',
-        icon: 'currency/arbitrum.svg'
+        currency: 'ETH',
+        icon: 'currency/arbitrum.svg',
+        blockProducerName: 'Validator',
       },
     ];
     return data;
@@ -57,5 +62,24 @@ export default class WidgetConfig {
       }
     });
     return currency;
+  }
+  static getBlockProducerName(chainId) {
+    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    let blockProducerName;
+    blockchainsInfo.forEach(element => {
+      if (element.chainId === chainId) {
+        blockProducerName = element.blockProducerName;
+      }
+    });
+    return blockProducerName;
+  }  static getName(chainId) {
+    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    let name;
+    blockchainsInfo.forEach(element => {
+      if (element.chainId === chainId) {
+        name = element.name;
+      }
+    });
+    return name;
   }
 }

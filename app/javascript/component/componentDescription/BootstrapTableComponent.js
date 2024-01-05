@@ -4,9 +4,9 @@ export default class BootstrapTableComponent {
         this.historyDataSource = historyDataSource
         this.subscriptionDataSource = subscriptionDataSource
         this.config = this.configuration();
-        this.responseData;
         this.createWrapper();
         this.createTable();
+
     }
 
     clearData() {
@@ -23,27 +23,33 @@ export default class BootstrapTableComponent {
         const tableLayout = (this.config && this.config.options && this.config.options.tableLayout) || 'fixed';
         this.tableElement.style.tableLayout = tableLayout;
         this.wrapper.appendChild(this.tableElement)
-        this.createThead();
+
         this.createTbody();
     }
 
-    createThead() {
-        const thead = this.createElementWithClasses('thead');
-        const tr = this.createElementWithClasses('tr');
+    async createThead(data) {
+        const thead = this.createElementWithClasses('thead')
+        const tr = this.createElementWithClasses('tr')
         this.tableElement.appendChild(thead)
         thead.appendChild(tr)
+        for (const {name, headerStyle} of this.config.columns) {
+            const th = this.createElementWithClasses('th')
+            th.setAttribute('scope', 'col')
 
-        this.config.columns.forEach(({name, headerStyle}) => {
-            const th = this.createElementWithClasses('th');
-            th.setAttribute('scope', 'col');
-            th.textContent = name;
+            if (typeof name === 'function') {
+                th.textContent = await name(data)
+            } else {
+                th.textContent = name
+            }
+
             if (headerStyle) {
                 for (let styleKey in headerStyle) {
                     th.style[styleKey] = headerStyle[styleKey];
                 }
             }
+
             tr.appendChild(th);
-        });
+        }
     }
 
 
@@ -68,6 +74,11 @@ export default class BootstrapTableComponent {
         if (this.config.title) {
             await this.getTitle(data)
         }
+        if (data.length === 0) {
+            this.displayError('No Data. Response is empty');
+            return;
+        }
+        await this.createThead(data)
         while (this.tbody.children.length) {
             this.tbody.removeChild(this.tbody.firstChild)
         }
@@ -78,13 +89,13 @@ export default class BootstrapTableComponent {
     async onSubscriptionData(data, variables) {
         const maxRows = 15;
         const rows = await this.composeRows(data, variables)
+        await this.createThead(data)
         rows.forEach(tr => {
             this.tbody.insertBefore(tr, this.tbody.firstChild)
             if (this.tbody.childElementCount > maxRows) {
                 this.tbody.removeChild(this.tbody.lastChild);
             }
         })
-
     }
 
     async composeRows(rowData, variables) {
@@ -92,13 +103,10 @@ export default class BootstrapTableComponent {
 
         const rows = []
         if (data) {
-
-
             let chainId = ''
             if (data.length > 0) {
                 chainId = this.config.chainId(rowData)
             }
-
 
             for (const row of data) {
                 const tr = this.createElementWithClasses('tr');
@@ -132,7 +140,6 @@ export default class BootstrapTableComponent {
 
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
-
             const divTitle = document.querySelector(`.\\#${this.config.id}`)
             if (divTitle) {
                 const textNode = document.createTextNode(this.config.title(data))

@@ -1,2 +1,242 @@
-<%= render partial: 'ethereum_streaming/network/gas_by_time' %>
-<%= render partial: 'ethereum_streaming/network/gas_burners' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='FeesAnalysis' class='card'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='GasPrice' class='card'></div>
+  </div>
+</div>
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='SenderFee'></div>
+  </div>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='BurntFee'></div>
+
+  </div>
+</div>
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='AveragePrice'></div>
+  </div>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='MinerReward'></div>
+  </div>
+</div>
+<script>
+    class FeesAnalysis extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0].ChainId,
+                title: () => `Top Smart Contract by Total Sender Fee`,
+                id: 'FeesAnalysis',
+                columns: [
+                    {
+                        name: 'Smart Contract',
+                        cell: row => row.Transaction.To,
+                        rendering: renderJustAddressLink, headerStyle: {width: '138px'},
+                    },
+                    {
+                        name: 'Calls',
+                        cell: row => row.count,
+                        headerStyle: {width: '80px'},
+                    },
+                    {
+                        name: (response) => `Total Gas Used (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        cell: row => row.gas_used,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Avg Gas Price (GWei)',
+                        cell: row => +row.gas_price * 1000000000,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: (response) => `Sender Fee (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        cell: row => row.fee_sender,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: (response) => `Miner Reward (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        cell: row => row.fee_reward,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: (response) => `Fee Burnt (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        cell: row => row.fee_burnt,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: (response) => `Fee Savings (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        cell: row => row.fee_saving,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class SenderFee extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Sender Fee by Date, ARB',
+                id: 'SenderFee',
+                columns: [
+                    {
+                        name: 'Date',
+                        cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Sender Fee',
+                        cell: row => +row.sender_fee
+                    },
+                ],
+                options: {
+                    isStacked: true,
+                    theme: 'material',
+                    height: 320,
+                    legend: {position: 'none'},
+                }
+            }
+        }
+    }
+
+    class MinerReward extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Rewords from Transaction Fee by Date',
+                id: 'MinerReward',
+                columns: [
+                    {
+                        name: 'Date',
+                        cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Total reward',
+                        cell: row => +row.fee_reward
+                    },
+                ],
+                options: {
+                    isStacked: true,
+                    theme: 'material',
+                    height: 320,
+                    legend: {position: 'none'},
+                    colors: ['FFC106'],
+                }
+            }
+        }
+    }
+
+    class AveragePrice extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Average Transaction Gas Price, GWei',
+                id: 'AveragePrice',
+                columns: [
+                    {
+                        name: 'Date',
+                        cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'average price',
+                        cell: row => +row.average * 1000000000
+                    },
+                ],
+                options: {
+                    isStacked: true,
+                    theme: 'material',
+                    height: 320,
+                    legend: {position: 'none'},
+                }
+            }
+        }
+    }
+
+    class BurntFee extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Burnt Fee, ARB',
+                id: 'BurntFee',
+                columns: [
+                    {
+                        name: 'Date',
+                        cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'total burnt fee',
+                        cell: row => +row.burnt
+                    },
+                ],
+                options: {
+                    isStacked: true,
+                    theme: 'material',
+                    height: 320,
+                    legend: {position: 'none'},
+                    colors: ['FFC106'],
+                }
+            }
+        }
+    }
+
+    class GasPrice extends LineChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0].ChainId,
+                title: () => 'Gas Price By Date ( Median, Minimum, Maximum) in Log scale, GWei',
+                id: 'GasPrice',
+                columns: [
+                    {
+                        name: 'Date',
+                        cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Minimum Gas Price, GWei',
+                        cell: row => +row.min.GasPrice * 1000000000
+                    }, {
+                        name: 'Median Gas Price, GWei',
+                        cell: row => +row.median * 1000000000
+                    }, {
+                        name: 'Maximum Gas Price, GWei',
+                        cell: row => +row.max.GasPrice * 1000000000
+                    },
+                ],
+                options: {
+                    height: 450,
+                    legend: {position: 'right'},
+                    colors: ['#FF5733', '#33FF57', '#5E97F6'],
+                    vAxis: {
+                        scaleType: 'log',
+                        logScale: true,
+                    },
+                    chartArea: {
+                        left: 100,
+                        width: '65%',
+                    },
+                }
+            }
+        }
+    }
+
+    const variables = {
+        network: 'eth',
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
+    }
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[FeesAnalysis, '#FeesAnalysis']], 'Fees-Analysis_2', variables)
+        renderComponent('<%=@streaming_access_token %>', [[GasPrice, '#GasPrice']], 'Gas-Price-By-Date--Median-Average-Maximum_1', variables)
+        renderComponent('<%=@streaming_access_token %>', [[SenderFee, '#SenderFee'], [MinerReward, '#MinerReward'], [AveragePrice, '#AveragePrice'], [BurntFee, '#BurntFee']], 'fee-on-date_1', variables)
+    });
+</script>

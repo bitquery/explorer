@@ -9,7 +9,6 @@ class Ethereum::AddressController < NetworkController
                 address(address: {is: $address}){
                   address 
                   annotation
-                  
                   smartContract {
                     contractType
                     currency{

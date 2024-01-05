@@ -107,6 +107,12 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
             {address:cur.address.downcase,symbol:cur.symbol,name:cur.name,search:value}
             }.to_json.to_s.html_safe %>,
       })
+      // let selectedCurrency
+      // $(document).on('change', '.currency-filter__select', function() {
+      //     selectedCurrency = $(this).val()
+      //     console.log('selectedCurrency',selectedCurrency)
+      // });
+
 
       queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
           "inboundDepth": 1,

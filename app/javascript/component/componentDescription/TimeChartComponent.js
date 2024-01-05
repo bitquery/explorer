@@ -25,7 +25,7 @@ export default class TimeChartComponent {
 			backgroundColor:  'transparent',
 			hAxis: {
 				textStyle : { color: parentTextColor },
-				titleTextStyle: { color: parentTextColor }
+				titleTextStyle: { color: parentTextColor },
 			},
 			vAxis: {
 				textStyle : { color: parentTextColor },
@@ -36,7 +36,7 @@ export default class TimeChartComponent {
 				textStyle: { color: parentTextColor }
 			},
 		};
-		this.config.options = {...this.config.options,...darkTheme}
+		this.config.options = {...darkTheme,...this.config.options}
 
 		const drawChart = () => {
 			const dataArray = this.config.topElement(data)

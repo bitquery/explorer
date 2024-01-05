@@ -41,6 +41,7 @@ import TimeChartComponent from '../component/componentDescription/TimeChartCompo
 import BarChartComponent from '../component/componentDescription/BarChartComponent';
 import PieChartComponent from '../component/componentDescription/PieChartComponent';
 import TreeComponent from '../component/componentDescription/TreeComponent';
+import LineChartComponent from '../component/componentDescription/LineChartComponent';
 import renderComponent from '../component/component';
 import renderImgFromURI from '../component/rendering/renderImgFromURI';
 import renderTokenLink from '../component/rendering/renderTokenLink';
@@ -77,6 +78,7 @@ global.BarChartComponent = BarChartComponent;
 global.BootstrapCardComponent = BootstrapCardComponent;
 global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
 global.TreeComponent = TreeComponent;
+global.LineChartComponent = LineChartComponent;
 global.renderComponent = renderComponent;
 global.renderImgFromURI = renderImgFromURI;
 global.renderTokenLink = renderTokenLink;
@@ -1052,7 +1054,6 @@ global.queryWithTimeRange = function (rr, query, from, till, params) {
 		});
 		query.request(data);
 	}
-
 
 	draw(from, till);
 	rr.change(draw);
