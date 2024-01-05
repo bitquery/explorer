@@ -16,7 +16,7 @@ class Tron::Trc20tokenController < Tron::AddressController
 
   def transactions
     render 'tron/smart_contract/transactions'
-  end
+  end 
 
   def inflow
     render 'tron/address/inflow'
@@ -32,22 +32,20 @@ class Tron::Trc20tokenController < Tron::AddressController
 
   private
 
-  def is_native
+  def is_native 
     @token = params[:address]
     @native_token = native_token?
-    @token_info = !@native_token && @info.smart_contract.currency
+    @token_info = !@native_token && @info&.smartContract&.currency
   end
 
   def native_token?
+    Rails.logger.debug "Is Native - Token: #{@token}"
     @address == @network[:currency]
   end
 
   def redirect_by_type
-    return if native_token?
-    if !(sc = @info.try(:smart_contract))
-      change_controller! 'tron/address'
-    elsif !sc.try(:currency)
-      change_controller! 'tron/smart_contract'
+    if @info.blank? || (@info&.smartContract&.currency&.tokenType != 'TRC20')
+      redirect_to controller: 'tron/address', action: 'show', address: @address
     end
   end
 

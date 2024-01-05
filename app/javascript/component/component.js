@@ -32,20 +32,32 @@ export default async function renderComponent(token,components, historyQueryID, 
 	}
 
 	components.forEach(async component => {
-		const ComponentConstructor = component[0]
-		const componentSelector = component[1]
-		document.querySelector(componentSelector).textContent = ''
-		const widgetFrame = createWidgetFrame(componentSelector, subscriptionQueryID, historyQueryID)
-		if (subscriptionDataSource) {
-			widgetFrame.onloadmetadata(subscriptionQueryParams)
-			subscriptionDataSource.setWidgetFrame(widgetFrame)
+		const ComponentConstructor = component[0];
+		const componentSelector = component[1];
+	
+		let headerTitle = '';
+	
+		try {
+			const tempComponent = new ComponentConstructor();
+			if (tempComponent.configuration && tempComponent.configuration().headerTitle) {
+				headerTitle = tempComponent.configuration().headerTitle();
+			}
+		} catch (error) {
+			// no header title
 		}
-		if (historyDataSource) {
-			widgetFrame.onloadmetadata(historyQueryParams)
-			historyDataSource.setWidgetFrame(widgetFrame)
-		}
-		const componentObject = new ComponentConstructor(widgetFrame.frame, historyDataSource, subscriptionDataSource)
-		componentObject.init(widgetFrame)
+	
+		const widgetFrame = createWidgetFrame(componentSelector, subscriptionQueryID, historyQueryID, headerTitle);
+
+        if (subscriptionDataSource) {
+            widgetFrame.onloadmetadata(subscriptionQueryParams);
+            subscriptionDataSource.setWidgetFrame(widgetFrame);
+        }
+        if (historyDataSource) {
+            widgetFrame.onloadmetadata(historyQueryParams);
+            historyDataSource.setWidgetFrame(widgetFrame);
+        }
+        const componentObject = new ComponentConstructor(widgetFrame.frame, historyDataSource, subscriptionDataSource);
+        componentObject.init(widgetFrame);
 
 		const data = getBaseClass(ComponentConstructor, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });

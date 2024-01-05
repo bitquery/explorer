@@ -226,7 +226,7 @@ export const getData = async (token, {endpoint_url, query, variables}) => {
     }
     return data
 }
-export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID) => {
+export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID, headerTitle = '') => {
     const createButton = (title, display) => {
         const button = document.createElement('a');
         if (!display) {
@@ -288,7 +288,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
     const f = setupShowMoreButton(tableFooter, showMoreButton)
 
     const onloadmetadata = queryMetaData => {
-        col8.textContent = queryMetaData?.name || 'No query presented';
+        col8.textContent = headerTitle || queryMetaData?.name || 'No query presented';
         if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
             const liveSpan = document.createElement('span');
             const blinker = document.createElement('div');

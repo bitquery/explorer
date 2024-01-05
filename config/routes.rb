@@ -112,6 +112,10 @@ Rails.application.routes.draw do
 
     BLOCKCHAINS.select { |b| b[:family] == 'tron' }.each { |blockchain|
 
+      # fix for google indexing
+      get ":blockchain/address/:address/senders", to: redirect { |params, req| "/#{params[:blockchain]}/trc20token/#{params[:address]}/senders"}, constraints: { blockchain: blockchain[:network] }
+      get ":blockchain/address/:address/receivers", to: redirect { |params, req| "/#{params[:blockchain]}/trc20token/#{params[:address]}/receivers"  }, constraints: { blockchain: blockchain[:network] }
+
       get ":blockchain/:action", controller: "#{blockchain[:family]}/network", constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain", controller: "#{blockchain[:family]}/network", action: 'blocks', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 

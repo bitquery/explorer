@@ -2,6 +2,13 @@ export default function renderNumbers(data) {
     const div = document.createElement('div')
     div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
 
+    if (isNaN(data)) {
+        const span = document.createElement('span')
+        span.textContent = '-'
+        div.appendChild(span)
+        return div
+    }
+
     const span = document.createElement('span')
     let textContent
     if (/^-?\d+$/.test(data)) {

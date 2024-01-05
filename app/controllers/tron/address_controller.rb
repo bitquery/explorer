@@ -58,7 +58,9 @@ class Tron::AddressController < NetworkController
   private
 
   def query_graphql
+
     @address = params[:address]
+
     query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
     result = Graphql::V1.query_with_retry(query, variables: { address: @address }, context: { authorization: @streaming_access_token }).data.tron
     @info = result.address.first
@@ -67,9 +69,15 @@ class Tron::AddressController < NetworkController
   end
 
   def redirect_by_type
-    if sc = @info.try(:smart_contract)
-      change_controller! (sc.currency ? 'tron/trc20token' : 'tron/smart_contract')
+    if @info&.smartContract&.contractType
+      if @info.smartContract.currency
+        if @info.smartContract.currency.tokenType == 'TRC20'
+          redirect_to controller: '/tron/trc20token', action: params[:action], address: @address and return
+        end
+      end
+      redirect_to action: params[:action], controller: '/tron/smart_contract', address: @address and return
     end
   end
-
+  
+  
 end
