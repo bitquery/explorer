@@ -15,42 +15,32 @@
     class Transactions extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transactions
-                },
-                chainId: function (response) {
-                    return response.EVM.Transactions[0].ChainId
-                },
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink,
                     },
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transaction.To
-                        }, rendering: renderJustAddressLink,
+                        name: 'Receiver', cell: row => row.Transaction.To,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
                     },
                     {
-                        name: 'Gas Cost', cell: function (row) {
-                            return row.gas_cost
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Gas Cost', cell: row => row.gas_cost,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Success?', cell: function (row) {
-                            return row.TransactionStatus.Success
-                        }, headerStyle: {width: '110px'},
+                        name: 'Success?', cell: row => row.TransactionStatus.Success,
+                        headerStyle: {width: '110px'},
                     },
                 ]
             }
@@ -60,26 +50,19 @@
     class TransactionsByDate extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title:()=>'Transactions count by date',
+                id:'TransactionsByDate',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Transactions count', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Transactions count', cell: row => +row.count
                     }
                 ],
                 options: {
-                    title: 'Transactions count by date',
                     height: 300,
                     colors: ['28A745'],
                 }
@@ -90,26 +73,20 @@
     class GasSpentByDate extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transactions
-                },
-                chainId: function (response) {
-                    return response.EVM.Transactions[0].ChainId
-                },
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title:()=>'Gas Spent By Date',
+                id:'GasSpentByDate',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }, rendering: renderBlockLink,
+                        name: 'Date', cell: row => row.Block.Date,
+                        rendering: renderBlockLink,
                     },
                     {
-                        name: 'Gas cost', cell: function (row) {
-                            return +row.sum
-                        }
+                        name: 'Gas cost', cell: row => +row.sum
                     }
                 ],
                 options: {
-                    title: 'Gas Spent By Date',
                     height: 300,
                     colors: ['FFC106'],
                 }
@@ -122,8 +99,9 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     }
-    renderComponent('<%=@streaming_access_token %>',[[Transactions, '#Transactions']], 'Transactions_6', variables);
-    renderComponent('<%=@streaming_access_token %>',[[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_5', variables);
-    renderComponent('<%=@streaming_access_token %>',[[GasSpentByDate, '#GasSpentByDate']], 'Gas-Spent-By-Date_7', variables);
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions_7', variables);
+        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'],[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_7', variables);
+    })
 
 </script>

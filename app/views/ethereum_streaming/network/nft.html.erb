@@ -68,7 +68,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Top traded NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0].ChainId)}`,
+                title: response => `Top traded NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId)}`,
                 id: 'TopTransferNFT',
                 columns: [
                     {
@@ -204,14 +204,10 @@
                 id: 'TopTradedNFTTokensPie',
                 columns: [
                     {
-                        name: 'NFT', cell: function (row) {
-                            return row.Trade.Buy.Currency.Symbol || row.Trade.Buy.Currency.SmartContract
-                        }
+                        name: 'NFT', cell: row => row.Trade.Buy.Currency.Symbol || row.Trade.Buy.Currency.SmartContract,
                     },
                     {
-                        name: 'Count', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Count', cell: row => +row.count,
                     }
                 ],
                 options: {

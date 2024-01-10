@@ -64,6 +64,10 @@ export default class BootstrapVerticalTableComponent {
             if (this.config.title && data) {
                 await this.getTitle(data)
             }
+            if(this.config.topElement(data).length===0){
+                this.container.textContent = 'No Data. Response is empty'
+                return
+            }
             const array = this.config.topElement(data);
             if (!array || Object.keys(array).length === 0) {
                 this.displayError('No Data. Response is empty');

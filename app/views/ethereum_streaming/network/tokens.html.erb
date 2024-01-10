@@ -7,55 +7,37 @@
     class TransfersByCurrencies extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0].ChainId,
+                title: () => 'Transfer Token by count',
+                id: 'TransfersByCurrencies',
                 columns: [
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink, headerStyle: {width: '110px'},
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '210px'},
                     },
                     {
-                        name: 'First transfer', cell: function (row) {
-                            return row.Block.first_date
-                        },
+                        name: 'Uniq Senders', cell: row => row.senders,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '110px'},
                     },
                     {
-                        name: 'Last transfer', cell: function (row) {
-                            return row.Block.last_date
-                        },
+                        name: 'Uniq Receivers', cell: row => row.receivers,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '121px'},
                     },
                     {
-                        name: 'Uniq Senders', cell: function (row) {
-                            return row.senders
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '110px'},
+                        name: 'Count', cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Uniq Receivers', cell: function (row) {
-                            return row.receivers
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '121px'},
+                        name: 'Amount', cell: row => row.sum_amount,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Amount', cell: function (row) {
-                            return row.sum_amount
-                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Days token transferred', cell: function (row) {
-                            return row.count_days
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '181px'},
+                        name: 'Days token transferred', cell: row => row.count_days
+                        , rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '181px'},
                     },
                 ]
             }
@@ -69,6 +51,6 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[TransfersByCurrencies, '#TransfersByCurrencies']], 'Transfers-By-Currencies_6', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TransfersByCurrencies, '#TransfersByCurrencies']], 'Transfers-By-Currencies_10', variables);
     })
 </script>

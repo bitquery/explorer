@@ -12,22 +12,16 @@
     class TokenTrades extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                title: () => `Token Trades by time`,
+                id: 'TokenTrades',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Trades', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Trades', cell: row => +row.count
                     }
                 ],
                 options: {
@@ -41,27 +35,22 @@
     class TradedCurrenciesByTime extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                title: () => `Traded currencies by time`,
+                id: 'TradedCurrenciesByTime',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Currencies', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Currencies', cell: row => +row.count
                     }
                 ],
                 options: {
                     height: 300,
                     colors: ['FFC106'],
+                    legend: {position: 'top'},
                 }
             }
         }
@@ -71,9 +60,8 @@
         network: '<%= @streaming%>',
         protocol: '<%= @protocol%>',
     };
-    console.log(variables)
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[TokenTrades, '#TokenTrades']], 'Token-Trades_1_1_1_1_1_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_1_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TokenTrades, '#TokenTrades']], 'Token-Trades_1_1_1_1_1_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_1_1', variables);
     });
 </script>

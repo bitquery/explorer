@@ -23,76 +23,70 @@
     class LatestOutboundTransfers extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: () => 'Latest Outbound Transfers',
+                id: 'LatestOutboundTransfers',
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink, headerStyle: {width: '110px'},
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink,headerStyle: {width: '25%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink, headerStyle: {width: '25%'},
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.sum
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.sum,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
+                        name: 'Currency', cell: row => row.Transfer.Currency.Symbol,
                     },
                     {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '136px'},
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
                     },
-
                 ]
             }
         }
     }
 
-    class OutboundTransfersInNativeCurrency extends TimeChartComponent {
+    class OutboundTransfersInNativeCurrency extends ComboChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Outbound transfers in ${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} currency`,
+                id: 'OutboundTransfersInNativeCurrency',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Volume', cell: function (row) {
-                            return +row.sum
-                        }
+                        name: 'Volume', cell: row => +row.sum,
+                    },
+                    {
+                        name: 'Count', cell: row => +row.count,
                     }
                 ],
                 options: {
                     height: 300,
-                    colors: ['28A745'],
+                    vAxis: {
+                        scaleType: 'log',
+                        viewWindow: {
+                            max: 10000,
+                            min: 0.0000001
+                        },
+                    },
+                    tooltip: {
+                        isHtml: true,
+                        ignoreBounds: true
+                    }
                 }
             }
         }
@@ -101,27 +95,28 @@
     class OutboundTransfersInTokens extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: () => `Outbound transfers in tokens`,
+                id: 'OutboundTransfersInTokens',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Receive count', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Receive count', cell: row => +row.count,
                     }
                 ],
                 options: {
                     height: 300,
                     colors: ['FFC106'],
+                    vAxis: {
+                        scaleType: 'log',
+                        viewWindow: {
+                            max: 10000,
+                            min: 0.0000001
+                        },
+                    },
                 }
             }
         }
@@ -130,37 +125,29 @@
     class TopReceiversInNativeCurrency extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Top Receiver in ${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} currency`,
+                id: 'TopReceiversInNativeCurrency',
                 columns: [
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return row.Transfer.Currency.Symbol
-                        },
+                        name: 'Currency', cell: row => row.Transfer.Currency.Symbol,
+                        headerStyle: {width: '79px'},
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },
+                        name: 'Latest Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '136px'},
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
                     },
                 ]
             }
@@ -170,40 +157,32 @@
     class TopReceiversInTokens extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: () => `Top Receivers in tokens`,
+                id: 'TopReceiversInTokens',
                 columns: [
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '79px'},
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },
+                        name: 'Latest Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '136px'},
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
                     },
                 ]
             }
@@ -217,11 +196,11 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_4', variables);
-        renderComponent('<%=@streaming_access_token %>',[[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens', variables);
+        renderComponent('<%=@streaming_access_token %>', [[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_5', variables);
+        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens', variables);
     })
 
 </script>

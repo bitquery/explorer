@@ -20,7 +20,7 @@
                       return response.EVM.Transfers
                   },
                   chainId: function (response) {
-                      return response.EVM.Transfers[0].ChainId
+                      return response.EVM.Transfers[0]?.ChainId
                   },
                   columns: [
                       {
@@ -60,7 +60,7 @@
                       return response.EVM.Transfers
                   },
                   chainId: function (response) {
-                      return response.EVM.Transfers[0].ChainId
+                      return response.EVM.Transfers[0]?.ChainId
                   },
                   columns: [
                       {
@@ -110,7 +110,7 @@
                       return response.EVM.BalanceUpdates
                   },
                   chainId: function (response) {
-                      return response.EVM.BalanceUpdates[0].ChainId
+                      return response.EVM.BalanceUpdates[0]?.ChainId
                   },
                   columns: [
                       {

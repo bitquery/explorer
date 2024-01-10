@@ -14,7 +14,7 @@
                       return response.EVM.DEXTradeByTokens
                   },
                   chainId: function (response) {
-                      return response.EVM.DEXTradeByTokens[0].ChainId
+                      return response.EVM.DEXTradeByTokens[0]?.ChainId
                   },
                   columns: [
                       {

@@ -58,6 +58,7 @@ import renderNumbersWithCurrency from '../component/rendering/renderNumbersWithC
 import renderMethodLink from '../component/rendering/renderMethodLink';
 import renderEventLink from '../component/rendering/renderEventLink';
 import renderBytes32 from "../component/rendering/renderBytes32";
+import ComboChartComponent from "../component/componentDescription/ComboChartComponent";
 const Datafeeds = require("packs/datafeeds/bundle")
 const TradingView = require("packs/charting_library/charting_library")
 const TreeView = require('js-treeview');
@@ -80,6 +81,7 @@ global.BootstrapVerticalTableComponent = BootstrapVerticalTableComponent;
 global.TreeComponent = TreeComponent;
 global.LineChartComponent = LineChartComponent;
 global.renderComponent = renderComponent;
+global.ComboChartComponent = ComboChartComponent;
 global.renderImgFromURI = renderImgFromURI;
 global.renderTokenLink = renderTokenLink;
 global.renderIdLink = renderIdLink;

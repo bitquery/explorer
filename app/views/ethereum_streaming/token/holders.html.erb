@@ -34,7 +34,7 @@
                     return [...response.EVM.date3]
                 },
                 chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
+                    return response.EVM.Blocks[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'
@@ -80,7 +80,7 @@
                     return [...response.EVM.TokenHolders]
                 },
                 chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
+                    return response.EVM.Blocks[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.TokenHolders[0].Currency?.Name || '-'
@@ -111,7 +111,7 @@
                     return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
+                    return response.EVM.Blocks[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'
@@ -146,7 +146,7 @@
                     return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
+                    return response.EVM.Blocks[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'
@@ -180,7 +180,7 @@
                     return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
+                    return response.EVM.Blocks[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'
@@ -214,7 +214,7 @@
                     return [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3]
                 },
                 chainId: function (response) {
-                    return response.EVM.Blocks[0].ChainId
+                    return response.EVM.Blocks[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'

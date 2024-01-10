@@ -16,7 +16,7 @@
                     return response.EVM.Calls
                 },
                 chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
+                    return response.EVM.Calls[0]?.ChainId
                 },
                 columns: [
                     {

@@ -7,57 +7,40 @@
     class BlockAttributes extends BootstrapVerticalTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return [...response.EVM?.Blocks, ...response.EVM?.MinerRewards]
-                },
-                chainId: function (response) {
-                    return response.EVM?.Blocks[0].ChainId
-                },
+                topElement: response=> [...response.EVM?.Blocks, ...response.EVM?.MinerRewards],
+                chainId:response=> response.EVM?.Blocks[0]?.ChainId,
+                title:()=>`Block Attributes`,
+                id:'BlockAttributes',
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block?.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell:row=> row.Block?.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Miner', cell: function (row) {
-                            return row.Block?.Coinbase
-                        }, rendering: renderJustAddressLink,
+                        name: 'Miner', cell:row=> row.Block?.Coinbase,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Block Reward', cell: function (row) {
-                            return row.sum
-                        },rendering: renderNumbersWithCurrency, cellStyle: {display:'flex',justifyContent: 'start'},
+                        name: 'Block Reward', cell:row=> row.sum,
+                        rendering: renderNumbersWithCurrency, cellStyle: {display:'flex',justifyContent: 'start'},
                     },
                     {
-                        name: 'Transactions count', cell: function (row) {
-                            return row.Block?.TxCount
-                        },
+                        name: 'Transactions count', cell:row=> row.Block?.TxCount,
                     },
                     {
-                        name: 'Difficulty', cell: function (row) {
-                            return row.Block?.Difficulty
-                        },
+                        name: 'Difficulty', cell:row=> row.Block?.Difficulty,
                     },
                     {
-                        name: 'Gas used', cell: function (row) {
-                            return row.Block?.GasUsed
-                        },
+                        name: 'Gas used', cell:row=> row.Block?.GasUsed,
                     },
                     {
-                        name: 'Tx count', cell: function (row) {
-                            return row.Block?.TxCount
-                        },
+                        name: 'Tx count', cell:row=> row.Block?.TxCount,
                     },
                     {
-                        name: 'Hash', cell: function (row) {
-                            return row.Block?.Hash
-                        },
+                        name: 'Hash', cell:row=> row.Block?.Hash,
                     },
                     {
-                        name: 'Parent Hash', cell: function (row) {
-                            return row.Block?.ParentHash
-                        },
+                        name: 'Parent Hash', cell:row=> row.Block?.ParentHash,
                     },
                 ]
             }

@@ -272,9 +272,9 @@ en:
         description: "Trades by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} trades, %{network} trades, %{network} exchange trades"
       graph:
-        name: 'Graph'
+        name: 'Money Flow'
         title: "%{address} graph in %{network}"
-        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} graph, %{network} %{address} graph"
       dex_trades:
         name: "DEX Trades"
@@ -386,9 +386,9 @@ en:
         description: "Smart contract calls from address %{address} activity in %{network}, statistics of smart contract calls, usage and methods used"
         keywords: " %{address} smart contracts calls, %{address} contract calls, %{address} smart contract calls,%{network}"
       graph:
-        name: 'Graph'
-        title: "%{address} graph | %{network}"
-        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+        name: 'Money Flow'
+        title: "%{address} money flow | %{network}"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: " %{address} analysis, %{address} tracing graph, %{address} tracking graph, %{address} tracing, %{address} tracking,%{network}"
       money_flow:
         name: 'Money Flow'
@@ -506,9 +506,9 @@ en:
         description: "Trades for token %{token} in %{network}"
         keywords: "%{token} trades, %{token} exchange trades"
       graph:
-        name: 'Graph'
-        title: "%{address} graph in %{network}"
-        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+        name: 'Money Flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
       money_flow:
         name: 'Money Flow'
@@ -621,9 +621,9 @@ en:
         description: "Trades for token %{token} in %{network}"
         keywords: "%{token} trades, %{token} exchange trades"
       graph:
-        name: 'Graph'
-        title: "%{address} graph in %{network}"
-        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+        name: 'Money Flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
       token_dex_trades:
         name: "Trades on DEXs"
@@ -715,9 +715,9 @@ en:
         description: "Trades for token %{token} in %{network}"
         keywords: "%{token} trades, %{token} exchange trades"
       graph:
-        name: 'Graph'
-        title: "%{address} graph in %{network}"
-        description: "Graph by address %{address} activity in %{network}, statistics of token exchanges"
+        name: 'Money Flow'
+        title: "%{address} money flow in %{network}"
+        description: "Money flow by address %{address} activity in %{network}, statistics of token exchanges"
         keywords: "%{address} money graph, %{address} graph, %{address} money flow analytics"
     
     call_result:
@@ -1782,7 +1782,7 @@ en:
       orders: "Orders"
       orders_by_currencies: "Orders By Currencies"
       latest_trades: "Latest Trades"
-      graph: 'Graph'
+      graph: 'Money Flow'
       trade_transactions_by_time: "Trades By Date"
       trades_by_currencies: "Trades By Currencies"
       trades_by_pairs: "Trades By Pairs"

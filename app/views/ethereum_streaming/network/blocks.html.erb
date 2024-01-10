@@ -8,7 +8,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Blocks,
-                chainId: response => response.EVM.Blocks[0].ChainId,
+                chainId: response => response.EVM.Blocks[0]?.ChainId,
                 columns: [
                     {
                         name: 'Timestamp',
@@ -36,12 +36,12 @@
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: (response) => `Base fee (${WidgetConfig.getCurrency(response.EVM.Blocks[0].ChainId)})`,
+                        name: (response) => `Base fee (${WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) : ''})`,
                         cell: row => row.Block.BaseFee,
                         // rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: (response) => `Gas used (${WidgetConfig.getCurrency(response.EVM.Blocks[0].ChainId)})`,
+                        name: (response) => `Gas used (${WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) : ''})`,
                         cell: row => row.Block.GasUsed,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },

@@ -16,7 +16,7 @@
                     return response.EVM.Events
                 },
                 chainId: function (response) {
-                    return response.EVM.Events[0].ChainId
+                    return response.EVM.Events[0]?.ChainId
                 },
                 columns: [
                     {

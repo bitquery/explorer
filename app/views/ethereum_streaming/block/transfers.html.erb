@@ -7,51 +7,43 @@
     class Transfers extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: `Transfers`,
+                id: 'Transfers',
                 columns: [
-
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        name: 'Sender', cell: row => row.Transfer.Sender,
+                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                        name: '', cell: () => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink,
                     },
                     {
-                        name: 'Id', cell: function (row) {
-                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
-                        }, rendering: renderIdLink
+                        name: 'Id', cell: row => ({
+                            id: row.Transfer.Id,
+                            address: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderIdLink
                     },
                     {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
                     },
                 ]
             }
@@ -62,5 +54,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent('<%=@streaming_access_token %>',[[Transfers, '#Transfers']], 'Transfers_4', variables);
+    renderComponent('<%=@streaming_access_token %>', [[Transfers, '#Transfers']], 'Transfers_4', variables);
 </script>

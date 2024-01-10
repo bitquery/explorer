@@ -31,11 +31,11 @@ export default class BootstrapCardComponent {
 		if(this.config.title && data){
 			await this.getTitle(data)
 		}
+
 		const array = this.config.topElement(data);
-		if (Object.keys(array).length === 0) {
-			this.wrapper.style.marginLeft = '15px'
-			this.wrapper.textContent = 'No Data. Response is empty'
-			return;
+		if(this.config.topElement(data).length===0){
+			this.container.textContent = 'No Data. Response is empty'
+			return
 		}
 		while (this.wrapper.children.length) {
 			this.wrapper.removeChild(this.wrapper.firstChild)

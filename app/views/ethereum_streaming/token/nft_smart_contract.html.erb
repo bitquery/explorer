@@ -32,7 +32,7 @@
                     return response.EVM.BalanceUpdates
                 },
                 chainId: function (response) {
-                    return response.EVM.BalanceUpdates[0].ChainId
+                    return response.EVM.BalanceUpdates[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name  || 'no data'
@@ -88,7 +88,7 @@
                     return response.EVM.Transfers
                 },
                 chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
+                    return response.EVM.Transfers[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
@@ -136,7 +136,7 @@
                     return response.EVM.BalanceUpdates
                 },
                 chainId: function (response) {
-                    return response.EVM.BalanceUpdates[0].ChainId
+                    return response.EVM.BalanceUpdates[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || '-'
@@ -172,7 +172,7 @@
                     return response.EVM.BalanceUpdates
                 },
                 chainId: function (response) {
-                    return response.EVM.BalanceUpdates[0].ChainId
+                    return response.EVM.BalanceUpdates[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || '-'
@@ -207,7 +207,7 @@
                     return response.EVM.DEXTrades
                 },
                 chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
+                    return response.EVM.DEXTrades[0]?.ChainId
                 },
                 title: function (response) {
                     const tokenName = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Name || '-'

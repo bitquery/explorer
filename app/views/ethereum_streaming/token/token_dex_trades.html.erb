@@ -20,7 +20,7 @@
                     return response.EVM.DEXTradeByTokens
                 },
                 chainId: function (response) {
-                    return response.EVM.DEXTradeByTokens[0].ChainId
+                    return response.EVM.DEXTradeByTokens[0]?.ChainId
                 },
                 title: 'Latest Trades of Token in Network',
                 columns: [
@@ -44,7 +44,6 @@
                         cell: function (row) {
                             return row.Trade.Amount
                         },
-                        headerStyle: {textAlign: 'end'},
                         rendering: renderNumbers,
                         headerStyle: {textAlign: 'end', width: '100px'},
                     },
@@ -106,7 +105,7 @@
                     return response.EVM.DEXTradeByTokens
                 },
                 chainId: function (response) {
-                    return response.EVM.DEXTradeByTokens[0].ChainId
+                    return response.EVM.DEXTradeByTokens[0]?.ChainId
                 },
                 columns: [
                     {

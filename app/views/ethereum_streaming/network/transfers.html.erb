@@ -8,60 +8,46 @@
     class LatestTransfers extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0].ChainId,
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row =>row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
+                        name: 'Block', cell: row =>row.Block.Number,
+                        rendering: renderBlockLink,headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink,
+                        name: 'Sender', cell: row =>row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                        name: '', cell: row =>'', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink,
+                        name: 'Receiver', cell: row =>row.Transfer.Sender,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row =>row.Transfer.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
+                        name: 'Currency', cell: row =>({
                                 currency: row.Transfer.Currency.Symbol,
                                 smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,headerStyle: {width: '100px'},
+                            }),
+                        rendering: renderTokenLink,headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Id', cell: function (row) {
-                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
-                        }, rendering: renderIdLink,headerStyle: {width: '70px'},
+                        name: 'Id', cell: row =>({id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}),
+                        rendering: renderIdLink,headerStyle: {width: '70px'},
                     },
                     {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,headerStyle: {width: '100px'},
+                        name: 'Hash', cell: row =>row.Transaction.Hash,
+                        rendering: renderTX,headerStyle: {width: '100px'},
                     },
                 ]
             }

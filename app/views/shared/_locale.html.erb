@@ -1,10 +1,10 @@
-<li class="nav-item dropdown">
-  <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <span title="<%= LOCALE_FLAG[locale][:name] %>" lang="<%= I18n.locale %>"><%= LOCALE_FLAG[I18n.locale][:flag] %></span>
-  </a>
-  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-    <% I18n.available_locales.each do |locale| %>
-       <%= link_to "#{LOCALE_FLAG[locale][:flag]} #{LOCALE_FLAG[locale][:name]}", {locale: (locale == I18n.default_locale ? nil : locale)}.merge(request.query_parameters), lang: locale, class: 'dropdown-item' %>
-    <% end %>
-  </div>
-</li>
+<!--<li class="nav-item dropdown">-->
+<!--  <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--    <span title="<%#= LOCALE_FLAG[locale][:name] %>" lang="<%#= I18n.locale %>"><%#= LOCALE_FLAG[I18n.locale][:flag] %></span>-->
+<!--  </a>-->
+<!--  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">-->
+    <%# I18n.available_locales.each do |locale| %>
+       <%#= link_to "#{LOCALE_FLAG[locale][:flag]} #{LOCALE_FLAG[locale][:name]}", {locale: (locale == I18n.default_locale ? nil : locale)}.merge(request.query_parameters), lang: locale, class: 'dropdown-item' %>
+    <%# end %>
+<!--  </div>-->
+<!--</li>-->

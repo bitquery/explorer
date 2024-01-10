@@ -57,7 +57,7 @@
                     return response.EVM.Transfers
                 },
                 chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
+                    return response.EVM.Transfers[0]?.ChainId
                 },
                 columns: [
                     {

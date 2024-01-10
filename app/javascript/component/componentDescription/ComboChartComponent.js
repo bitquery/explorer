@@ -1,4 +1,4 @@
-export default class LineChartComponent {
+export default class ComboChartComponent {
     constructor(element, historyDataSource, subscriptionDataSource) {
         this.container = element
         this.config = this.configuration()
@@ -20,32 +20,30 @@ export default class LineChartComponent {
             await this.getTitle(data)
         }
         if(this.config.topElement(data).length===0){
-            this.container.textContent = 'No Data'
+            this.container.textContent = 'No Data. Response is empty'
             return
         }
-        const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color')
+        const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
         const darkTheme = {
             titleTextStyle: { color: parentTextColor },
             backgroundColor:  'transparent',
+            seriesType: 'bars',
+            series: { 1: {type: 'line'} },
             hAxis: {
                 textStyle : { color: parentTextColor },
                 titleTextStyle: { color: parentTextColor },
-                slantedText: true,
-                slantedTextAngle: 45,
-                gridlines: {
-                    count: -1
-                },
-                showTextEvery: 'auto',
             },
             vAxis: {
                 textStyle : { color: parentTextColor },
                 titleTextStyle: { color: parentTextColor },
+                ...(this.config.options.vAxis && this.config.options.vAxis.minValue !== undefined && { minValue: this.config.options.vAxis.minValue })
             },
             legend: {
                 textStyle: { color: parentTextColor }
             },
-        }
+        };
         this.config.options = {...darkTheme,...this.config.options}
+
         const drawChart = () => {
             const dataArray = this.config.topElement(data)
             let dataToVizualize = []
@@ -71,22 +69,26 @@ export default class LineChartComponent {
                 }
                 k++
             }
-
+            dataToVizualize = dataToVizualize.map(row => {
+                if (!row[annotation.length-1]) {
+                    row[annotation.length-1] = 0
+                }
+                return row
+            })
             dataToVizualize.unshift(annotation)
 
             const dataTable = google.visualization.arrayToDataTable(dataToVizualize)
-            const chart = new google.visualization.LineChart(this.container)
+            const chart = new google.visualization.ComboChart(this.container)
             chart.draw(dataTable, this.config.options)
         }
-        google.charts.load('current', {packages: ['corechart', 'line']})
-        google.charts.setOnLoadCallback(drawChart)
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawChart);
 
         window.addEventListener('resize', () => {
             this.container.removeChild(this.container.firstChild)
             drawChart()
         })
     }
-
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
 
@@ -98,4 +100,5 @@ export default class LineChartComponent {
             }
         }
     }
+
 }
