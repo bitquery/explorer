@@ -5,74 +5,53 @@
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='EventTransactions'></div>
+    <div class='card' id='EventStatistic'></div>
   </div>
 </div>
 <script>
     class EventInformation extends BootstrapVerticalTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
-                },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
                 columns: [
                     {
-                        name: 'Method Name', cell: function (row) {
-                            return row.Log.Signature.Name
-                        },
+                        name: 'Method Name', cell: row=> row.Log.Signature.Name
                     },
                     {
-                        name: 'Method signature', cell: function (row) {
-                            return row.Log.Signature.Signature
-                        },
+                        name: 'Method signature', cell: row=> row.Log.Signature.Signature
                     },
                     {
-                        name: 'Signature Hash', cell: function (row) {
-                            return row.Log.Signature.SignatureHash
-                        },
+                        name: 'Signature Hash', cell: row=> row.Log.Signature.SignatureHash
                     },
                 ]
             }
         }
     }
 
-    class EventTransactions extends BootstrapTableComponent {
+    class EventStatistic extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
-                },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
+                title:()=>'Event Statistic by Date',
+                id:'EventStatistic',
                 columns: [
                     {
-                        name: 'Transaction', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        name: 'Date', cell: row=> row.Block.Date,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Method', cell: function (row) {
-                            return row.Log.Signature.Name
-                        },
+                        name: 'Uniq Transaction Sender', cell: row=> row.transaction_from,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
+                        name: 'Uniq Transaction Receiver', cell: row=> row.transaction_to,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Gas Cost', cell: function (row) {
-                            return row.Fee.SenderFee
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Smart Contract Cout', cell: row=> row.smart_contract,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -83,6 +62,8 @@
         network: '<%= @streaming%>',
         method: '<%= @signature%>',
     }
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[EventStatistic, '#EventStatistic']], 'Event-statistic-by-date_2', variables);
+    })
     renderComponent('<%=@streaming_access_token %>',[[EventInformation, '#EventInformation']], 'Event-Information_1', variables);
-    renderComponent('<%=@streaming_access_token %>',[[EventTransactions, '#EventTransactions']], 'Event-Transactions_1', variables);
 </script>

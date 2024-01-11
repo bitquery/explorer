@@ -1,38 +1,38 @@
 <script>
   widgets.callbacks({
     main_block_by_height: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.height;
+      return '<%= @network[:network] %>'+'/block/'+ item.height;
     },
 
     block_by_height: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.block.height;
+      return '<%= @network[:network] %>'+'/block/'+ item.block.height;
     },
 
     transaction_by_id: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/' + (item.id || item.transaction.id);
+      return '<%= @network[:network] %>'+'/tx/' + (item.id || item.transaction.id);
     },
 
     main_collection_by_id: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/collections/' + item.id;
+      return '<%= @network[:network] %>'+'/collections/' + item.id;
     },
 
     collection_by_id: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/collections/' + item.collectionId;
+      return '<%= @network[:network] %>'+'/collections/' + item.collectionId;
     },
 
     address: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.address.address;
+      return '<%= @network[:network] %>'+'/address/' + item.address.address;
     },
     authorizer: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/' + item.authorizer.address;
+      return '<%= @network[:network] %>'+'/address/' + item.authorizer.address;
     },
 
     smart_contract_address_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+ (item.smartContractAddress.address);
+      return '<%= @network[:network] %>'+'/address/'+ (item.smartContractAddress.address);
     },
 
     property_value_path: function(item){
-      link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
+      link_prefix = '<%= @network[:network] %>'
 
       if (item.block){
         return `${link_prefix}/block/` + item.block;

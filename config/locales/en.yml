@@ -47,6 +47,22 @@ en:
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history,
           %{network} address finder, 
           %{network} payer account finder %{payer_account}"
+    event:
+      icon: ''
+      header: "Event %{event_name} in %{network}: "
+      show:
+        name: 'Event'
+        title: "Event in %{network}"
+        description: "Event in %{network}"
+        keywords: "%{network} event, log, signature"
+    method:
+      icon: ''
+      header: "%{method_name} in %{network} "
+      show:
+        name: 'Method'
+        title: "Method in %{network}"
+        description: "Method in %{network}"
+        keywords: "%{network} Method, method, hash, signature"
     message:
       icon: 'fas fa-bolt'
       header: "%{network} message %{hash}"
@@ -1498,10 +1514,15 @@ en:
         description: "Statistics of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades,statistics"
       protocol_smart_contracts:
-        name: "Protocol Smart Contracts"
-        title: "%{network} NFT Dex Protocols"
-        description: "Non-Fungible Tokens on %{network}"
-        keywords: "%{network}, Non-Fungible Tokens, NFTs, nft"
+        name: "Smart Contracts"
+        title: "Smart Contracts %{protocol} of DEX at %{network}"
+        description: "Smart Contracts of %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades, smart contract"
+      token_pairs:
+        name: "Token Pairs"
+        title: "Token Pairs of %{protocol} DEX at %{network}"
+        description: "Token Pairs of %{protocol} DEX at %{network}"
+        keywords: "%{protocol},%{network},dex,trades,Token Pairs"
       volume:
         name: "Volume"
         title: "Volume of %{protocol} DEX at %{network}"

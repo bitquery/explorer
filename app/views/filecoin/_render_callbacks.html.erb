@@ -2,21 +2,21 @@
     widgets.callbacks({
         height_path: function(item){
 
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/height/'+(item.height || item.block.height);
+            return '<%= @network[:network] %>'+'/height/'+(item.height || item.block.height);
         },
 
         sender_address_path: function(item){
 
-                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.sender.address;
+                return '<%= @network[:network] %>' + '/address/' + item.sender.address;
 
         },
         receiver_address_path: function(item){
-                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.receiver.address;
+                return '<%= @network[:network] %>' + '/address/' + item.receiver.address;
         },
 
         address_path: function(item){
 
-            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
+            return '<%= @network[:network] %>' + '/address/' + item.address.address;
 
         },
     });

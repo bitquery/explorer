@@ -18,57 +18,38 @@
     class SmartContractStatistics extends BootstrapVerticalTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
-                },
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
+                title: () => 'Smart Contract Statistics',
+                id: 'SmartContractStatistics',
                 columns: [
                     {
-                        name: 'Calls Count', cell: function (row) {
-                            return row.count
-                        },
+                        name: 'Calls Count', cell: row => row.count
                     },
                     {
-                        name: 'External calls', cell: function (row) {
-                            return row.external_count
-                        },
+                        name: 'External calls', cell: row => row.external_count
                     },
                     {
-                        name: 'Internal calls', cell: function (row) {
-                            return row.internal_count
-                        },
+                        name: 'Internal calls', cell: row => row.internal_count
                     },
                     {
-                        name: 'Call from', cell: function (row) {
-                            return row.call_from
-                        },
+                        name: 'Call from', cell: row => row.call_from
                     },
                     {
-                        name: 'Call to', cell: function (row) {
-                            return row.call_to
-                        },
+                        name: 'Call to', cell: row => row.call_to
                     },
                     {
-                        name: 'Transaction count from', cell: function (row) {
-                            return row.t_from
-                        },
+                        name: 'Transaction count from', cell: row => row.t_from
                     },
                     {
-                        name: 'Transaction count to', cell: function (row) {
-                            return row.t_to
-                        },
+                        name: 'Transaction count to', cell: row => row.t_to
                     },
                     {
-                        name: 'Sender fee', cell: function (row) {
-                            return row.sum
-                        },
+                        name: 'Sender fee', cell: row => row.sum
                     },
                     {
-                        name: 'Last transaction time', cell: function (row) {
-                            return row.Block?.Time
-                        }, rendering: renderDate,
+                        name: 'Last transaction time', cell: row => row.Block?.Time,
+                        rendering: renderDate,
                     },
                 ]
             }
@@ -78,22 +59,19 @@
     class SmartContractBalanceByCurrencies extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.BalanceUpdates
-                },
-                chainId: function (response) {
-                    return response.EVM.BalanceUpdates[0].ChainId
-                },
+                topElement: response => response.EVM.BalanceUpdates,
+                chainId: response => response.EVM.BalanceUpdates[0].ChainId,
+                title: () => 'Smart Contract Balance by Currencies',
+                id: 'SmartContractBalanceByCurrencies',
                 columns: [
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}
-                        }, rendering: renderTokenLink,
+                        name: 'Currency',
+                        cell: row => ({currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}),
+                        rendering: renderTokenLink,
                     },
                     {
-                        name: 'Balance', cell: function (row) {
-                            return row.sum
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Balance', cell: row => row.sum,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -103,28 +81,21 @@
     class DailySmartContractCalls extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0]?.ChainId
-                },
-                title: 'External calls',
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'External calls',
+                id: 'DailySmartContractCalls',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'External calls', cell: function (row) {
-                            return +row.external_count
-                        }
+                        name: 'External calls', cell: row => +row.external_count
                     },
                 ],
                 options: {
-                    isStacked: true,
-                    height: 395,
+                    theme: 'material',
+                    legend: {position: 'top'},
                 }
             }
         }
@@ -133,28 +104,21 @@
     class DailySmartContractCallsInt extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0]?.ChainId
-                },
-                title: 'Internal calls',
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Internal calls',
+                id: 'DailySmartContractCallsInt',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Internal calls', cell: function (row) {
-                            return +row.internal_count
-                        }
+                        name: 'Internal calls', cell: row => +row.internal_count
                     },
                 ],
                 options: {
-                    isStacked: true,
-                    height: 395,
+                    theme: 'material',
+                    legend: {position: 'top'},
                 }
             }
         }
@@ -165,11 +129,11 @@
         address: '<%= @address %>',
         offset: 0,
         limit: 50,
-    };
+    }
 
-    renderComponent('<%=@streaming_access_token %>',[[SmartContractStatistics, '#SmartContractStatistics']], 'Smart-Contract-Statistics_4', variables);
-    renderComponent('<%=@streaming_access_token %>',[[SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies']], 'Smart-Contract-balance-by-currencies_1', variables);
+    renderComponent('<%=@streaming_access_token %>', [[SmartContractStatistics, '#SmartContractStatistics']], 'Smart-Contract-Statistics_4', variables);
+    renderComponent('<%=@streaming_access_token %>', [[SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies']], 'Smart-Contract-balance-by-currencies_1', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[DailySmartContractCalls, '#DailySmartContractCalls'], [DailySmartContractCallsInt, '#DailySmartContractCallsInt']], 'Daily-Smart-Contract-Calls_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[DailySmartContractCalls, '#DailySmartContractCalls'], [DailySmartContractCallsInt, '#DailySmartContractCallsInt']], 'Daily-Smart-Contract-Calls_3', variables);
     })
 </script>

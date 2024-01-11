@@ -1,22 +1,22 @@
 <script>
   widgets.callbacks({
     transaction_hash_path: function(item){
-      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transactionHash);
+      return '<%= @network[:network] %>'+'/tx/'+ (item.hash || item.transactionHash);
     },
     topic_path: function(item) {
-      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/topics/' + item.topic.id;
+      return '<%= @network[:network] %>' + '/topics/' + item.topic.id;
     },
     account_path: function(item) {
-      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/accounts/' + item.account.id;
+      return '<%= @network[:network] %>' + '/accounts/' + item.account.id;
     },
     node_path: function(item) {
-      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/nodes/' + (item.nodeAccount.id || item.node.id);
+      return '<%= @network[:network] %>' + '/nodes/' + (item.nodeAccount.id || item.node.id);
     },
     payer_path: function(item) {
-      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/payers/' + (item.payerAccount.id || item.payer.id);
+      return '<%= @network[:network] %>' + '/payers/' + (item.payerAccount.id || item.payer.id);
     },
     contract_path: function(item) {
-      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/contracts/' + item.contract.id;
+      return '<%= @network[:network] %>' + '/contracts/' + item.contract.id;
     },
   });
 </script>

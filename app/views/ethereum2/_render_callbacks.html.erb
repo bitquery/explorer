@@ -1,19 +1,19 @@
 <script>
     widgets.callbacks({
         block_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.height;
+            return '<%= @network[:network] %>'+'/block/'+item.height;
         },
         validator_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validator/'+item.validator.index;
+            return '<%= @network[:network] %>'+'/validator/'+item.validator.index;
         },
         proposer_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validator/'+item.proposer.index;
+            return '<%= @network[:network] %>'+'/validator/'+item.proposer.index;
         },
         validator_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validator/'+item.validator.index;
+            return '<%= @network[:network] %>'+'/validator/'+item.validator.index;
         },
         slashing_proposer_path: function(item){
-            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/validator/'+item.slashing.proposer.index;
+            return '<%= @network[:network] %>'+'/validator/'+item.slashing.proposer.index;
         }
     });
 

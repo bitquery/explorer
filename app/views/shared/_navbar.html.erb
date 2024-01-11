@@ -34,7 +34,7 @@ function isMobileDevice() {
   }
 
   let adSlot = isMobile ? "mobile-banner" : "leaderboard-desktop";
-  ;(adsbyslise=window.adsbyslise||[]).push({slot:adSlot});
+  (adsbyslise=window.adsbyslise||[]).push({slot:adSlot});
   window.adsbyslisesync&&window.adsbyslisesync();
 });
 
@@ -202,7 +202,6 @@ function isMobileDevice() {
         </svg>
       </button>
       <%= render partial: "shared/theme" %>
-      <%= render partial: "shared/locale" %>
     </ul>
   </nav>
 </header>

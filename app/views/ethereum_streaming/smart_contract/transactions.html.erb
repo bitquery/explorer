@@ -15,42 +15,39 @@
     class LatestTransactions extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
-                },
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
+                title: () => 'Latest Transactions',
+                id: 'LatestTransactions',
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink,headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
-                        }, rendering: renderMethodLink,
+                        name: 'Method',
+                        cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
+                        rendering: renderMethodLink,
                     },
                     {
-                        name: 'Caller', cell: function (row) {
-                            return row.Call.From
-                        }, rendering: renderJustAddressLink,
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Gas Cost', cell: function (row) {
-                            return row.sum
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Gas Cost', cell: row => row.sum,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX,headerStyle: {width: '110px'},
                     },
                 ]
             }
@@ -60,32 +57,25 @@
     class TopSmartContractCaller extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
-                },
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
+                title: () => 'Top Smart Contract Caller',
+                id: 'TopSmartContractCaller',
                 columns: [
                     {
-                        name: 'Caller', cell: function (row) {
-                            return row.Call.From
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '44%'},
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },
+                        name: 'Latest Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Gas Cost', cell: function (row) {
-                            return row.average
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Gas Cost', cell: row => row.average,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Calls Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Calls Count', cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -95,32 +85,25 @@
     class TopGasBurnerForSmartContract extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
-                },
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
+                title: () => 'Top Gas burner for Smart Contract',
+                id: 'TopGasBurnerForSmartContract',
                 columns: [
                     {
-                        name: 'Caller', cell: function (row) {
-                            return row.Call.From
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '44%'},
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },
+                        name: 'Latest Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Gas Burnt', cell: function (row) {
-                            return row.average
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Gas Burnt', cell: row => row.average,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Calls Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Calls Count', cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -129,12 +112,12 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        address: '<%= @address %>',
+        address: '<%= @address%>',
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[LatestTransactions, '#LatestTransactions']], 'Latest--Transactions_2', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TopSmartContractCaller, '#TopSmartContractCaller']], 'Top-Smart-Contract-Caller', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TopGasBurnerForSmartContract, '#TopGasBurnerForSmartContract']], 'Top-Gas-burner-for-Smart-Contract_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[LatestTransactions, '#LatestTransactions']], 'Latest--Transactions_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopSmartContractCaller, '#TopSmartContractCaller']], 'Top-Smart-Contract-Caller', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopGasBurnerForSmartContract, '#TopGasBurnerForSmartContract']], 'Top-Gas-burner-for-Smart-Contract_1', variables);
     })
 </script>

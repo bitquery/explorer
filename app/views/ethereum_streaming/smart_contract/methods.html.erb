@@ -12,56 +12,44 @@
     class SmartContractMethods extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
-                },
+                topElement: response=> response.EVM.Calls,
+                chainId: response=>response.EVM.Calls[0].ChainId,
+                title:()=>'Smart Contract Methods',
+                id:'SmartContractMethods',
                 columns: [
                     {
-                        name: 'Method', cell: function (row) {
-                            return {
+                        name: 'Method', cell: row=> ({
                                 method: row.Call.Signature.Name,
                                 hash: row.Call.Signature.SignatureHash,
                                 value: row.Call.Value
-                            }
-                        }, rendering: renderMethodLink,
+                            }),
+                        rendering: renderMethodLink,
                     },
                     {
-                        name: 'Method signature', cell: function (row) {
-                            return row.Call.Signature.Signature
-                        }, headerStyle: {width: '25%'},
+                        name: 'Method signature', cell: row=> row.Call.Signature.Signature,
                     },
                     {
-                        name: 'Gas Cost/Call', cell: function (row) {
-                            return row.average
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Gas Cost/Call', cell: row=> row.average,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },
+                        name: 'Latest Date', cell: row=> row.Block.Date
                     },
                     {
-                        name: 'TX Sender', cell: function (row) {
-                            return row.txs
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'TX Sender', cell: row=> row.txs,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '112px'},
                     },
                     {
-                        name: 'Internal calls', cell: function (row) {
-                            return row.internal_count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Internal calls', cell: row=> row.internal_count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '112px'},
                     },
                     {
-                        name: 'External calls', cell: function (row) {
-                            return row.external_count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'External calls', cell: row=> row.external_count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '112px'},
                     },
                     {
-                        name: 'Calls Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Calls Count', cell: row=> row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
                     },
                 ]
             }
@@ -71,36 +59,29 @@
     class AddressesUsedInMethodParameters extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0]?.ChainId
-                },
+                topElement: response=> response.EVM.Calls,
+                chainId: response=>response.EVM.Calls[0].ChainId,
+                title:()=>'Addresses used in Method Parameters',
+                id:'AddressesUsedInMethodParameters',
                 columns: [
                     {
-                        name: 'Address', cell: function (row) {
-                            return row.Call.From
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '44%'},
+                        name: 'Address', cell: row=> row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
                     },
                     {
-                        name: 'Argument', cell: function (row) {
-                            return row.Arguments[0]?.Name
-                        },
+                        name: 'Argument', cell: row=> row.Arguments[0]?.Name
                     },
                     {
-                        name: 'Method', cell: function (row) {
-                            return {
+                        name: 'Method', cell: row=> ({
                                 method: row.Call.Signature.Name,
                                 hash: row.Call.Signature.SignatureHash,
                                 value: row.Call.Value
-                            }
-                        }, rendering: renderMethodLink,
+                            }),
+                        rendering: renderMethodLink,
                     },
                     {
-                        name: 'Calls Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Calls Count', cell: row=> row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
