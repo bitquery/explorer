@@ -12,22 +12,16 @@
     class EventsDistribution extends BarChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
-                },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
+                title:()=>'Events Distribution',
+                id:'EventsDistribution',
                 columns: [
                     {
-                        name: 'Event', cell: function (row) {
-                            return row.Log.Signature.Name
-                        }
+                        name: 'Event', cell: row=> row.Log.Signature.Name
                     },
                     {
-                        name: 'Event Count', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Event Count', cell: row=> +row.count
                     },
                 ],
                 options: {
@@ -40,33 +34,25 @@
     class SmartContractEvents extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
-                },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
-                title: 'Smart Contract events',
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
+                title:()=>'Smart Contract events',
+                id:'SmartContractEvents',
                 columns: [
                     {
-                        name: 'Event', cell: function (row) {
-                            return {event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}
-                        }, rendering: renderEventLink
+                        name: 'Event', cell: row=> ({event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}),
+                        rendering: renderEventLink
                     },
                     {
-                        name: 'Event signature', cell: function (row) {
-                            return row.Log.Signature.Signature
-                        },
+                        name: 'Event signature', cell: row=> row.Log.Signature.Signature
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },headerStyle: {width:'110px'},
+                        name: 'Latest Date', cell: row=> row.Block.Date,
+                        headerStyle: {width:'110px'},
                     },
                     {
-                        name: 'Event Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width:'110px'},
+                        name: 'Event Count', cell: row=> row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width:'110px'},
                     },
                 ]
             }

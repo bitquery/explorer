@@ -19,8 +19,8 @@ export default class BarChartComponent {
 		if(this.config.title && data){
 			await this.getTitle(data)
 		}
-		if(this.config.topElement(data).length===0){
-			this.displayError('No Data. Response is empty')
+		if (this.config.topElement(data).length === 0) {
+			this.container.textContent='No Data. Response is empty'
 			return
 		}
 		const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');

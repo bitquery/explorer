@@ -69,10 +69,6 @@ export default class BootstrapVerticalTableComponent {
                 return
             }
             const array = this.config.topElement(data);
-            if (!array || Object.keys(array).length === 0) {
-                this.displayError('No Data. Response is empty');
-                return;
-            }
             const chainId = this.config.chainId(data)
             for (const rowData of array) {
                 for (const column of this.config.columns) {

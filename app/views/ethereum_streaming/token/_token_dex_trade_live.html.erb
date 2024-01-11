@@ -10,71 +10,50 @@
       class LatestTradesOfTokenInNetwork extends BootstrapTableComponent {
           configuration() {
               return {
-                  topElement: function (response) {
-                      return response.EVM.DEXTradeByTokens
-                  },
-                  chainId: function (response) {
-                      return response.EVM.DEXTradeByTokens[0]?.ChainId
-                  },
+                  topElement: response => response.EVM.DEXTradeByTokens,
+                  chainId: response=> response.EVM.DEXTradeByTokens[0]?.ChainId,
                   columns: [
                       {
-                          name: 'Timestamp', cell: function (row) {
-                              return row.Block.Time
-                          }, rendering: renderDate,
+                          name: 'Timestamp', cell: row=> row.Block.Time,
+                          rendering: renderDate,
                       },
                       {
-                          name: 'Block', cell: function (row) {
-                              return row.Block.Number
-                          }, rendering: renderBlockLink
+                          name: 'Block', cell: row=> row.Block.Number,
+                          rendering: renderBlockLink
                       },
                       {
-                          name: 'Seller', cell: function (row) {
-                              return row.Trade.Seller
-                          }, rendering: renderJustAddressLink
+                          name: 'Seller', cell: row=> row.Trade.Seller,
+                          rendering: renderJustAddressLink
                       },
                       {
-                          name: 'Sell amount', cell: function (row) {
-                              return row.Trade.Amount
-                          }, headerStyle: {textAlign: 'end'},
+                          name: 'Sell amount', cell: row=> row.Trade.Amount,
+                          headerStyle: {textAlign: 'end'},
                       },
                       {
-                          name: 'Sell currency', cell: function (row) {
-                              return row.Trade.Currency.Symbol
-                          },
+                          name: 'Sell currency', cell: row=> row.Trade.Currency.Symbol,
                       },
                       {
-                          name: '', cell: function (row) {
-                              return ''
-                          }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                          name: '', cell: ()=> '',rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                       },
                       {
-                          name: 'Buyer', cell: function (row) {
-                              return row.Trade.Buyer
-                          },
+                          name: 'Buyer', cell: row=> row.Trade.Buyer,
                           rendering: renderJustAddressLink
                       },
                       {
                           name: 'Buy amount',
-                          cell: function (row) {
-                              return row.Trade.Side.Amount
-                          }, headerStyle: {textAlign: 'end'},
+                          cell: row=> row.Trade.Side.Amount,
+                          headerStyle: {textAlign: 'end'},
                       },
                       {
-                          name: 'Buy currency', cell: function (row) {
-                              return row.Trade.Side.Currency.Symbol
-                          },
+                          name: 'Buy currency', cell: row=> row.Trade.Side.Currency.Symbol,
                       },
                       {
                           name: 'Price',
-                          cell: function (row) {
-                              return row.Trade.Price
-                          }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                          cell: row=> row.Trade.Price,
+                          rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                       },
                       {
-                          name: 'Transaction',
-                          cell: function (row) {
-                              return row.Transaction.Hash
-                          },
+                          name: 'Transaction', cell: row=> row.Transaction.Hash,
                           rendering: renderTX
                       }
                   ]
