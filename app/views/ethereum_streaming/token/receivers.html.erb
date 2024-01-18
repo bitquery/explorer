@@ -1,15 +1,11 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card'>
-      <div id='Receivers'></div>
-    </div>
+    <div id='Receivers' class='card'></div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card'>
-      <div id='ReceiversStats'></div>
-    </div>
+    <div id='ReceiversStats' class='card'></div>
   </div>
 </div>
 <div class='row mb-4'>
@@ -24,26 +20,27 @@
     class Receivers extends BarChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    return `Largest ${tokenName} (${tokenSymbol}) Receivers`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0]?.ChainId
-                },
+                id: 'Receivers',
                 columns: [
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        },
+                        name: 'Receiver', cell: row => row.Transfer.Receiver
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return +row.amount
-                        }
+                        name: 'Amount', cell: row => +row.amount
                     },
                 ],
                 options: {
-                    theme: 'material'
+                    theme: 'material',
+                    legend: {position: 'top'},
+                    bar: {groupWidth: "90%"},
+                    height: 300,
                 }
             }
         }
@@ -52,80 +49,79 @@
     class ReceiversStats extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    return `Largest ${tokenName} (${tokenSymbol}) Receivers Stats`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0]?.ChainId
-                },
+                id: 'ReceiversStats',
                 columns: [
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '25%'}
+                        name: 'Receiver',
+                        cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount',
+                        cell: row => row.amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Max Transfer Amount', cell: function (row) {
-                            return row.Transfer.max_amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Max Transfer Amount',
+                        cell: row => row.Transfer.max_amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }), rendering: renderTokenLink, headerStyle: {width: '80px'},
                     },
                     {
-                        name: 'Uniq Sender', cell: function (row) {
-                            return row.sender_count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Uniq Sender',
+                        cell: row => row.sender_count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '112px'},
                     },
                     {
-                        name: 'Last Date', cell: function (row) {
-                            return row.Block.Date
-                        },
+                        name: 'Last Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Transfer Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Transfer Count',
+                        cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '120px'},
                     },
                 ]
             }
         }
     }
 
-    class UniqSenders extends TimeChartComponent {
+    class UniqSenders extends LineChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    return `Daily Unique  ${tokenName} (${tokenSymbol}) Receivers`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0]?.ChainId
-                },
+                id: 'UniqSenders',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Uniq Senders', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Uniq Senders', cell: row => +row.count
                     },
                 ],
                 options: {
                     theme: 'material',
-                    height:380
+                    height: 300,
+                    legend: {position: 'top'},
+                    curveType: 'function',
+                    slantedText: false,
                 }
             }
         }
@@ -134,28 +130,26 @@
     class MedianTransferAmount extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    return `Median ${tokenName} (${tokenSymbol}) Received Amount`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0]?.ChainId
-                },
+                id: 'MedianTransferAmount',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'median transfer amount', cell: function (row) {
-                            return row.median
-                        }
+                        name: 'Median Transfer Amount', cell: row => row.median
                     },
                 ],
                 options: {
                     theme: 'material',
-                    height:380
-
+                    height: 300,
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -167,9 +161,8 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[Receivers, '#Receivers']], 'Receivers_1_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[ReceiversStats, '#ReceiversStats']], 'Receivers-Stats_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[UniqSenders, '#UniqSenders']], 'Uniq-Receivers', variables);
-        renderComponent('<%=@streaming_access_token %>',[[MedianTransferAmount, '#MedianTransferAmount']], 'Median-Transfer-Amount_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[Receivers, '#Receivers']], 'Receivers_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[ReceiversStats, '#ReceiversStats']], 'Receivers-Stats_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Receivers_2', variables);
     })
 </script>

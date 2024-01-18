@@ -2,9 +2,9 @@
     widgets.callbacks({
         token_path: function(item){
             if(item.currency.address=='-'){
-                return '<%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
             }else{
-                return '<%= @network[:network] %>/token/'+  item.currency.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.address;
             }
 
         },
@@ -12,7 +12,7 @@
             if(item.count_in==0) {
                 return null;
             }else{
-                return '<%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
                     (item.currency.address=='-' ? escapeHtml(item.currency.symbol) : item.currency.address ) +
                     (item.address ? '&sender='+item.address.address : '');
             }
@@ -21,72 +21,72 @@
             if(item.count_out==0) {
                 return null;
             }else {
-                return '<%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
+                return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
                     (item.currency.address=='-' ? escapeHtml(item.currency.symbol) : item.currency.address ) +
                     (item.address ? '&receiver='+item.address.address : '');
             }
         },
         transfer_token_sender_path: function(item){
-            return '<%= @network[:network] %>/txs/transfers?currency=<%= @address %>&sender='+item.sender.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&sender='+item.sender.address;
         },
         transfer_token_receiver_path: function(item){
-            return '<%= @network[:network] %>/txs/transfers?currency=<%= @address %>&receiver='+item.receiver.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?currency=<%= @address %>&receiver='+item.receiver.address;
         },
         smart_contract_method_path: function(item){
-            return '<%= @network[:network] %>'+'/method/'+item.smartContractMethod.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/method/'+item.smartContractMethod.signatureHash;
         },
         smart_contract_event_path: function(item){
-            return '<%= @network[:network] %>'+'/event/'+item.smartContractEvent.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/event/'+item.smartContractEvent.signatureHash;
         },
         address_path: function(item){
             if (item.address.address!='0x0000000000000000000000000000000000000000'){
-                return '<%= @network[:network] %>'+'/address/'+item.address.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.address.address;
             }
         },
         sender_address_path: function(item){
             if (item.sender.address!='0x0000000000000000000000000000000000000000') {
-                return '<%= @network[:network] %>' + '/address/' + item.sender.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.sender.address;
             }
         },
         receiver_address_path: function(item){
             if (item.receiver.address!='0x0000000000000000000000000000000000000000') {
-                return '<%= @network[:network] %>' + '/address/' + item.receiver.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.receiver.address;
             }
         },
         block_path: function(item){
-            return '<%= @network[:network] %>'+'/block/'+(item.block && item.block.hash || item.hash);
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+(item.block && item.block.hash || item.hash);
         },
         transaction_path: function(item){
-            return '<%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
+            return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transaction.hash);
         },
         smart_contract_path: function(item){
             if (item.smartContract.address.address!='0x0000000000000000000000000000000000000000') {
-                return '<%= @network[:network] %>' + '/smart_contract/' + item.smartContract.address.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/smart_contract/' + item.smartContract.address.address;
             }
         },
         call_count_path: function(item){
-            return '<%= @network[:network] %>/txs/calls?caller=<%= @address %>&contract=' + item.smartContract.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?caller=<%= @address %>&contract=' + item.smartContract.address.address;
         },
         call_method_count_path: function(item){
-            return '<%= @network[:network] %>/txs/calls?contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
         },
         event_count_path: function(item){
-            return '<%= @network[:network] %>/txs/events?contract=<%= @address %>&event=' + item.smartContractEvent.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/events?contract=<%= @address %>&event=' + item.smartContractEvent.signatureHash;
         },
         internal_call_method_count_path: function(item){
-            return '<%= @network[:network] %>/txs/calls?internal=true&contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?internal=true&contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
         },
         external_call_method_count_path: function(item){
-            return '<%= @network[:network] %>/txs/calls?internal=false&contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?internal=false&contract=<%= @address %>&method=' + item.smartContractMethod.signatureHash;
         },
         call_by_caller_count_path: function(item){
-            return '<%= @network[:network] %>/txs/calls?contract=<%= @address %>&caller='+item.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>/txs/calls?contract=<%= @address %>&caller='+item.address.address;
         },
         property_value_path: function(item){
             if (item.address && item.address.address!='0x0000000000000000000000000000000000000000' ) {
-                return '<%= @network[:network] %>' + '/address/' + item.address.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
             } else if (item.block ){
-                return '<%= @network[:network] %>'+'/block/'+item.block.height;
+                return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
             }else{
                 return null;
             }

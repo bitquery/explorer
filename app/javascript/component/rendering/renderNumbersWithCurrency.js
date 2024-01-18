@@ -7,6 +7,8 @@ export default function renderNumbersWithCurrency(data, variables, chainId) {
     div.setAttribute('title', data);
 
     const span = document.createElement('span');
+    span.setAttribute('title', data);
+
     div.appendChild(span);
 
     const spanCurrency = document.createElement('span');

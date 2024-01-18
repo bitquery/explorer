@@ -14,7 +14,7 @@ module Solana
 
     def breadcrumb
       @breadcrumbs << { name: "#{t("tabs.#{controller_name}.show.name")}: #{@block_id.truncate(15)}",
-                        url: "#{@network[:network]}/block/#{@block_id}" }
+                        url: "#{locale_path_prefix}#{@network[:network]}/block/#{@block_id}" }
 
       return if action_name == 'show'
 

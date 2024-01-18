@@ -8,13 +8,22 @@
     <div class='card' id='SmartContractEvents'></div>
   </div>
 </div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='AddressesUsedInEventParameters'></div>
+  </div>
+</div>
 <script>
     class EventsDistribution extends BarChartComponent {
         configuration() {
             return {
                 topElement: response=> response.EVM.Events,
                 chainId: response=> response.EVM.Events[0]?.ChainId,
-                title:()=>'Events Distribution',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Events Distribution`
+                },
                 id:'EventsDistribution',
                 columns: [
                     {
@@ -36,7 +45,11 @@
             return {
                 topElement: response=> response.EVM.Events,
                 chainId: response=> response.EVM.Events[0]?.ChainId,
-                title:()=>'Smart Contract events',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Smart Contract Events`
+                },
                 id:'SmartContractEvents',
                 columns: [
                     {
@@ -58,11 +71,42 @@
             }
         }
     }
+    class AddressesUsedInEventParameters extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response=> response.EVM.Events,
+                chainId: response=>response.EVM.Events[0].ChainId,
+                title:()=>'Addresses used in Event Parameters',
+                id:'AddressesUsedInEventParameters',
+                columns: [
+                    {
+                        name: 'Address', cell: row=> row.Log.SmartContract,
+                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
+                    },
+                    {
+                        name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
+                    },
+                    {
+                        name: 'Method', cell: row=> ({
+                            method: row.Log.Signature.Name,
+                            hash: row.Log.Signature.SignatureHash,
+                        }),
+                        rendering: renderMethodLink,
+                    },
+                    {
+                        name: 'Calls Count', cell: row=> row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
 
     const variables = {
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     };
-    renderComponent('<%=@streaming_access_token %>',[[EventsDistribution, '#EventsDistribution']], 'Events-Distribution_2', variables);
-    renderComponent('<%=@streaming_access_token %>',[[SmartContractEvents, '#SmartContractEvents']], 'SC-events_1', variables);
+    renderComponent('<%=@streaming_access_token %>',[[EventsDistribution, '#EventsDistribution']], 'Events-Distribution_3', variables);
+    renderComponent('<%=@streaming_access_token %>',[[SmartContractEvents, '#SmartContractEvents']], 'SC-events_2', variables);
+    renderComponent('<%=@streaming_access_token %>',[[AddressesUsedInEventParameters, '#AddressesUsedInEventParameters']], 'Addresses-used-in-Events-Parameters', variables);
 </script>

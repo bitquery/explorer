@@ -1,5 +1,10 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='SmartContractCount'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
     <div class='card' id='SmartContractMethods'></div>
   </div>
 </div>
@@ -9,12 +14,44 @@
   </div>
 </div>
 <script>
+    class SmartContractCount extends BarChartComponent {
+        configuration() {
+            return {
+                topElement: response=> response.EVM.Calls,
+                chainId: response=>response.EVM.Calls[0].ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    return `Largest ${tokenName} (${tokenSymbol}) Senders`
+                },
+                id: 'SmartContractCount',
+                columns: [
+                    {
+                        name: 'Method', cell: row => row.Call.Signature.Signature,
+                    },
+                    {
+                        name: 'Calls Count', cell: row => +row.count
+                    },
+                ],
+                options: {
+                    theme: 'material',
+                    legend: {position: 'top'},
+                    bar: {groupWidth: "90%"},
+                    height: 300,
+                }
+            }
+        }
+    }
     class SmartContractMethods extends BootstrapTableComponent {
         configuration() {
             return {
                 topElement: response=> response.EVM.Calls,
                 chainId: response=>response.EVM.Calls[0].ChainId,
-                title:()=>'Smart Contract Methods',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Methods`
+                },
                 id:'SmartContractMethods',
                 columns: [
                     {
@@ -69,7 +106,7 @@
                         rendering: renderJustAddressLink, headerStyle: {width: '44%'},
                     },
                     {
-                        name: 'Argument', cell: row=> row.Arguments[0]?.Name
+                     name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
                     },
                     {
                         name: 'Method', cell: row=> ({
@@ -93,7 +130,7 @@
         token: '<%= @address %>',
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[SmartContractMethods, '#SmartContractMethods']], 'Smart-Contract-Methods_3', variables);
-        renderComponent('<%=@streaming_access_token %>',[[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_2', variables);
+        renderComponent('<%=@streaming_access_token %>',[[SmartContractMethods, '#SmartContractMethods'],[SmartContractCount, '#SmartContractCount']], 'Smart-Contract-Methods_4', variables);
+        renderComponent('<%=@streaming_access_token %>',[[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_3', variables);
     })
 </script>

@@ -116,7 +116,7 @@
                     },
                     {
                         name: 'Balance', cell: row => row.balance,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
                     },
                     {
                         name: 'Unique Ids Owned Lifetime', cell: row => row.ids,
@@ -149,7 +149,7 @@
                 ],
                 options: {
                     title: 'Balance',
-                    height: 395
+                    height: 397
                 }
             }
         }
@@ -160,10 +160,10 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: response =>{
+                title: response => {
                     const tokenName = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Name || '-'
                     const tokenSymbol = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Symbol || '-'
-                    return `Latest ${tokenName} (${tokenSymbol}) NFT Token Trades Stream (Websocket)`
+                    return `Latest ${tokenName} (${tokenSymbol}) NFT Token Trades Stream`
                 },
                 id: 'SubscriptionLatestTradesNFTToken',
                 columns: [
@@ -224,7 +224,9 @@
         offset: 0,
     }
     renderComponent('<%=@streaming_access_token %>', [[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-token-information_1_1_1', variables);
-    renderComponent('<%=@streaming_access_token %>', [[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_4', variables);
-    renderComponent('<%=@streaming_access_token %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_3', variables);
-    renderComponent('<%=@streaming_access_token %>', [[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], null, variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_3');
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], 'the-Latest-Trades-of-NFT-Token_2', variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_3');
+    })
 </script>

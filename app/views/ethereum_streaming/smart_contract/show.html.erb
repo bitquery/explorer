@@ -9,6 +9,9 @@
     <div class="mb-4">
       <div class='card' id='DailySmartContractCallsInt'></div>
     </div>
+    <div class="mb-4">
+      <div class='card' id='CallValue'></div>
+    </div>
   </div>
   <div class='col-12 col-xl-6'>
     <div class='card' id='SmartContractBalanceByCurrencies'></div>
@@ -18,9 +21,13 @@
     class SmartContractStatistics extends BootstrapVerticalTableComponent {
         configuration() {
             return {
-                topElement: response => response.EVM.Calls,
+                topElement: response => [...response.EVM.Calls, ...response.EVM.Transfers],
                 chainId: response => response.EVM.Calls[0].ChainId,
-                title: () => 'Smart Contract Statistics',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Smart Contract Statistics`
+                },
                 id: 'SmartContractStatistics',
                 columns: [
                     {
@@ -33,19 +40,13 @@
                         name: 'Internal calls', cell: row => row.internal_count
                     },
                     {
-                        name: 'Call from', cell: row => row.call_from
+                        name: 'Sender fee', cell: row => row.sender_fee
                     },
                     {
-                        name: 'Call to', cell: row => row.call_to
+                        name: 'Fee Burnt', cell: row => row.burnt
                     },
                     {
-                        name: 'Transaction count from', cell: row => row.t_from
-                    },
-                    {
-                        name: 'Transaction count to', cell: row => row.t_to
-                    },
-                    {
-                        name: 'Sender fee', cell: row => row.sum
+                        name:'Validators Reward',cell: row => row.reward
                     },
                     {
                         name: 'Last transaction time', cell: row => row.Block?.Time,
@@ -59,14 +60,18 @@
     class SmartContractBalanceByCurrencies extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: response => response.EVM.BalanceUpdates,
+                topElement: response => [...response.EVM.BalanceUpdates, ...response.EVM.Transfers],
                 chainId: response => response.EVM.BalanceUpdates[0].ChainId,
-                title: () => 'Smart Contract Balance by Currencies',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    return `${tokenName} (${tokenSymbol}) Smart Contract Balance by Currencies`
+                },
                 id: 'SmartContractBalanceByCurrencies',
                 columns: [
                     {
                         name: 'Currency',
-                        cell: row => ({currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}),
+                        cell: row => ({currency: row.Currency?.Symbol, smartContract: row.Currency?.SmartContract}),
                         rendering: renderTokenLink,
                     },
                     {
@@ -78,39 +83,26 @@
         }
     }
 
-    class DailySmartContractCalls extends TimeChartComponent {
+    class DailySmartContractCalls extends ComboChartComponent {
         configuration() {
             return {
-                topElement: response => response.EVM.Calls,
+                topElement: response => [...response.EVM.Calls, ...response.EVM.Transfers],
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'External calls',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency.Symbol || 'no data'
+                    return `Daily ${tokenName} (${tokenSymbol}) Smart Contract Calls`
+                },
                 id: 'DailySmartContractCalls',
                 columns: [
                     {
-                        name: 'Date', cell: row => row.Block.Date
+                        name: 'Date', cell: row => row.Block?.Date
                     },
                     {
                         name: 'External calls', cell: row => +row.external_count
                     },
-                ],
-                options: {
-                    theme: 'material',
-                    legend: {position: 'top'},
-                }
-            }
-        }
-    }
-
-    class DailySmartContractCallsInt extends TimeChartComponent {
-        configuration() {
-            return {
-                topElement: response => response.EVM.Calls,
-                chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Internal calls',
-                id: 'DailySmartContractCallsInt',
-                columns: [
                     {
-                        name: 'Date', cell: row => row.Block.Date
+                        name: 'Tx Count', cell: row => +row.tx_count
                     },
                     {
                         name: 'Internal calls', cell: row => +row.internal_count
@@ -124,16 +116,69 @@
         }
     }
 
+    class DailySmartContractCallsInt extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => [...response.EVM.Calls, ...response.EVM.Transfers],
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency.Symbol || 'no data'
+                    return `Daily ${tokenName} (${tokenSymbol}) Smart Contract Uniq Callers`
+                },
+                id: 'DailySmartContractCallsInt',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block?.Date
+                    },
+                    {
+                        name: 'Uniq Callers', cell: row => +row.uniq_senders
+                    },
+                ],
+                options: {
+                    theme: 'material',
+                    legend: {position: 'top'},
+                }
+            }
+        }
+    }
+
+    class CallValue extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => [...response.EVM.Calls, ...response.EVM.Transfers],
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency.Symbol || 'no data'
+                    return `Daily ${tokenName} (${tokenSymbol}) Smart Contract Call Value`
+                },
+                id: 'CallValue',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block?.Date
+                    },
+                    {
+                        name: 'Uniq Callers', cell: row => parseFloat(row.call_value)
+                    },
+                ],
+                options: {
+                    theme: 'material',
+                    legend: {position: 'top'},
+                    colors: ['F2A600']
+                }
+            }
+        }
+    }
+
     const variables = {
         network: '<%= @streaming%>',
         address: '<%= @address %>',
-        offset: 0,
-        limit: 50,
     }
 
-    renderComponent('<%=@streaming_access_token %>', [[SmartContractStatistics, '#SmartContractStatistics']], 'Smart-Contract-Statistics_4', variables);
-    renderComponent('<%=@streaming_access_token %>', [[SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies']], 'Smart-Contract-balance-by-currencies_1', variables);
+    renderComponent('<%=@streaming_access_token %>', [[SmartContractStatistics, '#SmartContractStatistics']], 'Smart-Contract-Statistics-dataset-combain_2', variables);
+    renderComponent('<%=@streaming_access_token %>', [[SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies']], 'Smart-Contract-balance-by-currencies_3', variables);
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[DailySmartContractCalls, '#DailySmartContractCalls'], [DailySmartContractCallsInt, '#DailySmartContractCallsInt']], 'Daily-Smart-Contract-Calls_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[DailySmartContractCalls, '#DailySmartContractCalls'], [DailySmartContractCallsInt, '#DailySmartContractCallsInt'], [CallValue, '#CallValue']], 'Daily-Smart-Contract-Calls_6', variables);
     })
 </script>

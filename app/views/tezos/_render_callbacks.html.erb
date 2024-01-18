@@ -1,32 +1,32 @@
 <script>
     widgets.callbacks({
         height_path: function (item) {
-            return '<%= @network[:network] %>' + '/height/' + (item.block.height || item.block || item.height );
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/height/' + (item.block.height || item.block || item.height );
         },
         block_height_path: function (item) {
-            return '<%= @network[:network] %>' + '/height/' + item.height;
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/height/' + item.height;
         },
         sender_address_path: function (item) {
-            return '<%= @network[:network] %>' + '/address/' + item.sender.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.sender.address;
         },
 
         receiver_address_path: function (item) {
-            return '<%= @network[:network] %>' + '/address/' + item.receiver.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.receiver.address;
         },
 
         address_path: function (item) {
-            return '<%= @network[:network] %>' + '/address/' + item.address.address;
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
         },
 
         transaction_path: function (item) {
-            return '<%= @network[:network] %>' + '/tx/' + item.hash;
+            return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.hash;
         },
 
         property_value_path: function(item) {
             if (item.address) {
-                return '<%= @network[:network] %>' + '/address/' + item.address.address;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + item.address.address;
             } else if (item.block) {
-                return '<%= @network[:network] %>' + '/height/' + item.block.height;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/height/' + item.block.height;
             } else {
                 return null;
             }

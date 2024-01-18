@@ -1,33 +1,33 @@
 <script>
   widgets.callbacks({
     block_path: function(item){
-      return '<%= @network[:network] %>'+'/block/'+ item.height;
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+ item.height;
     },
     block_height_path: function(item){
-      return '<%= @network[:network] %>'+'/block/'+item.block.height;
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/block/'+item.block.height;
     },
     tx_path: function(item){
-      return '<%= @network[:network] %>'+'/tx/'+ (item.signature || item.transaction.signature);
+      return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.signature || item.transaction.signature);
     },
     address_path: function(item){
       if (item.sender && item.sender.address) {
-        return '<%= @network[:network] %>'+'/address/'+item.sender.address;
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.sender.address;
       }
 
       if (item.receiver && item.receiver.address) {
-        return '<%= @network[:network] %>'+'/address/'+item.receiver.address;
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.receiver.address;
       }
 
       if (item.account) {
-        return '<%= @network[:network] %>'+'/address/'+item.account;
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.account;
       }
 
       if (item.program.id){
-        return '<%= @network[:network] %>'+'/address/'+item.program.id;
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/address/'+item.program.id;
       }
     },
     signature_path: function(item){
-        return '<%= @network[:network] %>'+'/tx/'+ (item.signature || item.transaction.signature);
+        return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.signature || item.transaction.signature);
     },
   });
 </script>

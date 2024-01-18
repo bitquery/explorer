@@ -15,7 +15,7 @@ module Elrond
 
     def breadcrumb
       @breadcrumbs << { name: "#{t("tabs.#{controller_name}.show.name")}: #{@shard_id.truncate(15)}",
-                        url: "#{@network[:network]}/shards/#{@shard_id}" }
+                        url: "#{locale_path_prefix}#{@network[:network]}/shards/#{@shard_id}" }
 
       return if action_name == 'show'
 

@@ -16,81 +16,67 @@
     class LatestTradesOfTokenInNetwork extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTradeByTokens
+                topElement: response => response.EVM.DEXTradeByTokens,
+                chainId: response => response.EVM.DEXTradeByTokens[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.DEXTradeByTokens[0].Trade.Currency.Name  || 'no data'
+                    const tokenSymbol = response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol || 'no data'
+                    return `Latest Trades of ${tokenName} in ${tokenSymbol}`
                 },
-                chainId: function (response) {
-                    return response.EVM.DEXTradeByTokens[0]?.ChainId
-                },
-                title: 'Latest Trades of Token in Network',
+                id: 'LatestTradesOfTokenInNetwork',
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink, headerStyle: {width: '96px'},
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '96px'},
                     },
                     {
-                        name: 'Seller', cell: function (row) {
-                            return row.Trade.Seller
-                        }, rendering: renderJustAddressLink
-                    },
-                    {
-                        name: 'Sell amount',
-                        cell: function (row) {
-                            return row.Trade.Amount
-                        },
-                        rendering: renderNumbers,
-                        headerStyle: {textAlign: 'end', width: '100px'},
-                    },
-                    {
-                        name: 'Sell currency', cell: function (row) {
-                            return {
-                                currency: row.Trade.Currency.Symbol,
-                                smartContract: row.Trade.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,headerStyle: {width: '107px'},
-                    },
-                    {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
-                    },
-                    {
-                        name: 'Buyer', cell: function (row) {
-                            return row.Trade.Buyer
-                        },
+                        name: 'Seller', cell: row => row.Trade.Seller,
                         rendering: renderJustAddressLink
                     },
                     {
-                        name: 'Buy amount',
-                        cell: function (row) {
-                            return row.Trade.Side.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Sell Amount',
+                        cell: row => row.Trade.Amount,
+                        rendering: renderNumbers,
+                        headerStyle: {textAlign: 'end', width: '103px'},
                     },
                     {
-                        name: 'Buy currency', cell: function (row) {
-                            return {
-                                currency: row.Trade.Side.Currency.Symbol,
-                                smartContract: row.Trade.Side.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink, headerStyle: {width: '106px'},
+                        name: 'Sell Currency', cell: row => ({
+                            currency: row.Trade.Currency.Symbol,
+                            smartContract: row.Trade.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '110px'},
+                    },
+                    {
+                        name: '', cell: () => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Buyer', cell: row => row.Trade.Buyer,
+                        rendering: renderJustAddressLink
+                    },
+                    {
+                        name: 'Buy Amount',
+                        cell: row => row.Trade.Side.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '103px'},
+                    },
+                    {
+                        name: 'Buy Currency', cell: row => ({
+                            currency: row.Trade.Side.Currency.Symbol,
+                            smartContract: row.Trade.Side.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Price',
-                        cell: function (row) {
-                            return row.Trade.Price
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        cell: row => row.Trade.Price,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Txn hash',
-                        cell: function (row) {
-                            return row.Transaction.Hash
-                        },
+                        name: 'Hash',
+                        cell: row => row.Transaction.Hash,
                         rendering: renderTX, headerStyle: {width: '106px'},
                     }
                 ]
@@ -101,37 +87,30 @@
     class TokenPairs extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTradeByTokens
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTradeByTokens[0]?.ChainId
-                },
+                topElement: response => response.EVM.DEXTradeByTokens,
+                chainId: response => response.EVM.DEXTradeByTokens[0]?.ChainId,
+                title: () => 'Token Pairs by Count',
+                id: 'TokenPairs',
                 columns: [
                     {
-                        name: 'Pair', cell: function (row) {
-                            return {
-                                buyCurrencySymbol: row.Trade.Currency.Symbol,
-                                buyCurrencySC: row.Trade.Currency.SmartContract,
-                                sellCurrencySymbol: row.Trade.Side.Currency.Symbol,
-                                sellCurrencySC: row.Trade.Side.Currency.SmartContract,
-                            }
-                        }, rendering: renderPairLink,
+                        name: 'Pair', cell: row => ({
+                            buyCurrencySymbol: row.Trade.Currency.Symbol,
+                            buyCurrencySC: row.Trade.Currency.SmartContract,
+                            sellCurrencySymbol: row.Trade.Side.Currency.Symbol,
+                            sellCurrencySC: row.Trade.Side.Currency.SmartContract,
+                        }),
+                        rendering: renderPairLink,
                     },
                     {
-                        name: 'Name', cell: function (row) {
-                            return row.Trade.Side.Currency.Name
-                        },
+                        name: 'Name', cell: row => row.Trade.Side.Currency.Name
                     },
                     {
-                        name: 'Address', cell: function (row) {
-                            return row.Trade.Side.Currency.SmartContract
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
+                        name: 'Address', cell: row => row.Trade.Side.Currency.SmartContract,
+                        rendering: renderJustAddressLink, headerStyle: {width: '40%'},
                     },
                     {
-                        name: 'Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Count', cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -143,8 +122,8 @@
         token: '<%= @address %>',
         limit: 10,
     }
-    renderComponent('<%=@streaming_access_token %>',[[LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork']], 'Latest-Trades-of-Token-in-Network_dextrades_3', variables, 'Subscription-latest-Trades-of-Token_dextrades');
+    renderComponent('<%=@streaming_access_token %>', [[LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork']], 'Latest-Trades-of-Token-in-Network_dextrades_4', variables, 'Subscription-latest-Trades-of-Token_dextrades');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[TokenPairs, '#TokenPairs']], 'Token-pairs_5', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TokenPairs, '#TokenPairs']], 'Token-pairs_5', variables);
     })
 </script>

@@ -111,6 +111,14 @@ module ApplicationHelper
     (new_tabs || []).include?(action) && innovation_in_blockchain? ? tag.span(name) + " " + tag.div(class: "blink blnkr bg-success") : name
   end
 
+  def locale_path_prefix
+    if params[:locale]
+      "/#{params[:locale]}/"
+    else
+      '/'
+    end
+  end
+
   def dark?
     @theme == 'dark'
   end

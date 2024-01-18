@@ -1,55 +1,55 @@
 <script>
   widgets.callbacks({
     master_hash_path: function(item){
-      return '<%= @network[:network] %>' + '/block/' + (item.blockHash || item.hash) + '?blockType=master'
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.blockHash || item.hash) + '?blockType=master'
     },
 
     sharded_hash_path: function(item){
-      return '<%= @network[:network] %>' + '/block/' + (item.shardedBlock.hash) + '?blockType=sharded'
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.shardedBlock.hash) + '?blockType=sharded'
     },
 
     transaction_path: function(item){
-      return '<%= @network[:network] %>' + '/tx/' + item.hash
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.hash
     },
 
     transaction_hash_path: function(item){
-      return '<%= @network[:network] %>' + '/tx/' + (item.transactions.hash)
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + (item.transactions.hash)
     },
 
     message_path: function(item){
-      return '<%= @network[:network] %>' + '/message/' + item.hash
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/message/' + item.hash
     },
 
     message_hash_path: function(item){
-      return '<%= @network[:network] %>' + '/message/' + (item.messages.hash)
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/message/' + (item.messages.hash)
     },
 
     token_path: function(item){
       if(item.currency.address=='-'){
-          return '<%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
+          return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  escapeHtml(item.currency.symbol);
       }else{
-          return '<%= @network[:network] %>/token/'+  item.currency.address;
+          return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+  item.currency.address;
       }
     },
 
     account_path: function(item){
-      return '<%= @network[:network] %>' + '/address/' + (item.account)
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.account)
     },
 
     sender_address_path: function(item){
-      return '<%= @network[:network] %>' + '/address/' + (item.sender.address)
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.sender.address)
     },
 
     receiver_address_path: function(item){
-      return '<%= @network[:network] %>' + '/address/' + (item.receiver.address)
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.receiver.address)
     },
 
     smart_contract_path: function(item){
-      return '<%= @network[:network] %>' + '/address/' + (item.smartContractAddress.address)
+      return '<%= locale_path_prefix %><%= @network[:network] %>' + '/address/' + (item.smartContractAddress.address)
     },
 
     property_value_path: function(item){
-      link_prefix = '<%= @network[:network] %>'
+      link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
 
       if (item.txHash) {
         return `${link_prefix}/tx/` + item.txHash;

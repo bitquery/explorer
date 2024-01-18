@@ -18,7 +18,7 @@ module Hedera
 
     def breadcrumb
       @breadcrumbs << { name: "#{t("tabs.#{controller_name}.show.name")}: #{@topic_id.truncate(15)}",
-                        url: "#{@network[:network]}/topics/#{@topic_id}" }
+                        url: "#{locale_path_prefix}#{@network[:network]}/topics/#{@topic_id}" }
 
       return if action_name == 'show'
 

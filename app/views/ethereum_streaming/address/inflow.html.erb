@@ -25,7 +25,11 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: () => 'Latest Inbound Transfers',
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || 'no data'
+                    return `Latest ${tokenName} (${tokenSymbol}) Inbound Transfers`
+                },
                 id: 'LatestInboundTransfers',
                 columns: [
                     {
@@ -45,10 +49,7 @@
                         rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: row => row.Transfer.Currency.Symbol,
-                    },
-                    {
-                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        name: 'Transaction hash', cell: row => row.Transaction?.Hash,
                         rendering: renderTX, headerStyle: {width: '136px'},
                     },
                 ]
@@ -61,7 +62,11 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Inbound transfers in ${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} currency`,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || 'no data'
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} received by ${tokenName} (${tokenSymbol}) Contract`
+                },
                 id: 'InboundTransfersInNativeCurrency',
                 columns: [
                     {
@@ -71,21 +76,23 @@
                         name: 'Volume', cell: row => +row.sum,
                     },
                     {
-                        name: 'Count', cell: row => +row.count,
+                        name: 'Count', cell: row => +row.count
                     }
                 ],
                 options: {
                     height: 300,
+                    theme: 'material',
                     vAxis: {
                         scaleType: 'log',
                         viewWindow: {
-                            max: 10000,
-                            min: 0.0000001
+                            // max: 10000,
+                            min: 0.00001
                         },
                     },
                     tooltip: {
                         ignoreBounds: true
-                    }
+                    },
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -96,6 +103,12 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || 'no data'
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || 'no data'
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} received by ${tokenName} (${tokenSymbol}) Contract`
+                },
+                id:'InboundTransfersInTokens',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -106,15 +119,20 @@
                 ],
                 options: {
                     height: 300,
-                    colors: ['FFC106'],
+                    theme: 'material',
                     vAxis: {
                         scaleType: 'log',
                         viewWindow: {
-                            max: 10000,
-                            min: 0.0000001
+                            // max: 10000,
+                            min: 0.00001
                         },
                     },
+                    tooltip: {
+                        ignoreBounds: true
+                    },
+                    legend: {position: 'top'}
                 }
+
             }
         }
     }
@@ -133,11 +151,7 @@
                     },
                     {
                         name: 'Amount', cell: row => row.Transfer.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                    {
-                        name: 'Currency', cell: row => row.Transfer.Currency.Symbol,
-                        headerStyle: {width: '79px'},
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Latest Date', cell: row => row.Block.Date,
@@ -185,17 +199,19 @@
     }
 
     const variables = {
-        network: '<%= @streaming%>',
-        address: '<%= @address %>',
+<!--                network: '<%= @streaming%>',-->
+        network: 'eth',
+<!--                address: '<%= @address %>',-->
+        address: '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_5', variables);
+        renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[TopSendersInNativeCurrency, '#TopSendersInNativeCurrency']], 'Top-Senders-in-native-currency_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[TopSendersInTokens, '#TopSendersInTokens']], 'Top-Senders-in-tokens_2', variables);
-        renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_4', variables);
-        renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens_2', variables);
     })
 
 </script>

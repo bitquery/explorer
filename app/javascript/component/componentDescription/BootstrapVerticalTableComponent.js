@@ -19,7 +19,6 @@ export default class BootstrapVerticalTableComponent {
         this.appendChildren(this.wrapper, this.tableElement);
         this.createThead();
         this.createTbody();
-        this.createTfooter();
     }
 
     createThead() {
@@ -31,7 +30,7 @@ export default class BootstrapVerticalTableComponent {
         const th1 = this.createElementWithClasses('th');
         th1.setAttribute('scope', 'row');
         th1.textContent = (this.config && this.config.options && this.config.options.columnTitle1) ? this.config.options.columnTitle1 : 'Property';
-        th1.style.width = '30%'
+        th1.style.width = '35%'
         this.appendChildren(tr, th1);
 
         const th2 = this.createElementWithClasses('th');
@@ -43,11 +42,6 @@ export default class BootstrapVerticalTableComponent {
     createTbody() {
         this.tbody = this.createElementWithClasses('tbody');
         this.appendChildren(this.tableElement, this.tbody);
-    }
-
-    createTfooter() {
-        const tfooter = this.createElementWithClasses('div');
-        this.appendChildren(this.tableElement, tfooter);
     }
 
     async init() {
