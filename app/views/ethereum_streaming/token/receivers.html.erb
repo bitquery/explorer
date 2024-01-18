@@ -23,8 +23,8 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
                     return `Largest ${tokenName} (${tokenSymbol}) Receivers`
                 },
                 id: 'Receivers',
@@ -52,8 +52,8 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
                     return `Largest ${tokenName} (${tokenSymbol}) Receivers Stats`
                 },
                 id: 'ReceiversStats',
@@ -103,8 +103,8 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
                     return `Daily Unique  ${tokenName} (${tokenSymbol}) Receivers`
                 },
                 id: 'UniqSenders',
@@ -133,8 +133,8 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0]?.Transfer.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency?.Symbol || ''
                     return `Median ${tokenName} (${tokenSymbol}) Received Amount`
                 },
                 id: 'MedianTransferAmount',

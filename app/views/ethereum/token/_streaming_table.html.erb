@@ -21,8 +21,8 @@
                       return response.EVM.Transfers[0]?.ChainId
                   },
                   title: function (response) {
-                      const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                      const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                      const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'token'
+                      const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || ''
                       return `Latest ${tokenName} (${tokenSymbol}) Token Transfer Stream`
                   },
                   id: 'LatestTransfersOfTokenInNetwork',

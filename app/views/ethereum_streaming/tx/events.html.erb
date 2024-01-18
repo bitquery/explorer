@@ -7,27 +7,22 @@
     class TransactionAttributes extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
-                },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
+                topElement: response =>response.EVM.Events,
+                chainId: response => response.EVM.Events[0]?.ChainId,
+                title: () => 'Smart Contract Events logged in Transaction',
+                id: 'TransactionAttributes',
                 columns: [
                     {
-                        name: 'Event', cell: function (row) {
-                            return {event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}
-                        }, rendering: renderEventLink
+                        name: 'Event', cell: row =>  ({event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}),
+                        rendering: renderEventLink
                     },
                     {
-                        name: 'Smart Contract', cell: function (row) {
-                            return row.Log.SmartContract
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
+                        name: 'Smart Contract', cell: row =>  row.Log.SmartContract,
+                        rendering: renderJustAddressLink, headerStyle: {width: '40%'},
                     },
                     {
-                        name: 'Event count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Event count', cell: row =>  row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }

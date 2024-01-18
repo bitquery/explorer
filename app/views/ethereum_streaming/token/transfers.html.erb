@@ -18,8 +18,8 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || ''
                     return `Latest ${tokenName} (${tokenSymbol}) Token Transfer Stream`
                 },
                 id: 'LatestTransfersOfTokenInNetwork',
@@ -74,8 +74,8 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || ''
                     return `${tokenName} (${tokenSymbol}) Transfer Count`
                 },
                 id:'TokenTransfers',
@@ -102,8 +102,8 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || ''
                     return ` ${tokenName} (${tokenSymbol}) Transfer Amount`
                 },
                 id: 'TokenTransfersAmount',

@@ -22,18 +22,10 @@
         configuration() {
             return {
                 symbol: '<%= @token1symbol%> / <%= @token2symbol%>',
-                topElement: function (response) {
-                    return response.EVM.DEXTradeByTokens
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTradeByTokens[0].ChainId
-                },
-                token1: function (response) {
-                    return response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol
-                },
-                token2: function (response) {
-                    return response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol
-                },
+                topElement: response => response.EVM.DEXTradeByTokens,
+                chainId: response => response.EVM.DEXTradeByTokens[0].ChainId,
+                token1: response => response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol,
+                token2: response => response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol,
             }
         }
     }

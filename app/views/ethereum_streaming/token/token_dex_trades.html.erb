@@ -19,8 +19,8 @@
                 topElement: response => response.EVM.DEXTradeByTokens,
                 chainId: response => response.EVM.DEXTradeByTokens[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.DEXTradeByTokens[0].Trade.Currency.Name  || 'no data'
-                    const tokenSymbol = response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.DEXTradeByTokens[0].Trade.Currency.Name  || ''
+                    const tokenSymbol = response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol || ''
                     return `Latest Trades of ${tokenName} in ${tokenSymbol}`
                 },
                 id: 'LatestTradesOfTokenInNetwork',

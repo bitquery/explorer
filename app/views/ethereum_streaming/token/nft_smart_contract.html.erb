@@ -28,7 +28,7 @@
                 topElement: response => response.EVM.BalanceUpdates,
                 chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || 'no data'
+                    const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || ''
                     const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol || 'no data'
                     return `Latest ${tokenName} (${tokenSymbol}) NFT Token info`
                 },

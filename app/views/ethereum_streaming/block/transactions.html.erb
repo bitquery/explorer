@@ -9,7 +9,7 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
-                title: `Transactions`,
+                title:()=> `Transactions`,
                 id: 'Transactions',
                 columns: [
                     {

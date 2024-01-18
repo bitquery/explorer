@@ -29,8 +29,8 @@
                 topElement: response => [...response.EVM.date3],
                 chainId: response => response.EVM.Blocks[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.date3[0].Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.date3[0].Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.date3[0].Currency.Name || ''
+                    const tokenSymbol = response.EVM.date3[0].Currency.Symbol || ''
                     return `${tokenName} (${tokenSymbol}) Token Holder Stats`
                 },
                 id: 'BalanceHolderStatsLatestDate',
@@ -86,8 +86,8 @@
                 topElement: response => [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3],
                 chainId: response => response.EVM.Blocks[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.date1[0].Currency?.Symbol || response.EVM.date2[0].Currency?.Symbol || response.EVM.date3[0].Currency?.Symbol || 'no data'
+                    const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || ''
+                    const tokenSymbol = response.EVM.date1[0].Currency?.Symbol || response.EVM.date2[0].Currency?.Symbol || response.EVM.date3[0].Currency?.Symbol || ''
                     return `${tokenName} (${tokenSymbol}) Token holders count`
                 },
                 id: 'HoldersCount',
@@ -115,8 +115,8 @@
                 topElement: response => [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3],
                 chainId: response => response.EVM.Blocks[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.date1[0].Currency.Name || response.EVM.date2[0].Currency.Name || response.EVM.date3[0].Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.date1[0].Currency.Symbol || response.EVM.date2[0].Currency.Symbol || response.EVM.date3[0].Currency?.Symbol || 'no data'
+                    const tokenName = response.EVM.date1[0].Currency.Name || response.EVM.date2[0].Currency.Name || response.EVM.date3[0].Currency?.Name || ''
+                    const tokenSymbol = response.EVM.date1[0].Currency.Symbol || response.EVM.date2[0].Currency.Symbol || response.EVM.date3[0].Currency?.Symbol || ''
                     return `${tokenName} (${tokenSymbol}) Gini Factor`
                 },
                 id: 'GiniIndex',
@@ -144,8 +144,8 @@
                 topElement: response => [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3],
                 chainId: response => response.EVM.Blocks[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.date1[0].Currency?.Symbol || response.EVM.date2[0].Currency?.Symbol || response.EVM.date3[0].Currency?.Symbol || 'no data'
+                    const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || ''
+                    const tokenSymbol = response.EVM.date1[0].Currency?.Symbol || response.EVM.date2[0].Currency?.Symbol || response.EVM.date3[0].Currency?.Symbol || ''
                     return `${tokenName} (${tokenSymbol}) Nakamoto Index`
                 },
                 id: 'NakamotoIndex',
@@ -172,8 +172,8 @@
                 topElement: response => [...response.EVM.date1, ...response.EVM.date2, ...response.EVM.date3],
                 chainId: response => response.EVM.Blocks[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.date1[0].Currency?.Symbol || response.EVM.date2[0].Currency?.Symbol || response.EVM.date3[0].Currency?.Symbol || 'no data'
+                    const tokenName = response.EVM.date1[0].Currency?.Name || response.EVM.date2[0].Currency?.Name || response.EVM.date3[0].Currency?.Name || ''
+                    const tokenSymbol = response.EVM.date1[0].Currency?.Symbol || response.EVM.date2[0].Currency?.Symbol || response.EVM.date3[0].Currency?.Symbol || ''
                     return `${tokenName} (${tokenSymbol}) Total Supply`
                 },
                 id: 'SupplyTokens',

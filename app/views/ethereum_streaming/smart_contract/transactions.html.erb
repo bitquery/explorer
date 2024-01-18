@@ -19,8 +19,8 @@
                 chainId: response => response.EVM.Calls[0].ChainId,
                 id: 'LatestTransactions',
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || ''
                     return `${tokenName} (${tokenSymbol}) Latest Transactions`
                 },
                 columns: [
@@ -65,8 +65,8 @@
                 chainId: response => response.EVM.Calls[0].ChainId,
                 id: 'TopSmartContractCaller',
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || ''
                     return `Top ${tokenName} (${tokenSymbol}) Smart Contract Caller`
                 },
                 columns: [
@@ -96,8 +96,8 @@
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0].ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
+                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || ''
                     return `Top Gas burner for ${tokenName} (${tokenSymbol}) Smart Contract`
                 },
                 id: 'TopGasBurnerForSmartContract',
