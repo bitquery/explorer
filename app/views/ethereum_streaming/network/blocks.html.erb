@@ -9,6 +9,8 @@
             return {
                 topElement: response => response.EVM.Blocks,
                 chainId: response => response.EVM.Blocks[0]?.ChainId,
+                title: ()=>'Latest Blocks',
+                id:'LatestBlocks',
                 columns: [
                     {
                         name: 'Timestamp',
@@ -38,7 +40,7 @@
                     {
                         name: (response) => `Base fee (${WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) : ''})`,
                         cell: row => row.Block.BaseFee,
-                        // rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: (response) => `Gas used (${WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) : ''})`,

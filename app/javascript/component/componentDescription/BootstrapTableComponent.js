@@ -115,20 +115,21 @@ export default class BootstrapTableComponent {
                 for (const column of this.config.columns) {
                     const td = this.createElementWithClasses('td', 'text-truncate');
                     const textCell = this.createElementWithClasses('span');
-                    textCell.textContent = column.cell(row);
+                    textCell.textContent = column.cell(row)
+                    textCell.setAttribute('title', column.cell(row))
                     if (textCell.textContent === 'true') {
                         textCell.style.color = '#2EA848'
                     }
                     td.appendChild(textCell)
 
                     if (column.rendering) {
-                        const div = await column.rendering(column.cell(row), variables, chainId);
-                        td.replaceChild(div, textCell);
+                        const div = await column.rendering(column.cell(row), variables, chainId)
+                        td.replaceChild(div, textCell)
                     }
                     if (column.cellStyle) {
-                        const cellStyle = column.cellStyle;
+                        const cellStyle = column.cellStyle
                         for (let styleKey in cellStyle) {
-                            td.style[styleKey] = cellStyle[styleKey];
+                            td.style[styleKey] = cellStyle[styleKey]
                         }
                     }
                     tr.appendChild(td);

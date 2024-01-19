@@ -19,10 +19,10 @@ export function SubscriptionDataSource(token,payload) {
                 }
             },
         })
+        this.alive = true
 
         cleanSubscription = client.subscribe({query: payload.query, variables}, {
             next: ({data}) => {
-                this.alive = true
                 callbacks.forEach((cb, i) => {
                     widgetFrames[i].onqueryend()
                     cb(data, variables)
@@ -30,6 +30,7 @@ export function SubscriptionDataSource(token,payload) {
             },
             error: error => {
                 widgetFrames.forEach(wf => wf.onerror(error))
+                this.alive = false
             },
             complete: () => {
                 this.alive = false
@@ -53,6 +54,7 @@ export function SubscriptionDataSource(token,payload) {
 
     this.unsubscribe = () => {
         cleanSubscription && cleanSubscription()
+        this.alive =false
         cleanSubscription = null
     }
 
@@ -186,9 +188,12 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
 export const streamControl = subscriptionDataSource => e => {
     if (subscriptionDataSource.alive) {
         subscriptionDataSource.unsubscribe()
+        console.log('unsubscribe?',subscriptionDataSource.alive)
         e.currentTarget.textContent = 'Start streaming'
     } else {
         subscriptionDataSource.subscribe()
+        console.log('subscribe?',subscriptionDataSource.alive)
+
         e.currentTarget.textContent = 'Stop streaming'
     }
 }
