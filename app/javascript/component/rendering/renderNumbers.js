@@ -1,8 +1,8 @@
 export default function renderNumbers(data) {
-    const div = document.createElement('div');
+    const div = document.createElement('div')
     div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
     const span = document.createElement('span')
-    const stringData = typeof data === 'string' ? data : data.toString()
+    const stringData = (data === null || data === undefined) ? '' : data.toString()
     const formattedData = stringData.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')
 
     span.textContent = formattedData

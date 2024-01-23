@@ -26,6 +26,8 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title:()=>'Token Trades',
+                id:'SubTokenTradesTable',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
