@@ -3,9 +3,10 @@ export default class BootstrapTableComponent {
         this.container = element;
         this.historyDataSource = historyDataSource
         this.subscriptionDataSource = subscriptionDataSource
-        this.config = this.configuration();
-        this.createWrapper();
-        this.createTable();
+        this.config = this.configuration()
+        this.createWrapper()
+        this.createTable()
+        this.theadCreated = false
 
     }
 
@@ -28,6 +29,7 @@ export default class BootstrapTableComponent {
     }
 
     async createThead(data) {
+        if (this.theadCreated) return
         const thead = this.createElementWithClasses('thead')
         const tr = this.createElementWithClasses('tr')
         this.tableElement.appendChild(thead)
@@ -43,12 +45,11 @@ export default class BootstrapTableComponent {
             }
 
             if (headerStyle) {
-                for (let styleKey in headerStyle) {
-                    th.style[styleKey] = headerStyle[styleKey];
-                }
+                Object.assign(th.style, headerStyle);
             }
             tr.appendChild(th);
         }
+        this.theadCreated = true
     }
 
 
@@ -91,7 +92,6 @@ export default class BootstrapTableComponent {
         }
         const maxRows = 15;
         const rows = await this.composeRows(data, variables)
-        await this.createThead(data)
         rows.forEach(tr => {
             this.tbody.insertBefore(tr, this.tbody.firstChild)
             if (this.tbody.childElementCount > maxRows) {
@@ -102,7 +102,6 @@ export default class BootstrapTableComponent {
 
     async composeRows(rowData, variables) {
         const data = this.config.topElement(rowData)
-
         const rows = []
         if (data) {
             let chainId = ''
@@ -127,11 +126,9 @@ export default class BootstrapTableComponent {
                         td.replaceChild(div, textCell)
                     }
                     if (column.cellStyle) {
-                        const cellStyle = column.cellStyle
-                        for (let styleKey in cellStyle) {
-                            td.style[styleKey] = cellStyle[styleKey]
-                        }
+                        Object.assign(td.style, column.cellStyle)
                     }
+
                     tr.appendChild(td);
                     rows.push(tr)
                 }
