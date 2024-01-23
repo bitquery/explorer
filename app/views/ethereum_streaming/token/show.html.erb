@@ -16,37 +16,25 @@
       class TokenAttributes extends BootstrapVerticalTableComponent {
           configuration() {
               return {
-                  topElement: function (response) {
-                      return response.EVM.Transfers
-                  },
-                  chainId: function (response) {
-                      return response.EVM.Transfers[0].ChainId
-                  },
+                  topElement: response => response.EVM.Transfers,
+                  chainId: response => response.EVM.Transfers[0]?.ChainId,
+                  title: () => 'Token attributes',
+                  id: 'TokenAttributes',
                   columns: [
                       {
-                          name: 'Symbol', cell: function (row) {
-                              return row.Transfer.Currency.Symbol
-                          },
+                          name: 'Symbol', cell: row => row.Transfer.Currency.Symbol
                       },
                       {
-                          name: 'Name', cell: function (row) {
-                              return row.Transfer.Currency.Name
-                          },
+                          name: 'Name', cell: row => row.Transfer.Currency.Name
                       },
                       {
-                          name: 'Number of Decimals', cell: function (row) {
-                              return row.Transfer.Currency.Decimals
-                          },
+                          name: 'Number of Decimals', cell: row => row.Transfer.Currency.Decimals
                       },
                       {
-                          name: "Balance", cell: function (row) {
-                              return row.sum
-                          }
+                          name: "Balance", cell: row => row.sum
                       },
                       {
-                          name: 'Protocol name', cell: function (row) {
-                              return row.Transfer.Currency.ProtocolName
-                          },
+                          name: 'Protocol name', cell: row => row.Transfer.Currency.ProtocolName
                       },
                   ]
               }
@@ -56,44 +44,29 @@
       class AddressBalanceByCurrencies extends BootstrapVerticalTableComponent {
           configuration() {
               return {
-                  topElement: function (response) {
-                      return response.EVM.Transfers
-                  },
-                  chainId: function (response) {
-                      return response.EVM.Transfers[0].ChainId
-                  },
+                  topElement: response => response.EVM.Transfers,
+                  chainId: response => response.EVM.Transfers[0]?.ChainId,
+                  title: () => 'Token transfer statistics',
+                  id: 'AddressBalanceByCurrencies',
                   columns: [
                       {
-                          name: 'Transfer Count', cell: function (row) {
-                              return row.count
-                          },
+                          name: 'Transfer Count', cell: row => row.count
                       },
                       {
-                          name: 'Uniq Senders', cell: function (row) {
-                              return row.sender_count
-                          },
+                          name: 'Uniq Senders', cell: row => row.sender_count
                       },
                       {
-                          name: 'Uniq Receivers', cell: function (row) {
-                              return row.receiver_count
-                          },
+                          name: 'Uniq Receivers', cell: row => row.receiver_count
                       },
                       {
-                          name: 'First transfer date', cell: function (row) {
-                              return row.Block.min_date
-                          },
+                          name: 'First transfer date', cell: row => row.Block.min_date
                       },
                       {
-                          name: 'Last transfer date', cell: function (row) {
-                              return row.Block.max_date
-                          },
+                          name: 'Last transfer date', cell: row => row.Block.max_date
                       },
                       {
-                          name: 'Days token transferred', cell: function (row) {
-                              return row.days
-                          },
+                          name: 'Days token transferred', cell: row => row.days
                       },
-
                   ],
                   options: {
                       columnTitle1: 'Metric',
@@ -106,22 +79,18 @@
       class TokenHolderOfToken extends BootstrapTableComponent {
           configuration() {
               return {
-                  topElement: function (response) {
-                      return response.EVM.BalanceUpdates
-                  },
-                  chainId: function (response) {
-                      return response.EVM.BalanceUpdates[0].ChainId
-                  },
+                  topElement: response => response.EVM.BalanceUpdates,
+                  chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
+                  title: () => 'Token holder of token',
+                  id: 'TokenHolderOfToken',
                   columns: [
                       {
-                          name: 'Holder', cell: function (row) {
-                              return row.BalanceUpdate.Address
-                          }, rendering: renderJustAddressLink,
+                          name: 'Holder', cell: row => row.BalanceUpdate.Address,
+                          rendering: renderJustAddressLink,
                       },
                       {
-                          name: 'Balance of the token', cell: function (row) {
-                              return row.Balance
-                          }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                          name: 'Balance of the token', cell: row => row.Balance,
+                          rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                       },
                   ]
               }
@@ -132,10 +101,10 @@
           network: '<%= @streaming%>',
           address: '<%= @address %>',
       }
+      renderComponent('<%=@streaming_access_token %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
+      renderComponent('<%=@streaming_access_token %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Token-transfer-statistics_4', variables);
       renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-          renderComponent('<%=@streaming_access_token %>',[[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_3', variables);
+          renderComponent('<%=@streaming_access_token %>', [[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_3', variables);
       })
-      renderComponent('<%=@streaming_access_token %>',[[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
-      renderComponent('<%=@streaming_access_token %>',[[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Token-transfer-statistics_4', variables);
   </script>
 <% end %>

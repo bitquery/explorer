@@ -15,67 +15,52 @@
     class LatestTransfersOfTokenInNetwork extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
-                title: function (response) {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
-                    return `Latest ${tokenName} (${tokenSymbol}) Token Transfer Stream`
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol})` : ''
+                    return `Latest ${tokenName} ${tokenSymbol} Token Transfer Stream`
                 },
                 id: 'LatestTransfersOfTokenInNetwork',
                 columns: [
                     {
-                        name: 'Time', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Time', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,headerStyle: {width: '120px'},
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '120px'},
                     },
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '15%'},
+                        name: 'Sender', cell: row => row.Transfer.Sender,
+                        rendering: renderJustAddressLink, headerStyle: {width: '15%'},
                     },
                     {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                        name: '', cell: row => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '15%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink, headerStyle: {width: '15%'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink, headerStyle: {width: '100px'},
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Id', cell: function (row) {
-                            return {id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}
-                        }, rendering: renderIdLink, headerStyle: {width: '100px'},
+                        name: 'Id', cell: row => ({id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}),
+                        rendering: renderIdLink, headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Hash',
-                        cell: function (row) {
-                            return row.Transaction.Hash
-                        },
+                        cell: row => row.Transaction.Hash,
                         rendering: renderTX, headerStyle: {width: '120px'},
                     }
                 ]
@@ -86,31 +71,26 @@
     class TokenTransfers extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol})` : ''
+                    return `${tokenName} ${tokenSymbol} Transfer Count`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0]?.ChainId
-                },
-                title: function (response) {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
-                    return ` ${tokenName} (${tokenSymbol}) Transfer Count`
-                },
+                id: 'TokenTransfers',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Transfer Count', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Transfer Count', cell: row => +row.count
                     },
                 ],
                 options: {
-                    vAxis: {minValue: 0}
+                    vAxis: {minValue: 0},
+                    theme: 'material',
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -119,32 +99,26 @@
     class TokenTransfersAmount extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0]?.ChainId
-                },
-                title: function (response) {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
-                    return ` ${tokenName} (${tokenSymbol}) Transfer Amount`
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol})` : ''
+                    return ` ${tokenName} ${tokenSymbol} Transfer Amount`
                 },
                 id: 'TokenTransfersAmount',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Transfer Amount', cell: function (row) {
-                            return +row.amount
-                        }
+                        name: 'Transfer Amount', cell: row => +row.amount
                     },
                 ],
                 options: {
                     colors: ['28A745'],
+                    theme: 'material',
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -154,10 +128,10 @@
         network: '<%= @streaming%>',
         token: '<%= @token%>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
     }
-    renderComponent('<%=@streaming_access_token %>',[[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token_6', variables, 'Subscription-Latest-Transfers-of-Token-in-Network_3');
+    renderComponent('<%=@streaming_access_token %>', [[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token_10', variables, 'Subscription-Latest-Transfers-of-Token_1');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_6', variables);
     })
 </script>

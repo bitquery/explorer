@@ -1,30 +1,74 @@
-<% if innovation_in_blockchain? %>
-  <div class="row">
-    <div class="col-12 col-lg-12 mb-4">
-      <div class="card">
-<!--        <span class="live-header">Live</span>-->
-<!--        <span class="blinker"></span>-->
-        <div class="card-header">
-          <div class="row">
-            <div class="col-8">
-              <%=  params['action'] === 'transfers' ? 'Latest transfers' : 'Pair last trades'%>
-            </div>
-            <div class="col-4 text-success text-right">
-              <span class="d-none d-sm-inline">Live </span><div class="blink blnkr bg-success"></div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div id="pair-last-trades"><%= t('loading') %></div>
-        </div>
-      </div>
-    </div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='PairLastTrades' class='card'></div>
   </div>
-  <script type="text/javascript" charset="utf-8">
-      createWidget('pair_dex_trades', 'pair-last-trades', {
-          baseCurrency: '<%=@token2 %>',
-          quoteCurrency: '<%=@token1 %>',
-          network: '<%= params['network']['network'] %>'
-      }, '<%= BITQUERY_IDE_API %>/querytransfer')
-  </script>
-<% end %>
+</div>
+<script>
+    class PairLastTrades extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: () => "Pair last trades",
+                id: 'PairLastTrades',
+                columns: [
+                    {
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
+                    }, {
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Quote amount', cell: row => row.Trade.Buy.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: 'Quote currency', cell: row => ({
+                            currency: row.Trade.Buy.Currency.Symbol,
+                            smartContract: row.Trade.Buy.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '15%'},
+                    },
+                    {
+                        name: 'Price', cell: row => row.Trade.Buy.Price,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: 'Base amount', cell: row => row.Trade.Sell.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: 'Base currency', cell: row => ({
+                            currency: row.Trade.Sell.Currency.Symbol,
+                            smartContract: row.Trade.Sell.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '15%'},
+                    },
+                    {
+                        name: 'Protocol', cell: row => ({
+                            ProtocolFamily: row.Trade.Dex.ProtocolFamily,
+                            ProtocolName: row.Trade.Dex.ProtocolName,
+                            ProtocolVersion: row.Trade.Dex.ProtocolVersion
+                        }),
+                        rendering: renderDexProtocolLink,
+                    },
+                    {
+                        name: 'Smart Contract', cell: row => row.Trade.Dex.SmartContract,
+                        rendering: renderJustAddressLink,
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        baseCurrency: '<%= @token1 %>',
+        quoteCurrency: '<%= @token2 %>',
+    }
+    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[PairLastTrades, '#PairLastTrades']], 'Pair-last-trades_4', variables, 'Subscription-pair-last-trades_2');
+    })
+
+</script>

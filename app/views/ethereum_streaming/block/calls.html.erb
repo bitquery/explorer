@@ -7,41 +7,37 @@
     class CallsSmartContracts extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0].ChainId
-                },
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => `Calls Smart Contracts`,
+                id: 'CallsSmartContracts',
                 columns: [
-
                     {
-                        name: 'Caller', cell: function (row) {
-                            return row.Call.From
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
-                        name: 'Smart Contract', cell: function (row) {
-                            return row.Call.To
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '20%'},
+                        name: 'Smart Contract', cell: row => row.Call.To,
+                        rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
-                        name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
-                        }, rendering: renderMethodLink
+                        name: 'Method',
+                        cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
+                        rendering: renderMethodLink
                     },
                     {
-                        name: 'Gas used', cell: function (row) {
-                            return row.Call.GasUsed
-                        },  rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
-                    },                    {
-                        name: 'Value', cell: function (row) {
-                            return row.Call.Value
-                        },  rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
-                    },                    {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '25%'},
+                        name: 'Gas used', cell: row => row.Call.GasUsed,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    }, {
+                        name: 'Value', cell: row => row.Call.Value,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    }, {
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '25%'},
                     },
                 ]
             }
@@ -52,5 +48,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent('<%=@streaming_access_token %>',[[CallsSmartContracts, '#CallsSmartContracts']], 'Calls-smart-contracts_3', variables);
+    renderComponent('<%=@streaming_access_token %>', [[CallsSmartContracts, '#CallsSmartContracts']], 'Calls-smart-contracts_3', variables);
 </script>

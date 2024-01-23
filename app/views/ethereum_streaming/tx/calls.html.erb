@@ -7,37 +7,32 @@
     class TransactionAttributes extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Calls
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0]?.ChainId
-                },
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Smart Contract Calls in Transaction by Gas used',
+                id: 'TransactionAttributes',
                 columns: [
                     {
-                        name: 'Call Depth', cell: function (row) {
-                            return row.Call.Depth
-                        },
+                        name: 'Call Depth', cell: row => row.Call.Depth
                     },
                     {
-                        name: 'Method', cell: function (row) {
-                            return {method: row.Call.Signature.Name, hash: row.Call.Signature.SignatureHash, value:row.Call.Value}
-                        }, rendering: renderMethodLink, headerStyle: {width: '30%'},
+                        name: 'Method', cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
+                        rendering: renderMethodLink, headerStyle: {width: '30%'},
                     },
                     {
-                        name: 'Caller', cell: function (row) {
-                            return row.Call.From
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
                     },
                     {
-                        name: 'Gas used', cell: function (row) {
-                            return row.Call.GasUsed
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Gas used', cell: row => row.Call.GasUsed,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Success?', cell: function (row) {
-                            return row.Call?.Success
-                        },
+                        name: 'Success?', cell: row => row.Call?.Success
                     },
                 ]
             }

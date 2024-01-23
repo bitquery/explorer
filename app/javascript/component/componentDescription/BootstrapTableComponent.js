@@ -47,7 +47,6 @@ export default class BootstrapTableComponent {
                     th.style[styleKey] = headerStyle[styleKey];
                 }
             }
-
             tr.appendChild(th);
         }
     }
@@ -74,8 +73,8 @@ export default class BootstrapTableComponent {
         if (this.config.title) {
             await this.getTitle(data)
         }
-        if (data.length === 0) {
-            this.displayError('No Data. Response is empty');
+        if (this.config.topElement(data).length === 0) {
+            this.container.textContent='No Data. Response is empty'
             return;
         }
         await this.createThead(data)
@@ -87,6 +86,9 @@ export default class BootstrapTableComponent {
     }
 
     async onSubscriptionData(data, variables) {
+        if (this.config.title) {
+            await this.getTitle(data)
+        }
         const maxRows = 15;
         const rows = await this.composeRows(data, variables)
         await this.createThead(data)
@@ -107,27 +109,27 @@ export default class BootstrapTableComponent {
             if (data.length > 0) {
                 chainId = this.config.chainId(rowData)
             }
-
             for (const row of data) {
                 const tr = this.createElementWithClasses('tr');
 
                 for (const column of this.config.columns) {
                     const td = this.createElementWithClasses('td', 'text-truncate');
                     const textCell = this.createElementWithClasses('span');
-                    textCell.textContent = column.cell(row);
+                    textCell.textContent = column.cell(row)
+                    textCell.setAttribute('title', column.cell(row))
                     if (textCell.textContent === 'true') {
                         textCell.style.color = '#2EA848'
                     }
                     td.appendChild(textCell)
 
                     if (column.rendering) {
-                        const div = await column.rendering(column.cell(row), variables, chainId);
-                        td.replaceChild(div, textCell);
+                        const div = await column.rendering(column.cell(row), variables, chainId)
+                        td.replaceChild(div, textCell)
                     }
                     if (column.cellStyle) {
-                        const cellStyle = column.cellStyle;
+                        const cellStyle = column.cellStyle
                         for (let styleKey in cellStyle) {
-                            td.style[styleKey] = cellStyle[styleKey];
+                            td.style[styleKey] = cellStyle[styleKey]
                         }
                     }
                     tr.appendChild(td);

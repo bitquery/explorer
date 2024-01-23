@@ -3,12 +3,18 @@
     <div id='CountOfDEXTradesByProtocol' class='card'></div>
   </div>
 </div>
+
 <div class='row mb-4'>
-  <div class='col-12 col-xl-7'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='DEXSmartContractProtocols'></div>
   </div>
-  <div class='col-12 col-xl-5'>
+  <div class='col-12 col-xl-6'>
     <div class='card' id='DEXSmartContractProtocolsPie'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='DEXSmartContracts' class='card'></div>
   </div>
 </div>
 
@@ -16,31 +22,25 @@
     class CountOfDEXTradesByProtocol extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: function (row) {
-                            return `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}`
-                        }, cell: function (row) {
-                            return +row.count
-                        }
+                        name: row => `${row.Trade.Dex.ProtocolFamily} ${row.Trade.Dex.ProtocolVersion}`,
+                        cell: row => +row.count
                     },
                 ],
-
                 options: {
                     isStacked: true,
                     theme: 'material',
-                    height: 363
+                    height: 363,
+                    chartArea: {
+                        left: 100,
+                        width: '75%',
+                    },
                 }
             }
         }
@@ -49,36 +49,27 @@
     class DEXSmartContractProtocols extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: () => 'DEX Smart Contract Protocols',
+                id: 'DEXSmartContractProtocols',
                 columns: [
                     {
-                        name: 'Protocol', cell: function (row) {
-                            return {
-                                ProtocolFamily: row.Trade.Dex.ProtocolFamily,
-                                ProtocolName: row.Trade.Dex.ProtocolName,
-                                ProtocolVersion: row.Trade.Dex.ProtocolVersion
-                            }
-                        }, rendering: renderDexProtocolLink,
+                        name: 'Protocol', cell: row => ({
+                            ProtocolFamily: row.Trade.Dex.ProtocolFamily,
+                            ProtocolName: row.Trade.Dex.ProtocolName,
+                            ProtocolVersion: row.Trade.Dex.ProtocolVersion
+                        }),
+                        rendering: renderDexProtocolLink,
                     },
                     {
-                        name: 'Trades', cell: function (row) {
-                            return row.trades
-                        },
+                        name: 'Trades', cell: row => row.trades,
                     },
                     {
-                        name: 'Currencies', cell: function (row) {
-                            return row.currencies
-                        },
+                        name: 'Currencies', cell: row => row.currencies,
                     },
                     {
-                        name: 'Contracts', cell: function (row) {
-                            return row.contracts
-                        },
+                        name: 'Contracts', cell: row => row.contracts,
                     },
                 ]
             }
@@ -88,39 +79,69 @@
     class DEXSmartContractProtocolsPie extends PieChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: () => 'Count of DEX Trades By Protocol',
+                id: 'DEXSmartContractProtocolsPie',
                 columns: [
                     {
-                        name: 'Protocol', cell: function (row) {
-                            return `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`
-                        }
+                        name: 'Protocol', cell: row => `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`,
                     },
                     {
-                        name: 'Count', cell: function (row) {
-                            return +row.trades
-                        }
+                        name: 'Count', cell: row => +row.trades,
                     }
                 ],
                 options: {
-                    title: 'Count',
-                    height: 363
+                    height: 397,
+                    chartArea: {
+                        left: 50,
+                        width: '75%',
+                    },
                 }
             }
         }
     }
 
-
+    class DEXSmartContracts extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: () => 'DEX Smart Contracts by trades',
+                id: 'DEXSmartContracts',
+                columns: [
+                    {
+                        name: 'Smart Contract', cell: row=>row.Trade.Dex.SmartContract,
+                        rendering: renderJustAddressLink
+                    },
+                    {
+                        name: 'Protocol', cell: row => ({
+                            ProtocolFamily: row.Trade.Dex.ProtocolFamily,
+                            ProtocolName: row.Trade.Dex.ProtocolName,
+                            ProtocolVersion: row.Trade.Dex.ProtocolVersion
+                        }),
+                        rendering: renderDexProtocolLink,
+                    },
+                    {
+                        name: 'Trades', cell: row => row.trades,
+                    },
+                    {
+                        name: 'Currencies', cell: row => row.currencies,
+                    },
+                    {
+                        name: 'Contracts', cell: row => row.contracts,
+                    },
+                ]
+            }
+        }
+    }
     const variables = {
         network: '<%= @streaming%>',
     };
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol']], 'Count-of-DEX-Trades-By-Protocol_7', variables);
-        renderComponent('<%=@streaming_access_token %>',[[DEXSmartContractProtocols, '#DEXSmartContractProtocols'], [DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie']], 'DEX-Smart-Contract-Protocols_1_1_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol']], 'Count-of-DEX-Trades-By-Protocol_7', variables);
+        renderComponent('<%=@streaming_access_token %>', [[DEXSmartContractProtocols, '#DEXSmartContractProtocols'], [DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie']], 'DEX-Smart-Contract-Protocols_1_1_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [ [DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts_1', variables);
     })
 </script>

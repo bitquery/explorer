@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
 
+
   before_action :get_session_streaming_token, :set_locale, :set_theme, :set_date, :set_feed
 
   def default_url_options
@@ -77,7 +78,6 @@ class ApplicationController < ActionController::Base
     Rails.application.routes.default_url_options[:locale] = (I18n.locale == I18n.default_locale ? nil : I18n.locale)
 
   end
-
   def cors_set_access_control_headers
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'

@@ -1,5 +1,6 @@
 const isNotEmptyArray = subj => Array.isArray(subj) && subj.length;
-const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
+// const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
+const isNotEmptyObject = subj => subj != null && !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 
 export function SubscriptionDataSource(token,payload) {
 
@@ -19,10 +20,10 @@ export function SubscriptionDataSource(token,payload) {
                 }
             },
         })
+        this.alive = true
 
         cleanSubscription = client.subscribe({query: payload.query, variables}, {
             next: ({data}) => {
-                this.alive = true
                 callbacks.forEach((cb, i) => {
                     widgetFrames[i].onqueryend()
                     cb(data, variables)
@@ -30,6 +31,7 @@ export function SubscriptionDataSource(token,payload) {
             },
             error: error => {
                 widgetFrames.forEach(wf => wf.onerror(error))
+                this.alive = false
             },
             complete: () => {
                 this.alive = false
@@ -53,6 +55,7 @@ export function SubscriptionDataSource(token,payload) {
 
     this.unsubscribe = () => {
         cleanSubscription && cleanSubscription()
+        this.alive =false
         cleanSubscription = null
     }
 
@@ -205,9 +208,7 @@ export const streamControl = subscriptionDataSource => e => {
 }
 
 export const getQueryParams = async (queryID) => {
-
     const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
-
     const {endpoint_url, variables, query, name} = await response.json()
     return {
         variables: JSON.parse(variables),

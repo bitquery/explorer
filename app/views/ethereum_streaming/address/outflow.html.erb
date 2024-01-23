@@ -23,76 +23,76 @@
     class LatestOutboundTransfers extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `Latest ${tokenName} ${tokenSymbol} Outbound Transfers`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                id: 'LatestOutboundTransfers',
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink, headerStyle: {width: '110px'},
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink,headerStyle: {width: '25%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink, headerStyle: {width: '25%'},
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.sum
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.sum,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
                     },
-                    {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '136px'},
-                    },
-
                 ]
             }
         }
     }
 
-    class OutboundTransfersInNativeCurrency extends TimeChartComponent {
+    class OutboundTransfersInNativeCurrency extends ComboChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native currency'} Send by ${tokenName} ${tokenSymbol} Contract`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                id: 'OutboundTransfersInNativeCurrency',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Volume', cell: function (row) {
-                            return +row.sum
-                        }
+                        name: 'Volume', cell: row => +row.sum,
+                    },
+                    {
+                        name: 'Count', cell: row => +row.count,
                     }
                 ],
                 options: {
                     height: 300,
-                    colors: ['28A745'],
+                    theme: 'material',
+                    vAxis: {
+                        scaleType: 'log',
+                        viewWindow: {
+                            // max: 10000,
+                            min: 0.00001
+                        },
+                    },
+                    tooltip: {
+                        ignoreBounds: true
+                    },
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -101,27 +101,36 @@
     class OutboundTransfersInTokens extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native currency'} sent by ${tokenName} ${tokenSymbol} Contract`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                id: 'OutboundTransfersInTokens',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Receive count', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Receive count', cell: row => +row.count,
                     }
                 ],
                 options: {
                     height: 300,
-                    colors: ['FFC106'],
+                    theme: 'material',
+                    vAxis: {
+                        scaleType: 'log',
+                        viewWindow: {
+                            // max: 10000,
+                            min: 0.00001
+                        },
+                    },
+                    tooltip: {
+                        ignoreBounds: true
+                    },
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -130,37 +139,25 @@
     class TopReceiversInNativeCurrency extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Top Receiver in ${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} currency`,
+                id: 'TopReceiversInNativeCurrency',
                 columns: [
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return row.Transfer.Currency.Symbol
-                        },
+                        name: 'Latest Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },
-                    },
-                    {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '136px'},
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
                     },
                 ]
             }
@@ -170,40 +167,32 @@
     class TopReceiversInTokens extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
-                },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: () => `Top Receivers in tokens`,
+                id: 'TopReceiversInTokens',
                 columns: [
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }
-                        }, rendering: renderTokenLink,
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '79px'},
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },
+                        name: 'Latest Date', cell: row => row.Block.Date,
                     },
                     {
-                        name: 'Transaction hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '136px'},
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
                     },
                 ]
             }
@@ -214,14 +203,14 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 5))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_4', variables);
-        renderComponent('<%=@streaming_access_token %>',[[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens', variables);
+        renderComponent('<%=@streaming_access_token %>', [[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_7', variables);
+        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens_2', variables);
     })
 
 </script>

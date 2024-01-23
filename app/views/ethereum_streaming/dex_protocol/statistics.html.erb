@@ -6,32 +6,34 @@
     <div class='card' id='TradedCurrenciesByTime'></div>
   </div>
 </div>
-
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='FeeByTime'></div>
+  </div>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='BuyerSeller'></div>
+  </div>
+</div>
 
 <script>
     class TokenTrades extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                title: () => `Token Trades by Date`,
+                id: 'TokenTrades',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Trades', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Trades', cell: row => +row.count
                     }
                 ],
                 options: {
                     height: 300,
+                    theme: 'material',
                     colors: ['28A745'],
                 }
             }
@@ -41,27 +43,82 @@
     class TradedCurrenciesByTime extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.DEXTrades
-                },
-                chainId: function (response) {
-                    return response.EVM.DEXTrades[0].ChainId
-                },
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                title: () => `Traded Currencies by Date`,
+                id: 'TradedCurrenciesByTime',
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Currencies', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Sell currency', cell: row => +row.currency_sell
+                    },
+                    {
+                        name: 'Buy currency', cell: row => +row.currency_buy
                     }
                 ],
                 options: {
                     height: 300,
-                    colors: ['FFC106'],
+                    theme: 'material',
+                    legend: {position: 'top'},
+                }
+            }
+        }
+    }
+
+    class FeeByTime extends ComboChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                title: () => `Transaction Fee by Date`,
+                id: 'FeeByTime',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Sender Fee', cell: row => +row.sender_fee
+                    },
+                    {
+                        name: 'Burnt Fee', cell: row => +row.burnt
+                    },
+                    {
+                        name: row => `${WidgetConfig.getBlockProducerName(row.ChainId)} Reward`,
+                        cell: row => +row.reward
+                    }
+                ],
+                options: {
+                    height: 300,
+                    legend: {position: 'top'},
+                }
+            }
+        }
+    }
+
+    class BuyerSeller extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                title: () => `Uniq Sellers and Buyers by Date`,
+                id: 'BuyerSeller',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Uniq Buyers', cell: row => +row.buyer
+                    },
+                    {
+                        name: 'Uniq Sellers', cell: row => +row.seller
+                    },
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    legend: {position: 'top'},
                 }
             }
         }
@@ -70,10 +127,8 @@
     const variables = {
         network: '<%= @streaming%>',
         protocol: '<%= @protocol%>',
-    };
-    console.log(variables)
+    }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[TokenTrades, '#TokenTrades']], 'Token-Trades_1_1_1_1_1_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_1_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TokenTrades, '#TokenTrades'], [TradedCurrenciesByTime, '#TradedCurrenciesByTime'], [FeeByTime, '#FeeByTime'], [BuyerSeller, '#BuyerSeller']], 'statistic-by-dex-protocol_3', variables);
     });
 </script>

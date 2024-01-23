@@ -8,7 +8,9 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Blocks,
-                chainId: response => response.EVM.Blocks[0].ChainId,
+                chainId: response => response.EVM.Blocks[0]?.ChainId,
+                title: () => 'Latest Blocks',
+                id: 'LatestBlocks',
                 columns: [
                     {
                         name: 'Timestamp',
@@ -23,12 +25,7 @@
                     {
                         name: 'Miner',
                         cell: row => row.Block.Coinbase,
-                        rendering: renderJustAddressLink, headerStyle: {width: '15%'},
-                    },
-                    {
-                        name: 'Block hash',
-                        cell: row => row.Block.Hash,
-                        rendering: renderTX, headerStyle: {width: '15%'},
+                        rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Transactions count',
@@ -36,12 +33,12 @@
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: (response) => `Base fee (${WidgetConfig.getCurrency(response.EVM.Blocks[0].ChainId)})`,
+                        name: (response) => `Base fee (${WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) : ''})`,
                         cell: row => row.Block.BaseFee,
-                        // rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: (response) => `Gas used (${WidgetConfig.getCurrency(response.EVM.Blocks[0].ChainId)})`,
+                        name: (response) => `Gas used (${WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) : ''})`,
                         cell: row => row.Block.GasUsed,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },

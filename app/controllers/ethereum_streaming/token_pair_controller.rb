@@ -44,7 +44,7 @@ class EthereumStreaming::TokenPairController < NetworkController
 
   def query_graphql
     response = ::Graphql::V2.query_with_retry(QUERY, variables: {
-      network: @network[:network], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.EVM.Transfers
+      network: @network[:streaming], token1: @token1, token2: @token2 }, context: { authorization: @streaming_access_token }).data.EVM.Transfers
 
       @token1entry = response.detect {|a| a.Transfer.Currency.SmartContract==@token1}
       @token2entry = response.detect {|a| a.Transfer.Currency.SmartContract==@token2}

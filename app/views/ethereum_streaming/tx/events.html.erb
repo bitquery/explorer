@@ -7,27 +7,28 @@
     class TransactionAttributes extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
-                },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
+                topElement: response =>response.EVM.Events,
+                chainId: response => response.EVM.Events[0]?.ChainId,
+                title: () => 'Smart Contract Events logged in Transaction',
+                id: 'TransactionAttributes',
                 columns: [
                     {
-                        name: 'Event', cell: function (row) {
-                            return {event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}
-                        }, rendering: renderEventLink
+                        name: 'Event', cell: row =>  ({event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}),
+                        rendering: renderEventLink, headerStyle: {width: '120px'},
                     },
                     {
-                        name: 'Smart Contract', cell: function (row) {
-                            return row.Log.SmartContract
-                        }, rendering: renderJustAddressLink, headerStyle: {width: '40%'},
+                        name: 'Smart Contract', cell: row =>  row.Log.SmartContract,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Event count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
+                    },
+                    {
+                        name: 'Arguments Type', cell: row => row.Arguments.map(e => e.Type).join(', ')
+                    },
+                    {
+                        name: 'Event count', cell: row =>  row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width:'110px'},
                     },
                 ]
             }
@@ -38,5 +39,5 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     }
-    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Events-logged-in-Transaction', variables);
+    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Events-logged-in-Transaction_2', variables);
 </script>

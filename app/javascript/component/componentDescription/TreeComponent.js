@@ -14,6 +14,10 @@ export default class TreeComponent {
             if (this.config.title && data) {
                 await this.getTitle(data)
             }
+            if(this.config.topElement(data).length===0){
+                this.container.textContent = 'No Data. Response is empty'
+                return
+            }
             this.container.style.scrollBehavior = 'smooth';
             this.container.style.margin = '0';
             this.chainId = this.config.chainId(data);

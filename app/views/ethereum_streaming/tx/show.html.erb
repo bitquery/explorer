@@ -8,82 +8,54 @@
     class TransactionAttributes extends BootstrapVerticalTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return [...response.EVM?.Transactions, ...response.EVM?.Transfers]
-                },
-                chainId: function (response) {
-                    return response.EVM.Transactions[0]?.ChainId || response.EVM.Transfers[0]?.ChainId
-                },
+                topElement: response => [...response.EVM?.Transactions, ...response.EVM?.Transfers],
+                chainId: response => response.EVM.Transactions[0]?.ChainId || response.EVM.Transfers[0]?.ChainId,
                 columns: [
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block?.Number
-                        }, rendering: renderBlockLink,
+                        name: 'Block', cell: row => row.Block?.Number,
+                        rendering: renderBlockLink,
                     },
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block?.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row => row.Block?.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transaction?.From
-                        }, rendering: renderJustAddressLink,
+                        name: 'Sender', cell: row => row.Transaction?.From,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transaction?.To
-                        }, rendering: renderJustAddressLink,
+                        name: 'Receiver', cell: row => row.Transaction?.To,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Transfers count', cell: function (row) {
-                            return row.t_count
-                        },
+                        name: 'Transfers count', cell: row => row.t_count
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.t_sum
-                        },
+                        name: 'Amount', cell: row => row.t_sum
                     },
                     {
-                        name: 'Gas Cost', cell: function (row) {
-                            return row.sum
-                        },
+                        name: 'Gas Cost', cell: row => row.sum
                     },
                     {
-                        name: 'Gas Used', cell: function (row) {
-                            return row.Block?.GasUsed
-                        },
+                        name: 'Gas Used', cell: row => row.Block?.GasUsed
                     },
                     {
-                        name: 'Transaction Fee', cell: function (row) {
-                            return row.sum
-                        },
+                        name: 'Transaction Fee', cell: row => row.sum
                     },
                     {
-                        name: 'Gas', cell: function (row) {
-                            return row.Transaction?.Gas
-                        },
+                        name: 'Gas', cell: row => row.Transaction?.Gas
                     },
                     {
-                        name: 'Value', cell: function (row) {
-                            return row.Transaction?.Value
-                        },
+                        name: 'Value', cell: row => row.Transaction?.Value
                     },
                     {
-                        name: 'Protected?', cell: function (row) {
-                            return row.Transaction?.Protected
-                        },
+                        name: 'Protected?', cell: row => row.Transaction?.Protected
                     },
                     {
-                        name: 'Success?', cell: function (row) {
-                            return row.Transfer?.Success
-                        },
+                        name: 'Success?', cell: row => row.Transfer?.Success
                     },
                     {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction?.Hash
-                        },
+                        name: 'Hash', cell: row => row.Transaction?.Hash
                     },
                 ]
             }
@@ -94,6 +66,6 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     };
-    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Transaction-Attributes_6', variables);
+    renderComponent('<%=@streaming_access_token %>', [[TransactionAttributes, '#TransactionAttributes']], 'Transaction-Attributes_6', variables);
 
 </script>

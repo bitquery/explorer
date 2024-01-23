@@ -8,26 +8,29 @@
     <div class='card' id='SmartContractEvents'></div>
   </div>
 </div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='AddressesUsedInEventParameters'></div>
+  </div>
+</div>
 <script>
     class EventsDistribution extends BarChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})`:''
+                    return `${tokenName} ${tokenSymbol} Events Distribution`
                 },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
+                id:'EventsDistribution',
                 columns: [
                     {
-                        name: 'Event', cell: function (row) {
-                            return row.Log.Signature.Name
-                        }
+                        name: 'Event', cell: row=> row.Log.Signature.Name
                     },
                     {
-                        name: 'Event Count', cell: function (row) {
-                            return +row.count
-                        }
+                        name: 'Event Count', cell: row=> +row.count
                     },
                 ],
                 options: {
@@ -40,33 +43,59 @@
     class SmartContractEvents extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Events
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})`:''
+                    return `${tokenName} ${tokenSymbol} Smart Contract Events`
                 },
-                chainId: function (response) {
-                    return response.EVM.Events[0]?.ChainId
-                },
-                title: 'Smart Contract events',
+                id:'SmartContractEvents',
                 columns: [
                     {
-                        name: 'Event', cell: function (row) {
-                            return {event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}
-                        }, rendering: renderEventLink
+                        name: 'Event', cell: row=> ({event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}),
+                        rendering: renderEventLink
                     },
                     {
-                        name: 'Event signature', cell: function (row) {
-                            return row.Log.Signature.Signature
-                        },
+                        name: 'Event signature', cell: row=> row.Log.Signature.Signature
                     },
                     {
-                        name: 'Latest Date', cell: function (row) {
-                            return row.Block.Date
-                        },headerStyle: {width:'110px'},
+                        name: 'Latest Date', cell: row=> row.Block.Date,
+                        headerStyle: {width:'110px'},
                     },
                     {
-                        name: 'Event Count', cell: function (row) {
-                            return row.count
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width:'110px'},
+                        name: 'Event Count', cell: row=> row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width:'110px'},
+                    },
+                ]
+            }
+        }
+    }
+    class AddressesUsedInEventParameters extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response=> response.EVM.Events,
+                chainId: response=>response.EVM.Events[0].ChainId,
+                title:()=>'Addresses used in Event Parameters',
+                id:'AddressesUsedInEventParameters',
+                columns: [
+                    {
+                        name: 'Address', cell: row=> row.Log.SmartContract,
+                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
+                    },
+                    {
+                        name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
+                    },
+                    {
+                        name: 'Event', cell: row=> ({
+                            event: row.Log.Signature.Name,
+                            hash: row.Log.Signature.SignatureHash,
+                        }),
+                        rendering: renderEventLink,
+                    },
+                    {
+                        name: 'Calls Count', cell: row=> row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -77,6 +106,7 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     };
-    renderComponent('<%=@streaming_access_token %>',[[EventsDistribution, '#EventsDistribution']], 'Events-Distribution_2', variables);
-    renderComponent('<%=@streaming_access_token %>',[[SmartContractEvents, '#SmartContractEvents']], 'SC-events_1', variables);
+    renderComponent('<%=@streaming_access_token %>',[[EventsDistribution, '#EventsDistribution']], 'Events-Distribution_3', variables);
+    renderComponent('<%=@streaming_access_token %>',[[SmartContractEvents, '#SmartContractEvents']], 'SC-events_2', variables);
+    renderComponent('<%=@streaming_access_token %>',[[AddressesUsedInEventParameters, '#AddressesUsedInEventParameters']], 'Addresses-used-in-Events-Parameters', variables);
 </script>

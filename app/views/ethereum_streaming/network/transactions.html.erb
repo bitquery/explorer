@@ -16,57 +16,44 @@
     class LatestTransactions extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transactions
-                },
-                chainId: function (response) {
-                    return response.EVM.Transactions[0].ChainId
-                },
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
                 columns: [
                     {
-                        name: 'Timestamp', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink, headerStyle: {width: '100px'},
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transaction.To
-                        }, rendering: renderJustAddressLink,
+                        name: 'Sender', cell: row => row.Transaction.To,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transaction.To
-                        }, rendering: renderJustAddressLink,
+                        name: 'Receiver', cell: row => row.Transaction.To,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,headerStyle: {width: '100px'},
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Value', cell: function (row) {
-                            return row.Transaction.Value
-                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end',width: '100px'},
+                        name: 'Value', cell: row => row.Transaction.Value,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end', width: '100px'},
                     },
                     {
-                        name: 'Gas used', cell: function (row) {
-                            return row.Receipt.GasUsed
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'}
+                        name: 'Gas used', cell: row => row.Receipt.GasUsed,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'}
                     },
                     {
-                        name: 'Gas price', cell: function (row) {
-                            return row.Fee.EffectiveGasPrice
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
+                        name: 'Gas price', cell: row => row.Fee.EffectiveGasPrice,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
                     },
                     {
-                        name: 'Sender fee', cell: function (row) {
-                            return row.Fee.SenderFee
-                        }, rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
+                        name: 'Sender fee', cell: row => row.Fee.SenderFee,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
                     },
                 ]
             }
@@ -76,26 +63,19 @@
     class TransactionsByDate extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transactions
-                },
-                chainId: function (response) {
-                    return response.EVM.Transactions[0].ChainId
-                },
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Count', cell: function (row) {
-                            return parseInt(row.count)
-                        }
+                        name: 'Count', cell: row => parseInt(row.count)
                     }
                 ],
                 options: {
                     title: 'Transactions Count',
+                    theme: 'material',
                     height: 300
                 }
             }
@@ -105,27 +85,20 @@
     class GasSpentByDate extends TimeChartComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transactions
-                },
-                chainId: function (response) {
-                    return response.EVM.Transactions[0].ChainId
-                },
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
                 columns: [
                     {
-                        name: 'Date', cell: function (row) {
-                            return row.Block.Date
-                        }
+                        name: 'Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'Gas Cost per day', cell: function (row) {
-                            return +row.sum
-                        }
+                        name: 'Gas Cost per day', cell: row => +row.sum
                     }
                 ],
                 options: {
                     title: 'Gas spend',
-                    height: 300
+                    height: 300,
+                    theme: 'material',
                 }
             }
         }
@@ -138,8 +111,8 @@
     }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[LatestTransactions, '#LatestTransactions']], 'Latest-Transactions_6', variables);
-        renderComponent('<%=@streaming_access_token %>',[[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_3', variables);
-        renderComponent('<%=@streaming_access_token %>',[[GasSpentByDate, '#GasSpentByDate']], 'Gas-Spent-By-Date_5', variables);
+        renderComponent('<%=@streaming_access_token %>', [[LatestTransactions, '#LatestTransactions']], 'Latest-Transactions_6', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate']], 'Gas-Spent-By-Date_5', variables);
     })
 </script>

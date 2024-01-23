@@ -14,8 +14,8 @@
                 return null;
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
-                    item.currency.tokenId +
-                    (item.address ? '&sender='+item.address.address : '');
+                  item.currency.tokenId +
+                  (item.address ? '&sender='+item.address.address : '');
             }
         },
         transfer_from_path: function(item){
@@ -23,8 +23,8 @@
                 return null;
             }else {
                 return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
-                    item.currency.tokenId +
-                    (item.address ? '&receiver='+item.address.address : '');
+                  item.currency.tokenId +
+                  (item.address ? '&receiver='+item.address.address : '');
             }
         },
         transfer_token_sender_path: function(item){

@@ -30,7 +30,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Transactions,
-                chainId: response => response.EVM.Transactions[0].ChainId,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
                 title: () => `Top Smart Contract by Total Sender Fee`,
                 id: 'FeesAnalysis',
                 columns: [
@@ -45,7 +45,7 @@
                         headerStyle: {width: '80px'},
                     },
                     {
-                        name: (response) => `Total Gas Used (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        name: (response) => `Total Gas Used (${WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) : ''})`,
                         cell: row => row.gas_used,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
@@ -55,22 +55,22 @@
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: (response) => `Sender Fee (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        name: (response) => `Sender Fee (${WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) : ''})`,
                         cell: row => row.fee_sender,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: (response) => `Miner Reward (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        name: (response) => `Miner Reward (${WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) : ''})`,
                         cell: row => row.fee_reward,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
-                        name: (response) => `Fee Burnt (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        name: (response) => `Fee Burnt (${WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) : ''})`,
                         cell: row => row.fee_burnt,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
-                        name: (response) => `Fee Savings (${WidgetConfig.getCurrency(response.EVM.Transactions[0].ChainId)})`,
+                        name: (response) => `Fee Savings (${WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transactions[0]?.ChainId) : ''}`,
                         cell: row => row.fee_saving,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
@@ -84,7 +84,8 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Sender Fee by Date, ARB',
+                title: response => `Sender Fee by Date (${WidgetConfig.getCurrency(response.EVM.Calls[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Calls[0]?.ChainId) : ''})`,
+
                 id: 'SenderFee',
                 columns: [
                     {
@@ -166,7 +167,7 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Burnt Fee, ARB',
+                title: response => `Burnt Fee (${WidgetConfig.getCurrency(response.EVM.Calls[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Calls[0]?.ChainId) : ''})`,
                 id: 'BurntFee',
                 columns: [
                     {
@@ -193,7 +194,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Transactions,
-                chainId: response => response.EVM.Transactions[0].ChainId,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
                 title: () => 'Gas Price By Date ( Median, Minimum, Maximum) in Log scale, GWei',
                 id: 'GasPrice',
                 columns: [
@@ -230,7 +231,7 @@
     }
 
     const variables = {
-        network: 'eth',
+        network: '<%= @streaming%>',
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 1))).toISOString().slice(0, 10)
     }

@@ -15,42 +15,38 @@
     class LatestNFTTransfersTable extends BootstrapVerticalTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.BalanceUpdates
+                topElement: response => response.EVM.BalanceUpdates,
+                chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `${tokenName} ${tokenSymbol} Information By ID`
                 },
-                chainId: function (response) {
-                    return response.EVM.BalanceUpdates[0].ChainId
-                },
+                id: 'LatestNFTTransfersTable',
                 columns: [
                     {
-                        name: 'Image', cell: function (row) {
-                            return row.BalanceUpdate.URI
-                        }, rendering: renderImgFromURI,
+                        name: 'Image', cell: row => row.BalanceUpdate.URI,
+                        rendering: renderImgFromURI,
                     },
                     {
-                        name: 'Name', cell: function (row) {
-                            return row.Currency.Name
-                        },
+                        name: 'Name', cell: row => row.Currency.Name
                     },
                     {
-                        name: 'Currency', cell: function (row) {
-                            return {currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}
-                        }, rendering: renderTokenLink,
+                        name: 'Currency',
+                        cell: row => ({currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}),
+                        rendering: renderTokenLink,
                     },
                     {
-                        name: 'Id', cell: function (row) {
-                            return {id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}
-                        }, rendering: renderIdLink
+                        name: 'Id', cell: row => ({id: row.BalanceUpdate.Id, address: row.Currency.SmartContract}),
+                        rendering: renderIdLink
                     },
                     {
-                        name: 'Last owner', cell: function (row) {
-                            return row.BalanceUpdate.Address
-                        }, rendering: renderJustAddressLink,
+                        name: 'Last owner', cell: row => row.BalanceUpdate.Address,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Received in TX', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX,
+                        name: 'Received in TX', cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
                     },
                 ]
             }
@@ -60,47 +56,41 @@
     class IdNFTTransfersTable extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `${tokenName} ${tokenSymbol} Transfers List By Id`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                id: 'IdNFTTransfersTable',
                 columns: [
                     {
-                        name: 'Time', cell: function (row) {
-                            return row.Block.Time
-                        }, rendering: renderDate,
+                        name: 'Time', cell: row => row.Block.Time,
+                        rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: function (row) {
-                            return row.Block.Number
-                        }, rendering: renderBlockLink,
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink,
                     },
                     {
-                        name: 'Sender', cell: function (row) {
-                            return row.Transfer.Sender
-                        }, rendering: renderJustAddressLink,
+                        name: 'Sender', cell: row => row.Transfer.Sender,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: '', cell: function (row) {
-                            return ''
-                        }, rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                        name: '', cell: () => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
-                        name: 'Receiver', cell: function (row) {
-                            return row.Transfer.Receiver
-                        }, rendering: renderJustAddressLink,
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'TX Hash', cell: function (row) {
-                            return row.Transaction.Hash
-                        }, rendering: renderTX, headerStyle: {width: '110px'},
+                        name: 'TX Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Amount', cell: function (row) {
-                            return row.Transfer.Amount
-                        }, rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end', width: '80px'},
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end', width: '80px'},
                     }
                 ]
             }
@@ -110,34 +100,30 @@
     class IdNFTTransfersGraph extends GraphsComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM.Transfers
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `${tokenName} ${tokenSymbol} Transfers`
                 },
-                chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
-                },
+                id: 'IdNFTTransfersGraph',
                 pairs: [
                     {
                         name: 'Transfer',
                         from: {
                             name: 'Sender',
-                            cell: function (row) {
-                                return row.Transfer.Sender
-                            },
+                            cell: row => row.Transfer.Sender,
                             rendering: renderJustAddressLink
                         },
                         to: {
                             name: 'Receiver',
-                            cell: function (row) {
-                                return row.Transfer.Receiver
-                            },
+                            cell: row => row.Transfer.Receiver,
                             rendering: renderJustAddressLink
                         },
                         checkboxId: null,
                         edgeLabel: {
-                            cell: function (row) {
-                                return row.Block.Time
-                            },
+                            cell: row => row.Block.Time,
                             rendering: renderDate
                         },
                         color: {
@@ -158,7 +144,7 @@
         token: '<%= @token %>',
         id: '<%= @id %>',
     }
-    renderComponent('<%=@streaming_access_token %>',[[LatestNFTTransfersTable, '#LatestNFTTransfersTable']], 'NFT-Token-Information-By-ID_5', variables);
-    renderComponent('<%=@streaming_access_token %>',[[IdNFTTransfersGraph, '#IdNFTTransfersGraph'], [IdNFTTransfersTable, '#IdNFTTransfersTable']], 'NFT-Transfers-List-By-Id_2', variables);
+    renderComponent('<%=@streaming_access_token %>', [[LatestNFTTransfersTable, '#LatestNFTTransfersTable']], 'NFT-Token-Information-By-ID_6', variables);
+    renderComponent('<%=@streaming_access_token %>', [[IdNFTTransfersGraph, '#IdNFTTransfersGraph'], [IdNFTTransfersTable, '#IdNFTTransfersTable']], 'NFT-Transfers-List-By-Id_4', variables);
 
 </script>

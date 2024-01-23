@@ -1,8 +1,8 @@
 <script>
     widgets.callbacks({
         token_path: function(item){
-                return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+
-                    (item.currency.tokenId=='0' ? '<%= @network[:currency] %>' : item.currency.tokenId);
+            return '<%= locale_path_prefix %><%= @network[:network] %>/token/'+
+              (item.currency.tokenId=='0' ? '<%= @network[:currency] %>' : item.currency.tokenId);
 
         },
         transfer_to_path: function(item){
@@ -10,8 +10,8 @@
                 return null;
             }else{
                 return '<%= locale_path_prefix %><%= @network[:network] %>'+'/txs/transfers?receiver=<%= @address %>&currency='+
-                    (item.currency.tokenId=='0' ? '<%= @network[:currency] %>' : item.currency.tokenId) +
-                    (item.address ? '&sender='+item.address.address : '');
+                  (item.currency.tokenId=='0' ? '<%= @network[:currency] %>' : item.currency.tokenId) +
+                  (item.address ? '&sender='+item.address.address : '');
             }
         },
         transfer_from_path: function(item){
@@ -19,8 +19,8 @@
                 return null;
             }else {
                 return '<%= locale_path_prefix %><%= @network[:network] %>/txs/transfers?sender=<%= @address %>&currency=' +
-                    (item.currency.tokenId=='0' ? '<%= @network[:currency] %>' : item.currency.tokenId) +
-                    (item.address ? '&receiver='+item.address.address : '');
+                  (item.currency.tokenId=='0' ? '<%= @network[:currency] %>' : item.currency.tokenId) +
+                  (item.address ? '&receiver='+item.address.address : '');
             }
         },
         transfer_token_sender_path: function(item){
@@ -64,7 +64,7 @@
             } else if (item.block ) {
                 return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + item.block.height;
             } else if (item.tx_hash ) {
-                    return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.tx_hash;
+                return '<%= locale_path_prefix %><%= @network[:network] %>' + '/tx/' + item.tx_hash;
             } else if (item.url ){
                 return item.url;
             }else{

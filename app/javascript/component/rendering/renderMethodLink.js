@@ -9,7 +9,7 @@ export default function renderMethodLink(data, variables, chainId) {
     link.textContent = data.method || data.hash
     link.setAttribute('title', data.method)
 
-    if (data.hash && data.hash.length < 1) {
+    if (!data.hash && data.hash.length < 1) {
         link = document.createElement('span')
         link.textContent = `value: ${parseFloat(+data.value)}`
         link.setAttribute('title', data.value)
