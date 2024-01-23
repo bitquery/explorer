@@ -55,7 +55,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.MinerRewards,
-                chainId: response => response.EVM.MinerRewards[0].ChainId,
+                chainId: response => response.EVM.MinerRewards[0]?.ChainId,
                 title:()=>'Block Rewards By Date',
                 id:'BlockRewardsByDate',
                 columns: [
@@ -80,8 +80,8 @@
         configuration() {
             return {
                 topElement: response => response.EVM.MinerRewards,
-                chainId: response => response.EVM.MinerRewards[0].ChainId,
-                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0].ChainId)}s`,
+                chainId: response => response.EVM.MinerRewards[0]?.ChainId,
+                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0]?.ChainId)}s`,
                 id: 'Miners',
                 columns: [
                     {
@@ -121,8 +121,8 @@
         configuration() {
             return {
                 topElement: response => response.EVM.MinerRewards,
-                chainId: response => response.EVM.MinerRewards[0].ChainId,
-                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0].ChainId)}s Block Count By Time`,
+                chainId: response => response.EVM.MinerRewards[0]?.ChainId,
+                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0]?.ChainId)}s Block Count By Time`,
                 id: 'MinersBlockCountByTime',
                 columns: [
                     {
@@ -150,8 +150,8 @@
         configuration() {
             return {
                 topElement: response => response.EVM.MinerRewards,
-                chainId: response => response.EVM.MinerRewards[0].ChainId,
-                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0].ChainId)}s Block Reward By Date`,
+                chainId: response => response.EVM.MinerRewards[0]?.ChainId,
+                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0]?.ChainId)}s Block Reward By Date`,
                 id: 'MinersBlockRewardByTime',
                 columns: [
                     {
@@ -178,7 +178,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.MinerRewards,
-                chainId: response => response.EVM.MinerRewards[0].ChainId,
+                chainId: response => response.EVM.MinerRewards[0]?.ChainId,
                 title: () => 'Difficulty By Time',
                 id: 'Difficult',
                 columns: [

@@ -23,7 +23,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.DEXTrades,
-                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -50,7 +50,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.DEXTrades,
-                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: () => 'DEX Smart Contract Protocols',
                 id: 'DEXSmartContractProtocols',
                 columns: [
@@ -80,7 +80,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.DEXTrades,
-                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: () => 'Count of DEX Trades By Protocol',
                 id: 'DEXSmartContractProtocolsPie',
                 columns: [
@@ -106,7 +106,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.DEXTrades,
-                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: () => 'DEX Smart Contracts by trades',
                 id: 'DEXSmartContracts',
                 columns: [

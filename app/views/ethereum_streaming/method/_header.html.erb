@@ -1,4 +1,4 @@
-<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], address: @signature) %>
+<% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], hash: @signature, method_name:@method_name) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], address: @address) %>
 <% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name], address: @address) %>
 

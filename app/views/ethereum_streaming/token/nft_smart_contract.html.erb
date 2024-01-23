@@ -29,8 +29,8 @@
                 chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || ''
-                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol || 'no data'
-                    return `Latest ${tokenName} (${tokenSymbol}) NFT Token info`
+                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol
+                    return `Latest ${tokenName} ${tokenSymbol} NFT Token info`
                 },
                 id: 'NFTTokenInformation',
                 columns: [
@@ -68,9 +68,9 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol || 'no data'
-                    return `Most popular ${tokenName} (${tokenSymbol}) NFTs based on transfer count`
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol})` : ''
+                    return `Most popular ${tokenName} ${tokenSymbol} NFTs based on transfer count`
                 },
                 id: 'PopularTokenIDsNFT',
                 image: [
@@ -105,8 +105,8 @@
                 chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || '-'
-                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol || '-'
-                    return `Top ${tokenName} (${tokenSymbol}) NFT Holders`
+                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol ? `(${response.EVM.BalanceUpdates[0]?.Currency?.Symbol})` : ''
+                    return `Top ${tokenName} ${tokenSymbol} NFT Holders`
                 },
                 id: 'TopNFTHolders',
                 columns: [
@@ -116,7 +116,7 @@
                     },
                     {
                         name: 'Balance', cell: row => row.balance,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
                     },
                     {
                         name: 'Unique Ids Owned Lifetime', cell: row => row.ids,
@@ -134,8 +134,8 @@
                 chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || '-'
-                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol || '-'
-                    return `Richest ${tokenName} (${tokenSymbol}) NFT Holders`
+                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol ? `(${response.EVM.BalanceUpdates[0]?.Currency?.Symbol})` : ''
+                    return `Richest ${tokenName} ${tokenSymbol} NFT Holders`
                 },
                 id: 'TopNFTHoldersPie',
                 columns: [
@@ -162,8 +162,8 @@
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Name || '-'
-                    const tokenSymbol = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Symbol || '-'
-                    return `Latest ${tokenName} (${tokenSymbol}) NFT Token Trades Stream`
+                    const tokenSymbol = response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Symbol ? `(${response.EVM.DEXTrades[0]?.Trade?.Buy?.Currency?.Symbol})` : ''
+                    return `Latest ${tokenName} ${tokenSymbol} NFT Token Trades Stream`
                 },
                 id: 'SubscriptionLatestTradesNFTToken',
                 columns: [

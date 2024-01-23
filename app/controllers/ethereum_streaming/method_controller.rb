@@ -1,9 +1,8 @@
 class EthereumStreaming::MethodController < NetworkController
-  before_action :set_signature,:query_date
+  before_action :set_signature, :query_date
   layout 'tabs'
 
   private
-
 
   QUERY = <<-'GRAPHQL'
       query ($network: evm_network, $method: String) {
@@ -15,6 +14,8 @@ class EthereumStreaming::MethodController < NetworkController
             Call {
               Signature {
                 Name
+                Signature
+                SignatureHash
               }
             }
           }
@@ -29,8 +30,21 @@ class EthereumStreaming::MethodController < NetworkController
   end
 
   def query_date
-    method = ::Graphql::V2.query_with_retry(QUERY, variables: { method: @signature,
-                                                               network: @network[:streaming] }, context: { authorization: @streaming_access_token })
-    @method_name = method.data.EVM.Calls[0].Call.Signature.Name
+    method = ::Graphql::V2.query_with_retry(QUERY, variables: { method: @signature, network: @network[:streaming] }, context: { authorization: @streaming_access_token })
+
+    if method.data.EVM.Calls.any?
+      call_signature = method.data.EVM.Calls[0].Call.Signature
+
+      @method_name = if call_signature.Name && !call_signature.Name.empty?
+                       call_signature.Name
+                     elsif call_signature.Signature && !call_signature.Signature.empty?
+                       call_signature.Signature
+                     else
+                       call_signature.SignatureHash
+                     end
+    else
+      @method_name = ''
+    end
   end
+
 end

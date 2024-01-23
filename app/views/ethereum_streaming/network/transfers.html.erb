@@ -9,7 +9,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Transfers,
-                chainId: response => response.EVM.Transfers[0].ChainId,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
                 columns: [
                     {
                         name: 'Timestamp', cell: row =>row.Block.Time,

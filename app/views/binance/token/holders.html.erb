@@ -83,8 +83,8 @@
                     return response.EVM.Blocks[0]?.ChainId
                 },
                 title: function (response) {
-                    const tokenName = response.EVM.TokenHolders[0]?.Currency?.Name || '-'
-                    const tokenSymbol = response.EVM.TokenHolders[0]?.Currency?.Symbol || '-'
+                    const tokenName = response.EVM.TokenHolders[0]?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.TokenHolders[0]?.Currency?.Symbol ? `(${response.EVM.TokenHolders[0]?.Currency?.Symbol})` : ''
                     return `Top ${tokenName} (${tokenSymbol}) Token Holders`
                 },
                 id: 'TopHolders',

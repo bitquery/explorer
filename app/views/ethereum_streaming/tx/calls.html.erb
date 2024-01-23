@@ -9,7 +9,7 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Smart Contract Calls in Transaction bu Gas used',
+                title: () => 'Smart Contract Calls in Transaction by Gas used',
                 id: 'TransactionAttributes',
                 columns: [
                     {

@@ -89,12 +89,12 @@
                     return response.EVM.Transfers
                 },
                 chainId: function (response) {
-                    return response.EVM.Transfers[0].ChainId
+                    return response.EVM.Transfers[0]?.ChainId
                 },
                 title: function (response) {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol  || 'no data'
-                    return  `Most popular ${tokenName} (${tokenSymbol}) NFTs based on transfer count`
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol  ? `(${response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol})`:''
+                    return  `Most popular ${tokenName} ${tokenSymbol} NFTs based on transfer count`
                 },
                 id: 'PopularTokenIDsNFT',
                 image: [
@@ -140,9 +140,9 @@
                     return response.EVM.BalanceUpdates[0].ChainId
                 },
                 title: function (response) {
-                    const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || '-'
-                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol || '-'
-                    return `Top ${tokenName} (${tokenSymbol}) NFT Holders`
+                    const tokenName = response.EVM.BalanceUpdates[0]?.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.BalanceUpdates[0]?.Currency?.Symbol ? `(${response.EVM.BalanceUpdates[0]?.Currency?.Symbol})` : ''
+                    return `Top ${tokenName} ${tokenSymbol} NFT Holders`
                 },
                 id: 'TopNFTHolders',
                 columns: [

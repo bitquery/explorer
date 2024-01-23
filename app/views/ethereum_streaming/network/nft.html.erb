@@ -56,7 +56,6 @@
                     }
                 ],
                 options: {
-                    height: 300,
                     theme: 'material',
                 }
             }
@@ -105,7 +104,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Top transferred NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0].ChainId)}`,
+                title: response => `Top transferred NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId)}`,
                 id: 'NFTTransfersByDatePie',
                 columns: [
                     {
@@ -157,7 +156,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0].ChainId)}`,
+                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId)}`,
                 id: 'TopTradedNFTTokens',
                 columns: [
                     {
@@ -200,7 +199,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0].ChainId)}`,
+                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId)}`,
                 id: 'TopTradedNFTTokensPie',
                 columns: [
                     {
@@ -342,7 +341,7 @@
                         rendering: renderDexProtocolLink, headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Txn hash', cell: row => row.Transaction.Hash,
+                        name: 'Hash', cell: row => row.Transaction.Hash,
                         rendering: renderTX, headerStyle: {width: '110px'},
                     },
                 ]

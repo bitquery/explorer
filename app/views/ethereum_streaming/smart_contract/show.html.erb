@@ -25,8 +25,8 @@
                 chainId: response => response.EVM.Calls[0].ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
-                    return `${tokenName} (${tokenSymbol}) Smart Contract Statistics`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `${tokenName} ${tokenSymbol} Smart Contract Statistics`
                 },
                 id: 'SmartContractStatistics',
                 columns: [
@@ -40,13 +40,13 @@
                         name: 'Internal calls', cell: row => row.internal_count
                     },
                     {
-                        name: 'Sender fee', cell: row => row.sender_fee
+                        name: 'Sender fee', cell: row => row.sender_fee,
                     },
                     {
-                        name: 'Fee Burnt', cell: row => row.burnt
+                        name: 'Fee Burnt', cell: row => row.burnt,
                     },
                     {
-                        name:'Validators Reward',cell: row => row.reward
+                        name: 'Validators Reward', cell: row => row.reward,
                     },
                     {
                         name: 'Last transaction time', cell: row => row.Block?.Time,
@@ -64,8 +64,8 @@
                 chainId: response => response.EVM.BalanceUpdates[0].ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
-                    return `${tokenName} (${tokenSymbol}) Smart Contract Balance by Currencies`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `${tokenName} ${tokenSymbol} Smart Contract Balance by Currencies`
                 },
                 id: 'SmartContractBalanceByCurrencies',
                 columns: [
@@ -90,8 +90,8 @@
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || 'no data'
-                    return `Daily ${tokenName} (${tokenSymbol}) Smart Contract Calls`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Daily ${tokenName} ${tokenSymbol} Smart Contract Calls`
                 },
                 id: 'DailySmartContractCalls',
                 columns: [
@@ -122,9 +122,9 @@
                 topElement: response => [...response.EVM.Calls, ...response.EVM.Transfers],
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || 'no data'
-                    return `Daily ${tokenName} (${tokenSymbol}) Smart Contract Uniq Callers`
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Daily ${tokenName} ${tokenSymbol} Smart Contract Uniq Callers`
                 },
                 id: 'DailySmartContractCallsInt',
                 columns: [
@@ -149,9 +149,9 @@
                 topElement: response => [...response.EVM.Calls, ...response.EVM.Transfers],
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || 'no data'
-                    return `Daily ${tokenName} (${tokenSymbol}) Smart Contract Call Value`
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Daily ${tokenName} ${tokenSymbol} Smart Contract Call Value`
                 },
                 id: 'CallValue',
                 columns: [

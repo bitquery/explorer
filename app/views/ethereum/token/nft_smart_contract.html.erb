@@ -93,8 +93,8 @@
                 },
                 title: function (response) {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency?.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol  || ''
-                    return  `Most popular ${tokenName} (${tokenSymbol}) NFTs based on transfer count`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol  ? `(${response.EVM.Transfers[0]?.Transfer?.Currency?.Symbol})`:''
+                    return  `Most popular ${tokenName} ${tokenSymbol} NFTs based on transfer count`
                 },
                 id: 'PopularTokenIDsNFT',
                 image: [

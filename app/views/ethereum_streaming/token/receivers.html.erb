@@ -24,8 +24,8 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
-                    return `Largest ${tokenName} (${tokenSymbol}) Receivers`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Largest ${tokenName} ${tokenSymbol} Receivers`
                 },
                 id: 'Receivers',
                 columns: [
@@ -53,8 +53,8 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
-                    return `Largest ${tokenName} (${tokenSymbol}) Receivers Stats`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Largest ${tokenName} ${tokenSymbol} Receivers Stats`
                 },
                 id: 'ReceiversStats',
                 columns: [
@@ -104,8 +104,8 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol || ''
-                    return `Daily Unique  ${tokenName} (${tokenSymbol}) Receivers`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Daily Unique  ${tokenName} ${tokenSymbol} Receivers`
                 },
                 id: 'UniqSenders',
                 columns: [
@@ -134,8 +134,8 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer.Currency?.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency?.Symbol || ''
-                    return `Median ${tokenName} (${tokenSymbol}) Received Amount`
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency?.Symbol ? `(${response.EVM.Transfers[0]?.Transfer.Currency?.Symbol})` : ''
+                    return `Median ${tokenName} ${tokenSymbol} Received Amount`
                 },
                 id: 'MedianTransferAmount',
                 columns: [

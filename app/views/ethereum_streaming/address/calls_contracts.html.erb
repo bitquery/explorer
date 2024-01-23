@@ -29,8 +29,8 @@
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `Latest Smart Contract Calls by ${tokenName} (${tokenSymbol}) Contract`
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` :''
+                    return `Latest Smart Contract Calls by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'LatestSmartContractCalls',
                 columns: [
@@ -74,9 +74,9 @@
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `Daily Smart Contract Calls  (Including Internal) by ${tokenName} (${tokenSymbol})`
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name ? `by (${response.EVM.token_info[0]?.Transfer.Currency.Name})` : ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `Daily Smart Contract Calls  (Including Internal) ${tokenName} ${tokenSymbol}`
                 },
                 id: 'SmartContractCallsIncludingInternalByDate',
                 columns: [
@@ -101,8 +101,8 @@
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `Top Gas Cost Calls by (Including Internal) by ${tokenName} (${tokenSymbol}) Contract`
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `Top Gas Cost Calls by (Including Internal) by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'TopGasCostCalls',
                 columns: [
@@ -147,8 +147,8 @@
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `Top Smart Contracts Called by ${tokenName} (${tokenSymbol}) Contract`
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `Top Smart Contracts Called by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'SmartContractsCalled',
                 columns: [
@@ -180,8 +180,8 @@
                 chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `Top Smart Contract Methods Called by ${tokenName} (${tokenSymbol}) Contract`
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `Top Smart Contract Methods Called by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'SmartContractMethodsCalled',
                 columns: [

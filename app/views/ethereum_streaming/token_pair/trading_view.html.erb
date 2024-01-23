@@ -21,11 +21,13 @@
     class OHLCbyIntervalsGraph extends TradingGraphsComponent {
         configuration() {
             return {
+                title:()=>'<%= @token1symbol%> / <%= @token2symbol%>',
+                id:'OHLCbyIntervalsGraph',
                 symbol: '<%= @token1symbol%> / <%= @token2symbol%>',
                 topElement: response => response.EVM.DEXTradeByTokens,
-                chainId: response => response.EVM.DEXTradeByTokens[0].ChainId,
-                token1: response => response.EVM.DEXTradeByTokens[0].Trade.Side.Currency.Symbol,
-                token2: response => response.EVM.DEXTradeByTokens[0].Trade.Currency.Symbol,
+                chainId: response => response.EVM.DEXTradeByTokens[0]?.ChainId,
+                token1: response => response.EVM.DEXTradeByTokens[0]?.Trade.Side.Currency.Symbol,
+                token2: response => response.EVM.DEXTradeByTokens[0]?.Trade.Currency.Symbol,
             }
         }
     }

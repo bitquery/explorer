@@ -1,5 +1,6 @@
 const isNotEmptyArray = subj => Array.isArray(subj) && subj.length;
-const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
+// const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
+const isNotEmptyObject = subj => subj != null && !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 
 export function SubscriptionDataSource(token,payload) {
 
@@ -188,20 +189,15 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
 export const streamControl = subscriptionDataSource => e => {
     if (subscriptionDataSource.alive) {
         subscriptionDataSource.unsubscribe()
-        console.log('unsubscribe?',subscriptionDataSource.alive)
         e.currentTarget.textContent = 'Start streaming'
     } else {
         subscriptionDataSource.subscribe()
-        console.log('subscribe?',subscriptionDataSource.alive)
-
         e.currentTarget.textContent = 'Stop streaming'
     }
 }
 
 export const getQueryParams = async (queryID) => {
-
     const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
-
     const {endpoint_url, variables, query, name} = await response.json()
     return {
         variables: JSON.parse(variables),

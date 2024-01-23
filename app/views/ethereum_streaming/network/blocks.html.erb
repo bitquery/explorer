@@ -9,8 +9,8 @@
             return {
                 topElement: response => response.EVM.Blocks,
                 chainId: response => response.EVM.Blocks[0]?.ChainId,
-                title: ()=>'Latest Blocks',
-                id:'LatestBlocks',
+                title: () => 'Latest Blocks',
+                id: 'LatestBlocks',
                 columns: [
                     {
                         name: 'Timestamp',
@@ -25,12 +25,7 @@
                     {
                         name: 'Miner',
                         cell: row => row.Block.Coinbase,
-                        rendering: renderJustAddressLink, headerStyle: {width: '15%'},
-                    },
-                    {
-                        name: 'Block hash',
-                        cell: row => row.Block.Hash,
-                        rendering: renderTX, headerStyle: {width: '15%'},
+                        rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
                         name: 'Transactions count',

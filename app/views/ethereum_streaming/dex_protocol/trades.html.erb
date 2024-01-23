@@ -8,7 +8,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.DEXTrades,
-                chainId: response => response.EVM.DEXTrades[0].ChainId,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title:()=>`Latest Token Trades`,
                 id:'TokenTrades',
                 columns: [

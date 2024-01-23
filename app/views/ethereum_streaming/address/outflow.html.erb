@@ -27,8 +27,8 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `Latest ${tokenName} (${tokenSymbol}) Outbound Transfers`
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `Latest ${tokenName} ${tokenSymbol} Outbound Transfers`
                 },
                 id: 'LatestOutboundTransfers',
                 columns: [
@@ -64,8 +64,8 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native currency'} send by ${tokenName} (${tokenSymbol}) Contract`
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native currency'} Send by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'OutboundTransfersInNativeCurrency',
                 columns: [
@@ -105,8 +105,8 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol || ''
-                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native currency'} sent by ${tokenName} (${tokenSymbol}) Contract`
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native currency'} sent by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'OutboundTransfersInTokens',
                 columns: [

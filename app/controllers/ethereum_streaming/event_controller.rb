@@ -11,7 +11,10 @@ class EthereumStreaming::EventController < NetworkController
           ) {
             ChainId
             Log{
-              Signature{Name}
+              Signature{
+              Name                
+              Signature
+              SignatureHash}
             }
           }
         }
@@ -25,8 +28,19 @@ class EthereumStreaming::EventController < NetworkController
   end
 
   def query_date
-    event = ::Graphql::V2.query_with_retry(QUERY, variables: { method: @signature,
-                                                                     network: @network[:streaming] }, context: { authorization: @streaming_access_token })
- @event_name = event.data.EVM.Events[0].Log.Signature.Name
+    event = ::Graphql::V2.query_with_retry(QUERY, variables: { method: @signature, network: @network[:streaming] }, context: { authorization: @streaming_access_token })
+
+    if event.data.EVM.Events.any?
+      log_signature = event.data.EVM.Events[0].Log.Signature
+
+      @event_name = if log_signature.Name && !log_signature.Name.empty?
+                      log_signature.Name
+                    elsif log_signature.Signature && !log_signature.Signature.empty?
+                      log_signature.Signature
+                    else
+                      log_signature.SignatureHash
+                    end
+    end
   end
+
 end

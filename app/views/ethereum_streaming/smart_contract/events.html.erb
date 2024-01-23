@@ -20,9 +20,9 @@
                 topElement: response=> response.EVM.Events,
                 chainId: response=> response.EVM.Events[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
-                    return `${tokenName} (${tokenSymbol}) Events Distribution`
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})`:''
+                    return `${tokenName} ${tokenSymbol} Events Distribution`
                 },
                 id:'EventsDistribution',
                 columns: [
@@ -46,9 +46,9 @@
                 topElement: response=> response.EVM.Events,
                 chainId: response=> response.EVM.Events[0]?.ChainId,
                 title: response => {
-                    const tokenName = response.EVM.Transfers[0].Transfer?.Currency.Name || 'no data'
-                    const tokenSymbol = response.EVM.Transfers[0].Transfer?.Currency.Symbol || 'no data'
-                    return `${tokenName} (${tokenSymbol}) Smart Contract Events`
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})`:''
+                    return `${tokenName} ${tokenSymbol} Smart Contract Events`
                 },
                 id:'SmartContractEvents',
                 columns: [
@@ -87,11 +87,11 @@
                         name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
                     },
                     {
-                        name: 'Method', cell: row=> ({
-                            method: row.Log.Signature.Name,
+                        name: 'Event', cell: row=> ({
+                            event: row.Log.Signature.Name,
                             hash: row.Log.Signature.SignatureHash,
                         }),
-                        rendering: renderMethodLink,
+                        rendering: renderEventLink,
                     },
                     {
                         name: 'Calls Count', cell: row=> row.count,

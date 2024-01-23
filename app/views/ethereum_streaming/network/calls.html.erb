@@ -24,7 +24,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Calls,
-                chainId: response => response.EVM.Calls[0].ChainId,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: () => 'Smart contract calls ( including internal ) by date',
                 id: 'SmartContractsByDate',
                 columns: [
@@ -49,7 +49,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Calls,
-                chainId: response => response.EVM.Calls[0].ChainId,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: () => 'Unique Smart Contracts',
                 id: 'UniqueSmartContracts',
                 columns: [
@@ -74,7 +74,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Calls,
-                chainId: response => response.EVM.Calls[0].ChainId,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: () => 'Unique Callers by time',
                 id: 'SmartContractsCallers',
                 columns: [
@@ -99,7 +99,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Calls,
-                chainId: response => response.EVM.Calls[0].ChainId,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
                 title: () => 'Unique Smart Contracts Methods Called',
                 id: 'SmartContractsMethods',
                 columns: [
@@ -124,7 +124,7 @@
         configuration() {
             return {
                 topElement: response => response.EVM.Calls,
-                chainId: response => response.EVM.Calls[0].ChainId,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,

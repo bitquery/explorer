@@ -24,7 +24,7 @@
                         name: 'Method Name', cell: row=> row.Call.Signature.Name
                     },
                     {
-                        name: 'Method signature', cell: row=> row.Call.Signature.Signature
+                        name: 'Method Signature', cell: row=> row.Call.Signature.Signature
                     },
                     {
                         name: 'Signature Hash', cell: row=> row.Call.Signature.SignatureHash
@@ -44,7 +44,7 @@
                 columns: [
                     {
                         name: 'Transaction', cell: row=> row.Transaction.Hash,
-                        rendering: renderTX,
+                        rendering: renderTX, headerStyle: {width: '120px'},
                     },
                     {
                         name: 'Block', cell: row=> row.Block.Number,
@@ -67,12 +67,12 @@
             return {
                 topElement: response=> response.EVM.Calls,
                 chainId: response=> response.EVM.Calls[0]?.ChainId,
-                title:()=>'Event Statistic by Date',
-                id:'EventStatistic',
+                title:()=>'Method Statistic by Date',
+                id:'MethodStatistic',
                 columns: [
                     {
                         name: 'Date', cell: row=> row.Block.Date,
-                        rendering: renderDate,
+                        rendering: renderDate, headerStyle: {width: '100px'},
                     },
                     {
                         name: 'Uniq Transaction Sender', cell: row=> row.transaction_from,
