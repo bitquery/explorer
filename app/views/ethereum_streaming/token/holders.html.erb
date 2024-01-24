@@ -195,12 +195,15 @@
         }
     }
 
-
     const variables = {
-        network: '<%= @streaming%>',
+        network: '<%= @streaming %>',
         token: '<%= @address %>',
         till_now: new Date().toISOString().slice(0, 10),
-    }
+        till: new Date().toISOString().slice(0, 10)
+    };
+    variables.from = new Date(new Date().setMonth(new Date().getMonth() - 3)).toISOString().slice(0, 10);
+    variables.date_middle = new Date((new Date(variables.from).getTime() + new Date(variables.till).getTime()) / 2).toISOString().slice(0, 10);
+
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[HoldersCount, '#HoldersCount'], [GiniIndex, '#GiniIndex'], [NakamotoIndex, '#NakamotoIndex'], [SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_5', variables);

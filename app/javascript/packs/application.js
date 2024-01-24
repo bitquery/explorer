@@ -1084,7 +1084,6 @@ global.renderWithTime = function (variables = {}, from, till, f) {
         }
 
         const resultVariables = {...variables, ...data}
-
         f(resultVariables)
 
     }

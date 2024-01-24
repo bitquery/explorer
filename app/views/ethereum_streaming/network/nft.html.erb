@@ -286,8 +286,8 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title:()=>'Latest Trades of NFT Tokens in Network',
-                id:'LatestTradesNFTToken',
+                title: () => 'Latest Trades of NFT Tokens in Network',
+                id: 'LatestTradesNFTToken',
                 columns: [
                     {
                         name: 'Time', cell: row => row.Block.Time,
@@ -351,8 +351,6 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_1', variables);
@@ -360,6 +358,6 @@
         renderComponent('<%=@streaming_access_token %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_2', variables);
         renderComponent('<%=@streaming_access_token %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-traded-NFT-tokens-in-network_1', variables);
         renderComponent('<%=@streaming_access_token %>', [[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_1_1', variables);
-    renderComponent('<%=@streaming_access_token %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_2', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_2');
+        renderComponent('<%=@streaming_access_token %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_2', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_2');
     })
 </script>

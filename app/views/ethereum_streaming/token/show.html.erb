@@ -1,12 +1,9 @@
-<% if @native_token %>
-  if if if
-<% else %>
   <div class="row d-flex">
     <div class='col-12 col-xl-6'>
       <div class='card' id='TokenAttributes'></div>
     </div>
     <div class='col-12 col-xl-6'>
-      <div class='card' id='AddressBalanceByCurrencies'></div>
+      <div class='card' id='TokenStatistic'></div>
     </div>
     <div class='col-12 col-xl-6'>
       <div class='card' id='TokenHolderOfToken'></div>
@@ -18,7 +15,7 @@
               return {
                   topElement: response => response.EVM.Transfers,
                   chainId: response => response.EVM.Transfers[0]?.ChainId,
-                  title: () => 'Token attributes',
+                  title: () => 'Token Attributes',
                   id: 'TokenAttributes',
                   columns: [
                       {
@@ -41,13 +38,13 @@
           }
       }
 
-      class AddressBalanceByCurrencies extends BootstrapVerticalTableComponent {
+      class TokenStatistic extends BootstrapVerticalTableComponent {
           configuration() {
               return {
                   topElement: response => response.EVM.Transfers,
                   chainId: response => response.EVM.Transfers[0]?.ChainId,
-                  title: () => 'Token transfer statistics',
-                  id: 'AddressBalanceByCurrencies',
+                  title: () => 'Token Transfer Statistics',
+                  id: 'TokenStatistic',
                   columns: [
                       {
                           name: 'Transfer Count', cell: row => row.count
@@ -81,7 +78,7 @@
               return {
                   topElement: response => response.EVM.BalanceUpdates,
                   chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
-                  title: () => 'Token holder of token',
+                  title: () => 'Token Holder of Token',
                   id: 'TokenHolderOfToken',
                   columns: [
                       {
@@ -102,9 +99,8 @@
           address: '<%= @address %>',
       }
       renderComponent('<%=@streaming_access_token %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
-      renderComponent('<%=@streaming_access_token %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Token-transfer-statistics_4', variables);
+      renderComponent('<%=@streaming_access_token %>', [[TokenStatistic, '#TokenStatistic']], 'Token-transfer-statistics_4', variables);
       renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
           renderComponent('<%=@streaming_access_token %>', [[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_3', variables);
       })
   </script>
-<% end %>

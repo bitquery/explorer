@@ -26,8 +26,8 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title:()=>'Token Trades',
-                id:'SubTokenTradesTable',
+                title: () => 'Token Trades',
+                id: 'SubTokenTradesTable',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
@@ -187,16 +187,16 @@
     const variables = {
         network: '<%= @streaming %>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 4))).toISOString().slice(0, 10),
-    };
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10),
+    }
 
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades_4', variables, 'Subscription-Token-Trades_1_1');
         renderComponent('<%=@streaming_access_token %>', [
             [TradesByTimeTrades, '#TradesByTimeTrades'],
             [TradesByTimeAddress, '#TradesByTimeAddress'],
             [TradesByTimeCurrencies, '#TradesByTimeCurrencies'],
             [TradesByTimeContracts, '#TradesByTimeContracts']
         ], 'Trades-By-Time', variables);
-    });
-    renderComponent('<%=@streaming_access_token %>', [[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades_4', variables, 'Subscription-Token-Trades_1_1');
+    })
 </script>
