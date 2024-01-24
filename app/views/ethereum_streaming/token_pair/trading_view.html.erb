@@ -21,7 +21,11 @@
     class OHLCbyIntervalsGraph extends TradingGraphsComponent {
         configuration() {
             return {
-                title:()=>'<%= @token1symbol%> / <%= @token2symbol%>',
+                title: response => {
+                    const token1Symbol = response.EVM.token1_info[0]?.Transfer.Currency.Symbol ?  response.EVM.token1_info[0]?.Transfer.Currency.Symbol : ''
+                    const token2Symbol = response.EVM.token2_info[0]?.Transfer.Currency.Symbol ? response.EVM.token2_info[0]?.Transfer.Currency.Symbol : ''
+                    return `${token1Symbol} / ${token2Symbol}`
+                },
                 id:'OHLCbyIntervalsGraph',
                 symbol: '<%= @token1symbol%> / <%= @token2symbol%>',
                 topElement: response => response.EVM.DEXTradeByTokens,
@@ -32,5 +36,5 @@
         }
     }
 
-    renderComponent('<%=@streaming_access_token %>',[[OHLCbyIntervalsGraph, '#OHLCbyIntervalsGraph']], 'OHLC-by-intervalschange-interval-for-test_1', variables, 'Subscription-OHLC-with-interval');
+    renderComponent('<%=@streaming_access_token %>',[[OHLCbyIntervalsGraph, '#OHLCbyIntervalsGraph']], 'OHLC-by-intervals_2', variables, 'Subscription-OHLC-with-interval');
 </script>
