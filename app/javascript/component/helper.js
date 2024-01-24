@@ -150,29 +150,18 @@ export const getAPIButton = (data, variables, queryID) => () => {
         input.setAttribute('value', value);
         return input;
     };
-
-    let currentTabElement = document.querySelector("body > div:nth-child(6) > ul > li:nth-child(1) > a");
-    let currentTab = currentTabElement ? currentTabElement.text.toLowerCase() : 'default';
-    let currentUrl = window.location.href;
-    let networkPattern = /https?:\/\/[^\/]+\/(\w+)/;
-    let match = currentUrl.match(networkPattern);
-    let network = match ? match[1] : 'default';
-
-    let utmParameters = `?utm_source=explorer.bitquery.io&utm_medium=referral&utm_campaign=${encodeURIComponent(network)}&utm_content=${encodeURIComponent(currentTab)}`;
-
     let form = document.createElement('form');
     form.setAttribute('method', 'post');
-    form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig${utmParameters}`);
+    form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
     form.setAttribute('enctype', 'application/json');
+    form.setAttribute('target', '_blank');
     form.appendChild(createHiddenField('data', JSON.stringify(data)));
     form.appendChild(createHiddenField('variables', JSON.stringify(variables)));
     form.appendChild(createHiddenField('url', queryID));
-
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
-};
-
+}
 
 export const increaseLimitButton = (historyDataSource) => () => {
     // clearData()
@@ -238,7 +227,7 @@ export const getData = async (token, {endpoint_url, query, variables}) => {
     }
     return data
 }
-export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID, headerTitle = '') => {
+export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID) => {
     const createButton = (title, display) => {
         const button = document.createElement('a');
         if (!display) {
@@ -300,7 +289,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID,
     const f = setupShowMoreButton(tableFooter, showMoreButton)
 
     const onloadmetadata = queryMetaData => {
-        col8.textContent = headerTitle || queryMetaData?.name || 'No query presented';
+        col8.textContent = queryMetaData?.name || 'No query presented';
         if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
             const liveSpan = document.createElement('span');
             const blinker = document.createElement('div');
