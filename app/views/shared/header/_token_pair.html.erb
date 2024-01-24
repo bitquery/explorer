@@ -16,4 +16,4 @@
           header: t( "tabs.#{controller_name}.header", network: @network[:name],
                      token1symbol: @token1symbol, token2symbol: @token2symbol,
                      token1name: @token1name, token2name: @token2name),
-          reportrange: true} %>
+          reportrange:(params[:action] == 'trading_view' ? false : true)} %>

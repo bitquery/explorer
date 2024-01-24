@@ -220,8 +220,8 @@ en:
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history
           %{network} address finder,%{address}"
       nft_address:
-        name: "NFTs on address"
-        title: "%{network} NFTs on address"
+        name: "NFTs on Address"
+        title: "%{network} NFTs on Address"
         description: "Non-Fungible Tokens on %{network}"
         keywords: "%{network}, Non-Fungible Tokens, NFTs, nft, address"   
       transactions:
