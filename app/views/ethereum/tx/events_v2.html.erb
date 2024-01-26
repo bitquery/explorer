@@ -1,0 +1,43 @@
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='TransactionAttributes'></div>
+  </div>
+</div>
+<script>
+    class TransactionAttributes extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response =>response.EVM.Events,
+                chainId: response => response.EVM.Events[0]?.ChainId,
+                title: () => 'Smart Contract Events logged in Transaction',
+                id: 'TransactionAttributes',
+                columns: [
+                    {
+                        name: 'Event', cell: row =>  ({event: row.Log.Signature.Name, hash: row.Log.Signature.SignatureHash}),
+                        rendering: renderEventLink, headerStyle: {width: '120px'},
+                    },
+                    {
+                        name: 'Smart Contract', cell: row =>  row.Log.SmartContract,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
+                    },
+                    {
+                        name: 'Arguments Type', cell: row => row.Arguments.map(e => e.Type).join(', ')
+                    },
+                    {
+                        name: 'Event count', cell: row =>  row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width:'110px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        hash: '<%= @hash%>',
+    }
+    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Events-logged-in-Transaction_2', variables);
+</script>

@@ -1,0 +1,52 @@
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='CallsSmartContracts'></div>
+  </div>
+</div>
+<script>
+    class CallsSmartContracts extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => `Calls Smart Contracts`,
+                id: 'CallsSmartContracts',
+                columns: [
+                    {
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '20%'},
+                    },
+                    {
+                        name: 'Smart Contract', cell: row => row.Call.To,
+                        rendering: renderJustAddressLink, headerStyle: {width: '20%'},
+                    },
+                    {
+                        name: 'Method',
+                        cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
+                        rendering: renderMethodLink
+                    },
+                    {
+                        name: 'Gas used', cell: row => row.Call.GasUsed,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    }, {
+                        name: 'Value', cell: row => row.Call.Value,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    }, {
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '25%'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        height: '<%= @height%>',
+    }
+    renderComponent('<%=@streaming_access_token %>', [[CallsSmartContracts, '#CallsSmartContracts']], 'Calls-smart-contracts_3', variables);
+</script>

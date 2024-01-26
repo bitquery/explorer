@@ -4,8 +4,11 @@ class Ethereum::DexProtocolController < NetworkController
 
   layout 'tabs'
 
-  private
+  def statistics
+    render 'ethereum/dex_protocol/statistics_v2' if @streaming
+  end
 
+  private
   def set_protocol
     @protocol = params[:protocol_name]
     # hardcode fix, used to pass this arg to the query

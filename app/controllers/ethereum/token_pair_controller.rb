@@ -24,7 +24,13 @@ class Ethereum::TokenPairController < NetworkController
             }
   GRAPHQL
 
+
   def show
+    if @streaming
+      render '/ethereum/token_pair/trading_view'
+    else
+      render '/ethereum/token_pair/last_trades'
+    end
   end
 
   def trading_view

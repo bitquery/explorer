@@ -11,7 +11,7 @@ class Ethereum::TokenController < Ethereum::AddressController
   end
 
   def events
-    render 'ethereum/smart_contract/events'
+    render @streaming ? 'ethereum/smart_contract/events_v2' : 'ethereum/smart_contract/events'
   end
 
   def transactions
@@ -34,7 +34,7 @@ class Ethereum::TokenController < Ethereum::AddressController
 
   def is_native
     @token = params[:address]
-    @id= params[:id]
+    @id = params[:id]
     @native_token = native_token?
     @token_info = !@native_token && @info.smartContract.currency
   end
@@ -46,9 +46,9 @@ class Ethereum::TokenController < Ethereum::AddressController
   def redirect_by_type
     return if native_token?
     if !(sc = @info.try(:smartContract))
-      change_controller!  'ethereum/address'
+      change_controller! 'ethereum/address'
     elsif !sc.try(:currency)
-     # change_controller! 'ethereum/smart_contract'
+      # change_controller! 'ethereum/smart_contract'
     end
   end
 

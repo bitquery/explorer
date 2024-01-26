@@ -1,7 +1,1 @@
-<% if api_version_for_protocol == 'v2' %>
-  <% tabs_to_render = ['statistics', 'trades'] %>
-<% else %>
-  <% tabs_to_render = ['statistics', 'volume', 'trades', 'exchanges', 'pairs', 'traders'] %>
-<% end %>
-
-<%= render partial: 'shared/tabs', locals: { tabs: tabs_to_render } %>
+<%= render partial: 'shared/tabs', locals: { tabs: @streaming ? ['statistics','protocol_smart_contracts_v2','trades_v2','token_pairs_v2'] : ['statistics', 'volume', 'trades', 'exchanges', 'pairs', 'traders'] } %>

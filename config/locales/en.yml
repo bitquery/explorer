@@ -466,7 +466,17 @@ en:
         title: "%{token} Exchange volume | %{network}"
         description: "Senders of token %{token} in %{network}"
         keywords: "%{token} exchange volume, %{token} exchange volume analytics, unique %{token} senders"
+      senders_v2:
+        name: 'Senders'
+        title: "%{token} Exchange volume | %{network}"
+        description: "Senders of token %{token} in %{network}"
+        keywords: "%{token} exchange volume, %{token} exchange volume analytics, unique %{token} senders"
       receivers:
+        name: 'Receivers'
+        title: "%{token} Receivers | %{network}"
+        description: "Receivers of token %{token} in %{network}"
+        keywords: "%{token} receivers, unique %{token} receivers"
+      receivers_v2:
         name: 'Receivers'
         title: "%{token} Receivers | %{network}"
         description: "Receivers of token %{token} in %{network}"
@@ -776,6 +786,11 @@ en:
         title: "Transfers %{network} %{hash}"
         description: "Transfers in transaction %{hash} in %{network}"
         keywords: "%{network} transfer, %{network} transaction value"
+      events_v2:
+          name: 'Events'
+          title: "Events %{network} %{hash}"
+          description: "Smart Contract Events in transaction %{hash} in %{network}"
+          keywords: "%{network} transaction events, %{network} transaction events analytics"
       transaction:
         name: "Transaction"
         title: "Transaction %{network} %{hash}"
@@ -851,6 +866,7 @@ en:
         title: "Events %{network} %{hash}"
         description: "Smart Contract Events in transaction %{hash} in %{network}"
         keywords: "%{network} transaction events, %{network} transaction events analytics"
+
       references:
         name: 'References'
         title: "References from %{network} %{hash}"
@@ -940,6 +956,13 @@ en:
         description: "%{network} Contracts list in block %{height}"
         keywords: "%{network} contracts, %{network} smart contracts"
       calls:
+        name: "Smart Contract Calls"
+        title: "Block %{height} Smart Contract Calls on %{network} Explorer"
+        description: "check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users"
+      calls_v2:
         name: "Smart Contract Calls"
         title: "Block %{height} Smart Contract Calls on %{network} Explorer"
         description: "check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users"
@@ -1167,6 +1190,13 @@ en:
         keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
           %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
           %{network} smart contract users"
+      calls_v2:
+        name: "Smart Contract Calls"
+        title: "Smart Contract Calls on %{network} Explorer"
+        description: "check %{network} smart contract calls analytics with smart contract calls count, unique calls, unique smart contract users"
+        keywords: "%{network} smart contracts calls, latest %{network} smart contracts,
+          %{network} smart contracts calls analytics, %{network} smart contracts methods analytics,
+          %{network} smart contract users"
       mints:
         name: "Mints"
         title: "Mints on %{network} Explorer"
@@ -1194,6 +1224,11 @@ en:
         title: "%{network} Mining Analytics"
         description: "Check %{network} mining pools, block reward, total mining reward and other %{network} mining analytics, charts and widgets"
         keywords: "%{network} mining, %{network} mining pools, %{network} mining analytics,%{network} block reward, top %{network} miners, %{network} mining reward ,%{network} halving, Top %{network} pools"
+      miners_v2:
+        name: "Miners"
+        title: "%{network} Mining Analytics"
+        description: "Check %{network} mining pools, block reward, total mining reward and other %{network} mining analytics, charts and widgets"
+        keywords: "%{network} mining, %{network} mining pools, %{network} mining analytics,%{network} block reward, top %{network} miners, %{network} mining reward ,%{network} halving, Top %{network} pools"
       miner_distrib:
         name: "Miner distribution"
         title: "%{network} Miners distribution chart"
@@ -1206,6 +1241,11 @@ en:
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
       dex_protocols:
+        name: "DEX Protocols"
+        title: "%{network} DEX Protocols"
+        description: "Decentralised exchanges (DEX) protocols, smart contracts on %{network}"
+        keywords: "%{network} Decentralized Exchanges Protocols"
+      dex_protocols_v2:
         name: "DEX Protocols"
         title: "%{network} DEX Protocols"
         description: "Decentralised exchanges (DEX) protocols, smart contracts on %{network}"
@@ -1528,12 +1568,27 @@ en:
         title: "Statistics of %{protocol} DEX at %{network}"
         description: "Statistics of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades,statistics"
+      statistics_v2:
+        name: "Statistics"
+        title: "Statistics of %{protocol} DEX at %{network}"
+        description: "Statistics of %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades,statistics"
       protocol_smart_contracts:
         name: "Smart Contracts"
         title: "Smart Contracts %{protocol} of DEX at %{network}"
         description: "Smart Contracts of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades, smart contract"
+      protocol_smart_contracts_v2:
+        name: "Smart Contracts"
+        title: "Smart Contracts %{protocol} of DEX at %{network}"
+        description: "Smart Contracts of %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades, smart contract"
       token_pairs:
+        name: "Token Pairs"
+        title: "Token Pairs of %{protocol} DEX at %{network}"
+        description: "Token Pairs of %{protocol} DEX at %{network}"
+        keywords: "%{protocol},%{network},dex,trades,Token Pairs"
+      token_pairs_v2:
         name: "Token Pairs"
         title: "Token Pairs of %{protocol} DEX at %{network}"
         description: "Token Pairs of %{protocol} DEX at %{network}"
@@ -1544,6 +1599,11 @@ en:
         description: "Volume of %{protocol} for %{network}"
         keywords: "%{protocol},%{network},dex,trades,volume"
       trades:
+        name: "Trades"
+        title: "Trades on %{protocol} DEX at %{network}"
+        description: "Trade list on %{protocol} for %{network}"
+        keywords: "%{protocol},%{network},dex,trades"
+      trades_v2:
         name: "Trades"
         title: "Trades on %{protocol} DEX at %{network}"
         description: "Trade list on %{protocol} for %{network}"
