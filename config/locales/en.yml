@@ -386,6 +386,11 @@ en:
         title: "%{address} Smart Contract Events | %{network}"
         description: "%{address} smart contract events in %{network} blockchain"
         keywords: "%{address} events, %{address} smart contract events, %{address} smart contract event, %{address} event log,%{network}"
+      events_v2:
+        name: 'Events'
+        title: "%{address} Smart Contract Events | %{network}"
+        description: "%{address} smart contract events in %{network} blockchain"
+        keywords: "%{address} events, %{address} smart contract events, %{address} smart contract event, %{address} event log,%{network}"
       inflow:
         name: 'Inflow'
         title: "%{address} Smart Contract Inflow | %{network}"

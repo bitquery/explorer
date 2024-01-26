@@ -1,9 +1,9 @@
-<%# 
-    nft_tabs = @streaming ? ['nft_smart_contract','show_nft_id'] : []
+<%
+    nft_tabs = @streaming ? ['events_v2'] : ['events']
 %>
 <%= render partial: 'shared/tabs', locals: {
     tabs: 
         (@info.try(:smart_contract).try(:contract_type)=='DEX') ?
-            ['show','transactions','methods','events_v2','dex_trades','dex_tokens','inflow','outflow','calls_contracts','graph'] :
-            ['show','transactions','methods','events','inflow','outflow','calls_contracts','graph']
+            ['show','transactions','methods']+ nft_tabs+['dex_trades','dex_tokens','inflow','outflow','calls_contracts','graph'] :
+            ['show','transactions','methods']+nft_tabs+['inflow','outflow','calls_contracts','graph']
 } %>

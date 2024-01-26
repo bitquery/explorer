@@ -16,14 +16,9 @@ export default function renderNumbersWithCurrency(data, variables, chainId) {
     container.appendChild(div);
     container.appendChild(spanCurrency);
 
-    let content;
-    if (/^-?\d+$/.test(data)) {
-        const bigIntValue = BigInt(data);
-        content = (bigIntValue > Number.MAX_SAFE_INTEGER || bigIntValue < Number.MIN_SAFE_INTEGER) ? data : parseFloat(+data);
-    } else {
-        content = parseFloat(data);
-    }
+    const stringData = (data === null || data === undefined) ? '' : data.toString()
+    const formattedData = stringData.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')
 
-    span.textContent = content;
+    span.textContent = formattedData
     return container;
 }
