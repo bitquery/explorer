@@ -536,6 +536,11 @@ en:
         title: "%{network} DEX Trades of the token"
         description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
         keywords: "%{network} DEX Trades"
+      token_dex_trades_v2:
+        name: "Trades on DEXs"
+        title: "%{network} DEX Trades of the token"
+        description: "Trades on decentralised exchanges (DEX), smart contracts on %{network}"
+        keywords: "%{network} DEX Trades"
       dex_trades:
         name: "DEX Trades"
         title: "%{network} DEX Trades"
@@ -547,12 +552,22 @@ en:
       icon: 'fas fa-coins text-warning'
       header: "Token pair %{token1symbol} (%{token1name}) vs %{token2symbol} (%{token2name}) in %{network}"
       address: "%{token}"
+      show:
+        name: 'Pair Last Trades'
+        title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
+        description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
       trading_view:
         name: 'Pair Trading View '
         title: "Trading View %{network} %{token1symbol} %{token2symbol} DEX Trades"
         description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network},DEX,Trading View,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
       last_trades:
+        name: 'Pair Last Trades'
+        title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
+        description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
+        keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
+      last_trades_v2:
         name: 'Pair Last Trades'
         title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
         description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"

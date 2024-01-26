@@ -1,4 +1,4 @@
 <%= render partial: 'shared/tabs', locals: {
-  tabs: ['trading_view', 'last_trades'],
-  new_tabs: ['last_trades']
+  tabs: @streaming ? ['trading_view', 'last_trades_v2'] : ['last_trades'],
+  new_tabs: ['last_trades_v2']
 } %>

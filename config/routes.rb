@@ -47,9 +47,8 @@ Rails.application.routes.draw do
       get ":blockchain/dex/:exchange", controller: "#{blockchain[:family]}/dex", action: 'statistics', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/sitemap/index.xml", controller: "#{blockchain[:family]}/sitemap", action: 'index', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/tokenpair/:token1/:token2", controller: "#{blockchain[:family]}/token_pair", action: 'trading_view', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/tokenpair/:token1/:token2/trading_view", controller: "#{blockchain[:family]}/token_pair", action: 'trading_view', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/tokenpair/:token1/:token2/last_trades", controller: "#{blockchain[:family]}/token_pair", action: 'last_trades', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/tokenpair/:token1/:token2/", controller: "#{blockchain[:family]}/token_pair", action: 'show', constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/tokenpair/:token1/:token2/:action", controller: "#{blockchain[:family]}/token_pair",  constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
     }
 
     BLOCKCHAINS.select { |b| b[:family] == 'ethereum2' }.each { |blockchain|
