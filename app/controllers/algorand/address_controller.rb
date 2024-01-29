@@ -36,6 +36,6 @@ class Algorand::AddressController < NetworkController
     result = Graphql::V1.query_with_retry(QUERY_CURRENCIES, variables: { address: @address }, context: { authorization: @streaming_access_token }).data.algorand
 
     all_currencies = result.outbound + result.inbound
-    @currencies = all_currencies.map(&:currency).sort_by { |c| c.token_id == '' ? 0 : 1 }.uniq(&:token_id)
+    @currencies = all_currencies.map(&:currency).sort_by { |c| c.tokenId == '' ? 0 : 1 }.uniq(&:tokenId)
   end
 end

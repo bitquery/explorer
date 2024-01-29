@@ -78,6 +78,4 @@ class Tron::AddressController < NetworkController
       redirect_to action: params[:action], controller: '/tron/smart_contract', address: @address and return
     end
   end
-  
-  
 end
