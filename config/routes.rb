@@ -588,6 +588,8 @@ Rails.application.routes.draw do
     get 'sitemap.xml' => "sitemaps#index"
     get 'robots.txt' => "sitemaps#robots"
     get '*path' => "utility#errors"
+    get '/favicon.ico', to: redirect('/assets/favicon.ico')
+
   end
 
 end
