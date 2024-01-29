@@ -3,9 +3,9 @@ ADS={
     ads: [
       {
         text: 'Looking for Investigators?',
-        url: 'https://slashorbit.com/api/v3/offer/2?affiliate_id=3&url_id=1',
+        url: 'https://bitquery.io/products/crypto-investigation-services?utm_source=explorer&utm_medium=website&utm_content=navigation_button',
         bgcolor: '#0570f2',
-        path_matches: '/graph.*|\/tx.*'
+        path_matches: '/graph.*|\/tx.*|\/address.*'
       },
       {
         text: 'Buy {token_symbol}',
