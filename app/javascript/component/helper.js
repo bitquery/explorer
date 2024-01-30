@@ -270,6 +270,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID)
     if (!subscriptionQueryID) {
         switchButton.style.display = 'none'
     }
+    switchButton.id = 'switchButton'
     streamControlButton.style.display = 'none'
     showMoreButton.classList.add('more-link', 'badge');
     showMoreButton.textContent = 'Show more...';
