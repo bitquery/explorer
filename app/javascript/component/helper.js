@@ -9,8 +9,10 @@ export function SubscriptionDataSource(token,payload) {
     let widgetFrames = []
 
     this.subscribe = () => {
+
         const currentUrl = payload.endpoint_url.replace(/^http/, 'ws');
         const tokenForStreaming =token.replace(/^Bearer\s*/,'').trim()
+
         const client = createClient({
             url: `${currentUrl}?token=${tokenForStreaming}`, connectionParams: async () => {
                 return {
@@ -32,6 +34,7 @@ export function SubscriptionDataSource(token,payload) {
             error: error => {
                 widgetFrames.forEach(wf => wf.onerror(error))
                 this.alive = false
+                this.unsubscribe()
             },
             complete: () => {
                 this.alive = false

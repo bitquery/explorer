@@ -129,9 +129,7 @@ export default class TradingGraphsComponent {
     }
 
     init(widgetFrame) {
-        console.log(document.querySelector('#switchButton'))
         if(document.querySelector('#switchButton')){
-
         widgetFrame.switchButton.style.display = 'none'
         widgetFrame.switchButton.parentElement.lastChild.classList.remove('invisible')
         }
