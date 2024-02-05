@@ -129,8 +129,10 @@ export default class TradingGraphsComponent {
     }
 
     init(widgetFrame) {
+        if(document.querySelector('#switchButton')){
         widgetFrame.switchButton.style.display = 'none'
         widgetFrame.switchButton.parentElement.lastChild.classList.remove('invisible')
+        }
         if (this.widget === null) {
             this.wrapper.style.height = '600px';
             this.container.appendChild(this.wrapper);

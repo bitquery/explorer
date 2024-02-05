@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
 
-
   before_action :get_session_streaming_token, :set_locale, :set_theme, :set_date, :set_feed
 
   def default_url_options
@@ -78,6 +77,7 @@ class ApplicationController < ActionController::Base
     Rails.application.routes.default_url_options[:locale] = (I18n.locale == I18n.default_locale ? nil : I18n.locale)
 
   end
+
   def cors_set_access_control_headers
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
@@ -117,6 +117,7 @@ class ApplicationController < ActionController::Base
   def get_session_streaming_token
     get_streaming_access_token if (session['streaming_access_token'].blank? || Time.current > session['streaming_expires_in'])
     @streaming_access_token = session['streaming_access_token']
+    @streaming_token_time_live = session['streaming_expires_in']
   end
 
   def get_streaming_access_token

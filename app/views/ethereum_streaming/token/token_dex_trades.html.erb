@@ -122,8 +122,8 @@
         token: '<%= @address %>',
         limit: 10,
     }
-    renderComponent('<%=@streaming_access_token %>', [[LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork']], 'Latest-Trades-of-Token-in-Network_dextrades_4', variables, 'Subscription-latest-Trades-of-Token_dextrades');
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[LatestTradesOfTokenInNetwork, '#LatestTradesOfTokenInNetwork']], 'Latest-Trades-of-Token-in-Network_dextrades_6', variables, 'Subscription-latest-Trades-of-Token_dextrades');
         renderComponent('<%=@streaming_access_token %>', [[TokenPairs, '#TokenPairs']], 'Token-pairs_5', variables);
     })
 </script>
