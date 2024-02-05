@@ -66,9 +66,10 @@
         network: '<%= @streaming%>',
         baseCurrency: '<%= @token1 %>',
         quoteCurrency: '<%= @token2 %>',
+        mempool:false,
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[PairLastTrades, '#PairLastTrades']], 'Pair-last-trades_4', variables, 'Subscription-pair-last-trades_2');
+        renderComponent('<%=@streaming_access_token %>', [[PairLastTrades, '#PairLastTrades']], 'Pair-last-trades_4', variables, 'Subscription-pair-last-trades_3');
     })
 
 </script>

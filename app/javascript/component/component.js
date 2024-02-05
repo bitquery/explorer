@@ -2,6 +2,8 @@ import {
 	getBaseClass,
 	getAPIButton,
 	streamControl,
+	mempoolStreamControl,
+	switchMempool,
 	switchDataset,
 	getQueryParams,
 	createWidgetFrame,
@@ -35,7 +37,7 @@ export default async function renderComponent(token,components, historyQueryID, 
 		const ComponentConstructor = component[0]
 		const componentSelector = component[1]
 		document.querySelector(componentSelector).textContent = ''
-		const widgetFrame = createWidgetFrame(componentSelector, subscriptionQueryID, historyQueryID)
+		const widgetFrame = createWidgetFrame(componentSelector, subscriptionQueryID, historyQueryID,subscriptionDataSource)
 		if (subscriptionDataSource) {
 			widgetFrame.onloadmetadata(subscriptionQueryParams)
 			subscriptionDataSource.setWidgetFrame(widgetFrame)
@@ -53,8 +55,10 @@ export default async function renderComponent(token,components, historyQueryID, 
 		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
 		widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
 
+		widgetFrame.switchMempoolButton.onclick = switchMempool(widgetFrame, historyDataSource, subscriptionDataSource)
+		widgetFrame.mempoolControlButton.onclick = mempoolStreamControl(subscriptionDataSource,widgetFrame)
 		widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
-		widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource)
+		widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource,widgetFrame)
 	})
 
 	historyDataSource && historyDataSource.changeVariables()
