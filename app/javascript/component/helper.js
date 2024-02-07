@@ -202,9 +202,7 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
         e.currentTarget.nextSibling.style.display = 'none'
         e.currentTarget.parentElement.lastChild.classList.add('invisible')
         historyDataSource.changeVariables()
-        if (document.querySelector('#mempoolControlButton') && subscriptionDataSource.mempoolShow === true) {
-            document.querySelector('#mempoolControlButton').style.display = 'inline-block'
-        }
+        e.currentTarget.previousSibling.previousSibling.style.display = 'inline-block'
     } else {
         subscriptionDataSource.unsubscribe()
         e.currentTarget.textContent = 'Switch to HISTORY'
@@ -214,9 +212,7 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
         e.currentTarget.nextSibling.style.display = 'inline-block'
         e.currentTarget.nextSibling.textContent = 'Stop streaming'
         e.currentTarget.parentElement.lastChild.classList.remove('invisible')
-        if (document.querySelector('#mempoolControlButton')) {
-            document.querySelector('#mempoolControlButton').style.display = 'none'
-        }
+        e.currentTarget.previousSibling.previousSibling.style.display = 'none'
     }
 }
 export const switchMempool = (widgetFrame, historyDataSource, subscriptionDataSource) => e => {
@@ -229,9 +225,7 @@ export const switchMempool = (widgetFrame, historyDataSource, subscriptionDataSo
         e.currentTarget.nextSibling.style.display = 'none'
         e.currentTarget.parentElement.lastChild.classList.add('invisible')
         historyDataSource.changeVariables()
-        if (document.querySelector('#switchButton')) {
-            document.querySelector('#switchButton').style.display = 'inline-block'
-        }
+        e.currentTarget.nextSibling.nextSibling.style.display = 'inline-block'
     } else {
         subscriptionDataSource.unsubscribe()
         e.currentTarget.textContent = 'Switch to HISTORY'
@@ -241,9 +235,7 @@ export const switchMempool = (widgetFrame, historyDataSource, subscriptionDataSo
         e.currentTarget.nextSibling.style.display = 'inline-block'
         e.currentTarget.nextSibling.textContent = 'Stop mempool streaming'
         e.currentTarget.parentElement.lastChild.classList.remove('invisible')
-        if (document.querySelector('#switchButton')) {
-            document.querySelector('#switchButton').style.display = 'none'
-        }
+        e.currentTarget.nextSibling.nextSibling.style.display = 'none'
     }
 }
 export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => e => {

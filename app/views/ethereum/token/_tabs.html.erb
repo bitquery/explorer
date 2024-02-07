@@ -2,17 +2,18 @@
   nft_tabs = @streaming ? ['nft_smart_contract', 'holders'] : []
   nft_dex = @streaming ? ['token_dex_trades_v2'] : ['token_dex_trades']
   senders = @streaming ? ['senders_v2', 'receivers_v2'] : ['senders','receivers']
+  transfers = @streaming ? ['transfers_v2'] : ['transfers']
   nft_id = @id ? ['show_nft_id'] : []
 %>
 <%= render partial: 'shared/tabs', locals: {
   tabs: (@native_token ? ['show', 'transfers', 'senders', 'receivers'] :
 
            ((@info.try(:smart_contract).try(:contract_type) == 'DEX') ?
-              ['show',] + nft_tabs + nft_id + ['transfers'] + nft_dex + ['dex_trades'] + senders +[ 'smart_contract', 'transactions',
+              ['show',] + nft_tabs + nft_id + transfers + nft_dex + ['dex_trades'] + senders +[ 'smart_contract', 'transactions',
                                                                                                    'methods', 'events', 'inflow', 'outflow', 'calls_contracts'] :
-              ['show',] + nft_tabs + nft_id + ['transfers'] + nft_dex + senders + [ 'smart_contract', 'transactions',
+              ['show',] + nft_tabs + nft_id + transfers + nft_dex + senders + [ 'smart_contract', 'transactions',
                                                                                    'methods', 'events', 'inflow', 'outflow', 'calls_contracts'])
 
   ),
-  new_tabs: ['transfers', 'token_dex_trades_v2']
+  new_tabs: ['transfers_v2', 'token_dex_trades_v2', 'nft_smart_contract']
 } %>

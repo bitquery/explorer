@@ -466,6 +466,13 @@ en:
         keywords: "%{token} transfers, %{token} transfer, %{token} money transfer, 
           %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
           %{token} transaction volume"
+      transfers_v2:
+        name: 'Transfers'
+        title: "%{token} Transfers | %{network}"
+        description: "Transfers of token %{token} in %{network}"
+        keywords: "%{token} transfers, %{token} transfer, %{token} money transfer, 
+          %{token} transfer fee, %{token} transfer analytics, Latest %{token} transfers.
+          %{token} transaction volume"
       senders:
         name: 'Senders'
         title: "%{token} Exchange volume | %{network}"
