@@ -87,7 +87,7 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
       new graphs.address_graph('#graph', query, {
           theme: '<%= @theme %>',
       })
-
+console.log( query)
       new graphs.addControls('#graph', query, {
           theme: '<%= @theme %>',
           currencies: <%= @currencies.collect{|cur|
@@ -107,12 +107,6 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
             {address:cur.address.downcase,symbol:cur.symbol,name:cur.name,search:value}
             }.to_json.to_s.html_safe %>,
       })
-      // let selectedCurrency
-      // $(document).on('change', '.currency-filter__select', function() {
-      //     selectedCurrency = $(this).val()
-      //     console.log('selectedCurrency',selectedCurrency)
-      // });
-
 
       queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
           "inboundDepth": 1,
@@ -121,8 +115,7 @@ query ($network: EthereumNetwork!, $address: String!, $inboundDepth: Int!, $outb
           "offset": 0,
           "network": "<%= params['network']['network'] %>",
           "address": "<%= @address.downcase %>",
-          "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address.downcase) %>"
+          "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address.downcase) %>",
       })
-
   </script>
 </div>

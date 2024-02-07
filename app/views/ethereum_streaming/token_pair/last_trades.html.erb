@@ -17,7 +17,7 @@
                         rendering: renderDate,
                     }, {
                         name: 'Block', cell: row => row.Block.Number,
-                        rendering: renderBlockLink,
+                        rendering: renderBlockLink,headerStyle: {width: '100px'}
                     },
                     {
                         name: 'Quote amount', cell: row => row.Trade.Buy.Amount,
@@ -28,7 +28,7 @@
                             currency: row.Trade.Buy.Currency.Symbol,
                             smartContract: row.Trade.Buy.Currency.SmartContract
                         }),
-                        rendering: renderTokenLink, headerStyle: {width: '15%'},
+                        rendering: renderTokenLink, headerStyle: {width: '123px'},
                     },
                     {
                         name: 'Price', cell: row => row.Trade.Buy.Price,
@@ -43,7 +43,7 @@
                             currency: row.Trade.Sell.Currency.Symbol,
                             smartContract: row.Trade.Sell.Currency.SmartContract
                         }),
-                        rendering: renderTokenLink, headerStyle: {width: '15%'},
+                        rendering: renderTokenLink, headerStyle: {width: '114px'},
                     },
                     {
                         name: 'Protocol', cell: row => ({
@@ -51,11 +51,11 @@
                             ProtocolName: row.Trade.Dex.ProtocolName,
                             ProtocolVersion: row.Trade.Dex.ProtocolVersion
                         }),
-                        rendering: renderDexProtocolLink,
+                        rendering: renderDexProtocolLink, headerStyle: {width: '123px'},
                     },
                     {
-                        name: 'Smart Contract', cell: row => row.Trade.Dex.SmartContract,
-                        rendering: renderJustAddressLink,
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '123px'},
                     },
                 ]
             }
@@ -68,7 +68,7 @@
         quoteCurrency: '<%= @token2 %>',
     }
     renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[PairLastTrades, '#PairLastTrades']], 'Pair-last-trades_4', variables, 'Subscription-pair-last-trades_3');
+        renderComponent('<%=@streaming_access_token %>', [[PairLastTrades, '#PairLastTrades']], 'Pair-last-trades_6', variables, 'Subscription-pair-last-trades_4');
     })
 
 </script>
