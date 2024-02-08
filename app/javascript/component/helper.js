@@ -229,7 +229,7 @@ export const increaseLimitButton = (historyDataSource) => () => {
 
 export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSource) => e => {
     const streamingActive = e.currentTarget.nextSibling.offsetParent !== null
-    if (streamingActive) {
+    // if (streamingActive) {
         subscriptionDataSource.unsubscribe()
         e.currentTarget.textContent = 'History query'
         widgetFrame.onquerystarted()
@@ -237,7 +237,7 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
         historyDataSource.changeVariables()
         e.currentTarget.classList.add('button-pressed')
 
-        e.currentTarget.nextSibling.style.display = 'inline-block'
+        // e.currentTarget.nextSibling.style.display = 'inline-block'
         e.currentTarget.nextSibling.textContent = '⏸ Mempool';
         e.currentTarget.nextSibling.nextSibling.textContent = '⏸ Streaming'
         e.currentTarget.parentElement.lastChild.classList.add('hide')
@@ -247,7 +247,7 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
         e.currentTarget.nextSibling.classList.remove('button-pressed')
         e.currentTarget.nextSibling.nextSibling.classList.remove('button-pressed')
 
-    }
+    // }
 }
 
 export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => e => {
