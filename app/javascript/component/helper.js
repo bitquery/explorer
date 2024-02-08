@@ -155,7 +155,10 @@ export const getBaseClass = (targetClass, config) => {
     return data
 }
 
-export const getAPIButton = (data, variables, queryID) => () => {
+export const getAPIButton = (data, variables, queryID, subscriptionDataSource) => () => {
+    if (subscriptionDataSource && subscriptionDataSource.mempoolShow === true) {
+        variables.mempool = true
+    }
     let createHiddenField = function (name, value) {
         let input = document.createElement('input');
         input.setAttribute('type', 'hidden');
@@ -196,62 +199,50 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
     const streamingActive = e.currentTarget.nextSibling.offsetParent !== null
     if (streamingActive) {
         subscriptionDataSource.unsubscribe()
-        subscriptionDataSource.mempoolDo = false
-        e.currentTarget.textContent = 'Switch to LIVE'
-        widgetFrame.onqueryend()
-        e.currentTarget.nextSibling.style.display = 'none'
-        e.currentTarget.parentElement.lastChild.classList.add('invisible')
-        historyDataSource.changeVariables()
-        e.currentTarget.previousSibling.previousSibling.style.display = 'inline-block'
-    } else {
-        subscriptionDataSource.unsubscribe()
-        e.currentTarget.textContent = 'Switch to HISTORY'
+        e.currentTarget.textContent = 'History query'
         widgetFrame.onquerystarted()
         subscriptionDataSource.mempoolDo = false
-        subscriptionDataSource.changeVariables()
-        e.currentTarget.nextSibling.style.display = 'inline-block'
-        e.currentTarget.nextSibling.textContent = 'Stop streaming'
-        e.currentTarget.parentElement.lastChild.classList.remove('invisible')
-        e.currentTarget.previousSibling.previousSibling.style.display = 'none'
-    }
-}
-export const switchMempool = (widgetFrame, historyDataSource, subscriptionDataSource) => e => {
-    const streamingActive = e.currentTarget.nextSibling.offsetParent !== null
-    if (streamingActive && subscriptionDataSource.mempoolShow === true) {
-        subscriptionDataSource.unsubscribe()
-        subscriptionDataSource.mempoolDo = false
-        e.currentTarget.textContent = 'Mempool to LIVE'
-        widgetFrame.onqueryend()
-        e.currentTarget.nextSibling.style.display = 'none'
-        e.currentTarget.parentElement.lastChild.classList.add('invisible')
         historyDataSource.changeVariables()
-        e.currentTarget.nextSibling.nextSibling.style.display = 'inline-block'
-    } else {
-        subscriptionDataSource.unsubscribe()
-        e.currentTarget.textContent = 'Switch to HISTORY'
-        widgetFrame.onquerystarted()
-        subscriptionDataSource.mempoolDo = true
-        subscriptionDataSource.changeVariables()
+        e.currentTarget.classList.add('button-pressed')
+
         e.currentTarget.nextSibling.style.display = 'inline-block'
-        e.currentTarget.nextSibling.textContent = 'Stop mempool streaming'
-        e.currentTarget.parentElement.lastChild.classList.remove('invisible')
-        e.currentTarget.nextSibling.nextSibling.style.display = 'none'
+        e.currentTarget.nextSibling.textContent = '⏸ Mempool';
+        e.currentTarget.nextSibling.nextSibling.textContent = '⏸ Streaming'
+        e.currentTarget.parentElement.lastChild.classList.add('hide')
+        e.currentTarget.nextSibling.textContent = '▶ Mempool'
+
+        e.currentTarget.nextSibling.nextSibling.textContent = '▶ Streaming'
+        e.currentTarget.nextSibling.classList.remove('button-pressed')
+        e.currentTarget.nextSibling.nextSibling.classList.remove('button-pressed')
+
     }
 }
+
 export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => e => {
     if (subscriptionDataSource.alive) {
         subscriptionDataSource.unsubscribe()
         widgetFrame.onqueryend()
-        e.currentTarget.parentElement.lastChild.classList.add('invisible')
-        e.currentTarget.textContent = 'Start mempool streaming'
+        e.currentTarget.parentElement.lastChild.classList.add('hide')
+        e.currentTarget.textContent = '▶ Mempool'
+        e.currentTarget.nextSibling.textContent = '▶ Streaming'
+        e.currentTarget.classList.remove('button-pressed')
         subscriptionDataSource.mempoolDo = false
+        e.currentTarget.nextSibling.classList.remove('button-pressed')
+        e.currentTarget.previousSibling.classList.remove('button-pressed')
+
+
     } else {
         subscriptionDataSource.unsubscribe()
         widgetFrame.onquerystarted()
         subscriptionDataSource.mempoolDo = true
-        e.currentTarget.parentElement.lastChild.classList.remove('invisible')
-        subscriptionDataSource.subscribe()
-        e.currentTarget.textContent = 'Stop mempool streaming'
+        subscriptionDataSource.changeVariables()
+        e.currentTarget.parentElement.lastChild.classList.remove('hide')
+        e.currentTarget.classList.add('button-pressed')
+        e.currentTarget.textContent = '⏸ Mempool'
+        e.currentTarget.nextSibling.textContent = '▶ Streaming'
+        e.currentTarget.nextSibling.classList.remove('button-pressed')
+        e.currentTarget.previousSibling.classList.remove('button-pressed')
+
 
     }
 }
@@ -259,16 +250,27 @@ export const streamControl = (subscriptionDataSource, widgetFrame) => e => {
     if (subscriptionDataSource.alive) {
         subscriptionDataSource.unsubscribe()
         widgetFrame.onqueryend()
-        e.currentTarget.parentElement.lastChild.classList.add('invisible')
-        e.currentTarget.textContent = 'Start streaming'
+        e.currentTarget.parentElement.lastChild.classList.add('hide')
+        e.currentTarget.classList.remove('button-pressed')
+        e.currentTarget.textContent = '▶ Streaming'
         subscriptionDataSource.mempoolDo = false
+        e.currentTarget.previousSibling.textContent = '▶ Mempool'
+        e.currentTarget.previousSibling.classList.remove('button-pressed')
+        e.currentTarget.previousSibling.previousSibling.classList.remove('button-pressed')
+
+
     } else {
         subscriptionDataSource.unsubscribe()
         widgetFrame.onquerystarted()
         subscriptionDataSource.mempoolDo = false
-        e.currentTarget.parentElement.lastChild.classList.remove('invisible')
-        subscriptionDataSource.subscribe()
-        e.currentTarget.textContent = 'Stop streaming'
+        subscriptionDataSource.changeVariables()
+        e.currentTarget.parentElement.lastChild.classList.remove('hide')
+        e.currentTarget.classList.add('button-pressed')
+        e.currentTarget.textContent = '⏸ Streaming'
+        e.currentTarget.previousSibling.textContent = '▶ Mempool'
+        e.currentTarget.previousSibling.classList.remove('button-pressed')
+        e.currentTarget.previousSibling.previousSibling.classList.remove('button-pressed')
+
     }
 }
 
@@ -305,13 +307,14 @@ export const getData = async (token, {endpoint_url, query, variables}) => {
     return data
 }
 export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID, subscriptionDataSource) => {
-    const createButton = (title, display) => {
+    const createBadge = (title, display) => {
         const button = document.createElement('a');
         if (!display) {
             button.style.display = 'none'
             return button
         }
-        button.classList.add('badge', 'badge-secondary', 'open-btn', 'bg-success', 'get-api', 'mr-2');
+        button.classList.add('badge', 'badge-success', 'p-1', 'mr-2', 'button-transition');
+        button.style.background = '#08BDB1'
         button.setAttribute('role', 'button');
         button.setAttribute('target', '_blank');
         button.textContent = title;
@@ -328,34 +331,36 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID,
     const cardBody = document.createElement('div');
     const widgetFrame = document.createElement('div');
     const tableFooter = document.createElement('div');
-    const getStreamingAPIButton = createButton('Get Streaming API', subscriptionQueryID)
-    const getHistoryAPIButton = createButton('Get History API', historyQueryID)
-    const switchButton = createButton('Switch to LIVE', true)
-    const switchMempoolButton = createButton('Mempool to LIVE', true)
+    const getStreamingAPIButton = createBadge('Get Streaming API', subscriptionQueryID)
+    const getMempoolButton = createBadge('Get Mempool API', subscriptionQueryID)
+    const getHistoryAPIButton = createBadge('Get History API', historyQueryID)
+    const switchButton = createBadge('History query', true)
     const showMoreButton = document.createElement('a');
-    const streamControlButton = createButton('Stop streaming', true)
-    const mempoolControlButton = createButton('Stop streaming', true)
+    const streamControlButton = createBadge('▶ Streaming', true)
+    const mempoolControlButton = createBadge('▶ Mempool', true)
     if (!subscriptionQueryID) {
+        streamControlButton.style.display = 'none'
         switchButton.style.display = 'none'
+
     }
     if (subscriptionDataSource?.mempoolShow !== true) {
-        switchMempoolButton.style.display = 'none'
+        getMempoolButton.style.display = 'none'
+        mempoolControlButton.style.display = 'none'
     }
     switchButton.id = 'switchButton'
-    switchMempoolButton.id = 'mempoolControlButton'
-    streamControlButton.style.display = 'none'
-
-    mempoolControlButton.style.display = 'none'
+    switchButton.classList.add('button-pressed')
     showMoreButton.classList.add('more-link', 'badge');
     showMoreButton.textContent = 'Show more...';
     showMoreButton.style.cursor = 'pointer';
     const loader = document.createElement('div');
     const blinkerWrapper = document.createElement('div');
+    blinkerWrapper.classList.add('hide')
     loader.classList.add('lds-dual-ring');
     tableFooter.style.display = 'flex';
     tableFooter.style.justifyContent = 'end';
     tableFooter.appendChild(getHistoryAPIButton);
     tableFooter.appendChild(getStreamingAPIButton);
+    tableFooter.appendChild(getMempoolButton);
     widgetHeader.classList.add('card-header');
     row.classList.add('row', 'align-items-center');
     col8.classList.add('col');
@@ -364,17 +369,17 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID,
     widgetFrame.classList.add('widget-container', 'tabulator');
     widgetFrame.style.height = 'fit-content';
     widgetFrame.style.background = 'inherit';
-    switchMempoolButton.style.setProperty('background', '#FBA160', 'important');
-    mempoolControlButton.style.setProperty('background', '#FBA160', 'important');
+
+    mempoolControlButton.style.setProperty('background', '#FDA146', 'important');
+    getMempoolButton.style.setProperty('background', '#FDA146', 'important');
     componentContainer.appendChild(widgetHeader);
     componentContainer.appendChild(cardBody);
     cardBody.appendChild(widgetFrame);
     cardBody.appendChild(tableFooter);
     widgetHeader.appendChild(row);
     row.appendChild(col8);
-    row.appendChild(switchMempoolButton)
-    row.appendChild(mempoolControlButton)
     row.appendChild(switchButton)
+    row.appendChild(mempoolControlButton)
     row.appendChild(streamControlButton)
     const f = setupShowMoreButton(tableFooter, showMoreButton)
 
@@ -383,12 +388,13 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID,
         if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
             const liveSpan = document.createElement('span');
             const blinker = document.createElement('div');
-            blinkerWrapper.classList.add('text-success', 'text-right', 'invisible');
+            blinkerWrapper.classList.add('text-success', 'text-right', 'hide');
             blinker.classList.add('blink', 'blnkr', 'bg-success');
+            blinker.style.marginLeft = '-5px'
             row.appendChild(blinkerWrapper);
-            liveSpan.classList.add('d-sm-inline');
-            liveSpan.textContent = 'Live';
-            blinkerWrapper.appendChild(liveSpan);
+            // liveSpan.classList.add('d-sm-inline');
+            // // liveSpan.textContent = 'Live';
+            // blinkerWrapper.appendChild(liveSpan);
             blinkerWrapper.appendChild(blinker);
         }
     };
@@ -424,7 +430,7 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID,
         frame: widgetFrame,
         getHistoryAPIButton,
         getStreamingAPIButton,
-        switchMempoolButton,
+        getMempoolButton,
         switchButton,
         streamControlButton,
         mempoolControlButton,
