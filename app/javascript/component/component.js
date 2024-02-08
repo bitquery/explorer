@@ -9,7 +9,7 @@ import {
 	createWidgetFrame,
 	HistoryDataSource,
 	increaseLimitButton,
-	SubscriptionDataSource
+	SubscriptionDataSource, getAPIMempoolButton
 } from "./helper";
 
 export default async function renderComponent(token,components, historyQueryID, explorerVariables = {}, subscriptionQueryID) {
@@ -52,7 +52,7 @@ export default async function renderComponent(token,components, historyQueryID, 
 		const data = getBaseClass(ComponentConstructor, componentObject.config);
 		data.unshift({ [WidgetConfig.name]: serialize(WidgetConfig) });
 		widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
-		widgetFrame.getMempoolButton.onclick = getAPIButton(data, variables, subscriptionQueryID,subscriptionDataSource)
+		widgetFrame.getMempoolButton.onclick = getAPIMempoolButton(data, variables, subscriptionQueryID,subscriptionDataSource)
 		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
 		widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
 

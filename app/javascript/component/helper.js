@@ -156,6 +156,38 @@ export const getBaseClass = (targetClass, config) => {
 }
 
 export const getAPIButton = (data, variables, queryID, subscriptionDataSource) => () => {
+    let createHiddenField = function (name, value) {
+        let input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', name);
+        input.setAttribute('value', value);
+        return input;
+    };
+    let currentTabElement = document.querySelector("body > div:nth-child(6) > ul > li:nth-child(1) > a");
+    let currentTab = currentTabElement ? currentTabElement.text.toLowerCase() : 'default';
+    let currentUrl = window.location.href;
+    let networkPattern = /https?:\/\/[^\/]+\/(\w+)/;
+    let match = currentUrl.match(networkPattern);
+    let network = match ? match[1] : 'default';
+    let form = document.createElement('form');
+
+    form.setAttribute('method', 'post');
+    form.setAttribute('action', `${window.bitqueryAPI}/widgetconfig`);
+    form.setAttribute('enctype', 'application/json');
+    form.setAttribute('target', '_blank');
+    form.appendChild(createHiddenField('data', JSON.stringify(data)));
+    form.appendChild(createHiddenField('variables', JSON.stringify(variables)));
+    form.appendChild(createHiddenField('url', queryID));
+    form.appendChild(createHiddenField('utm_source', 'explorer.bitquery.io'));
+    form.appendChild(createHiddenField('utm_medium', 'referral'));
+    form.appendChild(createHiddenField('utm_campaign', encodeURIComponent(network)));
+    form.appendChild(createHiddenField('utm_content', encodeURIComponent(currentTab)));
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+}
+
+export const getAPIMempoolButton = (data, variables, queryID, subscriptionDataSource) => () => {
     if (subscriptionDataSource && subscriptionDataSource.mempoolShow === true) {
         variables.mempool = true
     }
