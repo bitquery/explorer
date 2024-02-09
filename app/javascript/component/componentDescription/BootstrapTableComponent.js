@@ -31,6 +31,9 @@ export default class BootstrapTableComponent {
     async createThead(data) {
         if (this.theadCreated) return
         const thead = this.createElementWithClasses('thead')
+        thead.classList.add('card-header')
+        thead.style.position = 'sticky'
+        thead.style.zIndex = '9999'
         const tr = this.createElementWithClasses('tr')
         this.tableElement.appendChild(thead)
         thead.appendChild(tr)
@@ -75,7 +78,7 @@ export default class BootstrapTableComponent {
             await this.getTitle(data)
         }
         if (this.config.topElement(data).length === 0) {
-            this.container.textContent='No Data. Response is empty'
+            this.container.textContent = 'No Data. Response is empty'
             return;
         }
         await this.createThead(data)
@@ -83,7 +86,14 @@ export default class BootstrapTableComponent {
             this.tbody.removeChild(this.tbody.firstChild)
         }
         const rows = await this.composeRows(data, variables)
-        this.appendChildren(this.tbody, rows);
+        // this.appendChildren(this.tbody, rows);
+        rows.forEach((row, index) => {
+            setTimeout(() => {
+                row.classList.add('tr-animate')
+                this.tbody.insertBefore(row, this.tbody.firstChild)
+            }, 200 * index);
+        });
+
     }
 
     async onSubscriptionData(data, variables) {
@@ -92,11 +102,15 @@ export default class BootstrapTableComponent {
         }
         const maxRows = 15;
         const rows = await this.composeRows(data, variables)
-        rows.forEach(tr => {
-            this.tbody.insertBefore(tr, this.tbody.firstChild)
-            if (this.tbody.childElementCount > maxRows) {
-                this.tbody.removeChild(this.tbody.lastChild);
-            }
+        rows.forEach((row, index) => {
+            setTimeout(() => {
+                row.classList.add('tr-animate')
+
+                this.tbody.insertBefore(row, this.tbody.firstChild)
+                if (this.tbody.childElementCount > maxRows) {
+                    this.tbody.removeChild(this.tbody.lastChild);
+                }
+            }, 200 * index)
         })
     }
 
@@ -109,8 +123,7 @@ export default class BootstrapTableComponent {
                 chainId = this.config.chainId(rowData)
             }
             for (const row of data) {
-                const tr = this.createElementWithClasses('tr');
-
+                const tr = this.createElementWithClasses('tr')
                 for (const column of this.config.columns) {
                     const td = this.createElementWithClasses('td', 'text-truncate');
                     const textCell = this.createElementWithClasses('span');
@@ -130,8 +143,8 @@ export default class BootstrapTableComponent {
                     }
 
                     tr.appendChild(td);
-                    rows.push(tr)
                 }
+                    rows.push(tr)
             }
         }
         return rows

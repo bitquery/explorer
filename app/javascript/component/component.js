@@ -55,8 +55,6 @@ export default async function renderComponent(token,components, historyQueryID, 
 		widgetFrame.getMempoolButton.onclick = getAPIMempoolButton(data, variables, subscriptionQueryID,subscriptionDataSource)
 		widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
 		widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
-
-		// widgetFrame.switchMempoolButton.onclick = switchMempool(widgetFrame, historyDataSource, subscriptionDataSource)
 		widgetFrame.mempoolControlButton.onclick = mempoolStreamControl(subscriptionDataSource,widgetFrame)
 		widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
 		widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource,widgetFrame)

@@ -129,10 +129,12 @@ export default class TradingGraphsComponent {
     }
 
     init(widgetFrame) {
-        if(document.querySelector('#switchButton')){
+        if(document.querySelector('#switchButton') && document.querySelector('#streamControlButton')){
         widgetFrame.switchButton.style.display = 'none'
+        widgetFrame.streamControlButton.style.display = 'none'
         widgetFrame.switchButton.parentElement.lastChild.classList.remove('invisible')
         }
+
         if (this.widget === null) {
             this.wrapper.style.height = '600px';
             this.container.appendChild(this.wrapper);
