@@ -7,7 +7,6 @@ export default class BootstrapTableComponent {
         this.createWrapper()
         this.createTable()
         this.theadCreated = false
-
     }
 
     clearData() {
@@ -20,7 +19,7 @@ export default class BootstrapTableComponent {
     }
 
     createTable() {
-        this.tableElement = this.createElementWithClasses('table', 'table', 'table-sm', 'table-striped', 'table-hover');
+        this.tableElement = this.createElementWithClasses('table',  'table','table-sm', 'table-striped', 'table-hover');
         const tableLayout = (this.config && this.config.options && this.config.options.tableLayout) || 'fixed';
         this.tableElement.style.tableLayout = tableLayout;
         this.wrapper.appendChild(this.tableElement)
@@ -31,8 +30,9 @@ export default class BootstrapTableComponent {
     async createThead(data) {
         if (this.theadCreated) return
         const thead = this.createElementWithClasses('thead')
-        thead.classList.add('card-header')
         thead.style.position = 'sticky'
+        thead.style.background = '#F8F8F8'
+        thead.style.color = '#495057'
         thead.style.zIndex = '9999'
         const tr = this.createElementWithClasses('tr')
         this.tableElement.appendChild(thead)
@@ -86,13 +86,10 @@ export default class BootstrapTableComponent {
             this.tbody.removeChild(this.tbody.firstChild)
         }
         const rows = await this.composeRows(data, variables)
-        // this.appendChildren(this.tbody, rows);
-        rows.forEach((row, index) => {
-            setTimeout(() => {
-                row.classList.add('tr-animate')
-                this.tbody.insertBefore(row, this.tbody.firstChild)
-            }, 200 * index);
-        });
+        rows.forEach(row => {
+        this.appendChildren(this.tbody, rows);
+                // this.tbody.insertBefore(row, this.tbody.firstChild)
+        })
 
     }
 
@@ -100,12 +97,13 @@ export default class BootstrapTableComponent {
         if (this.config.title) {
             await this.getTitle(data)
         }
+        await this.createThead(data)
+
         const maxRows = 15;
         const rows = await this.composeRows(data, variables)
         rows.forEach((row, index) => {
             setTimeout(() => {
                 row.classList.add('tr-animate')
-
                 this.tbody.insertBefore(row, this.tbody.firstChild)
                 if (this.tbody.childElementCount > maxRows) {
                     this.tbody.removeChild(this.tbody.lastChild);
@@ -126,6 +124,7 @@ export default class BootstrapTableComponent {
                 const tr = this.createElementWithClasses('tr')
                 for (const column of this.config.columns) {
                     const td = this.createElementWithClasses('td', 'text-truncate');
+                    td.style.borderTop = 'none'
                     const textCell = this.createElementWithClasses('span');
                     textCell.textContent = column.cell(row)
                     textCell.setAttribute('title', column.cell(row))
