@@ -354,6 +354,8 @@ export const createWidgetFrame = (selector, subscriptionQueryID, historyQueryID,
     }
     switchButton.id = 'switchButton'
     streamControlButton.id = 'streamControlButton'
+    getMempoolButton.id = 'getMempoolButton'
+    mempoolControlButton.id='mempoolControlButton'
     switchButton.classList.add('button-pressed')
     showMoreButton.classList.add('more-link', 'badge');
     showMoreButton.textContent = 'Show more...';

@@ -129,9 +129,11 @@ export default class TradingGraphsComponent {
     }
 
     init(widgetFrame) {
-        if(document.querySelector('#switchButton') && document.querySelector('#streamControlButton')){
+        if(document.querySelector('#switchButton') && document.querySelector('#streamControlButton') && document.querySelector('#mempoolControlButton')&& document.querySelector('#getMempoolButton')){
         widgetFrame.switchButton.style.display = 'none'
         widgetFrame.streamControlButton.style.display = 'none'
+        widgetFrame.mempoolControlButton.style.display = 'none'
+        widgetFrame.getMempoolButton.style.display = 'none'
         widgetFrame.switchButton.parentElement.lastChild.classList.remove('invisible')
         }
 
