@@ -345,8 +345,7 @@ export default class TreeComponent {
         } else {
             const link = document.createElement('a');
             link.setAttribute('target', '_blank');
-            // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
-            link.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
+            link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
             link.textContent = data;
             link.setAttribute('title', data);
             div.appendChild(link);
@@ -375,8 +374,7 @@ export default class TreeComponent {
         div.classList.add('text-truncate')
         let link = document.createElement('a');
 
-        // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
-        link.href = `/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
+        link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
         link.textContent = data.method || data.hash
         link.setAttribute('title', data.method)
 
