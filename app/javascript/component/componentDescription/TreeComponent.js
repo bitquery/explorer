@@ -1,5 +1,6 @@
 import renderJustAddressLink from "../rendering/renderJustAddressLink";
 import renderNumbers from "../rendering/renderNumbers";
+import renderMethodLink from "../rendering/renderMethodLink";
 import renderBytes32 from "../rendering/renderBytes32";
 export default class TreeComponent {
     constructor(element, historyDataSource) {
