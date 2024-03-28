@@ -1,3 +1,6 @@
+import renderJustAddressLink from "../rendering/renderJustAddressLink";
+import renderNumbers from "../rendering/renderNumbers";
+import renderBytes32 from "../rendering/renderBytes32";
 export default class TreeComponent {
     constructor(element, historyDataSource) {
         this.container = element;
@@ -124,7 +127,7 @@ export default class TreeComponent {
             }
 
             if (item.signature.Gas && item.signature.Signature.SignatureHash !== '') {
-                const method = this.config.rendering.renderMethodLink({
+                const method = renderMethodLink({
                     method: item.signature.Signature.Name,
                     hash: item.signature.Signature.SignatureHash,
                 }, null, this.chainId)
@@ -175,7 +178,7 @@ export default class TreeComponent {
 
             if (item.name === 'Event') {
                 const iconElement = this.createIcon('fa-bolt', 'text-warning', 'ml-2')
-                const method = this.config.rendering.renderMethodLink({
+                const method = renderMethodLink({
                     method: item.signature.Signature.Name,
                     hash: item.signature.Signature.SignatureHash,
                 }, null, this.chainId)
@@ -189,9 +192,9 @@ export default class TreeComponent {
                 const receiverDiv = this.createElementWithClasses('div', 'text-block');
                 const iconElement = this.createIcon('fa', 'fa-money', 'text-success', 'ml-2');
                 const iconSenderReceiver = this.createIcon('fa', 'fa-arrow-right', 'text-success');
-                const sender = this.config.rendering.renderJustAddressLink(item.dataTransfer.Sender, null, this.chainId)
-                const receiver = this.config.rendering.renderJustAddressLink(item.dataTransfer.Receiver, null, this.chainId)
-                const amountDiv = this.config.rendering.renderNumbers(item.dataTransfer.Amount)
+                const sender = renderJustAddressLink(item.dataTransfer.Sender, null, this.chainId)
+                const receiver = renderJustAddressLink(item.dataTransfer.Receiver, null, this.chainId)
+                const amountDiv = renderNumbers(item.dataTransfer.Amount)
                 const currency = this.createElementWithClasses('div')
                 currency.textContent = item.dataTransfer.Currency.Symbol
 
@@ -205,8 +208,8 @@ export default class TreeComponent {
                 const senderDiv = this.createElementWithClasses('div', 'text-block');
                 const receiverDiv = this.createElementWithClasses('div', 'text-block');
                 const iconSenderReceiver = this.createIcon('fa', 'fa-arrow-right', 'text-success');
-                const sender = this.config.rendering.renderJustAddressLink(item.signature.From, null, this.chainId)
-                const receiver = this.config.rendering.renderJustAddressLink(item.signature.To, null, this.chainId)
+                const sender = renderJustAddressLink(item.signature.From, null, this.chainId)
+                const receiver = renderJustAddressLink(item.signature.To, null, this.chainId)
                 const gas = this.createElementWithClasses('div')
                 gas.textContent = `Gas: ${item.signature.Gas}`
                 const gasUsed = this.createElementWithClasses('div')
@@ -271,11 +274,11 @@ export default class TreeComponent {
     getValueFromType(element) {
         let value
         if (element.Type.startsWith('address')) {
-            value = this.config.rendering.renderJustAddressLink(element.Value.address, null, this.chainId)
+            value = renderJustAddressLink(element.Value.address, null, this.chainId)
         } else if (element.Type.startsWith('uint') || element.Type.startsWith('int')) {
-            value = this.config.rendering.renderNumbers(element.Value.bigInteger || element.Value.integer);
+            value = renderNumbers(element.Value.bigInteger || element.Value.integer);
         } else if (element.Type.startsWith('bytes')) {
-            value = this.config.rendering.renderBytes32(element.Value.hex)
+            value = renderBytes32(element.Value.hex)
         } else if (element.Type.startsWith('bool')) {
             value = document.createElement('div')
             value.textContent = element.Value.bool

@@ -29,16 +29,8 @@
                     return response.EVM
                 },
                 chainId: function (response) {
-                    return response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId
+                    return response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId || response.EVM.Transfers[0]?.ChainID
                 },
-                rendering: {
-                    renderJustAddressLink,
-                    renderSenderRecieverIcon,
-                    renderMethodLink,
-                    renderEventLink,
-                    renderNumbers,
-                    renderBytes32,
-                }
             }
         }
     }
