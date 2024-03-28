@@ -1,7 +1,3 @@
-import renderJustAddressLink from "../rendering/renderJustAddressLink";
-import renderNumbers from "../rendering/renderNumbers";
-import renderMethodLink from "../rendering/renderMethodLink";
-import renderBytes32 from "../rendering/renderBytes32";
 export default class TreeComponent {
     constructor(element, historyDataSource) {
         this.container = element;
@@ -18,7 +14,7 @@ export default class TreeComponent {
             if (this.config.title && data) {
                 await this.getTitle(data)
             }
-            if(this.config.topElement(data).length===0){
+            if (this.config.topElement(data).length === 0) {
                 this.container.textContent = 'No Data. Response is empty'
                 return
             }
@@ -128,7 +124,7 @@ export default class TreeComponent {
             }
 
             if (item.signature.Gas && item.signature.Signature.SignatureHash !== '') {
-                const method = renderMethodLink({
+                const method = this.renderMethodLink({
                     method: item.signature.Signature.Name,
                     hash: item.signature.Signature.SignatureHash,
                 }, null, this.chainId)
@@ -179,7 +175,7 @@ export default class TreeComponent {
 
             if (item.name === 'Event') {
                 const iconElement = this.createIcon('fa-bolt', 'text-warning', 'ml-2')
-                const method = renderMethodLink({
+                const method = this.renderMethodLink({
                     method: item.signature.Signature.Name,
                     hash: item.signature.Signature.SignatureHash,
                 }, null, this.chainId)
@@ -193,9 +189,9 @@ export default class TreeComponent {
                 const receiverDiv = this.createElementWithClasses('div', 'text-block');
                 const iconElement = this.createIcon('fa', 'fa-money', 'text-success', 'ml-2');
                 const iconSenderReceiver = this.createIcon('fa', 'fa-arrow-right', 'text-success');
-                const sender = renderJustAddressLink(item.dataTransfer.Sender, null, this.chainId)
-                const receiver = renderJustAddressLink(item.dataTransfer.Receiver, null, this.chainId)
-                const amountDiv = renderNumbers(item.dataTransfer.Amount)
+                const sender = this.renderJustAddressLink(item.dataTransfer.Sender, null, this.chainId)
+                const receiver = this.renderJustAddressLink(item.dataTransfer.Receiver, null, this.chainId)
+                const amountDiv = this.renderNumbers(item.dataTransfer.Amount)
                 const currency = this.createElementWithClasses('div')
                 currency.textContent = item.dataTransfer.Currency.Symbol
 
@@ -209,8 +205,8 @@ export default class TreeComponent {
                 const senderDiv = this.createElementWithClasses('div', 'text-block');
                 const receiverDiv = this.createElementWithClasses('div', 'text-block');
                 const iconSenderReceiver = this.createIcon('fa', 'fa-arrow-right', 'text-success');
-                const sender = renderJustAddressLink(item.signature.From, null, this.chainId)
-                const receiver = renderJustAddressLink(item.signature.To, null, this.chainId)
+                const sender = this.renderJustAddressLink(item.signature.From, null, this.chainId)
+                const receiver = this.renderJustAddressLink(item.signature.To, null, this.chainId)
                 const gas = this.createElementWithClasses('div')
                 gas.textContent = `Gas: ${item.signature.Gas}`
                 const gasUsed = this.createElementWithClasses('div')
@@ -275,11 +271,11 @@ export default class TreeComponent {
     getValueFromType(element) {
         let value
         if (element.Type.startsWith('address')) {
-            value = renderJustAddressLink(element.Value.address, null, this.chainId)
+            value = this.renderJustAddressLink(element.Value.address, null, this.chainId)
         } else if (element.Type.startsWith('uint') || element.Type.startsWith('int')) {
-            value = renderNumbers(element.Value.bigInteger || element.Value.integer);
+            value = this.renderNumbers(element.Value.bigInteger || element.Value.integer);
         } else if (element.Type.startsWith('bytes')) {
-            value = renderBytes32(element.Value.hex)
+            value = this.renderBytes32(element.Value.hex)
         } else if (element.Type.startsWith('bool')) {
             value = document.createElement('div')
             value.textContent = element.Value.bool
@@ -324,6 +320,7 @@ export default class TreeComponent {
         errorDiv.textContent = message
         this.appendChildren(this.container, errorDiv)
     }
+
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
 
@@ -335,4 +332,75 @@ export default class TreeComponent {
             }
         }
     }
+
+    renderJustAddressLink(data, variables, chainId) {
+        const div = document.createElement('div');
+        div.classList.add('text-truncate');
+
+        if (data === '0x') {
+            const span = document.createElement('span');
+            span.textContent = '0x'
+            span.setAttribute('title', `0x`);
+            div.appendChild(span);
+        } else {
+            const link = document.createElement('a');
+            link.setAttribute('target', '_blank');
+            // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
+            link.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data}`;
+            link.textContent = data;
+            link.setAttribute('title', data);
+            div.appendChild(link);
+        }
+
+        return div;
+    }
+
+    renderNumbers(data) {
+        const div = document.createElement('div')
+        div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
+        const span = document.createElement('span')
+        const stringData = (data === null || data === undefined) ? '' : data.toString()
+        const formattedData = stringData.replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')
+
+        span.textContent = formattedData
+        div.setAttribute('title', stringData)
+        div.appendChild(span)
+
+        return div
+    }
+
+    renderMethodLink(data, variables, chainId) {
+        if (!data) return
+        const div = document.createElement('div');
+        div.classList.add('text-truncate')
+        let link = document.createElement('a');
+
+        // link.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
+        link.href = `/${WidgetConfig.getNetwork(chainId)}/method/${data.hash}`;
+        link.textContent = data.method || data.hash
+        link.setAttribute('title', data.method)
+
+        if (!data.hash && data.hash.length < 1) {
+            link = document.createElement('span')
+            link.textContent = `value: ${parseFloat(+data.value)}`
+            link.setAttribute('title', data.value)
+
+        }
+        div.appendChild(link)
+        return div;
+    }
+
+    renderBytes32(data) {
+        const div = document.createElement('div')
+        div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;'
+
+        const span = document.createElement('span')
+        span.textContent = data.length > 1 ? data : '-'
+
+        div.setAttribute('title', data)
+        div.appendChild(span)
+
+        return div;
+    }
+
 }
