@@ -3,6 +3,7 @@ export default class TreeComponent {
         this.container = element;
         this.config = this.configuration();
         this.historyDataSource = historyDataSource;
+        this.addStyles()
     }
 
     async init() {
@@ -303,7 +304,8 @@ export default class TreeComponent {
         return icon
     }
 
-    createElementWithClasses(elementType, ...classes) {
+
+    createElementWithClasses(elementType, ...classes ) {
         const element = document.createElement(elementType);
         element.classList.add(...classes);
         return element;
@@ -402,5 +404,145 @@ export default class TreeComponent {
 
         return div;
     }
+
+    addStyles() {
+        if (!this.shadowRoot) {
+            return;
+        }
+        const style = document.createElement('style');
+        style.textContent = `
+        :host {
+            --fontAwesomeFree: "Font Awesome 5 Free";
+            --fontWeightBold: 900;
+            --opacity: 0.7;
+            --colorGray: #9AA1A6;
+            --borderStyle: 2.5px dotted #9AA1A6;
+        }
+
+        .ul-tree, .li-tree, #tree {
+            position: relative;
+            list-style: none;
+            line-height: 1.6em;
+        }
+
+        #tree > .li-tree:after, #tree > .li-tree:before {
+            display: none;
+        }
+
+        .li-tree.last-child:after {
+            display: none;
+        }
+
+        .li-tree:before, .li-tree:after {
+            position: absolute;
+            left: -1.9em;
+            content: '';
+            width: 0.65em;
+            opacity: var(--opacity);
+        }
+
+        .li-tree:before {
+            top: 0;
+            height: 0.93em;
+        }
+
+        .li-tree:after {
+            bottom: 0;
+            height: 100%;
+        }
+
+        .summary-tree.no-children:before {
+            display: none;
+        }
+
+        .summary-tree:before {
+            position: absolute;
+            left: -1.35em;
+            font-size: 20px;
+            font-family: var(--fontAwesomeFree);
+            content: "\\25B8";
+            font-weight: var(--fontWeightBold);
+            background: inherit;
+            opacity: var(--opacity);
+            color: var(--colorGray);
+            display: block;
+            width: 20px;
+            height: 20px;
+            z-index: 100500;
+            text-align: center;
+            line-height: .80em;
+        }
+
+        details[open] .summary-tree:before {
+            content: "\\25BE";
+        }
+
+        .summary-tree {
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .summary-tree.no-children {
+            cursor: default;
+        }
+
+        .summary-tree::marker, .summary-tree::-webkit-details-marker {
+            display: none;
+        }
+
+        .resetcss-tree {
+            list-style: none;
+            padding-left: 27px;
+        }
+
+        .ul-tree {
+            line-height: 1.5em;
+            padding-inline-start: 28px;
+            padding-left: 23px;
+        }
+
+        .event-tree, .content-tree {
+            display: flex;
+            align-items: center;
+            gap: 0 5px;
+        }
+
+        .content-tree {
+            gap: 0 9px;
+            flex-wrap: wrap;
+            padding: 0 2px;
+        }
+
+        .no-children:hover {
+            opacity: 1;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: row;
+            gap: 0 20px;
+            padding: 0px 0px 8px 22px;
+        }
+
+        .collapse-button-tree, .expand-button-tree {
+            transition: all 0.3s ease;
+        }
+
+        .collapse-button-tree:focus, .expand-button-tree:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .text-block, .value-tree {
+            display: flex;
+            gap: 3px 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+        }
+    `;
+        this.shadowRoot.appendChild(style);
+    }
+
 
 }
