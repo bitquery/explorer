@@ -26,17 +26,9 @@
         configuration() {
             return {
                 topElement: response => response.EVM,
-                chainId: response => response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId,
+                chainId: response => response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId || response.EVM.Transfers[0]?.ChainID,
                 title: () => 'Tree Events and Calls',
                 id: 'EventsAndCallsByTXHash',
-                rendering: {
-                    renderJustAddressLink,
-                    renderSenderRecieverIcon,
-                    renderMethodLink,
-                    renderEventLink,
-                    renderNumbers,
-                    renderBytes32,
-                }
             }
         }
     }

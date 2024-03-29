@@ -25,20 +25,10 @@
     class EventsAndCallsByTXHash extends TreeComponent {
         configuration() {
             return {
-                topElement: function (response) {
-                    return response.EVM
-                },
-                chainId: function (response) {
-                    return response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId
-                },
-                rendering: {
-                    renderJustAddressLink,
-                    renderSenderRecieverIcon,
-                    renderMethodLink,
-                    renderEventLink,
-                    renderNumbers,
-                    renderBytes32,
-                }
+                topElement: response => response.EVM,
+                chainId: response => response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId || response.EVM.Transfers[0]?.ChainID,
+                title: () => 'Tree Events and Calls',
+                id: 'EventsAndCallsByTXHash',
             }
         }
     }
