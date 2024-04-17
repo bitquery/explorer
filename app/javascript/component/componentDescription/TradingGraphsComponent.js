@@ -177,11 +177,15 @@ export default class TradingGraphsComponent {
     }
 
     composeBars(data, periodParams) {
-        if (data && data.EVM && data.EVM.DEXTradeByTokens) {
-        const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
-        const resultData = []
+        const tradeBlock = (this.config.topElement(data) || []).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
+
+        const resultData = [];
+        if (!tradeBlock.length) {
+            return resultData
+        }
+
         for (let i = 0; i < tradeBlock.length; i++) {
-            const time = new Date(tradeBlock[i].Block.Time).getTime()
+            const time = new Date(tradeBlock[i].Block.Time).getTime();
             if (periodParams && ((time / 1000) < periodParams.from || (time / 1000) >= periodParams.to)) {
                 continue;
             } else {
@@ -193,12 +197,12 @@ export default class TradingGraphsComponent {
                     open: previousClose,
                     close: tradeBlock[i].Trade.close,
                     volume: parseFloat(tradeBlock[i].volume)
-                })
+                });
             }
         }
         return resultData;
-        }
     }
+
 
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
