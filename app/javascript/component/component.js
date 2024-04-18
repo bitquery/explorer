@@ -32,7 +32,7 @@ export default async function renderComponent(token, components, historyQueryID,
         historyDataSource = new HistoryDataSource(token, historyPayload)
     }
 
-    components.forEach(async component => {
+    for (const component of components) {
         const ComponentConstructor = component[0]
         const componentSelector = component[1]
         document.querySelector(componentSelector).textContent = ''
@@ -50,10 +50,11 @@ export default async function renderComponent(token, components, historyQueryID,
 
         const data = getBaseClass(ComponentConstructor, componentObject.config);
         const baseClassName = Object.getPrototypeOf(ComponentConstructor.prototype).constructor;
-        if (baseClassName.name !== 'TradingGraphsComponent') {
+        if (baseClassName.name === 'TradingGraphsComponent') {
+            continue
+        } else {
             data.unshift({[WidgetConfig.name]: serialize(WidgetConfig)});
         }
-        ;
         widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
         widgetFrame.getMempoolButton.onclick = getAPIMempoolButton(data, variables, subscriptionQueryID, subscriptionDataSource)
         widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
@@ -61,7 +62,7 @@ export default async function renderComponent(token, components, historyQueryID,
         widgetFrame.mempoolControlButton.onclick = mempoolStreamControl(subscriptionDataSource, widgetFrame)
         widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
         widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource, widgetFrame)
-    })
+    }
 
     historyDataSource && historyDataSource.changeVariables()
 }
