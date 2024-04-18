@@ -134,6 +134,7 @@ export const getBaseClass = (targetClass, config) => {
     data.push({[targetClass.name]: serialize(targetClass)});
     if (targetClass instanceof Function) {
         let baseClass = targetClass;
+
         while (baseClass) {
             const newBaseClass = Object.getPrototypeOf(baseClass);
             if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
