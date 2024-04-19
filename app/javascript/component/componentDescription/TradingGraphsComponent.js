@@ -129,12 +129,12 @@ export default class TradingGraphsComponent {
     }
 
     init(widgetFrame) {
-        if(document.querySelector('#switchButton') && document.querySelector('#streamControlButton') && document.querySelector('#mempoolControlButton')&& document.querySelector('#getMempoolButton')){
-        widgetFrame.switchButton.style.display = 'none'
-        widgetFrame.streamControlButton.style.display = 'none'
-        widgetFrame.mempoolControlButton.style.display = 'none'
-        widgetFrame.getMempoolButton.style.display = 'none'
-        widgetFrame.switchButton.parentElement.lastChild.classList.remove('invisible')
+        if (document.querySelector('#switchButton') && document.querySelector('#streamControlButton') && document.querySelector('#mempoolControlButton') && document.querySelector('#getMempoolButton')) {
+            widgetFrame.switchButton.style.display = 'none'
+            widgetFrame.streamControlButton.style.display = 'none'
+            widgetFrame.mempoolControlButton.style.display = 'none'
+            widgetFrame.getMempoolButton.style.display = 'none'
+            widgetFrame.switchButton.parentElement.lastChild.classList.remove('invisible')
         }
 
         if (this.widget === null) {
@@ -177,30 +177,36 @@ export default class TradingGraphsComponent {
     }
 
     composeBars(data, periodParams) {
-        const tradeBlock = (this.config.topElement(data) || []).sort((a, b) => new Date(a.Block?.Time).getTime() - new Date(b.Block?.Time).getTime());
+        try {
+            const tradeBlock = (this.config.topElement(data) || []).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime())
 
-        const resultData = [];
-        if (!tradeBlock.length) {
-            return resultData
-        }
-
-        for (let i = 0; i < tradeBlock.length; i++) {
-            const time = new Date(tradeBlock[i].Block?.Time).getTime();
-            if (periodParams && ((time / 1000) < periodParams.from || (time / 1000) >= periodParams.to)) {
-                continue;
-            } else {
-                const previousClose = i > 0 ? tradeBlock[i - 1].Trade.close : tradeBlock[i].Trade.open;
-                resultData.push({
-                    time,
-                    low: tradeBlock[i].Trade.low,
-                    high: tradeBlock[i].Trade.high,
-                    open: previousClose,
-                    close: tradeBlock[i].Trade.close,
-                    volume: parseFloat(tradeBlock[i].volume)
-                });
+            const resultData = []
+            if (!tradeBlock.length) {
+                return resultData
             }
+
+            for (let i = 0; i < tradeBlock.length; i++) {
+                if (tradeBlock[i].Block && tradeBlock[i].Trade) {
+                    const time = new Date(tradeBlock[i].Block.Time).getTime()
+                    if (periodParams && ((time / 1000) < periodParams.from || (time / 1000) >= periodParams.to)) {
+                        continue
+                    } else {
+                        const previousClose = i > 0 ? tradeBlock[i - 1].Trade.close : tradeBlock[i].Trade.open
+                        resultData.push({
+                            time,
+                            low: tradeBlock[i].Trade.low,
+                            high: tradeBlock[i].Trade.high,
+                            open: previousClose,
+                            close: tradeBlock[i].Trade.close,
+                            volume: parseFloat(tradeBlock[i].volume)
+                        })
+                    }
+                }
+            }
+            return resultData
+        } catch (error) {
+            console.log('composeBars', error);
         }
-        return resultData;
     }
 
 
