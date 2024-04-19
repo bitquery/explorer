@@ -102,13 +102,13 @@ export default class BootstrapTableComponent {
         const maxRows = 15;
         const rows = await this.composeRows(data, variables)
         rows.forEach((row, index) => {
-            setTimeout(() => {
-                row.classList.add('tr-animate')
+            // setTimeout(() => {
+            //     row.classList.add('tr-animate')
                 this.tbody.insertBefore(row, this.tbody.firstChild)
                 if (this.tbody.childElementCount > maxRows) {
                     this.tbody.removeChild(this.tbody.lastChild);
                 }
-            }, 200 * index)
+            // }, 200 * index)
         })
     }
 
