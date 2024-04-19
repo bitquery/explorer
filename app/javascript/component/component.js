@@ -49,26 +49,14 @@ export default async function renderComponent(token, components, historyQueryID,
         componentObject.init(widgetFrame)
 
         const data = getBaseClass(ComponentConstructor, componentObject.config);
-        const baseClassName = Object.getPrototypeOf(ComponentConstructor.prototype).constructor;
-        if (baseClassName.name === 'TradingGraphsComponent') {
-            data.unshift({'TradingGraphsComponent': ''});
-            widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
-            widgetFrame.getMempoolButton.onclick = getAPIMempoolButton(data, variables, subscriptionQueryID, subscriptionDataSource)
-            widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
-            widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
-            widgetFrame.mempoolControlButton.onclick = mempoolStreamControl(subscriptionDataSource, widgetFrame)
-            widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
-            widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource, widgetFrame)
-        } else {
-            data.unshift({[WidgetConfig.name]: serialize(WidgetConfig)});
-            widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
-            widgetFrame.getMempoolButton.onclick = getAPIMempoolButton(data, variables, subscriptionQueryID, subscriptionDataSource)
-            widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
-            widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
-            widgetFrame.mempoolControlButton.onclick = mempoolStreamControl(subscriptionDataSource, widgetFrame)
-            widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
-            widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource, widgetFrame)
-        }
+        data.unshift({[WidgetConfig.name]: serialize(WidgetConfig)});
+        widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
+        widgetFrame.getMempoolButton.onclick = getAPIMempoolButton(data, variables, subscriptionQueryID, subscriptionDataSource)
+        widgetFrame.getHistoryAPIButton.onclick = getAPIButton(data, variables, historyQueryID)
+        widgetFrame.showMoreButton.onclick = increaseLimitButton(historyDataSource)
+        widgetFrame.mempoolControlButton.onclick = mempoolStreamControl(subscriptionDataSource, widgetFrame)
+        widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
+        widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource, widgetFrame)
     })
 
     historyDataSource && historyDataSource.changeVariables()

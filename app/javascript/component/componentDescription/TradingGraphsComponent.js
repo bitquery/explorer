@@ -177,7 +177,7 @@ export default class TradingGraphsComponent {
     }
 
     composeBars(data, periodParams) {
-        const tradeBlock = (this.config.topElement(data) || []).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
+        const tradeBlock = (this.config.topElement(data) || []).sort((a, b) => new Date(a.Block?.Time).getTime() - new Date(b.Block?.Time).getTime());
 
         const resultData = [];
         if (!tradeBlock.length) {
@@ -185,7 +185,7 @@ export default class TradingGraphsComponent {
         }
 
         for (let i = 0; i < tradeBlock.length; i++) {
-            const time = new Date(tradeBlock[i].Block.Time).getTime();
+            const time = new Date(tradeBlock[i].Block?.Time).getTime();
             if (periodParams && ((time / 1000) < periodParams.from || (time / 1000) >= periodParams.to)) {
                 continue;
             } else {
