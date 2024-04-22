@@ -181,10 +181,9 @@ export default class TradingGraphsComponent {
         console.log('data typeof:', typeof data)
         console.log('this.config.topElement(data):', this.config.topElement(data))
         console.log('this.config.topElement(data) typeof:', typeof this.config.topElement(data))
-        console.log('periodParams:', periodParams)
         if (!this.config.topElement(data)) {
             console.warn('no this.config.topElement(data)');
-            return {}
+            return
         }
         const tradeBlock = this.config.topElement(data)
 
