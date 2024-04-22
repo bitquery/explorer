@@ -177,13 +177,9 @@ export default class TradingGraphsComponent {
     }
 
     composeBars(data, periodParams) {
-        console.log('data', data)
-        console.log('periodParams', periodParams)
-
-        if (!data || !data.EVM || !data.EVM.DEXTradeByTokens) {
-            console.error('strange format:', data);
-            return [];
-        }
+        console.log('data:', data)
+        console.log('data typeof:',typeof data)
+        console.log('periodParams:', periodParams)
 
         const tradeBlock = data.EVM.DEXTradeByTokens;
 
