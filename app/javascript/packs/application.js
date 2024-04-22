@@ -58,6 +58,7 @@ import renderNumbersWithCurrency from '../component/rendering/renderNumbersWithC
 import renderMethodLink from '../component/rendering/renderMethodLink';
 import renderEventLink from '../component/rendering/renderEventLink';
 import renderBytes32 from "../component/rendering/renderBytes32";
+import renderNumberWithUSD from "../component/rendering/renderNumberWithUSD";
 import ComboChartComponent from "../component/componentDescription/ComboChartComponent";
 
 const Datafeeds = require("packs/datafeeds/bundle")
@@ -98,6 +99,7 @@ global.renderNumbersWithCurrency = renderNumbersWithCurrency;
 global.renderMethodLink = renderMethodLink;
 global.renderEventLink = renderEventLink;
 global.renderBytes32 = renderBytes32;
+global.renderNumberWithUSD = renderNumberWithUSD;
 
 global.widgetRenderer = {
     'vega.bar': barWidgetRenderer,
