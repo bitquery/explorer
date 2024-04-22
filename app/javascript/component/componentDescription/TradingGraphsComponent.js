@@ -185,16 +185,10 @@ export default class TradingGraphsComponent {
             console.warn('no this.config.topElement(data)');
             return
         }
+        try {
         const tradeBlock = this.config.topElement(data)
 
         tradeBlock.sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
-
-        if (tradeBlock.length === 0) {
-            console.warn('no data');
-            return [];
-        }
-
-        try {
             return tradeBlock.filter(trade => trade.Block && trade.Trade)
                 .reduce((resultData, trade, i, array) => {
                     const time = new Date(trade.Block.Time).getTime();
@@ -213,8 +207,7 @@ export default class TradingGraphsComponent {
                     return resultData;
                 }, []);
         } catch (error) {
-            console.error('Data is empty:', error);
-            return [];
+            console.error('composeBars error:', error)
         }
     }
 
