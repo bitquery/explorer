@@ -122,11 +122,15 @@ export default class TradingGraphsComponent {
     }
 
     onSubscriptionData(data) {
-        if(this.composeBars(data)[0]){
-        const newBar = this.composeBars(data)[0]
-        const bar = this.getNextBar(this.lastBar, newBar)
-        this.lastBar = {...bar}
-        this.onRealtimeCallback(bar)
+        console.log('onSubscriptionData data', data)
+        if(this.composeBars(data).length>0){
+
+            const newBar = this.composeBars(data)[0]
+            console.log('newBar', newBar)
+
+            const bar = this.getNextBar(this.lastBar, newBar)
+            this.lastBar = {...bar}
+            this.onRealtimeCallback(bar)
         }
     }
 
@@ -179,42 +183,26 @@ export default class TradingGraphsComponent {
     }
 
     composeBars(data, periodParams) {
-        // console.log('data:', data)
-        // console.log('data typeof:', typeof data)
-        // console.log('this.config.topElement(data):', this.config.topElement(data))
-        // console.log('this.config.topElement(data) typeof:', typeof this.config.topElement(data))
-        if (!this.config.topElement(data)) {
-            console.warn('no this.config.topElement(data)');
-            return
-        }
-        try {
-                const tradeBlock = this.config.topElement(data)
-            if (tradeBlock && Array.isArray(tradeBlock) && tradeBlock.length > 0) {
-
-                tradeBlock.sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
-                return tradeBlock.filter(trade => trade.Block && trade.Trade)
-                    .reduce((resultData, trade, i, array) => {
-                        const time = new Date(trade.Block.Time).getTime();
-                        if (!periodParams || (time / 1000) >= periodParams.from && (time / 1000) < periodParams.to) {
-                            const previousTrade = array[i - 1];
-                            const previousClose = previousTrade ? previousTrade.Trade.close : trade.Trade.open;
-                            resultData.push({
-                                time,
-                                low: trade.Trade.low,
-                                high: trade.Trade.high,
-                                open: previousClose,
-                                close: trade.Trade.close,
-                                volume: parseFloat(trade.volume)
-                            });
-                        }
-                        return resultData;
-                    }, []);
+        const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
+        const resultData = []
+        for (let i = 0; i < tradeBlock.length; i++) {
+            const time = new Date(tradeBlock[i].Block.Time).getTime()
+            if (periodParams && ((time / 1000) < periodParams.from || (time / 1000) >= periodParams.to)) {
+                continue;
+            } else {
+                const previousClose = i > 0 ? tradeBlock[i - 1].Trade.close : tradeBlock[i].Trade.open;
+                resultData.push({
+                    time,
+                    low: tradeBlock[i].Trade.low,
+                    high: tradeBlock[i].Trade.high,
+                    open: previousClose,
+                    close: tradeBlock[i].Trade.close,
+                    volume: parseFloat(tradeBlock[i].volume)
+                })
             }
-        } catch (error) {
-            console.error('composeBars error:', error)
         }
+        return resultData;
     }
-
 
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
