@@ -177,37 +177,47 @@ export default class TradingGraphsComponent {
     }
 
     composeBars(data, periodParams) {
+        console.log('data', data)
+        console.log('periodParams', periodParams)
+
+        if (!data || !data.EVM || !data.EVM.DEXTradeByTokens) {
+            console.error('strange format:', data);
+            return [];
+        }
+
+        const tradeBlock = data.EVM.DEXTradeByTokens;
+
+        tradeBlock.sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
+
+        if (tradeBlock.length === 0) {
+            console.warn('no data');
+            return [];
+        }
+
         try {
-            const tradeBlock = (this.config.topElement(data) || []).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime())
-
-            const resultData = []
-            if (!tradeBlock.length) {
-                return resultData
-            }
-
-            for (let i = 0; i < tradeBlock.length; i++) {
-                if (tradeBlock[i].Block && tradeBlock[i].Trade) {
-                    const time = new Date(tradeBlock[i].Block.Time).getTime()
-                    if (periodParams && ((time / 1000) < periodParams.from || (time / 1000) >= periodParams.to)) {
-                        continue
-                    } else {
-                        const previousClose = i > 0 ? tradeBlock[i - 1].Trade.close : tradeBlock[i].Trade.open
+            return tradeBlock.filter(trade => trade.Block && trade.Trade)
+                .reduce((resultData, trade, i, array) => {
+                    const time = new Date(trade.Block.Time).getTime();
+                    if (!periodParams || (time / 1000) >= periodParams.from && (time / 1000) < periodParams.to) {
+                        const previousTrade = array[i - 1];
+                        const previousClose = previousTrade ? previousTrade.Trade.close : trade.Trade.open;
                         resultData.push({
                             time,
-                            low: tradeBlock[i].Trade.low,
-                            high: tradeBlock[i].Trade.high,
+                            low: trade.Trade.low,
+                            high: trade.Trade.high,
                             open: previousClose,
-                            close: tradeBlock[i].Trade.close,
-                            volume: parseFloat(tradeBlock[i].volume)
-                        })
+                            close: trade.Trade.close,
+                            volume: parseFloat(trade.volume)
+                        });
                     }
-                }
-            }
-            return resultData
+                    return resultData;
+                }, []);
         } catch (error) {
-            console.log('composeBars', error);
+            console.error('Data is empty:', error);
+            return [];
         }
     }
+
 
 
     async getTitle(data) {
