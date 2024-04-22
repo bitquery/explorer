@@ -123,7 +123,7 @@ export default class TradingGraphsComponent {
 
     onSubscriptionData(data) {
         console.log('onSubscriptionData data', data)
-        if(this.composeBars(data).length>0){
+        if(typeof this.composeBars(data) !=='string'){
 
             const newBar = this.composeBars(data)[0]
             console.log('newBar', newBar)
