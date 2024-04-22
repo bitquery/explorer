@@ -178,10 +178,15 @@ export default class TradingGraphsComponent {
 
     composeBars(data, periodParams) {
         console.log('data:', data)
-        console.log('data typeof:',typeof data)
+        console.log('data typeof:', typeof data)
+        console.log('this.config.topElement(data):', this.config.topElement(data))
+        console.log('this.config.topElement(data) typeof:', typeof this.config.topElement(data))
         console.log('periodParams:', periodParams)
-
-        const tradeBlock = data.EVM.DEXTradeByTokens;
+        if (!this.config.topElement(data)) {
+            console.warn('no this.config.topElement(data)');
+            return {}
+        }
+        const tradeBlock = this.config.topElement(data)
 
         tradeBlock.sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
 
@@ -213,7 +218,6 @@ export default class TradingGraphsComponent {
             return [];
         }
     }
-
 
 
     async getTitle(data) {
