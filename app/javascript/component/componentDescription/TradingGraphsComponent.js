@@ -183,6 +183,8 @@ export default class TradingGraphsComponent {
     }
 
     composeBars(data, periodParams) {
+        if(typeof data !== 'string'){
+
         const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
         const resultData = []
         for (let i = 0; i < tradeBlock.length; i++) {
@@ -202,6 +204,8 @@ export default class TradingGraphsComponent {
             }
         }
         return resultData;
+        }
+
     }
 
     async getTitle(data) {
