@@ -122,10 +122,12 @@ export default class TradingGraphsComponent {
     }
 
     onSubscriptionData(data) {
+        if(this.composeBars(data)[0]){
         const newBar = this.composeBars(data)[0]
         const bar = this.getNextBar(this.lastBar, newBar)
         this.lastBar = {...bar}
         this.onRealtimeCallback(bar)
+        }
     }
 
     init(widgetFrame) {
