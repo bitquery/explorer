@@ -122,11 +122,12 @@ export default class TradingGraphsComponent {
     }
 
     onSubscriptionData(data) {
-        console.log('onSubscriptionData data', data);
         const composedBars = this.composeBars(data);
+        console.log(typeof composedBars)
+        console.log( composedBars)
         if (composedBars && composedBars.length > 0) {
             const newBar = composedBars[0];
-            console.log('newBar', newBar);
+            // console.log('newBar', newBar);
 
             const bar = this.getNextBar(this.lastBar, newBar);
             this.lastBar = { ...bar };
@@ -185,7 +186,6 @@ export default class TradingGraphsComponent {
 
     composeBars(data, periodParams) {
         if(typeof data !== 'string'){
-
         const tradeBlock = this.config.topElement(data).sort((a, b) => new Date(a.Block.Time).getTime() - new Date(b.Block.Time).getTime());
         const resultData = []
         for (let i = 0; i < tradeBlock.length; i++) {
