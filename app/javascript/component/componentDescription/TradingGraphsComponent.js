@@ -122,18 +122,19 @@ export default class TradingGraphsComponent {
     }
 
     onSubscriptionData(data) {
-        console.log('onSubscriptionData data', data)
-        if(typeof this.composeBars(data) !=='string'){
+        console.log('onSubscriptionData data', data);
+        const composedBars = this.composeBars(data);
+        if (composedBars && composedBars.length > 0) {
+            const newBar = composedBars[0];
+            console.log('newBar', newBar);
 
-            const newBar = this.composeBars(data)[0]
-            console.log('newBar', newBar)
-
-            const bar = this.getNextBar(this.lastBar, newBar)
-            this.lastBar = {...bar}
-            this.onRealtimeCallback(bar)
+            const bar = this.getNextBar(this.lastBar, newBar);
+            this.lastBar = { ...bar };
+            this.onRealtimeCallback(bar);
+        } else {
+            console.log('No valid data to process.');
         }
     }
-
     init(widgetFrame) {
         if (document.querySelector('#switchButton') && document.querySelector('#streamControlButton') && document.querySelector('#mempoolControlButton') && document.querySelector('#getMempoolButton')) {
             widgetFrame.switchButton.style.display = 'none'
