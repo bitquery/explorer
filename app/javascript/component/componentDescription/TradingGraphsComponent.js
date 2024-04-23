@@ -123,12 +123,8 @@ export default class TradingGraphsComponent {
 
     onSubscriptionData(data) {
         const composedBars = this.composeBars(data);
-        console.log(typeof composedBars)
-        console.log( composedBars)
         if (composedBars && composedBars.length > 0) {
             const newBar = composedBars[0];
-            // console.log('newBar', newBar);
-
             const bar = this.getNextBar(this.lastBar, newBar);
             this.lastBar = { ...bar };
             this.onRealtimeCallback(bar);
