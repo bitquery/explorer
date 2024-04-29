@@ -29,7 +29,7 @@ module Elrond
     def query_date
       variables = { hash: @hash.to_s,
                     network: @network[:network] }
-      @validator_data = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data.elrond.block_validators[0].date.date
+      @validator_data = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data.elrond.blockValidators[0].date.date
     end
   end
 end
