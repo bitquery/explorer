@@ -14,14 +14,17 @@
     <%= link_to t('pages.footer.created'), 'https://bitquery.io' %><br>
 
     <span style="font-size: 80%;">
-    <%= t 'pages.footer.feel_free' %></span>
+    Read our API documentation for <%= link_to "v1", 'https://docs.bitquery.io/v1/', target: '_blank' %> and <%= link_to "v2", 'https://docs.bitquery.io/', target: '_blank' %> APIs</span>
     <p>
       <i class="fa fa-briefcase"></i> <%= link_to "We are hiring", 'https://angel.co/company/bitquery/jobs', target: '_blank' %>
       |
       <i class="fa fa-info-circle"></i> <%= link_to "Crypto News", 'https://coincodecap.com/?utm_source=bitquery', target: '_blank' %> Partner
       |
-      <%= image_tag 'discord-logo.svg', width: 16, style: 'margin-top: -4px' %> <%= link_to "Out Discord", 'https://discord.gg/EEBVTQnb2E', target: '_blank' %>
-
+      <i class="fa fa-comment"></i> <%= link_to "Community Forum", 'https://community.bitquery.io/', target: '_blank' %>
+      |
+      <i class="fa fa-telegram"></i> <%= link_to "Telegram", 'https://t.me/bloxy_info', target: '_blank' %>
+      |
+      <i class="fa fa-youtube"></i> <%= link_to "Youtube", 'https://www.youtube.com/@bitquery', target: '_blank' %>
     </p>
   </div>
   <%= render partial: 'shared/ads/fixed' %>
