@@ -89,8 +89,8 @@
                         rendering: renderTX, headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Amount', cell: row => row.Transfer.Amount,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end', width: '80px'},
+                        name: 'Amount', cell: row =>({number:row.Transfer.Amount, symbol:row.Transfer?.Currency.Symbol }) ,
+                        rendering: renderNumbersWithCurrencySymbol, headerStyle: {textAlign: 'end', width: '80px'},
                     }
                 ]
             }
@@ -145,6 +145,6 @@
         id: '<%= @id %>',
     }
     renderComponent('<%=@streaming_access_token %>', [[LatestNFTTransfersTable, '#LatestNFTTransfersTable']], 'NFT-Token-Information-By-ID_6', variables);
-    renderComponent('<%=@streaming_access_token %>', [[IdNFTTransfersGraph, '#IdNFTTransfersGraph'], [IdNFTTransfersTable, '#IdNFTTransfersTable']], 'NFT-Transfers-List-By-Id_4', variables);
+    renderComponent('<%=@streaming_access_token %>', [[IdNFTTransfersGraph, '#IdNFTTransfersGraph'], [IdNFTTransfersTable, '#IdNFTTransfersTable']], 'NFT-Transfers-List-By-Id_5', variables);
 
 </script>

@@ -3,7 +3,6 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 import '../stylesheets/application';
-import '../stylesheets/application';
 
 require.context('cryptocurrency-icons/svg', true);
 require('@rails/ujs').start();
@@ -55,6 +54,7 @@ import renderSenderRecieverIcon from '../component/rendering/renderSenderRecieve
 import renderPairLink from '../component/rendering/renderPairLink';
 import renderNumbers from '../component/rendering/renderNumbers';
 import renderNumbersWithCurrency from '../component/rendering/renderNumbersWithCurrency';
+import renderNumbersWithCurrencySymbol from '../component/rendering/renderNumbersWithCurrencySymbol';
 import renderMethodLink from '../component/rendering/renderMethodLink';
 import renderEventLink from '../component/rendering/renderEventLink';
 import renderBytes32 from "../component/rendering/renderBytes32";
@@ -96,6 +96,7 @@ global.renderSenderRecieverIcon = renderSenderRecieverIcon;
 global.renderPairLink = renderPairLink;
 global.renderNumbers = renderNumbers;
 global.renderNumbersWithCurrency = renderNumbersWithCurrency;
+global.renderNumbersWithCurrencySymbol = renderNumbersWithCurrencySymbol;
 global.renderMethodLink = renderMethodLink;
 global.renderEventLink = renderEventLink;
 global.renderBytes32 = renderBytes32;
