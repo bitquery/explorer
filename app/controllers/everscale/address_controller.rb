@@ -36,6 +36,7 @@ module Everscale
     GRAPHQL
 
     def show; end
+    def money_flow; end
 
     private
 

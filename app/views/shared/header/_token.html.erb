@@ -8,5 +8,5 @@
   icon: t("tabs.#{controller_name}.icon"),
   header: t("tabs.#{controller_name}.header", network: @network[:name],
             token: @token,
-            address: copy_text(@address, 'text-info')).html_safe,
+            address: copy_text(@address, 'text-info', is_block_section: @is_block_section, height: @height, network: @network, block_id: @block_id)).html_safe,
   reportrange: true } %>

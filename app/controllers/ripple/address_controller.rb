@@ -33,6 +33,8 @@ module Ripple
     }
     GRAPHQL
 
+    def money_flow; end
+
     private
 
     def query_graphql

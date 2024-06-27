@@ -33,6 +33,8 @@ module Stellar
     }
     GRAPHQL
 
+    def money_flow; end
+
     private
 
     def query_graphql

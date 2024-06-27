@@ -27,6 +27,8 @@ module Algorand
     }
     GRAPHQL
 
+    def money_flow; end
+
     private
 
     def set_address

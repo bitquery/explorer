@@ -8,6 +8,6 @@ module NetworkHelper
   end
 
   def dataset_icon(dataset, size = 30)
-    "<i class='#{dataset[:icon]}' style='font-size: #{size}px;'></i>".html_safe
+    content_tag(:i, nil, class: dataset[:icon], style: "font-size: #{size}px;")
   end
 end
