@@ -6,7 +6,7 @@ module Elrond
     before_action :breadcrumb
     before_action :query_date, only: %i[show]
 
-    QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
              query ($hash: String! $network: ElrondNetwork!){
                 elrond(network: $network) { blockValidators(validator: {is: $hash}) { date {date} } }
              }
@@ -23,13 +23,14 @@ module Elrond
     end
 
     def breadcrumb
-      return if action_name != 'show'
+      nil if action_name != 'show'
     end
 
     def query_date
       variables = { hash: @hash.to_s,
                     network: @network[:network] }
-      @validator_data = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data.elrond.blockValidators[0].date.date
+      @validator_data = Graphql::V1.query_with_retry(QUERY, variables:,
+                                                            context: { authorization: @streaming_access_token }).data.elrond.blockValidators[0].date.date
     end
   end
 end

@@ -22,4 +22,3 @@ module Solana
     end
   end
 end
-

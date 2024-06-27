@@ -1,9 +1,10 @@
-class Ripple::AddressController < NetworkController
-  layout 'tabs'
+module Ripple
+  class AddressController < NetworkController
+    layout 'tabs'
 
-  before_action :query_graphql, only: %i[money_flow]
+    before_action :query_graphql, only: %i[money_flow]
 
-  QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
     query ($network: RippleNetwork!, $address: String!) {
       ripple(network: $network) {
         outflow: transfers(
@@ -30,22 +31,23 @@ class Ripple::AddressController < NetworkController
         }
       }
     }
-  GRAPHQL
+    GRAPHQL
 
-  private
+    private
 
-  def query_graphql
-    result = Graphql::V1.query_with_retry(QUERY,
-                                          variables: { network: @network[:network],
-                                                       address: @address }, context: { authorization: @streaming_access_token }).data.ripple
-    data_tables = result.outflow + result.inflow
+    def query_graphql
+      result = Graphql::V1.query_with_retry(QUERY,
+                                            variables: { network: @network[:network],
+                                                         address: @address }, context: { authorization: @streaming_access_token }).data.ripple
+      data_tables = result.outflow + result.inflow
 
-    only_currencies = data_tables.map(&:currency)
-    native_currency = only_currencies.select { |c| c.symbol == @network[:currency] }
-    sorted_currencies = only_currencies.sort_by(&:symbol)
+      only_currencies = data_tables.map(&:currency)
+      native_currency = only_currencies.select { |c| c.symbol == @network[:currency] }
+      sorted_currencies = only_currencies.sort_by(&:symbol)
 
-    all_currencies = (native_currency + sorted_currencies).uniq(&:symbol)
+      all_currencies = (native_currency + sorted_currencies).uniq(&:symbol)
 
-    @currencies = all_currencies
+      @currencies = all_currencies
+    end
   end
 end

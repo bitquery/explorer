@@ -1,13 +1,13 @@
-class Covid::CovidCountryController < ApplicationController
+module Covid
+  class CovidCountryController < ApplicationController
+    layout 'tabs'
+    before_action :set_codes
 
-  layout 'tabs'
-  before_action :set_codes
+    private
 
-  private
-
-  def set_codes
-    @code = params[:code]
-    @name = params[:name]
+    def set_codes
+      @code = params[:code]
+      @name = params[:name]
+    end
   end
-
 end

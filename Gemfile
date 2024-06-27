@@ -28,11 +28,11 @@ gem 'graphql-client'
 gem 'feedjira', '~> 3.2.3'
 
 # Logger
-gem 'bitquery_logger', git: 'https://github.com/bitquery/bitquery_logger.git', tag: 'v0.7.9'#, path: '../bitquery_logger'
-gem 'lograge'
-gem 'logstash-event'
+gem 'bitquery_logger', git: 'https://github.com/bitquery/bitquery_logger.git', tag: 'v0.7.9' # , path: '../bitquery_logger'
 gem 'exception_notification'
 gem 'exception_notification-rake', '~> 0.3.1'
+gem 'lograge'
+gem 'logstash-event'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1.18.3', require: false
@@ -58,7 +58,7 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
-#, platforms: %i[mingw mswin x64_mingw jruby]
+# , platforms: %i[mingw mswin x64_mingw jruby]
 
 # Use Capistrano for deployment
 group :development, :test do
@@ -71,11 +71,11 @@ group :development, :test do
 end
 
 # Monitoring
-gem 'yabeda-rails'
 gem 'yabeda-graphql'
 gem 'yabeda-http_requests'
-gem 'yabeda-puma-plugin'
 gem 'yabeda-prometheus-mmap'
+gem 'yabeda-puma-plugin'
+gem 'yabeda-rails'
 
 # Find all missing translations
 # gem 'i18n-tasks', '~> 1.0.12'

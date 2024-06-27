@@ -1,13 +1,14 @@
-class Conflux::AddressController < NetworkController
-  layout 'tabs'
+module Conflux
+  class AddressController < NetworkController
+    layout 'tabs'
 
-  before_action :query_graphql, :redirect_by_type
+    before_action :query_graphql, :redirect_by_type
 
-  QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
    query($network: ConfluxNetwork!, $address: String!) {
               conflux(network: $network) {
                 address(address: {is: $address}){
-                  address 
+                  address#{' '}
                   annotation
                   smartContract {
                     contractType
@@ -22,9 +23,9 @@ class Conflux::AddressController < NetworkController
                 }
               }
             }
-  GRAPHQL
+    GRAPHQL
 
-  QUERY_CURRENCIES = <<-'GRAPHQL'
+    QUERY_CURRENCIES = <<-GRAPHQL.freeze
                 query ($network: ConfluxNetwork!, $address: String!) {
                   conflux(network: $network) {
                     address(address: {is: $address}) {
@@ -51,24 +52,29 @@ class Conflux::AddressController < NetworkController
                     }
                   }
                 }
-  GRAPHQL
+    GRAPHQL
 
-  private
+    private
 
-  def query_graphql
-    @address = params[:address]
-    query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
-    if @address.starts_with?('cfx:')
-      result = Graphql::V1.query_with_retry(query, variables: { network: @network[:network], address: @address }, context: { authorization: @streaming_access_token }).data.conflux
+    def query_graphql
+      @address = params[:address]
+      query = action_name == 'money_flow' ? QUERY_CURRENCIES : QUERY
+      return unless @address.starts_with?('cfx:')
+
+      result = Graphql::V1.query_with_retry(query, variables: { network: @network[:network], address: @address },
+                                                   context: { authorization: @streaming_access_token }).data.conflux
       @info = result.address.first
-      @currencies = result.transfers.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address } if result.try(:transfers)
+      return unless result.try(:transfers)
+
+      @currencies = result.transfers.map(&:currency).sort_by do |c|
+        c.address == '-' ? 0 : 1
+      end.uniq(&:address)
+    end
+
+    def redirect_by_type
+      return unless (sc = @info.try(:smartContract))
+
+      change_controller!(sc.currency ? 'conflux/token' : 'conflux/smart_contract')
     end
   end
-
-  def redirect_by_type
-    if sc = @info.try(:smartContract)
-      change_controller! (sc.currency ? 'conflux/token' : 'conflux/smart_contract')
-    end
-  end
-
 end

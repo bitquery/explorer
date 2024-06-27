@@ -1,3 +1,5 @@
-class Covid::CovidDashboardController < ApplicationController
-  layout 'tabs'
+module Covid
+  class CovidDashboardController < ApplicationController
+    layout 'tabs'
+  end
 end

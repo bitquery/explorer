@@ -1,3 +1,5 @@
-class Eos::TxController < NetworkController
-  layout 'tabs'
+module Eos
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end

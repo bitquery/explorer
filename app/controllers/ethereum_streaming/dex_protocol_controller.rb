@@ -1,16 +1,17 @@
-class EthereumStreaming::DexProtocolController < NetworkController
-  before_action :set_protocol, :breadcrumb
+module EthereumStreaming
+  class DexProtocolController < NetworkController
+    before_action :set_protocol, :breadcrumb
 
-  layout 'tabs'
+    layout 'tabs'
 
-  private
+    private
 
-  def set_protocol
-    @protocol = params[:protocol_name]
+    def set_protocol
+      @protocol = params[:protocol_name]
+    end
+
+    def breadcrumb
+      @breadcrumbs << { name: @protocol } << { name: t("tabs.#{controller_name}.#{action_name}.name") }
+    end
   end
-
-  def breadcrumb
-    @breadcrumbs << { name: @protocol } << { name: t("tabs.#{controller_name}.#{action_name}.name") }
-  end
-
 end

@@ -1,15 +1,17 @@
-class Ethereum2::ValidatorController < NetworkController
-  layout 'tabs'
+module Ethereum2
+  class ValidatorController < NetworkController
+    layout 'tabs'
 
-  before_action :get_index, :breadcrumb
+    before_action :get_index, :breadcrumb
 
-  private
+    private
 
-  def get_index
-    @index = params[:index]
-  end
+    def get_index
+      @index = params[:index]
+    end
 
-  def breadcrumb
-    @breadcrumbs << {name: t("tabs.#{controller_name}.#{action_name}.name")}
+    def breadcrumb
+      @breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") }
+    end
   end
 end

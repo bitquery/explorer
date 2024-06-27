@@ -10,39 +10,27 @@ class NetworkController < ApplicationController
       (if params[:address]
          { name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:address].truncate(15)}",
            url: "#{locale_path_prefix}#{@network[:network]}/address/#{params[:address]}" }
-       else
-         nil
        end),
       (if params[:token1]
          { name: "#{params[:token1].truncate(15)} - #{params[:token2].truncate(15)}",
            url: "#{locale_path_prefix}#{@network[:network]}/tokenpair/#{params[:token1]}/#{params[:token2]}" }
-       else
-         nil
        end),
       (if params[:block]
          { name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:block].truncate(15)}",
            url: "#{locale_path_prefix}#{@network[:network]}/block/#{params[:block]}" }
-       else
-         nil
        end),
       (if params[:hash]
          { name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:hash].truncate(15)}",
            url: "#{locale_path_prefix}#{@network[:network]}/tx/#{params[:hash]}" }
-       else
-         nil
        end),
       (if (params[:address] || params[:block] || params[:hash]) && action_name != 'show'
          {
            name: t("tabs.#{controller_name}.#{action_name}.name"), url: "#{locale_path_prefix}#{@network[:network]}/#{params[:hash]}"
          }
-       else
-         nil
        end),
       (if params[:symbol]
          { name: "#{t("tabs.#{controller_name}.show.name")}: #{params[:symbol].truncate(15)}",
            url: "#{locale_path_prefix}#{@network[:network]}/token/#{params[:symbol]}" }
-       else
-         nil
        end)
     ].compact
   end

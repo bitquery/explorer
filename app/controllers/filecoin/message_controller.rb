@@ -1,3 +1,5 @@
-class Filecoin::MessageController < NetworkController
-  layout 'tabs'
+module Filecoin
+  class MessageController < NetworkController
+    layout 'tabs'
+  end
 end

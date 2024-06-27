@@ -1,2 +1,4 @@
-class Covid::SitemapController < ApplicationController
+module Covid
+  class SitemapController < ApplicationController
+  end
 end

@@ -1,8 +1,9 @@
-class EthereumStreaming::EventController < NetworkController
-  before_action :set_signature, :query_date
-  layout 'tabs'
+module EthereumStreaming
+  class EventController < NetworkController
+    before_action :set_signature, :query_date
+    layout 'tabs'
 
-  QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
       query ($network: evm_network, $method: String) {
         EVM(dataset: archive, network: $network) {
           Events(
@@ -12,35 +13,36 @@ class EthereumStreaming::EventController < NetworkController
             ChainId
             Log{
               Signature{
-              Name                
+              Name#{'                '}
               Signature
               SignatureHash}
             }
           }
         }
       }
-  GRAPHQL
+    GRAPHQL
 
-  private
+    private
 
-  def set_signature
-    @signature = params[:signature]
-  end
+    def set_signature
+      @signature = params[:signature]
+    end
 
-  def query_date
-    event = ::Graphql::V2.query_with_retry(QUERY, variables: { method: @signature, network: @network[:streaming] }, context: { authorization: @streaming_access_token })
+    def query_date
+      event = ::Graphql::V2.query_with_retry(QUERY, variables: { method: @signature, network: @network[:streaming] },
+                                                    context: { authorization: @streaming_access_token })
 
-    if event.data.EVM.Events.any?
+      return unless event.data.EVM.Events.any?
+
       log_signature = event.data.EVM.Events[0].Log.Signature
 
-      @event_name = if log_signature.Name && !log_signature.Name.empty?
+      @event_name = if log_signature.Name.present?
                       log_signature.Name
-                    elsif log_signature.Signature && !log_signature.Signature.empty?
+                    elsif log_signature.Signature.present?
                       log_signature.Signature
                     else
                       log_signature.SignatureHash
                     end
     end
   end
-
 end

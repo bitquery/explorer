@@ -1,5 +1,5 @@
-class Conflux::BlockController < NetworkController
-  layout 'tabs'
-
-
+module Conflux
+  class BlockController < NetworkController
+    layout 'tabs'
+  end
 end

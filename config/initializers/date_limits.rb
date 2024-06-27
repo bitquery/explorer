@@ -4,4 +4,4 @@ DATE_LIMITS = {
       'transfers' => 0
     }
   }
-}
+}.freeze

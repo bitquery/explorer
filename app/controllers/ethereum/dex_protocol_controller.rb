@@ -1,27 +1,29 @@
-class Ethereum::DexProtocolController < NetworkController
-  before_action :set_protocol, :breadcrumb
-  helper_method :api_version_for_protocol
+module Ethereum
+  class DexProtocolController < NetworkController
+    before_action :set_protocol, :breadcrumb
+    helper_method :api_version_for_protocol
 
-  layout 'tabs'
+    layout 'tabs'
 
-  def statistics
-    render 'ethereum/dex_protocol/statistics_v2' if @streaming
-  end
+    def statistics
+      render 'ethereum/dex_protocol/statistics_v2' if @streaming
+    end
 
-  private
-  def set_protocol
-    @protocol = params[:protocol_name]
-    # hardcode fix, used to pass this arg to the query
-    @protocol = 'seaport_v1.4' if @protocol == 'seaport_v1'
-  end
+    private
 
-  def breadcrumb
-    @breadcrumbs << {name: @protocol} << {name: t("tabs.#{controller_name}.#{action_name}.name")}
-  end
+    def set_protocol
+      @protocol = params[:protocol_name]
+      # hardcode fix, used to pass this arg to the query
+      @protocol = 'seaport_v1.4' if @protocol == 'seaport_v1'
+    end
 
-  def api_version_for_protocol
-    decoded_protocol_name = CGI.unescape(@protocol)
-    v2_protocols = [
+    def breadcrumb
+      @breadcrumbs << { name: @protocol } << { name: t("tabs.#{controller_name}.#{action_name}.name") }
+    end
+
+    def api_version_for_protocol
+      decoded_protocol_name = CGI.unescape(@protocol)
+      v2_protocols = [
         'airswap_v2',
         'balancer_v1',
         'balancer_v2',
@@ -60,8 +62,8 @@ class Ethereum::DexProtocolController < NetworkController
         'zerox_v2',
         'zerox_v3',
         'zerox_v4'
-    ]
-    v1_protocols = [
+      ]
+      v1_protocols = [
         'IDEX v2',
         'Curve',
         'Bancor Network v2',
@@ -96,14 +98,13 @@ class Ethereum::DexProtocolController < NetworkController
         'One Inch Liquidity Pool',
         'Balancer Pool Token',
         'Ethfinex'
-    ]
+      ]
 
-    if v2_protocols.include?(decoded_protocol_name)
-      'v2'
-    elsif v1_protocols.include?(decoded_protocol_name)
-      'v1'
-    else
-      nil
+      if v2_protocols.include?(decoded_protocol_name)
+        'v2'
+      elsif v1_protocols.include?(decoded_protocol_name)
+        'v1'
+      end
     end
   end
 end

@@ -7,7 +7,7 @@ module Elrond
     before_action :set_address
     before_action :breadcrumb
 
-    QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
       query ($network: ElrondNetwork!, $address: String!) {
         elrond(network: $network) {
           outflow: transfers(
@@ -45,7 +45,7 @@ module Elrond
     end
 
     def breadcrumb
-      return if action_name == 'show'
+      nil if action_name == 'show'
     end
 
     def query_graphql
@@ -53,7 +53,7 @@ module Elrond
                                             variables: { network: @network[:network],
                                                          address: @address }, context: { authorization: @streaming_access_token }).data.elrond
       all_currencies = result.outflow + result.inflow
-      @currencies = all_currencies.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq { |x| x.address }
+      @currencies = all_currencies.map(&:currency).sort_by { |c| c.address == '-' ? 0 : 1 }.uniq(&:address)
     end
   end
 end

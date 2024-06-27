@@ -1,7 +1,6 @@
 class ProxyGraphqlController < ApplicationController
-
   def index
-    api_key = ENV['EXPLORER_API_KEY']
+    api_key = ENV.fetch('EXPLORER_API_KEY', nil)
 
     BitqueryLogger.extra_context query: params[:query],
                                  variables: params[:variables]
@@ -12,13 +11,12 @@ class ProxyGraphqlController < ApplicationController
                          { 'Content-Type' => 'application/json',
                            'Accept' => 'application/json',
                            'X-API-KEY' => api_key,
-                           'Authorization' => session['streaming_access_token']})
+                           'Authorization' => session['streaming_access_token'] })
 
     respond_to do |format|
-      format.json {
+      format.json do
         render json: res.body
-      }
+      end
     end
   end
-
 end
