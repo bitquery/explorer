@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-lg-4 mb-4">
     <div class="card border-success">
       <div class="card-header"><%= t('widgets.titles.validators_count') %></div>
@@ -8,8 +7,6 @@
       </div>
     </div>
   </div>
-
-
   <div class="col-lg-4 mb-4">
     <div class="card border-warning">
       <div class="card-header"><%= t('widgets.titles.committee_count') %></div>
@@ -18,7 +15,6 @@
       </div>
     </div>
   </div>
-
   <div class="col-lg-4 mb-4">
     <div class="card border-warning">
       <div class="card-header"><%= t('widgets.titles.attestations') %></div>
@@ -28,68 +24,62 @@
     </div>
   </div>
 </div>
-
-
 <script>
+  $( document ).ready(function() {
 
-    $( document ).ready(function() {
+      var query = new widgets.query(`
+  query ($network: Ethereum2Network!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+    ethereum2(network: $network) {
+  attestations(date: {since: $from, till: $till}, options: {groupBy: false}) {
+    validators: count(uniq: validators)
+    committees: count(uniq: committees)
+    attestations: count(uniq: attestations)
+  }
+    }
+  }
+  `);
 
-        var query = new widgets.query(`
-            query ($network: Ethereum2Network!,
-                  $from: ISO8601DateTime,
-                  $till: ISO8601DateTime){
-                    ethereum2(network: $network ){
-                      attestations(date: { since: $from till: $till } ) {
-                          validators: count(uniq: validators)
-                          committees: count(uniq: committees)
-                          attestations: count(uniq: attestations)
-                      }
-                    }
-                  }`);
+      new widgets.text('#validators', query, 'ethereum2.attestations', {
+          html_class: 'fontsize35rem text-center text-success',
+          dataOptions: {
+              type: 'string',
+              path: 'validators'
+          }
 
-        new widgets.text('#validators', query, 'ethereum2.attestations', {
-            html_class: 'fontsize35rem text-center text-success',
-            dataOptions: {
-                type: 'string',
-                path: 'validators'
-            }
+      });
 
-        });
+      new widgets.text('#committees', query, 'ethereum2.attestations', {
+          html_class: 'fontsize35rem text-center text-success',
+          dataOptions: {
+              type: 'string',
+              path: 'committees'
+          }
 
-        new widgets.text('#committees', query, 'ethereum2.attestations', {
-            html_class: 'fontsize35rem text-center text-success',
-            dataOptions: {
-                type: 'string',
-                path: 'committees'
-            }
+      });
 
-        });
+      new widgets.text('#attestations', query, 'ethereum2.attestations', {
+          html_class: 'fontsize35rem text-center text-warning',
+          dataOptions: {
+              type: 'string',
+              path: 'attestations'
+          }
 
-        new widgets.text('#attestations', query, 'ethereum2.attestations', {
-            html_class: 'fontsize35rem text-center text-warning',
-            dataOptions: {
-                type: 'string',
-                path: 'attestations'
-            }
+      });
 
-        });
+      new widgets.text('#block_count', query, 'ethereum2.blocks', {
+          html_class: 'fontsize35rem text-center text-warning',
+          dataOptions: {
+              type: 'string',
+              path: 'count'
+          }
 
-        new widgets.text('#block_count', query, 'ethereum2.blocks', {
-            html_class: 'fontsize35rem text-center text-warning',
-            dataOptions: {
-                type: 'string',
-                path: 'count'
-            }
+      });
 
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
-
-
+    <% from, till = date_range_from_now(15, :days) %>
+    queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+        network: '<%= params['network']['network'] %>'
     });
 
 
-
+  });
 </script>

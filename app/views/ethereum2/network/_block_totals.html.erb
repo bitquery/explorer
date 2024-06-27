@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-lg-4 mb-4">
     <div class="card border-success">
       <div class="card-header"><%= t('widgets.titles.slot_count') %></div>
@@ -8,8 +7,6 @@
       </div>
     </div>
   </div>
-
-
   <div class="col-lg-4 mb-4">
     <div class="card border-warning">
       <div class="card-header"><%= t('widgets.titles.block_count') %></div>
@@ -18,7 +15,6 @@
       </div>
     </div>
   </div>
-
   <div class="col-lg-4 mb-4">
     <div class="card border-warning">
       <div class="card-header"><%= t('widgets.titles.proposers_count') %></div>
@@ -28,68 +24,61 @@
     </div>
   </div>
 </div>
-
-
 <script>
+  $( document ).ready(function() {
 
-    $( document ).ready(function() {
+      var query = new widgets.query(`
+  query ($network: Ethereum2Network!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+    ethereum2(network: $network) {
+  blocks(date: {since: $from, till: $till}, options: {groupBy: false}) {
+    count
+    slots: maximum(of: block)
+    proposers: count(uniq: block_proposers)
+  }
+    }
+  }
+  `);
 
-        var query = new widgets.query(`
-            query ($network: Ethereum2Network!,
-                  $from: ISO8601DateTime,
-                  $till: ISO8601DateTime){
-                    ethereum2(network: $network ){
-                      blocks(date: { since: $from till: $till } ) {
-                        count
-                        slots: maximum(of: block)
-                        proposers: count(uniq: block_proposers)
-                      }
-                    }
-                  }`);
+      new widgets.text('#slot_count', query, 'ethereum2.blocks', {
+          html_class: 'fontsize35rem text-center text-success',
+          dataOptions: {
+              type: 'string',
+              path: 'slots'
+          }
 
-        new widgets.text('#slot_count', query, 'ethereum2.blocks', {
-            html_class: 'fontsize35rem text-center text-success',
-            dataOptions: {
-                type: 'string',
-                path: 'slots'
-            }
+      });
 
-        });
+      new widgets.text('#proposers_count', query, 'ethereum2.blocks', {
+          html_class: 'fontsize35rem text-center text-success',
+          dataOptions: {
+              type: 'string',
+              path: 'proposers'
+          }
 
-        new widgets.text('#proposers_count', query, 'ethereum2.blocks', {
-            html_class: 'fontsize35rem text-center text-success',
-            dataOptions: {
-                type: 'string',
-                path: 'proposers'
-            }
+      });
 
-        });
+      new widgets.text('#block_count', query, 'ethereum2.blocks', {
+          html_class: 'fontsize35rem text-center text-warning',
+          dataOptions: {
+              type: 'string',
+              path: 'count'
+          }
 
-        new widgets.text('#block_count', query, 'ethereum2.blocks', {
-            html_class: 'fontsize35rem text-center text-warning',
-            dataOptions: {
-                type: 'string',
-                path: 'count'
-            }
+      });
 
-        });
+      new widgets.text('#block_count', query, 'ethereum2.blocks', {
+          html_class: 'fontsize35rem text-center text-warning',
+          dataOptions: {
+              type: 'string',
+              path: 'count'
+          }
 
-        new widgets.text('#block_count', query, 'ethereum2.blocks', {
-            html_class: 'fontsize35rem text-center text-warning',
-            dataOptions: {
-                type: 'string',
-                path: 'count'
-            }
+      });
 
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+      queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+          network: '<%= params['network']['network'] %>'
+      });
 
 
-    });
-
-
-
+  });
 </script>

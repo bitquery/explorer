@@ -135,10 +135,12 @@ module ApplicationHelper
     if params[:from] && params[:till]
       return ["#{params[:from]}T00:00:00.000Z", "#{params[:till]}T23:59:59.000Z"]
     end
-
+  
     till = Time.now.utc
-
+  
     from = case unit
+           when :years
+             till - interval.years
            when :days
              till - interval.days
            when :hours
@@ -146,9 +148,10 @@ module ApplicationHelper
            when :minutes
              till - interval.minutes
            else
-             raise ArgumentError, "Unit must be :days, :hours, or :minutes"
+             raise ArgumentError, "Unit must be :years, :days, :hours, or :minutes"
            end
+  
     [from.strftime('%Y-%m-%dT%H:%M:%S.000Z'), till.strftime('%Y-%m-%dT%H:%M:%S.999Z')]
-  end
+  end  
 
 end

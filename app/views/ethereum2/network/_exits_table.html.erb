@@ -8,64 +8,62 @@
     </div>
   </div>
 </div>
-
 <script>
-
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`
-                        query ($network: Ethereum2Network!,
-                                $limit: Int!,
-                                $offset: Int!
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum2(network: $network){
-                      attesterSlashings(options:{desc: "block.height", limit: $limit, offset: $offset},
-                        time: {since: $from till: $till }
-                        ) {
+  $( document ).ready(function() {
 
 
-                        block {
-                        height
-                          timestamp {
-                            time
-                          }
-                        }
-                        validator {
-                          index
+      var query = new widgets.query(`
+                      query ($network: Ethereum2Network!,
+                              $limit: Int!,
+                              $offset: Int!
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                  ethereum2(network: $network){
+                    attesterSlashings(options:{desc: "block.height", limit: $limit, offset: $offset},
+                      time: {since: $from till: $till }
+                      ) {
+
+
+                      block {
+                      height
+                        timestamp {
+                          time
                         }
                       }
+                      validator {
+                        index
+                      }
                     }
-                  }`);
+                  }
+                }`);
 
-        new widgets.table('#last_exits', query, 'ethereum2.attesterSlashings', {
-            title: '<%= t('widgets.headers.last_exits') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.validator') %>',
-                    path: 'validator.index',
-                    urlCallbackName: 'validator_path'
-                },
+      new widgets.table('#last_exits', query, 'ethereum2.attesterSlashings', {
+          title: '<%= t('widgets.headers.last_exits') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.validator') %>',
+                  path: 'validator.index',
+                  urlCallbackName: 'validator_path'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.timestamp') %>',
-                    path: 'block.timestamp.time'
-                },
+              {
+                  title: '<%= t('widgets.titles.timestamp') %>',
+                  path: 'block.timestamp.time'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.block') %>',
-                    path: 'block.height'
-                },
+              {
+                  title: '<%= t('widgets.titles.block') %>',
+                  path: 'block.height'
+              },
 
 
-            ]
-        });
-
-      <% from, till = date_range_from_now(3, :days) %>
-      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
-          network: '<%= params['network']['network'] %>'
+          ]
       });
 
+    <% from, till = date_range_from_now(360, :days) %>
+    queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+        network: '<%= params['network']['network'] %>'
     });
+
+  });
 </script>
