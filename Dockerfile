@@ -1,4 +1,4 @@
-FROM ruby:2.7.7-alpine AS builder
+FROM ruby:3.3.3-alpine AS builder
 
 WORKDIR /app
 ENV RAILS_ENV="production" \
@@ -32,7 +32,7 @@ RUN bundle exec rails webpacker:compile && \
 
 
 
-FROM ruby:2.7.7-alpine AS runner
+FROM ruby:3.3.3-alpine AS runner
 
 WORKDIR /app
 
