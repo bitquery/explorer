@@ -1,5 +1,4 @@
 <div class="row">
-
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.tx_info') %></div>
@@ -8,7 +7,6 @@
       </div>
     </div>
   </div>
-
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.tx_info_2') %></div>
@@ -17,122 +15,126 @@
       </div>
     </div>
   </div>
-
 </div>
 <script>
+  $(document).ready(function() {
+    var network = '<%= @network[:network] %>';
 
-    $( document ).ready(function() {
+    var queryBase = `query ($network: BitcoinNetwork!, $hash: String!) {
+      bitcoin(network: $network) {
+        transactions(txHash: {is: $hash}) {
+          block {
+            height
+            timestamp {
+              time (format: "%Y-%m-%d %H:%M:%S")
+            }
+          }
+          index
+          inputCount
+          outputCount
+          inputValue
+          input_value_usd: inputValue(in: USD)
+          outputValue
+          output_value_usd: outputValue(in: USD)
+          feeValue
+          fee_value_usd: feeValue(in: USD)
+          minedValue
+          mined_value_usd: minedValue(in: USD)
+          txCoinbase
+          txLocktime`;
+    // CURRENT SCHEMA FOR ZCASH DOESNT SUPPORT THIS!
+    if (network !== 'zcash') {
+      queryBase += `
+          txSize
+          txVsize
+          txWeight`;
+    }
 
+    queryBase += `
+          txVersion
+        }
+      }
+    }`;
 
-        var query = new widgets.query(`query ($network: BitcoinNetwork!,
-                        $hash:String!){
-                          bitcoin(network: $network ){
-                            transactions(txHash: {is: $hash}) {
-                              block {
-                                height
-                                timestamp{
-                                  time (format: "%Y-%m-%d %H:%M:%S")
-                                }
-                              }
-                              index
+    var query = new widgets.query(queryBase);
 
-                              inputCount
-                              outputCount
-                              inputValue
-                              input_value_usd: inputValue(in: USD)
-                              outputValue
-                              output_value_usd: outputValue(in: USD)
-                              feeValue
-                              fee_value_usd: feeValue(in: USD)
-                              minedValue
-                              mined_value_usd: minedValue(in: USD)
-
-                              txCoinbase
-                              txLocktime
-                              txSize
-                              txVsize
-                              txWeight
-                              txVersion
-                          }
-                        }
-                  }`);
-
-
-
-        new widgets.table('#tx_info_1', query, 'bitcoin.transactions', {
-            title: '<%= t('widgets.headers.tx_info_2') %>',
-            renderData: function (data) {
-                item = data[0];
-                return !item ? [] : [
-                    {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
-                    {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
-                    {name: '<%= t('widgets.titles.transaction_index') %>', value: item.index},
-
-                    {name: '<%= t('widgets.titles.input_value') %>', value: item.inputValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.input_value_usd'} %>} ,
-                    {name: '<%= t('widgets.titles.output_value') %>', value: item.outputValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.output_value_usd'} %>} ,
-
-                    {name: '<%= t('widgets.titles.fee') %>', value: item.feeValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.fee_value_usd'} %>} ,
-                    {name: '<%= t('widgets.titles.mined_value') %>', value: item.minedValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.mined_value_usd'} %>} ,
-
-                ];
-            },
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.attribute') %>',
-                    type: 'string',
-                    escape: false,
-                    path: 'name',
-                    style: 'width: 150px',
-                    html_class: 'text-info font-weight-bold'
-                },
-                {
-                    title: '<%= t('widgets.titles.property_value') %>',
-                    type: 'string-ellipsis',
-                    escape: false,
-                    path: 'value',
-                    urlCallbackName: 'property_value_path'
-                },
-            ]
-        });
-        new widgets.table('#tx_info_2', query, 'bitcoin.transactions', {
-            title: '<%= t('widgets.headers.tx_info') %>',
-            renderData: function (data) {
-                item = data[0];
-                return !item ? [] : [
-                    {name: '<%= t('widgets.titles.input_count') %>', value: item.inputCount} ,
-                    {name: '<%= t('widgets.titles.output_count') %>', value: item.outputCount} ,
-
-                    {name: '<%= t('widgets.titles.txCoinbase') %>', value: item.txCoinbase} ,
-                    {name: '<%= t('widgets.titles.txSize') %>', value: item.txSize} ,
-                    {name: '<%= t('widgets.titles.txVsize') %>', value: item.txVsize} ,
-                    {name: '<%= t('widgets.titles.txWeight') %>', value: item.txWeight} ,
-                    {name: '<%= t('widgets.titles.txVersion') %>', value: item.txVersion} ,
-                    {name: '<%= t('widgets.titles.txLocktime') %>', value: item.txLocktime} ,
-                ];
-            },
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.attribute') %>',
-                    type: 'string',
-                    path: 'name',
-                    escape: false,
-                    style: 'width: 150px',
-                    html_class: 'text-info font-weight-bold'
-                },
-                {
-                    title: '<%= t('widgets.titles.property_value') %>',
-                    type: 'string-ellipsis',
-                    escape: false,
-                    path: 'value',
-                    urlCallbackName: 'property_value_path'
-                },
-            ]
-        });
-
-        query.request({
-            hash: '<%= @hash %>',
-            network: '<%= @network[:network] %>'
-        });
-
+    new widgets.table('#tx_info_1', query, 'bitcoin.transactions', {
+      title: '<%= t('widgets.headers.tx_info_2') %>',
+      renderData: function(data) {
+        var item = data[0];
+        return !item ? [] : [
+          {name: '<%= t('widgets.titles.block') %>', value: item.block.height, block: item.block},
+          {name: '<%= t('widgets.titles.timestamp') %>', value: item.block.timestamp.time},
+          {name: '<%= t('widgets.titles.transaction_index') %>', value: item.index},
+          {name: '<%= t('widgets.titles.input_value') %>', value: item.inputValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.input_value_usd'} %>},
+          {name: '<%= t('widgets.titles.output_value') %>', value: item.outputValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.output_value_usd'} %>},
+          {name: '<%= t('widgets.titles.fee') %>', value: item.feeValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.fee_value_usd'} %>},
+          {name: '<%= t('widgets.titles.mined_value') %>', value: item.minedValue + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'item.mined_value_usd'} %>}
+        ];
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.attribute') %>',
+          type: 'string',
+          escape: false,
+          path: 'name',
+          style: 'width: 150px',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          escape: false,
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        }
+      ]
     });
+
+    new widgets.table('#tx_info_2', query, 'bitcoin.transactions', {
+      title: '<%= t('widgets.headers.tx_info') %>',
+      renderData: function(data) {
+        var item = data[0];
+        var result = [
+          {name: '<%= t('widgets.titles.input_count') %>', value: item.inputCount},
+          {name: '<%= t('widgets.titles.output_count') %>', value: item.outputCount},
+          {name: '<%= t('widgets.titles.txCoinbase') %>', value: item.txCoinbase},
+          {name: '<%= t('widgets.titles.txVersion') %>', value: item.txVersion},
+          {name: '<%= t('widgets.titles.txLocktime') %>', value: item.txLocktime}
+        ];
+
+        if (network !== 'zcash') {
+          result.push(
+            {name: '<%= t('widgets.titles.txSize') %>', value: item.txSize},
+            {name: '<%= t('widgets.titles.txVsize') %>', value: item.txVsize},
+            {name: '<%= t('widgets.titles.txWeight') %>', value: item.txWeight}
+          );
+        }
+
+        return result;
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.attribute') %>',
+          type: 'string',
+          path: 'name',
+          escape: false,
+          style: 'width: 150px',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          escape: false,
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        }
+      ]
+    });
+
+    query.request({
+      hash: '<%= @hash %>',
+      network: network
+    });
+  });
 </script>
