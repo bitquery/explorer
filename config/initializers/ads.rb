@@ -1,4 +1,4 @@
-ADS={
+ADS = {
   tab: {
     ads: [
       {
@@ -18,8 +18,8 @@ ADS={
           'https://go.primexbt.direct/visit/?bta=35291&brand=primexbt'
         ],
         bgcolor: '#b86614'
-      },
-    ],
+      }
+    ]
   },
   widgets: {
     # ad: {
@@ -28,19 +28,19 @@ ADS={
     # },
   },
   fixed: {
-    #ad: {
+    # ad: {
     #  title: 'Swap at the best rates!',
     #  title_color: '#000000',
     #  text: 'Gasless execution and MEV protection on 1inch - #1 DEX aggregator.',
     #  text_color: '#000000',
     #  button_text: 'Swap now!',
     #  button_class: 'btn-primary',
-      # button_bg: '#2F8AF5',
-      # button_color: '#000',
+    # button_bg: '#2F8AF5',
+    # button_color: '#000',
     #  image: '1inch.jpg',
     #  url: 'https://jn3rg.app.link/Bitquery_1inch_FixedBanner',
     #  width: '28rem'
-    #},
+    # },
     # platform: {
     #   smart_contract: {
     #     ad: {
@@ -50,4 +50,4 @@ ADS={
     #   }
     # }
   }
-}
+}.freeze

@@ -1,14 +1,14 @@
 # config valid for current version and patch releases of Capistrano
-lock "~> 3.11.1"
+lock '~> 3.11.1'
 
-set :application, "explorer"
-set :repo_url, "git@github.com:bitquery/explorer.git"
+set :application, 'explorer'
+set :repo_url, 'git@github.com:bitquery/explorer.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, "/var/www/explorer"
+set :deploy_to, '/var/www/explorer'
 
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh

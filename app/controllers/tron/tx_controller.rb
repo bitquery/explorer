@@ -1,4 +1,5 @@
-class Tron::TxController < NetworkController
-  layout 'tabs'
-
+module Tron
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end

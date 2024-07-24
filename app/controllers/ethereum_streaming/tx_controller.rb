@@ -1,3 +1,5 @@
-class EthereumStreaming::TxController < NetworkController
-  layout 'tabs'
+module EthereumStreaming
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end

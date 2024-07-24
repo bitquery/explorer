@@ -1,11 +1,8 @@
 <% content_for :title, t("tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], validator_hash: @hash) %>
-
 <% content_for :description, t("tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], validator_hash: @hash) %>
-
 <% content_for :keywords, t("tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name], validator_hash: @hash) %>
-
 <%= render partial: 'shared/title', locals: {
           icon: t("tabs.#{controller_name}.icon"),
           header: t("tabs.#{controller_name}.header",
-                     network: @network[:name], validator_hash: copy_text(@hash, 'text-info')).html_safe,
+                     network: @network[:name], validator_hash: copy_text(@hash, 'text-info', is_block_section: @is_block_section, height: @height, network: @network, block_id: @block_id)).html_safe,
           reportrange: false} %>

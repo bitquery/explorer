@@ -1,11 +1,12 @@
-class Binance::OrderController <  NetworkController
-  layout 'tabs'
-  before_action :order_id
+module Binance
+  class OrderController < NetworkController
+    layout 'tabs'
+    before_action :order_id
 
+    private
 
-  private
-
-  def order_id
-    @order = params[:order]
+    def order_id
+      @order = params[:order]
+    end
   end
 end

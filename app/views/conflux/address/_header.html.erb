@@ -6,7 +6,7 @@
 
 <% content_for :header do %>
 
-  <%= copy_text(@address, 'text-info').html_safe %>.
+  <%= copy_text(@address, 'text-info', is_block_section: @is_block_section, height: @height, network: @network, block_id: @block_id).html_safe %>.
   <%= render partial: 'shared/address_annotation', locals: {annotation:  @info.annotation } %>
 
 <% end %>

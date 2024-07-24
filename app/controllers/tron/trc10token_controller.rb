@@ -1,9 +1,10 @@
-class Tron::Trc10tokenController < NetworkController
-  layout 'tabs'
+module Tron
+  class Trc10tokenController < NetworkController
+    layout 'tabs'
 
-  before_action :token, :breadcrumb
+    before_action :token, :breadcrumb
 
-  QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
    query ( $token: String!){
                     tron{
                       transfers(
@@ -18,35 +19,39 @@ class Tron::Trc10tokenController < NetworkController
                       }
                     }
                   }
-  GRAPHQL
+    GRAPHQL
 
-  def transfers
-    render 'tron/trc20token/transfers'
-  end
+    def transfers
+      render 'tron/trc20token/transfers'
+    end
 
-  def senders
-    render 'tron/trc20token/senders'
-  end
+    def senders
+      render 'tron/trc20token/senders'
+    end
 
-  def receivers
-    render 'tron/trc20token/receivers'
-  end
+    def receivers
+      render 'tron/trc20token/receivers'
+    end
 
-  def trades
-    render 'tron/trc20token/trades'
-  end
+    def trades
+      render 'tron/trc20token/trades'
+    end
 
-  private
+    private
 
-  def token
-    @token = params[:address]
-    result = Graphql::V1.query_with_retry(QUERY, variables: { token: @token }, context: { authorization: @streaming_access_token }).data.tron.transfers.first
-    @info = result.currency
-  end
+    def token
+      @token = params[:address]
+      result = Graphql::V1.query_with_retry(QUERY, variables: { token: @token },
+                                                   context: { authorization: @streaming_access_token }).data.tron.transfers.first
+      @info = result.currency
+    end
 
-  def breadcrumb
-    action_name == 'show' ?
-      @breadcrumbs.last[:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}" :
-      @breadcrumbs[-2][:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}"
+    def breadcrumb
+      if action_name == 'show'
+        @breadcrumbs.last[:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}"
+      else
+        @breadcrumbs[-2][:name] = "#{t("tabs.#{controller_name}.#{action_name}.name")}: #{@info.symbol}"
+      end
+    end
   end
 end

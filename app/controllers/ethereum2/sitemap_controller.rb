@@ -1,7 +1,5 @@
-class Ethereum2::SitemapController < NetworkController
-
-  def index
-
+module Ethereum2
+  class SitemapController < NetworkController
+    def index; end
   end
-
 end

@@ -1,9 +1,10 @@
-class EthereumStreaming::BlockController < NetworkController
-  layout 'tabs'
+module EthereumStreaming
+  class BlockController < NetworkController
+    layout 'tabs'
 
-  before_action :query_date
+    before_action :query_date
 
-  QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
   query($network: evm_network, $height: String) {
     EVM(dataset: combined, network: $network) {
       Blocks(where: { Block: { Number: { eq: $height } } }, limit: { count: 10 }) {
@@ -15,14 +16,14 @@ class EthereumStreaming::BlockController < NetworkController
       }
     }
   }
-  GRAPHQL
+    GRAPHQL
 
-  private
+    private
 
-  def query_date
-    @block_date = ::Graphql::V2.query_with_retry(QUERY, variables: { height: @height,
-                                                                   network: @network[:streaming] }, context: { authorization: @streaming_access_token }).data.evm
-    @is_block_section = true
+    def query_date
+      @block_date = ::Graphql::V2.query_with_retry(QUERY, variables: { height: @height,
+                                                                       network: @network[:streaming] }, context: { authorization: @streaming_access_token }).data.evm
+      @is_block_section = true
+    end
   end
-
 end

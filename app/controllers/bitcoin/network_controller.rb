@@ -1,10 +1,13 @@
-class Bitcoin::NetworkController < ::NetworkController
-  layout 'tabs'
+module Bitcoin
+  class NetworkController < NetworkController
+    layout 'tabs'
 
-  before_action :breadcrumb
+    before_action :breadcrumb
 
-  private
-  def breadcrumb
-    action_name != 'show' && @breadcrumbs << {name: t("tabs.#{controller_name}.#{action_name}.name")}
+    private
+
+    def breadcrumb
+      action_name != 'show' && (@breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") })
+    end
   end
 end

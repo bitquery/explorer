@@ -1,6 +1,6 @@
-class EthereumStreaming::SitemapController < NetworkController
-
-  QUERY = <<-'GRAPHQL'
+module EthereumStreaming
+  class SitemapController < NetworkController
+    QUERY = <<-GRAPHQL.freeze
            query ($network: EthereumNetwork! $from: ISO8601DateTime){
                     miners: ethereum(network: $network){
                       blocks(options:{desc: "count", limit: 50},
@@ -14,7 +14,7 @@ class EthereumStreaming::SitemapController < NetworkController
                     }
                    senders: ethereum(network: $network){
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -26,7 +26,7 @@ class EthereumStreaming::SitemapController < NetworkController
                    }
                   receivers: ethereum(network: $network){
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -38,7 +38,7 @@ class EthereumStreaming::SitemapController < NetworkController
                   }
 						      tokens: ethereum(network: $network){
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -50,7 +50,7 @@ class EthereumStreaming::SitemapController < NetworkController
                    }
                   callers: ethereum(network: $network){
                         smartContractCalls(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -62,7 +62,7 @@ class EthereumStreaming::SitemapController < NetworkController
                   }
                   contracts: ethereum(network: $network){
                         smartContractCalls(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -76,7 +76,7 @@ class EthereumStreaming::SitemapController < NetworkController
                   }
                   dex_protocols: ethereum(network: $network){
                         dexTrades(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -86,7 +86,7 @@ class EthereumStreaming::SitemapController < NetworkController
                   }
                   dex_exchanges: ethereum(network: $network){
                         dexTrades(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -95,11 +95,11 @@ class EthereumStreaming::SitemapController < NetworkController
                         }
                   }
            }
-  GRAPHQL
+    GRAPHQL
 
-  def index
-    @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Date.today - 10,
-                                                                 network: @network[:network] }, context: { authorization: @streaming_access_token }).data
+    def index
+      @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Time.zone.today - 10,
+                                                                   network: @network[:network] }, context: { authorization: @streaming_access_token }).data
+    end
   end
-
 end

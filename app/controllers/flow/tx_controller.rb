@@ -20,4 +20,3 @@ module Flow
     end
   end
 end
-

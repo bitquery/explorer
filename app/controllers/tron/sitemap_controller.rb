@@ -1,6 +1,6 @@
-class Tron::SitemapController < NetworkController
-
-  QUERY = <<-'GRAPHQL'
+module Tron
+  class SitemapController < NetworkController
+    QUERY = <<-GRAPHQL.freeze
            query ($from: ISO8601DateTime){
                     #miners: tron{
                     #  blocks(options:{desc: "count", limit: 50},
@@ -17,92 +17,93 @@ class Tron::SitemapController < NetworkController
                     #}
                    senders: tron{
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
-                          ) {                  
+                          ) {#{'                  '}
                             sender(sender: {not: "0x0000000000000000000000000000000000000000"}) {
                               address
-                            }                 
-                            count                  
-                        }                    
+                            }#{'                 '}
+                            count#{'                  '}
+                        }#{'                    '}
                    }
                   receivers: tron{
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
-                          ) {                
+                          ) {#{'                '}
                             receiver(receiver: {not: "0x0000000000000000000000000000000000000000"}) {
                               address
-                            }               
-                            count                  
-                        }                      
+                            }#{'               '}
+                            count#{'                  '}
+                        }#{'                      '}
                   }
 						      tokens: tron{
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
-                          ) {                  
+                          ) {#{'                  '}
                             currency {
                               address
                               tokenId
-                            }                 
-                            count                 
-                        }                    
+                            }#{'                 '}
+                            count#{'                 '}
+                        }#{'                    '}
                    }
                   callers: tron{
                         smartContractCalls(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
-                          date: {since: $from }  
-                          ) {                 
+                          date: {since: $from }#{'  '}
+                          ) {#{'                 '}
                     				txFrom {
                               address
-                            }                  
-                            count                 
+                            }#{'                  '}
+                            count#{'                 '}
                         }
                   }
                   contracts: tron{
                         smartContractCalls(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
-                          date: {since: $from } 
-                          ) {                 
+                          date: {since: $from }#{' '}
+                          ) {#{'                 '}
                     				smartContract {
                               address {
                                 address
                               }
-                            }                 
-                            count                  
+                            }#{'                 '}
+                            count#{'                  '}
                         }
                   }
                   dex_protocols: tron {
                         dexTrades(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
-                          date: {since: $from } 
-                          ) {                 
+                          date: {since: $from }#{' '}
+                          ) {#{'                 '}
                     				protocol
-                            count                 
+                            count#{'                 '}
                         }
                   }
                   dex_exchanges: tron {
                         dexTrades(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
-                          ) {                
+                          ) {#{'                '}
                     				exchange{ fullName }
-                            count                 
+                            count#{'                 '}
                         }
                   }
            }
-  GRAPHQL
+    GRAPHQL
 
-  def index
-    @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Date.today - 10 }, context: { authorization: @streaming_access_token }).data
+    def index
+      @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Time.zone.today - 10 },
+                                                      context: { authorization: @streaming_access_token }).data
+    end
   end
-
 end

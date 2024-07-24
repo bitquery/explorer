@@ -1,3 +1,5 @@
-class Tezos::AddressController < NetworkController
-  layout 'tabs'
+module Tezos
+  class AddressController < NetworkController
+    layout 'tabs'
+  end
 end

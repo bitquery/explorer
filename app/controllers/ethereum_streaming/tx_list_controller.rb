@@ -1,9 +1,10 @@
-class EthereumStreaming::TxListController < NetworkController
-  layout 'tabs'
+module EthereumStreaming
+  class TxListController < NetworkController
+    layout 'tabs'
 
-  before_action :query_graphql, :redirect_by_type
+    before_action :query_graphql, :redirect_by_type
 
-  QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
           query ($network: evm_network, $address: String!) {
         EVM(dataset: archive, network: $network) {
           address: Transfers(
@@ -48,15 +49,17 @@ class EthereumStreaming::TxListController < NetworkController
           }
         }
       }
-  GRAPHQL
+    GRAPHQL
 
-  private
+    private
 
-  def query_graphql
-    @address = params[:address]
+    def query_graphql
+      @address = params[:address]
 
-    if @address.starts_with?('0x')
-      result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address }, context: { authorization: @streaming_access_token }).data.EVM
+      return unless @address.starts_with?('0x')
+
+      result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address },
+                                                   context: { authorization: @streaming_access_token }).data.EVM
       if result[:token].any?
         @info = result[:token].first[:Transfer]
         @check_token = 'token'
@@ -66,37 +69,37 @@ class EthereumStreaming::TxListController < NetworkController
         @check_call = 'calls'
       end
     end
-  end
 
-  def redirect_by_type
-    if @info.try(:Currency)
-      if @fungible == false
-        redirect_to controller: 'ethereum_streaming/token', action: 'nft_smart_contract'
-        return
+    def redirect_by_type
+      if @info.try(:Currency)
+        if @fungible == false
+          redirect_to controller: 'ethereum_streaming/token', action: 'nft_smart_contract'
+          return
+        end
+        change_controller! 'ethereum_streaming/token'
+      elsif @check_call == 'calls'
+        change_controller! 'ethereum_streaming/smart_contract'
       end
-      change_controller! 'ethereum_streaming/token'
-    elsif @check_call == 'calls'
-      change_controller! 'ethereum_streaming/smart_contract'
+    end
+
+    def calls
+      @breadcrumbs << { name: t('pages.tx_list.calls.breadcrumb') }
+      @contract = params[:contract]
+      @caller = params[:caller]
+      @method = params[:method]
+    end
+
+    def transfers
+      @breadcrumbs << { name: t('pages.tx_list.transfers.breadcrumb') }
+      @sender = params[:sender]
+      @receiver = params[:receiver]
+      @currency = params[:currency]
+    end
+
+    def events
+      @breadcrumbs << { name: t('pages.tx_list.events.breadcrumb') }
+      @contract = params[:contract]
+      @event = params[:event]
     end
   end
-  def calls
-    @breadcrumbs << { name: t('pages.tx_list.calls.breadcrumb') }
-    @contract = params[:contract]
-    @caller = params[:caller]
-    @method = params[:method]
-  end
-
-  def transfers
-    @breadcrumbs << { name: t('pages.tx_list.transfers.breadcrumb') }
-    @sender = params[:sender]
-    @receiver = params[:receiver]
-    @currency = params[:currency]
-  end
-
-  def events
-    @breadcrumbs << { name: t('pages.tx_list.events.breadcrumb') }
-    @contract = params[:contract]
-    @event = params[:event]
-  end
-
 end

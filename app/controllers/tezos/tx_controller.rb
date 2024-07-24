@@ -1,3 +1,5 @@
-class Tezos::TxController < NetworkController
-  layout 'tabs'
+module Tezos
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end

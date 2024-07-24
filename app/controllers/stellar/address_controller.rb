@@ -1,9 +1,10 @@
-class Stellar::AddressController < NetworkController
-  layout 'tabs'
+module Stellar
+  class AddressController < NetworkController
+    layout 'tabs'
 
-  before_action :query_graphql, only: %i[money_flow]
+    before_action :query_graphql, only: %i[money_flow]
 
-  QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
     query ($network: StellarNetwork!, $address: String!) {
       stellar(network: $network) {
         outflow: transfers(
@@ -30,22 +31,25 @@ class Stellar::AddressController < NetworkController
         }
       }
     }
-  GRAPHQL
+    GRAPHQL
 
-  private
+    def money_flow; end
 
-  def query_graphql
-    result = Graphql::V1.query_with_retry(QUERY,
-                                          variables: { network: @network[:network],
-                                                       address: @address }, context: { authorization: @streaming_access_token }).data.stellar
-    data_tables = result.outflow + result.inflow
+    private
 
-    only_currencies = data_tables.map(&:currency)
-    native_currency = only_currencies.select { |c| c.symbol == @network[:currency] }
-    sorted_currencies = only_currencies.sort_by(&:symbol)
+    def query_graphql
+      result = Graphql::V1.query_with_retry(QUERY,
+                                            variables: { network: @network[:network],
+                                                         address: @address }, context: { authorization: @streaming_access_token }).data.stellar
+      data_tables = result.outflow + result.inflow
 
-    all_currencies = (native_currency + sorted_currencies).uniq(&:name)
+      only_currencies = data_tables.map(&:currency)
+      native_currency = only_currencies.select { |c| c.symbol == @network[:currency] }
+      sorted_currencies = only_currencies.sort_by(&:symbol)
 
-    @currencies = all_currencies
+      all_currencies = (native_currency + sorted_currencies).uniq(&:name)
+
+      @currencies = all_currencies
+    end
   end
 end

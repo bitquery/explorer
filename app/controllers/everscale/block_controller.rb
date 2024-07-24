@@ -1,6 +1,5 @@
 module Everscale
   class BlockController < NetworkController
-
     before_action :set_block_variables
     before_action :breadcrumb
 
@@ -15,19 +14,15 @@ module Everscale
     def set_graphql_fields
       block_type = params[:blockType]
 
-      if block_type == 'master'
-        return 'blockHash: {is: $hash} shardedBlockHash: {is: $hash}'
-      end
+      return 'blockHash: {is: $hash} shardedBlockHash: {is: $hash}' if block_type == 'master'
 
-      if block_type == 'sharded'
-        return 'shardedBlockHash: {is: $hash}'
-      end
+      return 'shardedBlockHash: {is: $hash}' if block_type == 'sharded'
 
       'blockHash: {is: $hash} shardedBlockHash: {is: $hash}'
     end
 
     def breadcrumb
-      return if action_name == 'show'
+      nil if action_name == 'show'
     end
   end
 end

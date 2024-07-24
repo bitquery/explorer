@@ -1,20 +1,17 @@
 module HomeHelper
-
-
   def grouped_families
-    families = BLOCKCHAINS.group_by{|bc| bc[:platform]}
+    families = BLOCKCHAINS.group_by { |bc| bc[:platform] }
     groups = []
     group = []
-    families.each{|f|
+    families.each do |f|
       group << f
-      if group.map{|g| g.second.count }.sum > 4
+      if group.sum { |g| g.second.count } > 4
         groups << group
         group = []
       end
-    }
+    end
     groups << group unless group.empty?
 
     groups
   end
-
 end

@@ -1,24 +1,19 @@
 class ProxyGraphqlIdeController < ApplicationController
+  def getquery
+    uri = URI("#{ENV.fetch('BITQUERY_IDE_API', nil)}/getquery/#{params[:queryid]}")
+    req = Net::HTTP::Get.new(uri)
 
-	def getquery
+    req['Cookie'] = "_app_session_key=#{ENV.fetch('SESSION_ID', nil)}"
+    req['Accept'] = 'application/json'
 
-		uri = URI("#{ENV['BITQUERY_IDE_API']}/getquery/#{params[:queryid]}")
-		req = Net::HTTP::Get.new(uri)
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      http.request(req)
+    end
 
-		req['Cookie'] = "_app_session_key=#{ENV['SESSION_ID']}"
-		req['Accept'] = 'application/json'
-
-		res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') { |http|
-			http.request(req)
-		}
-
-		respond_to do |format|
-			format.json {
-				render json: res.body
-			}
-		end
-
-	end
-
+    respond_to do |format|
+      format.json do
+        render json: res.body
+      end
+    end
+  end
 end
-  

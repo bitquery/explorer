@@ -4,7 +4,6 @@ module Solana
 
     before_action :set_tx_hash
 
-
     private
 
     def set_tx_hash
@@ -12,8 +11,7 @@ module Solana
     end
 
     def breadcrumb
-      return if action_name == 'show'
+      nil if action_name == 'show'
     end
   end
 end
-

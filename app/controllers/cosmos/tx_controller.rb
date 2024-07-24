@@ -1,3 +1,5 @@
-class Cosmos::TxController < NetworkController
-  layout 'tabs'
+module Cosmos
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end
