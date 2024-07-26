@@ -104,7 +104,6 @@ GEM
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     builder (3.3.0)
-    byebug (11.1.3)
     capistrano (3.19.0)
       airbrussh (>= 1.0.0)
       i18n
@@ -414,7 +413,6 @@ DEPENDENCIES
   binding_of_caller (~> 1.0.1)
   bitquery_logger!
   bootsnap (~> 1.18.3)
-  byebug
   capistrano (~> 3.19.0)
   capistrano-bundler
   capistrano-rails

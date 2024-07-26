@@ -20,7 +20,7 @@
       </div>
     </div>
   </div>
-  <script>
+  <script type="module">
     const query = new graphs.query(`
       query ($network: StellarNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $currency: String!) {
         stellar(network: $network) {

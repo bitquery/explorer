@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <script>
+  <script type="module">
     const query = new graphs.query(`
       query ($network: EverscaleNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
         everscale(network: $network) {

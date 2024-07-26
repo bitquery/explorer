@@ -1,4 +1,4 @@
-<script>
+<script type="module">
     widgets.callbacks({
         dex_protocol_path: function(item){
             return '<%= locale_path_prefix %><%= @network[:network] %>' + '/dex_protocol/' + encodeURIComponent(item.protocol);

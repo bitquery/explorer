@@ -2,7 +2,7 @@
 <html>
   <%= render partial: 'shared/head' %>
   <body class="<%= "dark" if @theme == 'dark' %>">
-    <script>
+    <script type="module">
       const csrfToken = $('meta[name="csrf-token"]').attr('content')
       widgets.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken, {
           locale: '<%= I18n.locale %>',

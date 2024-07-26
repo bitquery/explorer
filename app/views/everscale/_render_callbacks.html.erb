@@ -1,4 +1,4 @@
-<script>
+<script type="module">
   widgets.callbacks({
     master_hash_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.blockHash || item.hash) + '?blockType=master'
