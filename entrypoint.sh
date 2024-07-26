@@ -3,7 +3,7 @@
 set -e
 
 export GEM_HOME="/app/vendor/bundle"
-export GEM_PATH="${GEM_HOME}/ruby/2.6.0"
+export GEM_PATH="${GEM_HOME}/ruby/3.3.4"
 export PATH="${GEM_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 if [ -f tmp/pids/app.pid ]; then

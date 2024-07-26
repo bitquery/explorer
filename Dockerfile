@@ -1,4 +1,4 @@
-FROM ruby:3.3.3-alpine AS builder
+FROM ruby:3.3.4-alpine AS builder
 
 WORKDIR /app
 ENV RAILS_ENV="production" \
@@ -10,7 +10,7 @@ ENV PATH="$GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH"
 COPY Gemfile Gemfile.lock package.json yarn.lock ./
 
 RUN apk -U upgrade && \
-    apk add --no-cache build-base git nodejs yarn
+    apk add --no-cache build-base git nodejs yarn libc6-compat
 
 RUN bundle config set --local without 'development test' && \
     bundle config set no-cache 'true' && \
@@ -21,18 +21,19 @@ RUN bundle config set --local without 'development test' && \
 RUN node -v && \
     yarn version
 
-RUN yarn install --production && \
+RUN yarn install && \
     yarn cache clean
 
 COPY . ./
 
-RUN bundle exec rails webpacker:compile && \
+RUN bundle exec rails turbo:install && \
+    bundle exec rails shakapacker:compile && \
     bundle exec rake assets:precompile
 
+RUN yarn install --production && \
+    yarn cache clean
 
-
-
-FROM ruby:3.3.3-alpine AS runner
+FROM ruby:3.3.4-alpine AS runner
 
 WORKDIR /app
 
@@ -50,7 +51,7 @@ ENV RAILS_ENV="production" \
 
 ENV PATH="$GEM_HOME/bin:$GEM_HOME/gems/bin:$PATH"
 
-RUN apk add --no-cache bash net-tools bind-tools tzdata && \
+RUN apk add --no-cache bash net-tools bind-tools tzdata libc6-compat && \
     adduser -h /app -H -s /bin/bash -D appuser && \
     rm -rf /var/cache/apk/*
 
@@ -67,4 +68,3 @@ EXPOSE "${PORT}"
 ENTRYPOINT ["./entrypoint.sh"]
 
 CMD ["bundle", "exec", "pumactl", "-F", "config/puma.production.rb", "-P", "tmp/pids/app.pid", "start"]
-
