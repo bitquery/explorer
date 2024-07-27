@@ -8,82 +8,70 @@
 </div>
 
 <script type="module">
-
-    $( document ).ready(function() {
-      var query = new widgets.query(
-        `
-          query ($network: ElrondNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-            elrond(network: $network) {
-              inputs: transfers(date: {since: $from, till: $till}, transferSender: {is: $address}) {
-                count
-                amount
-                <%#= TODO amount_usd: amount(in: USD) %>
-                min_date: minimum(of: date)
-                max_date: maximum(of: date)
-                currency{
-                  symbol
-                }
+  $(document).ready(function() {
+    var query = new widgets.query(
+      `
+        query ($network: ElrondNetwork!, $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+          elrond(network: $network) {
+            inputs: transfers(date: {since: $from, till: $till}, transferSender: {is: $address}) {
+              count
+              amount
+              <%#= TODO amount_usd: amount(in: USD) %>
+              min_date: minimum(of: date)
+              max_date: maximum(of: date)
+              currency {
+                symbol
               }
-              outputs: transfers(date: {since: $from, till: $till}, transferReceiver: {is: $address}) {
-                count
-                amount
-                <%#= TODO amount_usd: amount(in: USD) %>
-                min_date: minimum(of: date)
-                max_date: maximum(of: date)
-                currency{
-                  symbol
-                }
+            }
+            outputs: transfers(date: {since: $from, till: $till}, transferReceiver: {is: $address}) {
+              count
+              amount
+              <%#= TODO amount_usd: amount(in: USD) %>
+              min_date: minimum(of: date)
+              max_date: maximum(of: date)
+              currency {
+                symbol
               }
             }
           }
-        `);
+        }
+      `);
 
-        new widgets.table('#address_statistics', query, 'elrond', {
-            title: '<%= t('widgets.headers.address_statistics') %>',
-            renderData: function (data) {
-                let inputs = data.inputs[0];
-                let outputs = data.outputs[0];
-                return  [
-                    {name: '<%= t('widgets.titles.inputs_to_address_count') %>', value: inputs.count },
-                    {name: '<%= t('widgets.titles.outputs_from_address_count') %>', value: outputs.count },
-
-                    {name: '<%= t('widgets.titles.first_transaction_date') %>', value: outputs.min_date },
-                    {name: '<%= t('widgets.titles.last_transaction_date') %>', value: ((inputs.max_date > outputs.max_date) ? inputs.max_date : outputs.max_date)},
-
-                    {name: '<%= t('widgets.titles.value_to_address') %>', value: outputs.amount + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'outputs.amount_usd'} %>},
-                    {name: '<%= t('widgets.titles.value_from_address') %>', value: inputs.amount + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'inputs.amount_usd'} %>},
-
-
-                    {name: '<%= t('widgets.titles.unspent_value') %>',
-                        value: (parseInt(parseFloat(outputs.amount)*1.0e8)-parseInt(parseFloat(inputs.amount)*1.0e8)) / 1.0e8
-                            + ' <%= @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: {amount: 'outputs.amount_usd - inputs.amount_usd'} %>},
-
-
-                ];
-            },
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.metric') %>',
-                    type: 'string-ellipsis',
-                    path: 'name',
-                    html_class: 'text-info font-weight-bold'
-                },
-                {
-                    title: '<%= t('widgets.titles.property_value') %>',
-                    type: 'string-ellipsis',
-                    escape: false,
-                    path: 'value',
-                    urlCallbackName: 'property_value_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= @network[:network] %>',
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.table('#address_statistics', query, 'elrond', {
+      title: '<%= j t('widgets.headers.address_statistics') %>',
+      renderData: function(data) {
+        let inputs = data.inputs[0];
+        let outputs = data.outputs[0];
+        return [
+          { name: '<%= j t('widgets.titles.inputs_to_address_count') %>', value: inputs.count },
+          { name: '<%= j t('widgets.titles.outputs_from_address_count') %>', value: outputs.count },
+          { name: '<%= j t('widgets.titles.first_transaction_date') %>', value: outputs.min_date },
+          { name: '<%= j t('widgets.titles.last_transaction_date') %>', value: ((inputs.max_date > outputs.max_date) ? inputs.max_date : outputs.max_date) },
+          { name: '<%= j t('widgets.titles.value_to_address') %>', value: outputs.amount + ' <%= j @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: { amount: 'outputs.amount_usd' } %> },
+          { name: '<%= j t('widgets.titles.value_from_address') %>', value: inputs.amount + ' <%= j @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: { amount: 'inputs.amount_usd' } %> },
+          { name: '<%= j t('widgets.titles.unspent_value') %>', value: (parseInt(parseFloat(outputs.amount) * 1.0e8) - parseInt(parseFloat(inputs.amount) * 1.0e8)) / 1.0e8 + ' <%= j @network[:currency] %>' + <%= render partial: 'ethereum/data_currency_with_amount_usd', formats: :text, locals: { amount: 'outputs.amount_usd - inputs.amount_usd' } %> },
+        ];
+      },
+      dataOptions: [
+        {
+          title: '<%= j t('widgets.titles.metric') %>',
+          type: 'string-ellipsis',
+          path: 'name',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= j t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          escape: false,
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        },
+      ]
     });
 
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j @network[:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>

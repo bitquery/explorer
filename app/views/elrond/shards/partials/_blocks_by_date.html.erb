@@ -8,16 +8,14 @@
 </div>
 
 <script type="module">
-  $( document ).ready(function() {
-
-    const graphql_query =
-    `
-      query ($network: ElrondNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: BigInt!){
-        elrond(network: $network){
+  $(document).ready(function() {
+    const graphql_query = `
+      query ($network: ElrondNetwork!, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: BigInt!) {
+        elrond(network: $network) {
           blocks(
-            options: {asc: "date.date"}, 
-            date: {since: $from, till: $till}, 
-            shard: {is: $shard_id}, 
+            options: {asc: "date.date"},
+            date: {since: $from, till: $till},
+            shard: {is: $shard_id}
           ) {
             date {
               date(format: $dateFormat)
@@ -31,34 +29,33 @@
     const query = new widgets.query(graphql_query);
 
     new widgets.chartByTime('#blocks_by_data', query, 'elrond.blocks', {
-      title: '<%= t('widgets.headers.blocks_by_data') %>',
+      title: '<%= j t('widgets.headers.blocks_by_data') %>',
       chartOptions: {
         vAxes: {
           '0': {
-            title: '<%= t('widgets.titles.transactions_count') %>'
+            title: '<%= j t('widgets.titles.transactions_count') %>'
           }
         },
         seriesType: 'bars',
         series: {
           '0': { color: '#28a745' }
-        },
+        }
       },
       dataOptions: [
         {
-          title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          title: {label: '<%= j t('widgets.titles.date') %>', type: 'date'},
           path: 'date.date'
         },
         {
-          title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number'},
+          title: {label: '<%= j t('widgets.titles.transactions_count') %>', type: 'number'},
           path: 'countBigInt'
-        },
+        }
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
-      shard_id: '<%= @shard_id %>',
-      network: '<%= params['network']['network'] %>'
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      shard_id: '<%= j @shard_id %>',
+      network: '<%= j params['network']['network'] %>'
     });
-
   });
 </script>

@@ -5,19 +5,18 @@
       <div class="card-body">
         <div id="latest_blocks"><%= t('loading') %></div>
       </div>
-    </div> </div>
+    </div> 
+  </div>
 </div>
 
 <script type="module">
-
-  $( document ).ready(function() {
-
-    const qraphql_query = `
+  $(document).ready(function() {
+    const graphql_query = `
       query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $shard_id: BigInt!) {
         elrond(network: $network) {
           blocks(
             options: {desc: "height", limit: $limit, offset: $offset}
-            date: {since: $from, till: $till} 
+            date: {since: $from, till: $till}
             shard: {is: $shard_id}
           ) {
             time {
@@ -33,49 +32,51 @@
       }
     `.trim();
 
-    const query = new widgets.query(qraphql_query);
+    const query = new widgets.query(graphql_query);
 
     new widgets.table('#latest_blocks', query, 'elrond.blocks', {
-      title: '<%= t('widgets.headers.latest_blocks') %>',
+      title: '<%= j t('widgets.headers.latest_blocks') %>',
       dataOptions: [
         {
-          title: '<%= t('widgets.titles.timestamp') %>',
+          title: '<%= j t('widgets.titles.timestamp') %>',
           type: 'string',
           path: 'time.time'
         },
         {
-          title: '<%= t('widgets.titles.block') %>',
+          title: '<%= j t('widgets.titles.block') %>',
           type: 'string',
           path: 'height'
         },
         {
-          title: '<%= t('widgets.titles.hash') %>',
+          title: '<%= j t('widgets.titles.hash') %>',
           type: 'string',
           path: 'hash',
           urlCallbackName: 'block_path'
         },
         {
-          title: '<%= t('widgets.titles.transactions_count') %>',
+          title: '<%= j t('widgets.titles.transactions_count') %>',
           type: 'string',
           path: 'transactionCount'
         },
         {
-          title: '<%= t('widgets.titles.size') %>',
+          title: '<%= j t('widgets.titles.size') %>',
           type: 'string',
           path: 'size'
         },
         {
-          title: '<%= t('widgets.titles.size_txs') %>',
+          title: '<%= j t('widgets.titles.size_txs') %>',
           type: 'string',
           path: 'sizeTxs'
         }
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-      shard_id: '<%= @shard_id %>',
-      network: '<%= params['network']['network'] %>'
+    const from = "<%= j limited_date_range_limit(@from, @till)[0] %>";
+    const till = "<%= j limited_date_range_limit(@from, @till)[1] %>";
+
+    queryWithTimeRange(rr, query, JSON.parse(`[${from}, ${till}]`), {
+      shard_id: '<%= j @shard_id %>',
+      network: '<%= j params['network']['network'] %>'
     });
   });
 </script>
-
