@@ -1,6 +1,6 @@
 module Binance
   class BlockController < NetworkController
-    layout 'tabs'
+    layout "tabs"
 
     before_action :query_date
 
@@ -22,12 +22,12 @@ module Binance
     private
 
     def query_date
-      @block_date = Graphql::V1.query_with_retry(QUERY, variables: { height: @height.to_i },
-                                                        context: { authorization: @streaming_access_token }).data.binance.blocks[0].date.date
+      @block_date = Graphql::V1.query_with_retry(QUERY, variables: {height: @height.to_i},
+        context: {authorization: @streaming_access_token}).data.binance.blocks[0].date.date
       @is_block_section = true
-    rescue StandardError
-      @last_block_number = Graphql::V1.query_with_retry(QUERY2, variables: { network: @network[:network] },
-                                                                context: { authorization: @streaming_access_token }).data.ethereum.blocks[0].maximum
+    rescue
+      @last_block_number = Graphql::V1.query_with_retry(QUERY2, variables: {network: @network[:network]},
+        context: {authorization: @streaming_access_token}).data.ethereum.blocks[0].maximum
       redirect_to controller: :block, block: @last_block_number, action: params[:action]
     end
   end
