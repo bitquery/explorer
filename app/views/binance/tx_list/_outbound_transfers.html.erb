@@ -10,119 +10,111 @@
 </div>
 
 <script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query (
+        $address: String!,
+        $limit: Int!,
+        $offset: Int!,
+        <% if @currency %>$currency: String!,<% end %>
+        <% if @receiver %>$receiver: String!,<% end %>
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime){
+          binance {
+            transfers(
+              options: {desc: "block.timestamp.time" asc: "currency.symbol" limit: $limit, offset: $offset},
+              date: {since: $from till: $till },
+              <% if @currency %>currency: {is: $currency},<% end %>
+              <% if @receiver %>receiver: {is: $receiver},<% end %>
+              sender: {is: $address}
+            ) {
+              block {
+                timestamp {
+                  time (format: "%Y-%m-%d %H:%M:%S")
+                }
+                height
+              }
+              address: receiver {
+                address
+                annotation
+              }
+              currency {
+                symbol
+                tokenId
+              }
+              amount
+              transaction {
+                hash
+              }
+              tradeId
+              transferType
+            }
+          }
+      }`);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`
-                        query (
-                                $address: String!,
-                                $limit: Int!,
-                                $offset: Int!,
-                                <% if @currency  %>$currency: String!,<% end %>
-                                <% if @receiver  %>$receiver: String!,<% end %>
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    binance{
-                      transfers(options:{desc: "block.timestamp.time"  asc: "currency.symbol" limit: $limit, offset: $offset},
-                        date: {since: $from till: $till },
-                        <% if @currency  %>currency: {is: $currency},<% end %>
-                        <% if @receiver  %>receiver: {is: $receiver},<% end %>
-                        sender: {is: $address}
-
-                        ) {
-
-                        block {
-                          timestamp {
-                            time (format: "%Y-%m-%d %H:%M:%S")
-                          }
-                          height
-                        }
-                        address: receiver {
-                          address
-                          annotation
-                        }
-                        currency {
-                          symbol
-                          tokenId
-                        }
-                        amount
-                        transaction {
-                          hash
-                        }
-                        tradeId
-                        transferType
-
-                      }
-                    }
-                  }`);
-
-        new widgets.table('#outbound_transfers', query, 'binance.transfers', {
-            title: '<%= t('widgets.headers.outbound_transfers') %>',
-            renderData: <%= render partial: 'shared/redirect_tx', formats: :text %>,
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.timestamp') %>',
-                    type: 'string',
-                    path: 'block.timestamp.time'
-                },
-                {
-                    title: '<%= t('widgets.titles.block') %>',
-                    type: 'string',
-                    path: 'block.height',
-                    urlCallbackName: 'block_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.amount') %>',
-                    type: 'amount',
-                    path: 'amount'
-                },
-                {
-                    title: '<%= t('widgets.titles.currency') %>',
-                    type: 'string-ellipsis',
-                    path: 'currency.symbol',
-                    urlCallbackName: 'token_path'
-                },
-                {
-                    title: '',
-                    type: 'string',
-                    data: '<i class="fa fa-sign-in text-warning"></i>',
-                    html_class: 'text-center'
-                },
-                {
-                    title: '<%= t('widgets.titles.receiver') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.transfer_type') %>',
-                    type: 'string',
-                    path: 'transferType',
-                    style: 'width: 80px'
-                },
-                {
-                    title: '<%= t('widgets.titles.trade_id') %>',
-                    type: 'string-ellipsis',
-                    path: 'tradeId',
-                    urlCallbackName: 'trade_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.transaction') %>',
-                    type: 'string-ellipsis',
-                    path: 'transaction.hash',
-                    urlCallbackName: 'transaction_path',
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            address: '<%= @sender %>',
-            currency: '<%= @currency %>',
-            receiver: '<%= @receiver %>'
-        });
-
-
+    new widgets.table('#outbound_transfers', query, 'binance.transfers', {
+      title: '<%= t('widgets.headers.outbound_transfers') %>',
+      renderData: "<%= j render partial: 'shared/redirect_tx', formats: :text %>",
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'block.timestamp.time'
+        },
+        {
+          title: '<%= t('widgets.titles.block') %>',
+          type: 'string',
+          path: 'block.height',
+          urlCallbackName: 'block_path'
+        },
+        {
+          title: '<%= t('widgets.titles.amount') %>',
+          type: 'amount',
+          path: 'amount'
+        },
+        {
+          title: '<%= t('widgets.titles.currency') %>',
+          type: 'string-ellipsis',
+          path: 'currency.symbol',
+          urlCallbackName: 'token_path'
+        },
+        {
+          title: '',
+          type: 'string',
+          data: '<i class="fa fa-sign-in text-warning"></i>',
+          html_class: 'text-center'
+        },
+        {
+          title: '<%= t('widgets.titles.receiver') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.transfer_type') %>',
+          type: 'string',
+          path: 'transferType',
+          style: 'width: 80px'
+        },
+        {
+          title: '<%= t('widgets.titles.trade_id') %>',
+          type: 'string-ellipsis',
+          path: 'tradeId',
+          urlCallbackName: 'trade_path'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction') %>',
+          type: 'string-ellipsis',
+          path: 'transaction.hash',
+          urlCallbackName: 'transaction_path'
+        }
+      ]
     });
 
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      address: '<%= j @sender %>',
+      currency: '<%= j @currency %>',
+      receiver: '<%= j @receiver %>'
+    });
+  });
 </script>

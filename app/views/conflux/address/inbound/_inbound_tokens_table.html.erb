@@ -8,90 +8,82 @@
 </div>
 
 <script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query ($network: ConfluxNetwork!,
+             $address: String!,
+             $nativeCurrency: String!,
+             $limit: Int!,
+             $offset: Int!,
+             $from: ISO8601DateTime,
+             $till: ISO8601DateTime) {
+        conflux(network: $network) {
+          transfers(
+            options: {limit: $limit, offset: $offset, desc: "count", asc: "currency.symbol"},
+            date: {since: $from, till: $till},
+            receiver: {is: $address},
+            amount: {gt: 0},
+            currency: {not: $nativeCurrency}
+          ) {
+            address: sender {
+              address
+              annotation
+            }
+            max_date: maximum(of: date)
+            count
+            amount
+            currency {
+              address
+              symbol
+              tokenType
+            }
+          }
+        }
+      }`);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query ($network: ConfluxNetwork!,
-                            $address: String!,
-                            $nativeCurrency: String!,
-                            $limit: Int!,
-                            $offset: Int!
-                            $from: ISO8601DateTime,
-                            $till: ISO8601DateTime){
-                        conflux(network: $network){
-                          transfers(options:{limit: $limit, offset: $offset, desc: "count"  asc: "currency.symbol"},
-                            date: {since: $from till: $till },
-                            receiver: {is: $address},
-                            amount: {gt: 0},
-                            currency: {not: $nativeCurrency }) {
-
-                            address: sender{
-                              address
-                              annotation
-                            }
-
-                            max_date: maximum(of: date)
-
-                            count
-                            amount
-
-                            currency {
-                              address
-                              symbol
-                              tokenType
-                            }
-
-                          }
-                        }
-                      }`);
-
-        new widgets.table('#inbound_tokens_table', query, 'conflux.transfers', {
-            title: '<%= t('widgets.headers.inbound_tokens_table') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.sender') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.amount') %>',
-                    type: 'amount',
-                    path: 'amount',
-                    style: 'width: 100px'
-                },
-                {
-                    title: '<%= t('widgets.titles.currency') %>',
-                    type: 'string-ellipsis',
-                    path: 'currency.symbol',
-                    urlCallbackName: 'token_path',
-                    style: 'width: 100px'
-                },
-                {
-                    title: '<%= t('widgets.titles.max_date') %>',
-                    type: 'string',
-                    path: 'max_date',
-                    style: 'width: 110px'
-                },
-                {
-                    title: '<%= t('widgets.titles.transfer_count') %>',
-                    type: 'count',
-                    path: 'count',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'transfer_to_path',
-                    style: 'width: 130px'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>',
-            nativeCurrency: '<%= @network[:currency] %>'
-        });
-
-
+    new widgets.table('#inbound_tokens_table', query, 'conflux.transfers', {
+      title: '<%= t('widgets.headers.inbound_tokens_table') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.sender') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.amount') %>',
+          type: 'amount',
+          path: 'amount',
+          style: 'width: 100px'
+        },
+        {
+          title: '<%= t('widgets.titles.currency') %>',
+          type: 'string-ellipsis',
+          path: 'currency.symbol',
+          urlCallbackName: 'token_path',
+          style: 'width: 100px'
+        },
+        {
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date',
+          style: 'width: 110px'
+        },
+        {
+          title: '<%= t('widgets.titles.transfer_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'transfer_to_path',
+          style: 'width: 130px'
+        }
+      ]
     });
 
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>',
+      nativeCurrency: '<%= j @network[:currency] %>'
+    });
+  });
 </script>

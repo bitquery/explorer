@@ -8,57 +8,51 @@
 </div>
 
 <script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query ($network: ConfluxNetwork!,
+             $address: String!) {
+        conflux(network: $network) {
+          address(address: {is: $address}) {
+            smartContract {
+              attributes {
+                name
+                type
+                address {
+                  address
+                  annotation
+                }
+                value
+              }
+            }
+          }
+        }
+      }`);
 
-    $( document ).ready(function() {
-        var query = new widgets.query(`
-                        query ($network: ConfluxNetwork!,
-                        $address: String!
-                  ){
-                  conflux(network: $network){
-                      address(address: {is: $address }){
-                      smartContract {
-                          attributes{
-                            name
-                            type
-                            address {
-                              address
-                              annotation
-                            }
-                            value
-                          }
-                        }
-                      }
-                    }
-
-                  }`);
-
-        new widgets.table('#smart_contract_attributes', query, 'conflux.address', {
-            title: '<%= t('widgets.headers.smart_contract_attributes') %>',
-            renderData: function(data){
-                return data[0].smartContract.attributes;
-            },
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.property') %>',
-                    type: 'string-ellipsis',
-                    path: 'name',
-                    html_class: 'text-info font-weight-bold'
-                },
-                {
-                    title:  '<%= t('widgets.titles.property_value') %>',
-                    type: 'string-ellipsis',
-                    path: 'value',
-                    urlCallbackName: 'property_value_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.table('#smart_contract_attributes', query, 'conflux.address', {
+      title: '<%= t('widgets.headers.smart_contract_attributes') %>',
+      renderData: function(data) {
+        return data[0].smartContract.attributes;
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.property') %>',
+          type: 'string-ellipsis',
+          path: 'name',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        }
+      ]
     });
 
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>

@@ -10,76 +10,70 @@
 </div>
 
 <script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query ($network: ConfluxNetwork!,
+             $address: String!,
+             $limit: Int,
+             $offset: Int,
+             $from: ISO8601DateTime,
+             $till: ISO8601DateTime) {
+        conflux(network: $network) {
+          references(
+            options: {desc: "count", asc: "address.address", limit: $limit, offset: $offset},
+            date: {since: $from, till: $till},
+            smartContractAddress: {is: $address},
+            signatureType: Function
+          ) {
+            address: reference {
+              address
+              annotation
+            }
+            count
+            argument {
+              name
+            }
+            smartContractSignature {
+              __typename
+              ... on Method {
+                name
+                signatureHash
+              }
+            }
+          }
+        }
+      }`);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query ($network: ConfluxNetwork!,
-                                $address: String!,
-                                $limit:Int,
-                                $offset:Int,
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                            conflux(network: $network){
-                              references(options:{
-                                desc: "count"  asc: "address.address"
-                                limit:$limit, offset: $offset},
-                                date: {since: $from till: $till },
-                                smartContractAddress: {is: $address},
-                              signatureType: Function) {
-                                address: reference {
-                                  address
-                                  annotation
-                                }
-                                count
-                                argument {
-                                  name
-                                }
-                                smartContractSignature {
-                                  __typename
-                                  ... on Method {
-                                    name
-                                    signatureHash
-                                  }
-                                }
-                              }
-
-                            }
-                          }`);
-
-        new widgets.table('#method_references_table', query, 'conflux.references', {
-            title: '<%= t('widgets.headers.method_references_table') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.address') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.argument') %>',
-                    type: 'string-ellipsis',
-                    path: 'argument.name'
-                },
-                {
-                    title: '<%= t('widgets.titles.method') %>',
-                    type: 'string-ellipsis',
-                    path: 'smartContractSignature.name'
-                },
-                {
-                    title: '<%= t('widgets.titles.calls_count') %>',
-                    type: 'count',
-                    path: 'count'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.table('#method_references_table', query, 'conflux.references', {
+      title: '<%= t('widgets.headers.method_references_table') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.address') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.argument') %>',
+          type: 'string-ellipsis',
+          path: 'argument.name'
+        },
+        {
+          title: '<%= t('widgets.titles.method') %>',
+          type: 'string-ellipsis',
+          path: 'smartContractSignature.name'
+        },
+        {
+          title: '<%= t('widgets.titles.calls_count') %>',
+          type: 'count',
+          path: 'count'
+        }
+      ]
     });
 
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>

@@ -8,82 +8,70 @@
 </div>
 
 <script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query ($network: ConfluxNetwork!,
+             $address: String!,
+             $from: ISO8601DateTime,
+             $till: ISO8601DateTime) {
+        conflux(network: $network) {
+          smartContractCalls(
+            date: {since: $from, till: $till},
+            smartContractAddress: {is: $address}
+          ) {
+            created: minimum(of: block, get: time)
+            created_block: minimum(of: block)
+            created_tx: minimum(of: block, get: tx_hash)
+            created_by: minimum(of: block, get: caller)
+            max_time: maximum(of: time)
+            external_calls: count(external: true)
+            internal_calls: count(external: false)
+            count
+            callers: count(uniq: callers)
+            days: count(uniq: dates)
+            txs: count(uniq: txs)
+          }
+        }
+      }`);
 
-    $( document ).ready(function() {
-        var query = new widgets.query(`query ($network: ConfluxNetwork!,
-                              $address: String!,
-                              $from: ISO8601DateTime,
-                              $till: ISO8601DateTime){
-                          conflux(network: $network){
-                            smartContractCalls( date: {since: $from till: $till },
-                                smartContractAddress: {is: $address}) {
-
-                                    created: minimum(of: block, get: time)
-                                    created_block: minimum(of: block)
-                                    created_tx: minimum(of: block, get:tx_hash)
-                                    created_by: minimum(of: block, get:caller)
-
-                                    max_time: maximum(of: time)
-
-                                    external_calls: count(external: true)
-                                    internal_calls: count(external: false)
-
-                                    count
-                                    callers: count(uniq: callers)
-                                    days: count(uniq: dates)
-                                    txs: count(uniq: txs)
-                            }
-                          }
-                        }`);
-
-        new widgets.table('#smart_contract_statitics', query, 'conflux.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contract_statitics') %>',
-            renderData: function (data) {
-                item = data[0];
-                return !item ? [] : [
-                    {name: '<%= t('widgets.titles.calls_count') %>', value: item.count},
-                    {name: '<%= t('widgets.titles.external_calls_count') %>', value: item.external_calls},
-                    {name: '<%= t('widgets.titles.internal_calls_count') %>', value: item.internal_calls},
-
-                    {name: '<%= t('widgets.titles.transactions_count') %>', value: item.txs},
-                    {name: '<%= t('widgets.titles.uniq_callers') %>', value: item.callers},
-                    {name: '<%= t('widgets.titles.call_days') %>', value: item.days},
-                    {name: '<%= t('widgets.titles.last_transaction_time') %>', value: item.max_time},
-
-                    {name: '<%= t('widgets.titles.created') %>', value: item.created +
-                              ' <%= t('pages.smart_contract.statistics.in_block') %> '+
-                            '<a href="/<%= @network[:network] %>/block/'+item.created_block+'">'+item.created_block+'</a>'
-
-                    },
-                    {name: '<%= t('widgets.titles.create_tx') %>',
-                          value: '<a href="/<%= @network[:network] %>/tx/'+item.created_tx+'">'+item.created_tx+'</a>'},
-                    {name: '<%= t('widgets.titles.creator') %>',
-                        value: '<a href="/<%= @network[:network] %>/address/'+item.created_by+'">'+item.created_by+'</a>'}
-                ];
-            },
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.metric') %>',
-                    type: 'string-ellipsis',
-                    path: 'name',
-                    html_class: 'text-info font-weight-bold'
-                },
-                {
-                    title: '<%= t('widgets.titles.property_value') %>',
-                    type: 'string-ellipsis',
-                    escape: false,
-                    path: 'value',
-                    urlCallbackName: 'property_value_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.table('#smart_contract_statitics', query, 'conflux.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_statitics') %>',
+      renderData: function(data) {
+        var item = data[0];
+        return !item ? [] : [
+          {name: '<%= t('widgets.titles.calls_count') %>', value: item.count},
+          {name: '<%= t('widgets.titles.external_calls_count') %>', value: item.external_calls},
+          {name: '<%= t('widgets.titles.internal_calls_count') %>', value: item.internal_calls},
+          {name: '<%= t('widgets.titles.transactions_count') %>', value: item.txs},
+          {name: '<%= t('widgets.titles.uniq_callers') %>', value: item.callers},
+          {name: '<%= t('widgets.titles.call_days') %>', value: item.days},
+          {name: '<%= t('widgets.titles.last_transaction_time') %>', value: item.max_time},
+          {name: '<%= t('widgets.titles.created') %>', value: item.created + ' <%= t('pages.smart_contract.statistics.in_block') %> ' +
+            '<a href="/<%= j @network[:network] %>/block/' + item.created_block + '">' + item.created_block + '</a>'},
+          {name: '<%= t('widgets.titles.create_tx') %>', value: '<a href="/<%= j @network[:network] %>/tx/' + item.created_tx + '">' + item.created_tx + '</a>'},
+          {name: '<%= t('widgets.titles.creator') %>', value: '<a href="/<%= j @network[:network] %>/address/' + item.created_by + '">' + item.created_by + '</a>'}
+        ];
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.metric') %>',
+          type: 'string-ellipsis',
+          path: 'name',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          escape: false,
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        }
+      ]
     });
 
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>

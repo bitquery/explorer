@@ -8,57 +8,52 @@
 </div>
 
 <script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query($network: ConfluxNetwork!,
+            $dateFormat: String!,
+            $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
+        conflux(network: $network) {
+          smartContractCalls(date: {since: $from, till: $till}){
+            count: countBigInt(
+              uniq: calls,
+              caller: {is: $address}
+            )
+            date{
+              date(format: $dateFormat)
+            }
+          }
+        }
+      }`);
 
-    $( document ).ready(function() {
-
-        var query = new widgets.query(`
-            query($network: ConfluxNetwork!,
-                  $dateFormat: String!,
-                  $address: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
-              conflux(network: $network) {
-                smartContractCalls(date: {since: $from, till: $till}){
-                      count: countBigInt(
-                        uniq: calls,
-                        caller: {is: $address}
-                      )
-                      date{
-                        date(format: $dateFormat)
-                      }
-                    }
-
-              }
-            }`);
-
-        new widgets.chartByTime('#calls_by_time', query, 'conflux.smartContractCalls', {
-            title: '<%= t('widgets.headers.calls_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.calls_count') %>'
-                    }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#007bff' },
-                }
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.calls_count') %>', type: 'number' },
-                    path: 'count'
-                }
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.chartByTime('#calls_by_time', query, 'conflux.smartContractCalls', {
+      title: '<%= t('widgets.headers.calls_by_time') %>',
+      chartOptions: {
+        vAxes: {
+          '0': {
+            title: '<%= t('widgets.titles.calls_count') %>'
+          }
+        },
+        seriesType: 'bars',
+        series: {
+          '0': { color: '#007bff' }
+        }
+      },
+      dataOptions: [
+        {
+          title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          path: 'date.date'
+        },
+        {
+          title: {label: '<%= t('widgets.titles.calls_count') %>', type: 'number' },
+          path: 'count'
+        }
+      ]
     });
+
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>
