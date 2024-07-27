@@ -85,7 +85,7 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        queryWithTimeRange(rr, query, <%= j(@from) %>,<%= j(@till) %>,{
             network: '<%= params['network']['network'] %>',
             address: '<%= @address %>'
         });

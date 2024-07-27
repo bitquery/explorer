@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-    <div class="card-header"><%= t('widgets.headers.inbound_native_by_time', currency: @network[:currency]) %></div>
+    <div class="card-header"><%= t("widgets.headers.inbound_native_by_time", currency: @network[:currency]) %></div>
     <div class="card-body">
-      <div id="inbound_native_by_time"><%= t('loading') %></div>
+      <div id="inbound_native_by_time"><%= t("loading") %></div>
     </div>
   </div>
 </div>
@@ -35,14 +35,14 @@
                   }`);
 
         new widgets.chartByTime('#inbound_native_by_time', query, 'algorand.transfers', {
-            title: '<%= t('widgets.headers.inbound_native_by_time', currency: @network[:currency]) %>',
+            title: '<%= j(t("widgets.headers.inbound_native_by_time", currency: @network[:currency])) %>',
             chartOptions: {
                 vAxes: {
                     '0': {
-                        title: '<%= t('widgets.titles.volume_in', currency: @network[:currency]) %>'
+                        title: '<%= j(t("widgets.titles.volume_in", currency: @network[:currency])) %>'
                     },
                     '1': {
-                        title: '<%= t('widgets.titles.receive_count') %>'
+                        title: '<%= j(t("widgets.titles.receive_count")) %>'
                     }
                 },
                 seriesType: 'bars',
@@ -53,24 +53,24 @@
             },
             dataOptions: [
                 {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                    title: {label: '<%= j(t("widgets.titles.date")) %>', type: 'date' },
                     path: 'date.date'
                 },
                 {
-                    title: '<%= t('widgets.titles.volume_in', currency: @network[:currency]) %>',
+                    title: '<%= j(t("widgets.titles.volume_in", currency: @network[:currency])) %>',
                     path: 'amount'
                 },
                 {
-                    title: {label: '<%= t('widgets.titles.receive_count') %>', type: 'number' },
+                    title: {label: '<%= j(t("widgets.titles.receive_count")) %>', type: 'number' },
                     path: 'count'
                 },
 
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
+        queryWithTimeRange(rr, query, <%= j(@from) %>, <%= j(@till) %>,{
+            network: '<%= j(params["network"]["network"]) %>',
+            address: '<%= j(@address) %>'
         });
 
 

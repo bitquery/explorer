@@ -1,8 +1,8 @@
 <div class="col-12 col-lg-6 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %></div>
+      <div class="card-header"><%= t("widgets.headers.outbound_native_table", currency: @network[:currency]) %></div>
       <div class="card-body">
-        <div id="outbound_native_table"><%= t('loading') %></div>
+        <div id="outbound_native_table"><%= t("loading") %></div>
       </div>
     </div>
 </div>
@@ -46,16 +46,16 @@
                 }`);
 
         new widgets.table('#outbound_native_table', query, 'algorand.transfers', {
-            title: '<%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %>',
+            title: '<%= t("widgets.headers.outbound_native_table", currency: @network[:currency]) %>',
             dataOptions: [
                 {
-                    title: '<%= t('widgets.titles.receiver') %>',
+                    title: '<%= t("widgets.titles.receiver") %>',
                     type: 'string-ellipsis',
                     path: ['address.annotation','address.address'],
                     urlCallbackName: 'address_path'
                 },
                 {
-                    title: '<%= t('widgets.titles.amount') %>',
+                    title: '<%= t("widgets.titles.amount") %>',
                     type: 'amount',
                     path: 'amount',
                     style: 'width: 100px'
@@ -65,16 +65,16 @@
                     type: 'string',
                     data: '<%= @network[:currency] %>',
                     style: 'width: 130px',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {precision: 4} %>
+                    renderCallback: <%= render partial: "ethereum/currency_with_amount_usd", formats: :text, locals: { precision: 4 } %>
                 },
                 {
-                    title: '<%= t('widgets.titles.max_date') %>',
+                    title: '<%= t("widgets.titles.max_date") %>',
                     type: 'string',
                     path: 'max_date',
                     style: 'width: 100px'
                 },
                 {
-                    title: '<%= t('widgets.titles.transfer_count') %>',
+                    title: '<%= t("widgets.titles.transfer_count") %>',
                     type: 'count',
                     path: 'count',
                     data: '%{DATA} <span class="fa fa-list"></span>',
@@ -84,8 +84,8 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
+        queryWithTimeRange(rr, query, <%= j(@from) %>,<%= j(@to) %>,{
+            network: '<%= params["network"]["network"] %>',
             address: '<%= @address %>'
         });
 
