@@ -114,30 +114,4 @@ class ApplicationController < ActionController::Base
     @streaming_access_token = session['streaming_access_token']
     @streaming_token_time_live = session['streaming_expires_in']
   end
-
-  def get_streaming_access_token
-    url = URI('https://oauth2.bitquery.io/oauth2/token')
-    https = Net::HTTP.new(url.host, url.port)
-    https.use_ssl = true
-
-    request = Net::HTTP::Post.new(url)
-    request['Content-Type'] = 'application/x-www-form-urlencoded'
-    request.body = "grant_type=client_credentials&client_id=#{ENV.fetch('GRAPHQL_CLIENT_ID',
-                                                                        nil)}&client_secret=#{ENV.fetch(
-                                                                          'GRAPHQL_CLIENT_SECRET', nil
-                                                                        )}&scope=api"
-    response = https.request(request)
-
-    if response.is_a?(Net::HTTPSuccess)
-      body = JSON.parse(response.body)
-      session['streaming_access_token'] = "Bearer #{body['access_token']}"
-      session['streaming_expires_in'] = Time.current + body['expires_in'].seconds - 5.minutes
-    else
-      Rails.logger.error("Failed to retrieve streaming access token: #{response.inspect}")
-      nil
-    end
-  rescue StandardError => e
-    Rails.logger.error("Error occurred while retrieving streaming access token: #{e.message}")
-    nil
-  end
 end

@@ -1,6 +1,6 @@
 class ProxyStreamingGraphqlController < ApplicationController
   def index
-    api_key = ENV.fetch('EXPLORER_API_KEY', nil)
+    api_key = ENV.fetch('EXPLORER_API_KEY') { nil }
 
     BitqueryLogger.extra_context query: params[:query],
                                  variables: params[:variables]

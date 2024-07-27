@@ -12,7 +12,7 @@ module Graphql
 
       request = Net::HTTP::Post.new(url)
       request['Content-Type'] = 'application/json'
-      request['X-API-KEY'] = ENV.fetch('EXPLORER_API_KEY', nil)
+      request['X-API-KEY'] = ENV.fetch('EXPLORER_API_KEY') { nil }
       request['Authorization'] = context[:authorization]
 
       body = {
