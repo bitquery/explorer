@@ -26,9 +26,8 @@ RUN yarn install && \
 
 COPY . ./
 
-RUN bundle exec rails turbo:install && \
-    bundle exec rails shakapacker:compile && \
-    bundle exec rake assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails shakapacker:compile && \
+    SECRET_KEY_BASE_DUMMY=1 bundle exec rake assets:precompile
 
 RUN yarn install --production && \
     yarn cache clean
@@ -66,5 +65,4 @@ USER appuser
 EXPOSE "${PORT}"
 
 ENTRYPOINT ["./entrypoint.sh"]
-
 CMD ["bundle", "exec", "pumactl", "-F", "config/puma.production.rb", "-P", "tmp/pids/app.pid", "start"]
