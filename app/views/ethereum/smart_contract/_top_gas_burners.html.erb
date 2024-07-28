@@ -14,74 +14,81 @@
 </div>
 
 <script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const query = new widgets.query(`
+      query (
+        $network: EthereumNetwork!,
+        $address: String!,
+        $limit: Int!,
+        $offset: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime
+      ) {
+        ethereum(network: $network) {
+          smartContractCalls(
+            options: {
+              desc: "gasValue",
+              limit: $limit,
+              offset: $offset
+            },
+            date: { since: $from, till: $till },
+            smartContractAddress: { is: $address }
+          ) {
+            address: caller {
+              address
+              annotation
+            }
+            max_date: maximum(of: date)
+            gasValue(calculate: sum)
+            gas_value_usd: gasValue(in: USD, calculate: sum)
+            count
+          }
+        }
+      }
+    `);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
-                                      $address: String!,
-                                      $limit: Int!,
-                                      $offset: Int!
-                                      $from: ISO8601DateTime,
-                                      $till: ISO8601DateTime){
-                                  ethereum(network: $network){
-                                    smartContractCalls(options:{desc: "gasValue", limit: $limit, offset: $offset},
-                                      date: {since: $from till: $till },
-                                      smartContractAddress: {is: $address}) {
-
-                                      address: caller {
-                                        address
-                                        annotation
-                                      }
-
-                                      max_date: maximum(of: date)
-
-                                      gasValue(calculate: sum)
-                                      gas_value_usd: gasValue(in: USD, calculate: sum)
-                                      count
-                                    }
-                                  }
-                                }`);
-
-        new widgets.table('#smart_contract_top_gas_burners', query, 'ethereum.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contract_top_gas_burners') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.caller') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.max_date') %>',
-                    type: 'string',
-                    path: 'max_date'
-                },
-                {
-                    title: '<%= t('widgets.titles.gas_value') %>',
-                    type: 'amount',
-                    path: 'gasValue'
-                },
-                {
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.gas_value_usd'} %>
-                },
-                {
-                    title: '<%= t('widgets.titles.calls_count') %>',
-                    type: 'count',
-                    path: 'count',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'call_by_caller_count_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>',
-            nativeCurrency: '<%= @network[:currency] %>'
-        });
-
-
+    new widgets.table('#smart_contract_top_gas_burners', query, 'ethereum.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_top_gas_burners') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.caller') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date'
+        },
+        {
+          title: '<%= t('widgets.titles.gas_value') %>',
+          type: 'amount',
+          path: 'gasValue'
+        },
+        {
+          renderCallback: '<%= j render partial: "ethereum/currency_with_amount_usd", formats: :text, locals: { currency: "", amount: "item.gas_value_usd" } %>'
+        },
+        {
+          title: '<%= t('widgets.titles.calls_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'call_by_caller_count_path'
+        }
+      ]
     });
 
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+    const network = '<%= j params["network"]["network"] %>';
+    const nativeCurrency = '<%= j @network[:currency] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      network: network,
+      address: address,
+      nativeCurrency: nativeCurrency
+    });
+  });
 </script>
