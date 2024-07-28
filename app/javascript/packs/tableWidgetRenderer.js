@@ -1,4 +1,4 @@
-import Tabulator from "tabulator-tables";
+import { TabulatorFull as Tabulator } from "tabulator-tables";
 import "./assets/css/index.css";
 
 export default async function tableWidgetRenderer(ds, config, el) {
