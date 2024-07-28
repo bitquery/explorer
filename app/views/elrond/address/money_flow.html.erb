@@ -19,15 +19,26 @@
       </div>
     </div>
   </div>
-  <script type="module">
+</div>
+
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
     const query = new graphs.query(`
-      query ($network: ElrondNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+      query (
+        $network: ElrondNetwork!,
+        $address: String!,
+        $inboundDepth: Int!,
+        $outboundDepth: Int!,
+        $limit: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime
+      ) {
         elrond(network: $network) {
           inbound: coinpath(
-            initialAddress: {is: $address}
-            depth: {lteq: $inboundDepth}
-            options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
-            date: {since: $from, till: $till}
+            initialAddress: { is: $address }
+            depth: { lteq: $inboundDepth }
+            options: { direction: inbound, asc: "depth", desc: "amount", limitBy: { each: "depth", limit: $limit } }
+            date: { since: $from, till: $till }
           ) {
             sender {
               address
@@ -45,10 +56,10 @@
             count
           }
           outbound: coinpath(
-            initialAddress: {is: $address}
-            depth: {lteq: $outboundDepth}
-            options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}
-            date: {since: $from, till: $till}
+            initialAddress: { is: $address }
+            depth: { lteq: $outboundDepth }
+            options: { asc: "depth", desc: "amount", limitBy: { each: "depth", limit: $limit } }
+            date: { since: $from, till: $till }
           ) {
             sender {
               address
@@ -67,43 +78,38 @@
           }
         }
       }
-  `)
-  new graphs.address_graph('#graph', query, {
+    `);
+
+    const currencies = <%= raw @currencies.map { |cur| { address: cur.address == '-' ? cur.symbol : cur.address, symbol: cur.symbol, name: cur.name, search: cur.address == '-' ? cur.symbol : cur.address } }.to_json %>;
+    console.log(currencies);
+
+    new graphs.address_graph('#graph', query, {
+      theme: '<%= @theme %>'
+    });
+
+    new graphs.addControls('#graph', query, {
       theme: '<%= @theme %>',
-  })
+      currencies: currencies
+    });
 
-  new graphs.addControls('#graph', query, {
+    new graphs.address_sankey('#sankey-graph', query, {
+      theme: '<%= @theme %>'
+    });
+
+    new graphs.addControls('#sankey-graph', query, {
       theme: '<%= @theme %>',
-      currencies: [
-        <%= @currencies.collect do |cur|
-          value = cur.address === '-' ? cur.symbol : cur.address
-          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
-        end.join(',').html_safe %>
-      ]
-  })
+      currencies: currencies
+    });
 
-  new graphs.address_sankey('#sankey-graph', query, {
-      theme: '<%= @theme %>',
-  })
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
 
-  new graphs.addControls('#sankey-graph', query, {
-      theme: '<%= @theme %>',
-      currencies: [
-        <%= @currencies.collect do |cur|
-          value = cur.address === '-' ? cur.symbol : cur.address
-          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
-        end.join(',').html_safe %>
-      ]
-  })
-
-  queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
-      "inboundDepth": 1,
-      "outboundDepth": 1,
-      "limit": 10,
-      "offset": 0,
-      "network": "<%= params['network']['network'] %>",
-      "address": "<%= @address %>"
-  })
-  </script>
-</div>
-
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      inboundDepth: 1,
+      outboundDepth: 1,
+      limit: 10,
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
+</script>

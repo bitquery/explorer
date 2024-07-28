@@ -119,8 +119,10 @@
             limit: {length: 41, other: true, axis: 'col'},
         });
 
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
             network: '<%= params['network']['network'] %>',
             protocol: '<%= @protocol %>'
         });

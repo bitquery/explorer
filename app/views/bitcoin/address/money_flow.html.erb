@@ -72,7 +72,9 @@ query ($network: BitcoinNetwork!, $address: String!, $inboundDepth: Int!, $outbo
               theme: '<%= @theme %>',
           })
 
-          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>"})
+        const fromDate = '<%= j @from %>'; 
+        const tillDate = '<%= j @till %>';
+        queryWithTimeRange(rr, query, fromDate, tillDate, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>"})
       })
   </script>
 </div>

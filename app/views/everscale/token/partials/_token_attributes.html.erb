@@ -59,8 +59,8 @@
       ]
     });
 
-    const fromDate = <%= raw @from.as_json %>;
-    const tillDate = <%= raw @till.as_json %>;
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
     const currency = '<%= j @token %>';
     const network = '<%= j params[:network][:network] %>';
 

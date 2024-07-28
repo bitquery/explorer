@@ -126,7 +126,10 @@ new widgets.chart('#smart_contract_events_diagram', query, 'ethereum.smartContra
     ]
 });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
                 network: '<%= params['network']['network'] %>',
                 address: '<%= @address %>'
             });

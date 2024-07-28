@@ -6,23 +6,19 @@
       <span></span> <i class="fa fa-caret-down"></i>
     </div>
     <script type="module">
-        rr = new reportRange('#reportrange', <%= @from.html_safe %>,
-            <%= @till.html_safe %>,
-            {
-                locale: '<%= I18n.locale %>',
-                //all_time: '<%#= t('reportrange.all_time') %>',
-                format: '<%= t('reportrange.format') %>',
-                apply: '<%= t('reportrange.apply') %>',
-                clear: '<%= t('reportrange.clear') %>',
-                today: '<%= t('reportrange.today') %>',
-                yesterday: '<%= t('reportrange.yesterday') %>',
-                last7: '<%= t('reportrange.last7') %>',
-                last30: '<%= t('reportrange.last30') %>',
-                this_month: '<%= t('reportrange.this_month') %>',
-                last_month: '<%= t('reportrange.last_month') %>',
-                custom_range: '<%= t('reportrange.custom_range') %>'
-            }
-        );
+        rr = new reportRange('#reportrange', "<%= j @from %>", "<%= j @till %>", {
+            locale: '<%= I18n.locale %>',
+            format: '<%= t('reportrange.format') %>',
+            apply: '<%= t('reportrange.apply') %>',
+            clear: '<%= t('reportrange.clear') %>',
+            today: '<%= t('reportrange.today') %>',
+            yesterday: '<%= t('reportrange.yesterday') %>',
+            last7: '<%= t('reportrange.last7') %>',
+            last30: '<%= t('reportrange.last30') %>',
+            this_month: '<%= t('reportrange.this_month') %>',
+            last_month: '<%= t('reportrange.last_month') %>',
+            custom_range: '<%= t('reportrange.custom_range') %>'
+        });
     </script>
   </div>
 </div>
