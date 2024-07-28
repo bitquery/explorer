@@ -8,21 +8,21 @@
 </div>
 
 <script type="module">
-  $( document ).ready(function() {
-    const qraphql_query = `
+  document.addEventListener("DOMContentLoaded", function() {
+    const graphql_query = `
       query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $address: String!) {
         everscale(network: $network) {
           transfers(
-            options: {limit: $limit, offset: $offset, desc: ["count_in", "count_out"]}
-            any: [{transferReceiver: {is: $address}}, {transferSender: {is: $address}}]
-            date: {since: $from, till: $till}
+            options: { limit: $limit, offset: $offset, desc: ["count_in", "count_out"] },
+            any: [{ transferReceiver: { is: $address } }, { transferSender: { is: $address } }],
+            date: { since: $from, till: $till }
           ) {
-            sum_in: amount(calculate: sum, transferReceiver: {is: $address})
-            <%#= TODO sum_in_usd: amount(in: USD, calculate: sum, transferReceiver: {is: $address}) %>
-            sum_out: amount(calculate: sum, transferSender: {is: $address})
-            <%#= TODO sum_out_usd: amount(in: USD, calculate: sum, transferSender: {is: $address}) %>
-            count_in: countBigInt(transferReceiver: {is: $address})
-            count_out: countBigInt(transferSender: {is: $address})
+            sum_in: amount(calculate: sum, transferReceiver: { is: $address })
+            <%#= TODO sum_in_usd: amount(in: USD, calculate: sum, transferReceiver: { is: $address }) %>
+            sum_out: amount(calculate: sum, transferSender: { is: $address })
+            <%#= TODO sum_out_usd: amount(in: USD, calculate: sum, transferSender: { is: $address }) %>
+            count_in: countBigInt(transferReceiver: { is: $address })
+            count_out: countBigInt(transferSender: { is: $address })
             currency {
               address
               symbol
@@ -32,7 +32,7 @@
       }
     `.trim();
 
-    const query = new widgets.query(qraphql_query);
+    const query = new widgets.query(graphql_query);
 
     new widgets.table('#currencies_table', query, 'everscale.transfers', {
       title: '<%= t('widgets.headers.tx_calls') %>',
@@ -54,9 +54,9 @@
           type: 'amount',
           path: 'sum_in'
         },
-          {
-              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_in_usd'} %>
-          },
+        {
+          renderCallback: '<%= j(render partial: "ethereum/currency_with_amount_usd", formats: :text, locals: { currency: "", amount: "item.sum_in_usd" }) %>'
+        },
         {
           title: '<%= t('widgets.titles.txs') %>',
           type: 'count',
@@ -69,30 +69,32 @@
           type: 'amount',
           path: 'sum_out'
         },
-          {
-              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_out_usd'} %>
-          },
+        {
+          renderCallback: '<%= j(render partial: "ethereum/currency_with_amount_usd", formats: :text, locals: { currency: "", amount: "item.sum_out_usd" }) %>'
+        },
         {
           title: '',
           type: 'string',
-          data: '<i class="fa fa-sign-out text-warning"></i>',
+          data: '<i class="fa fa-sign-out text-warning"></i>'
         },
         {
-          title: '<%#= t('widgets.titles.txs') %>',
+          title: '<%= t('widgets.titles.txs') %>',
           type: 'count',
           path: 'count_out',
           data: '%{DATA} <span class="fa fa-list"></span>',
           urlCallbackName: 'transfer_from_path'
-        },
+        }
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-      address: '<%= @address %>',
-      network: '<%= params['network']['network'] %>'
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+    const network = '<%= j params[:network][:network] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      address: address,
+      network: network
     });
   });
 </script>
-
-
-
