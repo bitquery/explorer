@@ -38,17 +38,18 @@ class ApplicationController < ActionController::Base
     @from = nil unless date?(@from)
     @till = nil unless date?(@till)
 
-    @from = "\"#{@from}\"" if @from.present?
-    @till = "\"#{@till}\"" if @till.present?
-
-    if params["network"] && DATE_LIMITS[params["network"]["tag"]] && DATE_LIMITS[params["network"]["tag"]][params[:controller]] && DATE_LIMITS[params["network"]["tag"]][params[:controller]][params[:action]]
-      if @from.blank?
-        @from = "\"#{(Time.zone.today - DATE_LIMITS[params["network"]["tag"]][params[:controller]][params[:action]]).strftime("%Y-%m-%d")}\""
+    if @from.blank?
+      @from = if params["network"] && DATE_LIMITS.dig(params["network"]["tag"], params[:controller], params[:action])
+        (Time.zone.today - DATE_LIMITS[params["network"]["tag"]][params[:controller]][params[:action]]).strftime("%Y-%m-%d")
+      else
+        7.days.ago.strftime("%Y-%m-%d")
       end
-    elsif @from.blank?
-      @from = "\"#{7.days.ago.strftime("%Y-%m-%d")}\""
     end
-    @till = "\"#{Time.zone.now.strftime("%Y-%m-%d")}\"" if @till.blank?
+
+    @till = Time.zone.now.strftime("%Y-%m-%d") if @till.blank?
+
+    @from = @from.to_s if @from.present?
+    @till = @till.to_s if @till.present?
   end
 
   def set_locale
