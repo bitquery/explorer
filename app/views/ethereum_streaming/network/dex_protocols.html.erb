@@ -139,7 +139,10 @@
         network: '<%= @streaming%>',
     };
 
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol']], 'Count-of-DEX-Trades-By-Protocol_7', variables);
         renderComponent('<%=@streaming_access_token %>', [[DEXSmartContractProtocols, '#DEXSmartContractProtocols'], [DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie']], 'DEX-Smart-Contract-Protocols_1_1_1', variables);
         renderComponent('<%=@streaming_access_token %>', [ [DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts_1', variables);

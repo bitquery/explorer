@@ -205,7 +205,10 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_2', variables);
         renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_7', variables);
         renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens_3', variables);

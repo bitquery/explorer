@@ -203,7 +203,10 @@
     const variables = {
         network: '<%= @streaming%>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[BlockRewardsByDate, '#BlockRewardsByDate'],[ActiveMinersByTime, '#ActiveMinersByTime']], 'Block-Rewards-By-Date', variables);
         renderComponent('<%=@streaming_access_token %>', [[Miners, '#Miners']], 'Miners_1', variables);
         renderComponent('<%=@streaming_access_token %>', [[MinersBlockRewardByTime, '#MinersBlockRewardByTime'],[MinersBlockCountByTime, '#MinersBlockCountByTime'],[Difficult, '#Difficult']], 'Miners-Block-Count-By-Time_5', variables);

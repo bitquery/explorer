@@ -129,9 +129,10 @@
     protocol: '<%= j @protocol %>',
   }
 
-  const dateRange = <%= limited_date_range_limit(@from, @till).map { |date| j(date) }.to_json %>;
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
 
-  renderWithTime(variables, dateRange, function f(variables) {
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
     renderComponent('<%= j @streaming_access_token %>', [[TokenTrades, '#TokenTrades'], [TradedCurrenciesByTime, '#TradedCurrenciesByTime'], [FeeByTime, '#FeeByTime'], [BuyerSeller, '#BuyerSeller']], 'statistic-by-dex-protocol_3', variables);
   });
 </script>

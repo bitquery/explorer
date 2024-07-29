@@ -129,7 +129,10 @@
         network: '<%= @streaming%>',
         token: '<%= @address %>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>',[[SmartContractMethods, '#SmartContractMethods'],[SmartContractCount, '#SmartContractCount']], 'Smart-Contract-Methods_4', variables);
         renderComponent('<%=@streaming_access_token %>',[[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_3', variables);
     })

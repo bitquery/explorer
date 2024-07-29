@@ -100,7 +100,10 @@
       }
       renderComponent('<%=@streaming_access_token %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
       renderComponent('<%=@streaming_access_token %>', [[TokenStatistic, '#TokenStatistic']], 'Token-transfer-statistics_4', variables);
-      renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
           renderComponent('<%=@streaming_access_token %>', [[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_3', variables);
       })
   </script>

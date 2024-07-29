@@ -221,7 +221,10 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_6', variables);
         renderComponent('<%=@streaming_access_token %>', [[SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate']], 'Smart-contract-calls--including-internal--by-date_6', variables);
         renderComponent('<%=@streaming_access_token %>', [[TopGasCostCalls, '#TopGasCostCalls']], 'Top-Gas-Cost-Calls_6', variables);

@@ -128,7 +128,10 @@
         network: '<%= @streaming%>',
         token: '<%= @token%>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token_10', variables, 'Subscription-Latest-Transfers-of-Token_2');
         renderComponent('<%=@streaming_access_token %>', [[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_6', variables);
     })

@@ -71,10 +71,10 @@
       ]
     });
 
-    const from = "<%= j limited_date_range_limit(@from, @till)[0] %>";
-    const till = "<%= j limited_date_range_limit(@from, @till)[1] %>";
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
 
-    queryWithTimeRange(rr, query, JSON.parse(`[${from}, ${till}]`), {
+    queryWithTimeRange(rr, query, fromDate, tillDate,{
       shard_id: '<%= j @shard_id %>',
       network: '<%= j params['network']['network'] %>'
     });

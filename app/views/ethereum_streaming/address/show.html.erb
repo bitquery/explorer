@@ -236,7 +236,10 @@
 
     renderComponent('<%=@streaming_access_token %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_1_1_1_1_1_1_1_1_1_1', variables);
     renderComponent('<%=@streaming_access_token %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_4', variables);
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'],[TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date_8', variables);
         renderComponent('<%=@streaming_access_token %>', [[InboundTransferCountByDate, '#InboundTransferCountByDate']], 'Inbound-transfer-count-by-date_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[OutboundTransferCountByDate, '#OutboundTransferCountByDate']], 'Outbound-transfer-count-by-date_3', variables);

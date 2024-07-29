@@ -160,7 +160,10 @@
         address: '<%= @address %>',
     }
 
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[Receivers, '#Receivers']], 'Receivers_2', variables);
         renderComponent('<%=@streaming_access_token %>', [[ReceiversStats, '#ReceiversStats']], 'Receivers-Stats_2', variables);
         renderComponent('<%=@streaming_access_token %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Receivers_2', variables);

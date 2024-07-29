@@ -232,7 +232,10 @@
     const variables = {
         network: '<%= @streaming%>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[FeesAnalysis, '#FeesAnalysis']], 'Fees-Analysis_2', variables)
         renderComponent('<%=@streaming_access_token %>', [[GasPrice, '#GasPrice']], 'Gas-Price-By-Date--Median-Average-Maximum_1', variables)
         renderComponent('<%=@streaming_access_token %>', [[SenderFee, '#SenderFee'], [MinerReward, '#MinerReward'], [AveragePrice, '#AveragePrice'], [BurntFee, '#BurntFee']], 'fee-on-date_1', variables)

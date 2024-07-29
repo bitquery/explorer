@@ -190,7 +190,10 @@
         from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10),
     }
 
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades_4', variables, 'Subscription-Token-Trades_1_1');
         renderComponent('<%=@streaming_access_token %>', [
             [TradesByTimeTrades, '#TradesByTimeTrades'],

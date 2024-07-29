@@ -143,7 +143,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
             network: '<%= params['network']['network'] %>',
             protocol: '<%= @protocol %>'
         });
@@ -277,7 +280,10 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 7))).toISOString().slice(0, 10)
     } 
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>',[[DEXProtocolTradesByDate, "#DEXProtocolTradesByDate"]], 'DEX-Protocol-Trades-By-Date', variables);})
     renderComponent('<%=@streaming_access_token %>',[[LiveTradesDEXProtocol, "#LiveTradesDEXProtocol"]], 'Latest-Trades-on-DEX-Protocol', variables, 'Live-Trades-on-DEX-Protocol');
 </script>

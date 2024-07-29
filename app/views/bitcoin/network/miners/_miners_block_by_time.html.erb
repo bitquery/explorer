@@ -112,7 +112,10 @@
             limit: {length: 10, other: true, axis: 'col'},
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till, 7).join(',').html_safe %>,{
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
             network: '<%= params['network']['network'] %>'
         });
 
