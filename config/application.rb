@@ -33,5 +33,7 @@ module Explorer
     config.generators.system_tests = nil
     config.i18n.default_locale = :en
     # config.exceptions_app = self.routes
+    # possible fix for turbo
+    config.action_view.preload_links_header = false
   end
 end

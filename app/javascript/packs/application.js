@@ -2,8 +2,16 @@
 // present in this directory. You're encouraged to place your actual application logic in
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
-import "../stylesheets/application.sass";
 import $ from "jquery";
+global.$ = $;
+global.jQuery = $;
+window.jQuery = $;
+window.$ = $;
+global.rr = "";
+global.item = "";
+global.amount = "";
+
+import "../stylesheets/application.sass";
 import { Turbo } from "@hotwired/turbo-rails";
 Turbo.start();
 require.context("cryptocurrency-icons/svg", true);
@@ -13,9 +21,7 @@ require("jquery");
 require("popper.js");
 require("bootstrap");
 require("daterangepicker");
-global.rr = "";
-global.item = "";
-global.amount = "";
+
 import vegaLite from "vega-lite";
 import barWidgetRenderer from "vega-widgets/src/components/widgets/barWidgetRenderer";
 import pieWidgetRenderer from "vega-widgets/src/components/widgets/pieWidgetRenderer";
@@ -104,10 +110,7 @@ global.widgetRenderer = {
   "table.widget": tableWidgetRenderer,
   "tradingview.widget": tradingViewrenderer,
 };
-global.$ = $;
-global.jQuery = $;
-window.jQuery = $;
-window.$ = $;
+
 global.m = moment;
 
 global.escapeHtml = function (unsafe) {
