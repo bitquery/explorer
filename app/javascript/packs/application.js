@@ -4,6 +4,7 @@
 // that code so it'll be compiled.
 import $ from "jquery";
 global.$ = $;
+global.vis = vis;
 global.jQuery = $;
 window.jQuery = $;
 window.$ = $;
@@ -22,6 +23,7 @@ require("popper.js");
 require("bootstrap");
 require("daterangepicker");
 
+import vis from "vis";
 import vegaLite from "vega-lite";
 import barWidgetRenderer from "vega-widgets/src/components/widgets/barWidgetRenderer";
 import pieWidgetRenderer from "vega-widgets/src/components/widgets/pieWidgetRenderer";

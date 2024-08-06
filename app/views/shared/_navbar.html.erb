@@ -1,46 +1,42 @@
 <header class="header border-bottom mb-2">
-  <div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
-      <div style="display: flex; justify-content: center;">
-          <ins
-              class="adsbyslise"
-              style="display:inline-block;width:728px;height:90px"
-              data-ad-slot="leaderboard"
-              data-ad-pub="pub-11"
-              id="ad-ins"
-          ></ins>
-      </div>
+<div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
+    <div style="display: flex; justify-content: center;" id="ad-wrapper">
+    </div>
+</div>
 
-<script type="module">
-document.addEventListener('DOMContentLoaded', (event) => {
+<script>
+    const isMobile = () => /Mobi|Android/i.test(navigator.userAgent);
 
-function isMobileDevice() {
-      return /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  }
+    const isWideScreen = () => window.innerWidth >= 728;
 
-  let adElement = document.getElementById('ad-ins');
-  //let mobileAdContainer = document.getElementById('mobile-ad-container');
-  let isMobile = isMobileDevice();
+    if (!isMobile() && isWideScreen()) {
+        const adContainer = document.getElementById('ad-wrapper');
+        
+        const ins = document.createElement('ins');
+        ins.className = 'adsbyslise';
+        ins.style.display = 'inline-block';
+        ins.style.width = '728px';
+        ins.style.height = '90px';
+        ins.setAttribute('data-ad-slot', 'leaderboard');
+        ins.setAttribute('data-ad-pub', 'pub-11');
+        ins.id = 'ad-ins';
+        ins.setAttribute('data-ad-format', '728x90');
+        adContainer.appendChild(ins);
+        
+        const scriptAd = document.createElement('script');
+        scriptAd.async = true;
+        scriptAd.src = 'https://v1.slise.xyz/scripts/embed.js';
+        adContainer.appendChild(scriptAd);
 
-  if(isMobile) {
-      adElement.style.display = 'none';
-      //mobileAdContainer.appendChild(adElement);
-      //adElement.style.width = '270px';
-      //adElement.style.height = '90px';
-      //adElement.setAttribute('data-ad-format', '270x90');
-      //adElement.setAttribute('data-ad-slot', 'mobile-banner');
-  } else {
-      adElement.setAttribute('data-ad-format', '728x90');
-      adElement.setAttribute('data-ad-slot', 'leaderboard-desktop');
-  }
-  let adsbyslise;
-  let adSlot = isMobile ? "mobile-banner" : "leaderboard-desktop";
-  (adsbyslise=window.adsbyslise||[]).push({slot:adSlot});
-  window.adsbyslisesync&&window.adsbyslisesync();
-});
-
+        scriptAd.onload = () => {
+            (adsbyslise = window.adsbyslise || []).push({ slot: "leaderboard" });
+            if (window.adsbyslisesync) {
+                window.adsbyslisesync();
+            }
+        };
+    }
 </script>
 
-  </div>
   <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
 
     <a href="/"><%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %>
@@ -53,7 +49,6 @@ function isMobileDevice() {
   </nav>
 </header>
 
-<script async src="https://v1.slise.xyz/scripts/embed.js"></script>
 
 <% if @breadcrumbs %>
   <div class="container-fluid d-flex justify-content-between align-items-center">

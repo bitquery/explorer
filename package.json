@@ -37,7 +37,8 @@
     "serialize-javascript": "^6.0.2",
     "shakapacker": "8.0.1",
     "tabulator-tables": "^6.2.5",
-    "vega-widgets": "^2.0.4"
+    "vega-widgets": "^2.0.4",
+    "vis": "^4.21.0-EOL"
   },
   "version": "0.1.0",
   "license": "UNLICENSED",
