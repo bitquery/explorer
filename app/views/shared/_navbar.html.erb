@@ -5,11 +5,11 @@
 </div>
 
 <script>
-    const isMobile = () => /Mobi|Android/i.test(navigator.userAgent);
+    const isMobileUserAgent = () => /Mobi|Android/i.test(navigator.userAgent);
 
     const isWideScreen = () => window.innerWidth >= 728;
 
-    if (!isMobile() && isWideScreen()) {
+    if (!isMobileUserAgent() && isWideScreen()) {
         const adContainer = document.getElementById('ad-wrapper');
         
         const ins = document.createElement('ins');
@@ -24,7 +24,7 @@
         adContainer.appendChild(ins);
         
         const scriptAd = document.createElement('script');
-        // scriptAd.async = true;
+        scriptAd.async = true;
         scriptAd.src = 'https://v1.slise.xyz/scripts/embed.js';
         adContainer.appendChild(scriptAd);
         scriptAd.onload = () => {
