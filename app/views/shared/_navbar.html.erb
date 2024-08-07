@@ -1,16 +1,52 @@
 <header class="header border-bottom mb-2">
-<div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
+  <div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
     <div style="display: flex; justify-content: center;" id="ad-wrapper">
     </div>
-</div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
+    <a href="/"><%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %></a>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="navbar-nav navbar-nav-search">
+        <%= render partial: 'shared/search' %>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<% if @breadcrumbs %>
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <ol class="breadcrumb">
+      <% @breadcrumbs.each do |breadcrumb| %>
+        <% unless @breadcrumbs.last == breadcrumb %>
+          <li class="breadcrumb-item word-wrap"><a href="<%= breadcrumb[:url] %>"><%= breadcrumb[:name] %></a></li>
+        <% else %>
+          <li class="breadcrumb-item word-wrap active"><%= breadcrumb[:name] %></li>
+        <% end %>
+      <% end %>
+    </ol>
+    <% if bitquery_feed_item %>
+      <%= link_to bitquery_feed_item[:link], class: 'nav-link', target: :_blank do %>
+        <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
+        <%= bitquery_feed_item[:title] %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= turbo_stream_from "ad-updates" %>
 
 <script>
-    const isMobileUserAgent = () => /Mobi|Android/i.test(navigator.userAgent);
-
+  document.addEventListener('turbo:load', () => {
+    const isMobile = () => /Mobi|Android/i.test(navigator.userAgent);
     const isWideScreen = () => window.innerWidth >= 728;
 
-    if (!isMobileUserAgent() && isWideScreen()) {
+    if (!isMobile() && isWideScreen()) {
         const adContainer = document.getElementById('ad-wrapper');
+
+        // in order to keep only one ad at a time
+        // this should work between turbolinks
+        adContainer.innerHTML = '';
         
         const ins = document.createElement('ins');
         ins.className = 'adsbyslise';
@@ -27,6 +63,7 @@
         scriptAd.async = true;
         scriptAd.src = 'https://v1.slise.xyz/scripts/embed.js';
         adContainer.appendChild(scriptAd);
+
         scriptAd.onload = () => {
             (adsbyslise = window.adsbyslise || []).push({ slot: "leaderboard" });
             if (window.adsbyslisesync) {
@@ -34,39 +71,5 @@
             }
         };
     }
+  });
 </script>
-
-  <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
-
-    <a href="/"><%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %>
-    </a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="navbar-nav navbar-nav-search">
-      <%= render partial: 'shared/search' %>
-      </div>
-    </div>
-  </nav>
-</header>
-
-
-<% if @breadcrumbs %>
-  <div class="container-fluid d-flex justify-content-between align-items-center">
-
-    <ol class="breadcrumb">
-      <% @breadcrumbs.each do |breadcrumb| %>
-        <% unless @breadcrumbs.last == breadcrumb %>
-          <li class="breadcrumb-item word-wrap"><a href="<%= breadcrumb[:url] %>"><%= breadcrumb[:name] %></a></li>
-        <% else %>
-          <li class="breadcrumb-item word-wrap active"><%= breadcrumb[:name] %></li>
-        <% end %>
-      <% end %>
-    </ol>
-
-    <% if bitquery_feed_item %>
-      <%= link_to bitquery_feed_item[:link], class: 'nav-link', target: :_blank do %>
-        <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
-        <%= bitquery_feed_item[:title] %>
-      <% end %>
-    <% end %>
-  </div>
-<% end %>
