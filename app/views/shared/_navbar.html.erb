@@ -24,10 +24,9 @@
         adContainer.appendChild(ins);
         
         const scriptAd = document.createElement('script');
-        scriptAd.async = true;
+        // scriptAd.async = true;
         scriptAd.src = 'https://v1.slise.xyz/scripts/embed.js';
         adContainer.appendChild(scriptAd);
-
         scriptAd.onload = () => {
             (adsbyslise = window.adsbyslise || []).push({ slot: "leaderboard" });
             if (window.adsbyslisesync) {

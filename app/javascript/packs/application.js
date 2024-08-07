@@ -759,8 +759,11 @@ global.search = function (selector) {
   form.find('input[name="query"]').keyup(function () {
     let it = $(this);
     let f = it.parents("form").first();
-    // form.find('input').not(this).val($(this).val());
-    if (it.val() == "") {
+
+    let sanitized_value = it.val().split(" ")[0];
+    it.val(sanitized_value);
+
+    if (sanitized_value == "") {
       is_find = false;
       f.find("button").addClass("disabled");
     } else {
