@@ -1,4 +1,3 @@
-
 <div class="row">
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
@@ -11,156 +10,141 @@
 </div>
 
 <div class="row">
-    <div class="col-12 col-lg-12 mb-4">
-      <div class="card">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
       <div class="card-header"><%= t('widgets.headers.smart_contract_methods_table') %></div>
       <div class="card-body">
-      <div id="smart_contract_methods_table"><%= t('loading') %></div>
-            </div>
-          </div>
+        <div id="smart_contract_methods_table"><%= t('loading') %></div>
       </div>
+    </div>
+  </div>
 </div>
 
+<script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query ($network: ConfluxNetwork!,
+             $address: String!,
+             $limit: Int,
+             $offset: Int,
+             $from: ISO8601DateTime,
+             $till: ISO8601DateTime) {
+        conflux(network: $network) {
+          smartContractCalls(
+            options: {desc: "count", limit: $limit, offset: $offset},
+            date: {since: $from, till: $till},
+            smartContractAddress: {is: $address}
+          ) {
+            smartContractMethod {
+              name
+              signature
+              signatureHash
+            }
+            count
+            internal_count: count(external: false)
+            external_count: count(external: true)
+            senders: count(uniq: senders)
+            txs: count(uniq: txs)
+            gasValue(calculate: average)
+            max_date: maximum(of: date)
+          }
+        }
+      }`);
 
-
-<script>
-
-    $( document ).ready(function() {
-        var query = new widgets.query(`query ($network: ConfluxNetwork!,
-                        $address: String!,
-                        $limit:Int,
-                        $offset:Int,
-                        $from: ISO8601DateTime,
-                        $till: ISO8601DateTime){
-                    conflux(network: $network){
-                      smartContractCalls(options:{
-                        desc: "count"
-                        limit:$limit, offset: $offset},
-                        date: {since: $from till: $till },
-                        smartContractAddress: {is: $address}) {
-
-                        smartContractMethod {
-                          name
-                          signature
-                          signatureHash
-                        }
-
-                        count
-                        internal_count: count(external: false)
-                        external_count: count(external: true)
-                        senders: count(uniq:senders)
-                        txs: count(uniq: txs)
-                        gasValue(calculate:average)
-                        max_date:maximum(of: date)
-                      }
-                    }
-                  }`);
-
-new widgets.table('#smart_contract_methods_table', query, 'conflux.smartContractCalls', {
-    title: '<%= t('widgets.headers.smart_contract_methods_table') %>',
-    dataOptions: [
+    new widgets.table('#smart_contract_methods_table', query, 'conflux.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_methods_table') %>',
+      dataOptions: [
         {
-            title: '<%= t('widgets.titles.method') %>',
-            type: 'string',
-            path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
-            urlCallbackName: 'smart_contract_method_path'
+          title: '<%= t('widgets.titles.method') %>',
+          type: 'string',
+          path: ['smartContractMethod.name', 'smartContractMethod.signatureHash'],
+          urlCallbackName: 'smart_contract_method_path'
         },
         {
-            title: '<%= t('widgets.titles.method_signature') %>',
-            type: 'string-ellipsis',
-            path: 'smartContractMethod.signature'
-        },
-
-        {
-            title: '<%= t('widgets.titles.avg_gas_value') %>',
-            type: 'amount',
-            path: 'gasValue'
+          title: '<%= t('widgets.titles.method_signature') %>',
+          type: 'string-ellipsis',
+          path: 'smartContractMethod.signature'
         },
         {
-            title: '<%= t('widgets.titles.max_date') %>',
-            type: 'string',
-            path: 'max_date'
-        },
-
-        {
-            title: '<%= t('widgets.titles.senders') %>',
-            type: 'count',
-            path: 'senders'
-        },
-
-        {
-            title: '<%= t('widgets.titles.internal_calls_count') %>',
-            type: 'count',
-            path: 'internal_count',
-            data: '%{DATA} <span class="fa fa-list"></span>',
-            urlCallbackName: 'internal_call_method_count_path'
-        },
-
-        {
-            title: '<%= t('widgets.titles.external_calls_count') %>',
-            type: 'count',
-            path: 'external_count',
-            data: '%{DATA} <span class="fa fa-list"></span>',
-            urlCallbackName: 'external_call_method_count_path'
+          title: '<%= t('widgets.titles.avg_gas_value') %>',
+          type: 'amount',
+          path: 'gasValue'
         },
         {
-            title: '<%= t('widgets.titles.calls_count') %>',
-            type: 'count',
-            path: 'count',
-            data: '%{DATA} <span class="fa fa-list"></span>',
-            urlCallbackName: 'call_method_count_path'
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date'
         },
-    ]
-});
+        {
+          title: '<%= t('widgets.titles.senders') %>',
+          type: 'count',
+          path: 'senders'
+        },
+        {
+          title: '<%= t('widgets.titles.internal_calls_count') %>',
+          type: 'count',
+          path: 'internal_count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'internal_call_method_count_path'
+        },
+        {
+          title: '<%= t('widgets.titles.external_calls_count') %>',
+          type: 'count',
+          path: 'external_count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'external_call_method_count_path'
+        },
+        {
+          title: '<%= t('widgets.titles.calls_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'call_method_count_path'
+        }
+      ]
+    });
 
-
-new widgets.chart('#smart_contract_methods_diagram', query, 'conflux.smartContractCalls', {
-    chartType: 'BarChart',
-    title: '<%= t('widgets.headers.smart_contract_methods_diagram') %>',
-    chartOptions: {
+    new widgets.chart('#smart_contract_methods_diagram', query, 'conflux.smartContractCalls', {
+      chartType: 'BarChart',
+      title: '<%= t('widgets.headers.smart_contract_methods_diagram') %>',
+      chartOptions: {
         hAxis: {
-            title: '<%= t('widgets.titles.calls_count') %>',
-            minValue: 0,
+          title: '<%= t('widgets.titles.calls_count') %>',
+          minValue: 0
         },
-
         vAxis: {
-           title: '<%= t('widgets.titles.method') %>'
+          title: '<%= t('widgets.titles.method') %>'
         },
         seriesType: 'bars',
         isStacked: true,
         series: {
-            '0': { color: '#28a745' },
-            '1': { color: '#ffc107' },
+          '0': { color: '#28a745' },
+          '1': { color: '#ffc107' }
         },
-        chartArea:{left: '25%', right: '10%', top: 0, bottom: '15%'}
-    },
-    dataOptions: [
+        chartArea: { left: '25%', right: '10%', top: 0, bottom: '15%' }
+      },
+      dataOptions: [
         {
-            type: 'string',
-            path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
-            title: '<%= t('widgets.titles.method') %>'
-        },
-        {
-            type: 'count',
-            path: 'external_count',
-            title:'<%= t('widgets.titles.external_calls_count') %>'
+          type: 'string',
+          path: ['smartContractMethod.name', 'smartContractMethod.signatureHash'],
+          title: '<%= t('widgets.titles.method') %>'
         },
         {
-            type: 'count',
-            path: 'internal_count',
-            title: '<%= t('widgets.titles.internal_calls_count') %>'
+          type: 'count',
+          path: 'external_count',
+          title: '<%= t('widgets.titles.external_calls_count') %>'
         },
+        {
+          type: 'count',
+          path: 'internal_count',
+          title: '<%= t('widgets.titles.internal_calls_count') %>'
+        }
+      ]
+    });
 
-
-    ]
-});
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-                network: '<%= params['network']['network'] %>',
-                address: '<%= @address %>'
-            });
-
-
-});
-
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>

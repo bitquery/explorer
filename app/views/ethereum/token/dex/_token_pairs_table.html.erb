@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<script>
+<script type="module">
   $( document ).ready(function() {
     var query = new widgets.query(`query ($network: EthereumNetwork!,
             $from: ISO8601DateTime,
@@ -69,7 +69,10 @@
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
       network: '<%= params['network']['network'] %>',
       baseCurrency: '<%= @token %>'
     });

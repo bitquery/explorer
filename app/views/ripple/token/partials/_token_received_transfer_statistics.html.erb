@@ -7,7 +7,7 @@
   </div> 
 </div>
 
-<script>
+<script type="module">
   $( document ).ready(function() {
     const qraphql_query = `
       query ($network: RippleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $currency: String!) {
@@ -80,7 +80,10 @@
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate,{
       currency: "<%= @token %>",
       network: '<%= params['network']['network'] %>'
     });

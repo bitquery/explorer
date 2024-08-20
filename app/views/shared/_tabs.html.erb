@@ -1,17 +1,19 @@
 <ul class="nav nav-tabs mb-4">
   <li class="nav-item dropdown d-block d-md-none">
-    <% for tab in tabs %>
+    <% tabs.each do |tab| %>
       <% next if params[:action] != tab %>
-      <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><%= new_tab t("tabs.#{controller.controller_name}.#{tab}.name"), tab, (defined?(new_tabs) && new_tabs || []) %></a>
+      <a class="nav-link active dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        <%= new_tab t("tabs.#{controller.controller_name}.#{tab}.name"), tab, @network, (defined?(new_tabs) && new_tabs || []) %>
+      </a>
       <div class="dropdown-menu">
-        <% for tab in tabs  %>
-          <%= tab_a t("tabs.#{controller.controller_name}.#{tab}.name"), tab, (defined?(new_tabs) && new_tabs || []), 'dropdown-item' %>
+        <% tabs.each do |tab| %>
+          <%= tab_a t("tabs.#{controller.controller_name}.#{tab}.name"), tab, @network, (defined?(new_tabs) && new_tabs || []), 'dropdown-item' %>
         <% end %>
       </div>
     <% end %>
   </li>
-  <% for tab in tabs  %>
-    <%= tab_link(t("tabs.#{controller.controller_name}.#{tab}.name"), tab, (defined?(new_tabs) && new_tabs || []), 'nav-item d-none d-md-block') %>
+  <% tabs.each do |tab| %>
+    <%= tab_link t("tabs.#{controller.controller_name}.#{tab}.name"), tab, @network, (defined?(new_tabs) && new_tabs || []), 'nav-item d-none d-md-block' %>
   <% end %>
   <%= render partial: 'shared/ads/tab' %>
 </ul>

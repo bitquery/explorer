@@ -8,68 +8,67 @@
     </div>
   </div>
 </div>
-
-<script>
-
-    $( document ).ready(function() {
+<script type="module">
+  $( document ).ready(function() {
 
 
-        var query = new widgets.query(`
-                        query ($network: Ethereum2Network!,
-                                $limit: Int!,
-                                $offset: Int!
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum2(network: $network){
-                      proposerSlashings(options:{desc: "count", limit: $limit, offset: $offset},
-                        date: {since: $from till: $till }
-                        ) {
+      var query = new widgets.query(`
+                      query ($network: Ethereum2Network!,
+                              $limit: Int!,
+                              $offset: Int!
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                  ethereum2(network: $network){
+                    proposerSlashings(options:{desc: "count", limit: $limit, offset: $offset},
+                      date: {since: $from till: $till }
+                      ) {
 
 
-                          slashing {
-                            proposer {
-                              index
-                            }
+                        slashing {
+                          proposer {
+                            index
                           }
+                        }
 
-                          count: count
+                        count: count
 
-                          min_date: minimum(of: date)
-                          max_date: maximum(of: date)
+                        min_date: minimum(of: date)
+                        max_date: maximum(of: date)
 
-                      }
                     }
-                  }`);
+                  }
+                }`);
 
-        new widgets.table('#top_slashings_proposers', query, 'ethereum2.proposerSlashings', {
-            title: '<%= t('widgets.headers.top_slashings_proposers') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.proposer') %>',
-                    path: 'slashing.proposer.index',
-                    urlCallbackName: 'slashing_proposer_path'
-                },
+      new widgets.table('#top_slashings_proposers', query, 'ethereum2.proposerSlashings', {
+          title: '<%= t('widgets.headers.top_slashings_proposers') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.proposer') %>',
+                  path: 'slashing.proposer.index',
+                  urlCallbackName: 'slashing_proposer_path'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.first_block_date') %>',
-                    path: 'min_date'
-                },
+              {
+                  title: '<%= t('widgets.titles.first_block_date') %>',
+                  path: 'min_date'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.last_block_date') %>',
-                    path: 'max_date'
-                },
+              {
+                  title: '<%= t('widgets.titles.last_block_date') %>',
+                  path: 'max_date'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.slashing_count') %>',
-                    path: 'count'
-                },
+              {
+                  title: '<%= t('widgets.titles.slashing_count') %>',
+                  path: 'count'
+              },
 
-            ]
-        });
+          ]
+      });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+    <% from, till = date_range_from_now(15, :years) %>
+    queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+    network: '<%= params['network']['network'] %>'
     });
+  });
 </script>

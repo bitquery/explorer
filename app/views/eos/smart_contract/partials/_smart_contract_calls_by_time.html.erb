@@ -17,111 +17,113 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const query = new widgets.query(`
+      query (
+        $address: String!,
+        $dateFormat: String!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime
+      ) {
+        eos {
+          smartContractCalls(
+            options: { asc: "date.date" },
+            date: { since: $from, till: $till },
+            smartContractAddress: { is: $address }
+          ) {
+            date { date(format: $dateFormat) }
+            external_calls: countBigInt(external: true)
+            internal_calls: countBigInt(external: false)
+            external_callers: countBigInt(uniq: callers, external: true)
+            internal_callers: countBigInt(uniq: callers, external: false)
+            senders: countBigInt(uniq: senders)
+            txs: countBigInt(uniq: txs)
+          }
+        }
+      }
+    `);
 
-    $( document ).ready(function() {
-
-        var query = new widgets.query(`query (
-                              $address: String!,
-                              $dateFormat: String!,
-                              $from: ISO8601DateTime,
-                              $till: ISO8601DateTime){
-                          eos{
-                            smartContractCalls(options:{
-                                asc: "date.date"}, date: {since: $from till: $till },
-                                smartContractAddress: {is: $address}) {
-
-                                    date{ date(format: $dateFormat)}
-
-                                    external_calls: countBigInt(external: true)
-                                    internal_calls: countBigInt(external: false)
-
-                                    external_callers: countBigInt(uniq: callers, external: true)
-                                    internal_callers: countBigInt(uniq: callers, external: false)
-                                    senders: countBigInt(uniq:senders)
-                                    txs: countBigInt(uniq: txs)
-                            }
-                          }
-                        }`);
-
-        new widgets.chartByTime('#smart_contract_calls_by_time', query, 'eos.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contract_calls_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
-                    },
-                },
-                seriesType: 'bars',
-                isStacked: true,
-                series: {
-                    '0': { color: '#28a745' },
-                    '1': { color: '#ffc107' },
-                    '2': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
-                }
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.external_calls') %>', type: 'number' },
-                    path: 'external_calls'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.internal_calls') %>', type: 'number' },
-                    path: 'internal_calls'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.tx_count') %>', type: 'number' },
-                    path: 'txs'
-                },
-            ]
-        });
-
-        new widgets.chartByTime('#smart_contract_callers_by_time', query, 'eos.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contract_callers_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
-                    },
-                },
-                seriesType: 'bars',
-                isStacked: true,
-                series: {
-                    '0': { color: '#28a745' },
-                    '1': { color: '#ffc107' },
-                    '2': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
-                }
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.external_callers') %>', type: 'number' },
-                    path: 'external_callers'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.internal_callers') %>', type: 'number' },
-                    path: 'internal_callers'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.senders') %>', type: 'number' },
-                    path: 'senders'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-
-            address: '<%= @address %>',
-            nativeCurrency: '<%= @network[:currency] %>'
-        });
-
-
+    new widgets.chartByTime('#smart_contract_calls_by_time', query, 'eos.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_calls_by_time') %>',
+      chartOptions: {
+        vAxes: {
+          '0': {
+            title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
+          }
+        },
+        seriesType: 'bars',
+        isStacked: true,
+        series: {
+          '0': { color: '#28a745' },
+          '1': { color: '#ffc107' },
+          '2': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
+        }
+      },
+      dataOptions: [
+        {
+          title: { label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          path: 'date.date'
+        },
+        {
+          title: { label: '<%= t('widgets.titles.external_calls') %>', type: 'number' },
+          path: 'external_calls'
+        },
+        {
+          title: { label: '<%= t('widgets.titles.internal_calls') %>', type: 'number' },
+          path: 'internal_calls'
+        },
+        {
+          title: { label: '<%= t('widgets.titles.tx_count') %>', type: 'number' },
+          path: 'txs'
+        }
+      ]
     });
+
+    new widgets.chartByTime('#smart_contract_callers_by_time', query, 'eos.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_callers_by_time') %>',
+      chartOptions: {
+        vAxes: {
+          '0': {
+            title: '<%= t('widgets.titles.uniq_callers', currency: @network[:currency]) %>'
+          }
+        },
+        seriesType: 'bars',
+        isStacked: true,
+        series: {
+          '0': { color: '#28a745' },
+          '1': { color: '#ffc107' },
+          '2': { color: '#9bc2cf', type: 'line', targetAxisIndex: 0, lineWidth: 3, pointsVisible: true, pointShape: 'diamond', pointSize: 12 }
+        }
+      },
+      dataOptions: [
+        {
+          title: { label: '<%= t('widgets.titles.date') %>', type: 'date' },
+          path: 'date.date'
+        },
+        {
+          title: { label: '<%= t('widgets.titles.external_callers') %>', type: 'number' },
+          path: 'external_callers'
+        },
+        {
+          title: { label: '<%= t('widgets.titles.internal_callers') %>', type: 'number' },
+          path: 'internal_callers'
+        },
+        {
+          title: { label: '<%= t('widgets.titles.senders') %>', type: 'number' },
+          path: 'senders'
+        }
+      ]
+    });
+
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+    const nativeCurrency = '<%= j @network[:currency] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      address: address,
+      nativeCurrency: nativeCurrency
+    });
+  });
 </script>

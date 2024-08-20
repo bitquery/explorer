@@ -7,64 +7,65 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const query = new widgets.query(`
+      query (
+        $address: String!,
+        $limit: Int!,
+        $offset: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime
+      ) {
+        eos {
+          smartContractCalls(
+            options: { desc: "count", limit: $limit, offset: $offset },
+            date: { since: $from, till: $till },
+            smartContractAddress: { is: $address }
+          ) {
+            address: txFrom {
+              address
+              annotation
+            }
+            max_date: maximum(of: date)
+            count
+          }
+        }
+      }
+    `);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query (
-                                $address: String!,
-                                $limit: Int!,
-                                $offset: Int!
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                            eos{
-                              smartContractCalls(options:{desc: "count", limit: $limit, offset: $offset},
-                                date: {since: $from till: $till },
-                                smartContractAddress: {is: $address}) {
-
-                                address: txFrom {
-                                  address
-                                  annotation
-                                }
-
-                                max_date: maximum(of: date)
-                                count
-                              }
-                            }
-                          }`);
-
-        new widgets.table('#smart_contract_top_callers', query, 'eos.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contract_top_callers') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.caller') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.max_date') %>',
-                    type: 'string',
-                    path: 'max_date'
-                },
-                {
-                    title: '<%= t('widgets.titles.calls_count') %>',
-                    type: 'count',
-                    path: 'count',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'call_by_caller_count_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-
-            address: '<%= @address %>',
-            nativeCurrency: '<%= @network[:currency] %>'
-        });
-
-
+    new widgets.table('#smart_contract_top_callers', query, 'eos.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_top_callers') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.caller') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date'
+        },
+        {
+          title: '<%= t('widgets.titles.calls_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'call_by_caller_count_path'
+        }
+      ]
     });
 
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+    const nativeCurrency = '<%= j @network[:currency] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      address: address,
+      nativeCurrency: nativeCurrency
+    });
+  });
 </script>

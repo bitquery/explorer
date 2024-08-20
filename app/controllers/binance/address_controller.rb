@@ -1,9 +1,10 @@
-class Binance::AddressController < NetworkController
-  layout 'tabs'
+module Binance
+  class AddressController < NetworkController
+    layout 'tabs'
 
-  before_action :query_graphql
+    before_action :query_graphql
 
-  QUERY_CURRENCIES = <<-'GRAPHQL'
+    QUERY_CURRENCIES = <<-GRAPHQL.freeze
                   query ($address: String!) {
                     binance {
                       transfers(receiver: {is: $address}, options: {limit: 100}) {
@@ -15,15 +16,21 @@ class Binance::AddressController < NetworkController
                       }
                     }
                   }
-  GRAPHQL
+    GRAPHQL
 
-  private
+    private
 
-  def query_graphql
-    @address = params[:address]
-    if action_name == 'money_flow'
-      result = Graphql::V1.query_with_retry(QUERY_CURRENCIES, variables: { address: @address }, context: { authorization: @streaming_access_token }).data.binance
-      @currencies = result.transfers.map(&:currency).sort_by { |c| c.token_id == 'BNB' ? 0 : 1 }.uniq { |x| x.token_id } if result.try(:transfers)
+    def query_graphql
+      @address = params[:address]
+      return unless action_name == 'money_flow'
+
+      result = Graphql::V1.query_with_retry(QUERY_CURRENCIES, variables: { address: @address },
+                                                              context: { authorization: @streaming_access_token }).data.binance
+      return unless result.try(:transfers)
+
+      @currencies = result.transfers.map(&:currency).sort_by do |c|
+        c.token_id == 'BNB' ? 0 : 1
+      end.uniq(&:token_id)
     end
   end
 end

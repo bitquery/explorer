@@ -1,6 +1,6 @@
 <% if ad = current_ad(:fixed) %>
   <div class="card shadow ad-fixed" style="position: fixed; left: 10px; bottom: 10px; z-index: 10000; max-width: <%= ad[:width] %>; background-color: #ffffffdd">
-    <script>
+    <script type="module">
       var adFixed = document.cookie.match('adFixed=(.+?)(;|$)');
       if (adFixed && adFixed[1] === 'hide'){
           $('.ad-fixed').addClass('d-none');
@@ -31,7 +31,7 @@
       <small class="text-secondary"><i class="fas fa-ad"></i></small>
     </div>
   </div>
-  <script>
+  <script type="module">
     $('body').on('click','.ad-fixed .ad-close', function (){
         $('.ad-fixed').addClass('d-none');
         document.cookie = "adFixed=hide; path=/";

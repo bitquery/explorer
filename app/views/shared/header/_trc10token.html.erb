@@ -4,10 +4,9 @@
                           token: @info.symbol, address: @address) %>
 <% content_for :keywords, t( "tabs.#{controller_name}.#{params[:action]}.keywords", network: @network[:name],
                           token: @info.symbol, address: @address) %>
-
 <%= render partial: 'shared/title', locals: {
           icon: t("tabs.#{controller_name}.icon"),
           header: t( "tabs.#{controller_name}.header", network: @network[:name],
                      token: "#{@info.symbol} #{@info.token_type} Token",
-                     address: copy_text(@address, 'text-info')).html_safe,
+                     address: copy_text(@address, 'text-info', is_block_section: @is_block_section, height: @height, network: @network, block_id: @block_id)).html_safe,
           reportrange: true} %>

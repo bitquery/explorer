@@ -1,87 +1,91 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-      <div class="card-header">
-        <% if @token_info && @token_info.name && @token_info.symbol %>
-          <%= t('widgets.headers.smart_contract_top_callers_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
-        <% else %>
-          <%= t('widgets.headers.smart_contract_top_callers') %>
-        <% end %>
-      </div>
+    <div class="card-header">
+      <% if @token_info && @token_info.name && @token_info.symbol %>
+        <%= t('widgets.headers.smart_contract_top_callers_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+      <% else %>
+        <%= t('widgets.headers.smart_contract_top_callers') %>
+      <% end %>
+    </div>
     <div class="card-body">
       <div id="smart_contract_top_callers"><%= t('loading') %></div>
     </div>
   </div>
 </div>
 
-<script>
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const query = new widgets.query(`
+      query (
+        $network: EthereumNetwork!,
+        $address: String!,
+        $limit: Int!,
+        $offset: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime
+      ) {
+        ethereum(network: $network) {
+          smartContractCalls(
+            options: { desc: "count", limit: $limit, offset: $offset },
+            date: { since: $from, till: $till },
+            smartContractAddress: { is: $address }
+          ) {
+            address: caller {
+              address
+              annotation
+            }
+            max_date: maximum(of: date)
+            count
+            gasValue(calculate: average)
+            gas_value_usd: gasValue(in: USD, calculate: average)
+          }
+        }
+      }
+    `);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query ($network: EthereumNetwork!,
-                                $address: String!,
-                                $limit: Int!,
-                                $offset: Int!
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                            ethereum(network: $network){
-                              smartContractCalls(options:{desc: "count", limit: $limit, offset: $offset},
-                                date: {since: $from till: $till },
-                                smartContractAddress: {is: $address}) {
-
-                                address: caller {
-                                  address
-                                  annotation
-                                }
-
-                                max_date: maximum(of: date)
-                                count
-
-                                gasValue(calculate: average)
-                                gas_value_usd: gasValue(in: USD, calculate: average)
-                              }
-                            }
-                          }`);
-
-        new widgets.table('#smart_contract_top_callers', query, 'ethereum.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contract_top_callers') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.caller') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.max_date') %>',
-                    type: 'string',
-                    path: 'max_date'
-                },
-                {
-                    title: '<%= t('widgets.titles.avg_gas_value') %>',
-                    type: 'amount',
-                    path: 'gasValue'
-                },
-                {
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.gas_value_usd'} %>
-                },
-                {
-                    title: '<%= t('widgets.titles.calls_count') %>',
-                    type: 'count',
-                    path: 'count',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'call_by_caller_count_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>',
-            nativeCurrency: '<%= @network[:currency] %>'
-        });
-
-
+    new widgets.table('#smart_contract_top_callers', query, 'ethereum.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_top_callers') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.caller') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date'
+        },
+        {
+          title: '<%= t('widgets.titles.avg_gas_value') %>',
+          type: 'amount',
+          path: 'gasValue'
+        },
+        {
+          title: '<%= t('widgets.titles.gas_value_usd') %>',
+          type: 'string',
+          renderCallback: '<%= j render partial: "ethereum/currency_with_amount_usd", formats: :text, locals: {currency: "", amount: "item.gas_value_usd"} %>'
+        },
+        {
+          title: '<%= t('widgets.titles.calls_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'call_by_caller_count_path'
+        }
+      ]
     });
 
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+    const network = '<%= j params["network"]["network"] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      network: network,
+      address: address,
+      nativeCurrency: '<%= j @network[:currency] %>'
+    });
+  });
 </script>

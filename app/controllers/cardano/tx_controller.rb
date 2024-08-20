@@ -1,3 +1,5 @@
-class Cardano::TxController < NetworkController
-  layout 'tabs'
+module Cardano
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end

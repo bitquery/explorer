@@ -7,15 +7,13 @@
   </div> 
 </div>
 
-<script>
-  $( document ).ready(function() {
-    const qraphql_query = `
-      query ($network: EverscaleNetwork!, $currency: String!) {
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const graphql_query = `
+      query ($network: EverscaleNetwork!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
         everscale(network: $network) {
-          transfers(
-            currency: {is: $currency}
-          ) {
-            currency{
+          transfers(currency: {is: $currency}, date: {since: $from, till: $till}, options: {limit: 1}) {
+            currency {
               symbol
               address
               name
@@ -27,19 +25,22 @@
       }
     `.trim();
 
-    const query = new widgets.query(qraphql_query);
+    const query = new widgets.query(graphql_query);
 
     new widgets.table('#token_attributes', query, 'everscale.transfers', {
       title: '<%= t('widgets.headers.token_attributes') %>',
-      renderData: function (data) {
-          item = data[0];
-          return !item ? [] : [
-            {name: '<%= t('widgets.headers.token_symbol') %>', value: escapeHtml(item.currency.symbol)},
-            {name: '<%= t('widgets.headers.token_address') %>', value: escapeHtml(item.currency.address)},
-            {name: '<%= t('widgets.headers.token_type') %>', value: item.currency.tokenType},
-            {name: '<%= t('widgets.headers.token_name') %>', value: escapeHtml(item.currency.name)},
-            {name: '<%= t('widgets.headers.token_decimals') %>', value: item.currency.decimals}
-          ];
+      renderData: function(data) {
+        const item = data[0];
+        if (!item) {
+          return [];
+        }
+        return [
+          {name: '<%= j t('widgets.headers.token_symbol') %>', value: item.currency.symbol},
+          {name: '<%= j t('widgets.headers.token_address') %>', value: item.currency.address},
+          {name: '<%= j t('widgets.headers.token_type') %>', value: item.currency.tokenType},
+          {name: '<%= j t('widgets.headers.token_name') %>', value: item.currency.name},
+          {name: '<%= j t('widgets.headers.token_decimals') %>', value: item.currency.decimals}
+        ];
       },
       dataOptions: [
         {
@@ -54,14 +55,18 @@
           escape: false,
           path: 'value',
           urlCallbackName: 'property_value_path'
-        },
+        }
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
-      currency: "<%= @token %>",
-      network: '<%= params['network']['network'] %>'
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const currency = '<%= j @token %>';
+    const network = '<%= j params[:network][:network] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      currency: currency,
+      network: network
     });
   });
 </script>
-

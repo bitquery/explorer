@@ -6,9 +6,9 @@
     </div>
   </div>
 </div>
-<script>
-  $( document ).ready(function() {
-    const qraphql_query = `
+<script type="module">
+  $(document).ready(function() {
+    const graphql_query = `
       query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $address: String!) {
         elrond(network: $network) {
           transfers(
@@ -31,13 +31,13 @@
       }
     `.trim();
 
-    const query = new widgets.query(qraphql_query);
+    const query = new widgets.query(graphql_query);
 
     new widgets.table('#currencies_table', query, 'elrond.transfers', {
-      title: '<%= t('widgets.headers.tx_calls') %>',
+      title: '<%= j t('widgets.headers.tx_calls') %>',
       dataOptions: [
         {
-          title: '<%= t('widgets.titles.currency') %>',
+          title: '<%= j t('widgets.titles.currency') %>',
           type: 'string-ellipsis',
           path: 'currency.symbol'
         },
@@ -48,35 +48,39 @@
           html_class: 'text-center'
         },
         {
-          title: '<%= t('widgets.titles.receive') %>',
+          title: '<%= j t('widgets.titles.receive') %>',
           type: 'amount',
           path: 'sum_in'
         },
-          {
-              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_in_usd'} %>
-          },
         {
-          title: '<%= t('widgets.titles.txs') %>',
+          renderCallback: function(item) {
+            return `<%= j render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_in_usd'} %>`;
+          }
+        },
+        {
+          title: '<%= j t('widgets.titles.txs') %>',
           type: 'count',
           path: 'count_in',
           data: '%{DATA} <span class="fa fa-list"></span>',
           urlCallbackName: 'transfer_to_path'
         },
         {
-          title: '<%= t('widgets.titles.send') %>',
+          title: '<%= j t('widgets.titles.send') %>',
           type: 'amount',
           path: 'sum_out'
         },
-          {
-              renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_out_usd'} %>
-          },
+        {
+          renderCallback: function(item) {
+            return `<%= j render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_out_usd'} %>`;
+          }
+        },
         {
           title: '',
           type: 'string',
           data: '<i class="fa fa-sign-out text-warning"></i>',
         },
         {
-          title: '<%#= t('widgets.titles.txs') %>',
+          title: '<%= j t('widgets.titles.txs') %>',
           type: 'count',
           path: 'count_out',
           data: '%{DATA} <span class="fa fa-list"></span>',
@@ -85,12 +89,9 @@
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-      address: '<%= @address %>',
-      network: '<%= params['network']['network'] %>'
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      address: '<%= j @address %>',
+      network: '<%= j params['network']['network'] %>'
     });
   });
 </script>
-
-
-

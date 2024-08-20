@@ -8,73 +8,68 @@
     </div>
   </div>
 </div>
-
-<script>
-
-    $( document ).ready(function() {
+<script type="module">
+  $( document ).ready(function() {
 
 
-        var query = new widgets.query(`
-                        query ($network: Ethereum2Network!,
-                                $limit: Int!,
-                                $offset: Int!
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum2(network: $network){
-                      blocks(options:{desc: "height", limit: $limit, offset: $offset},
-                        time: {since: $from till: $till }
-                        ) {
-                          timestamp {
-                            time(format: "%Y-%m-%d %H:%M:%S")
-                          }
-                          height
-                          proposer{
-                            index
-                          }
-                          epoch
-                          attestationsCount
-                      }
-                    }
-                  }`);
+      var query = new widgets.query(`
+  query ($network: Ethereum2Network!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+    ethereum2(network: $network) {
+  blocks(
+    options: {desc: "height", limit: $limit, offset: $offset, groupBy: false}
+    time: {since: $from, till: $till}
+  ) {
+    timestamp {
+      time(format: "%Y-%m-%d %H:%M:%S")
+    }
+    height
+    proposer {
+      index
+    }
+    epoch
+    attestationsCount
+  }
+    }
+  }
+  `);
 
-        new widgets.table('#latest_blocks', query, 'ethereum2.blocks', {
-            title: '<%= t('widgets.headers.latest_blocks') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.timestamp') %>',
-                    type: 'string',
-                    path: 'timestamp.time'
-                },
-                {
-                    title: '<%= t('widgets.titles.epoch') %>',
-                    type: 'string',
-                    path: 'epoch'
-                },
-                {
-                    title: '<%= t('widgets.titles.block') %>',
-                    type: 'string',
-                    path: 'height',
-                    urlCallbackName: 'block_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.proposer') %>',
-                    type: 'string',
-                    path: 'proposer.index',
-                    urlCallbackName: 'proposer_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.attestation_count') %>',
-                    type: 'number',
-                    path: 'attestationsCount'
-                }
-            ]
-        });
-
-      <% from, till = date_range_from_now(30, :minutes) %>
-      queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
-          network: '<%= params['network']['network'] %>'
+      new widgets.table('#latest_blocks', query, 'ethereum2.blocks', {
+          title: '<%= t('widgets.headers.latest_blocks') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.timestamp') %>',
+                  type: 'string',
+                  path: 'timestamp.time'
+              },
+              {
+                  title: '<%= t('widgets.titles.epoch') %>',
+                  type: 'string',
+                  path: 'epoch'
+              },
+              {
+                  title: '<%= t('widgets.titles.block') %>',
+                  type: 'string',
+                  path: 'height',
+                  urlCallbackName: 'block_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.proposer') %>',
+                  type: 'string',
+                  path: 'proposer.index',
+                  urlCallbackName: 'proposer_path'
+              },
+              {
+                  title: '<%= t('widgets.titles.attestation_count') %>',
+                  type: 'number',
+                  path: 'attestationsCount'
+              }
+          ]
       });
 
+    <% from, till = date_range_from_now(30, :days) %>
+    queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+        network: '<%= params['network']['network'] %>'
     });
 
+  });
 </script>

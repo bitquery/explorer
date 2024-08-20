@@ -4,32 +4,36 @@
     <div class="card-body">
       <div id="token_statistics"><%= t('loading') %></div>
     </div>
-  </div> 
+  </div>
 </div>
 
-<script>
-  $( document ).ready(function() {
-    const qraphql_query = `
-      query ($network: EverscaleNetwork!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $currency: String!) {
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const graphql_query = `
+      query (
+        $network: EverscaleNetwork!,
+        $limit: Int!,
+        $offset: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime,
+        $currency: String!
+      ) {
         everscale(network: $network) {
           transfers(
-            options: {desc: "count", asc: "currency.symbol", limit: $limit, offset: $offset}
-            date: {since: $from, till: $till}
-            currency: {is: $currency}
+            options: { desc: "count", asc: "currency.symbol", limit: $limit, offset: $offset },
+            date: { since: $from, till: $till },
+            currency: { is: $currency }
           ) {
             currency {
               symbol
             }
             count
             amount
-
             senders_count: count(uniq: senders)
             receivers_count: count(uniq: receivers)
             days: count(uniq: dates)
-
             first_date_transfer: minimum(of: date)
             last_date_transfer: maximum(of: date)
-
             median: amount(calculate: median)
             average: amount(calculate: average)
           }
@@ -37,29 +41,23 @@
       }
     `.trim();
 
-    const query = new widgets.query(qraphql_query);
+    const query = new widgets.query(graphql_query);
 
     new widgets.table('#token_statistics', query, 'everscale.transfers', {
       title: '<%= t('widgets.headers.token_statistics') %>',
-      renderData: function (data) {
-          item = data[0];
-          return !item ? [] : [
-              {name: '<%= t('widgets.titles.transfer_count') %>', value: item.count},
-
-              {name: '<%= t('widgets.titles.uniq_senders') %>', value: item.senders_count},
-              {name: '<%= t('widgets.titles.uniq_receivers') %>', value:item.receivers_count},
-
-              {name: '<%= t('widgets.titles.total_amount') %>', value: item.amount+' '+escapeHtml(item.currency.symbol)},
-
-              {name: '<%= t('widgets.titles.median_amount') %>', value: item.median+' '+escapeHtml(item.currency.symbol)},
-              {name: '<%= t('widgets.titles.average_amount') %>', value: item.average+' '+escapeHtml(item.currency.symbol)},
-
-
-              {name: '<%= t('widgets.titles.first_transfer_date') %>', value: item.first_date_transfer},
-              {name: '<%= t('widgets.titles.last_transfer_date') %>', value: item.last_date_transfer},
-              {name: '<%= t('widgets.titles.transfer_days') %>', value: item.days},
-
-          ];
+      renderData: function(data) {
+        const item = data[0];
+        return !item ? [] : [
+          { name: '<%= t('widgets.titles.transfer_count') %>', value: item.count },
+          { name: '<%= t('widgets.titles.uniq_senders') %>', value: item.senders_count },
+          { name: '<%= t('widgets.titles.uniq_receivers') %>', value: item.receivers_count },
+          { name: '<%= t('widgets.titles.total_amount') %>', value: item.amount + ' ' + escapeHtml(item.currency.symbol) },
+          { name: '<%= t('widgets.titles.median_amount') %>', value: item.median + ' ' + escapeHtml(item.currency.symbol) },
+          { name: '<%= t('widgets.titles.average_amount') %>', value: item.average + ' ' + escapeHtml(item.currency.symbol) },
+          { name: '<%= t('widgets.titles.first_transfer_date') %>', value: item.first_date_transfer },
+          { name: '<%= t('widgets.titles.last_transfer_date') %>', value: item.last_date_transfer },
+          { name: '<%= t('widgets.titles.transfer_days') %>', value: item.days }
+        ];
       },
       dataOptions: [
         {
@@ -74,14 +72,16 @@
           escape: false,
           path: 'value',
           urlCallbackName: 'property_value_path'
-        },
+        }
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
       currency: "<%= @token %>",
-      network: '<%= params['network']['network'] %>'
+      network: '<%= params[:network][:network] %>'
     });
   });
 </script>
-

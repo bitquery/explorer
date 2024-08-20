@@ -11,7 +11,7 @@
     <div class='card' id='MethodStatistic'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class MethodInformation extends BootstrapVerticalTableComponent {
         configuration() {
             return {
@@ -93,7 +93,10 @@
         method: '<%= @signature%>',
     }
     renderComponent('<%=@streaming_access_token %>', [[MethodInformation, '#MethodInformation']], 'Method-Information_1', variables);
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[MethodStatistic, '#MethodStatistic']], 'Method-statistic-by-date', variables);
         renderComponent('<%=@streaming_access_token %>', [[MethodTransactions, '#MethodTransactions']], 'Method-Transactions_4', variables);
     })

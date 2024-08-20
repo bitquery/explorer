@@ -1,4 +1,4 @@
-<script>
+<script type="module">
     var query1 = new widgets.query(`
     query {
       binance {
@@ -69,7 +69,7 @@
   <div class="col-lg-6 mb-4">
   </div>
 </div>
-<script>
+<script type="module">
     var tbtbnb = new widgets.chart('#binance', query1, 'binance.transfers', {
         title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %>',
         chartOptions: {

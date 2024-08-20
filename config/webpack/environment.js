@@ -1,19 +1,58 @@
-const { environment } = require('@rails/webpacker')
+const { webpackConfig, merge } = require("shakapacker");
+const webpack = require("webpack");
 
-if (environment.config.optimization) {
-    environment.config.optimization.minimizer[0].options.terserOptions.keep_classnames = true
-    environment.config.optimization.minimizer[0].options.terserOptions.keep_fnames = true
-    environment.config.optimization.minimizer[0].options.exclude = /.*[a-zA-Z]+Component[.]js$/gm
+const customConfig = {
+  resolve: {
+    fallback: {
+      buffer: require.resolve("buffer/"),
+    },
+  },
+  module: {
+    rules: [
+      {
+        test: require.resolve("jquery"),
+        loader: "expose-loader",
+        options: {
+          exposes: ["$", "jQuery"],
+        },
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        type: "asset/resource",
+        generator: {
+          filename: "fonts/[name][ext]",
+        },
+      },
+    ],
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      Buffer: ["buffer", "Buffer"],
+    }),
+  ],
+};
+
+const envConfig = merge(webpackConfig, customConfig);
+
+if (envConfig.optimization) {
+  envConfig.optimization.minimizer[0].options.terserOptions.keep_classnames = true;
+  envConfig.optimization.minimizer[0].options.terserOptions.keep_fnames = true;
+  envConfig.optimization.minimizer[0].options.exclude =
+    /.*[a-zA-Z]+Component[.]js$/gm;
 }
 
-const webpack = require('webpack')
-environment.plugins.append(
-    'Provide',
-    new webpack.ProvidePlugin({
-        $: 'jquery',
-        jQuery: 'jquery',
-        Popper: ['popper.js', 'default']
-    })
-)
+envConfig.plugins.push(
+  new webpack.ProvidePlugin({
+    $: "jquery",
+    jQuery: "jquery",
+    Popper: ["popper.js", "default"],
+  })
+);
 
-module.exports = environment
+envConfig.node = {
+  __dirname: true,
+  __filename: true,
+  global: true,
+};
+
+module.exports = envConfig;

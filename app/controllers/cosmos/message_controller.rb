@@ -1,3 +1,5 @@
-class Cosmos::MessageController < NetworkController
-  layout 'tabs'
+module Cosmos
+  class MessageController < NetworkController
+    layout 'tabs'
+  end
 end

@@ -3,7 +3,7 @@
     <div id='TokenTrades' class='card'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class TokenTrades extends BootstrapTableComponent {
         configuration() {
             return {
@@ -68,7 +68,10 @@
         protocol: '<%= @protocol %>'
     }
 
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[TokenTrades, '#TokenTrades']], 'Token-Trades_6', variables);
-    })
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%= j @streaming_access_token %>', [[TokenTrades, '#TokenTrades']], 'Token-Trades_6', variables);
+    });
 </script>

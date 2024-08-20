@@ -12,7 +12,7 @@
     </div>
   </div>
 </div>
-<script>
+<script type="module">
   $(document).ready(function () {
     const signatureValue = "<%= @signature %>";
     var query = new widgets.query(`query ($method: String!, $limit: Int!, $offset: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
@@ -80,7 +80,10 @@
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>, {
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
       method: signatureValue
     });
   });

@@ -19,96 +19,116 @@
       </div>
     </div>
   </div>
-  <script>
-      $(document).ready(function() {
-          const query = new graphs.query(`
-query ($network: ConfluxNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
-  conflux(network: $network) {
-    inbound: coinpath(initialAddress: {is: $address}, currency:{is: $currency}, depth: {lteq: $inboundDepth}, options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
-      sender {
-        address
-        annotation
-        smartContract {
-          contractType
-          currency {
-            symbol
-            name
+
+  <script type="module">
+    $(document).ready(function() {
+      const query = new graphs.query(`
+        query ($network: ConfluxNetwork!, $address: String!, $inboundDepth: Int!, $outboundDepth: Int!, $limit: Int!, $currency: String!, $from: ISO8601DateTime, $till: ISO8601DateTime) {
+          conflux(network: $network) {
+            inbound: coinpath(
+              initialAddress: {is: $address}, 
+              currency: {is: $currency}, 
+              depth: {lteq: $inboundDepth}, 
+              options: {direction: inbound, asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, 
+              date: {since: $from, till: $till}
+            ) {
+              sender {
+                address
+                annotation
+                smartContract {
+                  contractType
+                  currency {
+                    symbol
+                    name
+                  }
+                }
+              }
+              receiver {
+                address
+                annotation
+                smartContract {
+                  contractType
+                  currency {
+                    symbol
+                    name
+                  }
+                }
+              }
+              amount
+              currency {symbol}
+              depth
+              count
+            }
+            outbound: coinpath(
+              initialAddress: {is: $address}, 
+              currency: {is: $currency}, 
+              depth: {lteq: $outboundDepth}, 
+              options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, 
+              date: {since: $from, till: $till}
+            ) {
+              sender {
+                address
+                annotation
+                smartContract {
+                  contractType
+                  currency {
+                    symbol
+                    name
+                  }
+                }
+              }
+              receiver {
+                address
+                annotation
+                smartContract {
+                  contractType
+                  currency {
+                    symbol
+                    name
+                  }
+                }
+              }
+              amount
+              currency {symbol}
+              depth
+              count
+            }
           }
-        }
-      }
-      receiver {
-        address
-        annotation
-        smartContract {
-          contractType
-          currency {
-            symbol
-            name
-          }
-        }
-      }
-      amount
-      currency{symbol}
-      depth
-      count
-    }
-    outbound: coinpath(initialAddress: {is: $address}, currency:{is: $currency}, depth: {lteq: $outboundDepth}, options: {asc: "depth", desc: "amount", limitBy: {each: "depth", limit: $limit}}, date:{since: $from, till: $till}) {
-      sender {
-        address
-        annotation
-        smartContract {
-          contractType
-          currency {
-            symbol
-            name
-          }
-        }
-      }
-      receiver {
-        address
-        annotation
-        smartContract {
-          contractType
-          currency {
-            symbol
-            name
-          }
-        }
-      }
-      amount
-      currency{symbol}
-      depth
-      count
-    }
-  }
-}
-`)
+        }`);
 
-          new graphs.address_graph('#graph', query, {
-              theme: '<%= @theme %>',
-          })
+      new graphs.address_graph('#graph', query, {
+        theme: '<%= j @theme %>'
+      });
 
-          new graphs.addControls('#graph', query, {
-              theme: '<%= @theme %>',
-              currencies: [<%= @currencies.collect{|cur|
-            value = cur.address === '-' ? cur.symbol : cur.address
-            "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
-            }.join(',').html_safe %>],
-          })
+      new graphs.addControls('#graph', query, {
+        theme: '<%= j @theme %>',
+        currencies: [<%= j @currencies.collect { |cur|
+          value = cur.address === '-' ? cur.symbol : cur.address
+          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+        }.join(',') %>]
+      });
 
-          new graphs.address_sankey('#sankey-graph', query, {
-              theme: '<%= @theme %>',
-          })
+      new graphs.address_sankey('#sankey-graph', query, {
+        theme: '<%= j @theme %>'
+      });
 
-          new graphs.addControls('#sankey-graph', query, {
-              theme: '<%= @theme %>',
-              currencies: [<%= @currencies.collect{|cur|
-            value = cur.address === '-' ? cur.symbol : cur.address
-            "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
-            }.join(',').html_safe %>],
-          })
+      new graphs.addControls('#sankey-graph', query, {
+        theme: '<%= j @theme %>',
+        currencies: [<%= j @currencies.collect { |cur|
+          value = cur.address === '-' ? cur.symbol : cur.address
+          "{address:\"#{cur.address}\",symbol:\"#{cur.symbol}\",name:\"#{cur.name}\",search:\"#{value}\"}"
+        }.join(',') %>]
+      });
 
-          queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {"inboundDepth": 1, "outboundDepth": 1, "limit": 10, "offset": 0, "network": "<%= params['network']['network'] %>", "address": "<%= @address %>", "currency": "<%= @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>"})
-      })
+      queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+        inboundDepth: 1,
+        outboundDepth: 1,
+        limit: 10,
+        offset: 0,
+        network: '<%= j params[:network][:network] %>',
+        address: '<%= j @address %>',
+        currency: '<%= j @currencies.first && (@currencies.first.address == '-' ? @currencies.first.symbol : @currencies.first.address) %>'
+      });
+    });
   </script>
 </div>

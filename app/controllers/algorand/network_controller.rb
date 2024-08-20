@@ -1,11 +1,13 @@
-class Algorand::NetworkController < ::NetworkController
-  layout 'tabs'
+module Algorand
+  class NetworkController < NetworkController
+    layout 'tabs'
 
-  before_action :breadcrumb
+    before_action :breadcrumb
 
-  private
+    private
 
-  def breadcrumb
-    action_name != 'show' && @breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") }
+    def breadcrumb
+      action_name != 'show' && (@breadcrumbs << { name: t("tabs.#{controller_name}.#{action_name}.name") })
+    end
   end
 end

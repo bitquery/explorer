@@ -1,6 +1,6 @@
-class Binance::SitemapController < NetworkController
-
-  QUERY =  <<-'GRAPHQL'
+module Binance
+  class SitemapController < NetworkController
+    QUERY = <<-GRAPHQL.freeze
            query ($from: ISO8601DateTime) {
             senders: binance {
               transfers(options: {desc: "count", limit: 100}, date: {since: $from}) {
@@ -27,10 +27,11 @@ class Binance::SitemapController < NetworkController
               }
             }
           }
-  GRAPHQL
+    GRAPHQL
 
-  def index
-    @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Date.today - 30 }, context: { authorization: @streaming_access_token }).data
+    def index
+      @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Time.zone.today - 30 },
+                                                      context: { authorization: @streaming_access_token }).data
+    end
   end
-
 end

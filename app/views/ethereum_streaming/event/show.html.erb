@@ -8,7 +8,7 @@
     <div class='card' id='EventStatistic'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class EventInformation extends BootstrapVerticalTableComponent {
         configuration() {
             return {
@@ -62,7 +62,10 @@
         network: '<%= @streaming%>',
         method: '<%= @signature%>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[EventStatistic, '#EventStatistic']], 'Event-statistic-by-date_2', variables);
     })
     renderComponent('<%=@streaming_access_token %>',[[EventInformation, '#EventInformation']], 'Event-Information_1', variables);

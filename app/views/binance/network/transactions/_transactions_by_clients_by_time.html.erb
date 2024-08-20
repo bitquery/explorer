@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<script>
+<script type="module">
 
     $( document ).ready(function() {
 
@@ -72,8 +72,7 @@
             limit: {length: 10, other: true, axis: 'col'},
         });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>);
-
-
-    });
+        const fromDate = '<%= j @from %>'; 
+        const tillDate = '<%= j @till %>';
+        queryWithTimeRange(rr, query, fromDate, tillDate)});
 </script>

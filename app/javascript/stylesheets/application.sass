@@ -10,12 +10,28 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts'
 @import "../../assets/stylesheets/application"
 
 
-.dropdown:has(.wallet-options)
-  min-width: 320px
 
-.wallet-options
-  width: 100%
+.badge.badge-secondary.open-btn
+  background-color: #28a745 !important
+  color: #fff !important
+  padding: 5px 10px !important
+  border-radius: 9px !important
+  font-size: 12px !important
+  font-weight: 400 !important
+  cursor: pointer !important
+  text-align: center !important
+  display: inline-block !important
 
+  &:hover
+    background-color: #218838 !important
+
+  &:focus
+    outline: none !important
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.5) !important
+
+a
+  text-decoration: none
+  
 svg[visibility="hidden"]
   position: absolute
   width: 0
@@ -38,24 +54,6 @@ svg[visibility="hidden"]
 
 .add-connection
   margin: 0.25rem 1.5rem
-
-.wallet-icon
-  width: 30px
-  height: 30px
-  margin-right: .5rem
-
-.modal-body-wallets use, .modal-body-wallets svg, .wallet-dropdown-menu .dropdown-item > *
-  pointer-events: none
-
-.modal-wallet-selection
-  display: flex
-  align-items: center
-
-  &:disabled
-    filter: grayscale(100%) blur(1px)
-
-  &:hover:enabled
-    background-color: #ccc
 
 .tabulator
   font-size: 16px !important

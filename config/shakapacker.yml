@@ -1,0 +1,42 @@
+default: &default
+  source_path: app/javascript
+  source_entry_path: packs
+  public_root_path: public
+  public_output_path: packs
+  cache_path: tmp/shakapacker
+  webpack_compile_output: true
+  additional_paths: ["app/javascript/images", "app/assets/images"]
+  cache_manifest: false
+  compile: true
+  compiler_strategy: digest
+  useContentHash: true
+
+development:
+  <<: *default
+  compile: true
+  dev_server:
+    host: localhost
+    port: 3035
+    hmr: true
+    inline_css: true
+    client:
+      overlay: true
+    compress: true
+    allowed_hosts: "auto"
+    pretty: true
+    headers:
+      "Access-Control-Allow-Origin": "*"
+    static:
+      watch:
+        ignored: "**/node_modules/**"
+
+test:
+  <<: *default
+  compile: true
+  public_output_path: packs-test
+
+production:
+  <<: *default
+  compile: false
+  useContentHash: true
+  cache_manifest: true

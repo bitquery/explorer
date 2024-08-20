@@ -1,94 +1,97 @@
 <div class="col-12 col-lg-6 mb-4">
-    <div class="card">
-      <div class="card-header"><%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %></div>
-      <div class="card-body">
-        <div id="outbound_native_table"><%= t('loading') %></div>
-      </div>
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %></div>
+    <div class="card-body">
+      <div id="outbound_native_table"><%= t('loading') %></div>
     </div>
+  </div>
 </div>
 
-<script>
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const query = new widgets.query(`
+      query (
+        $address: String!,
+        $nativeCurrency: String!,
+        $limit: Int!,
+        $offset: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime
+      ) {
+        eos {
+          transfers(
+            options: {
+              limit: $limit,
+              offset: $offset,
+              desc: "amount",
+              asc: "currency.symbol"
+            },
+            date: { since: $from, till: $till },
+            sender: { is: $address },
+            currency: { is: $nativeCurrency }
+          ) {
+            address: receiver {
+              address
+              annotation
+            }
+            count
+            amount
+            max_date: maximum(of: date)
+            currency {
+              address
+              symbol
+            }
+          }
+        }
+      }
+    `);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query (
-                      $address: String!,
-                      $nativeCurrency: String!,
-                      $limit: Int!,
-                      $offset: Int!
-                      $from: ISO8601DateTime,
-                      $till: ISO8601DateTime){
-                  eos{
-                    transfers(options:{limit: $limit, offset: $offset, desc: "amount"  asc: "currency.symbol"},
-                      date: {since: $from till: $till },
-                      sender: {is: $address},
-                      currency: {is: $nativeCurrency }) {
-
-                      address: receiver{
-                        address
-                        annotation
-                      }
-
-
-                      count
-                      amount
-                      max_date: maximum(of: date)
-
-                      currency {
-                        address
-                        symbol
-                      }
-
-                    }
-                  }
-                }`);
-
-        new widgets.table('#outbound_native_table', query, 'eos.transfers', {
-            title: '<%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.receiver') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.amount') %>',
-                    type: 'amount',
-                    path: 'amount',
-                    style: 'width: 100px'
-                },
-                {
-                    title: '',
-                    type: 'string',
-                    path: 'currency.symbol',
-                    style: 'width: 80px'
-                },
-                {
-                    title: '<%= t('widgets.titles.max_date') %>',
-                    type: 'string',
-                    path: 'max_date',
-                    style: 'width: 100px'
-                },
-                {
-                    title: '<%= t('widgets.titles.transfer_count') %>',
-                    type: 'count',
-                    path: 'count',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'transfer_from_path',
-                    style: 'width: 130px'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-
-            address: '<%= @address %>',
-            nativeCurrency: '<%= @network[:currency] %>'
-        });
-
-
+    new widgets.table('#outbound_native_table', query, 'eos.transfers', {
+      title: '<%= t('widgets.headers.outbound_native_table', currency: @network[:currency]) %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.receiver') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.amount') %>',
+          type: 'amount',
+          path: 'amount',
+          style: 'width: 100px'
+        },
+        {
+          title: '',
+          type: 'string',
+          path: 'currency.symbol',
+          style: 'width: 80px'
+        },
+        {
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date',
+          style: 'width: 100px'
+        },
+        {
+          title: '<%= t('widgets.titles.transfer_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'transfer_from_path',
+          style: 'width: 130px'
+        }
+      ]
     });
 
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+    const nativeCurrency = '<%= j @network[:currency] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      address: address,
+      nativeCurrency: nativeCurrency
+    });
+  });
 </script>

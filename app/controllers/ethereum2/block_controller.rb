@@ -1,22 +1,23 @@
-class Ethereum2::BlockController < NetworkController
-  layout 'tabs'
+module Ethereum2
+  class BlockController < NetworkController
+    layout 'tabs'
 
-  before_action :breadcrumb, :get_block
+    before_action :breadcrumb, :get_block
 
-  def validators
-    # @validators = @block.validators
+    def validators
+      # @validators = @block.validators
+    end
 
-  end
+    private
 
-  private
+    def get_block
+      @height = params[:block]
+    end
 
-  def get_block
-    @height = params[:block]
-  end
-  def blocks
-    @is_block_section = true
-  end
-  def breadcrumb
+    def blocks
+      @is_block_section = true
+    end
 
+    def breadcrumb; end
   end
 end

@@ -1,3 +1,5 @@
-class Bitcoin::TxController < NetworkController
-  layout 'tabs'
+module Bitcoin
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end

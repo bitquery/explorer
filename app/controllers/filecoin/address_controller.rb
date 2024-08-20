@@ -1,4 +1,5 @@
-class Filecoin::AddressController < NetworkController
-  layout 'tabs'
-
+module Filecoin
+  class AddressController < NetworkController
+    layout 'tabs'
+  end
 end

@@ -1,6 +1,6 @@
-class Eos::SitemapController < NetworkController
-
-  QUERY = <<-'GRAPHQL'
+module Eos
+  class SitemapController < NetworkController
+    QUERY = <<-GRAPHQL.freeze
            query ($from: ISO8601DateTime){
                     producers: eos{
                       blocks(options:{desc: "count", limit: 50},
@@ -14,19 +14,19 @@ class Eos::SitemapController < NetworkController
                     }
                    senders: eos{
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
-                          ) {               
+                          ) {#{'               '}
                             sender(sender: {not: ""}) {
                               address
-                            }              
-                            count                
-                        }                    
+                            }#{'              '}
+                            count#{'                '}
+                        }#{'                    '}
                    }
                   receivers: eos{
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -38,7 +38,7 @@ class Eos::SitemapController < NetworkController
                   }
 						      tokens: eos{
                         transfers(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -50,7 +50,7 @@ class Eos::SitemapController < NetworkController
                    }
                   callers: eos{
                         smartContractCalls(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -62,7 +62,7 @@ class Eos::SitemapController < NetworkController
                   }
                   contracts: eos{
                         smartContractCalls(options:{
-                          desc: "count", 
+                          desc: "count",#{' '}
                           limit: 100},
                           date: {since: $from }
                           ) {
@@ -75,10 +75,11 @@ class Eos::SitemapController < NetworkController
                         }
                   }
            }
-  GRAPHQL
+    GRAPHQL
 
-  def index
-    @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Date.today - 1 }, context: { authorization: @streaming_access_token }).data
+    def index
+      @response = Graphql::V1.query_with_retry(QUERY, variables: { from: Time.zone.today - 1 },
+                                                      context: { authorization: @streaming_access_token }).data
+    end
   end
-
 end

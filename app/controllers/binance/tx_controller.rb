@@ -1,3 +1,5 @@
-class Binance::TxController < NetworkController
-  layout 'tabs'
+module Binance
+  class TxController < NetworkController
+    layout 'tabs'
+  end
 end

@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<script>
+<script type="module">
   $( document ).ready(function() {
     const qraphql_query = `
       query ($network: ElrondNetwork!, $limit: Int!, $offset: Int!, $miniblockHash: String!) {
@@ -91,7 +91,10 @@
       ]
     });
 
-    queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
       miniblockHash: '<%= @miniblock_hash %>',
       network: '<%= params['network']['network'] %>'
     });

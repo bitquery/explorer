@@ -17,7 +17,7 @@
     <div class='card' id='SmartContractBalanceByCurrencies'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class SmartContractStatistics extends BootstrapVerticalTableComponent {
         configuration() {
             return {
@@ -178,7 +178,10 @@
 
     renderComponent('<%=@streaming_access_token %>', [[SmartContractStatistics, '#SmartContractStatistics']], 'Smart-Contract-Statistics-dataset-combain_2', variables);
     renderComponent('<%=@streaming_access_token %>', [[SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies']], 'Smart-Contract-balance-by-currencies_3', variables);
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[DailySmartContractCalls, '#DailySmartContractCalls'], [DailySmartContractCallsInt, '#DailySmartContractCallsInt'], [CallValue, '#CallValue']], 'Daily-Smart-Contract-Calls_6', variables);
     })
 </script>

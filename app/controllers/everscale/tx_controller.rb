@@ -14,7 +14,7 @@ module Everscale
     end
 
     def breadcrumb
-      return if action_name != 'show'
+      nil if action_name != 'show'
     end
   end
 end

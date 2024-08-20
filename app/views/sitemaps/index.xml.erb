@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/siteindex.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <sitemap>
-    <loc><%= covid_sitemap_url %></loc>
-    <lastmod><%= (Time.now - 1.day).iso8601 %></lastmod>
-  </sitemap>
-
   <% for bc in BLOCKCHAINS %>
     <sitemap>
-      <loc><%= url_for controller: "#{bc[:family]}/sitemap", action: 'index',
-                       blockchain: bc[:network] , network:bc, only_path: false%></loc>
+      <loc><%= url_for controller: "#{bc[:family]}/sitemap", action: "index",
+                       blockchain: bc[:network], network: bc, only_path: false %></loc>
       <lastmod><%= (Time.now - 1.day).iso8601 %></lastmod>
     </sitemap>
   <% end %>

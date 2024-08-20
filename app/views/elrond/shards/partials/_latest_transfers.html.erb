@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<script>
+<script type="module">
   $( document ).ready(function() {
     const qraphql_query = `
       query ($network: ElrondNetwork!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime, $offset: Int!, $shard_id: BigInt) {
@@ -91,8 +91,10 @@
         },
       ]
     });
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
 
-    queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+    queryWithTimeRange(rr, query, fromDate, tillDate,{
       shard_id: '<%= @shard_id %>',
       network: '<%= params['network']['network'] %>'
     });

@@ -9,84 +9,83 @@
   </div>
 </div>
 
-<script>
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const query = new widgets.query(`
+      query (
+        $address: String!,
+        $limit: Int!,
+        $offset: Int!,
+        $from: ISO8601DateTime,
+        $till: ISO8601DateTime
+      ) {
+        eos {
+          smartContractCalls(
+            options: { desc: "block.timestamp.time", limit: $limit, offset: $offset },
+            date: { since: $from, till: $till },
+            smartContractAddress: { is: $address }
+          ) {
+            block {
+              timestamp {
+                time(format: "%Y-%m-%d %H:%M:%S")
+              }
+              height
+            }
+            smartContractMethod {
+              name
+              signatureHash
+            }
+            address: txFrom {
+              address
+              annotation
+            }
+            txHash
+          }
+        }
+      }
+    `);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query (
-                    $address: String!,
-                    $limit: Int!,
-                    $offset: Int!
-                    $from: ISO8601DateTime,
-                    $till: ISO8601DateTime){
-                eos{
-                  smartContractCalls(options:{desc: "block.timestamp.time", limit: $limit, offset: $offset},
-                    date: {since: $from till: $till },
-                    smartContractAddress: {is: $address}) {
-
-                    block {
-                      timestamp {
-                        time (format: "%Y-%m-%d %H:%M:%S")
-                      }
-                      height
-                    }
-                    smartContractMethod {
-                      name
-                      signatureHash
-                    }
-
-                    address: txFrom {
-                      address
-                      annotation
-                    }
-
-                    txHash
-                  }
-                }
-              }`);
-
-        new widgets.table('#smart_contract_transactions', query, 'eos.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contract_transactions') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.timestamp') %>',
-                    type: 'string',
-                    path: 'block.timestamp.time'
-                },
-                {
-                    title: '<%= t('widgets.titles.block') %>',
-                    type: 'string',
-                    path: 'block.height',
-                    urlCallbackName: 'block_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.method') %>',
-                    type: 'string',
-                    path: ['smartContractMethod.name','smartContractMethod.signatureHash'],
-                    urlCallbackName: 'smart_contract_method_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.caller') %>',
-                    type: 'string-ellipsis',
-                    path: ['address.annotation','address.address'],
-                    urlCallbackName: 'address_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.transaction') %>',
-                    type: 'string-ellipsis',
-                    urlCallbackName: 'transaction_path',
-                    renderCallback: <%= render partial: 'eos/tx_external_display', formats: :text %>
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.table('#smart_contract_transactions', query, 'eos.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contract_transactions') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.timestamp') %>',
+          type: 'string',
+          path: 'block.timestamp.time'
+        },
+        {
+          title: '<%= t('widgets.titles.block') %>',
+          type: 'string',
+          path: 'block.height',
+          urlCallbackName: 'block_path'
+        },
+        {
+          title: '<%= t('widgets.titles.method') %>',
+          type: 'string',
+          path: ['smartContractMethod.name', 'smartContractMethod.signatureHash'],
+          urlCallbackName: 'smart_contract_method_path'
+        },
+        {
+          title: '<%= t('widgets.titles.caller') %>',
+          type: 'string-ellipsis',
+          path: ['address.annotation', 'address.address'],
+          urlCallbackName: 'address_path'
+        },
+        {
+          title: '<%= t('widgets.titles.transaction') %>',
+          type: 'string-ellipsis',
+          urlCallbackName: 'transaction_path',
+          renderCallback: '<%= j render partial: "eos/tx_external_display", formats: :text %>'
+        }
+      ]
     });
 
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      address: address
+    });
+  });
 </script>

@@ -2,7 +2,6 @@ require 'graphql/client'
 require 'graphql/client/http'
 module Graphql
   class V2
-
     ATTEMPTS = 2
 
     def self.query_with_retry(query, variables: {}, context: {})
@@ -11,37 +10,34 @@ module Graphql
       https = Net::HTTP.new(url.host, url.port)
       https.use_ssl = true if url.instance_of? URI::HTTPS
 
-
       request = Net::HTTP::Post.new(url)
       request['Content-Type'] = 'application/json'
       request['Authorization'] = context[:authorization]
-      request['X-API-KEY'] = ENV['EXPLORER_API_KEY']
+      request['X-API-KEY'] = ENV.fetch('EXPLORER_API_KEY') { nil }
 
       body = {
-        query: query,
-        variables: variables
+        query:,
+        variables:
       }
 
       request.body = body.to_json
       attempt = 1
 
-      ::BitqueryLogger.extra_context query: query,
-                                     variables: variables,
-                                     context: context,
-                                     attempt: attempt
+      ::BitqueryLogger.extra_context(query:,
+                                     variables:,
+                                     context:,
+                                     attempt:)
 
       begin
         response = https.request(request)
         resp = JSON.parse(response.read_body, object_class: OpenStruct)
-        BitqueryLogger.extra_context errors: resp.errors&.map{|e| e.message}
-      rescue Net::ReadTimeout => e
-        if attempt >= ATTEMPTS
-          raise 'All attempts failed'
-        else
-          sleep(1)
-          attempt += 1
-          retry
-        end
+        BitqueryLogger.extra_context errors: resp.errors&.map(&:message)
+      rescue Net::ReadTimeout
+        raise 'All attempts failed' if attempt >= ATTEMPTS
+
+        sleep(1)
+        attempt += 1
+        retry
       end
 
       if resp&.errors&.any? && resp&.data&.nil?
@@ -54,6 +50,5 @@ module Graphql
 
       resp
     end
-
   end
 end

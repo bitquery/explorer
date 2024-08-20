@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<script>
+<script type="module">
 
     $( document ).ready(function() {
 
@@ -107,7 +107,10 @@
             ]
         });
 
-        queryWithTimeRange(rr, query, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>,{
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
             network: '<%= params['network']['network'] %>',
             token: '<%= @address %>'
         });

@@ -11,7 +11,7 @@
     <div class='card' id='GasSpentByDate'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class Transactions extends BootstrapTableComponent {
         configuration() {
             return {
@@ -101,7 +101,10 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions_7', variables);
         renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'],[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_7', variables);
     })

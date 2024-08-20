@@ -10,6 +10,8 @@
 # Ignore bundler config.
 /.bundle
 
+/app/javascript/packs/graphs*
+/graphs/
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*

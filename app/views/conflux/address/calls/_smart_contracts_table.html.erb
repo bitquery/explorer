@@ -1,86 +1,79 @@
 <div class="col-12 col-lg-6 mb-4">
-    <div class="card">
-      <div class="card-header"><%= t('widgets.headers.smart_contracts_table') %></div>
-      <div class="card-body">
-        <div id="smart_contracts_table"><%= t('loading') %></div>
-      </div>
+  <div class="card">
+    <div class="card-header"><%= t('widgets.headers.smart_contracts_table') %></div>
+    <div class="card-body">
+      <div id="smart_contracts_table"><%= t('loading') %></div>
     </div>
+  </div>
 </div>
 
-<script>
+<script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query ($network: ConfluxNetwork!,
+             $address: String!,
+             $limit: Int!,
+             $offset: Int!,
+             $from: ISO8601DateTime,
+             $till: ISO8601DateTime) {
+        conflux(network: $network) {
+          smartContractCalls(
+            options: {desc: "count", asc: "smartContract.address.address", limit: $limit, offset: $offset},
+            date: {since: $from, till: $till},
+            caller: {is: $address}
+          ) {
+            smartContract {
+              address {
+                address
+                annotation
+              }
+              contractType
+            }
+            max_date: maximum(of: date)
+            count
+            uniq_methods: count(uniq: smart_contract_methods)
+            gasValue(calculate: average)
+          }
+        }
+      }`);
 
-    $( document ).ready(function() {
-
-
-        var query = new widgets.query(`query ($network: ConfluxNetwork!,
-                        $address: String!,
-                        $limit: Int!,
-                        $offset: Int!
-                        $from: ISO8601DateTime,
-                        $till: ISO8601DateTime){
-                    conflux(network: $network){
-                      smartContractCalls(options:{desc: "count"  asc: "smartContract.address.address" limit: $limit, offset: $offset},
-                        date: {since: $from till: $till },
-                        caller: {is: $address} ) {
-
-                        smartContract {
-                          address {
-                            address
-                            annotation
-                          }
-                          contractType
-                        }
-
-                        max_date: maximum(of: date)
-
-                        count
-                        uniq_methods: count(uniq: smart_contract_methods)
-                        gasValue(calculate: average)
-
-                      }
-                    }
-                  }`);
-
-        new widgets.table('#smart_contracts_table', query, 'conflux.smartContractCalls', {
-            title: '<%= t('widgets.headers.smart_contracts_table') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.smart_contract') %>',
-                    type: 'string-ellipsis',
-                    path: ['smartContract.address.annotation', 'smartContract.address.address'],
-                    urlCallbackName: 'smart_contract_path'
-                },
-                {
-                    title: '<%= t('widgets.titles.max_date') %>',
-                    type: 'string',
-                    path: 'max_date'
-                },
-                {
-                    title: '<%= t('widgets.titles.avg_gas_value') %>',
-                    type: 'amount',
-                    path: 'gasValue'
-                },
-                {
-                    title: '<%= t('widgets.titles.uniq_methods') %>',
-                    type: 'count',
-                    path: 'uniq_methods'
-                },
-                {
-                    title: '<%= t('widgets.titles.calls_count') %>',
-                    type: 'count',
-                    path: 'count',
-                    data: '%{DATA} <span class="fa fa-list"></span>',
-                    urlCallbackName: 'call_count_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.table('#smart_contracts_table', query, 'conflux.smartContractCalls', {
+      title: '<%= t('widgets.headers.smart_contracts_table') %>',
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.smart_contract') %>',
+          type: 'string-ellipsis',
+          path: ['smartContract.address.annotation', 'smartContract.address.address'],
+          urlCallbackName: 'smart_contract_path'
+        },
+        {
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date'
+        },
+        {
+          title: '<%= t('widgets.titles.avg_gas_value') %>',
+          type: 'amount',
+          path: 'gasValue'
+        },
+        {
+          title: '<%= t('widgets.titles.uniq_methods') %>',
+          type: 'count',
+          path: 'uniq_methods'
+        },
+        {
+          title: '<%= t('widgets.titles.calls_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'call_count_path'
+        }
+      ]
     });
 
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>

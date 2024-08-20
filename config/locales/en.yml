@@ -1442,12 +1442,6 @@ en:
         title: "Cosmos Based Blockchains Explorer"
         description: "Explorers for Blockchains based on Cosmos platform, such as Binance chain explorer"
         keywords: "explorer, Cosmos Explorer, Binance chain explorer, Binance chain address, Binance chain transactions"
-      offchain:
-        name: "Offchain Data"
-        header: "Offchain Data at Bitquery"
-        title: "Offchain Data Explorer at Bitquery"
-        description: "Explorers for Offchain Data by Bitquery"
-        keywords: "Covid-19 data, Covid-19 APIs, Covid API"
       testnet:
         name: "Blockchain Testnets"
         header: "Blockchain Testnet Explorers"
@@ -1479,69 +1473,6 @@ en:
         title: "%{network} order %{order} trades"
         description: "Trade history of order %{order}  in %{network}"
         keywords: "%{network} trades"
-    covid_dashboard:
-      index:
-        name: "World Dynamics"
-        header: "COVID-2019 World Statistics"
-        title: "COVID-2019 World Statistics"
-        description: "Data on COVID-2019 World Statistics in numbers"
-      maps:
-        name: "Map"
-        header: "COVID-2019 World Map"
-        title: "COVID-2019 World Map"
-        description: "Map on COVID-2019 World Distribution and Density"
-      countries:
-        name: "Countries"
-        header: "COVID-2019 by Countries Statistics"
-        title: "COVID-2019 by Countries"
-        description: "Map on COVID-2019 by Countries Counts"
-      continents:
-        name: "Continents"
-        header: "COVID-2019 by Continents Statistics"
-        title: "COVID-2019 by Continents"
-        description: "Map on COVID-2019 by Continents Counts"
-      time_series:
-        name: "Time Series"
-        header: "Time Series Correlation of COVID-2019 Data Across Countries"
-        title: "COVID-2019 Time Series Comparative Study"
-        description: "Time Series Comparative Correlation of COVID-2019 Data Across Countries"
-    covid_country:
-      index:
-        name: "Dynamics"
-        header: "COVID-2019 %{country} Statistics"
-        title: "COVID-2019 %{country} Statistics"
-        description: "Data on COVID-2019 %{country} Statistics in numbers"
-      map:
-        name: "Map"
-        header: "COVID-2019 %{country} Map"
-        title: "COVID-2019 %{country} Map"
-        description: "Map on COVID-2019 %{country} Distribution and Density"
-      time_series:
-        name: "Time Series"
-        header: "Time Series of COVID-2019 Data in %{country}"
-        title: "COVID-2019 %{country} Study"
-        description: "Time Series of COVID-2019 Data in %{country}"
-    covid_continent:
-      index:
-        name: "Dynamics"
-        header: "COVID-2019 %{continent} Statistics"
-        title: "COVID-2019 %{continent} Statistics"
-        description: "Data on COVID-2019 %{continent} Statistics in numbers"
-      map:
-        name: "Map"
-        header: "COVID-2019 %{continent} Map"
-        title: "COVID-2019 %{continent} Map"
-        description: "Map on COVID-2019 %{continent} Distribution and Density"
-      countries:
-        name: "Countries"
-        header: "COVID-2019 by Countries of %{continent} Statistics"
-        title: "COVID-2019 by Countries of %{continent}"
-        description: "Map on COVID-2019 by Countries of %{continent} Counts"
-      time_series:
-        name: "Time Series"
-        header: "Time Series of COVID-2019 Data in %{continent}"
-        title: "COVID-2019 %{continent} Study"
-        description: "Time Series of COVID-2019 Data in %{continent}"
     validator:
       icon: 'far fa-address-card'
       header: "%{network} validator with index #%{index}"
@@ -2479,7 +2410,6 @@ en:
   pages:
     home:
       family: "%{family} Platform Explorers"
-      offchain: "%{family} Dataset Explorers"
       blockchain: "%{network} Explorer"
     footer:
       explorer: "%{network} Explorer"

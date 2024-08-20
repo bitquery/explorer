@@ -6,7 +6,7 @@ module Solana
 
     before_action :query_graphql, only: %i[money_flow]
 
-    MONEY_FLOW_QUERY = <<-'GRAPHQL'
+    MONEY_FLOW_QUERY = <<-GRAPHQL.freeze
       query ($network: SolanaNetwork!, $address: String!) {
         solana(network: $network) {
           outflow: transfers(
@@ -35,6 +35,8 @@ module Solana
       }
     GRAPHQL
 
+    def money_flow; end
+
     private
 
     def set_address
@@ -42,7 +44,7 @@ module Solana
     end
 
     def breadcrumb
-      return if action_name == 'show'
+      nil if action_name == 'show'
     end
 
     def query_graphql

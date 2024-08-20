@@ -19,7 +19,7 @@
     <div id='SubLatestSmartContractCalls' class='card'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class SmartContractsByDate extends TimeChartComponent {
         configuration() {
             return {
@@ -163,7 +163,10 @@
     const variables = {
         network: '<%= @streaming%>',
     };
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [
             [SmartContractsByDate, '#Smart-Contracts-By-Date'],
             [UniqueSmartContracts, '#UniqueSmartContracts'],

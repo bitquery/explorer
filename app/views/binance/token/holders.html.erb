@@ -22,7 +22,7 @@
     <div class='card' id='SupplyTokens'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class BalanceHolderStatsLatestDate extends BootstrapVerticalTableComponent {
         configuration() {
             return {
@@ -205,7 +205,10 @@
     variables.date_middle = new Date((new Date(variables.from).getTime() + new Date(variables.till).getTime()) / 2).toISOString().slice(0, 10);
 
 
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[HoldersCount, '#HoldersCount'], [GiniIndex, '#GiniIndex'], [NakamotoIndex, '#NakamotoIndex'], [SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_8', variables);
     })
     renderComponent('<%=@streaming_access_token %>', [[TopHolders, '#TopHolders']], 'Top-holders_6', variables);

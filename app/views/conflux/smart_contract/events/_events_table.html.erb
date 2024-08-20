@@ -10,116 +10,105 @@
 </div>
 
 <div class="row">
-    <div class="col-12 col-lg-12 mb-4">
-      <div class="card">
+  <div class="col-12 col-lg-12 mb-4">
+    <div class="card">
       <div class="card-header"><%= t('widgets.headers.smart_contract_events_table') %></div>
       <div class="card-body">
-      <div id="smart_contract_events_table"><%= t('loading') %></div>
-            </div>
-          </div>
+        <div id="smart_contract_events_table"><%= t('loading') %></div>
       </div>
+    </div>
+  </div>
 </div>
 
+<script type="module">
+  $(document).ready(function() {
+    var query = new widgets.query(`
+      query ($network: ConfluxNetwork!,
+             $address: String!,
+             $limit: Int,
+             $offset: Int,
+             $from: ISO8601DateTime,
+             $till: ISO8601DateTime) {
+        conflux(network: $network) {
+          smartContractEvents(
+            options: {desc: "count", limit: $limit, offset: $offset},
+            date: {since: $from, till: $till},
+            smartContractAddress: {is: $address}
+          ) {
+            smartContractEvent {
+              name
+              signature
+              signatureHash
+            }
+            count
+            max_date: maximum(of: date)
+          }
+        }
+      }`);
 
-
-<script>
-
-    $( document ).ready(function() {
-        var query = new widgets.query(`query ($network: ConfluxNetwork!,
-                        $address: String!,
-                        $limit:Int,
-                        $offset:Int,
-                        $from: ISO8601DateTime,
-                        $till: ISO8601DateTime){
-                    conflux(network: $network){
-                      smartContractEvents(options:{
-                        desc: "count"
-                        limit:$limit, offset: $offset},
-                        date: {since: $from till: $till },
-                        smartContractAddress: {is: $address}) {
-
-                        smartContractEvent {
-                          name
-                          signature
-                          signatureHash
-                        }
-
-                        count
-
-                        max_date:maximum(of: date)
-                      }
-                    }
-                  }`);
-
-new widgets.table('#smart_contract_events_table', query, 'conflux.smartContractEvents', {
-    title: '<%= t('widgets.headers.smart_contract_events_table') %>',
-    dataOptions: [
+    new widgets.table('#smart_contract_events_table', query, 'conflux.smartContractEvents', {
+      title: '<%= t('widgets.headers.smart_contract_events_table') %>',
+      dataOptions: [
         {
-            title: '<%= t('widgets.titles.event') %>',
-            type: 'string',
-            path: ['smartContractEvent.name','smartContractEvent.signatureHash'],
-            urlCallbackName: 'smart_contract_event_path'
+          title: '<%= t('widgets.titles.event') %>',
+          type: 'string',
+          path: ['smartContractEvent.name', 'smartContractEvent.signatureHash'],
+          urlCallbackName: 'smart_contract_event_path'
         },
         {
-            title: '<%= t('widgets.titles.event_signature') %>',
-            type: 'string-ellipsis',
-            path: 'smartContractEvent.signature'
+          title: '<%= t('widgets.titles.event_signature') %>',
+          type: 'string-ellipsis',
+          path: 'smartContractEvent.signature'
         },
         {
-            title: '<%= t('widgets.titles.max_date') %>',
-            type: 'string',
-            path: 'max_date'
+          title: '<%= t('widgets.titles.max_date') %>',
+          type: 'string',
+          path: 'max_date'
         },
-
         {
-            title: '<%= t('widgets.titles.events_count') %>',
-            type: 'count',
-            path: 'count',
-            data: '%{DATA} <span class="fa fa-list"></span>',
-            urlCallbackName: 'event_count_path'
-        },
-    ]
-});
+          title: '<%= t('widgets.titles.events_count') %>',
+          type: 'count',
+          path: 'count',
+          data: '%{DATA} <span class="fa fa-list"></span>',
+          urlCallbackName: 'event_count_path'
+        }
+      ]
+    });
 
-
-new widgets.chart('#smart_contract_events_diagram', query, 'conflux.smartContractEvents', {
-    chartType: 'BarChart',
-    title: '<%= t('widgets.headers.smart_contract_events_diagram') %>',
-    chartOptions: {
+    new widgets.chart('#smart_contract_events_diagram', query, 'conflux.smartContractEvents', {
+      chartType: 'BarChart',
+      title: '<%= t('widgets.headers.smart_contract_events_diagram') %>',
+      chartOptions: {
         hAxis: {
-            title: '<%= t('widgets.titles.events_count') %>',
-            minValue: 0,
+          title: '<%= t('widgets.titles.events_count') %>',
+          minValue: 0
         },
-
         vAxis: {
-           title: '<%= t('widgets.titles.event') %>'
+          title: '<%= t('widgets.titles.event') %>'
         },
         seriesType: 'bars',
         series: {
-            '0': { color: '#28a745' }
+          '0': { color: '#28a745' }
         },
-        chartArea:{left: '25%', right: '10%', top: 0, bottom: '15%'}
-    },
-    dataOptions: [
+        chartArea: { left: '25%', right: '10%', top: 0, bottom: '15%' }
+      },
+      dataOptions: [
         {
-            type: 'string',
-            path: ['smartContractEvent.name','smartContractEvent.signatureHash'],
-            title: '<%= t('widgets.titles.event') %>'
+          type: 'string',
+          path: ['smartContractEvent.name', 'smartContractEvent.signatureHash'],
+          title: '<%= t('widgets.titles.event') %>'
         },
         {
-            type: 'count',
-            path: 'count',
-            title: '<%= t('widgets.titles.events_count') %>'
-        },
-    ]
-});
+          type: 'count',
+          path: 'count',
+          title: '<%= t('widgets.titles.events_count') %>'
+        }
+      ]
+    });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-                network: '<%= params['network']['network'] %>',
-                address: '<%= @address %>'
-            });
-
-
-});
-
+    queryWithTimeRange(rr, query, '<%= j @from %>', '<%= j @till %>', {
+      network: '<%= j params[:network][:network] %>',
+      address: '<%= j @address %>'
+    });
+  });
 </script>

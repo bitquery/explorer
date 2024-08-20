@@ -1,4 +1,4 @@
-<script>
+<script type="module">
   widgets.callbacks({
     transaction_hash_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>'+'/tx/'+ (item.hash || item.transactionHash);

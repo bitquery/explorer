@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-  <script>
+  <script type="module">
     const query = new graphs.query(`
       query ($network: SolanaNetwork!, $address: String!, $inboundDepth: Int!, 
         $outboundDepth: Int!, $limit: Int!, $from: ISO8601DateTime, $till: ISO8601DateTime,
@@ -108,7 +108,10 @@
       ]
   })
 
-  queryWithTimeRange(rr, query, <%= @from.html_safe %>, <%= @till.html_safe %>, {
+        const fromDate = '<%= j @from %>';
+        const tillDate = '<%= j @till %>';
+
+        queryWithTimeRange(rr, query, fromDate, tillDate,{
       "inboundDepth": 1,
       "outboundDepth": 1,
       "limit": 10,

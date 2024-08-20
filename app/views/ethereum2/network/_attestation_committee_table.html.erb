@@ -8,68 +8,70 @@
     </div>
   </div>
 </div>
-
-<script>
-
-    $( document ).ready(function() {
+<script type="module">
+  $( document ).ready(function() {
 
 
-        var query = new widgets.query(`
-                        query ($network: Ethereum2Network!,
-                                $from: ISO8601DateTime,
-                                $till: ISO8601DateTime){
-                    ethereum2(network: $network){
-                      attestations(options:{desc: "attestations"},
-                        date: {since: $from till: $till }
-                        ) {
+      var query = new widgets.query(`
+                      query ($network: Ethereum2Network!,
+                              $from: ISO8601DateTime,
+                              $till: ISO8601DateTime){
+                  ethereum2(network: $network){
+                    attestations(options:{desc: "attestations"},
+                      date: {since: $from till: $till }
+                      ) {
 
-                          committeeIndex
-                          attestations: count(uniq: attestations)
-                          validators: count(uniq: validators)
-                          attestation_slots: count(uniq: attestation_slots)
-                          min_date: minimum(of: date)
-                          max_date: maximum(of: date)
-                      }
+                        committeeIndex
+                        attestations: count(uniq: attestations)
+                        validators: count(uniq: validators)
+                        attestation_slots: count(uniq: attestation_slots)
+                        min_date: minimum(of: date)
+                        max_date: maximum(of: date)
                     }
-                  }`);
+                  }
+                }`);
 
-        new widgets.table('#attestation_committees', query, 'ethereum2.attestations', {
-            title: '<%= t('widgets.headers.attestation_committees') %>',
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.committee_index') %>',
-                    path: 'committeeIndex'
-                },
+      new widgets.table('#attestation_committees', query, 'ethereum2.attestations', {
+          title: '<%= t('widgets.headers.attestation_committees') %>',
+          dataOptions: [
+              {
+                  title: '<%= t('widgets.titles.committee_index') %>',
+                  path: 'committeeIndex'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.first_block_date') %>',
-                    path: 'min_date'
-                },
+              {
+                  title: '<%= t('widgets.titles.first_block_date') %>',
+                  path: 'min_date'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.last_block_date') %>',
-                    path: 'max_date'
-                },
+              {
+                  title: '<%= t('widgets.titles.last_block_date') %>',
+                  path: 'max_date'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.attestations') %>',
-                    path: 'attestations'
-                },
+              {
+                  title: '<%= t('widgets.titles.attestations') %>',
+                  path: 'attestations'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.validators_count') %>',
-                    path: 'validators'
-                },
+              {
+                  title: '<%= t('widgets.titles.validators_count') %>',
+                  path: 'validators'
+              },
 
-                {
-                    title: '<%= t('widgets.titles.slot_count') %>',
-                    path: 'attestation_slots'
-                },
-            ]
-        });
+              {
+                  title: '<%= t('widgets.titles.slot_count') %>',
+                  path: 'attestation_slots'
+              },
+          ]
+      });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate,{
+        network: '<%= params['network']['network'] %>'
     });
+
+  });
 </script>

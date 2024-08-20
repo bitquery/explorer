@@ -7,7 +7,6 @@
       </div>
     </div>
   </div>
-
   <div class="col-12 col-lg-6 mb-4">
     <div class="card">
       <div class="card-header"><%= t('widgets.headers.proposers') %></div>
@@ -16,91 +15,88 @@
       </div>
     </div>
   </div>
-
 </div>
+<script type="module">
+  $( document ).ready(function() {
 
+      var query = new widgets.query(`
+          query ($network: Ethereum2Network!,
+                $dateFormat: String!,
 
-<script>
+                $from: ISO8601DateTime,
+                $till: ISO8601DateTime){
+                  ethereum2(network: $network ){
+                    proposerSlashings(options:{asc: "date.date"}, date: {
+                      since: $from
+                      till: $till}
 
-    $( document ).ready(function() {
-
-        var query = new widgets.query(`
-            query ($network: Ethereum2Network!,
-                  $dateFormat: String!,
-
-                  $from: ISO8601DateTime,
-                  $till: ISO8601DateTime){
-                    ethereum2(network: $network ){
-                      proposerSlashings(options:{asc: "date.date"}, date: {
-                        since: $from
-                        till: $till}
-
-                      ) {
-                        date: date{
-                          date(format: $dateFormat)
-                        }
-                        count: countBigInt
-                        slashing_proposers: countBigInt(uniq: slashing_proposers)
+                    ) {
+                      date: date{
+                        date(format: $dateFormat)
                       }
+                      count: countBigInt
+                      slashing_proposers: countBigInt(uniq: slashing_proposers)
                     }
-                  }`);
+                  }
+                }`);
 
-        new widgets.chartByTime('#slashings_by_time', query, 'ethereum2.proposerSlashings', {
-            title: '<%= t('widgets.headers.slashings_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.count') %>'
-                    }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#28a745' }
-                },
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.count') %>', type: 'number' },
-                    path: 'count'
-                },
+      new widgets.chartByTime('#slashings_by_time', query, 'ethereum2.proposerSlashings', {
+          title: '<%= t('widgets.headers.slashings_by_time') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.count') %>'
+                  }
+              },
+              seriesType: 'bars',
+              series: {
+                  '0': { color: '#28a745' }
+              },
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.count') %>', type: 'number' },
+                  path: 'count'
+              },
 
-            ]
-        });
+          ]
+      });
 
-        new widgets.chartByTime('#proposers', query, 'ethereum2.proposerSlashings', {
-            title: '<%= t('widgets.headers.proposers') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.proposers_count') %>'
-                    }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#FF6347' }
-                },
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
-                    path: 'date.date'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.proposers_count') %>', type: 'number' },
-                    path: 'slashing_proposers'
-                },
+      new widgets.chartByTime('#proposers', query, 'ethereum2.proposerSlashings', {
+          title: '<%= t('widgets.headers.proposers') %>',
+          chartOptions: {
+              vAxes: {
+                  '0': {
+                      title: '<%= t('widgets.titles.proposers_count') %>'
+                  }
+              },
+              seriesType: 'bars',
+              series: {
+                  '0': { color: '#FF6347' }
+              },
+          },
+          dataOptions: [
+              {
+                  title: {label: '<%= t('widgets.titles.date') %>', type: 'date' },
+                  path: 'date.date'
+              },
+              {
+                  title: {label: '<%= t('widgets.titles.proposers_count') %>', type: 'number' },
+                  path: 'slashing_proposers'
+              },
 
-            ]
-        });
+          ]
+      });
 
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>'
-        });
+  <% from, till = date_range_from_now(15, :years) %>
+  queryWithTimeRange(rr, query, "<%= from %>", "<%= till %>", {
+      network: '<%= params['network']['network'] %>'
+  });
 
 
-    });
+  });
 </script>

@@ -16,7 +16,7 @@
     <div class='card' id='MedianTransferAmount'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class Senders extends BarChartComponent {
         configuration() {
             return {
@@ -156,7 +156,10 @@
         address: '<%= @address %>',
         limit: 10,
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[Senders, '#Senders']], 'Senders_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[SendersStats, '#SendersStats']], 'Senders-Stats_2', variables);
         renderComponent('<%=@streaming_access_token %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Senders_2', variables);

@@ -1,6 +1,6 @@
 module Flow
   class SitemapController < NetworkController
-    QUERY = <<-'GRAPHQL'
+    QUERY = <<-GRAPHQL.freeze
       query ($network: FlowNetwork!, $from: ISO8601DateTime, $limit: Int!) {
         proposers: flow(network: $network) {
           transactions(options: {desc: "count", limit: $limit}, date: {since: $from}) {
@@ -33,10 +33,11 @@ module Flow
       variables = {
         limit: 100,
         network: @network[:network],
-        from: Date.today
+        from: Time.zone.today
       }
 
-      @response = Graphql::V1.query_with_retry(QUERY, variables: variables, context: { authorization: @streaming_access_token }).data
+      @response = Graphql::V1.query_with_retry(QUERY, variables:,
+                                                      context: { authorization: @streaming_access_token }).data
     end
   end
 end

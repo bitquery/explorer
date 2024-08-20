@@ -23,7 +23,7 @@
     <div class='card' id='TradesNFTTokenAddressBuyer'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class AddressHoldingNFT extends BootstrapCardComponent {
         configuration() {
             return {
@@ -219,7 +219,10 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[AddressHoldingNFT, '#AddressHoldingNFT']], 'Address-Holding-NFTs_5', variables);
         renderComponent('<%=@streaming_access_token %>', [[OutcomingNFTTransfersByAddress, '#OutcomingNFTTransfersByAddress']], 'Outcoming-NFT-Transfers-By-Address_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[IncomingNFTTransfersByAddress, '#IncomingNFTTransfersByAddress']], 'Incoming-NFT-Transfers-By-Address_3', variables);

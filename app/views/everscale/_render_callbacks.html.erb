@@ -1,4 +1,4 @@
-<script>
+<script type="module">
   widgets.callbacks({
     master_hash_path: function(item){
       return '<%= locale_path_prefix %><%= @network[:network] %>' + '/block/' + (item.blockHash || item.hash) + '?blockType=master'
@@ -49,7 +49,7 @@
     },
 
     property_value_path: function(item){
-      link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
+      let link_prefix = '<%= locale_path_prefix %><%= @network[:network] %>'
 
       if (item.txHash) {
         return `${link_prefix}/tx/` + item.txHash;

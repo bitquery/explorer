@@ -19,7 +19,7 @@
     <div class='card' id='TopSendersInTokens'></div>
   </div>
 </div>
-<script>
+<script type="module">
     class LatestInboundTransfers extends BootstrapTableComponent {
         configuration() {
             return {
@@ -205,7 +205,10 @@
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
     }
-    renderWithTime(variables, <%= limited_date_range_limit(@from, @till).join(',').html_safe %>, function f(variables) {
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_5', variables);
         renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens_3', variables);

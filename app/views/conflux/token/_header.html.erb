@@ -6,23 +6,16 @@
                            name: @token_info.name=='-' ? t('pages.token.unnamed') : @token_info.name,
                            symbol: @token_info.symbol=='-' ? nil : @token_info.symbol,
                            token_type: @token_info.token_type ) %>
-
   <% content_for :header do %>
     <%= t "tabs.#{controller_name}.header", network: @network[:name],
            token: content_for(:token) %>.
-
     <%= t "network.conflux.token.smart_contract", token_type: @token_info.token_type %>
-    <%= copy_text(@address, 'text-info').html_safe %>.
-
+    <%= copy_text(@address, 'text-info', is_block_section: @is_block_section, height: @height, network: @network, block_id: @block_id).html_safe %>.
     <%= render partial: 'shared/address_annotation', locals: {annotation:  @info.annotation } %>
-
   <% end %>
-
 <% end %>
-
 <% content_for :title, t( "tabs.#{controller_name}.#{params[:action]}.title", network: @network[:name], token: content_for(:token)) %>
 <% content_for :description, t( "tabs.#{controller_name}.#{params[:action]}.description", network: @network[:name], token: content_for(:token), address: @address) %>
-
 <%= render partial: 'shared/title', locals: {
     icon: t("tabs.#{controller_name}.icon"),
     header: content_for(:header),

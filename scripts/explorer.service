@@ -13,8 +13,8 @@ Environment="BITQUERY_PROJECT_URL=https://bitquery.io"
 Environment="BITQUERY_IMAGES=favicon_new.png"
 Environment="BITQUERY_GRAPHQL=https://graphql.bitquery.io"
 Environment="ANALYTICS=true"
-Environment="PATH=/var/www/explorer/shared/bundle/ruby/2.6.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-ExecStart=/bin/bash -lc 'export RAILS_ENV=production && export GEM_PATH=/var/www/explorer/shared/bundle/ruby/2.6.0 && cd /var/www/explorer/current && pumactl -F config/puma.production.rb -P tmp/pids/explorer.pid start'
+Environment="PATH=/var/www/explorer/shared/bundle/ruby/3.3.4/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/bin/bash -lc 'export RAILS_ENV=production && export GEM_PATH=/var/www/explorer/shared/bundle/ruby/3.3.4 && cd /var/www/explorer/current && pumactl -F config/puma.production.rb -P tmp/pids/explorer.pid start'
 
 [Install]
 WantedBy=multi-user.target

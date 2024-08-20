@@ -1,70 +1,72 @@
 <div class="col-12 col-lg-6 mb-4">
   <div class="card">
-        <div class="card-header">
-        <% if @token_info && @token_info.name && @token_info.symbol %>
-          <%= t('widgets.headers.smart_contract_attributes_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
-        <% else %>
-          <%= t('widgets.headers.smart_contract_attributes') %>
-        <% end %>
-      </div>
+    <div class="card-header">
+      <% if @token_info && @token_info.name && @token_info.symbol %>
+        <%= t('widgets.headers.smart_contract_attributes_token', token_name: @token_info.name, token_symbol: @token_info.symbol) %>
+      <% else %>
+        <%= t('widgets.headers.smart_contract_attributes') %>
+      <% end %>
+    </div>
     <div class="card-body">
       <div id="smart_contract_attributes"><%= t('loading') %></div>
     </div>
   </div>
 </div>
 
-<script>
+<script type="module">
+  document.addEventListener("DOMContentLoaded", function() {
+    const query = new widgets.query(`
+      query (
+        $network: EthereumNetwork!,
+        $address: String!
+      ) {
+        ethereum(network: $network) {
+          address(address: { is: $address }) {
+            smartContract {
+              attributes {
+                name
+                type
+                address {
+                  address
+                  annotation
+                }
+                value
+              }
+            }
+          }
+        }
+      }
+    `);
 
-    $( document ).ready(function() {
-        var query = new widgets.query(`
-                        query ($network: EthereumNetwork!,
-                        $address: String!
-                  ){
-                  ethereum(network: $network){
-                      address(address: {is: $address }){
-                      smartContract {
-                          attributes{
-                            name
-                            type
-                            address {
-                              address
-                              annotation
-                            }
-                            value
-                          }
-                        }
-                      }
-                    }
-
-                  }`);
-
-        new widgets.table('#smart_contract_attributes', query, 'ethereum.address', {
-            title: '<%= t('widgets.headers.smart_contract_attributes') %>',
-            renderData: function(data){
-                return data[0].smartContract.attributes;
-            },
-            dataOptions: [
-                {
-                    title: '<%= t('widgets.titles.property') %>',
-                    type: 'string-ellipsis',
-                    path: 'name',
-                    html_class: 'text-info font-weight-bold'
-                },
-                {
-                    title:  '<%= t('widgets.titles.property_value') %>',
-                    type: 'string-ellipsis',
-                    path: 'value',
-                    urlCallbackName: 'property_value_path'
-                },
-            ]
-        });
-
-        queryWithTimeRange(rr, query, <%= @from.html_safe %>,<%= @till.html_safe %>,{
-            network: '<%= params['network']['network'] %>',
-            address: '<%= @address %>'
-        });
-
-
+    new widgets.table('#smart_contract_attributes', query, 'ethereum.address', {
+      title: '<%= t('widgets.headers.smart_contract_attributes') %>',
+      renderData: function(data) {
+        return data[0].smartContract.attributes;
+      },
+      dataOptions: [
+        {
+          title: '<%= t('widgets.titles.property') %>',
+          type: 'string-ellipsis',
+          path: 'name',
+          html_class: 'text-info font-weight-bold'
+        },
+        {
+          title: '<%= t('widgets.titles.property_value') %>',
+          type: 'string-ellipsis',
+          path: 'value',
+          urlCallbackName: 'property_value_path'
+        }
+      ]
     });
 
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+    const address = '<%= j @address %>';
+    const network = '<%= j params[:network][:network] %>';
+
+    queryWithTimeRange(rr, query, fromDate, tillDate, {
+      network: network,
+      address: address
+    });
+  });
 </script>
