@@ -846,23 +846,6 @@ BLOCKCHAINS = [
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
     ],
     txHashPattern: ['(o[\\w]{50})']
-  },
-  {
-    tag: 'everscale',
-    network: 'everscale',
-    name: 'Everscale',
-    family: 'everscale',
-    platform: 'Smart Contract',
-    currency: 'EVER',
-    icon: 'currency/everscale-logo.png',
-    blockchainAddressPattern: ['([\\w]|^)(-?[0-9]\\d*(\\.\\d+)?:[0-9a-fA-F]{64})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)']
   }
 ].freeze
 

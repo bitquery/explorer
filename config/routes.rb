@@ -734,33 +734,6 @@ Rails.application.routes.draw do
         constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
     end
 
-    BLOCKCHAINS.select { |b| b[:family] == "everscale" }.each do |blockchain|
-      constraints(blockchain: blockchain[:network]) do
-        defaults network: blockchain do
-          get ":blockchain", to: "#{blockchain[:family]}/network#blocks"
-
-          get ":blockchain/:action", to: "#{blockchain[:family]}/network#:action"
-
-          get ":blockchain/block/:hash", to: "#{blockchain[:family]}/block#show"
-          get ":blockchain/block/:hash/:action", to: "#{blockchain[:family]}/block#:action"
-
-          get ":blockchain/tx/:hash", to: "#{blockchain[:family]}/tx#show"
-          get ":blockchain/tx/:hash/:action", to: "#{blockchain[:family]}/tx#:action"
-
-          get ":blockchain/message/:hash", to: "#{blockchain[:family]}/message#show"
-          get ":blockchain/message/:hash/:action", to: "#{blockchain[:family]}/message#:action"
-
-          get ":blockchain/token/:address", to: "#{blockchain[:family]}/token#show"
-          get ":blockchain/token/:address/:action", to: "#{blockchain[:family]}/token#:action"
-
-          get ":blockchain/address/:address", to: "#{blockchain[:family]}/address#show"
-          get ":blockchain/address/:address/:action", to: "#{blockchain[:family]}/address#:action"
-
-          get ":blockchain/sitemap/index.xml", to: "#{blockchain[:family]}/sitemap#index"
-        end
-      end
-    end
-
     match "search(/:query)", to: "search#show", via: %i[get post], as: "search", constraints: {query: %r{[^/]+}}
 
     post "proxy_graphql", to: "proxy_graphql#index", defaults: {format: :json}
