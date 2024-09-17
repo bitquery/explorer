@@ -5,10 +5,24 @@
   </div>
 
   <nav class="navbar navbar-expand-lg <%= @theme == 'dark' ? 'navbar-dark bg-dark' : "navbar-light" %>">
-    <a href="/"><%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %></a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="navbar-nav navbar-nav-search">
-        <%= render partial: 'shared/search' %>
+    <div class="container-fluid">
+      <a href="/" class="navbar-brand">
+        <%= image_tag (@theme == 'dark' ? 'bitquery_logo.png' : 'bitquery_logo_w.png'), class: 'd-inline-block align-top logotype' %>
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto flex-grow-1">
+          <%= render partial: 'shared/search' %>
+        </div>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= render partial: "shared/theme" %>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
@@ -37,7 +51,7 @@
 <%= turbo_stream_from "ad-updates" %>
 
 <script>
-  document.addEventListener('turbo:load', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const isMobile = () => /Mobi|Android/i.test(navigator.userAgent);
     const isWideScreen = () => window.innerWidth >= 728;
 

@@ -14,7 +14,8 @@ global.amount = "";
 
 import "../stylesheets/application.sass";
 import { Turbo } from "@hotwired/turbo-rails";
-Turbo.start();
+//Turbo.start();
+Turbo.session.drive = false
 require.context("cryptocurrency-icons/svg", true);
 require("@rails/activestorage").start();
 require("channels");
@@ -283,8 +284,7 @@ global.createWidget = async function (
           formatter: "link",
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/block/${cell.getValue()}`,
           },
         },
@@ -294,8 +294,7 @@ global.createWidget = async function (
           formatter: "link",
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/address/${cell.getValue()}`,
           },
         },
@@ -311,8 +310,7 @@ global.createWidget = async function (
           formatter: "link",
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/address/${cell.getValue()}`,
           },
         },
@@ -337,8 +335,7 @@ global.createWidget = async function (
           },
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/tx/${cell.getValue()}`,
             label: (cell) =>
               `<i class="fas fa-share-square text-primary mr-1"></i>${cell.getValue()}`,
@@ -362,8 +359,7 @@ global.createWidget = async function (
           formatter: "link",
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/block/${cell.getValue()}`,
           },
         },
@@ -414,8 +410,7 @@ global.createWidget = async function (
           formatter: "link",
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/smart_contract/${cell.getValue()}`,
           },
         },
@@ -437,8 +432,7 @@ global.createWidget = async function (
           formatter: "link",
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/block/${cell.getValue()}`,
           },
         },
@@ -489,8 +483,7 @@ global.createWidget = async function (
           formatter: "link",
           formatterParams: {
             url: (cell) =>
-              `${window.location.origin}/${
-                argsReplace.network
+              `${window.location.origin}/${argsReplace.network
               }/smart_contract/${cell.getValue()}`,
           },
         },
@@ -699,15 +692,15 @@ global.reportRange = function (selector, from, till, i18n) {
           .find("span")
           .html(
             picker.startDate.format(i18n.format) +
-              " - " +
-              picker.endDate.format(i18n.format)
+            " - " +
+            picker.endDate.format(i18n.format)
           );
         let url = location.origin + location.pathname;
         if (
           location.href !=
           url +
-            "?" +
-            $.param(_.merge($.urlParams, { from: start, till: endToParam }))
+          "?" +
+          $.param(_.merge($.urlParams, { from: start, till: endToParam }))
         ) {
           history.pushState(
             {
@@ -716,8 +709,8 @@ global.reportRange = function (selector, from, till, i18n) {
             },
             document.title,
             url +
-              "?" +
-              $.param(_.merge($.urlParams, { from: start, till: endToParam }))
+            "?" +
+            $.param(_.merge($.urlParams, { from: start, till: endToParam }))
           );
           changeUrl(start, endToParam);
         }
