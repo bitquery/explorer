@@ -223,13 +223,13 @@
         limit: 10,
         offset: 0,
     }
-    renderComponent('<%=@streaming_access_token %>', [[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-token-information_1_1_1', variables);
+    renderComponent('<%=@streaming_access_token %>', [[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-Token-Information_3', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Popular-Token-IDs-for-NFT-Based-on-Transfer-Count_4', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Most-popular-NFTs-based-on-transfer-count', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_5', variables);
         renderComponent('<%=@streaming_access_token %>', [[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], 'the-Latest-Trades-of-NFT-Token_2', variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_4');
     })
 </script>

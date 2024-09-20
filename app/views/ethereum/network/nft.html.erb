@@ -359,11 +359,11 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDatePie, '#NFTTransfersByDatePie'], [TopTransferNFT, '#TopTransferNFT']], 'Top-transfered-NFT-tokens-in-network_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_2', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-traded-NFT-tokens-in-network_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_1_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDatePie, '#NFTTransfersByDatePie'], [TopTransferNFT, '#TopTransferNFT']], 'Top-Transfered-NFT-in-Network', variables);
+        renderComponent('<%=@streaming_access_token %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_7', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-Traded-NFT-in-Network', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_5', variables);
         renderComponent('<%=@streaming_access_token %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_2', variables, 'Mempool-Subscription-Latest-Trades-of-NFT-Tokens-in-Network_2');
     })
 </script>
