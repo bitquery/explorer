@@ -13,9 +13,9 @@ global.item = "";
 global.amount = "";
 
 import "../stylesheets/application.sass";
-import { Turbo } from "@hotwired/turbo-rails";
+//import { Turbo } from "@hotwired/turbo-rails";
 //Turbo.start();
-Turbo.session.drive = false
+//Turbo.session.drive = false
 require.context("cryptocurrency-icons/svg", true);
 require("@rails/activestorage").start();
 require("channels");
