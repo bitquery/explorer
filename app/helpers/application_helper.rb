@@ -72,10 +72,10 @@ module ApplicationHelper
   end
 
   def bottom_ad
-    session[:top_ads_index] ||= 0
-    i = session[:top_ads_index]
+    session[:bottom_ads_index] ||= 0
+    i = session[:bottom_ads_index]
     ads = current_ad(:top, :ads)
-    session[:top_ads_index] = i == ads.size - 1  ? 0 : i + 1
+    session[:bottom_ads_index] = i == ads.size - 1  ? 0 : i + 1
     ads[i]
   end
 
