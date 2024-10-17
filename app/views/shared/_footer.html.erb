@@ -1,4 +1,14 @@
 <footer>
+  <div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
+    <% if ad = bottom_ad %>
+      <div style="display: flex; justify-content: center;">
+        <%= link_to ad[:url].html_safe, {target: :blank}  do %>
+          <%= image_tag ad[:image] %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
   <div class="container-fluid mt-5 mb-5 text-center">
     <div style="margin-bottom: 5px;">
         <% for chain in BLOCKCHAINS %>
@@ -27,6 +37,8 @@
       <i class="fa fa-youtube"></i> <%= link_to "Youtube", 'https://www.youtube.com/@bitquery', target: '_blank' %>
     </p>
   </div>
+
+
   <%= render partial: 'shared/ads/fixed' %>
 </footer>
 <%= render partial: 'shared/ads/widgets' %>
