@@ -22,7 +22,7 @@
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
                     const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
-                    return `${tokenName} ${tokenSymbol} Events Distribution`
+                    return `${tokenName} ${tokenSymbol} Events Distribution - 1 Month Ago`
                 },
                 id: 'EventsDistribution',
                 columns: [
@@ -48,7 +48,7 @@
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
                     const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
-                    return `${tokenName} ${tokenSymbol} Smart Contract Events`
+                    return `${tokenName} ${tokenSymbol} Smart Contract Events - 1 Month Ago`
                 },
                 id: 'SmartContractEvents',
                 columns: [
@@ -61,10 +61,6 @@
                         name: 'Event signature', cell: row => row.Log.Signature.Signature
                     },
                     {
-                        name: 'Latest Date', cell: row => row.Block.Date,
-                        headerStyle: {width: '110px'},
-                    },
-                    {
                         name: 'Event Count', cell: row => row.count,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '110px'},
                     },
@@ -73,42 +69,13 @@
         }
     }
 
-    class AddressesUsedInEventParameters extends BootstrapTableComponent {
-        configuration() {
-            return {
-                topElement: response => response.EVM.Events,
-                chainId: response => response.EVM.Events[0].ChainId,
-                title: () => 'Addresses used in Event Parameters',
-                id: 'AddressesUsedInEventParameters',
-                columns: [
-                    {
-                        name: 'Address', cell: row => row.Log.SmartContract,
-                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
-                    },
-                    {
-                        name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
-                    },
-                    {
-                        name: 'Event', cell: row => ({
-                            event: row.Log.Signature.Name,
-                            hash: row.Log.Signature.SignatureHash,
-                        }),
-                        rendering: renderEventLink,
-                    },
-                    {
-                        name: 'Calls Count', cell: row => row.count,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
-                    },
-                ]
-            }
-        }
-    }
+    <% from, till = date_range_from_now(30, :days) %>
 
     const variables = {
         network: '<%= @streaming%>',
         address: '<%= @address %>',
+        since: '<%= @from %>',
+        till: '<%= @till %>',
     }
-    renderComponent('<%=@streaming_access_token %>', [[EventsDistribution, '#EventsDistribution']], 'Events-Distribution_3', variables);
-    renderComponent('<%=@streaming_access_token %>', [[SmartContractEvents, '#SmartContractEvents']], 'SC-events_2', variables);
-    renderComponent('<%=@streaming_access_token %>', [[AddressesUsedInEventParameters, '#AddressesUsedInEventParameters']], 'Addresses-used-in-Events-Parameters', variables);
+    renderComponent('<%=@streaming_access_token %>', [[SmartContractEvents, '#SmartContractEvents'], [EventsDistribution, '#EventsDistribution']], 'Smart-Contract-Events---1-Month-Ago', variables);
 </script>

@@ -3,12 +3,12 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '~> 3.3.4'
 
-gem 'turbo-rails', '~> 2.0.6'
+# gem 'turbo-rails', '~> 2.0.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.1.3.4'
 # Use Puma as the app server
-gem 'puma', '~> 6.4.1'
+gem 'puma', '~> 6.4.3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
