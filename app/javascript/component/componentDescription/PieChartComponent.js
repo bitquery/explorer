@@ -23,8 +23,7 @@ export default class PieChartComponent {
             this.container.textContent = 'No Data. Response is empty'
             return
         }
-        const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
-        const darkTheme = {
+         const darkTheme = {
             backgroundColor: 'transparent',
             titleTextStyle: {color: parentTextColor},
             pieSliceTextStyle: {color: parentTextColor},
