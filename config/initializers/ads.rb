@@ -1,4 +1,44 @@
 ADS = {
+  top: {
+    ads: [
+      {
+        image: 'ads/7bit/728x90_welcome_5Btc-250.jpg',
+        url: 'https://7bit.partners/p0c43891d'
+      },
+      {
+        image: 'ads/7bit/728x90_welcome_5Btc-250.gif',
+        url: 'https://7bit.partners/p9c3e78f0'
+      },
+      {
+        image: 'ads/7bit/728x90_elvis-frog.png',
+        url: 'https://7bit.partners/p7bd69c03'
+      },
+      {
+        image: 'ads/7bit/728x90_elvis-frog.gif',
+        url: 'https://7bit.partners/pf15e4e37'
+      }
+    ]
+  },
+  bottom: {
+    ads: [
+      {
+        image: 'ads/7bit/728x90_elvis-frog.gif',
+        url: 'https://7bit.partners/pf03dd034'
+      },
+      {
+        image: 'ads/7bit/728x90_elvis-frog.png',
+        url: 'https://7bit.partners/pf2831a7e'
+      },
+      {
+        image: 'ads/7bit/728x90_welcome_5Btc-250.gif',
+        url: 'https://7bit.partners/p86936f5b'
+      },
+      {
+        image: 'ads/7bit/728x90_welcome_5Btc-250.jpg',
+        url: 'https://7bit.partners/p1b568eae'
+      }
+    ]
+  },
   tab: {
     ads: [
       {

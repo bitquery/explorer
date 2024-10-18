@@ -725,24 +725,6 @@ BLOCKCHAINS = [
     txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)']
   },
   {
-    tag: 'crypto_testnet',
-    network: 'crypto_testnet',
-    name: 'Crypto.org Croeseid Testnet',
-    family: 'cosmos',
-    platform: 'Testnet',
-    currency: 'TCRO',
-    icon: 'currency/cryptoorg-logo.png',
-    blockchainAddressPattern: ['([\\W]|^)(cro[0-9a-z]{39})([\\W]|$)', '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)',
-                               '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)']
-  },
-  {
     tag: 'heimdall',
     network: 'heimdall',
     name: 'Heimdall (Matic Verification Network)',

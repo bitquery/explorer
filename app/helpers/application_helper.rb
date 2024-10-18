@@ -63,6 +63,22 @@ module ApplicationHelper
     render template: layout
   end
 
+  def top_ad
+    session[:top_ads_index] ||= 0
+    i = session[:top_ads_index]
+    ads = current_ad(:top, :ads)
+    session[:top_ads_index] = i == ads.size - 1  ? 0 : i + 1
+    ads[i]
+  end
+
+  def bottom_ad
+    session[:bottom_ads_index] ||= 0
+    i = session[:bottom_ads_index]
+    ads = current_ad(:bottom, :ads)
+    session[:bottom_ads_index] = i == ads.size - 1  ? 0 : i + 1
+    ads[i]
+  end
+
   def current_ad(tag, ad_type = :ad)
     ads_path = ADS
     ad = "#{tag}#{request.fullpath}".split("/").filter_map do |p|
