@@ -4,6 +4,7 @@ export default class PieChartComponent {
         this.config = this.configuration()
         this.historyDataSource = historyDataSource
         this.subscriptionDataSource = subscriptionDataSource
+
     }
 
     async init() {

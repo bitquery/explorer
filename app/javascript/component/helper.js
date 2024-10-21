@@ -175,7 +175,8 @@ export const getAPIButton =
     let match = currentUrl.match(networkPattern);
     let network = match ? match[1] : "default";
     let form = document.createElement("form");
-
+console.log("data",data)
+console.log("queryId",queryID)
     form.setAttribute("method", "post");
     form.setAttribute("action", `${window.bitqueryAPI}/widgetconfig`);
     form.setAttribute("enctype", "application/json");
