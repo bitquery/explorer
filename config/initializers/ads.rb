@@ -48,6 +48,14 @@ ADS = {
         path_matches: '/graph.*|\/tx.*|\/address.*'
       },
       {
+        ad_name: 'dexrabbit',
+        text: 'Buy {token_symbol}',
+        urls: 'https://dexrabbit.com/{blockchain_slug}/token/{token_address}',
+        bgcolor: '#e95e42',
+        path_matches: '^/(ethereum|tron|matic|bsc|arbitrum)/token/[^/]+$'
+      },
+      {
+        ad_name: 'exchanges_ref',
         text: 'Buy {token_symbol}',
         urls: [
           'https://www.bydfi.com/en/register?ru=Ee9cjN',
