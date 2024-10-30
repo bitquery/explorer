@@ -1,14 +1,13 @@
 <header class="header border-bottom mb-2">
   <div class="col-lg-auto col-12 ad-container mx-auto" style="margin-top: 15px; margin-bottom: 10px;">
-<!--    1-->
-<!--    <div style="display: flex; justify-content: center;" id="ad-wrapper">-->
-<!--    </div>2-->
     <% if ad = top_ad %>
       <div style="display: flex; justify-content: center;">
         <%= link_to ad[:url].html_safe, {target: :blank}  do %>
           <%= image_tag ad[:image] %>
         <% end %>
       </div>
+    <% else %>
+      <div style="display: flex; justify-content: center;" id="ad-wrapper"></div>
     <% end %>
   </div>
 
