@@ -1,6 +1,6 @@
 export default class WidgetConfig {
   static getBlockchainInfo() {
-    const data = [
+    return [
       {
         tag: 'eth',
         chainId: '1',
@@ -41,7 +41,6 @@ export default class WidgetConfig {
         blockProducerName: 'Validator',
       },
     ];
-    return data;
   }
   static getNetwork(chainId) {
     const blockchainsInfo = WidgetConfig.getBlockchainInfo();

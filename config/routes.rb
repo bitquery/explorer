@@ -1,9 +1,18 @@
 Rails.application.routes.draw do
   mount Yabeda::Prometheus::Exporter => "/metrics"
+  get '/:locale/*path', to: redirect { |params, request|
+    if ['ru', 'zh'].include?(params[:locale])
+      new_path = request.path.gsub("/#{params[:locale]}", '')
+      "https://#{request.host}#{new_path}"
+    else
+      request.path
+    end
+  }, constraints: { locale: /ru|zh/ }
 
   scope "(:locale)", constraints: lambda { |request|
                                     !request.params[:locale] || I18n.locale_available?(request.params[:locale].to_sym)
                                   } do
+
     BLOCKCHAINS.select { |b| b[:family] == "ethereum" }.each do |blockchain|
       get ":blockchain/:action", to: "#{blockchain[:family]}/network#:action",
         constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}

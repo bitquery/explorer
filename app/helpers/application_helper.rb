@@ -96,28 +96,58 @@ module ApplicationHelper
     ads = current_ad(:tab, :ads)
     return unless ads
 
-    safe_join(ads.filter_map do |ad|
-      next if ad[:path_matches] && request.fullpath !~ Regexp.new(ad[:path_matches])
+    selected_ad = nil
+
+    ads.each do |ad|
+      if ad[:path_matches]
+        regex = Regexp.new(ad[:path_matches])
+        next unless request.fullpath =~ regex
+      end
 
       path_segments = request.fullpath.split("/").reject(&:empty?)
       is_token_page = path_segments.length == 3 && path_segments[1].start_with?("token")
 
       if ad[:text].include?("{token_symbol}")
-        next unless is_token_page && token_info&.symbol && token_info.symbol != "-"
+        if ad[:ad_name] == 'dexrabbit'
+          blockchain_slug = path_segments[0]
+          token_address = path_segments[2]
+          blockchain_slug = 'eth' if blockchain_slug == 'ethereum'
 
-        ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
-        ad_url = ad[:urls].sample
+          ad_url = ad[:urls]
+                    .gsub("{blockchain_slug}", blockchain_slug)
+                    .gsub("{token_address}", token_address)
+
+          ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
+
+          selected_ad = { text: ad_text, url: ad_url, bgcolor: ad[:bgcolor], ad_name: 'dexrabbit' }
+          break 
+        else
+          next unless is_token_page && token_info&.symbol && token_info.symbol != "-"
+
+          ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
+          ad_url = ad[:urls].sample
+
+          selected_ad ||= { text: ad_text, url: ad_url, bgcolor: ad[:bgcolor], ad_name: 'exchanges_ref' }
+        end
       else
         ad_text = ad[:text]
         ad_url = ad[:url]
-      end
 
-      tag.li(class: html_class) do
-        link_to ad_url, class: "nav-link nav-link-ad", style: (ad[:bgcolor] ? "background-color: #{ad[:bgcolor]}" : ""), target: :blank do
-          tag.span(ad_text) + tag.sup(class: "fas fa-ad text-second")
+        selected_ad ||= { text: ad_text, url: ad_url, bgcolor: ad[:bgcolor], ad_name: ad[:ad_name] }
+      end
+    end
+    
+    return unless selected_ad
+
+    tag.li(class: html_class) do
+      link_to selected_ad[:url], class: "nav-link nav-link-ad", style: (selected_ad[:bgcolor] ? "background-color: #{selected_ad[:bgcolor]}" : ""), target: :blank do
+        if selected_ad[:ad_name] == 'dexrabbit'
+          tag.span(selected_ad[:text])
+        else
+          tag.span(selected_ad[:text]) + tag.sup(class: "fas fa-ad text-second")
         end
       end
-    end, "\n")
+    end
   end
 
   def tab_ad(html_class = "nav-item nav-item-ad")

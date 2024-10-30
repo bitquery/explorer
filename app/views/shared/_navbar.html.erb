@@ -62,33 +62,33 @@
 
     if (!isMobile() && isWideScreen()) {
         const adContainer = document.getElementById('ad-wrapper');
+        if (adContainer) {
+            adContainer.innerHTML = '';
 
-        // in order to keep only one ad at a time
-        // this should work between turbolinks
-        adContainer.innerHTML = '';
-        
-        const ins = document.createElement('ins');
-        ins.className = 'adsbyslise';
-        ins.style.display = 'inline-block';
-        ins.style.width = '728px';
-        ins.style.height = '90px';
-        ins.setAttribute('data-ad-slot', 'leaderboard');
-        ins.setAttribute('data-ad-pub', 'pub-11');
-        ins.id = 'ad-ins';
-        ins.setAttribute('data-ad-format', '728x90');
-        adContainer.appendChild(ins);
-        
-        const scriptAd = document.createElement('script');
-        scriptAd.async = true;
-        scriptAd.src = 'https://v1.slise.xyz/scripts/embed.js';
-        adContainer.appendChild(scriptAd);
+            const ins = document.createElement('ins');
+            ins.className = 'adsbyslise';
+            ins.style.display = 'inline-block';
+            ins.style.width = '728px';
+            ins.style.height = '90px';
+            ins.setAttribute('data-ad-slot', 'leaderboard');
+            ins.setAttribute('data-ad-pub', 'pub-11');
+            ins.id = 'ad-ins';
+            ins.setAttribute('data-ad-format', '728x90');
+            adContainer.appendChild(ins);
 
-        scriptAd.onload = () => {
-            (adsbyslise = window.adsbyslise || []).push({ slot: "leaderboard" });
-            if (window.adsbyslisesync) {
-                window.adsbyslisesync();
-            }
-        };
+            const scriptAd = document.createElement('script');
+            scriptAd.async = true;
+            scriptAd.src = 'https://v1.slise.xyz/scripts/embed.js';
+            adContainer.appendChild(scriptAd);
+
+            scriptAd.onload = () => {
+                (adsbyslise = window.adsbyslise || []).push({ slot: "leaderboard" });
+                if (window.adsbyslisesync) {
+                    window.adsbyslisesync();
+                }
+            };
+        }
+
     }
   });
 </script>

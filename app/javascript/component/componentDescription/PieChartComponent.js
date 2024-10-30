@@ -4,6 +4,7 @@ export default class PieChartComponent {
         this.config = this.configuration()
         this.historyDataSource = historyDataSource
         this.subscriptionDataSource = subscriptionDataSource
+
     }
 
     async init() {
@@ -24,7 +25,8 @@ export default class PieChartComponent {
             return
         }
         const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
-        const darkTheme = {
+
+         const darkTheme = {
             backgroundColor: 'transparent',
             titleTextStyle: {color: parentTextColor},
             pieSliceTextStyle: {color: parentTextColor},

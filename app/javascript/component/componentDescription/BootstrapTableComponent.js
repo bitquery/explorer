@@ -20,8 +20,7 @@ export default class BootstrapTableComponent {
 
     createTable() {
         this.tableElement = this.createElementWithClasses('table',  'table','table-sm', 'table-striped', 'table-hover');
-        const tableLayout = (this.config && this.config.options && this.config.options.tableLayout) || 'fixed';
-        this.tableElement.style.tableLayout = tableLayout;
+        this.tableElement.style.tableLayout = (this.config && this.config.options && this.config.options.tableLayout) || 'fixed';
         this.wrapper.appendChild(this.tableElement)
 
         this.createTbody();
