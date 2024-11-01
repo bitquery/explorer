@@ -26,6 +26,7 @@
               tokenId
               tokenType
             }
+            transferType
           }
         }
       }
@@ -42,9 +43,14 @@
           urlCallbackName: 'account_path',
           style: 'width: 100px;'
         },
+          {
+              title: '<%= t('widgets.titles.transfer_type') %>',
+              path: 'transferType',
+          },
         {
             title: '<%= t('widgets.titles.amount') %>',
             path: 'amount',
+            type: 'amount',
             style: 'width: 100px;'
         },
         {
