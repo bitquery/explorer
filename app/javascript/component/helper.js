@@ -156,8 +156,6 @@ export const getBaseClass = (targetClass, config) => {
 };
 
 export const getAPIButton = (data, variables, queryID, subscriptionDataSource) => () => {
-    console.log('getAPIButton data:', data)
-    console.log('getAPIButton queryID:', queryID)
     let createHiddenField = function (name, value) {
         let input = document.createElement("input");
         input.setAttribute("type", "hidden");
