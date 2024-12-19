@@ -49,6 +49,11 @@ export default async function renderComponent(token, components, historyQueryID,
         componentObject.init(widgetFrame)
 
         const data = getBaseClass(ComponentConstructor, componentObject.config);
+        console.log('data: ',data)
+        console.log('ComponentConstructor: ',ComponentConstructor)
+        console.log('componentObject.config: ',componentObject.config)
+        console.log('WidgetConfig.name: ',WidgetConfig.name)
+        console.log('WidgetConfig: ',WidgetConfig)
         data.unshift({[WidgetConfig.name]: serialize(WidgetConfig)});
         widgetFrame.getStreamingAPIButton.onclick = getAPIButton(data, variables, subscriptionQueryID)
         widgetFrame.getMempoolButton.onclick = getAPIMempoolButton(data, variables, subscriptionQueryID, subscriptionDataSource)
