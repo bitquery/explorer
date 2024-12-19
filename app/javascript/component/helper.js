@@ -156,6 +156,7 @@ export const getBaseClass = (targetClass, config) => {
 };
 
 export const getAPIButton = (data, variables, queryID, subscriptionDataSource) => () => {
+    console.log('data:',data)
     let createHiddenField = function (name, value) {
         let input = document.createElement("input");
         input.setAttribute("type", "hidden");
@@ -176,10 +177,14 @@ export const getAPIButton = (data, variables, queryID, subscriptionDataSource) =
     let form = document.createElement("form");
     form.setAttribute("method", "post");
     form.setAttribute("action", `${window.bitqueryAPI}/widgetconfig`);
-    form.setAttribute("enctype", "application/json");
+    console.log(`{window.bitqueryAPI}/widgetconfig`, `${window.bitqueryAPI}/widgetconfig`)
     form.setAttribute("target", "_blank");
+    form.setAttribute("enctype", "application/json");
+    console.log('JSON.stringify(data)',JSON.stringify(data))
     form.appendChild(createHiddenField("data", JSON.stringify(data)));
     form.appendChild(createHiddenField("variables", JSON.stringify(variables)));
+    console.log('JSON.stringify(variables)',JSON.stringify(variables))
+
     form.appendChild(createHiddenField("url", queryID));
     form.appendChild(createHiddenField("utm_source", "explorer.bitquery.io"));
     form.appendChild(createHiddenField("utm_medium", "referral"));

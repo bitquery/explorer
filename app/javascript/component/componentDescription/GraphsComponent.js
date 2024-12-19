@@ -19,8 +19,6 @@ export default class GraphsComponent {
     }
 
     async onHistoryData(data) {
-        console.log('data', data)
-        console.log('this.config', this.config)
 
         if (this.config.title && data) {
             await this.getTitle(data)
@@ -128,7 +126,6 @@ export default class GraphsComponent {
     initCheckboxes() {
         for (const pair of this.config.pairs) {
             const checkbox = document.getElementById(pair.checkboxId);
-            console.log('checkbox', checkbox)
             if (checkbox) {
                 checkbox.addEventListener("change", () => this.updateGraph())
             }
@@ -236,7 +233,6 @@ export default class GraphsComponent {
         if (this.config && this.config.title && this.config.id) {
 
             const divTitle = document.querySelector(`.\\#${this.config.id}`)
-            console.log('divTitle', divTitle)
             if (divTitle) {
                 const textNode = document.createTextNode(this.config.title(data))
                 divTitle.textContent = ''
@@ -245,3 +241,4 @@ export default class GraphsComponent {
         }
     }
 }
+
