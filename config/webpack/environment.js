@@ -35,11 +35,10 @@ const customConfig = {
 const envConfig = merge(webpackConfig, customConfig);
 
 if (envConfig.optimization) {
-  envConfig.optimization.minimizer[0].options.terserOptions.keep_classnames = true;
-  envConfig.optimization.minimizer[0].options.terserOptions.keep_fnames = true;
-  envConfig.optimization.minimizer[0].options.terserOptions.mangle = false;
-  envConfig.optimization.minimizer[0].options.exclude =
-    /.*[a-zA-Z]+Component[.]js$/gm;
+  envConfig.optimization.minimizer[0].keep_classnames = true;
+  envConfig.optimization.minimizer[0].keep_fnames = true;
+  envConfig.optimization.minimizer[0].mangle = false;
+  envConfig.optimization.minimizer[0].exclude = /.*[a-zA-Z]+Component[.]js$/gm;
 }
 
 envConfig.plugins.push(
