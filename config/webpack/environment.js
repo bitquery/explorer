@@ -1,6 +1,8 @@
-const { webpackConfig, merge } = require("shakapacker");
+const { generateWebpackConfig, merge } = require("shakapacker");
 const webpack = require("webpack");
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
+
+const webpackConfig = generateWebpackConfig();
 
 const customConfig = {
   resolve: {
@@ -26,9 +28,7 @@ const customConfig = {
       {
         test: require.resolve("jquery"),
         loader: "expose-loader",
-        options: {
-          exposes: ["$", "jQuery"],
-        },
+        options: { exposes: ["$", "jQuery"] },
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,

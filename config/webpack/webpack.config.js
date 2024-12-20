@@ -1,5 +1,5 @@
-const { generateWebpackConfig, merge } = require("shakapacker");
-const baseConfig = require('./environment')
+const { merge } = require("shakapacker");
+const baseConfig = require('./environment');
 const webpack = require("webpack");
 
 const vegaLiteConfig = {
@@ -19,9 +19,7 @@ const vegaLiteConfig = {
     ],
   },
   plugins: [
-    new webpack.DefinePlugin({
-      global: "window",
-    }),
+    new webpack.DefinePlugin({ global: "window" }),
   ],
 };
 
