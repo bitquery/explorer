@@ -43,7 +43,7 @@ export default class WidgetConfig {
     ];
   }
   static getNetwork(chainId) {
-    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    const blockchainsInfo = this.getBlockchainInfo();
     let network;
     blockchainsInfo.forEach(element => {
       if (element.chainId === chainId) {
@@ -53,7 +53,7 @@ export default class WidgetConfig {
     return network;
   }
   static getCurrency(chainId) {
-    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    const blockchainsInfo = this.getBlockchainInfo();
     let currency;
     blockchainsInfo.forEach(element => {
       if (element.chainId === chainId) {
@@ -63,7 +63,7 @@ export default class WidgetConfig {
     return currency;
   }
   static getBlockProducerName(chainId) {
-    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    const blockchainsInfo = this.getBlockchainInfo();
     let blockProducerName;
     blockchainsInfo.forEach(element => {
       if (element.chainId === chainId) {
@@ -72,7 +72,7 @@ export default class WidgetConfig {
     });
     return blockProducerName;
   }  static getName(chainId) {
-    const blockchainsInfo = WidgetConfig.getBlockchainInfo();
+    const blockchainsInfo = this.getBlockchainInfo();
     let name;
     blockchainsInfo.forEach(element => {
       if (element.chainId === chainId) {
