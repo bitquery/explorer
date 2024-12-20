@@ -1,7 +1,6 @@
 const { generateWebpackConfig, merge } = require("shakapacker");
+const baseConfig = require('./environment')
 const webpack = require("webpack");
-
-const webpackConfig = generateWebpackConfig();
 
 const vegaLiteConfig = {
   resolve: {
@@ -26,4 +25,4 @@ const vegaLiteConfig = {
   ],
 };
 
-module.exports = merge(webpackConfig, vegaLiteConfig);
+module.exports = merge(baseConfig, vegaLiteConfig);
