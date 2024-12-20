@@ -1,9 +1,11 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'production'
 
-const { webpackConfig, merge } = require("shakapacker");
-const TerserPlugin = require("terser-webpack-plugin");
+const { merge } = require('shakapacker');
+const TerserPlugin = require('terser-webpack-plugin');
+const environment = require('./environment');
 
-module.exports = merge(webpackConfig, {
+module.exports = merge(environment, {
+    mode: 'production',
     optimization: {
         minimize: true,
         minimizer: [
