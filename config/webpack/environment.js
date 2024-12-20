@@ -11,7 +11,7 @@ const customConfig = {
     },
   },
   optimization: {
-    minimize: true,
+    minimize: false,
     minimizer: [
       new TerserPlugin({
         exclude: /.*[a-zA-Z]+Component[.]js$/gm,
