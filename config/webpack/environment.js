@@ -14,7 +14,10 @@ const customConfig = {
     minimize: false,
     minimizer: [
       new TerserPlugin({
-        exclude: /.*[a-zA-Z]+Component[.]js$/gm,
+        exclude: [
+          /.*[a-zA-Z]+Component[.]js$/gm,
+          /WidgetConfig\.js$/
+        ],
         terserOptions: {
           keep_classnames: true,
           keep_fnames: true,
