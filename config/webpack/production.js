@@ -4,8 +4,9 @@ const { merge } = require('shakapacker');
 const environment = require('./environment');
 
 module.exports = merge(environment, {
-    mode: 'production',
+    mode: 'none',
     optimization: {
-        minimize: false
+        minimize: []
     }
 });
+
