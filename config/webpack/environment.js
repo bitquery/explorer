@@ -1,5 +1,6 @@
 const { webpackConfig, merge } = require("shakapacker");
 const webpack = require("webpack");
+const TerserPlugin = require("terser-webpack-plugin");
 
 const customConfig = {
   resolve: {
@@ -34,19 +35,25 @@ const customConfig = {
 
 const envConfig = merge(webpackConfig, customConfig);
 
-if (envConfig.optimization) {
-  envConfig.optimization.minimizer[0].options.terserOptions.keep_classnames = true;
-  envConfig.optimization.minimizer[0].options.terserOptions.keep_fnames = true;
-  envConfig.optimization.minimizer[0].options.exclude =
-    /.*[a-zA-Z]+Component[.]js$/gm;
-}
+envConfig.optimization = envConfig.optimization || {};
+
+envConfig.optimization.minimize = true;
+envConfig.optimization.minimizer = [
+  new TerserPlugin({
+    exclude: /.*[a-zA-Z]+Component[.]js$/gm,
+    terserOptions: {
+      keep_classnames: true,
+      keep_fnames: true,
+    },
+  })
+];
 
 envConfig.plugins.push(
-  new webpack.ProvidePlugin({
-    $: "jquery",
-    jQuery: "jquery",
-    Popper: ["popper.js", "default"],
-  })
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      Popper: ["popper.js", "default"],
+    })
 );
 
 envConfig.node = {
@@ -54,5 +61,7 @@ envConfig.node = {
   __filename: true,
   global: true,
 };
+
+console.log('===========>', envConfig);
 
 module.exports = envConfig;
