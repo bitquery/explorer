@@ -68,7 +68,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Top traded NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId)}`,
+                title: response => `Top traded NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'TopTransferNFT',
                 columns: [
                     {
@@ -105,7 +105,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Top transferred NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId)}`,
+                title: response => `Top transferred NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'NFTTransfersByDatePie',
                 columns: [
                     {
@@ -157,7 +157,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId)}`,
+                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopTradedNFTTokens',
                 columns: [
                     {
@@ -200,7 +200,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId)}`,
+                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopTradedNFTTokensPie',
                 columns: [
                     {

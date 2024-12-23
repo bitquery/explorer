@@ -12,7 +12,6 @@ export default class WidgetConfig {
         icon: 'eth.svg',
         innovation: true,
         blockProducerName: 'Validator',
-
       },
       {
         tag: 'bsc',
@@ -26,7 +25,6 @@ export default class WidgetConfig {
         start: Date.parse('2020-08-29'),
         innovation: true,
         blockProducerName: 'Validator',
-
       },
       {
         tag: 'arbitrum',
@@ -42,43 +40,32 @@ export default class WidgetConfig {
       },
     ];
   }
+
+  static getBlockchainMap() {
+    return this.getBlockchainInfo().reduce((map, blockchain) => {
+      map[blockchain.chainId] = blockchain;
+      return map;
+    }, {});
+  }
+
+  static getProperty(chainId, property) {
+    const blockchain = this.getBlockchainMap()[chainId];
+    return blockchain ? blockchain[property] : null;
+  }
+
   static getNetwork(chainId) {
-    const blockchainsInfo = this.getBlockchainInfo();
-    let network;
-    blockchainsInfo.forEach(element => {
-      if (element.chainId === chainId) {
-        network = element.network;
-      }
-    });
-    return network;
+    return this.getProperty(chainId, 'network');
   }
+
   static getCurrency(chainId) {
-    const blockchainsInfo = this.getBlockchainInfo();
-    let currency;
-    blockchainsInfo.forEach(element => {
-      if (element.chainId === chainId) {
-        currency = element.currency;
-      }
-    });
-    return currency;
+    return this.getProperty(chainId, 'currency');
   }
+
   static getBlockProducerName(chainId) {
-    const blockchainsInfo = this.getBlockchainInfo();
-    let blockProducerName;
-    blockchainsInfo.forEach(element => {
-      if (element.chainId === chainId) {
-        blockProducerName = element.blockProducerName;
-      }
-    });
-    return blockProducerName;
-  }  static getName(chainId) {
-    const blockchainsInfo = this.getBlockchainInfo();
-    let name;
-    blockchainsInfo.forEach(element => {
-      if (element.chainId === chainId) {
-        name = element.name;
-      }
-    });
-    return name;
+    return this.getProperty(chainId, 'blockProducerName');
+  }
+
+  static getName(chainId) {
+    return this.getProperty(chainId, 'name');
   }
 }
