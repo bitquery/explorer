@@ -1,4 +1,4 @@
-export default class WidgetConfig {
+export default class WidgetNetworkConfig {
   static getBlockchainInfo() {
     return [
       {
