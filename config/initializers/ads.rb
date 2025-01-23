@@ -5,14 +5,14 @@ ADS = {
   },
   bottom: {
     ads: [
-      {
-        image: 'ads/7bit/728x90_elvis-frog.gif',
-        url: 'https://7bit.partners/pf03dd034'
-      },
-      {
-        image: 'ads/7bit/728x90_welcome_5Btc-250.gif',
-        url: 'https://7bit.partners/p86936f5b'
-      }
+    # {
+    #   image: 'ads/7bit/728x90_elvis-frog.gif',
+    #   url: 'https://7bit.partners/pf03dd034'
+    # },
+    # {
+    #   image: 'ads/7bit/728x90_welcome_5Btc-250.gif',
+    #   url: 'https://7bit.partners/p86936f5b'
+    # }
     ]
   },
   tab: {
