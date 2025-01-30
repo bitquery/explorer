@@ -12,25 +12,18 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-                        query ($network: CosmosNetwork!,
-                        $dateFormat: String!,
-                        $address: String!,
-                        $from: ISO8601DateTime,
-                        $till: ISO8601DateTime){
-                    cosmos(network: $network ){
-                      transfers(date: {
-                        since: $from
-                        till: $till}
-                        options: {asc: "date.date"}
-                        ) {
-                        date{
-                          date(format: $dateFormat)
-                        }
-                        in_count: countBigInt(receiver: {is: $address})
-                        out_count: countBigInt(sender: {is: $address})
-                      }
-                    }
-                  }`);
+query ($network: CosmosNetwork!, $dateFormat: String!, $address: String!) {
+  cosmos(network: $network) {
+    transfers(options: {desc: "date.date", limit: 10}) {
+      date {
+        date(format: $dateFormat)
+      }
+      in_count: countBigInt(receiver: {is: $address})
+      out_count: countBigInt(sender: {is: $address})
+    }
+  }
+}
+`);
 
 
         new widgets.chartByTime('#in_out_transfers_by_time', query, 'cosmos.transfers', {

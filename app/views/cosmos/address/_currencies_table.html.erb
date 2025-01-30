@@ -12,35 +12,23 @@
     $( document ).ready(function() {
 
         var query = new widgets.query(`
-            query($network: CosmosNetwork!,
-                  $address: String!,
-                  $from: ISO8601DateTime,
-                  $till: ISO8601DateTime,
-                  $limit: Int!,
-                  $offset: Int!){
-              cosmos(network: $network) {
-                transfers(date: {since: $from, till: $till},
-                any: [{receiver: {is: $address}}, {sender: {is: $address}}]
-                options: {limit: $limit, offset: $offset, desc: ["count_in","count_out"] asc: "currency.symbol"}){
-                    sum_in: value(calculate: sum,
-                      receiver: {is: $address}
-                    )
-                    sum_out: value(calculate: sum,
-                      sender: {is: $address}
-                    )
-                    count_in: count(
-                      receiver: {is: $address}
-                    )
-                    count_out: count(
-                      sender: {is: $address}
-                    )
-                    currency {
-                      symbol
-
-                    }
-                  }
-              }
-            }`);
+query ($network: CosmosNetwork!, $address: String!, $limit: Int!, $offset: Int!) {
+  cosmos(network: $network) {
+    transfers(
+      any: [{receiver: {is: $address}}, {sender: {is: $address}}]
+      options: {limit: $limit, offset: $offset, desc: ["count_in", "count_out"], asc: "currency.symbol"}
+    ) {
+      sum_in: value(calculate: sum, receiver: {is: $address})
+      sum_out: value(calculate: sum, sender: {is: $address})
+      count_in: count(receiver: {is: $address})
+      count_out: count(sender: {is: $address})
+      currency {
+        symbol
+      }
+    }
+  }
+}
+`);
 
         new widgets.table('#currencies_table', query, 'cosmos.transfers', {
             title: '<%= t('widgets.headers.currencies_sent_received') %>',
