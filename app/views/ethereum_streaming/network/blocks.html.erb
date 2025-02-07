@@ -2,6 +2,9 @@
   <div class='col-12 col-lg-12 mb-4'>
     <div id='LatestBlocks' class='card'></div>
   </div>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='BlocksReward' class='card'></div>
+  </div>
 </div>
 
 <script type="module">
@@ -29,13 +32,13 @@
                         rendering: renderJustAddressLink, headerStyle: {width: '20%'},
                     },
                     {
-                        name: 'Transactions count',
+                        name: 'Tx count',
                         cell: row => row.Block.TxCount,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: (response) => `Base fee (${WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Blocks[0]?.ChainId) : ''})`,
-                        cell: row => row.Block.BaseFee,
+                        name: (response) => `Base fee (gwei)`,
+                        cell: row => row.Block.BaseFee * 1e9,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
@@ -43,10 +46,70 @@
                         cell: row => row.Block.GasUsed,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
-                ]
+                ],
+                options:{
+                    tableLayout:'auto'
+                }
             }
         }
     }
+    class BlocksReward extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.MinerRewards,
+                chainId: response => response.EVM.MinerRewards[0]?.ChainId,
+                title: () => 'Blocks Reward',
+                id: 'LatestBlocks',
+                columns: [
+                    {
+                        name: 'Timestamp',
+                        cell: row => row.Block.Time,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Block',
+                        cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '100px'}
+                    },
+
+                    {
+                        name: 'Total (gwei)',
+                        cell: row => ({
+                            amount: row.Reward.Total * 1e9,
+                            usd: row.Reward.TotalInUSD,
+                        }),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+
+                    {
+                        name: 'TxFees (gwei)',
+                        cell: row => ({
+                            amount: row.Reward.TxFees * 1e9,
+                            usd: row.Reward.TxFeesInUSD,
+                        }),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Dynamic (gwei)',
+                        cell: row => ({
+                            amount: row.Reward.Dynamic * 1e9,
+                            usd: row.Reward.DynamicInUSD,
+                        }),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'TX', cell: row => row.Block.TxHash,
+                        rendering: renderTX,
+                        // headerStyle: {width: '110px'},
+                    },
+                ],
+                options:{
+                    tableLayout:'auto'
+                }
+            }
+        }
+    }
+
 
     const variables = {
         network: '<%= @streaming%>',
@@ -57,5 +120,6 @@
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[LatestBlocks, '#LatestBlocks']], 'Latest-Blocks_4', variables, 'Subscription-Latest-Blocks_2')
+        renderComponent('<%=@streaming_access_token %>', [[BlocksReward, '#BlocksReward']], 'Reward-Blocks', variables, 'subscription-Reward-Blocks')
     });
 </script>

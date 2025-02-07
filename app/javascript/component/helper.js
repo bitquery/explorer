@@ -356,18 +356,18 @@ export const createWidgetFrame = (
         }
         button.classList.add(
             "badge",
-            "badge-success",
-            "p-1",
+            "text-white",
+            "bg-custom-purple",
+            "rounded-pill",
+            "px-3", "py-1",
             "button-transition",
             ...additionalClasses.split(" ")
         );
-        button.style.background = "#08BDB1";
         button.setAttribute("role", "button");
         button.setAttribute("target", "_blank");
         button.textContent = title;
         return button;
     };
-
     const setupShowMoreButton = (tableFooter, showMoreButton) => () => {
         tableFooter.style.justifyContent = "space-between";
         tableFooter.insertBefore(showMoreButton, tableFooter.firstChild);

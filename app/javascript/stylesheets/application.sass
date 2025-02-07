@@ -149,7 +149,7 @@ svg[visibility="hidden"]
   width: 120px
   height: 120px
   position: absolute
-  top: 50%
+  top: 33%
 
   &:after
     content: " "
@@ -330,8 +330,25 @@ $borderStyle: 2.5px dotted $colorGray
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5)
   filter: brightness(85%)
 
+//.button-transition
+//  transition: filter 0.3s ease
+.bg-custom-purple
+  background-color: #7b4cff !important
+  color: white !important
+  border-color: #7b4cff !important
+  &:hover
+    background-color: #6538e6 !important
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
+
 .button-transition
-  transition: filter 0.3s ease
+  transition: all 0.3s ease
+  &:hover
+    transform: scale(1.05)
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
+
+
+
+
 
 @keyframes fadeIn
   from
