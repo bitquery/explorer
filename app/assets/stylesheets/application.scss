@@ -182,6 +182,7 @@ body.dark {
     }
   }
 }
+
 .open-btn-ad {
   background-color: #17a2b8;
   color: #fff;
@@ -222,4 +223,63 @@ body.dark {
 }
 .show-tree {
   height: fit-content;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.loading-overlay.show {
+  opacity: 1;
+}
+.progress-container {
+  width: 80%;
+  max-width: 400px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 10px;
+  width: 0;
+  background: #7b4cff;
+  transition: width 0.3s ease;
+}
+@keyframes progressBounce {
+  0% { width: 90%; }
+  50% { width: 95%; }
+  100% { width: 90%; }
+}
+.progress-bar.progress-bounce {
+  animation: progressBounce 1.5s infinite;
+}
+.blink {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  animation: pulse 1.5s infinite;
+  display: inline-block;
+  margin-left: 5px;
+  background-color: #28a745;
+
+
+}
+.bg-success {
+  background-color: #28a745;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.2); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
 }

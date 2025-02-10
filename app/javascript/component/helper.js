@@ -1,5 +1,4 @@
 const isNotEmptyArray = (subj) => Array.isArray(subj) && subj.length;
-// const isNotEmptyObject = subj => !Array.isArray(subj) && typeof subj === 'object' && Object.keys(subj).length;
 const isNotEmptyObject = (subj) =>
     subj != null &&
     !Array.isArray(subj) &&
@@ -29,9 +28,9 @@ export function SubscriptionDataSource(token, payload) {
         this.alive = true;
         try {
             cleanSubscription = client.subscribe(
-                {query: payload.query, variables},
+                { query: payload.query, variables },
                 {
-                    next: ({data}) => {
+                    next: ({ data }) => {
                         callbacks.forEach((cb, i) => {
                             widgetFrames[i].onqueryend();
                             cb(data, variables);
@@ -46,6 +45,7 @@ export function SubscriptionDataSource(token, payload) {
                     },
                 }
             );
+            widgetFrames.forEach((wf) => wf.onqueryend());
         } catch (error) {
             widgetFrames.forEach((wf) => wf.onerror(error));
             this.unsubscribe();
@@ -61,13 +61,17 @@ export function SubscriptionDataSource(token, payload) {
     };
 
     this.changeVariables = async (deltaVariables) => {
-        variables = {...payload.variables, ...deltaVariables};
-        cleanSubscription && cleanSubscription();
+        variables = { ...payload.variables, ...deltaVariables };
+        if (cleanSubscription) {
+            cleanSubscription();
+        }
         this.subscribe();
     };
 
     this.unsubscribe = () => {
-        cleanSubscription && cleanSubscription();
+        if (cleanSubscription) {
+            cleanSubscription();
+        }
         this.alive = false;
         cleanSubscription = null;
     };
@@ -83,7 +87,7 @@ export function HistoryDataSource(token, payload) {
     const getNewData = async () => {
         widgetFrames.forEach((wf) => wf.onquerystarted());
         try {
-            const data = await getData(token, {...payload, variables});
+            const data = await getData(token, { ...payload, variables });
             widgetFrames.forEach((wf) => wf.onqueryend());
             callbacks.forEach((cb) => cb(data, variables));
         } catch (error) {
@@ -106,7 +110,7 @@ export function HistoryDataSource(token, payload) {
 
     this.changeVariables = async (deltaVariables) => {
         if (deltaVariables) {
-            variables = {...payload.variables, ...deltaVariables};
+            variables = { ...payload.variables, ...deltaVariables };
         }
         await getNewData();
     };
@@ -115,12 +119,11 @@ export function HistoryDataSource(token, payload) {
 }
 
 export const getBaseClass = (targetClass, config) => {
-    // discover functions used in class config function
     const discoverFunctions = (subj, prop) => {
         if (typeof subj === "function") {
             if (prop && subj?.name !== prop) {
                 if (!data.some((el) => Object.keys(el)[0] === subj?.name)) {
-                    data.unshift({[subj.name]: serialize(subj)});
+                    data.unshift({ [subj.name]: serialize(subj) });
                 }
             }
             return;
@@ -137,15 +140,14 @@ export const getBaseClass = (targetClass, config) => {
         }
     };
     const data = [];
-    data.push({[targetClass.name]: serialize(targetClass)});
+    data.push({ [targetClass.name]: serialize(targetClass) });
     if (targetClass instanceof Function) {
         let baseClass = targetClass;
-
         while (baseClass) {
             const newBaseClass = Object.getPrototypeOf(baseClass);
             if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
                 baseClass = newBaseClass;
-                data.unshift({[baseClass.name]: serialize(baseClass)});
+                data.unshift({ [baseClass.name]: serialize(baseClass) });
             } else {
                 break;
             }
@@ -183,12 +185,8 @@ export const getAPIButton = (data, variables, queryID, subscriptionDataSource) =
     form.appendChild(createHiddenField("url", queryID));
     form.appendChild(createHiddenField("utm_source", "explorer.bitquery.io"));
     form.appendChild(createHiddenField("utm_medium", "referral"));
-    form.appendChild(
-        createHiddenField("utm_campaign", encodeURIComponent(network))
-    );
-    form.appendChild(
-        createHiddenField("utm_content", encodeURIComponent(currentTab))
-    );
+    form.appendChild(createHiddenField("utm_campaign", encodeURIComponent(network)));
+    form.appendChild(createHiddenField("utm_content", encodeURIComponent(currentTab)));
     document.body.appendChild(form);
     form.submit();
     document.body.removeChild(form);
@@ -217,7 +215,6 @@ export const getAPIMempoolButton =
         let match = currentUrl.match(networkPattern);
         let network = match ? match[1] : "default";
         let form = document.createElement("form");
-
         form.setAttribute("method", "post");
         form.setAttribute("action", `${window.bitqueryAPI}/widgetconfig`);
         form.setAttribute("enctype", "application/json");
@@ -227,92 +224,63 @@ export const getAPIMempoolButton =
         form.appendChild(createHiddenField("url", queryID));
         form.appendChild(createHiddenField("utm_source", "explorer.bitquery.io"));
         form.appendChild(createHiddenField("utm_medium", "referral"));
-        form.appendChild(
-            createHiddenField("utm_campaign", encodeURIComponent(network))
-        );
-        form.appendChild(
-            createHiddenField("utm_content", encodeURIComponent(currentTab))
-        );
+        form.appendChild(createHiddenField("utm_campaign", encodeURIComponent(network)));
+        form.appendChild(createHiddenField("utm_content", encodeURIComponent(currentTab)));
         document.body.appendChild(form);
         form.submit();
         document.body.removeChild(form);
     };
 
 export const increaseLimitButton = (historyDataSource) => () => {
-    // clearData()
     historyDataSource.increaseLimit();
 };
 
-export const switchDataset =
-    (widgetFrame, historyDataSource, subscriptionDataSource) => (e) => {
-        subscriptionDataSource.unsubscribe();
-        e.currentTarget.textContent = "History query";
-        widgetFrame.onquerystarted();
-        historyDataSource.changeVariables();
-        e.currentTarget.classList.add("button-pressed");
-        e.currentTarget.nextSibling.textContent = "⏸ Mempool";
-        e.currentTarget.nextSibling.nextSibling.textContent = "⏸ Streaming";
-        e.currentTarget.parentElement.lastChild.classList.add("hide");
-        e.currentTarget.nextSibling.textContent = "▶ Mempool";
-        e.currentTarget.nextSibling.nextSibling.textContent = "▶ Streaming";
-        e.currentTarget.nextSibling.classList.remove("button-pressed");
-        e.currentTarget.nextSibling.nextSibling.classList.remove("button-pressed");
-    };
-
-export const mempoolStreamControl =
-    (subscriptionDataSource, widgetFrame) => (e) => {
-        if (subscriptionDataSource.alive) {
-            subscriptionDataSource.unsubscribe();
-            widgetFrame.onqueryend();
-            e.currentTarget.parentElement.lastChild.classList.add("hide");
-            e.currentTarget.classList.remove("button-pressed");
-            e.currentTarget.textContent = "▶ Mempool";
-            e.currentTarget.nextSibling.textContent = "▶ Streaming";
-            e.currentTarget.nextSibling.classList.remove("button-pressed");
-            e.currentTarget.previousSibling.classList.remove("button-pressed");
-        } else {
-            subscriptionDataSource.unsubscribe();
-            widgetFrame.onquerystarted();
-            subscriptionDataSource.changeVariables({mempool: true});
-            e.currentTarget.parentElement.lastChild.classList.remove("hide");
-            e.currentTarget.classList.add("button-pressed");
-            e.currentTarget.textContent = "⏸ Mempool";
-            e.currentTarget.nextSibling.textContent = "▶ Streaming";
-            e.currentTarget.nextSibling.classList.remove("button-pressed");
-            e.currentTarget.previousSibling.classList.remove("button-pressed");
-        }
-    };
+export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => (e) => {
+    widgetFrame.onquerystarted();
+    subscriptionDataSource.changeVariables({ mempool: true });
+    e.currentTarget.classList.add("button-pressed");
+    e.currentTarget.textContent = "⏸ Mempool";
+    e.currentTarget.nextSibling.classList.remove("button-pressed");
+    e.currentTarget.nextSibling.textContent = "▶ Streaming";
+    e.currentTarget.previousSibling.classList.remove("button-pressed");
+    if (widgetFrame.blinkerWrapper) {
+        widgetFrame.blinkerWrapper.classList.remove("hide");
+    }
+};
 
 export const streamControl = (subscriptionDataSource, widgetFrame) => (e) => {
-    if (subscriptionDataSource.alive) {
-        subscriptionDataSource.unsubscribe();
-        widgetFrame.onqueryend();
-        e.currentTarget.parentElement.lastChild.classList.add("hide");
-        e.currentTarget.classList.remove("button-pressed");
-        e.currentTarget.textContent = "▶ Streaming";
-        e.currentTarget.previousSibling.textContent = "▶ Mempool";
-        e.currentTarget.previousSibling.classList.remove("button-pressed");
-        e.currentTarget.previousSibling.previousSibling.classList.remove(
-            "button-pressed"
-        );
-    } else {
-        subscriptionDataSource.unsubscribe();
-        widgetFrame.onquerystarted();
-        subscriptionDataSource.changeVariables({mempool: false});
-        e.currentTarget.parentElement.lastChild.classList.remove("hide");
-        e.currentTarget.classList.add("button-pressed");
-        e.currentTarget.textContent = "⏸ Streaming";
-        e.currentTarget.previousSibling.textContent = "▶ Mempool";
-        e.currentTarget.previousSibling.classList.remove("button-pressed");
-        e.currentTarget.previousSibling.previousSibling.classList.remove(
-            "button-pressed"
-        );
+    widgetFrame.onquerystarted();
+    subscriptionDataSource.changeVariables({ mempool: false });
+    e.currentTarget.classList.add("button-pressed");
+    e.currentTarget.textContent = "⏸ Streaming";
+    e.currentTarget.previousSibling.classList.remove("button-pressed");
+    e.currentTarget.previousSibling.textContent = "▶ Mempool";
+    e.currentTarget.previousSibling.previousSibling.classList.remove("button-pressed");
+    if (widgetFrame.blinkerWrapper) {
+        widgetFrame.blinkerWrapper.classList.remove("hide");
+    }
+};
+
+export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSource) => (e) => {
+    subscriptionDataSource.unsubscribe();
+    e.currentTarget.textContent = "History query";
+    e.currentTarget.classList.add("button-pressed");
+    widgetFrame.onquerystarted();
+    historyDataSource.changeVariables();
+    e.currentTarget.nextSibling.textContent = "▶ Mempool";
+    e.currentTarget.nextSibling.nextSibling.textContent = "▶ Streaming";
+    e.currentTarget.nextSibling.classList.remove("button-pressed");
+    e.currentTarget.nextSibling.nextSibling.classList.remove("button-pressed");
+    e.currentTarget.parentElement.lastChild.classList.remove("hide");
+
+    if (widgetFrame.blinkerWrapper) {
+        widgetFrame.blinkerWrapper.classList.add("hide");
     }
 };
 
 export const getQueryParams = async (queryID) => {
     const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`);
-    const {endpoint_url, variables, query, name} = await response.json();
+    const { endpoint_url, variables, query, name } = await response.json();
     return {
         variables: JSON.parse(variables),
         query,
@@ -321,7 +289,7 @@ export const getQueryParams = async (queryID) => {
     };
 };
 
-export const getData = async (token, {endpoint_url, query, variables}) => {
+export const getData = async (token, { endpoint_url, query, variables }) => {
     const response = await fetch(endpoint_url, {
         method: "POST",
         headers: {
@@ -329,13 +297,13 @@ export const getData = async (token, {endpoint_url, query, variables}) => {
             "Content-Type": "application/json",
             Authorization: token,
         },
-        body: JSON.stringify({query, variables}),
+        body: JSON.stringify({ query, variables }),
         credentials: "same-origin",
     });
     if (response.status !== 200) {
         throw new Error(response.error);
     }
-    const {data, errors} = await response.json();
+    const { data, errors } = await response.json();
     if (errors) {
         throw new Error(errors[0].message);
     }
@@ -359,7 +327,8 @@ export const createWidgetFrame = (
             "text-white",
             "bg-custom-purple",
             "rounded-pill",
-            "px-3", "py-1",
+            "px-3",
+            "py-1",
             "button-transition",
             ...additionalClasses.split(" ")
         );
@@ -405,7 +374,6 @@ export const createWidgetFrame = (
         switchButton.style.display = "none";
         streamControlButton.style.display = "none";
     }
-
     if (subscriptionDataSource?.mempoolShow !== true) {
         mempoolControlButton.style.display = "none";
         getMempoolButton.style.display = "none";
@@ -421,9 +389,22 @@ export const createWidgetFrame = (
     showMoreButton.style.cursor = "pointer";
 
     const loader = document.createElement("div");
+
+    const buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("col-auto", "d-flex", "align-items-center");
+
     const blinkerWrapper = document.createElement("div");
     blinkerWrapper.classList.add("hide");
-    loader.classList.add("lds-dual-ring");
+    const blink = document.createElement("div");
+    blink.classList.add("blink");
+    blinkerWrapper.appendChild(blink);
+    buttonContainer.appendChild(blinkerWrapper);
+    buttonContainer.appendChild(switchButton);
+    buttonContainer.appendChild(mempoolControlButton);
+    buttonContainer.appendChild(streamControlButton);
+    row.appendChild(buttonContainer);
+    widgetFrame.blinkerWrapper = blinkerWrapper;
+
     tableFooter.style.display = "flex";
     tableFooter.style.justifyContent = "end";
     tableFooter.appendChild(getHistoryAPIButton);
@@ -449,36 +430,68 @@ export const createWidgetFrame = (
     cardBody.appendChild(tableFooter);
     widgetHeader.appendChild(row);
     row.appendChild(col8);
-    const buttonContainer = document.createElement("div");
-    buttonContainer.classList.add("col-auto", "d-flex", "align-items-center");
-    buttonContainer.appendChild(switchButton);
-    buttonContainer.appendChild(mempoolControlButton);
-    buttonContainer.appendChild(streamControlButton);
+
     row.appendChild(buttonContainer);
 
     const f = setupShowMoreButton(tableFooter, showMoreButton);
 
     const onloadmetadata = (queryMetaData) => {
         col8.textContent = queryMetaData?.name || "No query presented";
-        if (queryMetaData.query.match(/subscription[^a-zA-z0-9]/gm)) {
-            const blinker = document.createElement("div");
-            blinkerWrapper.classList.add("text-success", "text-right", "hide");
-            blinker.classList.add("blink", "blnkr", "bg-success");
-            blinker.style.marginLeft = "-5px";
-            row.appendChild(blinkerWrapper);
-            blinkerWrapper.appendChild(blinker);
-        }
     };
 
     const onquerystarted = () => {
-        cardBody.appendChild(loader);
+        const existingOverlays = cardBody.querySelectorAll(".loading-overlay");
+        existingOverlays.forEach((overlay) => overlay.remove());
+
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+        overlay.innerHTML = `
+      <div class="progress-container">
+        <div class="progress-bar"></div>
+      </div>
+    `;
+        cardBody.style.position = "relative";
+        cardBody.appendChild(overlay);
+
+        requestAnimationFrame(() => {
+            overlay.classList.add("show");
+        });
+
+        const progressBar = overlay.querySelector(".progress-bar");
+        let progress = 0;
+        const intervalId = setInterval(() => {
+            if (progress < 90) {
+                progress += 1;
+                progressBar.style.width = progress + "%";
+            } else {
+                clearInterval(intervalId);
+                progressBar.classList.add("progress-bounce");
+            }
+        }, 50);
+        overlay.dataset.intervalId = intervalId;
     };
 
     const onqueryend = () => {
-        loader.parentElement === cardBody && cardBody.removeChild(loader);
+        const overlays = cardBody.querySelectorAll(".loading-overlay");
+        overlays.forEach((overlay) => {
+            const progressBar = overlay.querySelector(".progress-bar");
+            progressBar.style.width = "100%";
+            const intervalId = Number(overlay.dataset.intervalId);
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+            overlay.classList.remove("show");
+            setTimeout(() => {
+                overlay.remove();
+            }, 300);
+        });
     };
 
     const onerror = (error) => {
+        const overlay = cardBody.querySelector(".loading-overlay");
+        if (overlay) {
+            overlay.remove();
+        }
         if (row.contains(blinkerWrapper)) {
             row.removeChild(blinkerWrapper);
         }
@@ -516,5 +529,6 @@ export const createWidgetFrame = (
         onquerystarted,
         onqueryend,
         onerror,
+        blinkerWrapper
     };
 };
