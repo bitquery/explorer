@@ -26,19 +26,11 @@
                   $offset: Int!){
               tron{
                 transfers(date: {since: $from, till: $till},
-                amount: {gt: 0}
-                any: [{receiver: {is: $address}}, {sender: {is: $address}}]
-                options: {limit: $limit, offset: $offset, desc: ["count_in","count_out"] asc: "currency.symbol"}){
+                options: {limit: $limit, offset: $offset, desc: ["count_out"]}){
                     sum_in: amount(calculate: sum,
                       receiver: {is: $address}
                     )
-                    sum_in_usd: amount(in: USD, calculate: sum,
-                      receiver: {is: $address}
-                    )
                     sum_out: amount(calculate: sum,
-                      sender: {is: $address}
-                    )
-                    sum_out_usd: amount(in: USD, calculate: sum,
                       sender: {is: $address}
                     )
                     count_in: count(
@@ -50,7 +42,6 @@
                     currency {
                       address
                       symbol
-                      tokenId
                       tokenType
                     }
                   }
@@ -83,12 +74,6 @@
                     path: 'sum_in'
                 },
                 {
-                    title: '',
-                    type: 'string',
-                    path: 'sum_in_usd',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_in_usd'} %>
-                },
-                {
                     title: '<%= t('widgets.titles.txs') %>',
                     type: 'count',
                     path: 'count_in',
@@ -99,12 +84,6 @@
                     title: '<%= t('widgets.titles.send') %>',
                     type: 'amount',
                     path: 'sum_out'
-                },
-                {
-                    title: '',
-                    type: 'string',
-                    path: 'sum_out_usd',
-                    renderCallback: <%= render partial: 'ethereum/currency_with_amount_usd', formats: :text, locals: {currency: '""', amount: 'item.sum_out_usd'} %>
                 },
                 {
                     title: '',

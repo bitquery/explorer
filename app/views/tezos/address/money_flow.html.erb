@@ -2,13 +2,18 @@
   <div class="col-12 col-lg-12 mb-4">
     <div class="card">
       <div class="card-header">
-        <div class="choice-view">
-          <input class="choice-view__radio" type="radio" name="view" id="graph-radio" value="graph" onclick="$('#graph').parents('.card-body').show();$('#sankey-graph').parents('.card-body').hide()" checked>
-          <label class="choice-view__label" for="graph-radio">Graph</label>
-        </div>
-        <div class="choice-view">
-          <input class="choice-view__radio" type="radio" name="view" id="sankey-radio" value="sankey" onclick="$('#sankey-graph').parents('.card-body').show();$('#graph').parents('.card-body').hide()">
-          <label class="choice-view__label" for="sankey-radio">Sankey</label>
+        <div class="d-inline-flex align-items-center">
+          <div class="choice-view">
+            <input class="choice-view__radio" type="radio" name="view" id="graph-radio" value="graph" onclick="$('#graph').parents('.card-body').show();$('#sankey-graph').parents('.card-body').hide()" checked>
+            <label class="choice-view__label" for="graph-radio">Graph</label>
+          </div>
+          <div class="choice-view">
+            <input class="choice-view__radio" type="radio" name="view" id="sankey-radio" value="sankey" onclick="$('#sankey-graph').parents('.card-body').show();$('#graph').parents('.card-body').hide()">
+            <label class="choice-view__label" for="sankey-radio">Sankey</label>
+          </div>
+          <div class="choice-view">
+            <a class="btn btn-primary" href="https://lite.bitquery.io/?chain=<%= params['network']['network'] %>&address=<%= @address %>" target="_blank">Try MoneyFlow Lite</a>
+          </div>
         </div>
       </div>
       <div class="card-body" style="padding: 0">
@@ -58,36 +63,30 @@ query ($network: TezosNetwork!, $address: String!, $inboundDepth: Int!, $outboun
   }
 }
 `)
-
       new graphs.address_graph('#graph', query, {
           theme: '<%= @theme %>',
-          currency: "<%= params['network']['currency'] %>",
+          currency: "<%= params['network']['currency'] %>"
       })
-
       new graphs.addControls('#graph', query, {
-          theme: '<%= @theme %>',
+          theme: '<%= @theme %>'
       })
-
       new graphs.address_sankey('#sankey-graph', query, {
           theme: '<%= @theme %>',
-          currency: "<%= params['network']['currency'] %>",
+          currency: "<%= params['network']['currency'] %>"
       })
-
       new graphs.addControls('#sankey-graph', query, {
-          theme: '<%= @theme %>',
+          theme: '<%= @theme %>'
       })
-
-        const fromDate = '<%= j @from %>';
-        const tillDate = '<%= j @till %>';
-
-        queryWithTimeRange(rr, query, fromDate, tillDate,{
+      const fromDate = '<%= j @from %>';
+      const tillDate = '<%= j @till %>';
+      queryWithTimeRange(rr, query, fromDate, tillDate, {
           "inboundDepth": 1,
           "outboundDepth": 1,
           "limit": 10,
           "offset": 0,
           "network": "<%= params['network']['network'] %>",
-          "address": "<%= @address %>",
+          "address": "<%= @address %>"
       })
-
   </script>
 </div>
+
