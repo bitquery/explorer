@@ -6,15 +6,15 @@ const isNotEmptyObject = (subj) =>
     Object.keys(subj).length
 
 export function SubscriptionDataSource(token, payload) {
-    let variables, cleanSubscription
-    let callbacks = []
-    let widgetFrames = []
+    let variables, cleanSubscription;
+    let callbacks = [];
+    let widgetFrames = [];
     this.mempoolShow =
-        !payload.variables.mempool && payload.variables.network !== "arbitrum"
+        !payload.variables.mempool && payload.variables.network !== "arbitrum";
 
     this.subscribe = () => {
-        const currentUrl = payload.endpoint_url.replace(/^http/, "ws")
-        const tokenForStreaming = token.replace(/^Bearer\s*/, "").trim()
+        const currentUrl = payload.endpoint_url.replace(/^http/, "ws");
+        const tokenForStreaming = token.replace(/^Bearer\s*/, "").trim();
         const client = createClient({
             url: `${currentUrl}?token=${tokenForStreaming}`,
             connectionParams: async () => {
@@ -22,63 +22,57 @@ export function SubscriptionDataSource(token, payload) {
                     headers: {
                         Authorization: token,
                     },
-                }
+                };
             },
-        })
-        this.alive = true
+        });
+        this.alive = true;
         try {
             cleanSubscription = client.subscribe(
-                { query: payload.query, variables },
+                {query: payload.query, variables},
                 {
-                    next: ({ data }) => {
+                    next: ({data}) => {
                         callbacks.forEach((cb, i) => {
-                            widgetFrames[i].onqueryend()
-                            cb(data, variables)
-                        })
+                            widgetFrames[i].onqueryend();
+                            cb(data, variables);
+                        });
                     },
                     error: (error) => {
-                        widgetFrames.forEach((wf) => wf.onerror("connection error"))
-                        this.unsubscribe()
+                        widgetFrames.forEach((wf) => wf.onerror("connection error"));
+                        this.unsubscribe();
                     },
                     complete: () => {
-                        this.alive = false
+                        this.alive = false;
                     },
                 }
-            )
-            widgetFrames.forEach((wf) => wf.onqueryend())
+            );
         } catch (error) {
-            widgetFrames.forEach((wf) => wf.onerror(error))
-            this.unsubscribe()
+            widgetFrames.forEach((wf) => wf.onerror(error));
+            this.unsubscribe();
         }
-    }
+    };
 
     this.setCallback = (cb) => {
-        callbacks.push(cb)
-    }
+        callbacks.push(cb);
+    };
 
     this.setWidgetFrame = (wf) => {
-        widgetFrames.push(wf)
-    }
+        widgetFrames.push(wf);
+    };
 
     this.changeVariables = async (deltaVariables) => {
-        variables = { ...payload.variables, ...deltaVariables }
-        if (cleanSubscription) {
-            cleanSubscription()
-        }
-        this.subscribe()
-    }
+        variables = {...payload.variables, ...deltaVariables};
+        cleanSubscription && cleanSubscription();
+        this.subscribe();
+    };
 
     this.unsubscribe = () => {
-        if (cleanSubscription) {
-            cleanSubscription()
-        }
-        this.alive = false
-        cleanSubscription = null
-    }
+        cleanSubscription && cleanSubscription();
+        this.alive = false;
+        cleanSubscription = null;
+    };
 
-    return this
+    return this;
 }
-
 export function HistoryDataSource(token, payload) {
     let callbacks = []
     let widgetFrames = []

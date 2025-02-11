@@ -1,40 +1,76 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='NFTTransfersByDate' class='card'></div>
+    <div id='NFTTransfersByDate' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-7  mb-4'>
-    <div class='card' id='TopTransferNFT'></div>
+    <div class='card' id='TopTransferNFT'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-5  mb-4'>
-    <div class='card' id='NFTTransfersByDatePie'></div>
+    <div class='card' id='NFTTransfersByDatePie'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='NFTTokenTradesByDate' class='card'></div>
+    <div id='NFTTokenTradesByDate' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-7  mb-4'>
-    <div class='card' id='TopTradedNFTTokens'></div>
+    <div class='card' id='TopTradedNFTTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-5  mb-4'>
-    <div class='card' id='TopTradedNFTTokensPie'></div>
+    <div class='card' id='TopTradedNFTTokensPie'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row '>
   <div class='col-12 col-xl-7 mb-4'>
-    <div class='card' id='TopExchangesForNFTs'></div>
+    <div class='card' id='TopExchangesForNFTs'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-5 mb-4'>
-    <div class='card' id='TopExchangesForNFTsPie'></div>
+    <div class='card' id='TopExchangesForNFTsPie'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='LatestTradesNFTToken' class='card '></div>
+    <div id='LatestTradesNFTToken' class='card '>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -44,7 +80,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: () => 'NFT Token Transfer Count by Date',
+                title: response => `Daily Count of NFT Transfers on ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'NFTTransfersByDate',
                 columns: [
                     {
@@ -68,7 +104,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Top traded NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                title: response => `Top NFT Collections by Transfer Activity on the  ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'TopTransferNFT',
                 columns: [
                     {
@@ -84,14 +120,14 @@
                         cell: row => row.count,
                     },
                     {
-                        name: 'Unique Senders',
+                        name: 'Unq Senders',
                         cell: row => row.senders,
                     },
                     {
                         name: '', cell: () => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'}
                     },
                     {
-                        name: 'Unique Receivers',
+                        name: 'Unq Receivers',
                         cell: row => row.receivers,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
@@ -105,7 +141,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Top transferred NFT tokens in ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                title: response => `Share of Top NFT Collections in Total Transfers on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'NFTTransfersByDatePie',
                 columns: [
                     {
@@ -118,7 +154,7 @@
                     }
                 ],
                 options: {
-                    height: 388,
+                    height: 380,
                     chartArea: {
                         left: 30,
                         width: '85%',
@@ -133,7 +169,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'DEX Trades by Protocols by Date',
+                title: response => `Daily NFT Trades by Marketplace on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'NFTTokenTradesByDate',
                 columns: [
                     {
@@ -157,7 +193,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                title: response => `Top NFT Trades by Volume and Price on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopTradedNFTTokens',
                 columns: [
                     {
@@ -167,19 +203,31 @@
                         }),
                         rendering: renderTokenLink, headerStyle: {width: '120px'},
                     },
+
                     {
                         name: 'Trades', cell: row => row.count
                     },
+
                     {
-                        name: 'Paid Amount', cell: row => row.sell_amount,
+                        name: 'Bought Amount', cell: row => row.buy_amount,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
-                        name: 'Currency', cell: row => ({
-                            currency: row.Trade.Sell.Currency.Symbol,
-                            smartContract: row.Trade.Sell.Currency.SmartContract
+                        name: 'Pair', cell: row => ({
+                            buyCurrencySymbol: row.Trade.Buy.Currency.Symbol,
+                            buyCurrencySC: row.Trade.Buy.Currency.SmartContract,
+                            sellCurrencySymbol: row.Trade.Sell.Currency.Symbol,
+                            sellCurrencySC: row.Trade.Sell.Currency.SmartContract,
                         }),
-                        rendering: renderTokenLink,
+                        rendering: renderPairLink,
+                    },
+                    {
+                        name: 'Paid Amount', cell: row => ({
+                            amount: row.sell_amount,
+                            usd: row.sell_amount_usd,
+
+                        }),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Min Price',
@@ -187,10 +235,13 @@
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                     {
-                        name: 'Max Price', cell: row => row.Trade.Buy.max_rice,
+                        name: 'Max Price', cell: row => row.Trade.Buy.max_price,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                 ],
+                options: {
+                    tableLayout: 'auto'
+                }
             }
         }
     }
@@ -200,7 +251,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: response => `Top traded NFT tokens in  ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                title: response => `Distribution of NFT Trades by Collection on the ${WidgetConfig.getName(response.EVM?.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopTradedNFTTokensPie',
                 columns: [
                     {
@@ -212,7 +263,7 @@
                 ],
                 options: {
                     title: 'Trades Count',
-                    height: 388,
+                    height: 378,
                     chartArea: {
                         left: 50,
                         width: '75%',
@@ -227,7 +278,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => `NFT MarketPlace Data`,
+                title: response => `NFT Trading Activity by Protocol on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopExchangesForNFTs',
                 columns: [
                     {
@@ -243,13 +294,13 @@
                         name: 'Trades', cell: row => row.count,
                     },
                     {
-                        name: 'Unique NFTs traded', cell: row => row.nfts,
+                        name: 'Unq NFTs traded', cell: row => row.nfts,
                     },
                     {
-                        name: 'Unique Currencies Paid', cell: row => row.currencies,
+                        name: 'Unq Currencies Paid', cell: row => row.currencies,
                     },
                     {
-                        name: 'Unique NFT Buyers', cell: row => row.buyers
+                        name: 'Unq NFT Buyers', cell: row => row.buyers
                     },
                 ]
             }
@@ -261,7 +312,7 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => `NFT MarketPlace Data`,
+                title: response => `Market Share of NFT Trading Protocols on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopExchangesForNFTsPie',
                 columns: [
                     {
@@ -272,7 +323,7 @@
                     }
                 ],
                 options: {
-                    height: 388,
+                    height: 210,
                     chartArea: {
                         left: 50,
                         width: '75%',
@@ -287,20 +338,14 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Latest Trades of NFT Tokens in Network',
+                title: response => `Recent NFT Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'LatestTradesNFTToken',
                 columns: [
                     {
                         name: 'Time', cell: row => row.Block.Time,
                         rendering: renderDate,
                     },
-                    {
-                        name: 'Sell currency', cell: row => ({
-                            currency: row.Trade.Sell.Currency.Symbol,
-                            smartContract: row.Trade.Sell.Currency.SmartContract
-                        }),
-                        rendering: renderTokenLink, headerStyle: {width: '110px'},
-                    },
+
                     {
                         name: 'Seller', cell: row => row.Trade.Buy.Seller,
                         rendering: renderJustAddressLink,
@@ -326,12 +371,15 @@
                         headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Sell amount', cell: row => row.Trade.Sell.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'}
+                        name: 'Price', cell: row => ({amount:row.Trade.Buy.Price, usd:row.Trade.Buy.PriceInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'}
                     },
                     {
-                        name: 'Price', cell: row => row.Trade.Buy.Price,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'}
+                        name: 'Сurrency', cell: row => ({
+                            currency: row.Trade.Sell.Currency.Symbol,
+                            smartContract: row.Trade.Sell.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '110px'},
                     },
                     {
                         name: 'Dex', cell: row => ({
@@ -358,12 +406,12 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_2', variables);
-        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDatePie, '#NFTTransfersByDatePie'], [TopTransferNFT, '#TopTransferNFT']], 'Top-Transfered-NFT-in-Network', variables);
-        renderComponent('<%=@streaming_access_token %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_7', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-Traded-NFT-in-Network', variables);
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDatePie, '#NFTTransfersByDatePie'], [TopTransferNFT, '#TopTransferNFT']], 'Top-Transfered-NFT-in-Network_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_8', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-Traded-NFT-in-Network_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_5', variables);
-        renderComponent('<%=@streaming_access_token %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_2', variables, 'Mempool-Subscription-Latest-Trades-of-NFT-Tokens-in-Network_2');
+        renderComponent('<%=@streaming_access_token %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_6', variables, 'Mempool-Subscription-Latest-Trades-of-NFT-Tokens-in-Network_4');
     })
 </script>

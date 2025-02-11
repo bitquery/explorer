@@ -83,11 +83,13 @@ Rails.application.routes.draw do
         constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
 
       get ":blockchain/sitemap/index.xml", to: "#{blockchain[:family]}/sitemap#index",
-        constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
-      get ":blockchain/tokenpair/:token1/:token2/", to: "#{blockchain[:family]}/token_pair#show",
-        constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
-      get ":blockchain/tokenpair/:token1/:token2/:action", to: "#{blockchain[:family]}/token_pair#:action",
-        constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
+          constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
+      get ":blockchain/tokenpair/:token1/:token2", to: "#{blockchain[:family]}/token_pair#trading_view",
+          constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
+      get ":blockchain/tokenpair/:token1/:token2/trading_view", to: "#{blockchain[:family]}/token_pair#trading_view",
+          constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
+      get ":blockchain/tokenpair/:token1/:token2/last_trades", to: "#{blockchain[:family]}/token_pair#last_trades",
+          constraints: {blockchain: blockchain[:network]}, defaults: {network: blockchain}
     end
 
     BLOCKCHAINS.select { |b| b[:family] == "ethereum2" }.each do |blockchain|

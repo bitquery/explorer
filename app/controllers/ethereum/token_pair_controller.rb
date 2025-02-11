@@ -4,33 +4,30 @@ module Ethereum
     before_action :set_pair, :query_graphql
 
     QUERY = <<-GRAPHQL.freeze
-   query($network: EthereumNetwork!, $token1: String!,$token2: String!) {
-              ethereum(network: $network) {
-                address(address: {in: [$token1,$token2]}){
-                  address#{' '}
-                  annotation#{'                  '}
-                  smartContract {
-                    contractType
-                    currency{
-                      symbol
-                      name
-                      decimals
-                      tokenType
-                    }
-                  }
-                  balance
-                }
+    query ($network: evm_network, $token1: String!, $token2: String!) {
+      EVM(dataset: combined, network: $network) {
+        DEXTradeByTokens(
+          where: { Trade: {Currency: {SmartContract: {is: $token1}}, Side: {Currency: {SmartContract: {is: $token2}}}}}
+          limit: {count: 1}
+        ) {
+          Trade {
+            Currency {
+              SmartContract
+              Symbol
+              Name
+            }
+            Side {
+              Currency {
+                Symbol
+                SmartContract
+                Name
               }
             }
+          }
+        }
+      }
+    }
     GRAPHQL
-
-    def show
-      if @streaming
-        render '/ethereum/token_pair/trading_view'
-      else
-        render '/ethereum/token_pair/last_trades'
-      end
-    end
 
     def trading_view
       @breadcrumbs << { name: 'Trading view' }
@@ -48,25 +45,19 @@ module Ethereum
     end
 
     def query_graphql
-      response = ::Graphql::V1.query_with_retry(QUERY, variables: {
-                                                  network: @network[:network], token1: @token1, token2: @token2
-                                                }, context: { authorization: @streaming_access_token })
+      response = ::Graphql::V2.query_with_retry(QUERY, variables: {
+        network: @network[:streaming], token1: @token1, token2: @token2
+      }, context: { authorization: @streaming_access_token }).data.EVM
 
-      if response.data.ethereum.address
-        addresses = response.data.ethereum.address
+      trade = response.DEXTradeByTokens.first&.Trade
+      @token1entry = trade&.Currency
+      @token2entry = trade&.Side&.Currency
 
-        @token1entry = addresses.detect { |a| a.address == @token1 }
-        @token2entry = addresses.detect { |a| a.address == @token2 }
+      @token1symbol = @token1entry&.Symbol || '-'
+      @token2symbol = @token2entry&.Symbol || '-'
 
-        @token1symbol = @token1entry&.smartContract&.currency&.symbol || '-'
-        @token2symbol = @token2entry&.smartContract&.currency&.symbol || '-'
-
-        @token1name = @token1entry&.smartContract&.currency&.name || '-'
-        @token2name = @token2entry&.smartContract&.currency&.name || '-'
-      else
-        # Handle the case where ethereum.address is nil or not present
-        @token1symbol = @token2symbol = @token1name = @token2name = '-'
-      end
+      @token1name = @token1entry&.Name || '-'
+      @token2name = @token2entry&.Name || '-'
     end
   end
 end
