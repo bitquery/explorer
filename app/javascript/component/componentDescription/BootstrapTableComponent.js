@@ -141,7 +141,7 @@ export default class BootstrapTableComponent {
                 textCell.textContent = cellValue;
                 textCell.setAttribute('title', cellValue);
 
-                if (cellValue === 'true') {
+                if (cellValue === 'true' || cellValue === 'Success') {
                     textCell.style.color = '#2EA848';
                 }
 
