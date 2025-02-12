@@ -81,6 +81,7 @@
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => `Daily Count of NFT Transfers on ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                theme: '<%= @theme %>',
                 id: 'NFTTransfersByDate',
                 columns: [
                     {
@@ -106,6 +107,7 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => `Top NFT Collections by Transfer Activity on the  ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'TopTransferNFT',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'NFT',
@@ -143,6 +145,7 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => `Share of Top NFT Collections in Total Transfers on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'NFTTransfersByDatePie',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'NFT',
@@ -154,7 +157,7 @@
                     }
                 ],
                 options: {
-                    height: 380,
+                    height: 300,
                     chartArea: {
                         left: 30,
                         width: '85%',
@@ -171,6 +174,7 @@
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => `Daily NFT Trades by Marketplace on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'NFTTokenTradesByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -195,6 +199,7 @@
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => `Top NFT Trades by Volume and Price on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopTradedNFTTokens',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'NFT', cell: row => ({
@@ -253,6 +258,7 @@
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => `Distribution of NFT Trades by Collection on the ${WidgetConfig.getName(response.EVM?.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopTradedNFTTokensPie',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'NFT', cell: row => row.Trade.Buy.Currency.Symbol || row.Trade.Buy.Currency.SmartContract,
@@ -263,7 +269,7 @@
                 ],
                 options: {
                     title: 'Trades Count',
-                    height: 378,
+                    height: 365,
                     chartArea: {
                         left: 50,
                         width: '75%',
@@ -280,6 +286,7 @@
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => `NFT Trading Activity by Protocol on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopExchangesForNFTs',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Protocol',
@@ -314,6 +321,7 @@
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => `Market Share of NFT Trading Protocols on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopExchangesForNFTsPie',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Protocol', cell: row => `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`
@@ -323,7 +331,7 @@
                     }
                 ],
                 options: {
-                    height: 210,
+                    height: 180,
                     chartArea: {
                         left: 50,
                         width: '75%',
@@ -340,6 +348,7 @@
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => `Recent NFT Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'LatestTradesNFTToken',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Time', cell: row => row.Block.Time,
@@ -371,7 +380,7 @@
                         headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Price', cell: row => ({amount:row.Trade.Buy.Price, usd:row.Trade.Buy.PriceInUSD}),
+                        name: 'Price', cell: row => ({amount: row.Trade.Buy.Price, usd: row.Trade.Buy.PriceInUSD}),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'}
                     },
                     {

@@ -7,6 +7,10 @@ export default class BootstrapTableComponent {
         this.createWrapper()
         this.createTable()
         this.theadCreated = false
+        if (this.config.theme) {
+            this.setTheme(this.config.theme);
+        }
+
     }
 
     clearData() {
@@ -20,6 +24,7 @@ export default class BootstrapTableComponent {
 
     createTable() {
         this.tableElement = this.createElementWithClasses('table',  'table','table-sm', 'table-striped', 'table-hover');
+        this.tableElement.style.fontSize = '0.9rem';
         this.tableElement.style.tableLayout = (this.config && this.config.options && this.config.options.tableLayout) || 'fixed';
         this.wrapper.appendChild(this.tableElement)
 
@@ -39,6 +44,9 @@ export default class BootstrapTableComponent {
         for (const {name, headerStyle} of this.config.columns) {
             const th = this.createElementWithClasses('th')
             th.setAttribute('scope', 'col')
+            th.style.padding = '0.3rem 0.5rem'
+            th.style.whiteSpace = 'nowrap'
+            th.style.fontWeight = 'bold'
 
             if (typeof name === 'function') {
                 th.textContent = await name(data)
@@ -123,7 +131,9 @@ export default class BootstrapTableComponent {
 
             for (const column of this.config.columns) {
                 const td = this.createElementWithClasses('td', 'text-truncate');
-                td.style.borderTop = 'none';
+                td.style.borderTop = 'none'
+                td.style.padding = '0.3rem 0.5rem'
+                td.style.fontSize = '0.9rem'
 
                 const textCell = this.createElementWithClasses('span');
                 const cellValue = column.cell(row);
@@ -154,7 +164,13 @@ export default class BootstrapTableComponent {
 
         return rows;
     }
-
+    setTheme(theme) {
+        if (theme === 'dark') {
+            this.tableElement.classList.add('table-dark');
+        } else {
+            this.tableElement.classList.remove('table-dark');
+        }
+    }
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
             const divTitle = document.querySelector(`.\\#${this.config.id}`)

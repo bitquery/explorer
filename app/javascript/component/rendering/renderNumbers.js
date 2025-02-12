@@ -1,8 +1,44 @@
 export default function renderNumbers(data) {
     const div = document.createElement('div')
     div.style.cssText = 'text-align: end; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
+
     const span = document.createElement('span')
-    span.textContent = (data === null || data === undefined) ? '' : data.toString().replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')
+
+    const formatNumberMix = (value, numberFix = 2) => {
+        let number = parseFloat(value)
+        if (isNaN(number)) return 'NaN'
+        if (number === 0) return '0'
+        let effectiveFix = numberFix
+        if (Math.abs(number) < 1) {
+            const significantDigits = numberFix
+            const leadingZeros = -Math.floor(Math.log10(Math.abs(number)))
+            effectiveFix = significantDigits + leadingZeros - 1
+        }
+        let units = ['', 'K', 'M', 'B']
+        let unitIndex = 0
+        while (Math.abs(number) >= 1000 && unitIndex < units.length - 1) {
+            number /= 1000
+            unitIndex++
+        }
+        let fixedNumber = number.toFixed(effectiveFix)
+        fixedNumber = fixedNumber.replace(/\.?0+$/, '')
+        if (fixedNumber.includes('.')) {
+            const [integerPart, decimalPart] = fixedNumber.split('.')
+            const zerosMatch = decimalPart.match(/^0+/)
+            if (zerosMatch && zerosMatch[0].length > 2) {
+                const zerosCount = zerosMatch[0].length
+                const significantPart = decimalPart.slice(zerosCount)
+                return `${integerPart}.0..${significantPart}${units[unitIndex]}`
+            }
+        }
+        return fixedNumber + units[unitIndex]
+    }
+
+    const stringData = (data === null || data === undefined) ? '' : data.toString()
+    const formattedData = formatNumberMix(stringData)
+
+    span.textContent = formattedData
+
     div.setAttribute('title', data)
     div.appendChild(span)
 

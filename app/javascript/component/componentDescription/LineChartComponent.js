@@ -25,6 +25,7 @@ export default class LineChartComponent {
         }
         const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color')
         const darkTheme = {
+            fontName:"Nunito",
             titleTextStyle: { color: parentTextColor },
             backgroundColor:  'transparent',
             hAxis: {
@@ -33,11 +34,14 @@ export default class LineChartComponent {
                 slantedText: true,
                 slantedTextAngle: 45,
                 gridlines: {
-                    count: -1
+                    count: 0
                 },
                 showTextEvery: 'auto',
             },
             vAxis: {
+                gridlines: {
+                    count: 0
+                },
                 textStyle : { color: parentTextColor },
                 titleTextStyle: { color: parentTextColor },
             },

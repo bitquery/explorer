@@ -25,19 +25,23 @@ export default class TimeChartComponent {
 		}
 		const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
 		const darkTheme = {
-			titleTextStyle: { color: parentTextColor },
-			backgroundColor:  'transparent',
+			fontName: 'Nunito',
+			titleTextStyle: { color: parentTextColor, fontSize: 14, fontName: 'Nunito' },
+			backgroundColor: 'transparent',
 			hAxis: {
-				textStyle : { color: parentTextColor },
-				titleTextStyle: { color: parentTextColor },
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+				titleTextStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
 			},
 			vAxis: {
-				textStyle : { color: parentTextColor },
-				titleTextStyle: { color: parentTextColor },
-				...(this.config.options.vAxis && this.config.options.vAxis.minValue !== undefined && { minValue: this.config.options.vAxis.minValue })
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+				titleTextStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+				...(this.config.options.vAxis &&
+					this.config.options.vAxis.minValue !== undefined && {
+						minValue: this.config.options.vAxis.minValue,
+					}),
 			},
 			legend: {
-				textStyle: { color: parentTextColor }
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
 			},
 		};
 		this.config.options = {...darkTheme,...this.config.options}

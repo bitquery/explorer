@@ -1,6 +1,6 @@
 <%= form_tag search_path(), class: 'search-form' do %>
   <div class="input-group">
-    <%= text_field_tag :query, @query, id: nil, class: "form-control form-control-sm", placeholder: t('find_placeholder') %>
+    <%= text_field_tag :query, @query, id: nil, class: "form-control form-control-sm placeholder-color", placeholder: t('find_placeholder') %>
     <div class="input-group-append">
       <% if @network %>
         <button type="button" class="btn  btn-sm search-form-type d-none d-lg-inline-block bg-custom-purple button-transition" data-network="<%= @network[:network] %>"><%= t('find_in', network: @network[:name]) %></button>
