@@ -49,7 +49,7 @@ export default function renderNumberWithUSD(data) {
         : '';
     const usd = data?.usd
         ? `$${parseFloat(data.usd).toFixed(2).replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')}`
-        : '$0';
+        : '$-';
 
     amountDiv.textContent = amount || '0';
     usdDiv.textContent = usd;

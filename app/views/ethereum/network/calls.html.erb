@@ -1,3 +1,203 @@
-<%= render partial: 'ethereum/network/calls/calls_by_time' %>
-<%= render partial: 'ethereum/network/calls/calls_table' %>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='Smart-Contracts-By-Date'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='UniqueSmartContracts'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='SmartContractsCallers'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='SmartContractsMethods'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubLatestSmartContractCalls' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class SmartContractsByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => `Total Smart Contract Calls Over Time on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
+                id: 'SmartContractsByDate',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Calls Count', cell: row => +row.count,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    colors: ['FFC106'],
+                    legend: {position: "top"},
+                }
+            }
+        }
+    }
 
+    class UniqueSmartContracts extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => `Unique Smart Contracts Interacted With on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
+                id: 'UniqueSmartContracts',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Unique Contracts', cell: row => +row.contracts,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    colors: ['28A745'],
+                    legend: {position: "top"},
+                }
+            }
+        }
+    }
+
+    class SmartContractsCallers extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => `Number of Unique Callers Over Time on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
+                id: 'SmartContractsCallers',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Uniq Callers', cell: row => +row.callers,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    colors: ['28A745'],
+                    legend: {position: "top"},
+                }
+            }
+        }
+    }
+
+    class SmartContractsMethods extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => `Distinct Smart Contract Methods Called on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
+                id: 'SmartContractsMethods',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Uniq Methods', cell: row => +row.methods,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    colors: ['FFC106'],
+                    legend: {position: "top"},
+                }
+            }
+        }
+    }
+
+    class SubLatestSmartContractCalls extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate, headerStyle: {maxWidth: '162px'}
+                    },
+                    {
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '110px'},
+                    },
+                    {
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Smart Contract', cell: row => row.Call.To,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Method',
+                        cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
+                        rendering: renderMethodLink, headerStyle: {width: '120px'},
+                    },
+                    {
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '110px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+    };
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [
+            [SmartContractsByDate, '#Smart-Contracts-By-Date'],
+            [UniqueSmartContracts, '#UniqueSmartContracts'],
+            [SmartContractsCallers, '#SmartContractsCallers'],
+            [SmartContractsMethods, '#SmartContractsMethods']
+        ], 'Smart-Contracts-Activity_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_7', variables, 'Subscription-Latest-Smart-Contract-Calls_1');
+    });
+</script>
