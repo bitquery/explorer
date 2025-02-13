@@ -231,7 +231,7 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () =>`Average Gas Price per Transaction on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
+                title: response =>`Average Gas Price per Transaction on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
                 id: 'AveragePrice',
                 theme: '<%= @theme %>',
                 columns: [

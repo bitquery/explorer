@@ -1,27 +1,51 @@
 <div class='row'>
   <div class='col-12 col-xl-6  mb-4'>
-    <div class='card' id='ActiveMinersByTime'></div>
+    <div class='card' id='ActiveMinersByTime'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='BlockRewardsByDate'></div>
+    <div class='card' id='BlockRewardsByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='Miners' class='card'></div>
+    <div id='Miners' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='MinersBlockCountByTime'></div>
+    <div class='card' id='MinersBlockCountByTime'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='MinersBlockRewardByTime'></div>
+    <div class='card' id='MinersBlockRewardByTime'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='Difficult' class='card'></div>
+    <div id='Difficult' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -31,8 +55,10 @@
             return {
                 topElement: response => response.EVM.MinerRewards,
                 chainId: response => response.EVM.MinerRewards[0]?.ChainId,
-                title:()=>'Active Miners By Time',
-                id:'ActiveMinersByTime',
+                title: response => `Number of Unique Miners Over Time on the ${WidgetConfig.getName(response.EVM.MinerRewards[0]?.ChainId) || 'network'}`,
+
+                id: 'ActiveMinersByTime',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -56,8 +82,10 @@
             return {
                 topElement: response => response.EVM.MinerRewards,
                 chainId: response => response.EVM.MinerRewards[0]?.ChainId,
-                title:()=>'Block Rewards By Date',
-                id:'BlockRewardsByDate',
+                title: response => `Total Miner Rewards Over Time on the ${WidgetConfig.getName(response.EVM.MinerRewards[0]?.ChainId) || 'network'}`,
+
+                id: 'BlockRewardsByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -81,8 +109,9 @@
             return {
                 topElement: response => response.EVM.MinerRewards,
                 chainId: response => response.EVM.MinerRewards[0]?.ChainId,
-                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0]?.ChainId)}s`,
+                title: response => `Top Miners by Block Rewards and Fees on the ${WidgetConfig.getName(response.EVM.MinerRewards[0]?.ChainId) || 'network'}`,
                 id: 'Miners',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Miner', cell: row => row.Block.Coinbase,
@@ -101,12 +130,16 @@
                         headerStyle: {width: '120px'},
                     },
                     {
-                        name: 'Block Reward Total', cell: row => row.reward_Total,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Block Reward Total',
+                        cell: row => ({amount: row.reward_Total, usd: row.reward_Total_usd}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Reward Burnt Fees', cell: row => row.reward_BurntFees,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Reward Burnt Fees',
+                        cell: row => ({amount: row.reward_BurntFees, usd: row.reward_BurntFees_usd}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Reward Tx Fees', cell: row => row.reward_TxFees,
@@ -122,8 +155,9 @@
             return {
                 topElement: response => response.EVM.MinerRewards,
                 chainId: response => response.EVM.MinerRewards[0]?.ChainId,
-                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0]?.ChainId)}s Block Count By Time`,
+                title: () => `Miners' Block Production Over Time`,
                 id: 'MinersBlockCountByTime',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -151,8 +185,9 @@
             return {
                 topElement: response => response.EVM.MinerRewards,
                 chainId: response => response.EVM.MinerRewards[0]?.ChainId,
-                title: response => `${WidgetConfig.getBlockProducerName(response.EVM.MinerRewards[0]?.ChainId)}s Block Reward By Date`,
+                title: () => `Miners' Total Block Rewards Over Time`,
                 id: 'MinersBlockRewardByTime',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -174,13 +209,15 @@
             }
         }
     }
+
     class Difficult extends LineChartComponent {
         configuration() {
             return {
                 topElement: response => response.EVM.MinerRewards,
                 chainId: response => response.EVM.MinerRewards[0]?.ChainId,
-                title: () => 'Difficulty By Time',
+                title: response => `Network Median Difficulty Over Time on the ${WidgetConfig.getName(response.EVM.MinerRewards[0]?.ChainId) || 'network'}`,
                 id: 'Difficult',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date',
@@ -206,9 +243,9 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[BlockRewardsByDate, '#BlockRewardsByDate'],[ActiveMinersByTime, '#ActiveMinersByTime']], 'Block-Rewards-By-Date', variables);
-        renderComponent('<%=@streaming_access_token %>', [[Miners, '#Miners']], 'Miners_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [[MinersBlockRewardByTime, '#MinersBlockRewardByTime'],[MinersBlockCountByTime, '#MinersBlockCountByTime'],[Difficult, '#Difficult']], 'Miners-Block-Count-By-Time_5', variables);
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[BlockRewardsByDate, '#BlockRewardsByDate'], [ActiveMinersByTime, '#ActiveMinersByTime']], 'Block-Rewards-By-Date', variables);
+        renderComponent('<%=@streaming_access_token %>', [[Miners, '#Miners']], 'Miners_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[MinersBlockRewardByTime, '#MinersBlockRewardByTime'], [MinersBlockCountByTime, '#MinersBlockCountByTime'], [Difficult, '#Difficult']], 'Miners-Block-Count-By-Time_5', variables);
     })
 </script>

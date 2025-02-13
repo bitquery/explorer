@@ -1,14 +1,26 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='LatestTransactions' class='card'></div>
+    <div id='LatestTransactions' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TransactionsByDate'></div>
+    <div class='card' id='TransactionsByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='GasSpentByDate'></div>
+    <div class='card' id='GasSpentByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -18,6 +30,8 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
+                theme: '<%= @theme %>',
+                id: 'LatestTransactions',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
@@ -26,10 +40,6 @@
                     {
                         name: 'Block', cell: row => row.Block.Number,
                         rendering: renderBlockLink, headerStyle: {width: '100px'},
-                    },
-                    {
-                        name: 'Sender', cell: row => row.Transaction.To,
-                        rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Receiver', cell: row => row.Transaction.To,
@@ -41,19 +51,61 @@
                     },
                     {
                         name: 'Value', cell: row => row.Transaction.Value,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end', width: '100px'},
+                        rendering: renderNumbersWithCurrency,
+                        headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Gas used', cell: row => row.Receipt.GasUsed,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'}
+                        name: 'Tx Cost, (gwei)',
+                        cell: row => ({
+                            amount: row.Transaction.Cost * 1e9,
+                            usd: row.Transaction.CostInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Gas price', cell: row => row.Fee.EffectiveGasPrice,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
+                        name: 'Gas used',
+                        cell: row => row.Receipt.GasUsed,
+                        rendering: renderNumbers,
+                        headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Sender fee', cell: row => row.Fee.SenderFee,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
+                        name: 'Gas Price, (gwei)',
+                        cell: row => ({
+                            amount: row.Transaction.GasPrice * 1e9,
+                            usd: row.Transaction.GasPriceInUSD,
+                        }),
+
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Effective Gas, (gwei)',
+                        cell: row => ({
+                            amount: row.Fee.EffectiveGasPrice * 1e9,
+                            usd: row.Fee.EffectiveGasPriceInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Sender Fee, (gwei)',
+                        cell: row => ({
+                            amount: row.Fee.SenderFee * 1e9,
+                            usd: row.Fee.SenderFeeInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+
+                    },
+                    {
+                        name: 'Savings, (gwei)',
+                        cell: row => ({
+                            amount: row.Fee.Savings * 1e9,
+                            usd: row.Fee.SavingsInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -65,6 +117,9 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title: response => `Daily Transaction Volume on the ${WidgetConfig.getName(response.EVM.Transactions[0]?.ChainId) || 'network'}`,
+                id: 'TransactionsByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -87,6 +142,9 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title: response => `Daily Gas Fees Spent on the ${WidgetConfig.getName(response.EVM.Transactions[0]?.ChainId) || 'network'}`,
+                id: 'GasSpentByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -111,9 +169,9 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[LatestTransactions, '#LatestTransactions']], 'Latest-Transactions_6', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate']], 'Gas-Spent-By-Date_5', variables);
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[LatestTransactions, '#LatestTransactions']], 'Latest-Transactions_10', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_8', variables);
+        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate']], 'Gas-Spent-By-Date_10', variables);
     })
 </script>

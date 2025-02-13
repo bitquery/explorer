@@ -9,40 +9,57 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: () => 'Transfer Token by count',
+                title: response => `Token Transfer Activity on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'TransfersByCurrencies',
+                theme: '<%= @theme %>',
                 columns: [
                     {
-                        name: 'Currency', cell: row => ({
+                        name: 'Token',
+                        cell: row => ({
                             currency: row.Transfer.Currency.Symbol,
                             smartContract: row.Transfer.Currency.SmartContract
                         }),
-                        rendering: renderTokenLink, headerStyle: {width: '210px'},
+                        rendering: renderTokenLink,
+                        headerStyle: { width: '210px' },
                     },
                     {
-                        name: 'Uniq Senders', cell: row => row.senders,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '110px'},
+                        name: 'Transfers Count',
+                        cell: row => row.count,
+                        rendering: renderNumbers,
+                        headerStyle: { textAlign: 'end' },
                     },
                     {
-                        name: 'Uniq Receivers', cell: row => row.receivers,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '121px'},
+                        name: 'Uniq Senders',
+                        cell: row => row.senders,
+                        rendering: renderNumbers,
+                        headerStyle: { textAlign: 'end', width: '110px' },
                     },
                     {
-                        name: 'Count', cell: row => row.count,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Uniq Receivers',
+                        cell: row => row.receivers,
+                        rendering: renderNumbers,
+                        headerStyle: { textAlign: 'end', width: '121px' },
                     },
                     {
-                        name: 'Amount', cell: row => row.sum_amount,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Total Volume',
+                        cell: row => ({
+                            amount: row.sum_amount,
+                            usd: row.sum_amount_usd
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end' },
                     },
                     {
-                        name: 'Days token transferred', cell: row => row.count_days
-                        , rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '181px'},
+                        name: 'Active Days',
+                        cell: row => row.count_days,
+                        rendering: renderNumbers,
+                        headerStyle: { textAlign: 'end', width: '181px' },
                     },
                 ]
             }
         }
     }
+
 
     const variables = {
         network: '<%= @streaming%>',
@@ -52,6 +69,6 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[TransfersByCurrencies, '#TransfersByCurrencies']], 'Transfers-By-Currencies_10', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TransfersByCurrencies, '#TransfersByCurrencies']], 'Transfers-By-Currencies0_4', variables);
     })
 </script>

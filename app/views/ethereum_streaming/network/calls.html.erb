@@ -1,22 +1,42 @@
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='Smart-Contracts-By-Date'></div>
+    <div class='card' id='Smart-Contracts-By-Date'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='UniqueSmartContracts'></div>
+    <div class='card' id='UniqueSmartContracts'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='SmartContractsCallers'></div>
+    <div class='card' id='SmartContractsCallers'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='SmartContractsMethods'></div>
+    <div class='card' id='SmartContractsMethods'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='SubLatestSmartContractCalls' class='card'></div>
+    <div id='SubLatestSmartContractCalls' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -25,8 +45,9 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Smart contract calls ( including internal ) by date',
+                title: response => `Total Smart Contract Calls Over Time on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
                 id: 'SmartContractsByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -50,8 +71,9 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Unique Smart Contracts',
+                title: response => `Unique Smart Contracts Interacted With on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
                 id: 'UniqueSmartContracts',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -75,8 +97,9 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Unique Callers by time',
+                title: response => `Number of Unique Callers Over Time on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
                 id: 'SmartContractsCallers',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -100,8 +123,9 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
-                title: () => 'Unique Smart Contracts Methods Called',
+                title: response => `Distinct Smart Contract Methods Called on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
                 id: 'SmartContractsMethods',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -125,10 +149,11 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
-                        rendering: renderDate,
+                        rendering: renderDate, headerStyle: {maxWidth: '162px'}
                     },
                     {
                         name: 'Block', cell: row => row.Block.Number,
@@ -166,13 +191,13 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [
             [SmartContractsByDate, '#Smart-Contracts-By-Date'],
             [UniqueSmartContracts, '#UniqueSmartContracts'],
             [SmartContractsCallers, '#SmartContractsCallers'],
             [SmartContractsMethods, '#SmartContractsMethods']
-        ], 'Smart-Contracts-Activity', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_2', variables, 'Subscription-Latest-Smart-Contract-Calls');
+        ], 'Smart-Contracts-Activity_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_7', variables, 'Subscription-Latest-Smart-Contract-Calls_1');
     });
 </script>

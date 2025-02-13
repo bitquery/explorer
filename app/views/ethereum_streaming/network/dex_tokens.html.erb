@@ -1,14 +1,26 @@
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TradedCurrenciesByTime'></div>
+    <div class='card' id='TradedCurrenciesByTime'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TradesByPairs'></div>
+    <div class='card' id='TradesByPairs'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='SubTokenTradePairs' class='card'></div>
+    <div id='SubTokenTradePairs' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -17,8 +29,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Traded Currencies by Time',
+                title: () => 'Daily Unique Traded Currencies on DEX',
                 id: 'TradedCurrenciesByTime',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Days', cell: row => row.Block.Date,
@@ -42,8 +55,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Trades by Pairs',
+                title: response => `Top Trading Pairs by Volume and Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TradesByPairs',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Pair', cell: row => ({
@@ -59,8 +73,8 @@
                         headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Amount', cell: row => row.Buy_Amount,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'}
+                        name: 'Buy Amount', cell: row => ({amount: row.Buy_Amount, usd: row.Buy_Amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'}
                     },
                     {
                         name: 'Started', cell: row => row.Block.Date, headerStyle: {width: '100px'},
@@ -79,16 +93,17 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Token Trade Pairs by Trades',
+                title: response => `Top Trading Pairs by Volume and Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'SubTokenTradePairs',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
                         rendering: renderDate,
                     },
                     {
-                        name: 'Sell amount', cell: row => row.Sell_Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Sell amount', cell: row => ({amount: row.Sell_Amount, usd: row.Sell_Amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Sell currency', cell: row => ({
@@ -101,8 +116,8 @@
                         name: '', cell: row => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
-                        name: 'Buy amount', cell: row => row.Buy_Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Buy amount', cell: row => ({amount: row.Buy_Amount, usd: row.Buy_Amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Buy currency', cell: row => ({
@@ -115,12 +130,12 @@
                         name: 'Trades', cell: row => row.count, headerStyle: {width: '110px'},
                     },
                     {
-                        name: 'Median Price', cell: row => row.median_price,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Median Price', cell: row => ({amount: row.median_price, usd: row.median_price_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Last Price', cell: row => row.Trade.Buy.last_price,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '110px'},
+                        name: 'Last Price', cell: row => ({amount: row.Trade.Buy.last_price, usd: row.Trade.Buy.last_price_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end', width: '110px'},
                     },
                 ]
             }
@@ -134,10 +149,10 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TradesByPairs, '#TradesByPairs']], 'Trades-By-Pairs_1_1_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SubTokenTradePairs, '#SubTokenTradePairs']], 'Token-Trade-Pairs_1_1_1_1_1_1_1_1_1', variables, 'Subscription-Token-Trade-Pairs_1');
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_8', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TradesByPairs, '#TradesByPairs']], 'Trades-By-Pairs_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[SubTokenTradePairs, '#SubTokenTradePairs']], 'Token-Trade-Pairs_4', variables, 'Subscription-Token-Trade-Pairs_4');
     });
 
 </script>

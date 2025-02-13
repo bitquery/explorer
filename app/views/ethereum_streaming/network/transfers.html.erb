@@ -10,6 +10,9 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Latest Token Transfers on  ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                id:'LatestTransfers',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Timestamp', cell: row =>row.Block.Time,
@@ -31,14 +34,19 @@
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row =>row.Transfer.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
+                        name: 'Amount',
+                        cell: row => ({
+                            amount: row.Transfer.Amount,
+                            usd: row.Transfer.AmountInUSD
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end' },
                     },
                     {
                         name: 'Currency', cell: row =>({
-                                currency: row.Transfer.Currency.Symbol,
-                                smartContract: row.Transfer.Currency.SmartContract
-                            }),
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
                         rendering: renderTokenLink,headerStyle: {width: '100px'},
                     },
                     {
@@ -48,6 +56,11 @@
                     {
                         name: 'Hash', cell: row =>row.Transaction.Hash,
                         rendering: renderTX,headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Status',
+                        cell: row => row.Transfer.Success ? 'Success' : 'Failed',
+                        headerStyle: { width: '80px' },
                     },
                 ]
             }
@@ -62,6 +75,6 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[LatestTransfers, '#LatestTransfers']], 'Latest-Transfers_5', variables, 'Subscription-Latest-Transfers_2');
+        renderComponent('<%=@streaming_access_token %>',[[LatestTransfers, '#LatestTransfers']], 'Latest-Transfers_7', variables, 'Subscription-Latest-Transfers_4');
     });
 </script>

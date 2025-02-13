@@ -1,20 +1,36 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='CountOfDEXTradesByProtocol' class='card'></div>
+    <div id='CountOfDEXTradesByProtocol' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='DEXSmartContractProtocols'></div>
+    <div class='card' id='DEXSmartContractProtocols'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='DEXSmartContractProtocolsPie'></div>
+    <div class='card' id='DEXSmartContractProtocolsPie'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='DEXSmartContracts' class='card'></div>
+    <div id='DEXSmartContracts' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -24,6 +40,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: response => `Daily DEX Trade Volume by Protocol on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                id:'CountOfDEXTradesByProtocol',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -51,8 +70,8 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'DEX Smart Contract Protocols',
-                id: 'DEXSmartContractProtocols',
+                title: response => `Top DEX Protocols by Trade Volume on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Protocol', cell: row => ({
@@ -81,8 +100,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Count of DEX Trades By Protocol',
+                title: response => `Market Share of DEX Protocols by Trade Count on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'DEXSmartContractProtocolsPie',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Protocol', cell: row => `${row.Trade.Dex.ProtocolName} ${row.Trade.Dex.ProtocolVersion}`,
@@ -92,7 +112,7 @@
                     }
                 ],
                 options: {
-                    height: 397,
+                    height: 375,
                     chartArea: {
                         left: 50,
                         width: '75%',
@@ -107,8 +127,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'DEX Smart Contracts by trades',
+                title: response => `Top Smart Contracts by DEX Trade Volume on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'DEXSmartContracts',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Smart Contract', cell: row=>row.Trade.Dex.SmartContract,
@@ -143,8 +164,8 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol']], 'Count-of-DEX-Trades-By-Protocol_7', variables);
-        renderComponent('<%=@streaming_access_token %>', [[DEXSmartContractProtocols, '#DEXSmartContractProtocols'], [DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie']], 'DEX-Smart-Contract-Protocols_1_1_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [ [DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[CountOfDEXTradesByProtocol, '#CountOfDEXTradesByProtocol']], 'Count-of-DEX-Trades-By-Protocol_9', variables);
+        renderComponent('<%=@streaming_access_token %>', [[DEXSmartContractProtocols, '#DEXSmartContractProtocols'], [DEXSmartContractProtocolsPie, '#DEXSmartContractProtocolsPie']], 'DEX-Smart-Contract-Protocols_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [ [DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts_4', variables);
     })
 </script>

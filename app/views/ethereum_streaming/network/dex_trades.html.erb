@@ -1,22 +1,42 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='SubTokenTradesTable' class='card'></div>
+    <div id='SubTokenTradesTable' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TradesByTimeTrades'></div>
+    <div class='card' id='TradesByTimeTrades'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TradesByTimeAddress'></div>
+    <div class='card' id='TradesByTimeAddress'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TradesByTimeCurrencies'></div>
+    <div class='card' id='TradesByTimeCurrencies'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TradesByTimeContracts'></div>
+    <div class='card' id='TradesByTimeContracts'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -26,44 +46,69 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Token Trades',
+                title: response => `Latest DEX Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'SubTokenTradesTable',
+                theme: '<%= @theme %>',
                 columns: [
                     {
-                        name: 'Timestamp', cell: row => row.Block.Time,
+                        name: 'Timestamp',
+                        cell: row => row.Block.Time,
                         rendering: renderDate,
                     },
                     {
-                        name: 'Block', cell: row => row.Block.Number,
-                        rendering: renderBlockLink, headerStyle: {width: '110px'},
+                        name: 'Block',
+                        cell: row => row.Block.Number,
+                        rendering: renderBlockLink,
+                        headerStyle: { width: '110px' },
                     },
                     {
-                        name: 'Sell amount', cell: row => row.Trade.Sell.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '108px'},
+                        name: 'Sell amount',
+                        cell: row => ({amount: row.Trade.Sell.Amount,usd: row.Trade.Sell.AmountInUSD}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end', width: '108px' },
                     },
                     {
-                        name: 'Sell currency', cell: row => ({
+                        name: 'Sell currency',
+                        cell: row => ({
                             currency: row.Trade.Sell.Currency.Symbol,
                             smartContract: row.Trade.Sell.Currency.SmartContract
                         }),
-                        rendering: renderTokenLink, headerStyle: {width: '108px'},
+                        rendering: renderTokenLink,
+                        headerStyle: { width: '108px' },
                     },
                     {
-                        name: '', cell: row => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                        name: '',
+                        cell: row => '',
+                        rendering: renderSenderRecieverIcon,
+                        headerStyle: { width: '50px' },
                     },
                     {
-                        name: 'Buy amount', cell: row => row.Trade.Buy.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '108px'},
+                        name: 'Buy amount',
+                        cell: row => ({amount: row.Trade.Buy.Amount,usd: row.Trade.Buy.AmountInUSD}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end', width: '108px' },
                     },
                     {
-                        name: 'Buy currency', cell: row => ({
+                        name: 'Buy currency',
+                        cell: row => ({
                             currency: row.Trade.Buy.Currency.Symbol,
                             smartContract: row.Trade.Buy.Currency.SmartContract
                         }),
-                        rendering: renderTokenLink, headerStyle: {width: '108px'},
+                        rendering: renderTokenLink,
+                        headerStyle: { width: '108px' },
                     },
                     {
-                        name: 'Protocol', cell: row => ({
+                        name: 'Buy Price',
+                        cell: row => ({
+                            price: row.Trade.Buy.Price,
+                            usd: row.Trade.Buy.PriceInUSD
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end', width: '110px' },
+                    },
+                    {
+                        name: 'Protocol',
+                        cell: row => ({
                             ProtocolFamily: row.Trade.Dex.ProtocolFamily,
                             ProtocolName: row.Trade.Dex.ProtocolName,
                             ProtocolVersion: row.Trade.Dex.ProtocolVersion
@@ -71,25 +116,41 @@
                         rendering: renderDexProtocolLink,
                     },
                     {
-                        name: 'Smart Contract', cell: row => row.Trade.Dex.SmartContract,
+                        name: 'DEX SC',
+                        cell: row => row.Trade.Dex.SmartContract,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Hash', cell: row => row.Transaction.Hash,
-                        rendering: renderTX, headerStyle: {width: '100px'},
+                        name: 'Pair', cell: row => ({
+                            buyCurrencySymbol: row.Trade.Buy.Currency.Symbol,
+                            buyCurrencySC: row.Trade.Buy.Currency.SmartContract,
+                            sellCurrencySymbol: row.Trade.Sell.Currency.Symbol,
+                            sellCurrencySC: row.Trade.Sell.Currency.SmartContract,
+                        }),
+                        headerStyle: { width: '100px' },
+                        rendering: renderPairLink,
                     },
-                ]
+                    {
+                        name: 'Tx Hash',
+                        cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
+                        headerStyle: { width: '100px' },
+                    },
+                ],
+
             }
         }
     }
+
 
     class TradesByTimeTrades extends TimeChartComponent {
         configuration() {
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Trades by Time',
+                title: response => `Daily DEX Trade Count on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TradesByTimeTrades',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -113,7 +174,8 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Trade Takers by Time',
+                title: () => `Unique Traders on DEX by Day`,
+                theme: '<%= @theme %>',
                 id: 'TradesByTimeAddress',
                 columns: [
                     {
@@ -138,8 +200,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'Traded Currencies by Time',
+                title: () => `Number of Unique Traded Currencies on DEX`,
                 id: 'TradesByTimeCurrencies',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -163,8 +226,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
-                title: () => 'DEX Smart Contracts by Time',
+                title: () => `Unique DEX Smart Contracts Used per Day`,
                 id: 'TradesByTimeContracts',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -194,12 +258,12 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades_4', variables, 'Subscription-Token-Trades_1_1');
+        renderComponent('<%=@streaming_access_token %>', [[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades_9', variables, 'Subscription-Token-Trades_3');
         renderComponent('<%=@streaming_access_token %>', [
             [TradesByTimeTrades, '#TradesByTimeTrades'],
             [TradesByTimeAddress, '#TradesByTimeAddress'],
             [TradesByTimeCurrencies, '#TradesByTimeCurrencies'],
             [TradesByTimeContracts, '#TradesByTimeContracts']
-        ], 'Trades-By-Time', variables);
+        ], 'Trades-By-Time_3', variables);
     })
 </script>
