@@ -8,11 +8,9 @@ export default function renderNumberWithUSD(data) {
     const usdDiv = document.createElement('div');
     usdDiv.style.cssText = 'font-size: 0.75em; color: green;';
 
-    // Функция форматирования числа
     const formatNumberMix = (value, numberFix = 2) => {
         let number = parseFloat(value);
 
-        // Проверка на "практически нулевые" значения
         if (isNaN(number) || Math.abs(number) < 1e-6) return '0';
 
         if (number === 0) return '0';
@@ -46,15 +44,14 @@ export default function renderNumberWithUSD(data) {
         return fixedNumber + units[unitIndex];
     };
 
-    // Форматируем данные
     const amount = data?.amount !== undefined && data.amount !== null
         ? formatNumberMix(data.amount)
         : '';
     const usd = data?.usd
         ? `$${parseFloat(data.usd).toFixed(2).replace(/(\.\d*?[1-9])0+$/, '$1').replace(/\.0+$/, '')}`
-        : '';
+        : '$0';
 
-    amountDiv.textContent = amount || '0'; // Если amount пустой, показываем '0'
+    amountDiv.textContent = amount || '0';
     usdDiv.textContent = usd;
 
     container.setAttribute('title', `Amount: ${data?.amount || ''}, USD: ${data?.usd ? `$${parseFloat(data.usd).toFixed(2)}` : ''}`);

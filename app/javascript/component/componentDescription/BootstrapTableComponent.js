@@ -45,7 +45,7 @@ export default class BootstrapTableComponent {
             const th = this.createElementWithClasses('th')
             th.setAttribute('scope', 'col')
             th.style.padding = '0.3rem 0.5rem'
-            th.style.whiteSpace = 'nowrap'
+            // th.style.whiteSpace = 'nowrap'
             th.style.fontWeight = 'bold'
 
             if (typeof name === 'function') {
