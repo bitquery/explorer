@@ -56,48 +56,83 @@ export default class BootstrapVerticalTableComponent {
     async onHistoryData(data, variables) {
         try {
             if (this.config.title && data) {
-                await this.getTitle(data)
+                await this.getTitle(data);
             }
-            if(this.config.topElement(data).length===0){
-                this.container.textContent = 'No Data. Response is empty'
-                return
+
+            // Проверяем, есть ли данные
+            if (this.config.topElement(data).length === 0) {
+                this.container.textContent = 'No Data. Response is empty';
+                return;
             }
+
             const array = this.config.topElement(data);
-            const chainId = this.config.chainId(data)
+            const chainId = this.config.chainId(data);
+console.log('array', array)
+            const columnValues = {};
+
             for (const rowData of array) {
                 for (const column of this.config.columns) {
-                    if (column.cell(rowData) === undefined) {
-                        continue
-                    }
-                    const tr = this.createElementWithClasses('tr');
-                    const td1 = this.createElementWithClasses('td');
-                    const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
-                    textCell1.textContent = column.name;
-                    this.appendChildren(td1, textCell1);
-
-                    const td2 = this.createElementWithClasses('td');
-                    const textCell2 = this.createElementWithClasses('span');
-                    textCell2.textContent = column.cell(rowData);
-                    this.appendChildren(td2, textCell2);
-
-                    if (column.rendering) {
-                        const div = await column.rendering(column.cell(rowData), variables, chainId);
-                        td2.replaceChild(div, textCell2);
-                    }
-                    if (column.cellStyle) {
-                        const cellStyle = column.cellStyle;
-                        for (let styleKey in cellStyle) {
-                            td2.style[styleKey] = cellStyle[styleKey];
+                    try {
+                        const cellValue = column.cell(rowData);
+                        if (cellValue !== undefined) {
+                            if (!columnValues[column.name]) {
+                                columnValues[column.name] = { column, values: [] };
+                            }
+                            columnValues[column.name].values.push(cellValue);
                         }
+                    } catch (error) {
+                        console.error(`Error processing column "${column.name}":`, error);
                     }
-                    this.appendChildren(tr, td1, td2);
-                    this.appendChildren(this.tbody, tr);
+                }
+            }
 
+            for (const key in columnValues) {
+                const { column, values } = columnValues[key];
+                let finalValue;
+
+                if (values.length > 1) {
+                    finalValue = this.resolveMultipleValues(values, column);
+                } else {
+                    finalValue = values[0];
                 }
 
+                const tr = this.createElementWithClasses('tr');
+                const td1 = this.createElementWithClasses('td');
+                const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
+                textCell1.textContent = column.name;
+                this.appendChildren(td1, textCell1);
+
+                const td2 = this.createElementWithClasses('td');
+                const textCell2 = this.createElementWithClasses('span');
+                textCell2.textContent = finalValue;
+
+                this.appendChildren(td2, textCell2);
+
+                if (column.rendering) {
+                    const div = await column.rendering(finalValue, variables, chainId);
+                    td2.replaceChild(div, textCell2);
+                }
+
+                if (column.cellStyle) {
+                    const cellStyle = column.cellStyle;
+                    for (let styleKey in cellStyle) {
+                        td2.style[styleKey] = cellStyle[styleKey];
+                    }
+                }
+
+                this.appendChildren(tr, td1, td2);
+                this.appendChildren(this.tbody, tr);
             }
         } catch (error) {
             this.displayError(`Error processing data: ${error.message}`);
+        }
+    }
+
+    resolveMultipleValues(values, column) {
+        if (column.aggregate) {
+            return column.aggregate(values);
+        } else {
+            return values[values.length - 1];
         }
     }
 

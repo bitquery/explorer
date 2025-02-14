@@ -1,4 +1,4 @@
-module EthereumStreaming
+module Ethereum
   class BlockController < NetworkController
     layout 'tabs'
 

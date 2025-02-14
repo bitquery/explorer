@@ -11,7 +11,9 @@ module EthereumStreaming
     def calls_contracts
       render 'ethereum_streaming/address/calls_contracts'
     end
-
+    def money_flow
+      render 'ethereum/address/money_flow'
+    end
     private
 
     def redirect_by_type

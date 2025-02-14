@@ -6,12 +6,16 @@ module Ethereum
       render 'ethereum/smart_contract/show'
     end
 
+    def nft
+      render 'ethereum/token/nft_smart_contract'
+    end
+
     def methods
       render 'ethereum/smart_contract/methods'
     end
 
     def events
-      render @streaming ? 'ethereum/smart_contract/events_v2' : 'ethereum/smart_contract/events'
+      render 'ethereum/smart_contract/events'
     end
 
     def transactions
@@ -36,7 +40,7 @@ module Ethereum
       @token = params[:address]
       @id = params[:id]
       @native_token = native_token?
-      @token_info = !@native_token && @info.smartContract.currency
+      @token_info = !@native_token && @info
     end
 
     def native_token?
@@ -44,12 +48,12 @@ module Ethereum
     end
 
     def redirect_by_type
-      return if native_token?
+      return if native_token? || @check_token == 'token'
 
-      if !(sc = @info.try(:smartContract))
+      if @check_call == 'calls'
+        change_controller! 'ethereum/smart_contract'
+      else
         change_controller! 'ethereum/address'
-      elsif !sc.try(:currency)
-        # change_controller! 'ethereum/smart_contract'
       end
     end
   end

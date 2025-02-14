@@ -48,7 +48,7 @@ module EthereumStreaming
     end
 
     def redirect_by_type
-      return if native_token?
+      return if native_token? || @check_token == 'token'
 
       if @check_call == 'calls'
         change_controller! 'ethereum_streaming/smart_contract'

@@ -1,1 +1,58 @@
-<%= render partial: 'ethereum/block/transfers_table' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='Transfers'></div>
+  </div>
+</div>
+<script type="module">
+    class Transfers extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: ()=>`Transfers`,
+                id: 'Transfers',
+                columns: [
+                    {
+                        name: 'Sender', cell: row => row.Transfer.Sender,
+                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                    },
+                    {
+                        name: '', cell: () => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Receiver', cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                    },
+                    {
+                        name: 'Amount', cell: row => row.Transfer.Amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'Id', cell: row => ({
+                            id: row.Transfer.Id,
+                            address: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderIdLink
+                    },
+                    {
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        height: '<%= @height%>',
+    }
+    renderComponent('<%=@streaming_access_token %>', [[Transfers, '#Transfers']], 'Transfers_7', variables);
+</script>

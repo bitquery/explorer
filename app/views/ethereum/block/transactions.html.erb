@@ -1,1 +1,45 @@
-<%= render partial: 'ethereum/block/transactions_table' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='Transactions'></div>
+  </div>
+</div>
+<script type="module">
+    class Transactions extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title:()=> `Transactions`,
+                id: 'Transactions',
+                columns: [
+                    {
+                        name: 'Index in Block', cell: row => row.Transaction.Index,
+                    },
+                    {
+                        name: 'Sender', cell: row => row.Transaction.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                    },
+                    {
+                        name: 'Hash',
+                        cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
+                        headerStyle: {width: '30%'},
+                    },
+                    {
+                        name: 'Value', cell: row => row.Transaction.Value,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    }, {
+                        name: 'Sender fee', cell: row => row.Fee.SenderFee,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        height: '<%= @height%>',
+    }
+    renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions_8', variables);
+</script>
