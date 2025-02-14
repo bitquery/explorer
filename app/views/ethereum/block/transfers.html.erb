@@ -9,28 +9,30 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: ()=>`Transfers`,
+                title: response=>`Transfers on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'Transfers',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Sender', cell: row => row.Transfer.Sender,
-                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: () => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Receiver', cell: row => row.Transfer.Receiver,
-                        rendering: renderJustAddressLink, headerStyle: {width: '30%'},
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row => row.Transfer.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: row => ({
                             currency: row.Transfer.Currency.Symbol,
-                            smartContract: row.Transfer.Currency.SmartContract
+                            smartContract: row.Transfer.Currency.SmartContract,
+                            name: row.Transfer.Currency.Name
                         }),
                         rendering: renderTokenLink,
                     },
@@ -39,11 +41,11 @@
                             id: row.Transfer.Id,
                             address: row.Transfer.Currency.SmartContract
                         }),
-                        rendering: renderIdLink
+                        rendering: renderIdLink, headerStyle: {width: '80px'},
                     },
                     {
                         name: 'Hash', cell: row => row.Transaction.Hash,
-                        rendering: renderTX,
+                        rendering: renderTX, headerStyle: {width: '110px'},
                     },
                 ]
             }
@@ -54,5 +56,5 @@
         network: '<%= @streaming%>',
         height: '<%= @height%>',
     }
-    renderComponent('<%=@streaming_access_token %>', [[Transfers, '#Transfers']], 'Transfers_7', variables);
+    renderComponent('<%=@streaming_access_token %>', [[Transfers, '#Transfers']], 'Transfers_10_1', variables);
 </script>

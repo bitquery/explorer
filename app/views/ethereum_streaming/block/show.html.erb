@@ -1,46 +1,69 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='BlockAttributes'></div>
+    <div class='card' id='BlockAttributes'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
     class BlockAttributes extends BootstrapVerticalTableComponent {
         configuration() {
             return {
-                topElement: response=> [...response.EVM?.Blocks, ...response.EVM?.MinerRewards],
-                chainId:response=> response.EVM?.Blocks[0]?.ChainId,
-                title:()=>`Block Attributes`,
-                id:'BlockAttributes',
+                topElement: response => [...response.EVM?.Blocks, ...response.EVM?.MinerRewards],
+                chainId: response => response.EVM?.Blocks[0]?.ChainId,
+                title: response => `Detailed Block Attributes for ${WidgetConfig.getName(response.EVM.Blocks[0]?.ChainId) || 'network'}`,
+                id: 'BlockAttributes',
+                theme: '<%= @theme %>',
                 columns: [
                     {
-                        name: 'Timestamp', cell:row=> row.Block?.Time,
+                        name: 'Block Number', cell: row => row.Block?.Number,
+                    },
+                    {
+                        name: 'Timestamp', cell: row => row.Block?.Time,
                         rendering: renderDate,
                     },
                     {
-                        name: 'Miner', cell:row=> row.Block?.Coinbase,
+                        name: 'Miner', cell: row => row.Block?.Coinbase,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Block Reward', cell:row=> row.sum,
-                        rendering: renderNumbersWithCurrency, cellStyle: {display:'flex',justifyContent: 'start'},
+                        name: 'Block Reward', cell: row => ({amount: row.sum, usd: row.sum_usd}),
+                        rendering: renderNumberWithUSD, cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
-                        name: 'Tx count', cell:row=> row.Block?.TxCount,
+                        name: 'Tx count', cell: row => row.Block?.TxCount,
                     },
                     {
-                        name: 'Difficulty', cell:row=> row.Block?.Difficulty,
+                        name: 'Tx count', cell: row => row.Block?.TxCount,
                     },
                     {
-                        name: 'Gas used', cell:row=> row.Block?.GasUsed,
+                        name: 'Difficulty', cell: row => row.Block?.Difficulty,
                     },
                     {
-                        name: 'Tx count', cell:row=> row.Block?.TxCount,
+                        name: 'Gas Used', cell: row => row.Block?.GasUsed,
                     },
                     {
-                        name: 'Hash', cell:row=> row.Block?.Hash,
+                        name: 'Gas Limit', cell: row => row.Block?.GasLimit,
                     },
                     {
-                        name: 'Parent Hash', cell:row=> row.Block?.ParentHash,
+                        name: 'Usage (%)', cell: row => {
+                            if (!row.Block || !row.Block.GasUsed || !row.Block.GasLimit) return undefined;
+                            const used = Number(row.Block.GasUsed);
+                            const limit = Number(row.Block.GasLimit);
+                            return limit > 0 ? ((used / limit) * 100).toFixed(1) + '%' : 'N/A';
+                        },
+                        rendering: renderProgressBar,
+                    },
+                    {
+                        name: 'Tx count', cell: row => row.Block?.TxCount,
+                    },
+                    {
+                        name: 'Hash', cell: row => row.Block?.Hash,
+                    },
+                    {
+                        name: 'Parent Hash', cell: row => row.Block?.ParentHash,
                     },
                 ]
             }
@@ -52,5 +75,5 @@
         height: '<%= @height%>',
     }
 
-    renderComponent('<%=@streaming_access_token %>',[[BlockAttributes, '#BlockAttributes']], 'Block-Attributes_4', variables);
+    renderComponent('<%=@streaming_access_token %>', [[BlockAttributes, '#BlockAttributes']], 'Block-Attributes_6', variables);
 </script>

@@ -21,9 +21,17 @@ module Ethereum
     private
 
     def query_date
-      @block_date = ::Graphql::V2.query_with_retry(QUERY, variables: { height: @height,
-                                                                       network: @network[:streaming] }, context: { authorization: @streaming_access_token }).data.evm
+      response = ::Graphql::V2.query_with_retry(
+        QUERY,
+        variables: { height: @height, network: @network[:streaming] },
+        context: { authorization: @streaming_access_token }
+      )
+
+      @block_date = response.data.EVM
+      blocks = @block_date&.Blocks
+      @block_timestamp = blocks && blocks.any? ? blocks.first.Block.Date : nil
       @is_block_section = true
     end
+
   end
 end

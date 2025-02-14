@@ -68,6 +68,8 @@ import renderEventLink from "../component/rendering/renderEventLink";
 import renderBytes32 from "../component/rendering/renderBytes32";
 import renderNumberWithUSD from "../component/rendering/renderNumberWithUSD";
 import ComboChartComponent from "../component/componentDescription/ComboChartComponent";
+import renderProgressBar from "../component/rendering/renderProgressBar";
+import renderStatus from "../component/rendering/renderStatus";
 
 const TradingView = require("packs/charting_library/charting_library");
 
@@ -105,6 +107,8 @@ global.renderMethodLink = renderMethodLink;
 global.renderEventLink = renderEventLink;
 global.renderBytes32 = renderBytes32;
 global.renderNumberWithUSD = renderNumberWithUSD;
+global.renderProgressBar = renderProgressBar;
+global.renderStatus = renderStatus;
 
 global.widgetRenderer = {
   "vega.bar": barWidgetRenderer,

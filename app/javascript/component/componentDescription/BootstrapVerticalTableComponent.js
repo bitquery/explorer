@@ -6,6 +6,9 @@ export default class BootstrapVerticalTableComponent {
         this.subscriptionDataSource = subscriptionDataSource
         this.createWrapper();
         this.createTable();
+        if (this.config.theme) {
+            this.setTheme(this.config.theme);
+        }
     }
 
     createWrapper() {
@@ -59,26 +62,30 @@ export default class BootstrapVerticalTableComponent {
                 await this.getTitle(data);
             }
 
-            // Проверяем, есть ли данные
-            if (this.config.topElement(data).length === 0) {
+            // Получаем массив данных из разных источников (например, Blocks и MinerRewards)
+            const array = this.config.topElement(data);
+            if (array.length === 0) {
                 this.container.textContent = 'No Data. Response is empty';
                 return;
             }
-
-            const array = this.config.topElement(data);
             const chainId = this.config.chainId(data);
-console.log('array', array)
-            const columnValues = {};
 
+            // Используем Map для хранения уникальных пар "название свойства" => { column, values: [] }
+            const aggregatedRows = new Map();
+
+            // Если в конфигурации заданы столбцы, то для каждого элемента проверяем значения по каждому столбцу
             for (const rowData of array) {
+                // Для объединения данных можно, например, проверять, существует ли объект Block
+                // и объединять его с другими данными, если необходимо.
                 for (const column of this.config.columns) {
                     try {
                         const cellValue = column.cell(rowData);
                         if (cellValue !== undefined) {
-                            if (!columnValues[column.name]) {
-                                columnValues[column.name] = { column, values: [] };
+                            // Используем название столбца в качестве ключа.
+                            if (!aggregatedRows.has(column.name)) {
+                                aggregatedRows.set(column.name, { column, values: [] });
                             }
-                            columnValues[column.name].values.push(cellValue);
+                            aggregatedRows.get(column.name).values.push(cellValue);
                         }
                     } catch (error) {
                         console.error(`Error processing column "${column.name}":`, error);
@@ -86,10 +93,9 @@ console.log('array', array)
                 }
             }
 
-            for (const key in columnValues) {
-                const { column, values } = columnValues[key];
+            // Формируем строки таблицы на основе уникальных ключей
+            for (const [name, { column, values }] of aggregatedRows.entries()) {
                 let finalValue;
-
                 if (values.length > 1) {
                     finalValue = this.resolveMultipleValues(values, column);
                 } else {
@@ -97,26 +103,27 @@ console.log('array', array)
                 }
 
                 const tr = this.createElementWithClasses('tr');
+
                 const td1 = this.createElementWithClasses('td');
                 const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
-                textCell1.textContent = column.name;
+                textCell1.textContent = name;
                 this.appendChildren(td1, textCell1);
 
                 const td2 = this.createElementWithClasses('td');
-                const textCell2 = this.createElementWithClasses('span');
-                textCell2.textContent = finalValue;
-
-                this.appendChildren(td2, textCell2);
-
+                // Если для данного столбца определён рендерер, используем его,
+                // иначе выводим текстовое значение.
                 if (column.rendering) {
                     const div = await column.rendering(finalValue, variables, chainId);
-                    td2.replaceChild(div, textCell2);
+                    this.appendChildren(td2, div);
+                } else {
+                    const textCell2 = this.createElementWithClasses('span');
+                    textCell2.textContent = finalValue;
+                    this.appendChildren(td2, textCell2);
                 }
 
                 if (column.cellStyle) {
-                    const cellStyle = column.cellStyle;
-                    for (let styleKey in cellStyle) {
-                        td2.style[styleKey] = cellStyle[styleKey];
+                    for (let styleKey in column.cellStyle) {
+                        td2.style[styleKey] = column.cellStyle[styleKey];
                     }
                 }
 
@@ -174,7 +181,13 @@ console.log('array', array)
             this.displayError(`Error processing data: ${error.message}`)
         }
     }
-
+    setTheme(theme) {
+        if (theme === 'dark') {
+            this.tableElement.classList.add('table-dark');
+        } else {
+            this.tableElement.classList.remove('table-dark');
+        }
+    }
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
 
