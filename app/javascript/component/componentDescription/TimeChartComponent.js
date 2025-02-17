@@ -35,15 +35,21 @@ export default class TimeChartComponent {
 			vAxis: {
 				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
 				titleTextStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
-				...(this.config.options.vAxis &&
-					this.config.options.vAxis.minValue !== undefined && {
-						minValue: this.config.options.vAxis.minValue,
-					}),
 			},
 			legend: {
 				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
 			},
+			annotations: {
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+			},
+			series: {
+				0: { annotations: { textStyle: { color: parentTextColor } } },
+				1: { annotations: { textStyle: { color: parentTextColor } } },
+				2: { annotations: { textStyle: { color: parentTextColor } } },
+			},
 		};
+
+
 		this.config.options = {...darkTheme,...this.config.options}
 
 		const drawChart = () => {

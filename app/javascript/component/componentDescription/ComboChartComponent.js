@@ -25,7 +25,7 @@ export default class ComboChartComponent {
         }
         const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
         const darkTheme = {
-            titleTextStyle: { color: parentTextColor },
+            titleTextStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
             backgroundColor:  'transparent',
             seriesType: 'bars',
             series: { 1: {type: 'line'} },
@@ -39,10 +39,12 @@ export default class ComboChartComponent {
                 ...(this.config.options.vAxis && this.config.options.vAxis.minValue !== undefined && { minValue: this.config.options.vAxis.minValue })
             },
             legend: {
-                textStyle: { color: parentTextColor }
+                textStyle: { color: "#757575"},
+                position: 'top'
             },
         };
-        this.config.options = {...darkTheme,...this.config.options}
+        this.config.options = { ...this.config.options, ...darkTheme };
+
 
         const drawChart = () => {
             const dataArray = this.config.topElement(data)

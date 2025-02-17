@@ -1,1 +1,111 @@
-<%= render partial: 'ethereum/dex_protocol/trades_table' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='AllTokenTrades' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class AllTokenTrades extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: response => `Latest Trades on ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                id: 'AllTokenTrades',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Time',
+                        cell: row => row.Block.Time,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Block',
+                        cell: row => row.Block.Number,
+                        rendering: renderBlockLink
+                    },
+                    {
+                        name: 'Buyer',
+                        cell: row => row.Trade.Buy.Buyer,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Bought',
+                        cell: row => ({
+                            currency: row.Trade.Buy.Currency.Symbol,
+                            smartContract: row.Trade.Buy.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink,
+                        headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({amount: row.Trade.Buy.Amount, usd: row.Trade.Buy.AmountInUSD}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: '',
+                        cell: row => '',
+                        rendering: renderSenderRecieverIcon,
+                        headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Seller',
+                        cell: row => row.Trade.Sell.Seller,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Sold',
+                        cell: row => ({
+                            currency: row.Trade.Sell.Currency.Symbol,
+                            smartContract: row.Trade.Sell.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink,
+                        headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({amount: row.Trade.Sell.Amount, usd: row.Trade.Sell.AmountInUSD}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: 'Pair',
+                        cell: row => ({
+                            buyCurrencySymbol: row.Trade.Buy.Currency.Symbol,
+                            buyCurrencySC: row.Trade.Buy.Currency.SmartContract,
+                            sellCurrencySymbol: row.Trade.Sell.Currency.Symbol,
+                            sellCurrencySC: row.Trade.Sell.Currency.SmartContract,
+                        }),
+                        rendering: renderPairLink,
+                    },
+                    {
+                        name: 'Tx Hash',
+                        cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
+                        headerStyle: {width: '100px'},
+                    },
+                ]
+            }
+        }
+    }
+
+
+
+    const variables = {
+        network: '<%= @streaming%>',
+        limit: 10,
+        protocol: '<%= @protocol %>'
+    }
+
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[AllTokenTrades, '#AllTokenTrades']], 'All-Token-Trades', variables, 'Subscription-Trades');
+    })
+</script>

@@ -9,7 +9,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response=>`Transfers on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                title: response => `Transfers on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'Transfers',
                 theme: '<%= @theme %>',
                 columns: [
@@ -55,6 +55,8 @@
     const variables = {
         network: '<%= @streaming%>',
         height: '<%= @height%>',
+        from: '<%= @block_timestamp %>',
+        till: '<%= @block_timestamp %>',
     }
-    renderComponent('<%=@streaming_access_token %>', [[Transfers, '#Transfers']], 'Transfers_10_1', variables);
+    renderComponent('<%=@streaming_access_token %>', [[Transfers, '#Transfers']], 'Transfers0_2', variables);
 </script>

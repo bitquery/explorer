@@ -1,17 +1,33 @@
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TokenTrades'></div>
+    <div class='card' id='TokenTrades'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TradedCurrenciesByTime'></div>
+    <div class='card' id='TradedCurrenciesByTime'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='FeeByTime'></div>
+    <div class='card' id='FeeByTime'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='BuyerSeller'></div>
+    <div class='card' id='BuyerSeller'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -21,8 +37,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0].ChainId,
-                title: () => `Token Trades by Date`,
+                title: response => `${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'} Trades by Date`,
                 id: 'TokenTrades',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -34,6 +51,7 @@
                 options: {
                     height: 300,
                     theme: 'material',
+                    legend: {position: 'top'},
                     colors: ['28A745'],
                 }
             }
@@ -45,8 +63,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0].ChainId,
-                title: () => `Traded Currencies by Date`,
+                title: response => `${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'} Trade Currencies by Date`,
                 id: 'TradedCurrenciesByTime',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -72,8 +91,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0].ChainId,
-                title: () => `Transaction Fee by Date`,
+                title: response => `${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'} Transaction Fee by Date`,
                 id: 'FeeByTime',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -102,8 +122,9 @@
             return {
                 topElement: response => response.EVM.DEXTrades,
                 chainId: response => response.EVM.DEXTrades[0].ChainId,
-                title: () => `Uniq Sellers and Buyers by Date`,
+                title: response => `${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'} Unique Sellers and Buyers by Date`,
                 id: 'BuyerSeller',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -131,7 +152,7 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[TokenTrades, '#TokenTrades'], [TradedCurrenciesByTime, '#TradedCurrenciesByTime'], [FeeByTime, '#FeeByTime'], [BuyerSeller, '#BuyerSeller']], 'statistic-by-dex-protocol_3', variables);
     });
 </script>

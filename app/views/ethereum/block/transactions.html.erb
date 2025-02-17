@@ -93,6 +93,8 @@
     const variables = {
         network: '<%= @streaming%>',
         height: '<%= @height%>',
+        from: '<%= @block_timestamp %>',
+        till: '<%= @block_timestamp %>',
     }
-    renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions0_3', variables);
+    renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions0_4', variables);
 </script>

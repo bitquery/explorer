@@ -282,7 +282,10 @@
     class TopExchangesForNFTs extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: response => response.EVM.DEXTrades,
+                topElement: response => {
+                    console.log(response.EVM.DEXTrades)
+                   return response.EVM.DEXTrades
+                },
                 chainId: response => response.EVM.DEXTrades[0]?.ChainId,
                 title: response => `NFT Trading Activity by Protocol on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
                 id: 'TopExchangesForNFTs',
