@@ -1,6 +1,10 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='TransactionAttributes'></div>
+    <div class='card' id='TransactionAttributes'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -10,52 +14,105 @@
             return {
                 topElement: response => [...response.EVM?.Transactions, ...response.EVM?.Transfers],
                 chainId: response => response.EVM.Transactions[0]?.ChainId || response.EVM.Transfers[0]?.ChainId,
+                id: 'TransactionAttributes',
+                theme: '<%= @theme %>',
                 columns: [
                     {
-                        name: 'Block', cell: row => row.Block?.Number,
+                        name: 'Block Number',
+                        cell: row => row.Block?.Number,
                         rendering: renderBlockLink,
                     },
                     {
-                        name: 'Timestamp', cell: row => row.Block?.Time,
+                        name: 'Block Timestamp',
+                        cell: row => row.Block?.Time,
                         rendering: renderDate,
                     },
                     {
-                        name: 'Sender', cell: row => row.Transaction?.From,
+                        name: 'Sender Address',
+                        cell: row => row.Transaction?.From,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Receiver', cell: row => row.Transaction?.To,
+                        name: 'Recipient Address',
+                        cell: row => row.Transaction?.To,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Transfers count', cell: row => row.t_count
+                        name: 'Number of Transfers',
+                        cell: row => row.t_count,
                     },
                     {
-                        name: 'Amount', cell: row => row.t_sum
+                        name: 'Total Transfer Amount',
+                        cell: row => ({ amount: row.t_sum, usd: row.t_sum_usd }),
+                        rendering: renderNumberWithUSD,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
-                        name: 'Gas Cost', cell: row => row.sum
+                        name: 'Transaction Cost',
+                        cell: row => ({ amount: row.Cost, usd: row.CostInUSD }),
+                        rendering: renderNumberWithUSD,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
-                        name: 'Gas Used', cell: row => row.Block?.GasUsed
+                        name: 'Gas Used',
+                        cell: row => row.Block?.GasUsed,
                     },
                     {
-                        name: 'Transaction Fee', cell: row => row.sum
+                        name: 'Gas Limit',
+                        cell: row => row.Block?.GasLimit,
                     },
                     {
-                        name: 'Gas', cell: row => row.Transaction?.Gas
+                        name: 'Gas Usage (%)',
+                        cell: row => {
+                            if (!row.Block || !row.Block.GasUsed || !row.Block.GasLimit) return undefined;
+                            const used = Number(row.Block.GasUsed);
+                            const limit = Number(row.Block.GasLimit);
+                            return limit > 0 ? ((used / limit) * 100).toFixed(1) + '%' : 'N/A';
+                        },
+                        rendering: renderProgressBar,
                     },
                     {
-                        name: 'Value', cell: row => row.Transaction?.Value
+                        name: 'Call Count',
+                        cell: row => row.Transaction?.CallCount
                     },
                     {
-                        name: 'Protected?', cell: row => row.Transaction?.Protected
+                        name: 'Transaction Fee',
+                        cell: row => ({ amount: row.sum, usd: row.sum_usd }),
+                        rendering: renderNumberWithUSD,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
-                        name: 'Success?', cell: row => row.Transfer?.Success
+                        name: 'Gas Price',
+                        cell: row => ({ amount: row.GasPrice, usd: row.GasPriceInUSD }),
+                        rendering: renderNumberWithUSD,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
-                        name: 'Hash', cell: row => row.Transaction?.Hash
+                        name: 'Transaction Value',
+                        cell: row => ({ amount: row.Value, usd: row.ValueInUSD }),
+                        rendering: renderNumberWithUSD,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
+                    },
+                    {
+                        name: 'Protected',
+                        cell: row => row.Transaction?.Protected,
+                        rendering: renderStatus,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
+                    },
+                    {
+                        name: 'Transfer Success',
+                        cell: row => row.Transfer?.Success,
+                        rendering: renderStatus,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
+                    },
+                    {
+                        name: 'Transaction Hash',
+                        cell: row => row.Transaction?.Hash
+                    },
+                    {
+                        name: 'Parent Block Hash',
+                        cell: row => row.Block?.ParentHash,
+                        cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                 ]
             }
@@ -63,9 +120,8 @@
     }
 
     const variables = {
-        network: '<%= @streaming%>',
-        hash: '<%= @hash%>',
+        network: '<%= @streaming %>',
+        hash: '<%= @hash %>',
     };
-    renderComponent('<%=@streaming_access_token %>', [[TransactionAttributes, '#TransactionAttributes']], 'Transaction-Attributes_6', variables);
-
+    renderComponent('<%= @streaming_access_token %>', [[TransactionAttributes, '#TransactionAttributes']], 'Transaction-Attributes_8', variables);
 </script>

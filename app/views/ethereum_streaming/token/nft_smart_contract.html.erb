@@ -1,24 +1,44 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='NFTTokenInformation' class='card'></div>
+    <div id='NFTTokenInformation' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='PopularTokenIDsNFT' class='card'></div>
+    <div id='PopularTokenIDsNFT' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TopNFTHolders'></div>
+    <div class='card' id='TopNFTHolders'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TopNFTHoldersPie'></div>
+    <div class='card' id='TopNFTHoldersPie'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='SubscriptionLatestTradesNFTToken' class='card'></div>
+    <div id='SubscriptionLatestTradesNFTToken' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -33,6 +53,7 @@
                     return `Latest ${tokenName} ${tokenSymbol} NFT Token info`
                 },
                 id: 'NFTTokenInformation',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Name', cell: row => row.Currency.Name
@@ -78,6 +99,7 @@
                         cell: row => row.Transfer.URI, rendering: renderImgFromURI,
                     }
                 ],
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'ID', cell: row => ({id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}),
@@ -109,14 +131,15 @@
                     return `Top ${tokenName} ${tokenSymbol} NFT Holders`
                 },
                 id: 'TopNFTHolders',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Address', cell: row => row.BalanceUpdate.Address,
                         rendering: renderJustAddressLink, headerStyle: {width: '40%'}
                     },
                     {
-                        name: 'Balance', cell: row => row.balance,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
+                        name: 'Balance', cell: row => ({amount: row.balance, usd: row.balance_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end', width: '100px'},
                     },
                     {
                         name: 'Unique Ids Owned Lifetime', cell: row => row.ids,
@@ -138,6 +161,7 @@
                     return `Richest ${tokenName} ${tokenSymbol} NFT Holders`
                 },
                 id: 'TopNFTHoldersPie',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Address', cell: row => row.BalanceUpdate.Address,
@@ -166,6 +190,7 @@
                     return `Latest ${tokenName} ${tokenSymbol} NFT Token Trades Stream`
                 },
                 id: 'SubscriptionLatestTradesNFTToken',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Time', cell: row => row.Block.Time,
@@ -177,6 +202,13 @@
                             smartContract: row.Trade.Buy.Currency.SmartContract
                         }),
                         rendering: renderTokenLink,
+                    },
+
+                    {
+                        name: 'Amount Sell',
+                        cell: row => ({amount: row.Trade.Sell.Amount, usd: row.Trade.Sell.AmountInUSD}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Sell currency', cell: row => ({
@@ -197,8 +229,14 @@
                         rendering: renderJustAddressLink, headerStyle: {width: '20%'}
                     },
                     {
-                        name: 'Price', cell: row => row.Trade.Buy.Price,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount Buy',
+                        cell: row => ({amount: row.Trade.Buy.Amount, usd: row.Trade.Buy.AmountInUSD}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Price', cell: row => ({amount: row.Trade.Buy.Price, usd: row.Trade.Buy.PriceInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Dex', cell: row => ({
@@ -227,9 +265,9 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Most-popular-NFTs-based-on-transfer-count', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_5', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], 'the-Latest-Trades-of-NFT-Token_2', variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_3');
+        renderComponent('<%=@streaming_access_token %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_6', variables);
+        renderComponent('<%=@streaming_access_token %>', [[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], 'the-Latest-Trades-of-NFT-Token_3', variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_5');
     })
 </script>

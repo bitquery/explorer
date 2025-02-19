@@ -133,10 +133,10 @@ body.dark {
 
   a:not(.dropdown-item),
   .more-text a:not([href]):not([tabindex]).more-link {
-    color: #a1c9d7;
+    color: #fff;
 
     &:hover {
-      color: #afdae8;
+      color: #fff;
     }
   }
 
@@ -254,48 +254,71 @@ body.dark {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   opacity: 0;
   transition: opacity 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(1px);
+    z-index: -1;
+  }
+
+  &.show {
+    opacity: 1;
+  }
 }
 
-.loading-overlay.show {
-  opacity: 1;
-}
 
 .progress-container {
-  width: 80%;
-  max-width: 400px;
-  background: #ddd;
-  border-radius: 10px;
+  width: 50%;
+  border-radius: 5px;
   overflow: hidden;
+  margin-top: -2%;
 }
 
 .progress-bar {
   height: 5px;
   width: 0;
-  background: #7b4cff;
+  background: linear-gradient(90deg, #7b4cff, #ff7b4c);
   transition: width 0.3s ease;
+
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.2),
+                    rgba(255, 255, 255, 0.5),
+                    rgba(255, 255, 255, 0)
+    );
+    animation: shimmer 2s infinite;
+  }
 }
 
-@keyframes progressBounce {
+@keyframes shimmer {
   0% {
-    width: 90%;
-  }
-  50% {
-    width: 95%;
+    left: -100%;
   }
   100% {
-    width: 90%;
+    left: 100%;
   }
-}
-
-.progress-bar.progress-bounce {
-  animation: progressBounce 1.5s infinite;
 }
 
 .blink {

@@ -1,21 +1,250 @@
-<div class="row">
- <%= render partial: 'ethereum/address/total_address_stats' %>
-  <%= render partial: 'ethereum/address/balance' %>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TotalAddressStatistics'></div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='AddressBalanceByCurrencies'></div>
+  </div>
 </div>
-
-<div class="row">
-<%= render partial: "ethereum/address/outbound/outbound_native_by_time" %>
-<%= render partial: "ethereum/address/inbound/inbound_native_by_time" %>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TransactionsByDate'></div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='GasSpentByDate'></div>
+  </div>
 </div>
-
-<%= render partial: 'ethereum/address/transactions/transactions_by_time' %>
-
-<div class="row">
-  <%= render partial: 'ethereum/address/in_out_transfers_by_time' %>
-  <%= render partial: 'ethereum/address/calls/calls_by_time' %>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='InboundTransferCountByDate'></div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='OutboundTransferCountByDate'></div>
+  </div>
 </div>
-
-<div class="row">
-  <%= render partial: 'ethereum/address/currencies_table' %>
+<div class='row mb-4'>
+  <div class='col-12 col-xl-6'>
+    <div class='card' id='SMCalls'></div>
+  </div>
 </div>
+<script type="module">
+    class TotalAddressStatistics extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: response => [
+                    ...response.EVM.fee,
+                    ...response.EVM.receiver,
+                    ...response.EVM.sender,
+                    ...response.EVM.currencies_reciiver,
+                    ...response.EVM.currencies_sender],
+                chainId: response => response.EVM.receiver[0]?.ChainId,
+                columns: [
+                    {
+                        name: 'Fee TX count', cell: row => row.tx_count,
+                    },
+                    {
+                        name: 'TX fee', cell: row => row.tx_fee,
+                    },
+                    {
+                        name: 'Receive from', cell: row => row.r,
+                    },
+                    {
+                        name: 'Receive  currencies', cell: row => row.r_currencies,
+                    },
+                    {
+                        name: 'Send to', cell: row => row.s,
+                    },
+                    {
+                        name: 'Send  currencies', cell: row => row.s_currencies,
+                    },
+                    {
+                        name: 'Receive amount', cell: row => row.r_amount,
+                    },
+                    {
+                        name: 'Send amount', cell: row => row.s_amount,
+                    },
+                    {
+                        name: 'First Receiver Tx at', cell: row => row.Block?.r_from,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Last Receiver Tx at', cell: row => row.Block?.r_to,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'First Sender Tx at', cell: row => row.Block?.s_from,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Last Sender Tx at', cell: row => row.Block?.s_to,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Days with receive', cell: row => row.r_days,
+                    },
+                    {
+                        name: 'Days with sender', cell: row => row.s_days,
+                    },
+                ]
+            }
+        }
+    }
 
+    class AddressBalanceByCurrencies extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.BalanceUpdates,
+                chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
+                columns: [
+                    {
+                        name: 'Currency',
+                        cell: row => ({currency: row.Currency.Symbol, smartContract: row.Currency.SmartContract}),
+                        rendering: renderTokenLink,
+                    },
+                    {
+                        name: 'Balance Count', cell: row => row.sum,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class TransactionsByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title:()=>'Transactions By Date',
+                id:'TransactionsByDate',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Transactions count', cell: row => +row.count,
+                    }
+                ],
+                options: {
+                    title: 'Transactions count by date',
+                    height: 300,
+                    theme: 'material',
+                    colors: ['28A745'],
+                }
+            }
+        }
+    }
+
+    class GasSpentByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title:()=>'Gas Spent By Date',
+                id:'GasSpentByDate',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Gas cost', cell: row => +row.sum,
+                    }
+                ],
+                options: {
+                    title: 'Gas Spent By Date',
+                    height: 300,
+                    theme: 'material',
+                    colors: ['FFC106'],
+                }
+            }
+        }
+    }
+
+    class InboundTransferCountByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title:()=>'Inbound Transfer Count by Date',
+                id:'InboundTransferCountByDate',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Send count', cell: row => +row.count,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    colors: ['FFC106'],
+                }
+            }
+        }
+    }
+
+    class OutboundTransferCountByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title:()=>'Outbound Transfer Count by Date',
+                id:'OutboundTransferCountByDate',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Receive count', cell: row => +row.count,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    colors: ['FFC106'],
+                }
+            }
+        }
+    }
+
+    class SMCalls extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Receive count', cell: row => +row.count,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                }
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address %>',
+    }
+
+    renderComponent('<%=@streaming_access_token %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_1_1_1_1_1_1_1_1_1_1', variables);
+    renderComponent('<%=@streaming_access_token %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_4', variables);
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'],[TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date_8', variables);
+        renderComponent('<%=@streaming_access_token %>', [[InboundTransferCountByDate, '#InboundTransferCountByDate']], 'Inbound-transfer-count-by-date_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[OutboundTransferCountByDate, '#OutboundTransferCountByDate']], 'Outbound-transfer-count-by-date_3', variables);
+        renderComponent('<%=@streaming_access_token %>', [[SMCalls, '#SMCalls']], 'Smart-contract-calls--including-internal--by-date_3', variables);
+    })
+
+
+</script>

@@ -1,10 +1,130 @@
-<% if @native_token %>
-  <div class="row">
-    <%= render partial: 'ethereum/token/token_statistics' %>
+<div class="row d-flex">
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TokenStatistic'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
-<% else %>
-  <div class="row">
-    <%= render partial: 'ethereum/token/token_attributes' %>
-    <%= render partial: 'ethereum/token/token_statistics' %>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TokenAttributes'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
-<% end  %>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TokenHolderOfToken'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+
+
+    class TokenStatistic extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Token Transfer Statistics on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                id: 'TokenStatistic',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Transfer Count', cell: row => row.count
+                    },
+                    {
+                        name: 'Uniq Senders', cell: row => row.sender_count
+                    },
+                    {
+                        name: 'Uniq Receivers', cell: row => row.receiver_count
+                    },
+                    {
+                        name: 'First transfer date', cell: row => row.Block.min_date
+                    },
+                    {
+                        name: 'Last transfer date', cell: row => row.Block.max_date
+                    },
+                    {
+                        name: 'Days token transferred', cell: row => row.days
+                    },
+                ],
+                options: {
+                    columnTitle1: 'Metric',
+                    columnTitle2: 'Value',
+                },
+            }
+        }
+    }
+
+    class TokenAttributes extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Token Attributes on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                theme: '<%= @theme %>',
+                id: 'TokenAttributes',
+                columns: [
+                    {
+                        name: 'Symbol', cell: row => row.Transfer.Currency.Symbol
+                    },
+                    {
+                        name: 'Name', cell: row => row.Transfer.Currency.Name
+                    },
+                    {
+                        name: 'Number of Decimals', cell: row => row.Transfer.Currency.Decimals
+                    },
+                    {
+                        name: "Balance", cell: row => row.sum
+                    },
+                    {
+                        name: 'Protocol name', cell: row => row.Transfer.Currency.ProtocolName
+                    },
+                ]
+            }
+        }
+    }
+
+    class TokenHolderOfToken extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.BalanceUpdates,
+                chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
+                title: response => `Token Holder of Token on the ${WidgetConfig.getName(response.EVM.BalanceUpdates[0]?.ChainId) || 'network'}`,
+                id: 'TokenHolderOfToken',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Holder', cell: row => row.BalanceUpdate.Address,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Balance of the token',
+                        cell: row => ({
+                            amount: row.Balance,
+                            usd: row.Balance_usd
+                        }),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address %>',
+    }
+    renderComponent('<%=@streaming_access_token %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
+    renderComponent('<%=@streaming_access_token %>', [[TokenStatistic, '#TokenStatistic']], 'Token-transfer-statistics_4', variables);
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_4', variables);
+    })
+</script>

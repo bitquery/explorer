@@ -1,1 +1,81 @@
-<%= render partial: 'ethereum/tx/calls' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='TransactionAttributes'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class TransactionAttributes extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => `Smart Contract Calls in Transaction by Gas used on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
+                id: 'TransactionAttributes',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Call Depth', cell: row => row.Call.Depth
+                    },
+                    {
+                        name: 'Method', cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
+                        rendering: renderMethodLink,
+                    },
+                    {
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Gas used', cell: row => row.Call.GasUsed,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Burnt, (gwei)',
+                        cell: row => ({
+                            amount: row.Fee.Burnt * 1e9,
+                            usd: row.Fee.BurntInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+
+                    },
+                    {
+                        name: 'Sender Fee, (gwei)',
+                        cell: row => ({
+                            amount: row.Fee.SenderFee * 1e9,
+                            usd: row.Fee.SenderFeeInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+
+                    },
+                    {
+                        name: 'Savings, (gwei)',
+                        cell: row => ({
+                            amount: row.Fee.Savings * 1e9,
+                            usd: row.Fee.SavingsInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Success?', cell: row => row.Call?.Success, rendering:renderStatus
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        hash: '<%= @hash%>',
+    }
+    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Calls-in-Transaction_5', variables);
+</script>

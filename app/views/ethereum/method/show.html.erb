@@ -1,3 +1,103 @@
-<%= render partial: 'shared/reportrange' %>
-<%= render partial: 'ethereum/method/method_info' %>
-<%= render partial: 'ethereum/method/method_transactions' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='MethodInformation'></div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='MethodTransactions'></div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='MethodStatistic'></div>
+  </div>
+</div>
+<script type="module">
+    class MethodInformation extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Method Information',
+                id: 'MethodInformation',
+                columns: [
+                    {
+                        name: 'Method Name', cell: row => row.Call.Signature.Name
+                    },
+                    {
+                        name: 'Method Signature', cell: row => row.Call.Signature.Signature
+                    },
+                    {
+                        name: 'Signature Hash', cell: row => row.Call.Signature.SignatureHash
+                    },
+                ]
+            }
+        }
+    }
+
+    class MethodTransactions extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Method Transactions',
+                id: 'MethodTransactions',
+                columns: [
+                    {
+                        name: 'Transaction', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '120px'},
+                    },
+                    {
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'Gas Cost', cell: row => row.Fee.SenderFee,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
+                    },
+                ]
+            }
+        }
+    }
+
+    class MethodStatistic extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: () => 'Method Statistic by Date',
+                id: 'MethodStatistic',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                        rendering: renderDate, headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Uniq Transaction Sender', cell: row => row.transaction_from,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Uniq Transaction Receiver', cell: row => row.transaction_to,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        method: '<%= @signature%>',
+    }
+    renderComponent('<%=@streaming_access_token %>', [[MethodInformation, '#MethodInformation']], 'Method-Information_1', variables);
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[MethodStatistic, '#MethodStatistic']], 'Method-statistic-by-date', variables);
+        renderComponent('<%=@streaming_access_token %>', [[MethodTransactions, '#MethodTransactions']], 'Method-Transactions_4', variables);
+    })
+</script>

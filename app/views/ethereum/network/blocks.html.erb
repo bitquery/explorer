@@ -1,6 +1,6 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='LatestBlocks'  class='card'>
+    <div id='LatestBlocks' class='card'>
       <div class="placeholder-container">
         <div class="placeholder-row"></div>
       </div>
@@ -56,19 +56,20 @@
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ],
-                options:{
-                    tableLayout:'auto'
+                options: {
+                    tableLayout: 'auto'
                 }
             }
         }
     }
+
     class BlocksReward extends BootstrapTableComponent {
         configuration() {
             return {
                 topElement: response => response.EVM.MinerRewards,
                 chainId: response => response.EVM.MinerRewards[0]?.ChainId,
                 title: () => 'Blocks Reward',
-                id: 'LatestBlocks',
+                id: 'BlocksReward',
                 theme: '<%= @theme %>',
                 columns: [
                     {
@@ -113,8 +114,8 @@
                         headerStyle: {maxWidth: '210px'},
                     },
                 ],
-                options:{
-                    tableLayout:'auto'
+                options: {
+                    tableLayout: 'auto'
                 }
             }
         }
@@ -127,7 +128,7 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[LatestBlocks, '#LatestBlocks']], 'Latest-Blocks_4', variables, 'Subscription-Latest-Blocks_2')
         renderComponent('<%=@streaming_access_token %>', [[BlocksReward, '#BlocksReward']], 'Reward-Blocks', variables, 'subscription-Reward-Blocks')
     });

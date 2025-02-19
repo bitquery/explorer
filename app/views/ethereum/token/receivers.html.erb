@@ -1,7 +1,191 @@
-<% unless @native_token %>
-<%= render partial: 'ethereum/token/transfers/receivers' %>
-<% end %>
-
-<div class="row">
-  <%= render partial: 'ethereum/token/transfers/receivers_by_time' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='Receivers' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
 </div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='ReceiversStats' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='UniqSenders'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='MedianTransferAmount'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class Receivers extends BarChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Largest ${tokenName} ${tokenSymbol} Receivers`
+                },
+                id: 'Receivers',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Receiver', cell: row => row.Transfer.Receiver
+                    },
+                    {
+                        name: 'Amount', cell: row => +row.amount
+                    },
+                ],
+                options: {
+                    theme: 'material',
+                    legend: {position: 'top'},
+                    bar: {groupWidth: "90%"},
+                    height: 300,
+                }
+            }
+        }
+    }
+
+    class ReceiversStats extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Largest ${tokenName} ${tokenSymbol} Receivers Stats`
+                },
+                id: 'ReceiversStats',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Receiver',
+                        cell: row => row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({amount:row.amount,usd:row.amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Max Transfer Amount',
+                        cell: row => row.Transfer.max_amount,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }), rendering: renderTokenLink, headerStyle: {width: '80px'},
+                    },
+                    {
+                        name: 'Uniq Sender',
+                        cell: row => row.sender_count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '112px'},
+                    },
+                    {
+                        name: 'Last Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Transfer Count',
+                        cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '120px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class UniqSenders extends LineChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Daily Unique  ${tokenName} ${tokenSymbol} Receivers`
+                },
+                id: 'UniqSenders',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Uniq Senders', cell: row => +row.count
+                    },
+                ],
+                options: {
+                    theme: 'material',
+                    height: 300,
+                    legend: {position: 'top'},
+                    curveType: 'function',
+                    slantedText: false,
+                }
+            }
+        }
+    }
+
+    class MedianTransferAmount extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer.Currency?.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency?.Symbol ? `(${response.EVM.Transfers[0]?.Transfer.Currency?.Symbol})` : ''
+                    return `Median ${tokenName} ${tokenSymbol} Received Amount`
+                },
+                id: 'MedianTransferAmount',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Median Transfer Amount', cell: row => row.median
+                    },
+                ],
+                options: {
+                    theme: 'material',
+                    height: 300,
+                    legend: {position: 'top'}
+                }
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address %>',
+    }
+
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[Receivers, '#Receivers']], 'Largest-Token-Receivers_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[ReceiversStats, '#ReceiversStats']], 'Token-Receivers-Stats_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Token-Receivers-Stats_1', variables);
+    })
+</script>

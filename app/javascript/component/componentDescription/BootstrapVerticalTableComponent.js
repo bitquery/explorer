@@ -62,7 +62,6 @@ export default class BootstrapVerticalTableComponent {
                 await this.getTitle(data);
             }
 
-            // Получаем массив данных из разных источников (например, Blocks и MinerRewards)
             const array = this.config.topElement(data);
             if (array.length === 0) {
                 this.container.textContent = 'No Data. Response is empty';
@@ -70,18 +69,14 @@ export default class BootstrapVerticalTableComponent {
             }
             const chainId = this.config.chainId(data);
 
-            // Используем Map для хранения уникальных пар "название свойства" => { column, values: [] }
+
             const aggregatedRows = new Map();
 
-            // Если в конфигурации заданы столбцы, то для каждого элемента проверяем значения по каждому столбцу
             for (const rowData of array) {
-                // Для объединения данных можно, например, проверять, существует ли объект Block
-                // и объединять его с другими данными, если необходимо.
                 for (const column of this.config.columns) {
                     try {
                         const cellValue = column.cell(rowData);
                         if (cellValue !== undefined) {
-                            // Используем название столбца в качестве ключа.
                             if (!aggregatedRows.has(column.name)) {
                                 aggregatedRows.set(column.name, { column, values: [] });
                             }
@@ -93,25 +88,24 @@ export default class BootstrapVerticalTableComponent {
                 }
             }
 
-            // Формируем строки таблицы на основе уникальных ключей
-            for (const [name, { column, values }] of aggregatedRows.entries()) {
-                let finalValue;
-                if (values.length > 1) {
-                    finalValue = this.resolveMultipleValues(values, column);
-                } else {
-                    finalValue = values[0];
-                }
+
+            for (const column of this.config.columns) {
+
+                if (!aggregatedRows.has(column.name)) continue;
+
+                const { values } = aggregatedRows.get(column.name);
+                let finalValue = values.length > 1
+                    ? this.resolveMultipleValues(values, column)
+                    : values[0];
 
                 const tr = this.createElementWithClasses('tr');
 
                 const td1 = this.createElementWithClasses('td');
                 const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
-                textCell1.textContent = name;
+                textCell1.textContent = column.name;
                 this.appendChildren(td1, textCell1);
 
                 const td2 = this.createElementWithClasses('td');
-                // Если для данного столбца определён рендерер, используем его,
-                // иначе выводим текстовое значение.
                 if (column.rendering) {
                     const div = await column.rendering(finalValue, variables, chainId);
                     this.appendChildren(td2, div);

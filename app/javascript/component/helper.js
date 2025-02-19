@@ -230,48 +230,92 @@ export const increaseLimitButton = (historyDataSource) => () => {
 }
 
 export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => (e) => {
-    widgetFrame.onquerystarted()
-    subscriptionDataSource.changeVariables({ mempool: true })
-    e.currentTarget.classList.add("button-pressed")
-    e.currentTarget.textContent = "⏸ Mempool"
-    e.currentTarget.nextSibling.classList.remove("button-pressed")
-    e.currentTarget.nextSibling.textContent = "▶ Streaming"
-    e.currentTarget.previousSibling.classList.remove("button-pressed")
-    if (widgetFrame.blinkerWrapper) {
-        widgetFrame.blinkerWrapper.classList.remove("hide")
+    const currentButton = e.currentTarget;
+
+    // Делаем текущую кнопку активной и другие кнопки неактивными
+    currentButton.classList.add("button-pressed");
+    currentButton.textContent = "⏸ Mempool";
+
+    // Отключаем соседние кнопки
+    const nextButton = currentButton.nextSibling;
+    const prevButton = currentButton.previousSibling;
+
+    if (nextButton) {
+        nextButton.classList.remove("button-pressed");
+        nextButton.textContent = "▶ Streaming";
     }
-}
+
+    if (prevButton) {
+        prevButton.classList.remove("button-pressed");
+        prevButton.textContent = "▶ History query";
+    }
+
+    // Логика для виджета
+    widgetFrame.onquerystarted();
+    subscriptionDataSource.changeVariables({ mempool: true });
+
+    if (widgetFrame.blinkerWrapper) {
+        widgetFrame.blinkerWrapper.classList.remove("hide");
+    }
+};
 
 export const streamControl = (subscriptionDataSource, widgetFrame) => (e) => {
-    widgetFrame.onquerystarted()
-    subscriptionDataSource.changeVariables({ mempool: false })
-    e.currentTarget.classList.add("button-pressed")
-    e.currentTarget.textContent = "⏸ Streaming"
-    e.currentTarget.previousSibling.classList.remove("button-pressed")
-    e.currentTarget.previousSibling.textContent = "▶ Mempool"
-    e.currentTarget.previousSibling.previousSibling.classList.remove("button-pressed")
-    if (widgetFrame.blinkerWrapper) {
-        widgetFrame.blinkerWrapper.classList.remove("hide")
+    const currentButton = e.currentTarget;
+
+    // Делаем текущую кнопку активной и другие кнопки неактивными
+    currentButton.classList.add("button-pressed");
+    currentButton.textContent = "⏸ Streaming";
+
+    // Отключаем соседние кнопки
+    const prevButton = currentButton.previousSibling;
+
+    if (prevButton) {
+        prevButton.classList.remove("button-pressed");
+        prevButton.textContent = "▶ Mempool";
     }
-}
+
+    const prevPrevButton = prevButton?.previousSibling;
+    if (prevPrevButton) {
+        prevPrevButton.classList.remove("button-pressed");
+        prevPrevButton.textContent = "▶ History query";
+    }
+
+    // Логика для виджета
+    widgetFrame.onquerystarted();
+    subscriptionDataSource.changeVariables({ mempool: false });
+
+    if (widgetFrame.blinkerWrapper) {
+        widgetFrame.blinkerWrapper.classList.remove("hide");
+    }
+};
 
 export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSource) => (e) => {
-    subscriptionDataSource.unsubscribe()
-    e.currentTarget.textContent = "History query"
-    e.currentTarget.classList.add("button-pressed")
-    widgetFrame.onquerystarted()
-    historyDataSource.changeVariables()
-    e.currentTarget.nextSibling.textContent = "▶ Mempool"
-    e.currentTarget.nextSibling.nextSibling.textContent = "▶ Streaming"
-    e.currentTarget.nextSibling.classList.remove("button-pressed")
-    e.currentTarget.nextSibling.nextSibling.classList.remove("button-pressed")
-    e.currentTarget.parentElement.lastChild.classList.remove("hide")
+    const currentButton = e.currentTarget;
+
+    currentButton.classList.add("button-pressed");
+    currentButton.textContent = "History query";
+
+    const nextButton = currentButton.nextSibling;
+    const nextNextButton = nextButton?.nextSibling;
+
+    if (nextButton) {
+        nextButton.classList.remove("button-pressed");
+        nextButton.textContent = "▶ Mempool";
+    }
+
+    if (nextNextButton) {
+        nextNextButton.classList.remove("button-pressed");
+        nextNextButton.textContent = "▶ Streaming";
+    }
+
+    subscriptionDataSource.unsubscribe();
+    widgetFrame.onquerystarted();
+    historyDataSource.changeVariables();
 
     if (widgetFrame.blinkerWrapper) {
-        widgetFrame.blinkerWrapper.classList.add("hide")
+        widgetFrame.blinkerWrapper.classList.add("hide");
     }
-}
-
+};
 export const getQueryParams = async (queryID) => {
     const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
     const { endpoint_url, variables, query, name } = await response.json()
@@ -320,7 +364,7 @@ export const createWidgetFrame = (
             "badge",
             "text-white",
             "bg-custom-purple",
-            "rounded-pill",
+            "rounded-sm",
             "px-3",
             "py-1",
             "button-transition",
@@ -332,7 +376,7 @@ export const createWidgetFrame = (
         return button
     }
     const setupShowMoreButton = (tableFooter, showMoreButton) => () => {
-        tableFooter.style.justifyContent = "space-between"
+        tableFooter.style.justifyContent = "space-end"
         tableFooter.insertBefore(showMoreButton, tableFooter.firstChild)
     }
 
@@ -379,7 +423,7 @@ export const createWidgetFrame = (
     mempoolControlButton.id = "mempoolControlButton"
     switchButton.classList.add("button-pressed")
     showMoreButton.classList.add("more-link", "badge")
-    showMoreButton.textContent = "Show more..."
+    showMoreButton.textContent = "  "
     showMoreButton.style.cursor = "pointer"
 
     const loader = document.createElement("div")
@@ -415,8 +459,8 @@ export const createWidgetFrame = (
     widgetFrame.style.height = "fit-content"
     widgetFrame.style.background = "inherit"
 
-    mempoolControlButton.style.setProperty("background", "#FDA146", "important")
-    getMempoolButton.style.setProperty("background", "#FDA146", "important")
+    mempoolControlButton.style.setProperty("background", "#ff7b4c", "important")
+    getMempoolButton.style.setProperty("background", "#ff7b4c", "important")
 
     componentContainer.appendChild(widgetHeader)
     componentContainer.appendChild(cardBody)
@@ -432,74 +476,73 @@ export const createWidgetFrame = (
     const onloadmetadata = (queryMetaData) => {
         col8.textContent = queryMetaData?.name || "No query presented"
     }
-
     const onquerystarted = () => {
-        const existingOverlays = cardBody.querySelectorAll(".loading-overlay")
-        existingOverlays.forEach((overlay) => overlay.remove())
+        const existingOverlays = cardBody.querySelectorAll(".loading-overlay");
+        existingOverlays.forEach((overlay) => overlay.remove());
 
-        const overlay = document.createElement("div")
-        overlay.className = "loading-overlay"
+        const overlay = document.createElement("div");
+        overlay.className = "loading-overlay";
+
         overlay.innerHTML = `
-              <div class="progress-container">
+       <div class="progress-container">
+                <p>Loading...</p>
                 <div class="progress-bar"></div>
               </div>
-            `
-        cardBody.style.position = "relative"
-        cardBody.appendChild(overlay)
+    `;
+
+        cardBody.style.position = "relative";
+        cardBody.appendChild(overlay);
 
         requestAnimationFrame(() => {
-            overlay.classList.add("show")
-        })
+            overlay.classList.add("show");
+        });
 
-        const progressBar = overlay.querySelector(".progress-bar")
-        let progress = 0
+        const progressBar = overlay.querySelector(".progress-bar");
+        let progress = 0;
         const intervalId = setInterval(() => {
             if (progress < 90) {
-                progress += 1
-                progressBar.style.width = progress + "%"
+                progress += 1;
+                progressBar.style.width = progress + "%";
             } else {
-                clearInterval(intervalId)
-                progressBar.classList.add("progress-bounce")
+                clearInterval(intervalId);
+                progressBar.classList.add("progress-bounce");
             }
-        }, 50)
-        overlay.dataset.intervalId = intervalId
-    }
+        }, 50);
+        overlay.dataset.intervalId = intervalId;
+    };
 
     const onqueryend = () => {
-        const overlays = cardBody.querySelectorAll(".loading-overlay")
+        const overlays = cardBody.querySelectorAll(".loading-overlay");
         overlays.forEach((overlay) => {
-            const progressBar = overlay.querySelector(".progress-bar")
-            progressBar.style.width = "100%"
-            const intervalId = Number(overlay.dataset.intervalId)
+            const progressBar = overlay.querySelector(".progress-bar");
+            progressBar.style.width = "100%";
+            const intervalId = Number(overlay.dataset.intervalId);
             if (intervalId) {
-                clearInterval(intervalId)
+                clearInterval(intervalId);
             }
-            overlay.classList.remove("show")
+            overlay.classList.remove("show");
             setTimeout(() => {
-                overlay.remove()
-            }, 300)
-        })
-    }
+                overlay.remove();
+            }, 300);
+        });
+    };
 
     const onerror = (error) => {
         const overlay = cardBody.querySelector(".loading-overlay")
         if (overlay) {
             overlay.remove()
         }
-        if (row.contains(blinkerWrapper)) {
-            row.removeChild(blinkerWrapper)
-        }
-        cardBody.textContent = ""
-        cardBody.classList.add("alert", "alert-danger")
-        cardBody.setAttribute("role", "alert")
+
+        const errorContainer = document.createElement("div")
+        errorContainer.classList.add("alert", "alert-danger")
+        errorContainer.setAttribute("role", "alert")
+
         const title = document.createElement("h4")
         title.classList.add("alert-heading")
+        title.textContent = "An error occurred while executing the request. Please, try again later"
+
         const errorText = document.createElement("div")
         errorText.classList.add("mb-0")
-        cardBody.appendChild(title)
-        cardBody.appendChild(errorText)
-        title.textContent =
-            "An error occurred while executing the request. Please, try again later"
         if (Array.isArray(error)) {
             errorText.textContent = `Error: ${error[0].message}`
         } else if ("message" in error) {
@@ -507,6 +550,11 @@ export const createWidgetFrame = (
         } else {
             errorText.textContent = `Error: ${error}`
         }
+
+        errorContainer.appendChild(title)
+        errorContainer.appendChild(errorText)
+
+        cardBody.insertBefore(errorContainer, cardBody.firstChild)
     }
 
     return {

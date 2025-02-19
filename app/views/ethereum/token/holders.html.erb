@@ -1,25 +1,49 @@
-<div class='row mb-4'>
-  <div class='col-12 col-xl-6'>
-    <div class='card' id='BalanceHolderStatsLatestDate'></div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='BalanceHolderStatsLatestDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
-  <div class='col-12 col-xl-6'>
-    <div class='card' id='TopHolders'></div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TopHolders'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
-<div class='row mb-4'>
-  <div class='col-12 col-xl-6'>
-    <div class='card' id='HoldersCount'></div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='HoldersCount'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
-  <div class='col-12 col-xl-6'>
-    <div class='card' id='GiniIndex'></div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='GiniIndex'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
-<div class='row mb-4'>
-  <div class='col-12 col-xl-6'>
-    <div class='card' id='NakamotoIndex'></div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='NakamotoIndex'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
-  <div class='col-12 col-xl-6'>
-    <div class='card' id='SupplyTokens'></div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='SupplyTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -34,6 +58,7 @@
                     return `${tokenName} ${tokenSymbol} Token Holder Stats`
                 },
                 id: 'BalanceHolderStatsLatestDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.BalanceUpdate.LastDate
@@ -66,6 +91,7 @@
                     return `Top ${tokenName} ${tokenSymbol} Token Holders`
                 },
                 id: 'TopHolders',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Holder', cell: row => row.Holder.Address,
@@ -91,6 +117,7 @@
                     return `${tokenName} ${tokenSymbol} Token holders count`
                 },
                 id: 'HoldersCount',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.BalanceUpdate.LastDate
@@ -120,6 +147,7 @@
                     return `${tokenName} ${tokenSymbol} Gini Factor`
                 },
                 id: 'GiniIndex',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.BalanceUpdate.LastDate
@@ -149,6 +177,7 @@
                     return `${tokenName} ${tokenSymbol} Nakamoto Index`
                 },
                 id: 'NakamotoIndex',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.BalanceUpdate.LastDate
@@ -177,6 +206,7 @@
                     return `${tokenName} ${tokenSymbol} Total Supply`
                 },
                 id: 'SupplyTokens',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.BalanceUpdate.LastDate
@@ -195,17 +225,19 @@
         }
     }
 
-
     const variables = {
-        network: '<%= @streaming%>',
+        network: '<%= @streaming %>',
         token: '<%= @address %>',
         till_now: new Date().toISOString().slice(0, 10),
-    }
+        till: new Date().toISOString().slice(0, 10)
+    };
+    variables.from = new Date(new Date().setMonth(new Date().getMonth() - 3)).toISOString().slice(0, 10);
+    variables.date_middle = new Date((new Date(variables.from).getTime() + new Date(variables.till).getTime()) / 2).toISOString().slice(0, 10);
 
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>', [[HoldersCount, '#HoldersCount'], [GiniIndex, '#GiniIndex'], [NakamotoIndex, '#NakamotoIndex'], [SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_8', variables);
     })
     renderComponent('<%=@streaming_access_token %>', [[TopHolders, '#TopHolders']], 'Top-holders_6', variables);

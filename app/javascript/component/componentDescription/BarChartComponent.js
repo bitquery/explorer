@@ -36,6 +36,7 @@ export default class BarChartComponent {
 				titleTextStyle: { color: parentTextColor }
 			},
 			legend: {
+				position: 'top',
 				textStyle: { color: parentTextColor }
 			},
 		};

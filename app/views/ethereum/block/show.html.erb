@@ -36,9 +36,6 @@
                         name: 'Tx count', cell: row => row.Block?.TxCount,
                     },
                     {
-                        name: 'Tx count', cell: row => row.Block?.TxCount,
-                    },
-                    {
                         name: 'Difficulty', cell: row => row.Block?.Difficulty,
                     },
                     {
@@ -55,9 +52,6 @@
                             return limit > 0 ? ((used / limit) * 100).toFixed(1) + '%' : 'N/A';
                         },
                         rendering: renderProgressBar,
-                    },
-                    {
-                        name: 'Tx count', cell: row => row.Block?.TxCount,
                     },
                     {
                         name: 'Hash', cell: row => row.Block?.Hash,

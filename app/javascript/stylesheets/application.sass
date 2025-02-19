@@ -31,7 +31,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts'
 
 a
   text-decoration: none
-  
+
 svg[visibility="hidden"]
   position: absolute
   width: 0
@@ -327,11 +327,16 @@ $borderStyle: 2.5px dotted $colorGray
   display: none
 
 .button-pressed
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5)
-  filter: brightness(85%)
+  filter: saturate(0.4)
+  transition: all 0.2s ease
+  pointer-events: none
+  cursor: default
+  &:hover
+    box-shadow: none
+    transform: scale(1)
+    background-color: #7b4cff
 
-//.button-transition
-//  transition: filter 0.3s ease
+
 .bg-custom-purple
   background-color: #7b4cff !important
   color: white !important
@@ -362,4 +367,6 @@ $borderStyle: 2.5px dotted $colorGray
 .tr-animate
   animation: fadeIn 0.3s ease
 
-
+// Do not remove! Temporary fix for link colors, needs proper refactoring later.
+a
+  color: #4A69BD!important

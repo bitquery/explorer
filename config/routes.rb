@@ -35,16 +35,26 @@ Rails.application.routes.draw do
       get ":blockchain/smart_contract/:address", to: "#{blockchain[:family]}/smart_contract#show",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
-      get ":blockchain/token/:address/graph", to: "#{blockchain[:family]}/token#money_flow",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:address/graph", to: "#{blockchain[:family]}/token#money_flow",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:address/:action", to: "#{blockchain[:family]}/token#:action",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:address", to: "#{blockchain[:family]}/token#show",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      #
+      # get ":blockchain/token/:address/id/:id", to: "#{blockchain[:family]}/token#show_nft_id",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:smart_contract/nft_smart_contract", to: "#{blockchain[:family]}/token#show",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:smart_contract/trading", to: "#{blockchain[:family]}/token#show",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+
       get ":blockchain/token/:address/:action", to: "#{blockchain[:family]}/token#:action",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/token/:address", to: "#{blockchain[:family]}/token#show",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/token/:address/id/:id", to: "#{blockchain[:family]}/token#show_nft_id",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/token/:smart_contract/nft_smart_contract", to: "#{blockchain[:family]}/token#show",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/token/:smart_contract/trading", to: "#{blockchain[:family]}/token#show",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
