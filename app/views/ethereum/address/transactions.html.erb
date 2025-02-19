@@ -1,14 +1,26 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='Transactions'></div>
+    <div class='card' id='Transactions'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TransactionsByDate'></div>
+    <div class='card' id='TransactionsByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='GasSpentByDate'></div>
+    <div class='card' id='GasSpentByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -17,6 +29,8 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
+                id: 'Transactions',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
@@ -35,12 +49,13 @@
                         rendering: renderTX,
                     },
                     {
-                        name: 'Gas Cost', cell: row => row.gas_cost,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Gas Cost', cell: row => ({amount: row.gas_cost, usd: row.gas_cost_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Success?', cell: row => row.TransactionStatus.Success,
-                        headerStyle: {width: '110px'},
+                        headerStyle: {width: '77px',textAlign: 'end'},
+                        rendering: renderStatus
                     },
                 ]
             }
@@ -52,8 +67,9 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
-                title:()=>'Transactions count by date',
-                id:'TransactionsByDate',
+                title: () => 'Transactions count by date',
+                id: 'TransactionsByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -66,6 +82,7 @@
                     height: 300,
                     theme: 'material',
                     colors: ['28A745'],
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -76,8 +93,9 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
-                title:()=>'Gas Spent By Date',
-                id:'GasSpentByDate',
+                title: () => 'Gas Spent By Date',
+                id: 'GasSpentByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -91,6 +109,7 @@
                     height: 300,
                     theme: 'material',
                     colors: ['FFC106'],
+                    legend: {position: 'top'}
                 }
             }
         }
@@ -104,9 +123,9 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions_7', variables);
-        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'],[TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_7', variables);
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions0_5', variables);
+        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_7', variables);
     })
 
 </script>

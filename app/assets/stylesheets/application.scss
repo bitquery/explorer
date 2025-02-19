@@ -189,7 +189,7 @@ body.dark {
     border-bottom-right-radius: 0.25rem;
     position: relative;
     background-color: #17a2b8;
-    color: #fff;
+    color: #fff !important;
 
     sup {
       position: absolute;
@@ -281,7 +281,6 @@ body.dark {
 
 .progress-container {
   width: 50%;
-  border-radius: 5px;
   overflow: hidden;
   margin-top: -2%;
 }
@@ -291,7 +290,7 @@ body.dark {
   width: 0;
   background: linear-gradient(90deg, #7b4cff, #ff7b4c);
   transition: width 0.3s ease;
-
+  border-radius: 5px;
   position: relative;
   overflow: hidden;
 
@@ -352,8 +351,6 @@ body.dark {
   }
 }
 
-.placeholder-container {
-}
 
 
 .placeholder-row {

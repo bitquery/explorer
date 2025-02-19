@@ -232,11 +232,9 @@ export const increaseLimitButton = (historyDataSource) => () => {
 export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => (e) => {
     const currentButton = e.currentTarget;
 
-    // Делаем текущую кнопку активной и другие кнопки неактивными
     currentButton.classList.add("button-pressed");
     currentButton.textContent = "⏸ Mempool";
 
-    // Отключаем соседние кнопки
     const nextButton = currentButton.nextSibling;
     const prevButton = currentButton.previousSibling;
 
@@ -250,7 +248,6 @@ export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => (e)
         prevButton.textContent = "▶ History query";
     }
 
-    // Логика для виджета
     widgetFrame.onquerystarted();
     subscriptionDataSource.changeVariables({ mempool: true });
 
@@ -262,11 +259,9 @@ export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => (e)
 export const streamControl = (subscriptionDataSource, widgetFrame) => (e) => {
     const currentButton = e.currentTarget;
 
-    // Делаем текущую кнопку активной и другие кнопки неактивными
     currentButton.classList.add("button-pressed");
     currentButton.textContent = "⏸ Streaming";
 
-    // Отключаем соседние кнопки
     const prevButton = currentButton.previousSibling;
 
     if (prevButton) {
@@ -280,7 +275,6 @@ export const streamControl = (subscriptionDataSource, widgetFrame) => (e) => {
         prevPrevButton.textContent = "▶ History query";
     }
 
-    // Логика для виджета
     widgetFrame.onquerystarted();
     subscriptionDataSource.changeVariables({ mempool: false });
 
@@ -482,14 +476,12 @@ export const createWidgetFrame = (
 
         const overlay = document.createElement("div");
         overlay.className = "loading-overlay";
-
         overlay.innerHTML = `
-       <div class="progress-container">
-                <p>Loading...</p>
-                <div class="progress-bar"></div>
-              </div>
+        <div class="progress-container">
+            <p>Loading...</p>
+            <div class="progress-bar"></div>
+        </div>
     `;
-
         cardBody.style.position = "relative";
         cardBody.appendChild(overlay);
 
@@ -499,16 +491,26 @@ export const createWidgetFrame = (
 
         const progressBar = overlay.querySelector(".progress-bar");
         let progress = 0;
-        const intervalId = setInterval(() => {
+        const startTime = Date.now();
+        const duration = 3000;
+
+        const updateProgress = () => {
+            const elapsedTime = Date.now() - startTime;
+            const remainingTime = Math.max(0, duration - elapsedTime);
+            const progressSpeed = remainingTime > 0 ? (90 - progress) / (remainingTime / 50) : 100;
+
             if (progress < 90) {
-                progress += 1;
+                progress += progressSpeed;
+                progress = Math.min(progress, 90);
                 progressBar.style.width = progress + "%";
+                requestAnimationFrame(updateProgress);
             } else {
-                clearInterval(intervalId);
                 progressBar.classList.add("progress-bounce");
             }
-        }, 50);
-        overlay.dataset.intervalId = intervalId;
+        };
+
+        updateProgress();
+        overlay.dataset.startTime = startTime;
     };
 
     const onqueryend = () => {
@@ -516,10 +518,7 @@ export const createWidgetFrame = (
         overlays.forEach((overlay) => {
             const progressBar = overlay.querySelector(".progress-bar");
             progressBar.style.width = "100%";
-            const intervalId = Number(overlay.dataset.intervalId);
-            if (intervalId) {
-                clearInterval(intervalId);
-            }
+
             overlay.classList.remove("show");
             setTimeout(() => {
                 overlay.remove();

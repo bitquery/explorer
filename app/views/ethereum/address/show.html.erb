@@ -1,25 +1,49 @@
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TotalAddressStatistics'></div>
+    <div class='card' id='TotalAddressStatistics'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='AddressBalanceByCurrencies'></div>
+    <div class='card' id='AddressBalanceByCurrencies'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TransactionsByDate'></div>
+    <div class='card' id='TransactionsByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='GasSpentByDate'></div>
+    <div class='card' id='GasSpentByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='InboundTransferCountByDate'></div>
+    <div class='card' id='InboundTransferCountByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='OutboundTransferCountByDate'></div>
+    <div class='card' id='OutboundTransferCountByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row mb-4'>
@@ -38,30 +62,39 @@
                     ...response.EVM.currencies_reciiver,
                     ...response.EVM.currencies_sender],
                 chainId: response => response.EVM.receiver[0]?.ChainId,
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Fee TX count', cell: row => row.tx_count,
                     },
                     {
-                        name: 'TX fee', cell: row => row.tx_fee,
+                        name: 'TX fee', cell: row =>{
+                            if(!row.tx_fee) return undefined;
+                            return {amount: row.tx_fee, usd: row.tx_fee_usd}
                     },
-                    {
-                        name: 'Receive from', cell: row => row.r,
+                        rendering: renderNumberWithUSD, cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
                         name: 'Receive  currencies', cell: row => row.r_currencies,
                     },
                     {
-                        name: 'Send to', cell: row => row.s,
-                    },
-                    {
                         name: 'Send  currencies', cell: row => row.s_currencies,
                     },
                     {
-                        name: 'Receive amount', cell: row => row.r_amount,
+                        name: 'Receive amount',
+                        cell: row => {
+                            if (!row.r_amount) return undefined;
+                            return {amount: row.r_amount, usd: row.r_amount_usd}
+                        },
+                        rendering: renderNumberWithUSD, cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
-                        name: 'Send amount', cell: row => row.s_amount,
+                        name: 'Send amount',
+                        cell: row => {
+                            if (!row.s_amount) return undefined
+                            return {amount: row.s_amount, usd: row.s_amount_usd}
+                        },
+                        rendering: renderNumberWithUSD, cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
                         name: 'First Receiver Tx at', cell: row => row.Block?.r_from,
@@ -95,6 +128,8 @@
             return {
                 topElement: response => response.EVM.BalanceUpdates,
                 chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
+                id: 'AddressBalanceByCurrencies',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Currency',
@@ -102,8 +137,8 @@
                         rendering: renderTokenLink,
                     },
                     {
-                        name: 'Balance Count', cell: row => row.sum,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Balance Count', cell: row =>  ({amount: row.sum, usd: row.sum_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -115,8 +150,9 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
-                title:()=>'Transactions By Date',
-                id:'TransactionsByDate',
+                title: () => 'Transactions By Date',
+                id: 'TransactionsByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -140,8 +176,9 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
-                title:()=>'Gas Spent By Date',
-                id:'GasSpentByDate',
+                title: () => 'Gas Spent By Date',
+                id: 'GasSpentByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -165,8 +202,9 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title:()=>'Inbound Transfer Count by Date',
-                id:'InboundTransferCountByDate',
+                title: () => 'Inbound Transfer Count by Date',
+                id: 'InboundTransferCountByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -189,8 +227,9 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title:()=>'Outbound Transfer Count by Date',
-                id:'OutboundTransferCountByDate',
+                title: () => 'Outbound Transfer Count by Date',
+                id: 'OutboundTransferCountByDate',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -213,6 +252,8 @@
             return {
                 topElement: response => response.EVM.Calls,
                 chainId: response => response.EVM.Calls[0]?.ChainId,
+                id: 'SMCalls',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -234,13 +275,13 @@
         address: '<%= @address %>',
     }
 
-    renderComponent('<%=@streaming_access_token %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_1_1_1_1_1_1_1_1_1_1', variables);
-    renderComponent('<%=@streaming_access_token %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_4', variables);
+    renderComponent('<%=@streaming_access_token %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_5', variables);
+    renderComponent('<%=@streaming_access_token %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_5', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'],[TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date_8', variables);
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date0_2', variables);
         renderComponent('<%=@streaming_access_token %>', [[InboundTransferCountByDate, '#InboundTransferCountByDate']], 'Inbound-transfer-count-by-date_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[OutboundTransferCountByDate, '#OutboundTransferCountByDate']], 'Outbound-transfer-count-by-date_3', variables);
         renderComponent('<%=@streaming_access_token %>', [[SMCalls, '#SMCalls']], 'Smart-contract-calls--including-internal--by-date_3', variables);

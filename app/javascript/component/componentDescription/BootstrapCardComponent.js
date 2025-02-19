@@ -41,7 +41,7 @@ export default class BootstrapCardComponent {
 
 		const array = this.config.topElement(data);
 		if (!array || array.length === 0) {
-			this.container.textContent = 'No Data. Response is empty';
+			this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.';
 			return;
 		}
 
