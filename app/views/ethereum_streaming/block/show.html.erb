@@ -51,7 +51,7 @@
                             const limit = Number(row.Block.GasLimit);
                             return limit > 0 ? ((used / limit) * 100).toFixed(1) + '%' : 'N/A';
                         },
-                        rendering: renderProgressBar,
+                        // rendering: renderProgressBar,
                     },
                     {
                         name: 'Hash', cell: row => row.Block?.Hash,

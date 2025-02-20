@@ -114,6 +114,7 @@
                     {
                         name: 'Last Receiver', cell: row => row.Transfer.last_receiver,
                         rendering: renderJustAddressLink
+
                     },
                 ]
             }
@@ -173,7 +174,7 @@
                 ],
                 options: {
                     title: 'Balance',
-                    height: 397
+                    height: 370
                 }
             }
         }
@@ -219,14 +220,14 @@
                     },
                     {
                         name: 'Seller', cell: row => row.Trade.Buy.Seller,
-                        rendering: renderJustAddressLink, headerStyle: {width: '20%'}
+                        rendering: renderJustAddressLink,
                     },
                     {
                         name: '', cell: () => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
                     },
                     {
                         name: 'Buyer', cell: row => row.Trade.Buy.Buyer,
-                        rendering: renderJustAddressLink, headerStyle: {width: '20%'}
+                        rendering: renderJustAddressLink,
                     },
                     {
                         name: 'Amount Buy',

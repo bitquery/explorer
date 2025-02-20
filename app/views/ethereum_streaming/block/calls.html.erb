@@ -45,7 +45,7 @@
                             const gasUsed = Number(row.Call.GasUsed);
                             return gas > 0 ? ((gasUsed / gas) * 100).toFixed(1) + '%' : 'N/A';
                         },
-                        rendering: renderProgressBar,
+                        // rendering: renderProgressBar,
                     },
                     {
                         name: 'Gas', cell: row => row.Call.Gas,

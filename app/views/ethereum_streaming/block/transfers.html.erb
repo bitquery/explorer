@@ -9,7 +9,7 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title: response => `Transfers on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                title: response=>`Transfers on the ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
                 id: 'Transfers',
                 theme: '<%= @theme %>',
                 columns: [

@@ -478,7 +478,7 @@ export const createWidgetFrame = (
         overlay.className = "loading-overlay";
         overlay.innerHTML = `
         <div class="progress-container">
-            <p>Loading...</p>
+            <p class="progress-text">Loading...</p>
             <div class="progress-bar"></div>
         </div>
     `;

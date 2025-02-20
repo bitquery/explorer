@@ -28,13 +28,12 @@
                 },
                 id:'OHLCbyIntervalsGraph',
                 symbol: '<%= @token1symbol%> / <%= @token2symbol%>',
-                topElement: response => response.EVM.DEXTradeByTokens,
+                topElement: response => response.EVM?.DEXTradeByTokens,
                 chainId: response => response.EVM.DEXTradeByTokens[0]?.ChainId,
                 token1: response => response.EVM.DEXTradeByTokens[0]?.Trade.Side.Currency.Symbol,
                 token2: response => response.EVM.DEXTradeByTokens[0]?.Trade.Currency.Symbol,
             }
         }
     }
-
     renderComponent('<%=@streaming_access_token %>',[[OHLCbyIntervalsGraph, '#OHLCbyIntervalsGraph']], 'OHLC-by-intervals_2', variables, 'Subscription-OHLC-with-interval');
 </script>

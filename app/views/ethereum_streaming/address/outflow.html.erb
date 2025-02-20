@@ -1,22 +1,42 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='LatestOutboundTransfers'></div>
+    <div class='card' id='LatestOutboundTransfers'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='OutboundTransfersInNativeCurrency'></div>
+    <div class='card' id='OutboundTransfersInNativeCurrency'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='OutboundTransfersInTokens'></div>
+    <div class='card' id='OutboundTransfersInTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TopReceiversInNativeCurrency'></div>
+    <div class='card' id='TopReceiversInNativeCurrency'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TopReceiversInTokens'></div>
+    <div class='card' id='TopReceiversInTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -31,6 +51,7 @@
                     return `Latest ${tokenName} ${tokenSymbol} Outbound Transfers`
                 },
                 id: 'LatestOutboundTransfers',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
@@ -45,8 +66,9 @@
                         rendering: renderJustAddressLink, headerStyle: {width: '25%'},
                     },
                     {
-                        name: 'Amount', cell: row => row.sum,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Amount',
+                        cell: row =>({amount:row.sum, usd: row.sum_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transaction hash', cell: row => row.Transaction.Hash,
@@ -68,6 +90,7 @@
                     return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native currency'} Send by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'OutboundTransfersInNativeCurrency',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -109,6 +132,7 @@
                     return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native currency'} sent by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'OutboundTransfersInTokens',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -143,14 +167,16 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => `Top Receiver in ${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} currency`,
                 id: 'TopReceiversInNativeCurrency',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Receiver', cell: row => row.Transfer.Receiver,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row => row.Transfer.Amount,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Amount',
+                        cell: row =>({amount:row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Latest Date', cell: row => row.Block.Date,
@@ -171,14 +197,16 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: () => `Top Receivers in tokens`,
                 id: 'TopReceiversInTokens',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Receiver', cell: row => row.Transfer.Receiver,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row => row.Transfer.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount',
+                        cell: row =>({amount:row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: row => ({
@@ -209,11 +237,11 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_2', variables);
-        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_7', variables);
-        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_4', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_8', variables);
+        renderComponent('<%=@streaming_access_token %>', [[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_5', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens_3', variables);
     })
 
 </script>

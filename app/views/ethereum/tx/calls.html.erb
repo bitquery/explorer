@@ -66,7 +66,10 @@
                         headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Success?', cell: row => row.Call?.Success, rendering:renderStatus
+                        name: 'Success?',
+                        cell: row => row.Call?.Success,
+                        rendering: renderStatus,
+                        headerStyle: {textAlign: 'end'},
                     },
                 ]
             }
@@ -77,5 +80,5 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     }
-    renderComponent('<%=@streaming_access_token %>',[[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Calls-in-Transaction_5', variables);
+    renderComponent('<%=@streaming_access_token %>', [[TransactionAttributes, '#TransactionAttributes']], 'Smart-Contract-Calls-in-Transaction_5', variables);
 </script>

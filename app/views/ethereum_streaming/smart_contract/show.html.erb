@@ -97,7 +97,7 @@
         configuration() {
             return {
                 topElement: response => [...response.EVM.BalanceUpdates, ...response.EVM.Transfers],
-                chainId: response => response.EVM.BalanceUpdates[0].ChainId,
+                chainId: response => response.EVM.BalanceUpdates[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
                     const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
@@ -112,7 +112,11 @@
                         rendering: renderTokenLink,
                     },
                     {
-                        name: 'Balance', cell: row => ({amount:row.sum, usd:row.sum_usd}),
+                        name: 'Balance', cell: row => {
+                            if(!row.sum) return undefined
+
+                          return  {amount:row.sum, usd:row.sum_usd}
+                        },
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                 ]

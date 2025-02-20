@@ -12,7 +12,7 @@ export default function renderNumberWithUSD(data) {
     const formatNumberMix = (value, numberFix = 2) => {
         let number = parseFloat(value);
         // if (isNaN(number) || Math.abs(number) < 1e-6) return '0';
-        if (number === 0) return '0';
+        if (number === 0 || number.toString() === '0.000000000000000000') return '0';
         let effectiveFix = numberFix;
         if (Math.abs(number) < 1) {
             const significantDigits = numberFix;

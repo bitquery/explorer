@@ -1,22 +1,42 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='LatestInboundTransfers'></div>
+    <div class='card' id='LatestInboundTransfers'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='InboundTransfersInNativeCurrency'></div>
+    <div class='card' id='InboundTransfersInNativeCurrency'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='InboundTransfersInTokens'></div>
+    <div class='card' id='InboundTransfersInTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TopSendersInNativeCurrency'></div>
+    <div class='card' id='TopSendersInNativeCurrency'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TopSendersInTokens'></div>
+    <div class='card' id='TopSendersInTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -31,6 +51,7 @@
                     return `Latest ${tokenName} ${tokenSymbol} Inbound Transfers`
                 },
                 id: 'LatestInboundTransfers',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Timestamp', cell: row => row.Block.Time,
@@ -42,11 +63,12 @@
                     },
                     {
                         name: 'Sender', cell: row => row.Transfer.Sender,
-                        rendering: renderJustAddressLink, headerStyle: {width: '25%'},
+                        rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row => row.sum,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Amount',
+                        cell: row => ({amount: row.sum, usd: row.sum_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Transaction hash', cell: row => row.Transaction?.Hash,
@@ -68,6 +90,7 @@
                     return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native'} received by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'InboundTransfersInNativeCurrency',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -105,10 +128,11 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => {
                     const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})`:''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
                     return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native'} received by ${tokenName} ${tokenSymbol} Contract`
                 },
                 id: 'InboundTransfersInTokens',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date,
@@ -143,14 +167,16 @@
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
                 title: response => `Top Senders in ${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} currency`,
                 id: 'TopSendersInNativeCurrency',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Sender', cell: row => row.Transfer.Sender,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row => row.Transfer.Amount,
-                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                        name: 'Amount',
+                        cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Latest Date', cell: row => row.Block.Date,
@@ -169,16 +195,18 @@
             return {
                 topElement: response => response.EVM.Transfers,
                 chainId: response => response.EVM.Transfers[0]?.ChainId,
-                title:()=>'Top Senders in tokens',
-                id:'TopSendersInTokens',
+                title: () => 'Top Senders in tokens',
+                id: 'TopSendersInTokens',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Sender', cell: row => row.Transfer.Sender,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row => row.Transfer.Amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount',
+                        cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Currency', cell: row => ({
@@ -208,12 +236,12 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_3', variables);
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_4', variables);
         renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_5', variables);
         renderComponent('<%=@streaming_access_token %>', [[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopSendersInNativeCurrency, '#TopSendersInNativeCurrency']], 'Top-Senders-in-native-currency_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopSendersInTokens, '#TopSendersInTokens']], 'Top-Senders-in-tokens_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopSendersInNativeCurrency, '#TopSendersInNativeCurrency']], 'Top-Senders-in-native-currency_4', variables);
+        renderComponent('<%=@streaming_access_token %>', [[TopSendersInTokens, '#TopSendersInTokens']], 'Top-Senders-in-tokens_4', variables);
     })
 
 </script>

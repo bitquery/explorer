@@ -1,16 +1,28 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='EventsDistribution'></div>
+    <div class='card' id='EventsDistribution'>
+           <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='SmartContractEvents'></div>
+    <div class='card' id='SmartContractEvents'>
+           <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='AddressesUsedInEventParameters'></div>
+    <div class='card' id='AddressesUsedInEventParameters'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -22,9 +34,10 @@
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
                     const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
-                    return `${tokenName} ${tokenSymbol} Events Distribution - 1 Month Ago`
+                    return `${tokenName} ${tokenSymbol} Events Distribution`
                 },
                 id: 'EventsDistribution',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Event', cell: row => row.Log.Signature.Name
@@ -48,9 +61,10 @@
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
                     const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
-                    return `${tokenName} ${tokenSymbol} Smart Contract Events - 1 Month Ago`
+                    return `${tokenName} ${tokenSymbol} Smart Contract Events`
                 },
                 id: 'SmartContractEvents',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Event',
@@ -69,7 +83,6 @@
         }
     }
 
-    <% from, till = date_range_from_now(30, :days) %>
 
     const variables = {
         network: '<%= @streaming%>',
@@ -77,5 +90,5 @@
         since: '<%= @from %>',
         till: '<%= @till %>',
     }
-    renderComponent('<%=@streaming_access_token %>', [[SmartContractEvents, '#SmartContractEvents'], [EventsDistribution, '#EventsDistribution']], 'Smart-Contract-Events---1-Month-Ago', variables);
+    renderComponent('<%=@streaming_access_token %>', [[SmartContractEvents, '#SmartContractEvents'], [EventsDistribution, '#EventsDistribution']], 'Smart-Contract-Events---1-Month-Ago_1', variables);
 </script>

@@ -1,19 +1,35 @@
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='Senders' class='card'></div>
+    <div id='Senders' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-lg-12 mb-4'>
-    <div id='SendersStats' class='card'></div>
+    <div id='SendersStats' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <div class='row'>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='UniqSenders'></div>
+    <div class='card' id='UniqSenders'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
   <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='MedianTransferAmount'></div>
+    <div class='card' id='MedianTransferAmount'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -28,6 +44,7 @@
                     return `Largest ${tokenName} ${tokenSymbol} Senders`
                 },
                 id: 'Senders',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'senders', cell: row => row.Transfer.Sender
@@ -57,14 +74,15 @@
                     return `Largest ${tokenName} ${tokenSymbol} Senders Stats`
                 },
                 id: 'SendersStats',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Sender', cell: row => row.Transfer.Sender,
                         rendering: renderJustAddressLink,
                     },
                     {
-                        name: 'Amount', cell: row => row.amount,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                        name: 'Amount', cell: row =>({amount:row.amount, usd: row.amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
                         name: 'Max Transfer Amount', cell: row => row.Transfer.max_amount,
@@ -104,6 +122,7 @@
                     return `Daily Unique  ${tokenName} ${tokenSymbol} Senders`
                 },
                 id: 'UniqSenders',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -134,6 +153,7 @@
                     return `Median ${tokenName} ${tokenSymbol} Sent Amount`
                 },
                 id: 'MedianTransferAmount',
+                theme: '<%= @theme %>',
                 columns: [
                     {
                         name: 'Date', cell: row => row.Block.Date
@@ -160,8 +180,8 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[Senders, '#Senders']], 'Largest-Token-Senders', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SendersStats, '#SendersStats']], 'Token-Senders-Stats', variables);
-        renderComponent('<%=@streaming_access_token %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Token-Senders-Stats', variables);
+        renderComponent('<%=@streaming_access_token %>', [[Senders, '#Senders']], 'Largest-Token-Senders_1', variables);
+        renderComponent('<%=@streaming_access_token %>', [[SendersStats, '#SendersStats']], 'Token-Senders-Stats_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Token-Senders-Stats_1', variables);
     })
 </script>

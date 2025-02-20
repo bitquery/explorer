@@ -34,6 +34,22 @@
                     {
                         name: 'Signature Hash', cell: row=> row.Log.Signature.SignatureHash
                     },
+                    {
+                        name: 'Unique Senders', cell: row=> row.uniq_senders
+                    },
+                    {
+                        name: 'Unique Receivers', cell: row=> row.uniq_reciver
+                    },
+                    {
+                        name: 'Unique Callers', cell: row=> row.call_from
+                    },
+                    {
+                        name: 'Unique Called Contracts', cell: row=> row.call_to
+                    },
+                    {
+                        name: 'Smart Contracts Count', cell: row=> row.smart_contracts
+                    },
+
                 ]
             }
         }
@@ -61,6 +77,14 @@
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                     {
+                        name: 'Unique Callers', cell: row=> row.call_from,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Unique Called Contracts', cell: row=> row.call_to,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
                         name: 'Smart Contract Cout', cell: row=> row.smart_contract,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
@@ -77,7 +101,7 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[EventStatistic, '#EventStatistic']], 'Event-statistic-by-date_2', variables);
+        renderComponent('<%=@streaming_access_token %>', [[EventStatistic, '#EventStatistic']], 'Event-statistic-by-date_4', variables);
     })
-    renderComponent('<%=@streaming_access_token %>',[[EventInformation, '#EventInformation']], 'Event-Information_1', variables);
+    renderComponent('<%=@streaming_access_token %>',[[EventInformation, '#EventInformation']], 'Event-Information_5', variables);
 </script>

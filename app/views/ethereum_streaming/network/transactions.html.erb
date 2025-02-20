@@ -30,6 +30,7 @@
             return {
                 topElement: response => response.EVM.Transactions,
                 chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title: response => `Latest Transactions on the ${WidgetConfig.getName(response.EVM.Transactions[0]?.ChainId) || 'network'}`,
                 theme: '<%= @theme %>',
                 id: 'LatestTransactions',
                 columns: [
