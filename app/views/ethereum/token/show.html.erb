@@ -119,12 +119,12 @@
         network: '<%= @streaming%>',
         address: '<%= @address %>',
     }
-    renderComponent('<%=@streaming_access_token %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
-    renderComponent('<%=@streaming_access_token %>', [[TokenStatistic, '#TokenStatistic']], 'Token-transfer-statistics_4', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenStatistic, '#TokenStatistic']], 'Token-transfer-statistics_4', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_4', variables);
     })
 </script>

@@ -149,7 +149,7 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[SmartContractMethods, '#SmartContractMethods'],[SmartContractCount, '#SmartContractCount']], 'Smart-Contract-Methods_5', variables);
-        renderComponent('<%=@streaming_access_token %>',[[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[SmartContractMethods, '#SmartContractMethods'],[SmartContractCount, '#SmartContractCount']], 'Smart-Contract-Methods_5', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_3', variables);
     })
 </script>

@@ -24,7 +24,7 @@ module Ethereum
       response = ::Graphql::V2.query_with_retry(
         QUERY,
         variables: { height: @height, network: @network[:streaming] },
-        context: { authorization: @streaming_access_token }
+        context: { authorization: @streaming_access_token },use_eap: @network[:use_eap]
       )
 
       @block_date = response.data.EVM

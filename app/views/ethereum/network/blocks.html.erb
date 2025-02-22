@@ -127,9 +127,8 @@
     }
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
-
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[LatestBlocks, '#LatestBlocks']], 'Latest-Blocks_4', variables, 'Subscription-Latest-Blocks_2')
-        renderComponent('<%=@streaming_access_token %>', [[BlocksReward, '#BlocksReward']], 'Reward-Blocks', variables, 'subscription-Reward-Blocks')
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestBlocks, '#LatestBlocks']], 'Latest-Blocks_4', variables, 'Subscription-Latest-Blocks_2')
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[BlocksReward, '#BlocksReward']], 'Reward-Blocks', variables, 'subscription-Reward-Blocks')
     });
 </script>

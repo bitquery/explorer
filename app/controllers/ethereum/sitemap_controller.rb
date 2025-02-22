@@ -71,7 +71,7 @@ query siteMape($network: evm_network, $from: String) {
 
     def index
       @response = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming], from: Time.zone.today - 10, },
-                                               context: { authorization: @streaming_access_token }).data
+                                               context: { authorization: @streaming_access_token },use_eap: @network[:use_eap]).data
     end
   end
 end

@@ -49,7 +49,7 @@ class NetworkController < ApplicationController
     @network = if params[:network].is_a?(ActionController::Parameters)
                  params[:network].permit(
                    :network, :tag, :name, :family, :currency, :icon,
-                   :streaming, :chainId, :platform, :innovation,
+                   :streaming, :chainId, :platform, :innovation, :use_eap,
                    blockchainAddressPattern: [],
                    excludeNetworksPattern: [],
                    txHashPattern: []
@@ -60,6 +60,7 @@ class NetworkController < ApplicationController
 
     @id = params[:id]
     @streaming = @network[:streaming]
+    @use_eap = @network[:use_eap]
 
     if params[:address]
       @address = @query = params[:address]

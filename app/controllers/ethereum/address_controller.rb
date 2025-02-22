@@ -57,9 +57,8 @@ module Ethereum
       @address = params[:address]
 
       return unless @address.starts_with?('0x')
-
       result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address },
-                                            context: { authorization: @streaming_access_token }).data.EVM
+                                            context: { authorization: @streaming_access_token }, use_eap: @network[:use_eap]).data.EVM
       if result[:token].any?
         @info = result[:token].first[:Transfer]
         @check_token = 'token'

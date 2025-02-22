@@ -47,7 +47,7 @@ module Ethereum
     def query_graphql
       response = ::Graphql::V2.query_with_retry(QUERY, variables: {
         network: @network[:streaming], token1: @token1, token2: @token2
-      }, context: { authorization: @streaming_access_token }).data.EVM
+      }, context: { authorization: @streaming_access_token },use_eap: @network[:use_eap]).data.EVM
 
       trade = response.DEXTradeByTokens.first&.Trade
       @token1entry = trade&.Currency

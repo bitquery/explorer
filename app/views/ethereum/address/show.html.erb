@@ -48,7 +48,11 @@
 </div>
 <div class='row mb-4'>
   <div class='col-12 col-xl-6'>
-    <div class='card' id='SMCalls'></div>
+    <div class='card' id='SMCalls'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
   </div>
 </div>
 <script type="module">
@@ -68,10 +72,10 @@
                         name: 'Fee TX count', cell: row => row.tx_count,
                     },
                     {
-                        name: 'TX fee', cell: row =>{
-                            if(!row.tx_fee) return undefined;
+                        name: 'TX fee', cell: row => {
+                            if (!row.tx_fee) return undefined;
                             return {amount: row.tx_fee, usd: row.tx_fee_usd}
-                    },
+                        },
                         rendering: renderNumberWithUSD, cellStyle: {display: 'flex', justifyContent: 'start'},
                     },
                     {
@@ -137,7 +141,7 @@
                         rendering: renderTokenLink,
                     },
                     {
-                        name: 'Balance Count', cell: row =>  ({amount: row.sum, usd: row.sum_usd}),
+                        name: 'Balance Count', cell: row => ({amount: row.sum, usd: row.sum_usd}),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                 ]
@@ -275,16 +279,16 @@
         address: '<%= @address %>',
     }
 
-    renderComponent('<%=@streaming_access_token %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_5', variables);
-    renderComponent('<%=@streaming_access_token %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_5', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_5', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_5', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date0_2', variables);
-        renderComponent('<%=@streaming_access_token %>', [[InboundTransferCountByDate, '#InboundTransferCountByDate']], 'Inbound-transfer-count-by-date_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[OutboundTransferCountByDate, '#OutboundTransferCountByDate']], 'Outbound-transfer-count-by-date_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SMCalls, '#SMCalls']], 'Smart-contract-calls--including-internal--by-date_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date0_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransferCountByDate, '#InboundTransferCountByDate']], 'Inbound-transfer-count-by-date_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[OutboundTransferCountByDate, '#OutboundTransferCountByDate']], 'Outbound-transfer-count-by-date_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SMCalls, '#SMCalls']], 'Smart-contract-calls--including-internal--by-date_3', variables);
     })
 
 

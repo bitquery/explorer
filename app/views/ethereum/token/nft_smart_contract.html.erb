@@ -262,13 +262,13 @@
         limit: 10,
         offset: 0,
     }
-    renderComponent('<%=@streaming_access_token %>', [[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-Token-Information_3', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[NFTTokenInformation, '#NFTTokenInformation']], 'NFT-Token-Information_3', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Most-popular-NFTs-based-on-transfer-count', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_6', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], 'the-Latest-Trades-of-NFT-Token_3', variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_5');
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[PopularTokenIDsNFT, '#PopularTokenIDsNFT']], 'Most-popular-NFTs-based-on-transfer-count', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopNFTHolders, '#TopNFTHolders'], [TopNFTHoldersPie, '#TopNFTHoldersPie']], 'Top-NFT-Holders_6', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubscriptionLatestTradesNFTToken, '#SubscriptionLatestTradesNFTToken']], 'the-Latest-Trades-of-NFT-Token_3', variables, 'Subscription-for-the-Latest-Trades-of-NFT-Token_5');
     })
 </script>

@@ -30,7 +30,7 @@ module Ethereum
 
     def query_date
       event = ::Graphql::V2.query_with_retry(QUERY, variables: { method: @signature, network: @network[:streaming] },
-                                             context: { authorization: @streaming_access_token })
+                                             context: { authorization: @streaming_access_token },use_eap: @network[:use_eap])
 
       return unless event.data.EVM.Events.any?
 

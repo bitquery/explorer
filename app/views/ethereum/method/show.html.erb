@@ -110,12 +110,12 @@
         network: '<%= @streaming%>',
         method: '<%= @signature%>',
     }
-    renderComponent('<%=@streaming_access_token %>', [[MethodInformation, '#MethodInformation']], 'Method-Information_1', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[MethodInformation, '#MethodInformation']], 'Method-Information_1', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[MethodStatistic, '#MethodStatistic']], 'Method-statistic-by-date', variables);
-        renderComponent('<%=@streaming_access_token %>', [[MethodTransactions, '#MethodTransactions']], 'Method-Transactions_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[MethodStatistic, '#MethodStatistic']], 'Method-statistic-by-date', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[MethodTransactions, '#MethodTransactions']], 'Method-Transactions_4', variables);
     })
 </script>

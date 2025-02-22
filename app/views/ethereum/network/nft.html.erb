@@ -416,11 +416,11 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_6', variables);
-        renderComponent('<%=@streaming_access_token %>', [[NFTTransfersByDatePie, '#NFTTransfersByDatePie'], [TopTransferNFT, '#TopTransferNFT']], 'Top-Transfered-NFT-in-Network_2', variables);
-        renderComponent('<%=@streaming_access_token %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_9', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-Traded-NFT-in-Network_4', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_6', variables);
-        renderComponent('<%=@streaming_access_token %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_7', variables, 'Mempool-Subscription-Latest-Trades-of-NFT-Tokens-in-Network_5');
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[NFTTransfersByDate, '#NFTTransfersByDate']], 'NFT-Token-Transfers-By-Date_6', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[NFTTransfersByDatePie, '#NFTTransfersByDatePie'], [TopTransferNFT, '#TopTransferNFT']], 'Top-Transfered-NFT-in-Network_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_9', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-Traded-NFT-in-Network_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_6', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_7', variables, 'Mempool-Subscription-Latest-Trades-of-NFT-Tokens-in-Network_5');
     })
 </script>

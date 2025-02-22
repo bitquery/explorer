@@ -89,6 +89,6 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[TradesByPairs, '#TradesByPairs']], 'Token-Trade-Pairs-bu-Protocol_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TradesByPairs, '#TradesByPairs']], 'Token-Trade-Pairs-bu-Protocol_2', variables);
     });
 </script>

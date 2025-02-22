@@ -68,7 +68,7 @@
                         rendering: renderIdLink, headerStyle: {width: '100px'},
                     },
                     {
-                        name: 'Amount', cell: row => ({amount:row.Transfer.Amount, usd:row.Transfer.AmountInUSD}),
+                        name: 'Amount', cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
@@ -148,8 +148,8 @@
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-    renderComponent('<%=@streaming_access_token %>', [[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token0_3', variables, 'Subscription-Latest-Transfers-of-Token_3');
-        renderComponent('<%=@streaming_access_token %>', [[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_6', variables);
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[LatestTransfersOfTokenInNetwork, '#LatestTransfersOfTokenInNetwork']], 'Latest-Transfers-of-Token0_3', variables, 'Subscription-Latest-Transfers-of-Token_3');
+        renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[TokenTransfers, '#TokenTransfers'], [TokenTransfersAmount, '#TokenTransfersAmount']], 'Token-Transfers_6', variables);
     })
 </script>

@@ -5,7 +5,7 @@ default: &default
   public_output_path: packs
   cache_path: tmp/shakapacker
   webpack_compile_output: true
-  additional_paths: ["app/javascript/images", "app/assets/images"]
+  additional_paths: [ "app/assets/images", "app/javascript/images"]
   cache_manifest: false
   compile: true
   compiler_strategy: digest

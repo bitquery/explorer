@@ -101,33 +101,14 @@ Rails.application.routes.draw do
       get ":blockchain/tokenpair/:token1/:token2/last_trades", to: "#{blockchain[:family]}/token_pair#last_trades",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
     end
-
-    BLOCKCHAINS.select { |b| b[:family] == "ethereum2" }.each do |blockchain|
+    BLOCKCHAINS.select { |b| b[:family] == "ethereum" }.each do |blockchain|
       get ":blockchain/:action", to: "#{blockchain[:family]}/network#:action",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain", to: "#{blockchain[:family]}/network#blocks",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
-      get ":blockchain/sitemap/index.xml", to: "#{blockchain[:family]}/sitemap#index",
+      get ":blockchain/address/:address/graph", to: "#{blockchain[:family]}/address#money_flow",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-
-      get ":blockchain/validator/:index/:action", to: "#{blockchain[:family]}/validator#:action",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/validator/:index", to: "#{blockchain[:family]}/validator#show",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-
-      get ":blockchain/block/:block", to: "#{blockchain[:family]}/block#show",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain/block/:block/:action", to: "#{blockchain[:family]}/block#:action",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-    end
-
-    BLOCKCHAINS.select { |b| b[:family] == "ethereum_streaming" }.each do |blockchain|
-      get ":blockchain/:action", to: "#{blockchain[:family]}/network#:action",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-      get ":blockchain", to: "#{blockchain[:family]}/network#blocks",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-
       get ":blockchain/address/:address/:action", to: "#{blockchain[:family]}/address#:action",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/address/:address", to: "#{blockchain[:family]}/address#show",
@@ -135,14 +116,26 @@ Rails.application.routes.draw do
       get ":blockchain/address/:address/nft_address", to: "#{blockchain[:family]}/address#show",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
+      get ":blockchain/smart_contract/:address/graph", to: "#{blockchain[:family]}/smart_contract#money_flow",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/smart_contract/:address/:action", to: "#{blockchain[:family]}/smart_contract#:action",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/smart_contract/:address", to: "#{blockchain[:family]}/smart_contract#show",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
-      get ":blockchain/sitemap/index.xml", to: "#{blockchain[:family]}/sitemap#index",
-          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
-
+      # get ":blockchain/token/:address/graph", to: "#{blockchain[:family]}/token#money_flow",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:address/:action", to: "#{blockchain[:family]}/token#:action",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:address", to: "#{blockchain[:family]}/token#show",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      #
+      # get ":blockchain/token/:address/id/:id", to: "#{blockchain[:family]}/token#show_nft_id",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:smart_contract/nft_smart_contract", to: "#{blockchain[:family]}/token#show",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      # get ":blockchain/token/:smart_contract/trading", to: "#{blockchain[:family]}/token#show",
+      #     constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
 
       get ":blockchain/token/:address/:action", to: "#{blockchain[:family]}/token#:action",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
@@ -194,6 +187,26 @@ Rails.application.routes.draw do
       get ":blockchain/tokenpair/:token1/:token2/trading_view", to: "#{blockchain[:family]}/token_pair#trading_view",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
       get ":blockchain/tokenpair/:token1/:token2/last_trades", to: "#{blockchain[:family]}/token_pair#last_trades",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+    end
+
+    BLOCKCHAINS.select { |b| b[:family] == "ethereum2" }.each do |blockchain|
+      get ":blockchain/:action", to: "#{blockchain[:family]}/network#:action",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain", to: "#{blockchain[:family]}/network#blocks",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+
+      get ":blockchain/sitemap/index.xml", to: "#{blockchain[:family]}/sitemap#index",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+
+      get ":blockchain/validator/:index/:action", to: "#{blockchain[:family]}/validator#:action",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/validator/:index", to: "#{blockchain[:family]}/validator#show",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+
+      get ":blockchain/block/:block", to: "#{blockchain[:family]}/block#show",
+          constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
+      get ":blockchain/block/:block/:action", to: "#{blockchain[:family]}/block#:action",
           constraints: { blockchain: blockchain[:network] }, defaults: { network: blockchain }
     end
 

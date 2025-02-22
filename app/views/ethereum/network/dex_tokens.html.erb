@@ -150,9 +150,9 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_8', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TradesByPairs, '#TradesByPairs']], 'Trades-By-Pairs_2', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SubTokenTradePairs, '#SubTokenTradePairs']], 'Token-Trade-Pairs_4', variables, 'Subscription-Token-Trade-Pairs_4');
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_8', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TradesByPairs, '#TradesByPairs']], 'Trades-By-Pairs_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubTokenTradePairs, '#SubTokenTradePairs']], 'Token-Trade-Pairs_4', variables, 'Subscription-Token-Trade-Pairs_4');
     });
 
 </script>

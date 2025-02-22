@@ -11,14 +11,15 @@ import {
     SubscriptionDataSource, getAPIMempoolButton
 } from "./helper";
 
-export default async function renderComponent(token, components, historyQueryID, explorerVariables = {}, subscriptionQueryID) {
+export default async function renderComponent(token,use_eap, components, historyQueryID, explorerVariables = {}, subscriptionQueryID) {
     let variables, subscriptionDataSource, historyDataSource, subscriptionQueryParams, historyQueryParams
-
+    const endpoint_url = use_eap === 'true' ? 'https://graphql.bitquery.io/eap' : 'https://streaming.bitquery.io/graphql';
+    console.log('endpoint_url', endpoint_url)
     if (subscriptionQueryID) {
         subscriptionQueryParams = await getQueryParams(subscriptionQueryID)
         const {endpoint_url, query, variables: rawVariables} = subscriptionQueryParams
         variables = {...rawVariables, ...explorerVariables};
-        const subscriptionPayload = {query, variables, endpoint_url}
+        const subscriptionPayload = {query, variables, endpoint_url: endpoint_url || subscriptionQueryParams.endpoint_url}
         subscriptionDataSource = new SubscriptionDataSource(token, subscriptionPayload)
     }
     if (historyQueryID) {
@@ -27,7 +28,7 @@ export default async function renderComponent(token, components, historyQueryID,
         const historyPayload = {
             variables,
             query: historyQueryParams.query,
-            endpoint_url: historyQueryParams.endpoint_url
+            endpoint_url: endpoint_url || historyQueryParams.endpoint_url
         }
         historyDataSource = new HistoryDataSource(token, historyPayload)
     }

@@ -135,8 +135,8 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>',[[DEXTradeStatistics, '#DEXTradeStatistics']], 'DEX-Trade-Statistics_3', variables);
-        renderComponent('<%=@streaming_access_token %>',[[DEXProtocolNFTTokenTradesByDate, "#DEXProtocolNFTTokenTradesByDate"]], 'DEX-Protocol-NFT-Token-Trades-By-Date_1', variables);
-        renderComponent('<%=@streaming_access_token %>',[[DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts_5', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[DEXTradeStatistics, '#DEXTradeStatistics']], 'DEX-Trade-Statistics_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[DEXProtocolNFTTokenTradesByDate, "#DEXProtocolNFTTokenTradesByDate"]], 'DEX-Protocol-NFT-Token-Trades-By-Date_1', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts_5', variables);
     })
 </script>

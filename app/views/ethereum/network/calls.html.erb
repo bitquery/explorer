@@ -192,12 +192,12 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [
             [SmartContractsByDate, '#Smart-Contracts-By-Date'],
             [UniqueSmartContracts, '#UniqueSmartContracts'],
             [SmartContractsCallers, '#SmartContractsCallers'],
             [SmartContractsMethods, '#SmartContractsMethods']
         ], 'Smart-Contracts-Activity_1', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_7', variables, 'Subscription-Latest-Smart-Contract-Calls_1');
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_7', variables, 'Subscription-Latest-Smart-Contract-Calls_1');
     });
 </script>
