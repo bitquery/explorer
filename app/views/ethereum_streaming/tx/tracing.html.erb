@@ -27,7 +27,7 @@
             return {
                 topElement: response => response.EVM,
                 chainId: response => response.EVM.Calls[0]?.ChainId || response.EVM.Events[0]?.ChainId || response.EVM.Transfers[0]?.ChainID,
-                title: () => 'Tree Events and Calls',
+                title: () => 'Decoded EVM Transaction Data and Trace',
                 id: 'EventsAndCallsByTXHash',
             }
         }

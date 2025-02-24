@@ -811,12 +811,10 @@ en:
                  %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
                  check %{network} confirmations, %{network} transaction confirmation, %{network} txid,unconfirmed %{network} transaction,%{network} transaction id"
       tracing:
-        name: "Tracing"
-        title: "Tracing %{network} %{hash}"
-        description: "Transfers in transaction %{hash} in %{network}"
-        keywords: "%{network} tracing, %{network} tracing explorer, %{network} explorer, token tracing, coin tracing, crypto tracing, %{network} tracing analytics,
-                 smart contract tracing, %{network} blockchain tracing,crypto tracing, currency, tracing fee,
-                 %{network} transaction checker,check %{network} transaction, search %{network} transaction, lookup %{network} transaction,
+        name: "Decoded Traces"
+        title: "Decoded %{network} Transaction Trace %{hash}"
+        description: "Check %{network} transaction Decoded data, internal calls flow chart and trace details for transaction %{hash}"
+        keywords: "decode %{network} transaction data, decode input data %{network}, decode %{network} transaction, decode raw transaction, decode eth transaction, decode raw transaction ${network}, decode ${network} transaction input data, decode eth transaction data, ethers js decode transaction data, ethereum decode input data, ${network} transaction trace, ${network} rpc
                  check %{network} confirmations, %{network} transaction confirmation, unconfirmed %{network} transaction"
       operations:
         name: 'Operations'
