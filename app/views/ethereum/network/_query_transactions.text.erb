@@ -1,0 +1,11 @@
+query MyQuery($network: evm_network, $from: String, $till: String) {
+    EVM(network: $network, dataset: combined) {
+        Transactions(where: {Block: {Date: {since: $from, till: $till}}}) {
+          Block {
+            Date
+          }
+          count
+        }
+    }
+}
+

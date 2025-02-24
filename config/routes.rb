@@ -776,6 +776,7 @@ Rails.application.routes.draw do
 
     post "proxy_graphql", to: "proxy_graphql#index", defaults: { format: :json }
     post "proxy_streaming_graphql", to: "proxy_streaming_graphql#index", defaults: { format: :json }
+    post "proxy_eap_graphql", to: "proxy_eap_graphql#index", defaults: { format: :json }
 
     get "proxy_dbcode/:dashbord_url", to: "proxy_dbcode#index", defaults: { format: :json }
 

@@ -1,61 +1,115 @@
-<div class="col-lg-4 mb-4">
-  <div class="card">
-    <div class="card-header">
-      <%= network_icon chain %>
-      <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}" %>
+<% evm_network = ['eth', 'optimism', 'opbnb', 'base', 'arbitrum', 'matic', 'bnb_testnet', 'bnb'] %>
+<% if evm_network.include?(chain[:tag]) %>
+  <div class="col-lg-4 mb-4">
+    <div class='card' >
+      <div class="card-header">
+        <%= network_icon chain %>
+        <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}" %>
+      </div>
+    <div class="card-body" id='Smart-Contracts-By-Date-<%= chain[:tag] %>'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
     </div>
-    <div class="card-body">
-      <div id="<%= chain[:tag] %>"><%= t('loading') %></div>
     </div>
   </div>
-</div>
-
-
+<% else %>
+  <div class="col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <%= network_icon chain %>
+        <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}" %>
+      </div>
+      <div class="card-body">
+        <div id="<%= chain[:tag] %>"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+<% end %>
 <script type="module">
+    const evmNetwork = ['eth', 'optimism', 'opbnb', 'base', 'arbitrum', 'matic', 'bnb_testnet', 'bnb'];
+    const useEapNetworks = ['optimism', 'opbnb','matic']; // Сети, где use_eap должно быть true
 
-    $( document ).ready(function() {
-
-        var query = new widgets.query(`<%= query.html_safe %>`);
-
-        new widgets.chartByTime('#<%= chain[:tag] %>', query, 'chain.transactions', {
-            title: '<%= t('widgets.headers.transactions_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.transactions_count') %>'
+    if (evmNetwork.includes('<%= chain[:tag] %>')) {
+        class SmartContractsByDate extends TimeChartComponent {
+            configuration() {
+                return {
+                    topElement: response => response.EVM.Calls,
+                    chainId: response => response.EVM.Calls[0]?.ChainId,
+                    title: ' ',
+                    id: 'Smart-Contracts-By-Date-<%= chain[:tag] %>',
+                    theme: '<%= @theme %>',
+                    columns: [
+                        { name: 'Date', cell: row => row.Block.Date },
+                        { name: 'Calls Count', cell: row => +row.count }
+                    ],
+                    options: {
+                        height: 200,
+                        theme: 'material',
+                        colors: ['#FFC106'],
+                        legend: { position: "top" }
                     }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#28a745' }
-                },
-                height: 240,
-                chartArea:{left: '20%', right: 0, top: '5%', bottom: '15%'}
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.month') %>', type: 'date' },
-                    path: 'date.month'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number'},
-                    path: 'count'
-                },
+                };
+            }
+        }
 
-            ]
+        const useEap = useEapNetworks.includes('<%= chain[:tag] %>');
+
+        const variables = {
+            network: '<%= chain[:streaming] %>',
+            from: '2025-02-10',
+            till: '2025-02-24',
+        };
+        renderComponent('<%= @streaming_access_token %>', useEap, [
+            [SmartContractsByDate, '#Smart-Contracts-By-Date-<%= chain[:tag] %>']
+        ], 'Smart-Contracts-Activity_1', variables);
+    } else {
+        $(document).ready(function () {
+            const query = new widgets.query(`<%= query.html_safe %>`);
+            new widgets.chartByTime('#<%= chain[:tag] %>', query, 'chain.transactions', {
+                title: '<%= t('widgets.headers.transactions_by_time') %>',
+                chartOptions: {
+                    vAxes: {
+                        '0': {
+                            title: '<%= t('widgets.titles.transactions_count') %>'
+                        }
+                    },
+                    seriesType: 'bars',
+                    series: {
+                        '0': { color: '#28a745' }
+                    },
+                    height: 240,
+                    chartArea: { left: '20%', right: 0, top: '5%', bottom: '15%' }
+                },
+                dataOptions: [
+                    {
+                        title: { label: '<%= t('widgets.titles.month') %>', type: 'date' },
+                        path: 'date.month'
+                    },
+                    {
+                        title: { label: '<%= t('widgets.titles.transactions_count') %>', type: 'number' },
+                        path: 'count'
+                    }
+                ]
+            });
+            query.request({
+                network: '<%= chain[:network] %>',
+                dateFormat: dateRangeReportFormat(),
+                from: null,
+                till: null
+            });
         });
-        query.request({network: '<%= chain[:network] %>', dateFormat: dateRangeReportFormat(),  from: null, till: null});
-    });
+    }
 </script>
 <style>
-  .widgets-set-units{
-    bottom: -6px;
-    font-size: 12px;
-  }
-  .widgets-revert-zoom{
-    bottom: -6px;
-    padding: 0px 2px;
-    font-size: 12px;
-    right: 0;
-  }
+    .widgets-set-units {
+        bottom: -6px;
+        font-size: 12px;
+    }
+    .widgets-revert-zoom {
+        bottom: -6px;
+        padding: 0px 2px;
+        font-size: 12px;
+        right: 0;
+    }
 </style>

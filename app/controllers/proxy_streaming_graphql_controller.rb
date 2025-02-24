@@ -1,4 +1,6 @@
 class ProxyStreamingGraphqlController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def index
     api_key = ENV.fetch('EXPLORER_API_KEY') { nil }
 
