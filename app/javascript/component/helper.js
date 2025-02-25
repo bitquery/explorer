@@ -9,8 +9,8 @@ export function SubscriptionDataSource(token, payload) {
     let variables, cleanSubscription;
     let callbacks = [];
     let widgetFrames = [];
-    this.mempoolShow =
-        !payload.variables.mempool && payload.variables.network !== "arbitrum";
+    console.log('payload',payload.variables)
+    this.mempoolShow =  payload.variables.network === "eth" ;
 
     this.subscribe = () => {
         const currentUrl = payload.endpoint_url.replace(/^http/, "ws");

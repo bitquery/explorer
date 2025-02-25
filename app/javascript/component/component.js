@@ -17,9 +17,9 @@ export default async function renderComponent(token,use_eap, components, history
     const endpoint_url = use_eap.toString() === 'true' ? 'https://streaming.bitquery.io/eap' : 'https://streaming.bitquery.io/graphql';
     if (subscriptionQueryID) {
         subscriptionQueryParams = await getQueryParams(subscriptionQueryID)
-        const {endpoint_url, query, variables: rawVariables} = subscriptionQueryParams
+        const { query, variables: rawVariables} = subscriptionQueryParams
         variables = {...rawVariables, ...explorerVariables};
-        const subscriptionPayload = {query, variables, endpoint_url: endpoint_url || subscriptionQueryParams.endpoint_url}
+        const subscriptionPayload = {query, variables, endpoint_url}
         subscriptionDataSource = new SubscriptionDataSource(token, subscriptionPayload)
     }
     if (historyQueryID) {
@@ -28,7 +28,7 @@ export default async function renderComponent(token,use_eap, components, history
         const historyPayload = {
             variables,
             query: historyQueryParams.query,
-            endpoint_url: endpoint_url || historyQueryParams.endpoint_url
+            endpoint_url
         }
         historyDataSource = new HistoryDataSource(token, historyPayload)
     }
