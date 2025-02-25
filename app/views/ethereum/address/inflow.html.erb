@@ -1,12 +1,247 @@
-
-<%= render partial: "ethereum/address/inbound/inbound_transfers" %>
-
-<div class="row">
-  <%= render partial: "ethereum/address/inbound/inbound_native_by_time" %>
-  <%= render partial: "ethereum/address/inbound/inbound_tokens_by_time" %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='LatestInboundTransfers'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<div class="row">
-  <%= render partial: "ethereum/address/inbound/inbound_native_table" %>
-  <%= render partial: "ethereum/address/inbound/inbound_tokens_table" %>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='InboundTransfersInNativeCurrency'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='InboundTransfersInTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
 </div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TopSendersInNativeCurrency'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TopSendersInTokens'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class LatestInboundTransfers extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `Latest ${tokenName} ${tokenSymbol} Inbound Transfers`
+                },
+                id: 'LatestInboundTransfers',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: row => row.Block.Number,
+                        rendering: renderBlockLink, headerStyle: {width: '110px'},
+                    },
+                    {
+                        name: 'Sender', cell: row => row.Transfer.Sender,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({amount: row.sum, usd: row.sum_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Transaction hash', cell: row => row.Transaction?.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class InboundTransfersInNativeCurrency extends ComboChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native'} received by ${tokenName} ${tokenSymbol} Contract`
+                },
+                id: 'InboundTransfersInNativeCurrency',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Volume', cell: row => +row.sum,
+                    },
+                    {
+                        name: 'Count', cell: row => +row.count
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    vAxis: {
+                        scaleType: 'log',
+                        viewWindow: {
+                            // max: 10000,
+                            min: 0.00001
+                        },
+                    },
+                    tooltip: {
+                        ignoreBounds: true
+                    },
+                    legend: {position: 'top'}
+                }
+            }
+        }
+    }
+
+    class InboundTransfersInTokens extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.token_info[0]?.Transfer.Currency.Name || ''
+                    const tokenSymbol = response.EVM.token_info[0]?.Transfer.Currency.Symbol ? `(${response.EVM.token_info[0]?.Transfer.Currency.Symbol})` : ''
+                    return `${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'Native'} received by ${tokenName} ${tokenSymbol} Contract`
+                },
+                id: 'InboundTransfersInTokens',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Receive count', cell: row => +row.count,
+                    }
+                ],
+                options: {
+                    height: 300,
+                    theme: 'material',
+                    vAxis: {
+                        scaleType: 'log',
+                        viewWindow: {
+                            // max: 10000,
+                            min: 0.00001
+                        },
+                    },
+                    tooltip: {
+                        ignoreBounds: true
+                    },
+                    legend: {position: 'top'}
+                }
+            }
+        }
+    }
+
+    class TopSendersInNativeCurrency extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Top Senders in ${WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) ? WidgetConfig.getCurrency(response.EVM.Transfers[0]?.ChainId) : 'native'} currency`,
+                id: 'TopSendersInNativeCurrency',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Sender', cell: row => row.Transfer.Sender,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Latest Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class TopSendersInTokens extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: () => 'Top Senders in tokens',
+                id: 'TopSendersInTokens',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Sender', cell: row => row.Transfer.Sender,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Currency', cell: row => ({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '79px'},
+                    },
+                    {
+                        name: 'Latest Date', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Transaction hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '136px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address %>',
+        till: new Date().toISOString().slice(0, 10),
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
+    }
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_5', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopSendersInNativeCurrency, '#TopSendersInNativeCurrency']], 'Top-Senders-in-native-currency_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopSendersInTokens, '#TopSendersInTokens']], 'Top-Senders-in-tokens_4', variables);
+    })
+
+</script>

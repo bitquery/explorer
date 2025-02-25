@@ -20,26 +20,36 @@ export default class TimeChartComponent {
 			await this.getTitle(data)
 		}
 		if(this.config.topElement(data).length===0){
-			this.container.textContent = 'No Data. Response is empty'
+			this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.'
 			return
 		}
 		const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
 		const darkTheme = {
-			titleTextStyle: { color: parentTextColor },
-			backgroundColor:  'transparent',
+			fontName: 'Nunito',
+			titleTextStyle: { color: parentTextColor, fontSize: 14, fontName: 'Nunito' },
+			backgroundColor: 'transparent',
 			hAxis: {
-				textStyle : { color: parentTextColor },
-				titleTextStyle: { color: parentTextColor },
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+				titleTextStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
 			},
 			vAxis: {
-				textStyle : { color: parentTextColor },
-				titleTextStyle: { color: parentTextColor },
-				...(this.config.options.vAxis && this.config.options.vAxis.minValue !== undefined && { minValue: this.config.options.vAxis.minValue })
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+				titleTextStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
 			},
 			legend: {
-				textStyle: { color: parentTextColor }
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+			},
+			annotations: {
+				textStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
+			},
+			series: {
+				0: { annotations: { textStyle: { color: parentTextColor } } },
+				1: { annotations: { textStyle: { color: parentTextColor } } },
+				2: { annotations: { textStyle: { color: parentTextColor } } },
 			},
 		};
+
+
 		this.config.options = {...darkTheme,...this.config.options}
 
 		const drawChart = () => {
@@ -89,12 +99,21 @@ export default class TimeChartComponent {
 	}
 	async getTitle(data) {
 		if (this.config && this.config.title && this.config.id) {
-
-			const divTitle = document.querySelector(`.\\#${this.config.id}`)
+			const divTitle = document.querySelector(`.\\#${this.config.id}`);
 			if (divTitle) {
-				const textNode = document.createTextNode(this.config.title(data))
-				divTitle.textContent = ''
-				divTitle.appendChild(textNode)
+				divTitle.innerHTML = '';
+
+				let titleContent = this.config.title;
+
+				if (typeof titleContent === 'function') {
+					titleContent = titleContent(data);
+				}
+
+				if (/<[^>]+>/g.test(titleContent)) {
+					divTitle.innerHTML = titleContent;
+				} else {
+					divTitle.textContent = titleContent;
+				}
 			}
 		}
 	}

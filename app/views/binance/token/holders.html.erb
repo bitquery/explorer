@@ -209,7 +209,7 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[HoldersCount, '#HoldersCount'], [GiniIndex, '#GiniIndex'], [NakamotoIndex, '#NakamotoIndex'], [SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_8', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[HoldersCount, '#HoldersCount'], [GiniIndex, '#GiniIndex'], [NakamotoIndex, '#NakamotoIndex'], [SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_8', variables);
     })
-    renderComponent('<%=@streaming_access_token %>', [[TopHolders, '#TopHolders']], 'Top-holders_6', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopHolders, '#TopHolders']], 'Top-holders_6', variables);
 </script>

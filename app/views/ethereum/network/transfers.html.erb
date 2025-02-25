@@ -1,1 +1,80 @@
-<%= render partial: 'ethereum/network/transfers/transfers_table' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='LatestTransfers' class='card'></div>
+  </div>
+</div>
+
+<script type="module">
+    class LatestTransfers extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transfers,
+                chainId: response => response.EVM.Transfers[0]?.ChainId,
+                title: response => `Latest Token Transfers on  ${WidgetConfig.getName(response.EVM.Transfers[0]?.ChainId) || 'network'}`,
+                id:'LatestTransfers',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Timestamp', cell: row =>row.Block.Time,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Block', cell: row =>row.Block.Number,
+                        rendering: renderBlockLink,headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Sender', cell: row =>row.Transfer.Receiver,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: '', cell: row =>'', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Receiver', cell: row =>row.Transfer.Sender,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({
+                            amount: row.Transfer.Amount,
+                            usd: row.Transfer.AmountInUSD
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end' },
+                    },
+                    {
+                        name: 'Currency', cell: row =>({
+                            currency: row.Transfer.Currency.Symbol,
+                            smartContract: row.Transfer.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink,headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Id', cell: row =>({id: row.Transfer.Id, address: row.Transfer.Currency.SmartContract}),
+                        rendering: renderIdLink,headerStyle: {width: '70px'},
+                    },
+                    {
+                        name: 'Hash', cell: row =>row.Transaction.Hash,
+                        rendering: renderTX,headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Status',
+                        cell: row => row.Transfer.Success ? 'Success' : 'Failed',
+                        headerStyle: { width: '80px' },
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+    }
+
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[LatestTransfers, '#LatestTransfers']], 'Latest-Transfers_7', variables, 'Subscription-Latest-Transfers_4');
+    });
+</script>

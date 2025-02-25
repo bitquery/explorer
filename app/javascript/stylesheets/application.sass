@@ -31,7 +31,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts'
 
 a
   text-decoration: none
-  
+
 svg[visibility="hidden"]
   position: absolute
   width: 0
@@ -74,28 +74,28 @@ svg[visibility="hidden"]
   width: 5px
   height: 5px
   border-radius: 50%
+//
+//.blink
+//  animation: blinker 1s linear infinite
 
-.blink
-  animation: blinker 1s linear infinite
-
-@keyframes blink
-  50%
-    opacity: 0
-
-.blinker
-  position: absolute
-  right: 58px
-  top: 15px
-  border-radius: 50%
-  transform: translateY(-50%)
-  width: 5px
-  height: 5px
-  background-color: green
-  animation: blinker 1s linear infinite
-
-@keyframes blinker
-  50%
-    opacity: 0
+//@keyframes blink
+//  50%
+//    opacity: 0
+//
+//.blinker
+//  position: absolute
+//  right: 58px
+//  top: 15px
+//  border-radius: 50%
+//  transform: translateY(-50%)
+//  width: 5px
+//  height: 5px
+//  background-color: green
+//  animation: blinker 1s linear infinite
+//
+//@keyframes blinker
+//  50%
+//    opacity: 0
 
 #greenButton
   background-color: #1c87c9
@@ -149,7 +149,7 @@ svg[visibility="hidden"]
   width: 120px
   height: 120px
   position: absolute
-  top: 50%
+  top: 33%
 
   &:after
     content: " "
@@ -327,11 +327,33 @@ $borderStyle: 2.5px dotted $colorGray
   display: none
 
 .button-pressed
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5)
-  filter: brightness(85%)
+  filter: saturate(0.4)
+  transition: all 0.2s ease
+  pointer-events: none
+  cursor: default
+  &:hover
+    box-shadow: none
+    transform: scale(1)
+    background-color: #7b4cff
+
+
+.bg-custom-purple
+  background-color: #7b4cff !important
+  color: white !important
+  border-color: #7b4cff !important
+  &:hover
+    background-color: #6538e6 !important
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1)
 
 .button-transition
-  transition: filter 0.3s ease
+  transition: all 0.3s ease
+  &:hover
+    transform: scale(1.05)
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2)
+
+
+
+
 
 @keyframes fadeIn
   from
@@ -345,4 +367,6 @@ $borderStyle: 2.5px dotted $colorGray
 .tr-animate
   animation: fadeIn 0.3s ease
 
-
+// Do not remove! Temporary fix for link colors, needs proper refactoring later.
+a
+  color: #4A69BD!important

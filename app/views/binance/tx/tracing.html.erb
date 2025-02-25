@@ -103,6 +103,6 @@
         network: '<%= @streaming%>',
         hash: '<%= @hash%>',
     };
-    renderComponent('<%=@streaming_access_token %>',[[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash'], [GraphTX, '#GraphTX']], 'Internal-Calls-Flow', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[EventsAndCallsByTXHash, '#EventsAndCallsByTXHash'], [GraphTX, '#GraphTX']], 'Internal-Calls-Flow', variables);
 
 </script>

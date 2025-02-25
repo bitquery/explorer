@@ -20,7 +20,7 @@ ADS = {
       {
         text: 'Looking for Investigators?',
         url: 'https://bitquery.io/products/crypto-investigation-services?utm_source=explorer&utm_medium=website&utm_content=navigation_button',
-        bgcolor: '#0570f2',
+        # bgcolor: '#0570f2',
         path_matches: '/graph.*|\/tx.*|\/address.*'
       },
       {

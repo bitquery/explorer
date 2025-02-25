@@ -68,6 +68,8 @@ import renderEventLink from "../component/rendering/renderEventLink";
 import renderBytes32 from "../component/rendering/renderBytes32";
 import renderNumberWithUSD from "../component/rendering/renderNumberWithUSD";
 import ComboChartComponent from "../component/componentDescription/ComboChartComponent";
+import renderProgressBar from "../component/rendering/renderProgressBar";
+import renderStatus from "../component/rendering/renderStatus";
 
 const TradingView = require("packs/charting_library/charting_library");
 
@@ -99,12 +101,14 @@ global.renderJustAddressLink = renderJustAddressLink;
 global.renderSenderRecieverIcon = renderSenderRecieverIcon;
 global.renderPairLink = renderPairLink;
 global.renderNumbers = renderNumbers;
-global.renderNumbersWithCurrency = renderNumbersWithCurrency;
+global.renderNumbersWithCurrency = renderNumbersWithCurrency
 global.renderNumbersWithCurrencySymbol = renderNumbersWithCurrencySymbol;
 global.renderMethodLink = renderMethodLink;
 global.renderEventLink = renderEventLink;
 global.renderBytes32 = renderBytes32;
 global.renderNumberWithUSD = renderNumberWithUSD;
+global.renderProgressBar = renderProgressBar;
+global.renderStatus = renderStatus;
 
 global.widgetRenderer = {
   "vega.bar": barWidgetRenderer,
@@ -132,6 +136,7 @@ global.escapeHtml = function (unsafe) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
 };
 
 $("document").ready(function () {

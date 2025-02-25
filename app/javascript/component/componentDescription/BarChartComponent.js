@@ -20,7 +20,7 @@ export default class BarChartComponent {
 			await this.getTitle(data)
 		}
 		if (this.config.topElement(data).length === 0) {
-			this.container.textContent='No Data. Response is empty'
+			this.container.textContent='No records found for this period. To get more data, please try selecting another date range.'
 			return
 		}
 		const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
@@ -36,6 +36,7 @@ export default class BarChartComponent {
 				titleTextStyle: { color: parentTextColor }
 			},
 			legend: {
+				position: 'top',
 				textStyle: { color: parentTextColor }
 			},
 		};

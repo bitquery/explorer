@@ -1,12 +1,14 @@
 require 'graphql/client'
 require 'graphql/client/http'
+
 module Graphql
   class V2
     ATTEMPTS = 2
 
-    def self.query_with_retry(query, variables: {}, context: {})
-      url = URI(BITQUERY_STREAMING_GRAPHQL)
+    def self.query_with_retry(query, variables: {}, context: {}, use_eap: false)
+      uri = use_eap ? BITQUERY_EAP_GRAPHQL : BITQUERY_STREAMING_GRAPHQL
 
+      url = URI(uri)
       https = Net::HTTP.new(url.host, url.port)
       https.use_ssl = true if url.instance_of? URI::HTTPS
 
@@ -19,22 +21,17 @@ module Graphql
         query:,
         variables:
       }
-
       request.body = body.to_json
-      attempt = 1
 
-      ::BitqueryLogger.extra_context(query:,
-                                     variables:,
-                                     context:,
-                                     attempt:)
+      attempt = 1
+      ::BitqueryLogger.extra_context(query:, variables:, context:, attempt:)
 
       begin
         response = https.request(request)
         resp = JSON.parse(response.read_body, object_class: OpenStruct)
-        BitqueryLogger.extra_context errors: resp.errors&.map(&:message)
+        BitqueryLogger.extra_context(errors: resp.errors&.map(&:message))
       rescue Net::ReadTimeout
         raise 'All attempts failed' if attempt >= ATTEMPTS
-
         sleep(1)
         attempt += 1
         retry

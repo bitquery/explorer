@@ -1,1 +1,79 @@
-<%= render partial: 'ethereum/block/calls_table' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='CallsSmartContracts'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class CallsSmartContracts extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => `Calls Smart Contracts on the ${WidgetConfig.getName(response.EVM.Calls[0]?.ChainId) || 'network'}`,
+                id: 'CallsSmartContracts',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Smart Contract', cell: row => row.Call.To,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Method',
+                        cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
+                        rendering: renderMethodLink
+                    },
+                    {
+                        name: 'Gas used', cell: row => row.Call.GasUsed,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Gas Usage (%)',
+                        cell: row => {
+                            const gas = Number(row.Call.Gas);
+                            const gasUsed = Number(row.Call.GasUsed);
+                            return gas > 0 ? ((gasUsed / gas) * 100).toFixed(1) + '%' : 'N/A';
+                        },
+                        // rendering: renderProgressBar,
+                    },
+                    {
+                        name: 'Gas', cell: row => row.Call.Gas,
+                        rendering: renderNumbersWithCurrency, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Value', cell: row => ({amount: row.Call.Value, usd: row.Call.ValueInUSD}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Depth', cell: row => row.Call.Depth,
+                        rendering: renderNumbers,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Hash', cell: row => row.Transaction.Hash,
+                        rendering: renderTX, headerStyle: {width: '110px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        height: '<%= @height%>',
+        from: '<%= @block_timestamp %>',
+        till: '<%= @block_timestamp %>',
+    }
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[CallsSmartContracts, '#CallsSmartContracts']], 'Calls-smart-contracts_9', variables);
+</script>

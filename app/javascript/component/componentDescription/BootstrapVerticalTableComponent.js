@@ -6,6 +6,9 @@ export default class BootstrapVerticalTableComponent {
         this.subscriptionDataSource = subscriptionDataSource
         this.createWrapper();
         this.createTable();
+        if (this.config.theme) {
+            this.setTheme(this.config.theme);
+        }
     }
 
     createWrapper() {
@@ -56,48 +59,81 @@ export default class BootstrapVerticalTableComponent {
     async onHistoryData(data, variables) {
         try {
             if (this.config.title && data) {
-                await this.getTitle(data)
+                await this.getTitle(data);
             }
-            if(this.config.topElement(data).length===0){
-                this.container.textContent = 'No Data. Response is empty'
-                return
-            }
+
             const array = this.config.topElement(data);
-            const chainId = this.config.chainId(data)
+            if (array.length === 0) {
+                this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.';
+                return;
+            }
+            const chainId = this.config.chainId(data);
+
+
+            const aggregatedRows = new Map();
+
             for (const rowData of array) {
                 for (const column of this.config.columns) {
-                    if (column.cell(rowData) === undefined) {
-                        continue
-                    }
-                    const tr = this.createElementWithClasses('tr');
-                    const td1 = this.createElementWithClasses('td');
-                    const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
-                    textCell1.textContent = column.name;
-                    this.appendChildren(td1, textCell1);
-
-                    const td2 = this.createElementWithClasses('td');
-                    const textCell2 = this.createElementWithClasses('span');
-                    textCell2.textContent = column.cell(rowData);
-                    this.appendChildren(td2, textCell2);
-
-                    if (column.rendering) {
-                        const div = await column.rendering(column.cell(rowData), variables, chainId);
-                        td2.replaceChild(div, textCell2);
-                    }
-                    if (column.cellStyle) {
-                        const cellStyle = column.cellStyle;
-                        for (let styleKey in cellStyle) {
-                            td2.style[styleKey] = cellStyle[styleKey];
+                    try {
+                        const cellValue = column.cell(rowData);
+                        if (cellValue !== undefined) {
+                            if (!aggregatedRows.has(column.name)) {
+                                aggregatedRows.set(column.name, { column, values: [] });
+                            }
+                            aggregatedRows.get(column.name).values.push(cellValue);
                         }
+                    } catch (error) {
+                        console.error(`Error processing column "${column.name}":`, error);
                     }
-                    this.appendChildren(tr, td1, td2);
-                    this.appendChildren(this.tbody, tr);
+                }
+            }
 
+
+            for (const column of this.config.columns) {
+
+                if (!aggregatedRows.has(column.name)) continue;
+
+                const { values } = aggregatedRows.get(column.name);
+                let finalValue = values.length > 1
+                    ? this.resolveMultipleValues(values, column)
+                    : values[0];
+
+                const tr = this.createElementWithClasses('tr');
+
+                const td1 = this.createElementWithClasses('td');
+                const textCell1 = this.createElementWithClasses('span', 'text-info', 'font-weight-bold');
+                textCell1.textContent = column.name;
+                this.appendChildren(td1, textCell1);
+
+                const td2 = this.createElementWithClasses('td');
+                if (column.rendering) {
+                    const div = await column.rendering(finalValue, variables, chainId);
+                    this.appendChildren(td2, div);
+                } else {
+                    const textCell2 = this.createElementWithClasses('span');
+                    textCell2.textContent = finalValue;
+                    this.appendChildren(td2, textCell2);
                 }
 
+                if (column.cellStyle) {
+                    for (let styleKey in column.cellStyle) {
+                        td2.style[styleKey] = column.cellStyle[styleKey];
+                    }
+                }
+
+                this.appendChildren(tr, td1, td2);
+                this.appendChildren(this.tbody, tr);
             }
         } catch (error) {
             this.displayError(`Error processing data: ${error.message}`);
+        }
+    }
+
+    resolveMultipleValues(values, column) {
+        if (column.aggregate) {
+            return column.aggregate(values);
+        } else {
+            return values[values.length - 1];
         }
     }
 
@@ -139,7 +175,13 @@ export default class BootstrapVerticalTableComponent {
             this.displayError(`Error processing data: ${error.message}`)
         }
     }
-
+    setTheme(theme) {
+        if (theme === 'dark') {
+            this.tableElement.classList.add('table-dark');
+        } else {
+            this.tableElement.classList.remove('table-dark');
+        }
+    }
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
 

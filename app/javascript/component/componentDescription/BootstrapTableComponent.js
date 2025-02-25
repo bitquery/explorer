@@ -7,6 +7,10 @@ export default class BootstrapTableComponent {
         this.createWrapper()
         this.createTable()
         this.theadCreated = false
+        if (this.config.theme) {
+            this.setTheme(this.config.theme);
+        }
+
     }
 
     clearData() {
@@ -20,6 +24,7 @@ export default class BootstrapTableComponent {
 
     createTable() {
         this.tableElement = this.createElementWithClasses('table',  'table','table-sm', 'table-striped', 'table-hover');
+        this.tableElement.style.fontSize = '0.9rem';
         this.tableElement.style.tableLayout = (this.config && this.config.options && this.config.options.tableLayout) || 'fixed';
         this.wrapper.appendChild(this.tableElement)
 
@@ -39,6 +44,9 @@ export default class BootstrapTableComponent {
         for (const {name, headerStyle} of this.config.columns) {
             const th = this.createElementWithClasses('th')
             th.setAttribute('scope', 'col')
+            th.style.padding = '0.3rem 0.5rem'
+            // th.style.whiteSpace = 'nowrap'
+            th.style.fontWeight = 'bold'
 
             if (typeof name === 'function') {
                 th.textContent = await name(data)
@@ -77,7 +85,7 @@ export default class BootstrapTableComponent {
             await this.getTitle(data)
         }
         if (this.config.topElement(data).length === 0) {
-            this.container.textContent = 'No Data. Response is empty'
+            this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.'
             return;
         }
         await this.createThead(data)
@@ -112,42 +120,57 @@ export default class BootstrapTableComponent {
     }
 
     async composeRows(rowData, variables) {
-        const data = this.config.topElement(rowData)
-        const rows = []
-        if (data) {
-            let chainId = ''
-            if (data.length > 0) {
-                chainId = this.config.chainId(rowData)
-            }
-            for (const row of data) {
-                const tr = this.createElementWithClasses('tr')
-                for (const column of this.config.columns) {
-                    const td = this.createElementWithClasses('td', 'text-truncate');
-                    td.style.borderTop = 'none'
-                    const textCell = this.createElementWithClasses('span');
-                    textCell.textContent = column.cell(row)
-                    textCell.setAttribute('title', column.cell(row))
-                    if (textCell.textContent === 'true') {
-                        textCell.style.color = '#2EA848'
-                    }
-                    td.appendChild(textCell)
+        const data = this.config.topElement(rowData);
 
-                    if (column.rendering) {
-                        const div = await column.rendering(column.cell(row), variables, chainId)
-                        td.replaceChild(div, textCell)
-                    }
-                    if (column.cellStyle) {
-                        Object.assign(td.style, column.cellStyle)
-                    }
+        if (!data || data.length === 0) return [];
 
-                    tr.appendChild(td);
+        const chainId = data.length > 0 ? this.config.chainId(rowData) : '';
+
+        const rows = await Promise.all(data.map(async (row) => {
+            const tr = this.createElementWithClasses('tr');
+
+            for (const column of this.config.columns) {
+                const td = this.createElementWithClasses('td', 'text-truncate');
+                td.style.borderTop = 'none'
+                td.style.padding = '0.3rem 0.5rem'
+                td.style.fontSize = '0.9rem'
+
+                const textCell = this.createElementWithClasses('span');
+                const cellValue = column.cell(row);
+
+                textCell.textContent = cellValue;
+                textCell.setAttribute('title', cellValue);
+
+                if (cellValue === 'true' || cellValue === 'Success') {
+                    textCell.style.color = '#2EA848';
                 }
-                    rows.push(tr)
-            }
-        }
-        return rows
-    }
 
+                td.appendChild(textCell);
+
+                if (column.rendering) {
+                    const div = await column.rendering(cellValue, variables, chainId);
+                    td.replaceChild(div, textCell);
+                }
+
+                if (column.cellStyle) {
+                    Object.assign(td.style, column.cellStyle);
+                }
+
+                tr.appendChild(td);
+            }
+
+            return tr;
+        }));
+
+        return rows;
+    }
+    setTheme(theme) {
+        if (theme === 'dark') {
+            this.tableElement.classList.add('table-dark');
+        } else {
+            this.tableElement.classList.remove('table-dark');
+        }
+    }
     async getTitle(data) {
         if (this.config && this.config.title && this.config.id) {
             const divTitle = document.querySelector(`.\\#${this.config.id}`)

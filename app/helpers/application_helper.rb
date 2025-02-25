@@ -117,7 +117,8 @@ module ApplicationHelper
                     .gsub("{blockchain_slug}", blockchain_slug)
                     .gsub("{token_address}", token_address)
 
-          ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
+          # ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
+          ad_text = ad[:text].gsub("{token_symbol}", token_info&.symbol.to_s)
 
           selected_ad = { text: ad_text, url: ad_url, bgcolor: ad[:bgcolor], ad_name: 'dexrabbit' }
           break 

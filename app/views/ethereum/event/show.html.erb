@@ -1,1 +1,107 @@
-<%= render partial: 'shared/not_implemented' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='EventInformation'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='EventStatistic'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class EventInformation extends BootstrapVerticalTableComponent {
+        configuration() {
+            return {
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
+                id:'EventInformation',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Method Name', cell: row=> row.Log.Signature.Name
+                    },
+                    {
+                        name: 'Method signature', cell: row=> row.Log.Signature.Signature
+                    },
+                    {
+                        name: 'Signature Hash', cell: row=> row.Log.Signature.SignatureHash
+                    },
+                    {
+                        name: 'Unique Senders', cell: row=> row.uniq_senders
+                    },
+                    {
+                        name: 'Unique Receivers', cell: row=> row.uniq_reciver
+                    },
+                    {
+                        name: 'Unique Callers', cell: row=> row.call_from
+                    },
+                    {
+                        name: 'Unique Called Contracts', cell: row=> row.call_to
+                    },
+                    {
+                        name: 'Smart Contracts Count', cell: row=> row.smart_contracts
+                    },
+
+                ]
+            }
+        }
+    }
+
+    class EventStatistic extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response=> response.EVM.Events,
+                chainId: response=> response.EVM.Events[0]?.ChainId,
+                title:()=>'Event Statistic by Date',
+                id:'EventStatistic',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell: row=> row.Block.Date,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Uniq Transaction Sender', cell: row=> row.transaction_from,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Uniq Transaction Receiver', cell: row=> row.transaction_to,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Unique Callers', cell: row=> row.call_from,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Unique Called Contracts', cell: row=> row.call_to,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Smart Contract Cout', cell: row=> row.smart_contract,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        method: '<%= @signature%>',
+    }
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[EventStatistic, '#EventStatistic']], 'Event-statistic-by-date_4', variables);
+    })
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[EventInformation, '#EventInformation']], 'Event-Information_5', variables);
+</script>

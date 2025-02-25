@@ -1,1 +1,100 @@
-<%= render partial: 'ethereum/block/transactions_table' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div class='card' id='Transactions'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class Transactions extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Transactions,
+                chainId: response => response.EVM.Transactions[0]?.ChainId,
+                title: response => `Transactions on the ${WidgetConfig.getName(response.EVM.Transactions[0]?.ChainId) || 'network'}`,
+                id: 'Transactions',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Index in Block',
+                        cell: row => row.Transaction.Index,
+                    },
+                    {
+                        name: 'Sender',
+                        cell: row => row.Transaction.From,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Recipient',
+                        cell: row => row.Transaction.To,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Value',
+                        cell: row => ({
+                            amount: row.Transaction.Value,
+                            usd: row.Transaction.ValueInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Cost',
+                        cell: row => ({
+                            amount: row.Transaction.Cost,
+                            usd: row.Transaction.CostInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Gas Price (gwei)',
+                        cell: row => ({
+                            amount: row.Transaction.GasPrice * 1e9,
+                            usd: row.Transaction.GasPriceInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Sender Fee',
+                        cell: row => ({
+                            amount: row.Fee.SenderFee,
+                            usd: row.Fee.SenderFeeInUSD,
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Fee Burnt (gwei)',
+                        cell: row => ({amount:row.Fee.Burnt * 1e9, usd: row.Fee.BurntInUSD}),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Hash',
+                        cell: row => row.Transaction.Hash,
+                        rendering: renderTX,
+                    },
+                    {
+                        name: 'Status',
+                        cell: row => (row.TransactionStatus.Success ? 'Success' : 'Failed'),
+                        rendering: renderStatus,
+                        headerStyle: {textAlign: 'end'},
+
+                    },
+                ],
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        height: '<%= @height%>',
+        from: '<%= @block_timestamp %>',
+        till: '<%= @block_timestamp %>',
+    }
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[Transactions, '#Transactions']], 'Transactions0_4', variables);
+</script>

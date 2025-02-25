@@ -1,61 +1,120 @@
-<div class="col-lg-4 mb-4">
-  <div class="card">
-    <div class="card-header">
-      <%= network_icon chain %>
-      <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}" %>
-    </div>
-    <div class="card-body">
-      <div id="<%= chain[:tag] %>"><%= t('loading') %></div>
+<% evm_network = ['eth', 'optimism', 'opbnb', 'base', 'arbitrum', 'matic', 'bnb_testnet', 'bnb'] %>
+<% if evm_network.include?(chain[:tag]) %>
+  <div class="col-lg-4 mb-4">
+    <div class="card" id='Smart-Contracts-By-Date-<%= chain[:tag] %>'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
     </div>
   </div>
-</div>
-
-
+<% else %>
+  <div class="col-lg-4 mb-4">
+    <div class="card">
+      <div class="card-header">
+        <%= network_icon chain %>
+        <%= link_to t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}" %>
+      </div>
+      <div class="card-body">
+        <div id="<%= chain[:tag] %>"><%= t('loading') %></div>
+      </div>
+    </div>
+  </div>
+<% end %>
 <script type="module">
+    const evmNetwork = ['eth', 'optimism', 'opbnb', 'base', 'arbitrum', 'matic', 'bnb_testnet', 'bnb'];
+    const useEapNetworks = ['optimism', 'opbnb', 'matic'];
 
-    $( document ).ready(function() {
-
-        var query = new widgets.query(`<%= query.html_safe %>`);
-
-        new widgets.chartByTime('#<%= chain[:tag] %>', query, 'chain.transactions', {
-            title: '<%= t('widgets.headers.transactions_by_time') %>',
-            chartOptions: {
-                vAxes: {
-                    '0': {
-                        title: '<%= t('widgets.titles.transactions_count') %>'
+    if (evmNetwork.includes('<%= chain[:tag] %>')) {
+        class SmartContractsByDate extends TimeChartComponent {
+            configuration() {
+                return {
+                    topElement: response => response.EVM.Transactions,
+                    chainId: response => response.EVM.Transactions[0]?.ChainId,
+                    title: () => (
+                        `<div>${"<%= escape_javascript(network_icon(chain)) %>"}
+                 <%= escape_javascript(link_to(t('pages.home.blockchain', network: chain[:name]), "/#{chain[:network]}")) %></div>`
+                    ),
+                    id: 'Smart-Contracts-By-Date-<%= chain[:tag] %>',
+                    theme: '<%= @theme %>',
+                    columns: [
+                        {name: 'Date', cell: row => row.Block.Date},
+                        {name: 'Transaction Count', cell: row => +row.count}
+                    ],
+                    options: {
+                        height: 230,
+                        hAxis:{
+                            format:'dd MMM'
+                        },
+                        theme: 'material',
+                        colors: ['#66BB6A'],
+                        legend: {position: "top"} ,
                     }
-                },
-                seriesType: 'bars',
-                series: {
-                    '0': { color: '#28a745' }
-                },
-                height: 240,
-                chartArea:{left: '20%', right: 0, top: '5%', bottom: '15%'}
-            },
-            dataOptions: [
-                {
-                    title: {label: '<%= t('widgets.titles.month') %>', type: 'date' },
-                    path: 'date.month'
-                },
-                {
-                    title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number'},
-                    path: 'count'
-                },
+                };
+            }
+        }
 
-            ]
+        const useEap = useEapNetworks.includes('<%= chain[:tag] %>');
+
+        const formatDate = (d) => `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
+        const today = new Date();
+        const tenDaysAgo = new Date(today.setDate(today.getDate() - 30));
+
+        const variables = {
+            network: '<%= chain[:streaming] %>',
+            from: formatDate(tenDaysAgo),
+            till: formatDate(new Date()),
+        };
+        renderComponent('<%= @streaming_access_token %>', useEap, [
+            [SmartContractsByDate, '#Smart-Contracts-By-Date-<%= chain[:tag] %>']
+        ], 'transaction-count_1', variables);
+    } else {
+        $(document).ready(function () {
+            const query = new widgets.query(`<%= query.html_safe %>`);
+            new widgets.chartByTime('#<%= chain[:tag] %>', query, 'chain.transactions', {
+                title: '<%= t('widgets.headers.transactions_by_time') %>',
+                chartOptions: {
+                    vAxes: {
+                        '0': {
+                            title: '<%= t('widgets.titles.transactions_count') %>'
+                        }
+                    },
+                    seriesType: 'bars',
+                    series: {
+                        '0': {color: '#28a745'}
+                    },
+                    height: 240,
+                    chartArea: {left: '20%', right: 0, top: '5%', bottom: '15%'}
+                },
+                dataOptions: [
+                    {
+                        title: {label: '<%= t('widgets.titles.month') %>', type: 'date'},
+                        path: 'date.month'
+                    },
+                    {
+                        title: {label: '<%= t('widgets.titles.transactions_count') %>', type: 'number'},
+                        path: 'count'
+                    }
+                ]
+            });
+            query.request({
+                network: '<%= chain[:network] %>',
+                dateFormat: dateRangeReportFormat(),
+                from: null,
+                till: null
+            });
         });
-        query.request({network: '<%= chain[:network] %>', dateFormat: dateRangeReportFormat(),  from: null, till: null});
-    });
+    }
 </script>
 <style>
-  .widgets-set-units{
-    bottom: -6px;
-    font-size: 12px;
-  }
-  .widgets-revert-zoom{
-    bottom: -6px;
-    padding: 0px 2px;
-    font-size: 12px;
-    right: 0;
-  }
+    .widgets-set-units {
+        bottom: -6px;
+        font-size: 12px;
+    }
+
+    .widgets-revert-zoom {
+        bottom: -6px;
+        padding: 0px 2px;
+        font-size: 12px;
+        right: 0;
+    }
 </style>

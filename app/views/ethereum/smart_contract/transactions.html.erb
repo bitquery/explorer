@@ -1,6 +1,174 @@
-<%= render partial: 'ethereum/smart_contract/transactions' %>
-
-<div class="row">
-  <%= render partial: 'ethereum/smart_contract/top_callers' %>
-  <%= render partial: 'ethereum/smart_contract/top_gas_burners' %>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='LatestTransactions' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
 </div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TopSmartContractCaller'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TopGasBurnerForSmartContract'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class LatestTransactions extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => [...response.EVM.Calls],
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                id: 'LatestTransactions',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || 'Token';
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol
+                        ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})`
+                        : '';
+                    return `Recent ${tokenName} ${tokenSymbol} Transactions`;
+                },
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date',
+                        cell: row => row.Block?.Time,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Block',
+                        cell: row => row.Block?.Number,
+                        rendering: renderBlockLink,
+                    },
+                    {
+                        name: 'TX Hash',
+                        cell: row => row.Transaction?.Hash,
+                        rendering: renderTX,
+                    },
+                    {
+                        name: 'From',
+                        cell: row => row.Call?.From,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Method',
+                        cell: row => ({
+                            method: row.Call?.Signature.Name,
+                            hash: row.Call?.Signature.SignatureHash,
+                            value: row.Call?.Value
+                        }),
+                        rendering: renderMethodLink,
+                    },
+                    {
+                        name: 'Amount',
+                        cell: row => ({
+                            amount: row.Call?.Value,
+                            usd: row.Call?.ValueInUSD
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end' },
+                    },
+                    {
+                        name: 'Gas Fee',
+                        cell: row => ({
+                            amount: row.sum,
+                            usd: row.sum_usd
+                        }),
+                        rendering: renderNumberWithUSD,
+                        headerStyle: { textAlign: 'end' },
+                    },
+                ]
+            }
+        }
+    }
+
+    class TopSmartContractCaller extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
+                id: 'TopSmartContractCaller',
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Top ${tokenName} ${tokenSymbol} Smart Contract Caller`
+                },
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
+                    },
+                    {
+                        name: 'Latest Date', cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Gas Cost',
+                        cell: row =>({amount:row.average, usd: row.average_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Calls Count', cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class TopGasBurnerForSmartContract extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0]?.ChainId,
+                title: response => {
+                    const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
+                    return `Top Gas burner for ${tokenName} ${tokenSymbol} Smart Contract`
+                },
+                id: 'TopGasBurnerForSmartContract',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Caller', cell: row => row.Call.From,
+                        rendering: renderJustAddressLink, headerStyle: {width: '44%'},
+                    },
+                    {
+                        name: 'Latest Date', cell: row => row.Block.Date
+                    },
+                    {
+                        name: 'Gas Burnt', cell: row =>({amount:row.average, usd: row.average_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Calls Count', cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address%>',
+    }
+
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestTransactions, '#LatestTransactions']], 'Latest-Transactions_10_1', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopSmartContractCaller, '#TopSmartContractCaller']], 'Top-Smart-Contract-Caller_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopGasBurnerForSmartContract, '#TopGasBurnerForSmartContract']], 'Top-Gas-burner-for-Smart-Contract_3', variables);
+    })
+</script>

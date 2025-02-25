@@ -1,0 +1,142 @@
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='DEXTradeStatistics' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='DEXProtocolNFTTokenTradesByDate'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='DEXSmartContracts'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+    class DEXTradeStatistics extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: response => `Top DEX Trades on ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                id: 'DEXTradeStatistics',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Trades',
+                        cell: row => row.trades,
+                    },
+                    {
+                        name: 'Unique Pairs',
+                        cell: row => row.uniq_pairs,
+                    },
+                    {
+                        name: 'Unique Sellers',
+                        cell: row => row.uniq_sellers,
+                    },
+                    {
+                        name: 'Unique Buyers',
+                        cell: row => row.uniq_buyers,
+                    },
+                    {
+                        name: 'Total Sell Volume',
+                        cell: row => ({amount:row.sum_sell, usd:row.sum_sell_usd}),
+                        rendering:renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Total Buy Volume',
+                        cell: row => ({amount:row.sum_buy, usd:row.sum_buy_usd}),
+                        rendering:renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Average Trade Size',
+                        cell: row => ({amount:row.avg_trade_size, usd:row.avg_trade_size_usd}),
+                        rendering:renderNumberWithUSD,
+                        headerStyle: {textAlign: 'end'},
+                    },
+
+                ]
+            }
+        }
+    }
+    class DEXProtocolNFTTokenTradesByDate extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: response => `Latest NFT Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                id:'DEXProtocolNFTTokenTradesByDate',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Date', cell:row=> row.Block.Date,
+                    },
+                    {
+                        name: 'Count', cell:row=> +row.count,
+                    }
+                ],
+                options: {
+                    title: 'Trades By Date',
+                    height: 300,
+                    theme: 'material',
+                }
+            }
+        }
+    }
+
+    class DEXSmartContracts extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: response => `DEX Smart Contracts on ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                id:'DEXSmartContracts',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Smart Contract', cell:row=> row.Trade.Dex.SmartContract,
+                        rendering: renderJustAddressLink,
+                    },
+                    {
+                        name: 'Trades', cell:row=> row.trades,
+                        headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Uniq Buyers', cell:row=> row.buy_currency,
+                        headerStyle: {width: '100px'},
+                    },
+
+
+                ]
+            }
+        }
+    }
+
+
+    const variables = {
+        network: '<%= @streaming%>',
+        protocol: '<%= @protocol %>',
+    }
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate , tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[DEXTradeStatistics, '#DEXTradeStatistics']], 'DEX-Trade-Statistics_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[DEXProtocolNFTTokenTradesByDate, "#DEXProtocolNFTTokenTradesByDate"]], 'DEX-Protocol-NFT-Token-Trades-By-Date_1', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[DEXSmartContracts, '#DEXSmartContracts']], 'DEX-Smart-Contracts_5', variables);
+    })
+</script>

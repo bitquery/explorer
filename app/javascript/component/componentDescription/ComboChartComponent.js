@@ -20,12 +20,12 @@ export default class ComboChartComponent {
             await this.getTitle(data)
         }
         if(this.config.topElement(data).length===0){
-            this.container.textContent = 'No Data. Response is empty'
+            this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.'
             return
         }
         const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');
         const darkTheme = {
-            titleTextStyle: { color: parentTextColor },
+            titleTextStyle: { color: parentTextColor, fontSize: 12, fontName: 'Nunito' },
             backgroundColor:  'transparent',
             seriesType: 'bars',
             series: { 1: {type: 'line'} },
@@ -39,10 +39,12 @@ export default class ComboChartComponent {
                 ...(this.config.options.vAxis && this.config.options.vAxis.minValue !== undefined && { minValue: this.config.options.vAxis.minValue })
             },
             legend: {
-                textStyle: { color: parentTextColor }
+                textStyle: { color: "#757575"},
+                position: 'top'
             },
         };
-        this.config.options = {...darkTheme,...this.config.options}
+        this.config.options = { ...this.config.options, ...darkTheme };
+
 
         const drawChart = () => {
             const dataArray = this.config.topElement(data)

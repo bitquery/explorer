@@ -1,7 +1,10 @@
-<%= render partial: 'shared/tabs', locals: {
-   
-    tabs:  @streaming ?  
-        ['show','nft_address','transactions','inflow','outflow','calls_contracts', 'dex_trades', 'money_flow'] :
-        ['show','transactions','inflow','outflow','calls_contracts', 'dex_trades', 'money_flow'] 
-} %>
+<%
+  nft_tabs = (@streaming && @fungible == false) ? ['nft_address'] : ['show']
 
+%>
+<%= render partial: 'shared/tabs', locals: {
+
+    tabs:  @streaming ?
+        ['show','nft_address','transactions','inflow','outflow','calls_contracts'] :
+        ['show','transactions','inflow','outflow','calls_contracts']
+} %>

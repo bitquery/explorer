@@ -1,10 +1,11 @@
-query ($network: EthereumNetwork, $dateFormat: String!, $from: ISO8601DateTime, $till: ISO8601DateTime){
-  chain: ethereum(network: $network ){
-    transactions(options:{asc: "date.month"}, date: {since: $from, till: $till }) {
-      date{
-        month: date(format: $dateFormat)
-      }
-      count
+query MyQuery($network: evm_network, $from: String, $till: String) {
+    EVM(network: $network, dataset: combined) {
+        Transactions(where: {Block: {Date: {since: $from, till: $till}}}) {
+          Block {
+            Date
+          }
+          count
+        }
     }
-  }
 }
+

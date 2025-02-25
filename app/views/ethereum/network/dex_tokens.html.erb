@@ -1,6 +1,158 @@
-<div class="row">
-  <%= render partial: 'ethereum/network/dex/traded_currencies_by_time' %>
-  <%= render partial: 'ethereum/network/dex/traded_currencies_table' %>
+<div class='row'>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TradedCurrenciesByTime'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+  <div class='col-12 col-xl-6 mb-4'>
+    <div class='card' id='TradesByPairs'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
 </div>
+<div class='row'>
+  <div class='col-12 col-lg-12 mb-4'>
+    <div id='SubTokenTradePairs' class='card'>
+      <div class="placeholder-container">
+        <div class="placeholder-row"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="module">
+    class TradedCurrenciesByTime extends TimeChartComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: () => 'Daily Unique Traded Currencies on DEX',
+                id: 'TradedCurrenciesByTime',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Days', cell: row => row.Block.Date,
+                    },
+                    {
+                        name: 'Currencies', cell: row => +row.uniq,
+                    },
+                ],
+                options: {
+                    isStacked: true,
+                    theme: 'material',
+                    height: 397,
+                    legend: {position: "top"},
+                }
+            }
+        }
+    }
 
-<%= render partial: 'ethereum/network/dex/traded_pairs_table' %>
+    class TradesByPairs extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: response => `Top Trading Pairs by Volume and Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                id: 'TradesByPairs',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Pair', cell: row => ({
+                            buyCurrencySymbol: row.Trade.Buy.Currency.Symbol,
+                            buyCurrencySC: row.Trade.Buy.Currency.SmartContract,
+                            sellCurrencySymbol: row.Trade.Sell.Currency.Symbol,
+                            sellCurrencySC: row.Trade.Sell.Currency.SmartContract,
+                        }),
+                        rendering: renderPairLink,
+                    },
+                    {
+                        name: 'Trades', cell: row => row.count,
+                        headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Buy Amount', cell: row => ({amount: row.Buy_Amount, usd: row.Buy_Amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'}
+                    },
+                    {
+                        name: 'Started', cell: row => row.Block.Date, headerStyle: {width: '100px'},
+                    },
+                    {
+                        name: 'Days traded', cell: row => row.uniq,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    class SubTokenTradePairs extends BootstrapTableComponent {
+        configuration() {
+            return {
+                topElement: response => response.EVM.DEXTrades,
+                chainId: response => response.EVM.DEXTrades[0]?.ChainId,
+                title: response => `Top Trading Pairs by Volume and Trades on the ${WidgetConfig.getName(response.EVM.DEXTrades[0]?.ChainId) || 'network'}`,
+                id: 'SubTokenTradePairs',
+                theme: '<%= @theme %>',
+                columns: [
+                    {
+                        name: 'Timestamp', cell: row => row.Block.Time,
+                        rendering: renderDate,
+                    },
+                    {
+                        name: 'Sell amount', cell: row => ({amount: row.Sell_Amount, usd: row.Sell_Amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Sell currency', cell: row => ({
+                            currency: row.Trade.Sell.Currency.Symbol,
+                            smartContract: row.Trade.Sell.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '110px'},
+                    },
+                    {
+                        name: '', cell: row => '', rendering: renderSenderRecieverIcon, headerStyle: {width: '50px'},
+                    },
+                    {
+                        name: 'Buy amount', cell: row => ({amount: row.Buy_Amount, usd: row.Buy_Amount_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Buy currency', cell: row => ({
+                            currency: row.Trade.Buy.Currency.Symbol,
+                            smartContract: row.Trade.Buy.Currency.SmartContract
+                        }),
+                        rendering: renderTokenLink, headerStyle: {width: '106px'},
+                    },
+                    {
+                        name: 'Trades', cell: row => row.count, headerStyle: {width: '110px'},
+                    },
+                    {
+                        name: 'Median Price', cell: row => ({amount: row.median_price, usd: row.median_price_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
+                    },
+                    {
+                        name: 'Last Price', cell: row => ({amount: row.Trade.Buy.last_price, usd: row.Trade.Buy.last_price_usd}),
+                        rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end', width: '110px'},
+                    },
+                ]
+            }
+        }
+    }
+
+    const variables = {
+        network: '<%= @streaming%>',
+    };
+
+    const fromDate = '<%= j @from %>';
+    const tillDate = '<%= j @till %>';
+
+    renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TradedCurrenciesByTime, '#TradedCurrenciesByTime']], 'Traded-currencies-by-time_8', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TradesByPairs, '#TradesByPairs']], 'Trades-By-Pairs_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubTokenTradePairs, '#SubTokenTradePairs']], 'Token-Trade-Pairs_4', variables, 'Subscription-Token-Trade-Pairs_4');
+    });
+
+</script>

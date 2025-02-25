@@ -15,7 +15,7 @@ export default class TreeComponent {
                 await this.getTitle(data)
             }
             if (this.config.topElement(data).length === 0) {
-                this.container.textContent = 'No Data. Response is empty'
+                this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.'
                 return
             }
             this.container.style.scrollBehavior = 'smooth';
