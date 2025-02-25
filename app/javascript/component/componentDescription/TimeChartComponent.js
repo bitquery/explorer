@@ -99,12 +99,21 @@ export default class TimeChartComponent {
 	}
 	async getTitle(data) {
 		if (this.config && this.config.title && this.config.id) {
-
-			const divTitle = document.querySelector(`.\\#${this.config.id}`)
+			const divTitle = document.querySelector(`.\\#${this.config.id}`);
 			if (divTitle) {
-				const textNode = document.createTextNode(this.config.title(data))
-				divTitle.textContent = ''
-				divTitle.appendChild(textNode)
+				divTitle.innerHTML = '';
+
+				let titleContent = this.config.title;
+
+				if (typeof titleContent === 'function') {
+					titleContent = titleContent(data);
+				}
+
+				if (/<[^>]+>/g.test(titleContent)) {
+					divTitle.innerHTML = titleContent;
+				} else {
+					divTitle.textContent = titleContent;
+				}
 			}
 		}
 	}
