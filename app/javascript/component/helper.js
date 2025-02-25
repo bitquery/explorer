@@ -9,7 +9,6 @@ export function SubscriptionDataSource(token, payload) {
     let variables, cleanSubscription;
     let callbacks = [];
     let widgetFrames = [];
-    console.log('payload',payload.variables)
     this.mempoolShow =  payload.variables.network === "eth" ;
 
     this.subscribe = () => {
