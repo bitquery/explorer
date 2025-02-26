@@ -9,20 +9,8 @@ export function SubscriptionDataSource(token, payload) {
     let variables, cleanSubscription;
     let callbacks = [];
     let widgetFrames = [];
-    this.mempoolShow = payload.variables.mempool ===false  && payload.variables.network === "eth" ;
-    const modifyQuery = (query) => {
-        if (this.mempoolShow) {
-            query = query.replace(
-                /\(\$network:\s*evm_network/,
-                "($mempool: Boolean, $network: evm_network"
-            );
-            query = query.replace(
-                /EVM\(network:\s*\$network/,
-                "EVM(mempool: $mempool, network: $network"
-            );
-        }
-        return query;
-    };
+    this.mempoolShow = payload.variables.mempool === false && payload.variables.network === "eth";
+
     this.subscribe = () => {
         const currentUrl = payload.endpoint_url.replace(/^http/, "ws");
         const tokenForStreaming = token.replace(/^Bearer\s*/, "").trim();
@@ -38,9 +26,8 @@ export function SubscriptionDataSource(token, payload) {
         });
         this.alive = true;
         try {
-            const modifiedQuery = modifyQuery(payload.query);
             cleanSubscription = client.subscribe(
-                {query: modifiedQuery, variables},
+                {query: payload.query, variables},
                 {
                     next: ({data}) => {
                         callbacks.forEach((cb, i) => {
@@ -85,6 +72,7 @@ export function SubscriptionDataSource(token, payload) {
 
     return this;
 }
+
 export function HistoryDataSource(token, payload) {
     let callbacks = []
     let widgetFrames = []
@@ -93,7 +81,7 @@ export function HistoryDataSource(token, payload) {
     const getNewData = async () => {
         widgetFrames.forEach((wf) => wf.onquerystarted())
         try {
-            const data = await getData(token, { ...payload, variables })
+            const data = await getData(token, {...payload, variables})
             widgetFrames.forEach((wf) => wf.onqueryend())
             callbacks.forEach((cb) => cb(data, variables))
         } catch (error) {
@@ -116,7 +104,7 @@ export function HistoryDataSource(token, payload) {
 
     this.changeVariables = async (deltaVariables) => {
         if (deltaVariables) {
-            variables = { ...payload.variables, ...deltaVariables }
+            variables = {...payload.variables, ...deltaVariables}
         }
         await getNewData()
     }
@@ -129,7 +117,7 @@ export const getBaseClass = (targetClass, config) => {
         if (typeof subj === "function") {
             if (prop && subj?.name !== prop) {
                 if (!data.some((el) => Object.keys(el)[0] === subj?.name)) {
-                    data.unshift({ [subj.name]: serialize(subj) })
+                    data.unshift({[subj.name]: serialize(subj)})
                 }
             }
             return
@@ -146,14 +134,14 @@ export const getBaseClass = (targetClass, config) => {
         }
     }
     const data = []
-    data.push({ [targetClass.name]: serialize(targetClass) })
+    data.push({[targetClass.name]: serialize(targetClass)})
     if (targetClass instanceof Function) {
         let baseClass = targetClass
         while (baseClass) {
             const newBaseClass = Object.getPrototypeOf(baseClass)
             if (newBaseClass && newBaseClass !== Object && newBaseClass.name) {
                 baseClass = newBaseClass
-                data.unshift({ [baseClass.name]: serialize(baseClass) })
+                data.unshift({[baseClass.name]: serialize(baseClass)})
             } else {
                 break
             }
@@ -163,7 +151,12 @@ export const getBaseClass = (targetClass, config) => {
     return data
 }
 
-export const getAPIButton = (data, variables, queryID, subscriptionDataSource) => () => {
+export const getAPIButton = (widgetFrame, data, variables, queryID, subscriptionQueryID, subscriptionDataSource) => () => {
+    if (widgetFrame.mempoolControlButton.dataset.active === "true") {
+        variables.mempool = true
+    } else {
+        variables.mempool = false
+    }
     let createHiddenField = function (name, value) {
         let input = document.createElement("input")
         input.setAttribute("type", "hidden")
@@ -188,7 +181,11 @@ export const getAPIButton = (data, variables, queryID, subscriptionDataSource) =
     form.setAttribute("target", "_blank")
     form.appendChild(createHiddenField("data", JSON.stringify(data)))
     form.appendChild(createHiddenField("variables", JSON.stringify(variables)))
-    form.appendChild(createHiddenField("url", queryID))
+
+    const url = widgetFrame.mempoolControlButton.dataset.active === "true" ||
+    widgetFrame.streamControlButton.dataset.active === "true" ?
+        subscriptionQueryID : queryID;
+    form.appendChild(createHiddenField("url", url))
     form.appendChild(createHiddenField("utm_source", "explorer.bitquery.io"))
     form.appendChild(createHiddenField("utm_medium", "referral"))
     form.appendChild(createHiddenField("utm_campaign", encodeURIComponent(network)))
@@ -198,44 +195,6 @@ export const getAPIButton = (data, variables, queryID, subscriptionDataSource) =
     document.body.removeChild(form)
 }
 
-export const getAPIMempoolButton =
-    (data, variables, queryID, subscriptionDataSource) => () => {
-        if (subscriptionDataSource && subscriptionDataSource.mempoolShow === true) {
-            variables.mempool = true
-        }
-        let createHiddenField = function (name, value) {
-            let input = document.createElement("input")
-            input.setAttribute("type", "hidden")
-            input.setAttribute("name", name)
-            input.setAttribute("value", value)
-            return input
-        }
-        let currentTabElement = document.querySelector(
-            "body > div:nth-child(6) > ul > li:nth-child(1) > a"
-        )
-        let currentTab = currentTabElement
-            ? currentTabElement.text.toLowerCase()
-            : "default"
-        let currentUrl = window.location.href
-        let networkPattern = /https?:\/\/[^\/]+\/(\w+)/
-        let match = currentUrl.match(networkPattern)
-        let network = match ? match[1] : "default"
-        let form = document.createElement("form")
-        form.setAttribute("method", "post")
-        form.setAttribute("action", `${window.bitqueryAPI}/widgetconfig`)
-        form.setAttribute("enctype", "application/json")
-        form.setAttribute("target", "_blank")
-        form.appendChild(createHiddenField("data", JSON.stringify(data)))
-        form.appendChild(createHiddenField("variables", JSON.stringify(variables)))
-        form.appendChild(createHiddenField("url", queryID))
-        form.appendChild(createHiddenField("utm_source", "explorer.bitquery.io"))
-        form.appendChild(createHiddenField("utm_medium", "referral"))
-        form.appendChild(createHiddenField("utm_campaign", encodeURIComponent(network)))
-        form.appendChild(createHiddenField("utm_content", encodeURIComponent(currentTab)))
-        document.body.appendChild(form)
-        form.submit()
-        document.body.removeChild(form)
-    }
 
 export const increaseLimitButton = (historyDataSource) => () => {
     historyDataSource.increaseLimit()
@@ -246,7 +205,9 @@ export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => (e)
 
     currentButton.classList.add("button-pressed");
     currentButton.textContent = "⏸ Mempool";
-
+    widgetFrame.mempoolControlButton.dataset.active = "true";
+    widgetFrame.streamControlButton.dataset.active = "false";
+    widgetFrame.switchButton.dataset.active = "false";
     const nextButton = currentButton.nextSibling;
     const prevButton = currentButton.previousSibling;
 
@@ -261,7 +222,7 @@ export const mempoolStreamControl = (subscriptionDataSource, widgetFrame) => (e)
     }
 
     widgetFrame.onquerystarted();
-    subscriptionDataSource.changeVariables({ mempool: true });
+    subscriptionDataSource.changeVariables({mempool: true});
 
     if (widgetFrame.blinkerWrapper) {
         widgetFrame.blinkerWrapper.classList.remove("hide");
@@ -273,6 +234,10 @@ export const streamControl = (subscriptionDataSource, widgetFrame) => (e) => {
 
     currentButton.classList.add("button-pressed");
     currentButton.textContent = "⏸ Streaming";
+    widgetFrame.streamControlButton.dataset.active = "true";
+    widgetFrame.switchButton.dataset.active = "false";
+    widgetFrame.mempoolControlButton.dataset.active = "false";
+
 
     const prevButton = currentButton.previousSibling;
 
@@ -288,7 +253,7 @@ export const streamControl = (subscriptionDataSource, widgetFrame) => (e) => {
     }
 
     widgetFrame.onquerystarted();
-    subscriptionDataSource.changeVariables({ mempool: false });
+    subscriptionDataSource.changeVariables({mempool: false});
 
     if (widgetFrame.blinkerWrapper) {
         widgetFrame.blinkerWrapper.classList.remove("hide");
@@ -300,6 +265,10 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
 
     currentButton.classList.add("button-pressed");
     currentButton.textContent = "History query";
+    widgetFrame.switchButton.dataset.active = "true";
+    widgetFrame.streamControlButton.dataset.active = "false";
+    widgetFrame.mempoolControlButton.dataset.active = "false";
+
 
     const nextButton = currentButton.nextSibling;
     const nextNextButton = nextButton?.nextSibling;
@@ -324,7 +293,7 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
 };
 export const getQueryParams = async (queryID) => {
     const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
-    const { endpoint_url, variables, query, name } = await response.json()
+    const {endpoint_url, variables, query, name} = await response.json()
     return {
         variables: JSON.parse(variables),
         query,
@@ -333,7 +302,7 @@ export const getQueryParams = async (queryID) => {
     }
 }
 
-export const getData = async (token, { endpoint_url, query, variables }) => {
+export const getData = async (token, {endpoint_url, query, variables}) => {
     const response = await fetch(endpoint_url, {
         method: "POST",
         headers: {
@@ -341,13 +310,13 @@ export const getData = async (token, { endpoint_url, query, variables }) => {
             "Content-Type": "application/json",
             Authorization: token,
         },
-        body: JSON.stringify({ query, variables }),
+        body: JSON.stringify({query, variables}),
         credentials: "same-origin",
     })
     if (response.status !== 200) {
         throw new Error(response.error)
     }
-    const { data, errors } = await response.json()
+    const {data, errors} = await response.json()
     if (errors) {
         throw new Error(errors[0].message)
     }
@@ -379,6 +348,7 @@ export const createWidgetFrame = (
         button.setAttribute("role", "button")
         button.setAttribute("target", "_blank")
         button.textContent = title
+        button.dataset.active = "false";
         return button
     }
     const setupShowMoreButton = (tableFooter, showMoreButton) => () => {
@@ -394,16 +364,7 @@ export const createWidgetFrame = (
     const widgetFrame = document.createElement("div")
     const tableFooter = document.createElement("div")
 
-    const getStreamingAPIButton = createBadge(
-        "Get Streaming API",
-        subscriptionQueryID,
-        "mx-2"
-    )
-    const getMempoolButton = createBadge(
-        "Get Mempool API",
-        subscriptionQueryID,
-        "mx-2"
-    )
+
     const getHistoryAPIButton = createBadge(
         "Get API",
         historyQueryID,
@@ -420,12 +381,10 @@ export const createWidgetFrame = (
     }
     if (subscriptionDataSource?.mempoolShow !== true) {
         mempoolControlButton.style.display = "none"
-        getMempoolButton.style.display = "none"
     }
 
     switchButton.id = "switchButton"
     streamControlButton.id = "streamControlButton"
-    getMempoolButton.id = "getMempoolButton"
     mempoolControlButton.id = "mempoolControlButton"
     switchButton.classList.add("button-pressed")
     showMoreButton.classList.add("more-link", "badge")
@@ -452,8 +411,6 @@ export const createWidgetFrame = (
     tableFooter.style.display = "flex"
     tableFooter.style.justifyContent = "end"
     tableFooter.appendChild(getHistoryAPIButton)
-    tableFooter.appendChild(getStreamingAPIButton)
-    tableFooter.appendChild(getMempoolButton)
 
     widgetHeader.classList.add("card-header")
     row.classList.add("row", "align-items-center", "pr-3", "pl-3")
@@ -465,8 +422,6 @@ export const createWidgetFrame = (
     widgetFrame.style.height = "fit-content"
     widgetFrame.style.background = "inherit"
 
-    mempoolControlButton.style.setProperty("background", "#ff7b4c", "important")
-    getMempoolButton.style.setProperty("background", "#ff7b4c", "important")
 
     componentContainer.appendChild(widgetHeader)
     componentContainer.appendChild(cardBody)
@@ -571,8 +526,6 @@ export const createWidgetFrame = (
     return {
         frame: widgetFrame,
         getHistoryAPIButton,
-        getStreamingAPIButton,
-        getMempoolButton,
         switchButton,
         streamControlButton,
         mempoolControlButton,

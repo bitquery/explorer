@@ -106,7 +106,7 @@ export default class BootstrapTableComponent {
         }
         await this.createThead(data)
 
-        const maxRows = 15;
+        const maxRows = 10;
         const rows = await this.composeRows(data, variables)
         rows.forEach((row, index) => {
             // setTimeout(() => {

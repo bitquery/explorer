@@ -390,3 +390,7 @@ body.dark {
   background: rgba(0, 0, 0, 0.1);
 
 }
+.toggle-badge.active {
+  background-color: #28a745; /* Зеленый цвет для активного состояния */
+  border-color: #28a745;
+}
