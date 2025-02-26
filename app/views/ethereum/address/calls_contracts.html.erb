@@ -252,10 +252,10 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_8', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate']], 'Smart-contract-calls--including-internal--by-date_6', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TopGasCostCalls, '#TopGasCostCalls']], 'Top-Gas-Cost-Calls_7', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SmartContractsCalled, '#SmartContractsCalled']], 'Smart-Contracts-Called_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[SmartContractMethodsCalled, '#SmartContractMethodsCalled']], 'Smart-Contract-Methods-Called_5', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_8', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate']], 'Smart-contract-calls--including-internal--by-date_6', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopGasCostCalls, '#TopGasCostCalls']], 'Top-Gas-Cost-Calls_7', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractsCalled, '#SmartContractsCalled']], 'Smart-Contracts-Called_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractMethodsCalled, '#SmartContractMethodsCalled']], 'Smart-Contract-Methods-Called_5', variables);
     })
 </script>

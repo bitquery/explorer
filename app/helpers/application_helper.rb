@@ -115,17 +115,19 @@ module ApplicationHelper
 
           ad_url = ad[:urls]
                     .gsub("{blockchain_slug}", blockchain_slug)
-                    .gsub("{token_address}", token_address)
+                    .gsub("{token_address}", token_address === "ETH" ? "0x" : token_address)
 
           # ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
-          ad_text = ad[:text].gsub("{token_symbol}", token_info&.symbol.to_s)
+          # ad_text = ad[:text].gsub("{token_symbol}", token_info&.symbol.to_s)
+          ad_text = ad[:text].gsub("{token_symbol}", token_info.respond_to?(:symbol) ? token_info.symbol.to_s : "")
 
           selected_ad = { text: ad_text, url: ad_url, bgcolor: ad[:bgcolor], ad_name: 'dexrabbit' }
           break 
         else
           next unless is_token_page && token_info&.symbol && token_info.symbol != "-"
 
-          ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
+          # ad_text = ad[:text].gsub("{token_symbol}", token_info.symbol)
+
           ad_url = ad[:urls].sample
 
           selected_ad ||= { text: ad_text, url: ad_url, bgcolor: ad[:bgcolor], ad_name: 'exchanges_ref' }

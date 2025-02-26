@@ -55,9 +55,8 @@ module Ethereum
 
     def query_graphql
       @address = params[:address]
-
       return unless @address.starts_with?('0x')
-      result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming], address: @address },
+      result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming],  address: (@address == 'ETH' ? '0x' : @address) },
                                             context: { authorization: @streaming_access_token }, use_eap: @network[:use_eap]).data.EVM
       if result[:token].any?
         @info = result[:token].first[:Transfer]
@@ -70,7 +69,7 @@ module Ethereum
     end
 
     def redirect_by_type
-      if @info.try(:Currency)
+      if @info.try(:Currency) || @address == @network[:currency]
         if @fungible == false
           redirect_to controller: 'ethereum/token', action: 'nft_smart_contract'
           return

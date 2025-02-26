@@ -124,8 +124,8 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[Transactions, '#Transactions']], 'Transactions0_5', variables);
-        renderComponent('<%=@streaming_access_token %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_7', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[Transactions, '#Transactions']], 'Transactions0_5', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Transactions-By-Date_7', variables);
     })
 
 </script>

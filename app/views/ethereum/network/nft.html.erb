@@ -244,9 +244,7 @@
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'}
                     },
                 ],
-                options: {
-                    tableLayout: 'auto'
-                }
+
             }
         }
     }
@@ -421,6 +419,6 @@
         renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[NFTTokenTradesByDate, '#NFTTokenTradesByDate']], 'NFT-Token-Trades-By-Date_9', variables);
         renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopTradedNFTTokens, '#TopTradedNFTTokens'], [TopTradedNFTTokensPie, '#TopTradedNFTTokensPie']], 'Top-Traded-NFT-in-Network_4', variables);
         renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopExchangesForNFTs, '#TopExchangesForNFTs'], [TopExchangesForNFTsPie, '#TopExchangesForNFTsPie']], 'NFT-Marketplace-Data_6', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_7', variables, 'Mempool-Subscription-Latest-Trades-of-NFT-Tokens-in-Network_5');
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestTradesNFTToken, '#LatestTradesNFTToken']], 'Latest-Trades-of-NFT-Tokens-in-Network_7', variables, 'Subscription-Latest-Trades-of-NFT-Tokens-in-Network_6');
     })
 </script>

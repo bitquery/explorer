@@ -173,7 +173,7 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        address: '<%= @address %>',
+        address: '<%= @address %>' === 'ETH' ? '0x' : '<%= @address %>',
         limit: 10,
     }
     const fromDate = '<%= j @from %>';

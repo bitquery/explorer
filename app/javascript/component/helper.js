@@ -9,8 +9,20 @@ export function SubscriptionDataSource(token, payload) {
     let variables, cleanSubscription;
     let callbacks = [];
     let widgetFrames = [];
-    this.mempoolShow =  payload.variables.network === "eth" ;
-
+    this.mempoolShow = payload.variables.mempool ===false  && payload.variables.network === "eth" ;
+    const modifyQuery = (query) => {
+        if (this.mempoolShow) {
+            query = query.replace(
+                /\(\$network:\s*evm_network/,
+                "($mempool: Boolean, $network: evm_network"
+            );
+            query = query.replace(
+                /EVM\(network:\s*\$network/,
+                "EVM(mempool: $mempool, network: $network"
+            );
+        }
+        return query;
+    };
     this.subscribe = () => {
         const currentUrl = payload.endpoint_url.replace(/^http/, "ws");
         const tokenForStreaming = token.replace(/^Bearer\s*/, "").trim();
@@ -26,8 +38,9 @@ export function SubscriptionDataSource(token, payload) {
         });
         this.alive = true;
         try {
+            const modifiedQuery = modifyQuery(payload.query);
             cleanSubscription = client.subscribe(
-                {query: payload.query, variables},
+                {query: modifiedQuery, variables},
                 {
                     next: ({data}) => {
                         callbacks.forEach((cb, i) => {
@@ -392,7 +405,7 @@ export const createWidgetFrame = (
         "mx-2"
     )
     const getHistoryAPIButton = createBadge(
-        "Get History API",
+        "Get API",
         historyQueryID,
         "mx-2"
     )

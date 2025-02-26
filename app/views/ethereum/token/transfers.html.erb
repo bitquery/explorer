@@ -141,9 +141,9 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        token: '<%= @token%>',
+        token: '<%= @token%>' === 'ETH' ? '0x' : '<%= @token%>',
         till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
+        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10),
     }
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';

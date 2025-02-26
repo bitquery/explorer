@@ -252,6 +252,7 @@
         network: '<%= @streaming %>',
         till: new Date().toISOString().slice(0, 10),
         from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10),
+        mempool:false,
     }
 
     const fromDate = '<%= j @from %>';

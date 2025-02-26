@@ -250,10 +250,10 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>', [[AddressHoldingNFT, '#AddressHoldingNFT']], 'Address-Holding-NFTs_5', variables);
-        renderComponent('<%=@streaming_access_token %>', [[OutcomingNFTTransfersByAddress, '#OutcomingNFTTransfersByAddress']], 'Outcoming-NFT-Transfers-By-Address_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[IncomingNFTTransfersByAddress, '#IncomingNFTTransfersByAddress']], 'Incoming-NFT-Transfers-By-Address_3', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TradesNFTTokenAddressSeller, '#TradesNFTTokenAddressSeller']], 'Trades-of-NFT-Token-with-Address-as-Seller_4', variables);
-        renderComponent('<%=@streaming_access_token %>', [[TradesNFTTokenAddressBuyer, '#TradesNFTTokenAddressBuyer']], 'Trades-of-NFT-Token-with-Address-as-Buyer_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[AddressHoldingNFT, '#AddressHoldingNFT']], 'Address-Holding-NFTs_5', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[OutcomingNFTTransfersByAddress, '#OutcomingNFTTransfersByAddress']], 'Outcoming-NFT-Transfers-By-Address_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[IncomingNFTTransfersByAddress, '#IncomingNFTTransfersByAddress']], 'Incoming-NFT-Transfers-By-Address_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TradesNFTTokenAddressSeller, '#TradesNFTTokenAddressSeller']], 'Trades-of-NFT-Token-with-Address-as-Seller_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TradesNFTTokenAddressBuyer, '#TradesNFTTokenAddressBuyer']], 'Trades-of-NFT-Token-with-Address-as-Buyer_4', variables);
     })
 </script>

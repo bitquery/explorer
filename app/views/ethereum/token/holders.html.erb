@@ -225,17 +225,17 @@
         }
     }
 
-    const variables = {
-        network: '<%= @streaming %>',
-        token: '<%= @address %>',
-        till_now: new Date().toISOString().slice(0, 10),
-        till: new Date().toISOString().slice(0, 10)
-    };
-    variables.from = new Date(new Date().setMonth(new Date().getMonth() - 3)).toISOString().slice(0, 10);
-    variables.date_middle = new Date((new Date(variables.from).getTime() + new Date(variables.till).getTime()) / 2).toISOString().slice(0, 10);
 
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
+    const variables = {
+        network: '<%= @streaming %>',
+        token: '<%= @address %>',
+        from:fromDate,
+        till_now: new Date().toISOString().slice(0, 10),
+        till: tillDate
+    };
+    variables.date_middle = new Date((new Date(variables.from).getTime() + new Date(variables.till).getTime()) / 2).toISOString().slice(0, 10);
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[HoldersCount, '#HoldersCount'], [GiniIndex, '#GiniIndex'], [NakamotoIndex, '#NakamotoIndex'], [SupplyTokens, '#SupplyTokens'], [BalanceHolderStatsLatestDate, '#BalanceHolderStatsLatestDate']], 'Balance-holder-stats_8', variables);

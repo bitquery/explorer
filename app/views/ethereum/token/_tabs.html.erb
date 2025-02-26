@@ -4,7 +4,7 @@
 
 %>
 <%= render partial: 'shared/tabs', locals: {
-  tabs: (@native_token ? ['show', 'transfers', 'senders', 'receivers'] :
+  tabs: (@native_token || @network[:nativeToken] ? ['show', 'transfers', 'senders', 'receivers'] :
 
            ((@info.try(:smart_contract).try(:contract_type) == 'DEX') ?
               nft_tabs + nft_id + ['holders', 'transfers', 'token_dex_trades', 'dex_trades', 'senders', 'receivers', 'smart_contract', 'transactions',

@@ -1,11 +1,11 @@
 <div class="row d-flex">
-  <div class='col-12 col-xl-6 mb-4'>
-    <div class='card' id='TokenStatistic'>
-      <div class="placeholder-container">
-        <div class="placeholder-row"></div>
+    <div class='col-12 col-xl-6 mb-4'>
+      <div class='card' id='TokenStatistic'>
+        <div class="placeholder-container">
+          <div class="placeholder-row"></div>
+        </div>
       </div>
     </div>
-  </div>
   <div class='col-12 col-xl-6 mb-4'>
     <div class='card' id='TokenAttributes'>
       <div class="placeholder-container">
@@ -115,16 +115,19 @@
         }
     }
 
-    const variables = {
-        network: '<%= @streaming%>',
-        address: '<%= @address %>',
-    }
-    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
-    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenStatistic, '#TokenStatistic']], 'Token-transfer-statistics_4', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
+    const variables = {
+        network: '<%= @streaming%>',
+        address: '<%= @address %>' === 'ETH' ? '0x' : '<%= @address %>',
+        from: fromDate,
+        till: tillDate,
+    }
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenAttributes, '#TokenAttributes']], 'Token-attributes_4', variables);
+
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenStatistic, '#TokenStatistic']], 'Token-attributes-with-0x_1', variables);
         renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TokenHolderOfToken, '#TokenHolderOfToken']], 'Token-holder-of-token_4', variables);
     })
 </script>
