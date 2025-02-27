@@ -21,7 +21,8 @@
                         name: 'Token',
                         cell: row => ({
                             currency: row.Transfer.Currency.Symbol,
-                            smartContract: row.Transfer.Currency.SmartContract
+                            smartContract: row.Transfer.Currency.SmartContract,
+                            name: row.Transfer.Currency.Name
                         }),
                         rendering: renderTokenLink,
                         headerStyle: { width: '210px' },
@@ -73,6 +74,6 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TransfersByCurrencies, '#TransfersByCurrencies']], 'Transfers-By-Currencies0_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TransfersByCurrencies, '#TransfersByCurrencies']], 'Transfers-By-Currencies0_5', variables);
     })
 </script>

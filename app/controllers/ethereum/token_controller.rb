@@ -44,7 +44,7 @@ module Ethereum
     end
 
     def native_token?
-      @address == @network[:currency]
+      @info.Currency.Native == true
     end
 
     def redirect_by_type
