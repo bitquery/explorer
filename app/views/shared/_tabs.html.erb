@@ -7,13 +7,29 @@
       </a>
       <div class="dropdown-menu">
         <% tabs.each do |tab| %>
-          <%= tab_a t("tabs.#{controller.controller_name}.#{tab}.name"), tab, @network, (defined?(new_tabs) && new_tabs || []), 'dropdown-item' %>
+          <% if tab == 'money_flow_lite' %>
+            <a class="dropdown-item" href="https://lite.bitquery.io/?chain=<%= @network[:network] %>&address=<%= @address %>" target="_blank">
+              <%= t('tabs.money_flow_lite.name') %>
+              <span class="ml-1" style="font-size: 0.8em;">↗</span>
+            </a>
+          <% else %>
+            <%= tab_a t("tabs.#{controller.controller_name}.#{tab}.name"), tab, @network, (defined?(new_tabs) && new_tabs || []), 'dropdown-item' %>
+          <% end %>
         <% end %>
       </div>
     <% end %>
   </li>
   <% tabs.each do |tab| %>
-    <%= tab_link t("tabs.#{controller.controller_name}.#{tab}.name"), tab, @network, (defined?(new_tabs) && new_tabs || []), 'nav-item d-none d-md-block' %>
+    <% if tab == 'money_flow_lite' %>
+      <li class="nav-item d-none d-md-block">
+        <a class="nav-link underline-link" href="https://lite.bitquery.io/?chain=<%= @network[:network] %>&address=<%= @address %>" target="_blank">
+          <%= t('tabs.money_flow_lite.name') %>
+          <span class="ml-1" style="font-size: 0.8em;">↗</span>
+        </a>
+      </li>
+    <% else %>
+      <%= tab_link t("tabs.#{controller.controller_name}.#{tab}.name"), tab, @network, (defined?(new_tabs) && new_tabs || []), 'nav-item d-none d-md-block' %>
+    <% end %>
   <% end %>
   <%= render partial: 'shared/ads/tab' %>
 </ul>
