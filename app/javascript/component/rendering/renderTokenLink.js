@@ -9,8 +9,8 @@ export default function renderTokenLink(data, variables, chainId) {
     elem.textContent = text
     elem.title = text
 
-    // elem.href = ``https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`
-    elem.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`
+    elem.href = `https://explorer.bitquery.io/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`
+    // elem.href = `/${WidgetConfig.getNetwork(chainId)}/address/${data.smartContract}`
 
     div.appendChild(elem)
     return div
