@@ -69,6 +69,9 @@
         ], 'transaction-count_1', variables);
     } else {
         $(document).ready(function () {
+            const formatDate = (d) => `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
+            const today = new Date();
+            const tenDaysAgo = new Date(today.setDate(today.getDate() - 30));
             const query = new widgets.query(`<%= query.html_safe %>`);
             new widgets.chartByTime('#<%= chain[:tag] %>', query, 'chain.transactions', {
                 title: '<%= t('widgets.headers.transactions_by_time') %>',
@@ -99,8 +102,8 @@
             query.request({
                 network: '<%= chain[:network] %>',
                 dateFormat: dateRangeReportFormat(),
-                from: null,
-                till: null
+                from: formatDate(tenDaysAgo),
+                till: formatDate(new Date())
             });
         });
     }
