@@ -78,7 +78,10 @@ module Ethereum
         change_controller! 'ethereum/token'
       elsif @check_call == 'calls'
         change_controller! 'ethereum/smart_contract'
+      else
+        render 'ethereum/address/not_found'
       end
     end
+
   end
 end

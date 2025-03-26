@@ -39,12 +39,19 @@ module Ethereum
     def is_native
       @token = params[:address]
       @id = params[:id]
+
+      if @info.blank?
+        change_controller! 'ethereum/address'
+        return
+      end
+
       @native_token = native_token?
       @token_info = !@native_token && @info
     end
 
+
     def native_token?
-      @info.Currency.Native == true
+      @info&.dig(:Currency, :Native) == true
     end
 
     def redirect_by_type
