@@ -7,7 +7,7 @@ module Ethereum
 
     QUERY = <<-GRAPHQL.freeze
       query ($network: evm_network, $method: String) {
-        EVM(dataset: realtime, network: $network) {
+        EVM(dataset: combined, network: $network) {
           Calls(
             where: {Call: {Signature: {SignatureHash: {is: $method}}}}
             limit: {count: 1}

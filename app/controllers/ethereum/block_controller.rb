@@ -6,7 +6,7 @@ module Ethereum
 
     QUERY = <<-GRAPHQL.freeze
   query($network: evm_network, $height: String) {
-    EVM(dataset: realtime, network: $network) {
+    EVM(dataset: combined, network: $network) {
       Blocks(where: { Block: { Number: { eq: $height } } }, limit: { count: 10 }) {
         ChainId
         Block {

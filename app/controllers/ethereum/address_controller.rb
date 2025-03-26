@@ -6,7 +6,7 @@ module Ethereum
 
     QUERY = <<-GRAPHQL.freeze
           query ($network: evm_network, $address: String!) {
-        EVM(dataset: realtime, network: $network) {
+        EVM(dataset: combined, network: $network) {
           address: Transfers(
             where: {Transfer: {Sender: {is: $address}}}
             limit: {count: 1}
@@ -78,8 +78,8 @@ module Ethereum
         change_controller! 'ethereum/token'
       elsif @check_call == 'calls'
         change_controller! 'ethereum/smart_contract'
-      else
-        render 'ethereum/address/not_found'
+      # else
+      #   render 'ethereum/address/not_found'
       end
     end
 
