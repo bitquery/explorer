@@ -5,7 +5,7 @@ module Ethereum
 
     QUERY = <<-GRAPHQL.freeze
       query ($network: evm_network, $method: String) {
-        EVM(dataset: archive, network: $network) {
+        EVM(dataset: realtime, network: $network) {
           Events(
             where: {Log: {Signature: {SignatureHash: {is: $method}}}}
             limit: {count: 1}
@@ -13,7 +13,7 @@ module Ethereum
             ChainId
             Log{
               Signature{
-              Name#{'                '}
+              Name
               Signature
               SignatureHash}
             }

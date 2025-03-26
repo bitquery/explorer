@@ -6,7 +6,7 @@ module Ethereum
 
     QUERY = <<-GRAPHQL.freeze
           query ($network: evm_network, $address: String!) {
-        EVM(dataset: archive, network: $network) {
+        EVM(dataset: realtime, network: $network) {
           address: Transfers(
             where: {Transfer: {Sender: {is: $address}}}
             limit: {count: 1}

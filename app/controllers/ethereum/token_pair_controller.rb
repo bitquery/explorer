@@ -5,7 +5,7 @@ module Ethereum
 
     QUERY = <<-GRAPHQL.freeze
     query ($network: evm_network, $token1: String!, $token2: String!) {
-      EVM(dataset: combined, network: $network) {
+      EVM(dataset: realtime, network: $network) {
         DEXTradeByTokens(
           where: { Trade: {Currency: {SmartContract: {is: $token1}}, Side: {Currency: {SmartContract: {is: $token2}}}}}
           limit: {count: 1}
