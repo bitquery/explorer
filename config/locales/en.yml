@@ -33,6 +33,11 @@ en:
   tabs:
     money_flow_lite:
       name: "Money Flow Lite"
+    dexrabbit:
+      name: "DexRabbit"
+    dexrabbit_pair:
+      name: "DexRabbit"
+
     payers:
       icon: 'far fa-address-card'
       header: "%{network} Payer %{payer_account}"
@@ -595,6 +600,7 @@ en:
         title: "Trade %{network} %{token1symbol} %{token2symbol} DEX Trades"
         description: "Trades %{token1symbol} and %{token2symbol} on decentralised exchanges (DEX), smart contract on %{network}"
         keywords: "%{network},DEX,Trades,Pair,%{token1}, %{token2}, %{token1symbol}, %{token1name}, %{token2symbol}, %{token2name}"
+
     
     trc20token:
       icon: 'fas fa-coins text-warning'

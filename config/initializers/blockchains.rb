@@ -512,6 +512,7 @@ BLOCKCHAINS = [
     platform: 'Smart Contract',
     currency: 'TRX',
     icon: 'trx.svg',
+    streaming:'tron',
     blockchainAddressPattern: ['([\\W]|^)(T[\\w]{33})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',

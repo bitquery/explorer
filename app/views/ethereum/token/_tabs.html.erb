@@ -6,11 +6,11 @@
 <%= render partial: 'shared/tabs', locals: {
   tabs: (
     if @native_token
-      %w[show transfers senders receivers money_flow_lite]
+      %w[show transfers senders receivers money_flow_lite dexrabbit]
     else
       (@info.try(:smart_contract).try(:contract_type) == 'DEX') ?
-        nft_tabs + nft_id + %w[holders transfers token_dex_trades dex_trades senders receivers smart_contract transactions methods events inflow outflow calls_contracts money_flow_lite] :
-        nft_tabs + nft_id + %w[holders transfers token_dex_trades senders receivers smart_contract transactions methods events inflow outflow calls_contracts money_flow_lite]
+        nft_tabs + nft_id + %w[holders transfers token_dex_trades dex_trades senders receivers smart_contract transactions methods events inflow outflow calls_contracts money_flow_lite dexrabbit] :
+        nft_tabs + nft_id + %w[holders transfers token_dex_trades senders receivers smart_contract transactions methods events inflow outflow calls_contracts money_flow_lite dexrabbit]
     end
 
   ),

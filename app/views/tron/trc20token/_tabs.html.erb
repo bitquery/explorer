@@ -1,11 +1,11 @@
 <%= render partial: 'shared/tabs', locals: {
-    tabs: (@native_token ? ['show','transfers','senders','receivers','trades'] :
+    tabs: (@native_token ? ['show','transfers','senders','receivers','trades', 'dexrabbit'] :
 
              ( (@info.try(:smart_contract).try(:contract_type)=='DEX') ?
                  ['show','transfers','token_dex_trades','dex_trades', 'senders','receivers','smart_contract','transactions',
-                  'methods','events','inflow','outflow','calls_contracts','trades'] :
+                  'methods','events','inflow','outflow','calls_contracts','trades', 'dexrabbit'] :
                  ['show','transfers','token_dex_trades', 'senders','receivers','smart_contract','transactions',
-                  'methods','events','inflow','outflow','calls_contracts','trades'] )
+                  'methods','events','inflow','outflow','calls_contracts','trades', 'dexrabbit'] )
 
     )
 
