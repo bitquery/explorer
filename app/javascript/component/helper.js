@@ -294,9 +294,19 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
 export const getQueryParams = async (queryID) => {
     const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
     const {endpoint_url, variables, query, name} = await response.json()
+
+    const updatedQuery = query
+        .replace(/combined/g, 'realtime')
+        .replace(/archive/g, 'realtime');
+
+    // Replace "combined" and "archive" with "realtime" in the variables string before parsing
+    const updatedVariablesString = variables
+        .replace(/combined/g, 'realtime')
+        .replace(/archive/g, 'realtime');
+
     return {
-        variables: JSON.parse(variables),
-        query,
+        variables: JSON.parse(updatedVariablesString),
+        updatedQuery,
         endpoint_url,
         name,
     }

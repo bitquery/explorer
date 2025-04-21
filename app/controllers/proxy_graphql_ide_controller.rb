@@ -12,7 +12,7 @@ class ProxyGraphqlIdeController < ApplicationController
 
     respond_to do |format|
       format.json do
-        render json: res.body
+        render json: res.body.gsub("combined","realtime").gsub("archive","realtime")
       end
     end
   end
