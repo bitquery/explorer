@@ -306,7 +306,7 @@ export const getQueryParams = async (queryID) => {
 
     return {
         variables: JSON.parse(updatedVariablesString),
-        updatedQuery,
+        query: updatedQuery,
         endpoint_url,
         name,
     }
