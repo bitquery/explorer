@@ -1,5 +1,5 @@
 query MyQuery($network: evm_network, $from: String, $till: String) {
-    EVM(network: $network, dataset: combined) {
+    EVM(network: $network, dataset: realtime) {
         Transactions(where: {Block: {Date: {since: $from, till: $till}}}) {
           Block {
             Date
