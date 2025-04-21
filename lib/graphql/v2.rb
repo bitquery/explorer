@@ -3,7 +3,7 @@ require 'graphql/client/http'
 
 module Graphql
   class V2
-    ATTEMPTS = 2
+    ATTEMPTS = 1
 
     def self.query_with_retry(query, variables: {}, context: {}, use_eap: false)
       uri = use_eap ? BITQUERY_EAP_GRAPHQL : BITQUERY_STREAMING_GRAPHQL
