@@ -50,6 +50,7 @@ class NetworkController < ApplicationController
                  params[:network].permit(
                    :network, :tag, :name, :family, :currency, :icon,
                    :streaming, :chainId, :platform, :innovation, :use_eap, :nativeToken,
+                   :start,
                    blockchainAddressPattern: [],
                    excludeNetworksPattern: [],
                    txHashPattern: []
