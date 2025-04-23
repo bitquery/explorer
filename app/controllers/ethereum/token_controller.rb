@@ -40,7 +40,7 @@ module Ethereum
       @token = params[:address]
       @id = params[:id]
 
-      if @info.blank? || !@info.respond_to?(:dig)
+      if @info.blank?
         change_controller! 'ethereum/address'
         return
       end
@@ -51,7 +51,7 @@ module Ethereum
 
 
     def native_token?
-      @info.try(:dig, :Currency, :Native) == true
+      @info&.dig( :Currency, :Native) == true
     end
 
     def redirect_by_type
