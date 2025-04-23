@@ -32,6 +32,10 @@ module Graphql
         response = https.request(request)
         resp = JSON.parse(response.read_body, object_class: OpenStruct)
         BitqueryLogger.extra_context errors: resp.errors&.map(&:message)
+        BitqueryLogger.info "v1========> Response body: #{response.body}"
+
+
+
       rescue Net::ReadTimeout
         raise 'All attempts failed' if attempt >= ATTEMPTS
 

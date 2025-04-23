@@ -7,6 +7,12 @@ class ProxyStreamingGraphqlController < ApplicationController
     BitqueryLogger.extra_context query: params[:query],
                                  variables: params[:variables]
 
+
+    BitqueryLogger.info %Q[========> ProxyStreamingGraphqlController GraphQL request:
+      Query: #{params[:query].inspect}
+      Variables: #{params[:variables].inspect}
+      Headers: #{request.headers.inspect}
+    ]
     uri = URI(BITQUERY_STREAMING_GRAPHQL)
     res = Net::HTTP.post(uri,
                          { query: params[:query], variables: params[:variables] }.to_json,
