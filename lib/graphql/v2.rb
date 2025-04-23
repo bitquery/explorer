@@ -30,7 +30,7 @@ module Graphql
         response = https.request(request)
         resp = JSON.parse(response.read_body, object_class: OpenStruct)
         BitqueryLogger.extra_context(errors: resp.errors&.map(&:message))
-        BitqueryLogger.info "========>v2========> request body: #{ response.body}"
+        BitqueryLogger.info "========>v2========> request body: #{ JSON.parse(response.body)}"
 
 
       rescue Net::ReadTimeout
