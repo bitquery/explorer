@@ -5,7 +5,7 @@ class ProxyEapGraphqlController < ApplicationController
 
     BitqueryLogger.extra_context query: params[:query],
                                  variables: params[:variables]
-    BitqueryLogger.info %Q[==========> ProxyEapGraphqlController GraphQL request:
+    BitqueryLogger.info %Q[==========> ProxyEapGraphqlController<======== GraphQL request:
       Query: #{params[:query].inspect}
       Variables: #{params[:variables].inspect}
       Headers: #{request.headers.inspect}

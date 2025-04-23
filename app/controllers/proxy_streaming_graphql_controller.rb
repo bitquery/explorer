@@ -8,7 +8,7 @@ class ProxyStreamingGraphqlController < ApplicationController
                                  variables: params[:variables]
 
 
-    BitqueryLogger.info %Q[========> ProxyStreamingGraphqlController GraphQL request:
+    BitqueryLogger.info %Q[========> ProxyStreamingGraphqlController <======== GraphQL request:
       Query: #{params[:query].inspect}
       Variables: #{params[:variables].inspect}
       Headers: #{request.headers.inspect}
