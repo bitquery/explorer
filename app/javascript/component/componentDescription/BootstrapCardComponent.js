@@ -41,7 +41,7 @@ export default class BootstrapCardComponent {
 
 		const array = this.config.topElement(data);
 		if (!array || array.length === 0) {
-			this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.';
+			this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range. You can also use the Bitquery API by clicking the Get API button and experimenting with other datasets and time ranges to find the data you need.'
 			return;
 		}
 

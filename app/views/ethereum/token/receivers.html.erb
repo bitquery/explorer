@@ -178,14 +178,15 @@
     const variables = {
         network: '<%= @streaming%>',
         address: '<%= @address %>' === 'ETH' ? '0x' : '<%= @address %>',
+        limit: 10,
     }
 
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[Receivers, '#Receivers']], 'Largest-Token-Receivers_1', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[ReceiversStats, '#ReceiversStats']], 'Token-Receivers-Stats_2', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Token-Receivers-Stats_1', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[Receivers, '#Receivers']], 'Largest-Token-Receivers_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[ReceiversStats, '#ReceiversStats']], 'Token-Receivers-Stats_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Token-Receivers-Stats_2', variables);
     })
 </script>

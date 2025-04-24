@@ -16,15 +16,7 @@
     </div>
   </div>
 </div>
-<div class='row'>
-  <div class='col-12 col-lg-12 mb-4'>
-    <div class='card' id='AddressesUsedInEventParameters'>
-      <div class="placeholder-container">
-        <div class="placeholder-row"></div>
-      </div>
-    </div>
-  </div>
-</div>
+
 <script type="module">
     class EventsDistribution extends BarChartComponent {
         configuration() {
@@ -90,5 +82,5 @@
         since: '<%= @from %>',
         till: '<%= @till %>',
     }
-    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractEvents, '#SmartContractEvents'], [EventsDistribution, '#EventsDistribution']], 'Smart-Contract-Events---1-Month-Ago_1', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractEvents, '#SmartContractEvents'], [EventsDistribution, '#EventsDistribution']], 'Smart-Contract-Events--realtime', variables);
 </script>

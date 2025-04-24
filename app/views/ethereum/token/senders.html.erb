@@ -180,8 +180,8 @@
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[Senders, '#Senders']], 'Largest-Token-Senders_1', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SendersStats, '#SendersStats']], 'Token-Senders-Stats_2', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Token-Senders-Stats_1', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[Senders, '#Senders']], 'Largest-Token-Senders_2', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SendersStats, '#SendersStats']], 'Token-Senders-Stats_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[UniqSenders, '#UniqSenders'], [MedianTransferAmount, '#MedianTransferAmount']], 'Uniq-Token-Senders-Stats_2', variables);
     })
 </script>

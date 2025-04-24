@@ -21,7 +21,8 @@ export default class PieChartComponent {
             await this.getTitle(data)
         }
         if(this.config.topElement(data).length===0){
-            this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range.'
+            this.container.textContent = 'No records found for this period. To get more data, please try selecting another date range. You can also use the Bitquery API by clicking the Get API button and experimenting with other datasets and time ranges to find the data you need.'
+
             return
         }
         const parentTextColor = window.getComputedStyle(this.container.parentElement, null).getPropertyValue('color');

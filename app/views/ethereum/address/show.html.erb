@@ -279,16 +279,16 @@
         address: '<%= @address %>',
     }
 
-    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_5', variables);
-    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_5', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TotalAddressStatistics, '#TotalAddressStatistics']], 'Total-Address-Statistics_6', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[AddressBalanceByCurrencies, '#AddressBalanceByCurrencies']], 'Address-balance-by-currencies_6', variables);
     const fromDate = '<%= j @from %>';
     const tillDate = '<%= j @till %>';
 
     renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date0_2', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransferCountByDate, '#InboundTransferCountByDate']], 'Inbound-transfer-count-by-date_3', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[OutboundTransferCountByDate, '#OutboundTransferCountByDate']], 'Outbound-transfer-count-by-date_3', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SMCalls, '#SMCalls']], 'Smart-contract-calls--including-internal--by-date_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[GasSpentByDate, '#GasSpentByDate'], [TransactionsByDate, '#TransactionsByDate']], 'Gas-Spent-By-Date0_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransferCountByDate, '#InboundTransferCountByDate']], 'Inbound-transfer-count-by-date_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[OutboundTransferCountByDate, '#OutboundTransferCountByDate']], 'Outbound-transfer-count-by-date_4', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SMCalls, '#SMCalls']], 'Smart-contract-calls--including-internal--by-date_8', variables);
     })
 
 
