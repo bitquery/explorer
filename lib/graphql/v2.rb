@@ -1,5 +1,7 @@
-require 'graphql/client'
-require 'graphql/client/http'
+require 'json'
+require 'ostruct'
+require 'net/http'
+require 'uri'
 
 module Graphql
   class V2
@@ -7,44 +9,53 @@ module Graphql
 
     def self.query_with_retry(query, variables: {}, context: {}, use_eap: false)
       uri = use_eap ? BITQUERY_EAP_GRAPHQL : BITQUERY_STREAMING_GRAPHQL
-
       url = URI(uri)
-      https = Net::HTTP.new(url.host, url.port)
-      https.use_ssl = true if url.instance_of? URI::HTTPS
+
+      http = Net::HTTP.new(url.host, url.port)
+      http.use_ssl = (url.scheme == 'https')
 
       request = Net::HTTP::Post.new(url)
-      request['Content-Type'] = 'application/json'
+      request['Content-Type']  = 'application/json'
       request['Authorization'] = context[:authorization]
-      request['X-API-KEY'] = ENV.fetch('EXPLORER_API_KEY') { nil }
-
-      body = {
-        query:,
-        variables:
-      }
-      request.body = body.to_json
+      request['X-API-KEY']     = ENV.fetch('EXPLORER_API_KEY', nil)
+      request.body = { query: query, variables: variables }.to_json
 
       attempt = 1
-      ::BitqueryLogger.extra_context(query:, variables:, context:, attempt:)
+      BitqueryLogger.extra_context(query: query, variables: variables, context: context, attempt: attempt)
 
       begin
-        response = https.request(request)
-        resp = JSON.parse(response.read_body, object_class: OpenStruct)
-        BitqueryLogger.extra_context(errors: resp.errors&.map(&:message))
-        BitqueryLogger.info "========>v2========> request body: #{ JSON.parse(response.body)}"
-
-
-      rescue Net::ReadTimeout
-        raise 'All attempts failed' if attempt >= ATTEMPTS
-        sleep(1)
-        attempt += 1
-        retry
+        response = http.request(request)
+      rescue Net::ReadTimeout => e
+        if attempt < ATTEMPTS
+          attempt += 1
+          sleep 1
+          retry
+        else
+          raise "All attempts failed: #{e.message}"
+        end
       end
 
-      if resp&.errors&.any? && resp&.data&.nil?
+      BitqueryLogger.info  "========>v2========> HTTP status: #{response.code} #{response.message}"
+      BitqueryLogger.info  "========>v2========> Response headers: #{response.to_hash.inspect}"
+
+      raw_body = response.body.to_s
+      BitqueryLogger.info  "========>v2========> Raw response body: #{raw_body.inspect}"
+
+      begin
+        resp = JSON.parse(raw_body, object_class: OpenStruct)
+      rescue JSON::ParserError => e
+        BitqueryLogger.error "========>v2========> JSON::ParserError: #{e.message}, body=#{raw_body.inspect}"
+        empty_evm = OpenStruct.new(calls: [], token: [])
+        return OpenStruct.new(data: OpenStruct.new(EVM: empty_evm), errors: [])
+      end
+
+      BitqueryLogger.extra_context(errors: resp.errors&.map(&:message))
+
+      if resp.errors&.any? && resp.data.nil?
         raise 'GraphQL response errors, data is nil'
-      elsif resp&.errors&.any?
+      elsif resp.errors&.any?
         raise 'GraphQL response errors'
-      elsif resp&.data&.nil?
+      elsif resp.data.nil?
         raise 'GraphQL response data is nil'
       end
 
