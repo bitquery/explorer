@@ -4,84 +4,84 @@ module Ethereum
 
     before_action :query_graphql, :redirect_by_type
 
-    QUERY = <<-GRAPHQL.freeze
-          query ($network: evm_network, $address: String!) {
+    REALTIME_QUERY = <<-GRAPHQL.freeze
+      query ($network: evm_network, $address: String!) {
         EVM(dataset: realtime, network: $network) {
-          address: Transfers(
-            where: {Transfer: {Sender: {is: $address}}}
-            limit: {count: 1}
-          ) {
-            Transfer {
-              Sender
-              Receiver
-              Currency {
-                Symbol
-                SmartContract
-                Name
-                Fungible
-              }
-            }
+          calls: Calls(where: {Call: {To: {is: $address}}}, limit: {count: 1}) {
+            Block { Time }
           }
           token: Transfers(
             where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
             limit: {count: 1}
           ) {
             Transfer {
-              Sender
-              Receiver
-              Currency {
-                Symbol
-                SmartContract
-                Name
-                Fungible
-                Native
-              }
-            }
-          }
-          calls: Calls(
-            where: {Call: {To: {is: $address}, Signature: {SignatureHash: {not: ""}}}}
-            limit: {count: 1}
-          ) {
-            Call {
-              Signature {
-                SignatureHash
-              }
+              Currency { Symbol Name Fungible Native }
             }
           }
         }
       }
     GRAPHQL
 
+    ARCHIVE_QUERY = REALTIME_QUERY.sub('dataset: realtime', 'dataset: archive')
+
     private
+
+    def load_evm_data
+      cache_key = ["ethereum", "evm_data", @network[:streaming], @address]
+
+      if Rails.cache.exist?(cache_key)
+        Rails.logger.info("[AddressController] cache HIT for #{cache_key.inspect}")
+      else
+        Rails.logger.info("[AddressController] cache MISS for #{cache_key.inspect}")
+      end
+
+      Rails.cache.fetch(cache_key, expires_in: 1.day) do
+        Rails.logger.info("[AddressController] fetching EVM data for #{cache_key.inspect}")
+        data = fetch_evm(REALTIME_QUERY)
+        if data.calls.empty? && data.token.empty?
+          data = fetch_evm(ARCHIVE_QUERY)
+        end
+        data
+      end
+    end
 
     def query_graphql
       @address = params[:address]
-      return unless @address.starts_with?('0x')
-      result = Graphql::V2.query_with_retry(QUERY, variables: { network: @network[:streaming],  address: (@address == 'ETH' ? '0x' : @address) },
-                                            context: { authorization: @streaming_access_token }, use_eap: @network[:use_eap]).data.EVM
-      if result[:token].any?
-        @info = result[:token].first[:Transfer]
+      return unless @address.start_with?('0x')
+
+      evm_data = load_evm_data
+
+      if evm_data.token.any?
+        @info        = evm_data.token.first.Transfer
         @check_token = 'token'
-        @fungible = @info[:Currency][:Fungible] if @info[:Currency]
-      elsif result[:calls].any?
-        @info = result[:address].any? ? result[:address].first[:Transfer] : @address
+        @fungible    = @info.Currency.Fungible
+      elsif evm_data.calls.any?
+        @info       = evm_data.calls.first.Block
         @check_call = 'calls'
       end
     end
 
-    def redirect_by_type
-      if @info.try(:Currency) || @address == @network[:currency]
-        if @fungible == false
-          redirect_to controller: 'ethereum/token', action: 'nft_smart_contract'
-          return
-        end
-        change_controller! 'ethereum/token'
-      elsif @check_call == 'calls'
-        change_controller! 'ethereum/smart_contract'
-      # else
-      #   render 'ethereum/address/not_found'
-      end
+    def fetch_evm(query)
+      Graphql::V2
+        .query_with_retry(
+          query,
+          variables: { network: @network[:streaming], address: @address },
+          context:   { authorization: @streaming_access_token },
+          use_eap:   @network[:use_eap]
+        )
+        .data.EVM
     end
 
+    def redirect_by_type
+      if @check_token == 'token'
+        if @fungible
+          redirect_to controller: 'ethereum/token', action: 'nft_smart_contract'
+        else
+          change_controller! 'ethereum/token'
+        end
+      elsif @check_call == 'calls'
+        change_controller! 'ethereum/smart_contract'
+      end
+    end
   end
 end
