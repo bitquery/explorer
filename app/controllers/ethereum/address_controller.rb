@@ -30,13 +30,13 @@ module Ethereum
       cache_key = ["ethereum", "evm_data", @network[:streaming], @address]
 
       if Rails.cache.exist?(cache_key)
-        Rails.logger.info("[AddressController] cache HIT for #{cache_key.inspect}")
+        BitqueryLogger.info("================********************[AddressController] cache HIT for #{cache_key.inspect}")
       else
-        Rails.logger.info("[AddressController] cache MISS for #{cache_key.inspect}")
+        BitqueryLogger.info("================*******************[AddressController] cache MISS for #{cache_key.inspect}")
       end
 
       Rails.cache.fetch(cache_key, expires_in: 1.day) do
-        Rails.logger.info("[AddressController] fetching EVM data for #{cache_key.inspect}")
+        BitqueryLogger.info("================*******************[AddressController] fetching EVM data for #{cache_key.inspect}")
         data = fetch_evm(REALTIME_QUERY)
         if data.calls.empty? && data.token.empty?
           data = fetch_evm(ARCHIVE_QUERY)
