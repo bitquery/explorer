@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Ethereum
   class AddressController < NetworkController
     layout 'tabs'
@@ -7,11 +9,14 @@ module Ethereum
     REALTIME_QUERY = <<-GRAPHQL.freeze
       query ($network: evm_network, $address: String!) {
         EVM(dataset: realtime, network: $network) {
-          calls: Calls(where: {Call: {To: {is: $address}}}, limit: {count: 1}) {
+          calls: Calls(
+            where: {Call: {To: {is: $address}}},
+            limit: {count: 1}
+          ) {
             Block { Time }
           }
           token: Transfers(
-            where: {Transfer: {Currency: {SmartContract: {is: $address}}}}
+            where: {Transfer: {Currency: {SmartContract: {is: $address}}}},
             limit: {count: 1}
           ) {
             Transfer {
@@ -22,27 +27,51 @@ module Ethereum
       }
     GRAPHQL
 
-    ARCHIVE_QUERY = REALTIME_QUERY.sub('dataset: realtime', 'dataset: archive')
+    ARCHIVE_QUERY = REALTIME_QUERY.
+      sub('dataset: realtime', 'dataset: archive')
 
     private
 
     def load_evm_data
       cache_key = ["ethereum", "evm_data", @network[:streaming], @address]
-
-      if Rails.cache.exist?(cache_key)
-        BitqueryLogger.info("================********************[AddressController] cache HIT for #{cache_key.inspect}")
-      else
-        BitqueryLogger.info("================*******************[AddressController] cache MISS for #{cache_key.inspect}")
-      end
+      hit_or_miss = Rails.cache.exist?(cache_key) ? 'HIT' : 'MISS'
+      BitqueryLogger.info("[AddressController] cache #{hit_or_miss} for #{cache_key.inspect}")
 
       Rails.cache.fetch(cache_key, expires_in: 1.day) do
-        BitqueryLogger.info("================*******************[AddressController] fetching EVM data for #{cache_key.inspect}")
-        data = fetch_evm(REALTIME_QUERY)
+        BitqueryLogger.info("[AddressController] fetching realtime for #{cache_key.inspect}")
+        data = safe_fetch_evm(REALTIME_QUERY)
+
         if data.calls.empty? && data.token.empty?
-          data = fetch_evm(ARCHIVE_QUERY)
+          BitqueryLogger.info("[AddressController] realtime empty, fetching archive")
+          data = safe_fetch_evm(ARCHIVE_QUERY)
         end
+
         data
       end
+    end
+
+    def safe_fetch_evm(query)
+      fetch_evm(query)
+    rescue JSON::ParserError, Net::ReadTimeout, StandardError => e
+      BitqueryLogger.error("[AddressController] GraphQL fetch error: #{e.class}: #{e.message}")
+      OpenStruct.new(
+        calls: [],
+        token: []
+      )
+    end
+
+    def fetch_evm(query)
+      Graphql::V2
+        .query_with_retry(
+          query,
+          variables: {
+            network: @network[:streaming],
+            address: @address
+          },
+          context:   { authorization: @streaming_access_token },
+          use_eap:   @network[:use_eap]
+        )
+        .data.EVM
     end
 
     def query_graphql
@@ -59,17 +88,6 @@ module Ethereum
         @info       = evm_data.calls.first.Block
         @check_call = 'calls'
       end
-    end
-
-    def fetch_evm(query)
-      Graphql::V2
-        .query_with_retry(
-          query,
-          variables: { network: @network[:streaming], address: @address },
-          context:   { authorization: @streaming_access_token },
-          use_eap:   @network[:use_eap]
-        )
-        .data.EVM
     end
 
     def redirect_by_type
