@@ -19,6 +19,7 @@ module Graphql
       request['Authorization'] = context[:authorization]
       request['X-API-KEY']     = ENV.fetch('EXPLORER_API_KEY', nil)
       request.body = { query: query, variables: variables }.to_json
+      BitqueryLogger.info  "========>v2========> Request headers: #{request.to_hash.inspect}"
 
       attempt = 1
       BitqueryLogger.extra_context(query: query, variables: variables, context: context, attempt: attempt)
@@ -39,7 +40,6 @@ module Graphql
       BitqueryLogger.info  "========>v2========> Response headers: #{response.to_hash.inspect}"
 
       raw_body = response.body.to_s
-      BitqueryLogger.info  "========>v2========> Raw response body: #{raw_body.inspect}"
 
       begin
         resp = JSON.parse(raw_body, object_class: OpenStruct)
