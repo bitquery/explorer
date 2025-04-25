@@ -1,5 +1,29 @@
 class Rack::Attack
-  BOT_USER_AGENTS = %w[bot crawler spider slurp yandexbot bingbot].join('|').freeze
+  BOT_USER_AGENTS = %w[
+    bot
+    crawler
+    spider
+    slurp           # Yahoo! Slurp
+    yandexbot       # Яндекс
+    bingbot         # Bing
+    baiduspider     # Baidu
+    duckduckbot     # DuckDuckGo
+    facebookexternalhit
+    facebot         # Facebook
+    twitterbot      # Twitter
+    applebot        # Applebot (Safari News)
+    petalbot        # Huawei Petal
+    semrushbot      # SEMrush
+    ahrefsbot       # Ahrefs
+    mj12bot         # Majestic
+    dotbot          # Moz
+    sogou           # Sogou
+    exabot          # Exalead
+    archive.org_bot # Wayback Machine
+    linkedinbot     # LinkedIn
+    pinterestbot    # Pinterest
+    telegrambot     # Telegram
+  ].join('|').freeze
 
   blocklist('block known bots') do |req|
     req.user_agent.to_s.downcase.match?(/#{BOT_USER_AGENTS}/)

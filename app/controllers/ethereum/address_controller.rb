@@ -34,7 +34,6 @@ module Ethereum
 
     def load_evm_data
       cache_key = ["ethereum", "evm_data", @network[:streaming], @address]
-      hit_or_miss = Rails.cache.exist?(cache_key) ? 'HIT' : 'MISS'
 
       Rails.cache.fetch(cache_key, expires_in: 1.day) do
         data = safe_fetch_evm(REALTIME_QUERY)
