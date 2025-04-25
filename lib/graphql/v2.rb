@@ -8,6 +8,19 @@ module Graphql
     ATTEMPTS = 1
 
     def self.query_with_retry(query, variables: {}, context: {}, use_eap: false)
+      req = Thread.current[:current_request] rescue nil
+
+      if req
+        page_url = req.respond_to?(:original_url) ? req.original_url : req.url
+        client_ip = req.remote_ip
+        incoming_headers = req.headers.env
+                              .select { |k,_| k.start_with?('HTTP_') }
+                              .transform_keys { |k|
+                                k.sub(/^HTTP_/, '')
+                                 .split('_').map(&:capitalize).join('-')
+                              }
+        start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+      end
 
       uri = use_eap ? BITQUERY_EAP_GRAPHQL : BITQUERY_STREAMING_GRAPHQL
       url = URI(uri)
@@ -19,29 +32,34 @@ module Graphql
       request['Content-Type']  = 'application/json'
       request['Authorization'] = context[:authorization]
       request['X-API-KEY']     = ENV.fetch('EXPLORER_API_KEY', nil)
-      request.body = { query: query, variables: variables }.to_json
-      BitqueryLogger.info  "========v2======== Request headers: #{request.to_hash.inspect}"
+      request.body             = { query: query, variables: variables }.to_json
 
-      attempt = 1
-      BitqueryLogger.extra_context(query: query, variables: variables, context: context, attempt: attempt)
+      BitqueryLogger.extra_context(query: query, variables: variables, context: context, attempt: 1)
 
       begin
         response = http.request(request)
       rescue Net::ReadTimeout => e
-        if attempt < ATTEMPTS
-          attempt += 1
-          sleep 1
-          retry
-        else
-          raise "All attempts failed: #{e.message}"
-        end
+        raise "All attempts failed: #{e.message}"
       end
 
-      BitqueryLogger.info  "========v2======== HTTP status: #{response.code} #{response.message}"
-      BitqueryLogger.info  "========v2======== Response headers: #{response.to_hash.inspect}"
+      if start_time
+        elapsed_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round(1)
+      end
+
+
+      if req
+        BitqueryLogger.info <<~LOG
+          =======>v2========> GraphQL call summary:
+            • Page URL:      #{page_url}
+            • Client IP:     #{client_ip}
+            • Req-Headers:   #{incoming_headers.inspect}
+            • Query:         #{query.truncate(200)}
+            • Resp code:     #{response.code}
+            • Time (ms):     #{elapsed_ms}
+        LOG
+      end
 
       raw_body = response.body.to_s
-
       begin
         resp = JSON.parse(raw_body, object_class: OpenStruct)
       rescue JSON::ParserError => e

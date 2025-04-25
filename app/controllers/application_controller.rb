@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  around_action :store_request_for_logging
   before_action :get_session_streaming_token, :set_locale, :set_theme, :set_date, :set_feed
 
   def default_url_options
@@ -10,7 +11,12 @@ class ApplicationController < ActionController::Base
   end
 
   private
-
+  def store_request_for_logging
+    Thread.current[:current_request] = request
+    yield
+  ensure
+    Thread.current[:current_request] = nil
+  end
   def extract_locale_from_accept_language_header
     locale = request.env["HTTP_ACCEPT_LANGUAGE"]&.scan(/^[a-z]{2}/)&.first
     (locale && I18n.available_locales.include?(locale.to_sym)) ? locale.to_sym : nil
