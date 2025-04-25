@@ -108,11 +108,7 @@
                         }),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
-                    {
-                        name: 'TX', cell: row => row.Block.TxHash,
-                        rendering: renderTX,
-                        headerStyle: {maxWidth: '210px'},
-                    },
+
                 ],
                 options: {
                     tableLayout: 'auto'
@@ -125,10 +121,6 @@
         network: '<%= @streaming%>',
 
     }
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
-    renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestBlocks, '#LatestBlocks']], 'Latest-Blocks_6', variables, 'Subscription-Latest-Blocks_2')
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[BlocksReward, '#BlocksReward']], 'Reward-Blocks_3', variables, 'subscription-Reward-Blocks')
-    });
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestBlocks, '#LatestBlocks']], 'Latest-Blocks_8', variables, 'Subscription-Latest-Blocks_2')
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[BlocksReward, '#BlocksReward']], 'Reward-Blocks_4', variables, 'subscription-Reward-Blocks')
 </script>

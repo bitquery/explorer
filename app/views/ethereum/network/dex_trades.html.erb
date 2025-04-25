@@ -250,21 +250,15 @@
 
     const variables = {
         network: '<%= @streaming %>',
-        till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10),
-        mempool:false,
+        mempool:false
     }
 
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades0_2', variables, 'Subscription-Token-Trades_5');
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubTokenTradesTable, '#SubTokenTradesTable']], 'Token-Trades0_4', variables, 'Subscription-Token-Trades_5');
         renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [
             [TradesByTimeTrades, '#TradesByTimeTrades'],
             [TradesByTimeAddress, '#TradesByTimeAddress'],
             [TradesByTimeCurrencies, '#TradesByTimeCurrencies'],
             [TradesByTimeContracts, '#TradesByTimeContracts']
-        ], 'Trades-By-Time_4', variables);
-    })
+        ], 'Trades-By-Time_6', variables);
 </script>

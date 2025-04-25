@@ -189,16 +189,12 @@
         network: '<%= @streaming%>',
         mempool:false
     };
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate, tillDate, function f(variables) {
         renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [
             [SmartContractsByDate, '#Smart-Contracts-By-Date'],
             [UniqueSmartContracts, '#UniqueSmartContracts'],
             [SmartContractsCallers, '#SmartContractsCallers'],
             [SmartContractsMethods, '#SmartContractsMethods']
-        ], 'Smart-Contracts-Activity_2', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_10', variables, 'Subscription-Latest-Smart-Contract-Calls_4');
-    });
+        ], 'Smart-Contracts-Activity_3', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SubLatestSmartContractCalls, '#SubLatestSmartContractCalls']], 'Latest-Smart-Contract-Calls0_2', variables, 'Subscription-Latest-Smart-Contract-Calls_4');
 </script>
