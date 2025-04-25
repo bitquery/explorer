@@ -55,18 +55,14 @@
 
         const useEap = useEapNetworks.includes('<%= chain[:tag] %>');
 
-        const formatDate = (d) => `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
         const today = new Date();
-        const tenDaysAgo = new Date(today.setDate(today.getDate() - 30));
 
         const variables = {
             network: '<%= chain[:streaming] %>',
-            from: formatDate(tenDaysAgo),
-            till: formatDate(new Date()),
         };
         renderComponent('<%= @streaming_access_token %>', useEap, [
             [SmartContractsByDate, '#Smart-Contracts-By-Date-<%= chain[:tag] %>']
-        ], 'transaction-count_1', variables);
+        ], 'transaction-count_2', variables);
     } else {
         $(document).ready(function () {
             const formatDate = (d) => `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;

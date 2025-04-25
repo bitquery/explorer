@@ -44,14 +44,6 @@
 <div class="row">
   <div class="col-lg-4 mb-4">
     <div class="card">
-      <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %></div>
-      <div class="card-body">
-        <div id="binance"><%= t('loading') %></div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-4 mb-4">
-    <div class="card">
       <div class="card-header"><%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %></div>
       <div class="card-body">
         <div id="ethereum"><%= t('loading') %></div>
@@ -70,30 +62,6 @@
   </div>
 </div>
 <script type="module">
-    var tbtbnb = new widgets.chart('#binance', query1, 'binance.transfers', {
-        title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'binance'}) && chain[:name]) %>',
-        chartOptions: {
-            vAxes: {
-                '0': {
-                    title: '<%= t('widgets.titles.tx_count') %>'
-                }
-            },
-            hAxis: {
-                title: '<%= t('widgets.titles.month') %>'
-            }
-        },
-        dataOptions: [
-            {
-                title: '<%= t('widgets.titles.date') %>',
-                path: 'date.month'
-            },
-            {
-                title: '<%= t('widgets.titles.tx_count') %>',
-                path: 'count'
-            }
-        ]
-    });
-
     var tbteth = new widgets.chart('#ethereum', query2, 'ethereum.transfers', {
         title: '<%= t('widgets.headers.transactions_in_network', network: (chain = BLOCKCHAINS.detect{|chain| chain[:tag] == 'eth'}) && chain[:name]) %>',
         chartOptions: {
