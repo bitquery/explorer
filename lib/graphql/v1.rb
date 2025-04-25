@@ -14,6 +14,7 @@ module Graphql
       request['Content-Type'] = 'application/json'
       request['X-API-KEY'] = ENV.fetch('EXPLORER_API_KEY') { nil }
       request['Authorization'] = context[:authorization]
+      BitqueryLogger.info  "========v1======== Request headers: #{request.to_hash.inspect}"
 
       body = {
         query:,
