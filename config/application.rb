@@ -35,5 +35,6 @@ module Explorer
     # config.exceptions_app = self.routes
     # possible fix for turbo
     config.action_view.preload_links_header = false
+    config.middleware.use Rack::Attack
   end
 end
