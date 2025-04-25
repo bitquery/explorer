@@ -1,3 +1,4 @@
+
 module Algorand
   class AddressController < NetworkController
     layout 'tabs'
@@ -36,6 +37,7 @@ module Algorand
     end
 
     def query_graphql
+      BitqueryLogger.info("**********[GraphQL REQUEST] algorand transfers for #{@address} at #{Time.current}")
       result = Graphql::V1.query_with_retry(QUERY_CURRENCIES, variables: { address: @address },
                                                               context: { authorization: @streaming_access_token }).data.algorand
 

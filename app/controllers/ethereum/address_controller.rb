@@ -58,7 +58,6 @@ module Ethereum
 
     def fetch_evm(query)
 
-
       Graphql::V2
         .query_with_retry(
           query,
