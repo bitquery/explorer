@@ -63,7 +63,6 @@ module Graphql
       begin
         resp = JSON.parse(raw_body, object_class: OpenStruct)
       rescue JSON::ParserError => e
-        BitqueryLogger.error "========v2======== JSON::ParserError: #{e.message}, body=#{raw_body.inspect}"
         empty_evm = OpenStruct.new(calls: [], token: [])
         return OpenStruct.new(data: OpenStruct.new(EVM: empty_evm), errors: [])
       end
