@@ -229,19 +229,13 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        address: '<%= @address %>',
-        till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
+        address: '<%= @address %>'
     }
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_5', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_7', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens_4', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopSendersInNativeCurrency, '#TopSendersInNativeCurrency']], 'Top-Senders-in-native-currency_5', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopSendersInTokens, '#TopSendersInTokens']], 'Top-Senders-in-tokens_5', variables);
-    })
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestInboundTransfers, '#LatestInboundTransfers']], 'Latest-Inbound_6', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransfersInNativeCurrency, '#InboundTransfersInNativeCurrency']], 'Inbound-transfers-in-native-currency_8', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[InboundTransfersInTokens, '#InboundTransfersInTokens']], 'Inbound-transfers-in-tokens_5', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopSendersInNativeCurrency, '#TopSendersInNativeCurrency']], 'Top-Senders-in-native-currency_6', variables);
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopSendersInTokens, '#TopSendersInTokens']], 'Top-Senders-in-tokens_6', variables);
 
 </script>

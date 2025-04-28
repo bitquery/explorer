@@ -29,11 +29,11 @@
     class SmartContractCount extends BarChartComponent {
         configuration() {
             return {
-                topElement: response=> response.EVM.Calls,
-                chainId: response=>response.EVM.Calls[0].ChainId,
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency.Symboll? `(${response.EVM.Transfers[0]?.Transfer.Currency.Symbol})`:''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer.Currency.Symboll ? `(${response.EVM.Transfers[0]?.Transfer.Currency.Symbol})` : ''
                     return `Largest ${tokenName} ${tokenSymbol} Senders`
                 },
                 id: 'SmartContractCount',
@@ -55,53 +55,54 @@
             }
         }
     }
+
     class SmartContractMethods extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: response=> response.EVM.Calls,
-                chainId: response=>response.EVM.Calls[0].ChainId,
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
                 title: response => {
                     const tokenName = response.EVM.Transfers[0]?.Transfer?.Currency.Name || ''
-                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})`:''
+                    const tokenSymbol = response.EVM.Transfers[0]?.Transfer?.Currency.Symbol ? `(${response.EVM.Transfers[0]?.Transfer?.Currency.Symbol})` : ''
                     return `${tokenName} ${tokenSymbol} Methods`
                 },
-                id:'SmartContractMethods',
+                id: 'SmartContractMethods',
                 theme: '<%= @theme %>',
                 columns: [
                     {
-                        name: 'Method', cell: row=> ({
-                                method: row.Call.Signature.Name,
-                                hash: row.Call.Signature.SignatureHash,
-                                value: row.Call.Value
-                            }),
+                        name: 'Method', cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
                         rendering: renderMethodLink,
                     },
                     {
-                        name: 'Method signature', cell: row=> row.Call.Signature.Signature,
+                        name: 'Method signature', cell: row => row.Call.Signature.Signature,
                     },
                     {
                         name: 'Gas Cost/Call',
-                        cell: row =>({amount:row.average, usd: row.average_usd}),
+                        cell: row => ({amount: row.average, usd: row.average_usd}),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
-                        name: 'Latest Date', cell: row=> row.Block.Date
+                        name: 'Latest Date', cell: row => row.Block.Date
                     },
                     {
-                        name: 'TX Sender', cell: row=> row.txs,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '112px'},
+                        name: 'TX Sender', cell: row => row.txs,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '112px'},
                     },
                     {
-                        name: 'Internal calls', cell: row=> row.internal_count,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '112px'},
+                        name: 'Internal calls', cell: row => row.internal_count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '112px'},
                     },
                     {
-                        name: 'External calls', cell: row=> row.external_count,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '112px'},
+                        name: 'External calls', cell: row => row.external_count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '112px'},
                     },
                     {
-                        name: 'Calls Count', cell: row=> row.count,
-                        rendering: renderNumbers, headerStyle: {textAlign: 'end',width: '100px'},
+                        name: 'Calls Count', cell: row => row.count,
+                        rendering: renderNumbers, headerStyle: {textAlign: 'end', width: '100px'},
                     },
                 ]
             }
@@ -111,29 +112,29 @@
     class AddressesUsedInMethodParameters extends BootstrapTableComponent {
         configuration() {
             return {
-                topElement: response=> response.EVM.Calls,
-                chainId: response=>response.EVM.Calls[0].ChainId,
-                title:()=>'Addresses used in Method Parameters',
-                id:'AddressesUsedInMethodParameters',
+                topElement: response => response.EVM.Calls,
+                chainId: response => response.EVM.Calls[0].ChainId,
+                title: () => 'Addresses used in Method Parameters',
+                id: 'AddressesUsedInMethodParameters',
                 theme: '<%= @theme %>',
                 columns: [
                     {
-                        name: 'Address', cell: row=> row.Call.From,
+                        name: 'Address', cell: row => row.Call.From,
                         rendering: renderJustAddressLink, headerStyle: {width: '44%'},
                     },
                     {
-                     name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
+                        name: 'Arguments', cell: row => row.Arguments.map(e => e.Name).join(', ')
                     },
                     {
-                        name: 'Method', cell: row=> ({
-                                method: row.Call.Signature.Name,
-                                hash: row.Call.Signature.SignatureHash,
-                                value: row.Call.Value
-                            }),
+                        name: 'Method', cell: row => ({
+                            method: row.Call.Signature.Name,
+                            hash: row.Call.Signature.SignatureHash,
+                            value: row.Call.Value
+                        }),
                         rendering: renderMethodLink,
                     },
                     {
-                        name: 'Calls Count', cell: row=> row.count,
+                        name: 'Calls Count', cell: row => row.count,
                         rendering: renderNumbers, headerStyle: {textAlign: 'end'},
                     },
                 ]
@@ -145,11 +146,7 @@
         network: '<%= @streaming%>',
         token: '<%= @address %>',
     }
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[SmartContractMethods, '#SmartContractMethods'],[SmartContractCount, '#SmartContractCount']], 'Smart-Contract-Methods_6', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>',[[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_4', variables);
-    })
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[SmartContractMethods, '#SmartContractMethods'], [SmartContractCount, '#SmartContractCount']], 'Smart-Contract-Methods_7', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[AddressesUsedInMethodParameters, '#AddressesUsedInMethodParameters']], 'Addresses-used-in-Method-Parameters_5', variables);
 </script>

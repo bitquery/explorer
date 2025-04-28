@@ -79,8 +79,6 @@
     const variables = {
         network: '<%= @streaming%>',
         address: '<%= @address %>',
-        since: '<%= @from %>',
-        till: '<%= @till %>',
     }
-    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractEvents, '#SmartContractEvents'], [EventsDistribution, '#EventsDistribution']], 'Smart-Contract-Events--realtime', variables);
+    renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractEvents, '#SmartContractEvents'], [EventsDistribution, '#EventsDistribution']], 'Smart-Contract-Events--realtime_1', variables);
 </script>

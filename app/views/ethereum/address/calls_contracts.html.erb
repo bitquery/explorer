@@ -244,18 +244,12 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        address: '<%= @address %>',
-        till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 2))).toISOString().slice(0, 10)
+        address: '<%= @address %>'
     }
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls_9', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate']], 'Smart-contract-calls--including-internal--by-date_7', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopGasCostCalls, '#TopGasCostCalls']], 'Top-Gas-Cost-Calls_9', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractsCalled, '#SmartContractsCalled']], 'Smart-Contracts-Called_4', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractMethodsCalled, '#SmartContractMethodsCalled']], 'Smart-Contract-Methods-Called_6', variables);
-    })
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[LatestSmartContractCalls, '#LatestSmartContractCalls']], 'Latest-Smart-Contract-Calls0_3', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[SmartContractCallsIncludingInternalByDate, '#SmartContractCallsIncludingInternalByDate']], 'Smart-contract-calls--including-internal--by-date_9', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[TopGasCostCalls, '#TopGasCostCalls']], 'Top-Gas-Cost-Calls_10', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[SmartContractsCalled, '#SmartContractsCalled']], 'Smart-Contracts-Called_5', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[SmartContractMethodsCalled, '#SmartContractMethodsCalled']], 'Smart-Contract-Methods-Called_7', variables);
 </script>

@@ -67,7 +67,7 @@
                     },
                     {
                         name: 'Amount',
-                        cell: row =>({amount:row.sum, usd: row.sum_usd}),
+                        cell: row => ({amount: row.sum, usd: row.sum_usd}),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
@@ -175,7 +175,7 @@
                     },
                     {
                         name: 'Amount',
-                        cell: row =>({amount:row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
@@ -205,7 +205,7 @@
                     },
                     {
                         name: 'Amount',
-                        cell: row =>({amount:row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
+                        cell: row => ({amount: row.Transfer.Amount, usd: row.Transfer.AmountInUSD}),
                         rendering: renderNumberWithUSD, headerStyle: {textAlign: 'end'},
                     },
                     {
@@ -229,19 +229,13 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        address: '<%= @address %>',
-        till: new Date().toISOString().slice(0, 10),
-        from: (new Date((new Date()).setDate((new Date()).getDate() - 3))).toISOString().slice(0, 10)
+        address: '<%= @address %>'
     }
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate , tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_5', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_9', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens_5', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_6', variables);
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens_4', variables);
-    })
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[LatestOutboundTransfers, '#LatestOutboundTransfers']], 'Latest-Outbound-Transfers_6', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[OutboundTransfersInNativeCurrency, '#OutboundTransfersInNativeCurrency']], 'Outbound-transfers-in-native-currency_9', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[OutboundTransfersInTokens, '#OutboundTransfersInTokens']], 'Outbound-transfers-in-tokens_10', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[TopReceiversInNativeCurrency, '#TopReceiversInNativeCurrency']], 'Top-Receivers-in-native-currency_7', variables);
+    renderComponent('<%=@streaming_access_token %>', '<%=@use_eap %>', [[TopReceiversInTokens, '#TopReceiversInTokens']], 'Top-Receivers-in-tokens_5', variables);
 
 </script>
