@@ -217,15 +217,11 @@
 
     const variables = {
         network: '<%= @streaming%>',
-        address: '<%= @address %>',
+        address: '<%= @address %>'
     }
 
     renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractStatistics, '#SmartContractStatistics']], 'Smart-Contract-Statistics-dataset-combain_5', variables);
     renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[SmartContractBalanceByCurrencies, '#SmartContractBalanceByCurrencies']], 'Smart-Contract-balance-by-currencies_5', variables);
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[DailySmartContractCalls, '#DailySmartContractCalls'], [DailySmartContractCallsInt, '#DailySmartContractCallsInt'], [CallValue, '#CallValue']], 'Daily-Smart-Contract-Calls_8', variables);
-    })
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[DailySmartContractCalls, '#DailySmartContractCalls'], [DailySmartContractCallsInt, '#DailySmartContractCallsInt'], [CallValue, '#CallValue']], 'Daily-Smart-Contract-Calls_9', variables);
 </script>
