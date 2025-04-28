@@ -79,13 +79,9 @@
     const variables = {
         network: '<%= @streaming%>',
         baseCurrency: '<%= @token1 %>',
-        quoteCurrency: '<%= @token2 %>',
+        quoteCurrency: '<%= @token2 %>'
     }
-    const fromDate = '<%= j @from %>';
-    const tillDate = '<%= j @till %>';
 
-    renderWithTime(variables, fromDate, tillDate, function f(variables) {
-        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[PairLastTrades, '#PairLastTrades']], 'Pair-last-trades_9', variables, 'Subscription-pair-last-trades_6');
-    })
+        renderComponent('<%=@streaming_access_token %>','<%=@use_eap %>', [[PairLastTrades, '#PairLastTrades']], 'Pair-last-trades_10', variables, 'Subscription-pair-last-trades_6');
 
 </script>
