@@ -16,6 +16,7 @@ module Tron
                             tokenId
                             tokenType
                           }
+                count
                       }
                     }
                   }
