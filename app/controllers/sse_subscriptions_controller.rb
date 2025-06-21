@@ -1,24 +1,9 @@
 class SseSubscriptionsController < ApplicationController
   include ActionController::Live
   
-  @@sessions = {}
-  @@sessions_mutex = Mutex.new
   @@shutdown = false
-  @@cleanup_thread = nil
   @@active_websockets = []
   @@websockets_mutex = Mutex.new
-  
-  @@cleanup_thread = Thread.new do
-    until @@shutdown
-      60.times do
-        break if @@shutdown
-        sleep 1
-      end
-      @@sessions_mutex.synchronize do
-        @@sessions.delete_if { |_, data| Time.current - data[:created_at] > 1.minute }
-      end unless @@shutdown
-    end
-  end
   
   at_exit do
     @@shutdown = true
@@ -28,7 +13,6 @@ class SseSubscriptionsController < ApplicationController
       end
       @@active_websockets.clear
     end
-    @@cleanup_thread&.join(1)
   end
 
   def create
@@ -57,9 +41,7 @@ class SseSubscriptionsController < ApplicationController
       created_at: Time.current
     }
     
-    @@sessions_mutex.synchronize do
-      @@sessions[session_id] = subscription_data
-    end
+    Rails.cache.write("sse_session_#{session_id}", subscription_data, expires_in: 5.minutes)
     
     render json: { sessionId: session_id }
   end
@@ -67,10 +49,8 @@ class SseSubscriptionsController < ApplicationController
   def stream
     session_id = params[:id]
     
-    subscription_data = nil
-    @@sessions_mutex.synchronize do
-      subscription_data = @@sessions.delete(session_id)
-    end
+    subscription_data = Rails.cache.read("sse_session_#{session_id}")
+    Rails.cache.delete("sse_session_#{session_id}") if subscription_data
     
     unless subscription_data
       render json: { error: 'Invalid or expired session' }, status: :not_found
