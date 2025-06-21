@@ -35,13 +35,19 @@ class SseSubscriptionsController < ApplicationController
     variables = variables.is_a?(Hash) ? variables.deep_stringify_keys : {}
     
     subscription_data = {
-      query: params[:query],
+      query: params[:query].to_s.slice(0, 2000),
       variables: variables,
       endpoint_url: params[:endpoint_url],
-      created_at: Time.current
+      created_at: Time.current.to_s
     }
     
-    Rails.cache.write("sse_session_#{session_id}", subscription_data, expires_in: 5.minutes)
+    session[:sse_subscriptions] ||= {}
+    session[:sse_subscriptions][session_id] = subscription_data
+    
+    if session[:sse_subscriptions].size > 10
+      oldest_key = session[:sse_subscriptions].min_by { |k, v| v['created_at'] || v[:created_at] }&.first
+      session[:sse_subscriptions].delete(oldest_key) if oldest_key
+    end
     
     render json: { sessionId: session_id }
   end
@@ -49,11 +55,17 @@ class SseSubscriptionsController < ApplicationController
   def stream
     session_id = params[:id]
     
-    subscription_data = Rails.cache.read("sse_session_#{session_id}")
-    Rails.cache.delete("sse_session_#{session_id}") if subscription_data
+    subscription_data = session[:sse_subscriptions]&.delete(session_id)
     
     unless subscription_data
       render json: { error: 'Invalid or expired session' }, status: :not_found
+      return
+    end
+    
+    subscription_data = subscription_data.with_indifferent_access
+    
+    if Time.current - Time.parse(subscription_data[:created_at]) > 5.minutes
+      render json: { error: 'Session expired' }, status: :not_found
       return
     end
     
