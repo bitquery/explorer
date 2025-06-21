@@ -1,3 +1,5 @@
+import { sseManager } from './sseManager';
+
 const isNotEmptyArray = (subj) => Array.isArray(subj) && subj.length
 const isNotEmptyObject = (subj) =>
     subj != null &&
@@ -6,47 +8,93 @@ const isNotEmptyObject = (subj) =>
     Object.keys(subj).length
 
 export function SubscriptionDataSource(token, payload) {
-    let variables, cleanSubscription;
+    let variables, eventSource;
     let callbacks = [];
     let widgetFrames = [];
+    let retryCount = 0;
+    const maxRetries = 5;
+    let retryTimeout = null;
     this.mempoolShow = payload.variables.mempool === false && payload.variables.network === "eth";
 
     this.subscribe = () => {
-        const currentUrl = payload.endpoint_url.replace(/^http/, "ws");
-        const tokenForStreaming = token.replace(/^Bearer\s*/, "").trim();
-        const client = createClient({
-            url: `${currentUrl}?token=${tokenForStreaming}`,
-            connectionParams: async () => {
-                return {
-                    headers: {
-                        Authorization: token,
-                    },
-                };
-            },
-        });
         this.alive = true;
+        
+        if (retryTimeout) {
+            clearTimeout(retryTimeout);
+            retryTimeout = null;
+        }
+        
         try {
-            cleanSubscription = client.subscribe(
-                {query: payload.query, variables},
-                {
-                    next: ({data}) => {
-                        callbacks.forEach((cb, i) => {
-                            widgetFrames[i].onqueryend();
-                            cb(data, variables);
-                        });
-                    },
-                    error: (error) => {
-                        widgetFrames.forEach((wf) => wf.onerror("connection error"));
-                        this.unsubscribe();
-                    },
-                    complete: () => {
-                        this.alive = false;
-                    },
+            const subscriptionData = {
+                query: payload.query.replace('query', 'subscription'),
+                variables: variables || payload.variables,
+                endpoint_url: payload.endpoint_url
+            };
+            
+            fetch('/sse_subscriptions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                },
+                body: JSON.stringify(subscriptionData),
+                credentials: 'same-origin'
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to create subscription session');
                 }
-            );
+                return response.json();
+            }).then(data => {
+                this.sessionId = data.sessionId;
+                
+                const sseUrl = `/sse_subscriptions/${data.sessionId}`;
+                eventSource = new EventSource(sseUrl);
+                
+                sseManager.register(data.sessionId, eventSource, sseUrl);
+                
+                eventSource.onmessage = (event) => {
+                    try {
+                        const message = JSON.parse(event.data);
+                        
+                        switch (message.type) {
+                            case 'connection':
+                                console.log('SSE connected:', message.connectionId);
+                                break;
+                            case 'data':
+                                callbacks.forEach((cb, i) => {
+                                    widgetFrames[i].onqueryend();
+                                    cb(message.data.data, variables);
+                                });
+                                break;
+                            case 'error':
+                                console.error('SSE error:', message.error);
+                                widgetFrames.forEach((wf) => wf.onerror(message.error));
+                                this.unsubscribe();
+                                break;
+                            case 'heartbeat':
+                                break;
+                        }
+                    } catch (e) {
+                        console.error('Failed to parse SSE message:', e);
+                    }
+                };
+                
+                eventSource.onerror = (error) => {
+                    console.error('SSE connection error:', error);
+                    this.unsubscribe();
+                    this._handleRetry("SSE connection error");
+                };
+                
+            }).catch(error => {
+                console.error('Failed to establish SSE connection:', error);
+                this.unsubscribe();
+                this._handleRetry(error.message || "Failed to establish connection");
+            });
+            
         } catch (error) {
-            widgetFrames.forEach((wf) => wf.onerror(error));
+            console.error('Subscription error:', error);
             this.unsubscribe();
+            this._handleRetry(error.message || "Subscription failed");
         }
     };
 
@@ -58,16 +106,47 @@ export function SubscriptionDataSource(token, payload) {
         widgetFrames.push(wf);
     };
 
+    this._handleRetry = (errorMessage) => {
+        if (retryCount >= maxRetries) {
+            console.error(`Max retries (${maxRetries}) reached. Giving up.`);
+            widgetFrames.forEach((wf) => wf.onerror(`Connection failed after ${maxRetries} attempts: ${errorMessage}`));
+            return;
+        }
+        
+        retryCount++;
+        const backoffTime = Math.min(1000 * Math.pow(2, retryCount - 1), 30000);
+        
+        console.log(`Retrying subscription in ${backoffTime}ms (attempt ${retryCount}/${maxRetries})`);
+        widgetFrames.forEach((wf) => wf.onerror(`Connection failed, retrying in ${Math.round(backoffTime/1000)}s...`));
+        
+        retryTimeout = setTimeout(() => {
+            if (this.alive) {
+                this.subscribe();
+            }
+        }, backoffTime);
+    };
+
     this.changeVariables = async (deltaVariables) => {
         variables = {...payload.variables, ...deltaVariables};
-        cleanSubscription && cleanSubscription();
+        retryCount = 0;
+        eventSource && eventSource.close();
         this.subscribe();
     };
 
     this.unsubscribe = () => {
-        cleanSubscription && cleanSubscription();
+        if (retryTimeout) {
+            clearTimeout(retryTimeout);
+            retryTimeout = null;
+        }
+        if (eventSource) {
+            eventSource.close();
+            if (this.sessionId) {
+                sseManager.unregister(this.sessionId);
+            }
+        }
         this.alive = false;
-        cleanSubscription = null;
+        eventSource = null;
+        this.sessionId = null;
     };
 
     return this;
@@ -292,23 +371,46 @@ export const switchDataset = (widgetFrame, historyDataSource, subscriptionDataSo
     }
 };
 export const getQueryParams = async (queryID) => {
-    const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
-    const {endpoint_url, variables, query, name} = await response.json()
+    try {
+        const response = await fetch(`${window.bitqueryAPI}/getquery/${queryID}`)
+        
+        if (!response.ok) {
+            throw new Error(`Failed to fetch query ${queryID}: ${response.status} ${response.statusText}`)
+        }
+        
+        const data = await response.json()
+        
+        if (!data.query || !data.variables) {
+            throw new Error(`Invalid query response for ${queryID}: missing required fields`)
+        }
+        
+        const {endpoint_url, variables, query, name} = data
 
-    const updatedQuery = query
-        .replace(/combined/g, 'realtime')
-        .replace(/archive/g, 'realtime');
+        const updatedQuery = query
+            .replace(/combined/g, 'realtime')
+            .replace(/archive/g, 'realtime');
 
-    // Replace "combined" and "archive" with "realtime" in the variables string before parsing
-    const updatedVariablesString = variables
-        .replace(/combined/g, 'realtime')
-        .replace(/archive/g, 'realtime');
+        const updatedVariablesString = variables
+            .replace(/combined/g, 'realtime')
+            .replace(/archive/g, 'realtime');
 
-    return {
-        variables: JSON.parse(updatedVariablesString),
-        query: updatedQuery,
-        endpoint_url,
-        name,
+        let parsedVariables;
+        try {
+            parsedVariables = JSON.parse(updatedVariablesString);
+        } catch (jsonError) {
+            console.error(`Failed to parse variables for query ${queryID}:`, updatedVariablesString);
+            throw new Error(`Invalid JSON in query variables: ${jsonError.message}`);
+        }
+
+        return {
+            variables: parsedVariables,
+            query: updatedQuery,
+            endpoint_url,
+            name,
+        }
+    } catch (error) {
+        console.error(`Error loading query ${queryID}:`, error);
+        throw error;
     }
 }
 

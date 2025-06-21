@@ -79,3 +79,5 @@ gem 'yabeda-rails'
 # gem 'i18n-tasks', '~> 1.0.12'
 
 gem 'sprockets', '~> 4.2.0'
+
+gem 'websocket-client-simple', '~> 0.9.0'

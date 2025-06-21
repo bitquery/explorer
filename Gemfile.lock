@@ -126,6 +126,7 @@ GEM
     drb (2.2.1)
     dry-initializer (3.1.1)
     erubi (1.13.0)
+    event_emitter (0.2.6)
     exception_notification (4.5.0)
       actionmailer (>= 5.2, < 8)
       activesupport (>= 5.2, < 8)
@@ -135,15 +136,16 @@ GEM
     feedjira (3.2.3)
       loofah (>= 2.3.1, < 3)
       sax-machine (>= 1.0, < 2)
-    ffi (1.17.0-aarch64-linux)
+    ffi (1.17.0)
+    ffi (1.17.0-aarch64-linux-gnu)
     ffi (1.17.0-aarch64-linux-musl)
-    ffi (1.17.0-arm-linux)
+    ffi (1.17.0-arm-linux-gnu)
     ffi (1.17.0-arm-linux-musl)
     ffi (1.17.0-arm64-darwin)
-    ffi (1.17.0-x86-linux)
+    ffi (1.17.0-x86-linux-gnu)
     ffi (1.17.0-x86-linux-musl)
     ffi (1.17.0-x86_64-darwin)
-    ffi (1.17.0-x86_64-linux)
+    ffi (1.17.0-x86_64-linux-gnu)
     ffi (1.17.0-x86_64-linux-musl)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -184,6 +186,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.9)
     minitest (5.24.1)
     msgpack (1.7.2)
     mutex_m (0.2.0)
@@ -202,6 +205,9 @@ GEM
       net-protocol
     net-ssh (7.2.3)
     nio4r (2.7.3)
+    nokogiri (1.16.6)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.16.6-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.16.6-arm-linux)
@@ -371,6 +377,12 @@ GEM
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
     webrick (1.8.1)
+    websocket (1.2.11)
+    websocket-client-simple (0.9.0)
+      base64
+      event_emitter
+      mutex_m
+      websocket
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -400,13 +412,11 @@ GEM
 
 PLATFORMS
   aarch64-linux
-  aarch64-linux
   aarch64-linux-musl
-  arm-linux
   arm-linux
   arm-linux-musl
   arm64-darwin
-  x86-linux
+  ruby
   x86-linux
   x86-linux-musl
   x86_64-darwin
@@ -444,6 +454,7 @@ DEPENDENCIES
   sshkit-sudo
   tzinfo-data
   web-console (~> 4.2.1)
+  websocket-client-simple (~> 0.9.0)
   yabeda-graphql
   yabeda-http_requests
   yabeda-prometheus-mmap

@@ -36,7 +36,6 @@ import tradingViewrenderer from "@bitquery/ide-tradingview/src/tradingViewRender
 import { createChart } from "lightweight-charts";
 import ClipboardJS from "clipboard";
 import moment from "moment";
-import { createClient } from "graphql-ws";
 import serialize from "serialize-javascript";
 import WidgetConfig from "../component/componentDescription/WidgetConfig";
 import BootstrapTableComponent from "../component/componentDescription/BootstrapTableComponent";
@@ -75,7 +74,6 @@ const TradingView = require("packs/charting_library/charting_library");
 
 global.TradingView = TradingView;
 global.serialize = serialize;
-global.createClient = createClient;
 global.createChart = createChart;
 global.WidgetConfig = WidgetConfig;
 global.BootstrapTableComponent = BootstrapTableComponent;
@@ -506,10 +504,6 @@ global.createWidget = async function (
         argsReplace[arg] === "ethereum" ? "eth" : argsReplace[arg];
     }
   }
-  const сlient = createClient({
-    url: "wss://streaming.bitquery.io/graphql",
-    shouldRetry: () => false,
-  });
   const ds = new dataSourceWidget(
     query[widgetType],
     variables,
@@ -517,24 +511,54 @@ global.createWidget = async function (
     "https://streaming.bitquery.io/graphql"
   );
   table = await tableWidgetRenderer(ds, tableConfig[widgetType], container_id);
-  сlient.subscribe(payload, {
-    next: ({ data }) => {
-      const tableLength = 50;
-      const filteredData = dataFunction[widgetType](data);
-      const currentData = table.getData();
-      if (filteredData.length < tableLength) {
-        const newData = [
-          ...filteredData,
-          ...currentData.slice(0, tableLength - filteredData.length),
-        ];
-        table.replaceData(newData);
-      } else {
-        table.replaceData(filteredData.slice(0, tableLength));
-      }
+  const subscriptionData = {
+    query: query[widgetType].replace("query", "subscription"),
+    variables: payload.variables,
+    endpoint_url: "https://streaming.bitquery.io/graphql"
+  };
+  fetch('/sse_subscriptions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
     },
-    error: () => console.log("error"),
-    complete: () => console.log("complete"),
-  });
+    body: JSON.stringify(subscriptionData),
+    credentials: 'same-origin'
+  }).then(response => response.json())
+    .then(data => {
+      const eventSource = new EventSource(`/sse_subscriptions/${data.sessionId}`);
+      
+      if (window.activeEventSources) {
+        window.activeEventSources.push({ sessionId: data.sessionId, eventSource });
+      } else {
+        window.activeEventSources = [{ sessionId: data.sessionId, eventSource }];
+      }
+      
+      eventSource.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          if (message.type === 'data') {
+            const tableLength = 50;
+            const filteredData = dataFunction[widgetType](message.data.data);
+            const currentData = table.getData();
+            if (filteredData.length < tableLength) {
+              const newData = [
+                ...filteredData,
+                ...currentData.slice(0, tableLength - filteredData.length),
+              ];
+              table.replaceData(newData);
+            } else {
+              table.replaceData(filteredData.slice(0, tableLength));
+            }
+          }
+        } catch (e) {
+          console.error('Failed to parse SSE message:', e);
+        }
+      };
+      
+      eventSource.onerror = () => console.log("SSE error");
+    })
+    .catch(error => console.error("Failed to establish SSE connection:", error));
 };
 
 global.reportRange = function (selector, from, till, i18n) {
@@ -911,3 +935,23 @@ global.renderWithTime = function (variables = {}, from, till, f) {
   draw(from, till);
   rr.change(draw);
 };
+
+window.addEventListener('beforeunload', () => {
+  if (window.activeEventSources) {
+    window.activeEventSources.forEach(({ sessionId, eventSource }) => {
+      try {
+        eventSource.close();
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+        const data = new FormData();
+        data.append('_method', 'DELETE');
+        data.append('authenticity_token', csrfToken);
+        
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(`/sse_subscriptions/${sessionId}`, data);
+        }
+      } catch (error) {
+        console.error('Error cleaning up EventSource:', error);
+      }
+    });
+  }
+});

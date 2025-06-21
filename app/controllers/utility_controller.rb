@@ -3,4 +3,12 @@ class UtilityController < ApplicationController
     session[:locale] ||= I18n.default_locale
     super
   end
+  
+  def graphql
+    render layout: 'application'
+  end
+  
+  def errors
+    render layout: 'application'
+  end
 end
