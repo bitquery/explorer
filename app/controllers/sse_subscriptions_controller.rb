@@ -44,6 +44,9 @@ class SseSubscriptionsController < ApplicationController
     session[:sse_subscriptions] ||= {}
     session[:sse_subscriptions][session_id] = subscription_data
     
+    Rails.logger.info "[SSE] Storing subscription with ID: #{session_id}"
+    Rails.logger.info "[SSE] Subscription data being stored: #{subscription_data.inspect}"
+    
     if session[:sse_subscriptions].size > 10
       oldest_key = session[:sse_subscriptions].min_by { |k, v| v['created_at'] || v[:created_at] }&.first
       session[:sse_subscriptions].delete(oldest_key) if oldest_key
@@ -54,6 +57,9 @@ class SseSubscriptionsController < ApplicationController
 
   def stream
     session_id = params[:id]
+    
+    Rails.logger.info "[SSE] Stream requested for session ID: #{session_id}"
+    Rails.logger.info "[SSE] Current sessions in memory: #{session[:sse_subscriptions]&.keys&.inspect}"
     
     subscription_data = session[:sse_subscriptions]&.delete(session_id)
     
@@ -72,12 +78,17 @@ class SseSubscriptionsController < ApplicationController
     connection_id = SecureRandom.uuid
     
     response.headers['Content-Type'] = 'text/event-stream'
-    response.headers['Cache-Control'] = 'no-cache'
+    response.headers['Cache-Control'] = 'no-cache, no-transform'
+    response.headers['Connection'] = 'keep-alive'
     response.headers['X-Accel-Buffering'] = 'no'
     response.headers['Last-Modified'] = Time.now.httpdate
+    response.headers['X-Content-Type-Options'] = 'nosniff'
     
     oauth_token = get_oauth_token
     Rails.logger.info "Using OAuth token: #{oauth_token&.first(20)}..."
+    
+    Rails.logger.info "[SSE] Subscription data keys: #{subscription_data.keys.inspect}"
+    Rails.logger.info "[SSE] Endpoint URL: #{subscription_data[:endpoint_url].inspect}"
     
     ws_url = build_websocket_url(subscription_data[:endpoint_url], oauth_token)
     
