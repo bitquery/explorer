@@ -1,4 +1,4 @@
-import { sseManager } from './sseManager';
+import { websocketManager } from './websocketManager';
 
 const isNotEmptyArray = (subj) => Array.isArray(subj) && subj.length
 const isNotEmptyObject = (subj) =>
@@ -8,12 +8,18 @@ const isNotEmptyObject = (subj) =>
     Object.keys(subj).length
 
 export function SubscriptionDataSource(token, payload) {
-    let variables, eventSource;
+    return new WebSocketSubscriptionDataSource(token, payload);
+}
+
+export function WebSocketSubscriptionDataSource(token, payload) {
+    let variables;
+    let subscription;
     let callbacks = [];
     let widgetFrames = [];
     let retryCount = 0;
     const maxRetries = 5;
     let retryTimeout = null;
+    let subscriptionId = null;
     this.mempoolShow = payload.variables.mempool === false && payload.variables.network === "eth";
 
     this.subscribe = () => {
@@ -25,74 +31,54 @@ export function SubscriptionDataSource(token, payload) {
         }
         
         try {
-            const subscriptionData = {
-                query: payload.query.replace('query', 'subscription'),
-                variables: variables || payload.variables,
-                endpoint_url: payload.endpoint_url
-            };
+            subscriptionId = `ws_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
             
-            fetch('/sse_subscriptions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+            const subscriptionQuery = payload.query.replace('query', 'subscription');
+            const subscriptionVariables = variables || payload.variables;
+            
+            subscription = websocketManager.createSubscription(subscriptionId, {
+                onConnected: () => {
+                    console.log('WebSocket subscription connected');
+                    subscription.subscribe(
+                        subscriptionQuery,
+                        subscriptionVariables,
+                        payload.endpoint_url
+                    );
                 },
-                body: JSON.stringify(subscriptionData),
-                credentials: 'same-origin'
-            }).then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to create subscription session');
-                }
-                return response.json();
-            }).then(data => {
-                this.sessionId = data.sessionId;
                 
-                const sseUrl = `/sse_subscriptions/${data.sessionId}`;
-                eventSource = new EventSource(sseUrl);
+                onConnection: (data) => {
+                    console.log('WebSocket connection established:', data.connectionId);
+                    retryCount = 0;
+                },
                 
-                sseManager.register(data.sessionId, eventSource, sseUrl);
+                onData: (data) => {
+                    callbacks.forEach((cb, i) => {
+                        widgetFrames[i].onqueryend();
+                        cb(data.data, subscriptionVariables);
+                    });
+                },
                 
-                eventSource.onmessage = (event) => {
-                    try {
-                        const message = JSON.parse(event.data);
-                        
-                        switch (message.type) {
-                            case 'connection':
-                                console.log('SSE connected:', message.connectionId);
-                                break;
-                            case 'data':
-                                callbacks.forEach((cb, i) => {
-                                    widgetFrames[i].onqueryend();
-                                    cb(message.data.data, variables);
-                                });
-                                break;
-                            case 'error':
-                                console.error('SSE error:', message.error);
-                                widgetFrames.forEach((wf) => wf.onerror(message.error));
-                                this.unsubscribe();
-                                break;
-                            case 'heartbeat':
-                                break;
-                        }
-                    } catch (e) {
-                        console.error('Failed to parse SSE message:', e);
-                    }
-                };
-                
-                eventSource.onerror = (error) => {
-                    console.error('SSE connection error:', error);
+                onError: (error) => {
+                    console.error('WebSocket error:', error);
+                    widgetFrames.forEach((wf) => wf.onerror(error));
                     this.unsubscribe();
-                    this._handleRetry("SSE connection error");
-                };
+                    this._handleRetry(error);
+                },
                 
-            }).catch(error => {
-                console.error('Failed to establish SSE connection:', error);
-                this.unsubscribe();
-                this._handleRetry(error.message || "Failed to establish connection");
+                onDisconnected: () => {
+                    console.log('WebSocket disconnected');
+                    if (this.alive) {
+                        this._handleRetry("WebSocket connection lost");
+                    }
+                },
+                
+                onHeartbeat: (data) => {
+                    console.debug('WebSocket heartbeat:', data.timestamp);
+                }
             });
             
         } catch (error) {
-            console.error('Subscription error:', error);
+            console.error('WebSocket subscription error:', error);
             this.unsubscribe();
             this._handleRetry(error.message || "Subscription failed");
         }
@@ -116,7 +102,7 @@ export function SubscriptionDataSource(token, payload) {
         retryCount++;
         const backoffTime = Math.min(1000 * Math.pow(2, retryCount - 1), 30000);
         
-        console.log(`Retrying subscription in ${backoffTime}ms (attempt ${retryCount}/${maxRetries})`);
+        console.log(`Retrying WebSocket subscription in ${backoffTime}ms (attempt ${retryCount}/${maxRetries})`);
         widgetFrames.forEach((wf) => wf.onerror(`Connection failed, retrying in ${Math.round(backoffTime/1000)}s...`));
         
         retryTimeout = setTimeout(() => {
@@ -129,8 +115,17 @@ export function SubscriptionDataSource(token, payload) {
     this.changeVariables = async (deltaVariables) => {
         variables = {...payload.variables, ...deltaVariables};
         retryCount = 0;
-        eventSource && eventSource.close();
-        this.subscribe();
+        
+        if (subscription) {
+            const subscriptionQuery = payload.query.replace('query', 'subscription');
+            subscription.changeVariables(
+                subscriptionQuery,
+                variables,
+                payload.endpoint_url
+            );
+        } else {
+            this.subscribe();
+        }
     };
 
     this.unsubscribe = () => {
@@ -138,15 +133,12 @@ export function SubscriptionDataSource(token, payload) {
             clearTimeout(retryTimeout);
             retryTimeout = null;
         }
-        if (eventSource) {
-            eventSource.close();
-            if (this.sessionId) {
-                sseManager.unregister(this.sessionId);
-            }
+        if (subscription && subscriptionId) {
+            websocketManager.unregister(subscriptionId);
         }
         this.alive = false;
-        eventSource = null;
-        this.sessionId = null;
+        subscription = null;
+        subscriptionId = null;
     };
 
     return this;

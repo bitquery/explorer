@@ -516,49 +516,6 @@ global.createWidget = async function (
     variables: payload.variables,
     endpoint_url: "https://streaming.bitquery.io/graphql"
   };
-  fetch('/sse_subscriptions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-    },
-    body: JSON.stringify(subscriptionData),
-    credentials: 'same-origin'
-  }).then(response => response.json())
-    .then(data => {
-      const eventSource = new EventSource(`/sse_subscriptions/${data.sessionId}`);
-      
-      if (window.activeEventSources) {
-        window.activeEventSources.push({ sessionId: data.sessionId, eventSource });
-      } else {
-        window.activeEventSources = [{ sessionId: data.sessionId, eventSource }];
-      }
-      
-      eventSource.onmessage = (event) => {
-        try {
-          const message = JSON.parse(event.data);
-          if (message.type === 'data') {
-            const tableLength = 50;
-            const filteredData = dataFunction[widgetType](message.data.data);
-            const currentData = table.getData();
-            if (filteredData.length < tableLength) {
-              const newData = [
-                ...filteredData,
-                ...currentData.slice(0, tableLength - filteredData.length),
-              ];
-              table.replaceData(newData);
-            } else {
-              table.replaceData(filteredData.slice(0, tableLength));
-            }
-          }
-        } catch (e) {
-          console.error('Failed to parse SSE message:', e);
-        }
-      };
-      
-      eventSource.onerror = () => console.log("SSE error");
-    })
-    .catch(error => console.error("Failed to establish SSE connection:", error));
 };
 
 global.reportRange = function (selector, from, till, i18n) {
@@ -935,23 +892,3 @@ global.renderWithTime = function (variables = {}, from, till, f) {
   draw(from, till);
   rr.change(draw);
 };
-
-window.addEventListener('beforeunload', () => {
-  if (window.activeEventSources) {
-    window.activeEventSources.forEach(({ sessionId, eventSource }) => {
-      try {
-        eventSource.close();
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-        const data = new FormData();
-        data.append('_method', 'DELETE');
-        data.append('authenticity_token', csrfToken);
-        
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon(`/sse_subscriptions/${sessionId}`, data);
-        }
-      } catch (error) {
-        console.error('Error cleaning up EventSource:', error);
-      }
-    });
-  }
-});

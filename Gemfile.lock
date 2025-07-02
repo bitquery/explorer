@@ -126,13 +126,16 @@ GEM
     drb (2.2.1)
     dry-initializer (3.1.1)
     erubi (1.13.0)
-    event_emitter (0.2.6)
+    eventmachine (1.2.7)
     exception_notification (4.5.0)
       actionmailer (>= 5.2, < 8)
       activesupport (>= 5.2, < 8)
     exception_notification-rake (0.3.1)
       exception_notification (~> 4.3)
       rake (>= 0.9.0)
+    faye-websocket (0.12.0)
+      eventmachine (>= 0.12.0)
+      websocket-driver (>= 0.8.0)
     feedjira (3.2.3)
       loofah (>= 2.3.1, < 3)
       sax-machine (>= 1.0, < 2)
@@ -377,13 +380,8 @@ GEM
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
     webrick (1.8.1)
-    websocket (1.2.11)
-    websocket-client-simple (0.9.0)
+    websocket-driver (0.8.0)
       base64
-      event_emitter
-      mutex_m
-      websocket
-    websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     yabeda (0.12.0)
@@ -434,6 +432,7 @@ DEPENDENCIES
   dotenv-rails (~> 3.1.2)
   exception_notification
   exception_notification-rake (~> 0.3.1)
+  faye-websocket (~> 0.12.0)
   feedjira (~> 3.2.3)
   graphql-client
   jbuilder (~> 2.12.0)
@@ -454,7 +453,6 @@ DEPENDENCIES
   sshkit-sudo
   tzinfo-data
   web-console (~> 4.2.1)
-  websocket-client-simple (~> 0.9.0)
   yabeda-graphql
   yabeda-http_requests
   yabeda-prometheus-mmap

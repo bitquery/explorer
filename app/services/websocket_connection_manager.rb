@@ -1,15 +1,15 @@
-class SseConnectionManager
-  MAX_CONNECTIONS = ENV.fetch('SSE_MAX_CONNECTIONS', '100').to_i
-  CONNECTION_TIMEOUT = ENV.fetch('SSE_CONNECTION_TIMEOUT_MINUTES', '5').to_i.minutes
+class WebSocketConnectionManager
+  MAX_CONNECTIONS = ENV.fetch('WEBSOCKET_MAX_CONNECTIONS', '100').to_i
+  CONNECTION_TIMEOUT = ENV.fetch('WEBSOCKET_CONNECTION_TIMEOUT_MINUTES', '5').to_i.minutes
 
   class Connection
-    attr_reader :id, :stream, :websocket_client, :created_at
+    attr_reader :id, :action_cable_connection, :bitquery_client, :created_at
     attr_accessor :last_activity
 
-    def initialize(id, stream, websocket_client)
+    def initialize(id, action_cable_connection, bitquery_client)
       @id = id
-      @stream = stream
-      @websocket_client = websocket_client
+      @action_cable_connection = action_cable_connection
+      @bitquery_client = bitquery_client
       @created_at = Time.current
       @last_activity = Time.current
     end
@@ -19,9 +19,8 @@ class SseConnectionManager
     end
 
     def close
-      Rails.logger.info "Closing connection resources for: #{@id}"
-      websocket_client&.close rescue nil
-      stream.close rescue nil
+      Rails.logger.info "Closing WebSocket connection resources for: #{@id}"
+      bitquery_client&.close rescue nil
     end
   end
 
@@ -32,13 +31,13 @@ class SseConnectionManager
     @shutdown = false
   end
 
-  def add_connection(id, stream, websocket_client)
+  def add_connection(id, action_cable_connection, bitquery_client)
     @mutex.synchronize do
       if @connections.size >= MAX_CONNECTIONS
         remove_oldest_connection
       end
 
-      connection = Connection.new(id, stream, websocket_client)
+      connection = Connection.new(id, action_cable_connection, bitquery_client)
       @connections[id] = connection
       connection
     end.tap do |connection|
@@ -50,7 +49,7 @@ class SseConnectionManager
     @mutex.synchronize do
       connection = @connections.delete(id)
       if connection
-        Rails.logger.info "Removing SSE connection: #{id}"
+        Rails.logger.info "Removing WebSocket connection: #{id}"
         connection.close
       end
     end
@@ -62,8 +61,8 @@ class SseConnectionManager
       if connection
         {
           id: connection.id,
-          ws_client: connection.websocket_client,
-          stream: connection.stream,
+          action_cable_connection: connection.action_cable_connection,
+          bitquery_client: connection.bitquery_client,
           created_at: connection.created_at
         }
       end
@@ -86,7 +85,7 @@ class SseConnectionManager
   def remove_oldest_connection
     oldest_id = @connections.min_by { |_, conn| conn.created_at }&.first
     if oldest_id
-      Rails.logger.info "Removing oldest SSE connection: #{oldest_id}"
+      Rails.logger.info "Removing oldest WebSocket connection: #{oldest_id}"
       remove_connection(oldest_id)
     end
   end
@@ -103,7 +102,7 @@ class SseConnectionManager
       if !@shutdown
         @mutex.synchronize do
           if @connections[connection_id]
-            Rails.logger.info "SSE connection timeout: #{connection_id}"
+            Rails.logger.info "WebSocket connection timeout: #{connection_id}"
           end
         end
         remove_connection(connection_id) if !@shutdown

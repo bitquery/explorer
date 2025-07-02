@@ -46,9 +46,6 @@ services:
       - GRAPHQL_CLIENT_SECRET=${LC_COMPOSE_GRAPHQL_CLIENT_SECRET}
       - BITQUERY_STREAMING_WS=wss://streaming.bitquery.io/graphql
       - BITQUERY_EAP_WS=wss://streaming.bitquery.io/eap
-      - SSE_MAX_CONNECTIONS=100
-      - SSE_CONNECTION_TIMEOUT_MINUTES=5
-      - SSE_HEARTBEAT_INTERVAL_SECONDS=30
 
     labels:
       - __log_type=explorer

@@ -80,4 +80,4 @@ gem 'yabeda-rails'
 
 gem 'sprockets', '~> 4.2.0'
 
-gem 'websocket-client-simple', '~> 0.9.0'
+gem 'faye-websocket', '~> 0.12.0'

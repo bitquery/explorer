@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => '/cable'
   mount Yabeda::Prometheus::Exporter => "/metrics"
   get '/:locale/*path', to: redirect { |params, request|
     if ['ru', 'zh'].include?(params[:locale])
@@ -675,9 +676,8 @@ Rails.application.routes.draw do
     post "proxy_graphql", to: "proxy_graphql#index", defaults: { format: :json }
     post "proxy_streaming_graphql", to: "proxy_streaming_graphql#index", defaults: { format: :json }
     post "proxy_eap_graphql", to: "proxy_eap_graphql#index", defaults: { format: :json }
-    post "sse_subscriptions", to: "sse_subscriptions#create"
-    get "sse_subscriptions/:id", to: "sse_subscriptions#stream"
-    delete "sse_subscriptions/:id", to: "sse_subscriptions#destroy"
+    
+    get "websocket_subscriptions/token", to: "websocket_subscriptions#token"
 
     get "proxy_dbcode/:dashbord_url", to: "proxy_dbcode#index", defaults: { format: :json }
 

@@ -10,6 +10,7 @@ import {
     increaseLimitButton,
     SubscriptionDataSource, getAPIMempoolButton
 } from "./helper";
+import { SubscriptionFactory } from "./subscriptionFactory";
 
 export default async function renderComponent(token,use_eap, components, historyQueryID, explorerVariables = {}, subscriptionQueryID) {
     let variables, subscriptionDataSource, historyDataSource, subscriptionQueryParams, historyQueryParams
@@ -21,7 +22,9 @@ export default async function renderComponent(token,use_eap, components, history
             const { query, variables: rawVariables} = subscriptionQueryParams
             variables = {...rawVariables, ...explorerVariables};
             const subscriptionPayload = {query, variables, endpoint_url}
-            subscriptionDataSource = new SubscriptionDataSource(token, subscriptionPayload)
+            subscriptionDataSource = SubscriptionFactory.create(token, subscriptionPayload, {
+                network: variables?.network
+            })
         }
     } catch (error) {
         console.error(`Failed to load subscription query ${subscriptionQueryID}:`, error);
