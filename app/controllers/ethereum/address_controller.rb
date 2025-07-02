@@ -78,18 +78,16 @@ module Ethereum
         @info        = evm_data.token.first.Transfer
         @check_token = 'token'
         @fungible    = @info.Currency.Fungible
-      elsif evm_data.events.any? && evm_data.events.first.count.to_i > 0
+      end
+      
+      if evm_data.events.any? && evm_data.events.first.count.to_i > 0
         @check_events = 'events'
       end
     end
 
     def redirect_by_type
       if @check_token == 'token'
-        if @fungible
-          redirect_to controller: 'ethereum/token', action: 'nft_smart_contract'
-        else
-          change_controller! 'ethereum/token'
-        end
+        change_controller! 'ethereum/token'
       elsif @check_events == 'events'
         change_controller! 'ethereum/smart_contract'
       end
