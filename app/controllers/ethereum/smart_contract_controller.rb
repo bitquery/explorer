@@ -19,11 +19,9 @@ module Ethereum
     private
 
     def redirect_by_type
-      return unless !@check_call == 'calls'
+      return unless @check_events != 'events'
 
       change_controller! 'ethereum/address'
-      # elsif @check_token = 'token'
-      #   change_controller! 'ethereum/token'
     end
   end
 end

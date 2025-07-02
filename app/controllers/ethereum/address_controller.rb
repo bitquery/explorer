@@ -9,12 +9,6 @@ module Ethereum
     REALTIME_QUERY = <<-GRAPHQL.freeze
       query ($network: evm_network, $address: String!) {
         EVM(dataset: realtime, network: $network) {
-          calls: Calls(
-            where: {Call: {To: {is: $address}}},
-            limit: {count: 1}
-          ) {
-            Block { Time }
-          }
           token: Transfers(
             where: {Transfer: {Currency: {SmartContract: {is: $address}}}},
             limit: {count: 1}
@@ -22,6 +16,9 @@ module Ethereum
             Transfer {
               Currency { Symbol Name Fungible Native }
             }
+          }
+          events: Events(where: {Log: {SmartContract: {is: $address}}}, limit: {count: 1}) {
+            count
           }
         }
       }
@@ -38,7 +35,7 @@ module Ethereum
       Rails.cache.fetch(cache_key, expires_in: 1.day) do
         data = safe_fetch_evm(REALTIME_QUERY)
 
-        if data.calls.empty? && data.token.empty?
+        if data.events.empty? && data.token.empty?
           data = safe_fetch_evm(ARCHIVE_QUERY)
         end
 
@@ -51,7 +48,7 @@ module Ethereum
     rescue JSON::ParserError, Net::ReadTimeout, StandardError => e
       BitqueryLogger.error("[AddressController] GraphQL fetch error: #{e.class}: #{e.message}")
       OpenStruct.new(
-        calls: [],
+        events: [],
         token: []
       )
     end
@@ -81,9 +78,8 @@ module Ethereum
         @info        = evm_data.token.first.Transfer
         @check_token = 'token'
         @fungible    = @info.Currency.Fungible
-      elsif evm_data.calls.any?
-        @info       = evm_data.calls.first.Block
-        @check_call = 'calls'
+      elsif evm_data.events.any? && evm_data.events.first.count.to_i > 0
+        @check_events = 'events'
       end
     end
 
@@ -94,7 +90,7 @@ module Ethereum
         else
           change_controller! 'ethereum/token'
         end
-      elsif @check_call == 'calls'
+      elsif @check_events == 'events'
         change_controller! 'ethereum/smart_contract'
       end
     end
