@@ -215,5 +215,24 @@ module ApplicationHelper
     end
     [from.strftime("%Y-%m-%dT%H:%M:%S.000Z"), till.strftime("%Y-%m-%dT%H:%M:%S.999Z")]
   end
+  
+  def format_address(address)
+    return '' unless address
+    "#{address[0..5]}...#{address[-4..-1]}"
+  end
+  
+  def format_crypto_amount(amount)
+    return '0' unless amount
+    num = amount.to_f
+    if num < 0.0001
+      '< 0.0001'
+    elsif num < 1
+      '%.4f' % num
+    elsif num < 1000
+      '%.2f' % num
+    else
+      number_with_delimiter('%.2f' % num)
+    end
+  end
 end
 # rubocop:enable Metrics

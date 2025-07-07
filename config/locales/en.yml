@@ -225,6 +225,11 @@ en:
           balance, %{network} address portfolio, %{network} address tokens,%{network} address lookup, coin, 
           crypto, %{network} address analytics, %{network} address search engine, %{network} address history
           %{network} address finder,%{address}"
+      multichain:
+        name: 'Multichain'
+        title: "Multichain Activity for %{address} | %{network}"
+        description: "View cross-chain activity for address %{address} across Ethereum, BSC, Arbitrum, and Base networks"
+        keywords: "multichain address, cross-chain activity, ethereum bsc arbitrum base, multichain transfers, cross-chain analytics"
       nft_address:
         name: "NFTs on Address"
         title: "%{network} NFTs on Address"
