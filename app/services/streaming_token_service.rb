@@ -4,7 +4,7 @@ class StreamingTokenService
     def self.get
       payload = Rails.cache.read(KEY)
       if payload && payload[:expires_at].is_a?(Time) && Time.current < payload[:expires_at]
-        Rails.logger.info "[StreamingToken] REUSE; until=#{payload[:expires_at]}"
+        bitquery_logger.info "[StreamingToken] REUSE; until=#{payload[:expires_at]}"
         return payload[:token]
       end
   
@@ -22,7 +22,7 @@ class StreamingTokenService
   
       res = https.request(req)
       unless res.is_a?(Net::HTTPSuccess)
-        Rails.logger.error "[StreamingToken] OAuth error: #{res.code} #{res.message}"
+        bitquery_logger.error "[StreamingToken] OAuth error: #{res.code} #{res.message}"
         return payload&.dig(:token)
       end
   
@@ -31,10 +31,10 @@ class StreamingTokenService
       expires_at = Time.current + ttl.seconds
       data = { token: "Bearer #{body["access_token"]}", expires_at: expires_at }
       Rails.cache.write(KEY, data, expires_in: ttl, race_condition_ttl: 10)
-      Rails.logger.info "[StreamingToken] NEW; until=#{expires_at}"
+      bitquery_logger.info "[StreamingToken] NEW; until=#{expires_at}"
       data[:token]
     rescue => e
-      Rails.logger.error "[StreamingToken] fetch error: #{e.class}: #{e.message}"
+      bitquery_logger.error "[StreamingToken] fetch error: #{e.class}: #{e.message}"
       payload&.dig(:token)
     end
   
