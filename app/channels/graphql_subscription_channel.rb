@@ -164,45 +164,14 @@ class GraphqlSubscriptionChannel < ApplicationCable::Channel
   end
 
   def get_oauth_token
-    if connection.session['streaming_access_token'].present? && 
-       Time.current < (connection.session['streaming_expires_in'] || Time.current)
-      return connection.session['streaming_access_token']
+    token = StreamingTokenService.get
+    if token.blank?
+      Rails.logger.error "[WebSocket] No OAuth token from StreamingTokenService"
     end
-    
-    get_streaming_access_token
+    token
   end
 
-  def get_streaming_access_token
-    if ENV["GRAPHQL_CLIENT_ID"].blank? || ENV["GRAPHQL_CLIENT_SECRET"].blank?
-      Rails.logger.error "[OAuth] Missing required OAuth credentials (GRAPHQL_CLIENT_ID and/or GRAPHQL_CLIENT_SECRET)"
-      return nil
-    end
-    
-    url = URI("https://oauth2.bitquery.io/oauth2/token")
-    https = Net::HTTP.new(url.host, url.port)
-    https.use_ssl = true
 
-    request = Net::HTTP::Post.new(url)
-    request["Content-Type"] = "application/x-www-form-urlencoded"
-    request.body = "grant_type=client_credentials&client_id=#{ENV["GRAPHQL_CLIENT_ID"]}&client_secret=#{ENV["GRAPHQL_CLIENT_SECRET"]}&scope=api"
-    response = https.request(request)
-
-    if response.is_a?(Net::HTTPSuccess)
-      body = JSON.parse(response.body)
-      token = "Bearer #{body["access_token"]}"
-      connection.session["streaming_access_token"] = token
-      connection.session["streaming_expires_in"] = Time.current + body["expires_in"].seconds - 5.minutes
-      Rails.logger.info "[OAuth] Successfully obtained OAuth token (expires in #{body["expires_in"]} seconds)"
-      token
-    else
-      Rails.logger.error("Failed to retrieve streaming access token: #{response.code} #{response.message}")
-      Rails.logger.error("Response body: #{response.body}")
-      nil
-    end
-  rescue => e
-    Rails.logger.error("Error occurred while retrieving streaming access token: #{e.message}")
-    nil
-  end
 
   def build_websocket_url(endpoint_url, oauth_token)
     token_value = oauth_token.to_s.gsub(/^Bearer\s*/, '').strip
