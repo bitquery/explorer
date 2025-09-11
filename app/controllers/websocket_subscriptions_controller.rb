@@ -36,4 +36,4 @@ class WebsocketSubscriptionsController < ApplicationController
   # rescue => e
   #   Rails.logger.error("Error occurred while retrieving streaming access token: #{e.message}")
   # end
-end
+# end
