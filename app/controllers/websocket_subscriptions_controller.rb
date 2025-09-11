@@ -1,4 +1,4 @@
-class WebsocketSubscriptionsController < ApplicationController
+class WebSocketConnectionManager < ApplicationController
     def token
       token   = StreamingTokenService.get
       payload = StreamingTokenService.payload

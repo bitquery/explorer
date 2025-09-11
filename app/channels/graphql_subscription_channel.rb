@@ -36,7 +36,7 @@ class GraphqlSubscriptionChannel < ApplicationCable::Channel
     
     close_bitquery_connection
     
-    WebsocketConnectionManager.instance.remove_connection(@subscription_id) if @subscription_id
+    WebSocketConnectionManager.instance.remove_connection(@subscription_id) if @subscription_id
   end
 
   def subscribe(data)
@@ -112,7 +112,7 @@ class GraphqlSubscriptionChannel < ApplicationCable::Channel
       variables
     )
     
-    WebsocketConnectionManager.instance.add_connection(
+    WebSocketConnectionManager.instance.add_connection(
       @subscription_id,
       connection,
       @ws_client
