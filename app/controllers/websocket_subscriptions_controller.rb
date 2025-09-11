@@ -1,19 +1,19 @@
-class WebSocketConnectionManager < ApplicationController
-    def token
-      token   = StreamingTokenService.get
-      payload = StreamingTokenService.payload
-      render json: {
-        token: token,
-        expires_at: payload&.dig(:expires_at)
-      }
-    end
-  
-    private
-  
-    def get_oauth_token
-      StreamingTokenService.get
-    end
+class WebsocketSubscriptionsController < ApplicationController
+  def token
+    token   = StreamingTokenService.get
+    payload = StreamingTokenService.payload
+    render json: {
+      token: token,
+      expires_at: payload&.dig(:expires_at)
+    }
   end
+
+  private
+
+  def get_oauth_token
+    StreamingTokenService.get
+  end
+end
   
   # def get_streaming_access_token
   #   url = URI("https://oauth2.bitquery.io/oauth2/token")

@@ -1,4 +1,4 @@
-class WebSocketConnectionManager
+class WebsocketConnectionManager
   MAX_CONNECTIONS = ENV.fetch('WEBSOCKET_MAX_CONNECTIONS', '100').to_i
   CONNECTION_TIMEOUT = ENV.fetch('WEBSOCKET_CONNECTION_TIMEOUT_MINUTES', '5').to_i.minutes
 
