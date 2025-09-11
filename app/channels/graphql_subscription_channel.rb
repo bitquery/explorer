@@ -2,7 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'concurrent'
-require_relative '../services/websocket_connection_manager'
+# require_relative '../services/websocket_connection_manager'
 require_relative '../services/graphql_websocket_client'
 
 class GraphqlSubscriptionChannel < ApplicationCable::Channel
@@ -36,7 +36,7 @@ class GraphqlSubscriptionChannel < ApplicationCable::Channel
     
     close_bitquery_connection
     
-    WebSocketConnectionManager.instance.remove_connection(@subscription_id) if @subscription_id
+    WebsocketConnectionManager.instance.remove_connection(@subscription_id) if @subscription_id
   end
 
   def subscribe(data)
@@ -112,7 +112,7 @@ class GraphqlSubscriptionChannel < ApplicationCable::Channel
       variables
     )
     
-    WebSocketConnectionManager.instance.add_connection(
+    WebsocketConnectionManager.instance.add_connection(
       @subscription_id,
       connection,
       @ws_client
