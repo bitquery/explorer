@@ -37,3 +37,4 @@ yarn-debug.log*
 
 # environment variables
 /.env
+/vendor
