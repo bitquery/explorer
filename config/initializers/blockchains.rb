@@ -281,48 +281,48 @@ BLOCKCHAINS = [
     excludeNetworksPattern: ['([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)'],
     txHashPattern: ['([\\W]|^)([0-9A-Fa-f]{64})([\\W]|$)']
   },
-  {
-    tag: 'algorand',
-    network: 'algorand',
-    name: 'Algorand Mainnet',
-    family: 'algorand',
-    platform: 'Smart Contract',
-    currency: 'ALGO',
-    icon: 'currency/algo.png',
-    blockchainAddressPattern: ['([\\W]|^)([0-9A-Z]{58})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)']
-  },
-  {
-    tag: 'algorand_testnet',
-    network: 'algorand_testnet',
-    name: 'Algorand Testnet',
-    family: 'algorand',
-    platform: 'Testnet',
-    currency: 'ALGO',
-    icon: 'currency/algo.png',
-    blockchainAddressPattern: ['([\\W]|^)([0-9A-Z]{58})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)']
-  },
-  {
-    tag: 'algorand_betanet',
-    network: 'algorand_betanet',
-    name: 'Algorand Betanet',
-    family: 'algorand',
-    platform: 'Testnet',
-    currency: 'ALGO',
-    icon: 'currency/algo.png',
-    blockchainAddressPattern: ['([\\W]|^)([0-9A-Z]{58})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)']
-  },
+  # {
+  #   tag: 'algorand',
+  #   network: 'algorand',
+  #   name: 'Algorand Mainnet',
+  #   family: 'algorand',
+  #   platform: 'Smart Contract',
+  #   currency: 'ALGO',
+  #   icon: 'currency/algo.png',
+  #   blockchainAddressPattern: ['([\\W]|^)([0-9A-Z]{58})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)']
+  # },
+  # {
+  #   tag: 'algorand_testnet',
+  #   network: 'algorand_testnet',
+  #   name: 'Algorand Testnet',
+  #   family: 'algorand',
+  #   platform: 'Testnet',
+  #   currency: 'ALGO',
+  #   icon: 'currency/algo.png',
+  #   blockchainAddressPattern: ['([\\W]|^)([0-9A-Z]{58})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)']
+  # },
+  # {
+  #   tag: 'algorand_betanet',
+  #   network: 'algorand_betanet',
+  #   name: 'Algorand Betanet',
+  #   family: 'algorand',
+  #   platform: 'Testnet',
+  #   currency: 'ALGO',
+  #   icon: 'currency/algo.png',
+  #   blockchainAddressPattern: ['([\\W]|^)([0-9A-Z]{58})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)([0-9A-Z]{52})([\\W]|$)']
+  # },
 
   {
     tag: 'bnb',
