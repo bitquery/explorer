@@ -101,7 +101,7 @@ BLOCKCHAINS = [
     nativeToken:'0x',
     currency: 'ETH',
     icon: 'currency/optimism.svg',
-    use_eap: true,
+    use_eap: false,
     innovation: true,
     blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
@@ -110,26 +110,26 @@ BLOCKCHAINS = [
     ],
     txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)']
   },
-  {
-    tag: 'opbnb',
-    chainId: '204',
-    network: 'opbnb',
-    streaming: 'opbnb',
-    name: 'opBNB',
-    family: 'ethereum',
-    platform: 'Smart Contract',
-    nativeToken:'0x',
-    currency: 'BNB',
-    icon: 'currency/opbnb.svg',
-    use_eap: true,
-    innovation: true,
-    blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)']
-  },
+  # {
+  #   tag: 'opbnb',
+  #   chainId: '204',
+  #   network: 'opbnb',
+  #   streaming: 'opbnb',
+  #   name: 'opBNB',
+  #   family: 'ethereum',
+  #   platform: 'Smart Contract',
+  #   nativeToken:'0x',
+  #   currency: 'BNB',
+  #   icon: 'currency/opbnb.svg',
+  #   use_eap: true,
+  #   innovation: true,
+  #   blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)']
+  # },
   {
     tag: 'base',
     chainId: '8453',

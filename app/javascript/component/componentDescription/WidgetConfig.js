@@ -79,18 +79,18 @@ export default class WidgetConfig {
                 icon: 'currency/optimism.svg',
                 use_eap: true,
             },
-            {
-                tag: 'opbnb',
-                chainId: '204',
-                network: 'opbnb',
-                streaming: 'opbnb',
-                name: 'opBNB',
-                family: 'ethereum',
-                platform: 'Smart Contract',
-                currency: 'BNB',
-                icon: 'currency/opbnb.svg',
-                use_eap: true,
-            },
+            // {
+            //     tag: 'opbnb',
+            //     chainId: '204',
+            //     network: 'opbnb',
+            //     streaming: 'opbnb',
+            //     name: 'opBNB',
+            //     family: 'ethereum',
+            //     platform: 'Smart Contract',
+            //     currency: 'BNB',
+            //     icon: 'currency/opbnb.svg',
+            //     use_eap: true,
+            // },
         ];
     }
 
