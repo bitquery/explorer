@@ -682,8 +682,9 @@ Rails.application.routes.draw do
     get "proxy_dbcode/:dashbord_url", to: "proxy_dbcode#index", defaults: { format: :json }
 
     get "platform/:action", controller: "home"
-    get "graphql(/:param)" => "utility#graphql"
-    get "graphql/reset(/:token)" => "utility#graphql"
+    # Disabled GraphQL UI routes
+    # get "graphql(/:param)" => "utility#graphql"
+    # get "graphql/reset(/:token)" => "utility#graphql"
     root "home#index"
 
     # error pages
