@@ -379,11 +379,11 @@ export const getQueryParams = async (queryID) => {
         const {endpoint_url, variables, query, name} = data
 
         const updatedQuery = query
-            .replace(/combined/g, 'realtime')
+            .replace(/combined/g, 'combined')
             .replace(/archive/g, 'realtime');
 
         const updatedVariablesString = variables
-            .replace(/combined/g, 'realtime')
+            .replace(/combined/g, 'combined')
             .replace(/archive/g, 'realtime');
 
         let parsedVariables;

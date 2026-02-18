@@ -344,71 +344,71 @@ BLOCKCHAINS = [
     ],
     txHashPattern: ['(0x[0-9a-f]{64})']
   },
-  {
-    tag: 'conflux_hydra',
-    network: 'conflux_hydra',
-    name: 'Conflux Hydra',
-    family: 'conflux',
-    platform: 'Smart Contract',
-    currency: 'CFX',
-    icon: 'currency/conflux.png',
-    blockchainAddressPattern: ['(\\W|^)((cfx:)[\\w\\d]{42})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
-  },
-  {
-    tag: 'conflux_oceanus',
-    network: 'conflux_oceanus',
-    name: 'Conflux Oceanus',
-    family: 'conflux',
-    platform: 'Testnet',
-    currency: 'CFX',
-    icon: 'currency/conflux.png',
-    blockchainAddressPattern: ['(\\W|^)((cfx:)[\\w\\d]{42})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
-  },
-  {
-    tag: 'hedera',
-    network: 'hedera',
-    name: 'Hedera Hashgraph Mainnet',
-    family: 'hedera',
-    platform: 'Graph',
-    currency: 'HBAR',
-    icon: 'currency/hedera-hashgraph.svg',
-    blockchainAddressPattern: ['([^\\.\\W]|^)((0+\\.){2}(\\d+))([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([\\da-fA-F]{96})([\\W]|$)']
-  },
-  {
-    tag: 'eos',
-    network: 'eos',
-    name: 'EOS Mainnet',
-    family: 'eos',
-    platform: 'Smart Contract',
-    currency: 'eosio.token',
-    icon: 'eos.svg',
-    blockchainAddressPattern: ['([\\W]|^)([\\w\\.]{2,32})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)']
-  },
+  # {
+  #   tag: 'conflux_hydra',
+  #   network: 'conflux_hydra',
+  #   name: 'Conflux Hydra',
+  #   family: 'conflux',
+  #   platform: 'Smart Contract',
+  #   currency: 'CFX',
+  #   icon: 'currency/conflux.png',
+  #   blockchainAddressPattern: ['(\\W|^)((cfx:)[\\w\\d]{42})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)',
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
+  # },
+  # {
+  #   tag: 'conflux_oceanus',
+  #   network: 'conflux_oceanus',
+  #   name: 'Conflux Oceanus',
+  #   family: 'conflux',
+  #   platform: 'Testnet',
+  #   currency: 'CFX',
+  #   icon: 'currency/conflux.png',
+  #   blockchainAddressPattern: ['(\\W|^)((cfx:)[\\w\\d]{42})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)',
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
+  # },
+  # {
+  #   tag: 'hedera',
+  #   network: 'hedera',
+  #   name: 'Hedera Hashgraph Mainnet',
+  #   family: 'hedera',
+  #   platform: 'Graph',
+  #   currency: 'HBAR',
+  #   icon: 'currency/hedera-hashgraph.svg',
+  #   blockchainAddressPattern: ['([^\\.\\W]|^)((0+\\.){2}(\\d+))([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)',
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)([\\da-fA-F]{96})([\\W]|$)']
+  # },
+  # {
+  #   tag: 'eos',
+  #   network: 'eos',
+  #   name: 'EOS Mainnet',
+  #   family: 'eos',
+  #   platform: 'Smart Contract',
+  #   currency: 'eosio.token',
+  #   icon: 'eos.svg',
+  #   blockchainAddressPattern: ['([\\W]|^)([\\w\\.]{2,32})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)']
+  # },
   {
     tag: 'tron',
     network: 'tron',
@@ -467,22 +467,22 @@ BLOCKCHAINS = [
     ],
     txHashPattern: ['([\\W]|^)([0-9a-zA-Z]{86,88})([\\W]|$)']
   },
-  {
-    tag: 'eth2',
-    network: 'eth2',
-    name: 'Beacon Chain Ethereum 2.0',
-    family: 'ethereum2',
-    platform: 'Beacon',
-    currency: 'ETH',
-    icon: 'eth.svg',
-    start: Date.parse('2020-12-01'),
-    blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
-  },
+  # {
+  #   tag: 'eth2',
+  #   network: 'eth2',
+  #   name: 'Beacon Chain Ethereum 2.0',
+  #   family: 'ethereum2',
+  #   platform: 'Beacon',
+  #   currency: 'ETH',
+  #   icon: 'eth.svg',
+  #   start: Date.parse('2020-12-01'),
+  #   blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
+  # },
   {
     tag: 'filecoin',
     network: 'filecoin',
@@ -500,43 +500,43 @@ BLOCKCHAINS = [
     ],
     txHashPattern: ['([\\W]|^)bafy[0-9a-zA-Z]+([\\W]|$)']
   },
-  # {
-  #   tag: 'matic',
-  #   network: 'matic',
-  #   streaming:'matic',
-  #   use_eap: true,
-  #   name: 'Matic (Polygon) Mainnet',
-  #   # family: 'ethereum',
-  #   family: 'cosmos',
-  #   platform: 'Smart Contract',
-  #   nativeToken:'0x',
-  #   currency: 'MATIC',
-  #   icon: 'matic.svg',
-  #   start: Date.parse('2020-05-30'),
-  #   blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
-  #   excludeNetworksPattern: [
-  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-  #   ],
-  #   txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
-  # },
   {
-    tag: 'elrond',
-    network: 'elrond',
-    name: 'The MultiversX (Elrond) Mainnet',
-    family: 'elrond',
+    tag: 'matic',
+    network: 'matic',
+    streaming:'matic',
+    use_eap: true,
+    name: 'Matic (Polygon) Mainnet',
+    # family: 'ethereum',
+    family: 'cosmos',
     platform: 'Smart Contract',
-    currency: 'EGLD',
-    icon: 'currency/egld-token-logo.svg',
-    blockchainAddressPattern: ['([\\W]|^)(erd1[a-zA-HJ-NP-Z0-9]{40,70})([\\W]|$)'],
+    nativeToken:'0x',
+    currency: 'MATIC',
+    icon: 'matic.svg',
+    start: Date.parse('2020-05-30'),
+    blockchainAddressPattern: ['([\\W]|^)(0x[0-9a-fA-F]{40})([\\W]|$)'],
     excludeNetworksPattern: [
       '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
       '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
     ],
-    txHashPattern: ['([A-Fa-f0-9]{64})']
+    txHashPattern: ['([\\W]|^)(0x[0-9a-f]{64})([\\W]|$)'] # //check hash
   },
+  # {
+  #   tag: 'elrond',
+  #   network: 'elrond',
+  #   name: 'The MultiversX (Elrond) Mainnet',
+  #   family: 'elrond',
+  #   platform: 'Smart Contract',
+  #   currency: 'EGLD',
+  #   icon: 'currency/egld-token-logo.svg',
+  #   blockchainAddressPattern: ['([\\W]|^)(erd1[a-zA-HJ-NP-Z0-9]{40,70})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)',
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([A-Fa-f0-9]{64})']
+  # },
   {
     tag: 'cosmoshub',
     network: 'cosmoshub',
@@ -573,42 +573,42 @@ BLOCKCHAINS = [
     ],
     txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)']
   },
-  {
-    tag: 'heimdall',
-    network: 'heimdall',
-    name: 'Heimdall (Matic Verification Network)',
-    family: 'cosmos',
-    platform: 'Cosmos',
-    currency: 'MATIC',
-    icon: 'currency/matic-logo.png',
-    blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
-                               '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)']
-  },
-  {
-    tag: 'terra',
-    network: 'terra',
-    name: 'Terra',
-    family: 'cosmos',
-    platform: 'Cosmos',
-    currency: 'LUNA',
-    icon: 'currency/terra-luna-logo.svg',
-    blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
-                               '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)'
-    ],
-    txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)']
-  },
+  # {
+  #   tag: 'heimdall',
+  #   network: 'heimdall',
+  #   name: 'Heimdall (Matic Verification Network)',
+  #   family: 'cosmos',
+  #   platform: 'Cosmos',
+  #   currency: 'MATIC',
+  #   icon: 'currency/matic-logo.png',
+  #   blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
+  #                              '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)']
+  # },
+  # {
+  #   tag: 'terra',
+  #   network: 'terra',
+  #   name: 'Terra',
+  #   family: 'cosmos',
+  #   platform: 'Cosmos',
+  #   currency: 'LUNA',
+  #   icon: 'currency/terra-luna-logo.svg',
+  #   blockchainAddressPattern: ['([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)',
+  #                              '([\\W]|^)([0-9a-fA-F]{40})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['([\\W]|^)([A-Fa-f0-9]{64})([\\W]|$)']
+  # },
   {
     tag: 'flow',
     network: 'flow',
@@ -661,23 +661,23 @@ BLOCKCHAINS = [
     ],
     txHashPattern: ['([\\W]|^)([0-9a-fA-F]{64})([\\W]|$)']
   },
-  {
-    tag: 'tezos',
-    network: 'tezos',
-    name: 'Tezos',
-    family: 'tezos',
-    platform: 'Tezos',
-    currency: 'XTZ',
-    icon: 'currency/tezos-xtz-logo.svg',
-    blockchainAddressPattern: ['([\\W]|^)((tz1|KT1|tz3|tz2)[\\w]{33})([\\W]|$)'],
-    excludeNetworksPattern: [
-      '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
-      '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
-      '([\\W]|^)(T[\\w]{2})([\\W]|$)',
-      '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
-    ],
-    txHashPattern: ['(o[\\w]{50})']
-  }
+  # {
+  #   tag: 'tezos',
+  #   network: 'tezos',
+  #   name: 'Tezos',
+  #   family: 'tezos',
+  #   platform: 'Tezos',
+  #   currency: 'XTZ',
+  #   icon: 'currency/tezos-xtz-logo.svg',
+  #   blockchainAddressPattern: ['([\\W]|^)((tz1|KT1|tz3|tz2)[\\w]{33})([\\W]|$)'],
+  #   excludeNetworksPattern: [
+  #     '([\\W]|^)(bnb[0-9a-z]{2})([\\W]|$)',
+  #     '([\\W]|^)(bnb[0-9a-z]{2)([\\W]|$)',
+  #     '([\\W]|^)(T[\\w]{2})([\\W]|$)',
+  #     '([\\W]|^)((cosmos1|terra1|tcro1|tcrocncl1)[a-zA-HJ-NP-Z0-9]{38,70})([\\W]|$)'
+  #   ],
+  #   txHashPattern: ['(o[\\w]{50})']
+  # }
 ].freeze
 
 BLOCKCHAIN_BY_NAME = BLOCKCHAINS.index_by { |b| b[:network] }

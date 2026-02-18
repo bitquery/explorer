@@ -37,7 +37,7 @@
                     id: 'Smart-Contracts-By-Date-<%= chain[:tag] %>',
                     theme: '<%= @theme %>',
                     columns: [
-                        {name: 'Date', cell: row => row.Block.Date},
+                        {name: 'Date', cell: row => row.Block.Date || row.Block.month},
                         {name: 'Transaction Count', cell: row => +row.count}
                     ],
                     options: {
@@ -62,12 +62,12 @@
         };
         renderComponent('<%= @streaming_access_token %>', useEap, [
             [SmartContractsByDate, '#Smart-Contracts-By-Date-<%= chain[:tag] %>']
-        ], 'transaction-count_2', variables);
+        ], 'transaction-count_4', variables);
     } else {
         $(document).ready(function () {
             const formatDate = (d) => `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
             const today = new Date();
-            const tenDaysAgo = new Date(today.setDate(today.getDate() - 30));
+            const sixMonthsAgo = new Date(today.setDate(today.getDate() - 180));
             const query = new widgets.query(`<%= query.html_safe %>`);
             new widgets.chartByTime('#<%= chain[:tag] %>', query, 'chain.transactions', {
                 title: '<%= t('widgets.headers.transactions_by_time') %>',
@@ -98,7 +98,7 @@
             query.request({
                 network: '<%= chain[:network] %>',
                 dateFormat: dateRangeReportFormat(),
-                from: formatDate(tenDaysAgo),
+                from: formatDate(sixMonthsAgo),
                 till: formatDate(new Date())
             });
         });
