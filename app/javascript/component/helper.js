@@ -222,7 +222,7 @@ export const getBaseClass = (targetClass, config) => {
     return data
 }
 
-export const getAPIButton = (widgetFrame, data, variables, queryID, subscriptionQueryID, subscriptionDataSource) => () => {
+export const getAPIButton = (widgetFrame, historyQuery, subscriptionQuery, variables, endpointURL) => () => {
     if (widgetFrame.mempoolControlButton.dataset.active === "true") {
         variables.mempool = true
     } else {
@@ -235,32 +235,17 @@ export const getAPIButton = (widgetFrame, data, variables, queryID, subscription
         input.setAttribute("value", value)
         return input
     }
-    let currentTabElement = document.querySelector(
-        "body > div:nth-child(6) > ul > li:nth-child(1) > a"
-    )
-    let currentTab = currentTabElement
-        ? currentTabElement.text.toLowerCase()
-        : "default"
-    let currentUrl = window.location.href
-    let networkPattern = /https?:\/\/[^\/]+\/(\w+)/
-    let match = currentUrl.match(networkPattern)
-    let network = match ? match[1] : "default"
+    const query = widgetFrame.mempoolControlButton.dataset.active === "true" ||
+    widgetFrame.streamControlButton.dataset.active === "true" ?
+        subscriptionQuery : historyQuery;
     let form = document.createElement("form")
     form.setAttribute("method", "post")
-    form.setAttribute("action", `${window.bitqueryAPI}/widgetconfig`)
+    form.setAttribute("action", `${window.bitqueryAPI}/querytransfer`)
     form.setAttribute("enctype", "application/json")
     form.setAttribute("target", "_blank")
-    form.appendChild(createHiddenField("data", JSON.stringify(data)))
+    form.appendChild(createHiddenField("query", JSON.stringify(query)))
     form.appendChild(createHiddenField("variables", JSON.stringify(variables)))
-
-    const url = widgetFrame.mempoolControlButton.dataset.active === "true" ||
-    widgetFrame.streamControlButton.dataset.active === "true" ?
-        subscriptionQueryID : queryID;
-    form.appendChild(createHiddenField("url", url))
-    form.appendChild(createHiddenField("utm_source", "explorer.bitquery.io"))
-    form.appendChild(createHiddenField("utm_medium", "referral"))
-    form.appendChild(createHiddenField("utm_campaign", encodeURIComponent(network)))
-    form.appendChild(createHiddenField("utm_content", encodeURIComponent(currentTab)))
+    form.appendChild(createHiddenField("endpointURL", JSON.stringify(endpointURL)))
     document.body.appendChild(form)
     form.submit()
     document.body.removeChild(form)

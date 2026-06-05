@@ -1,5 +1,4 @@
 import {
-    getBaseClass,
     getAPIButton,
     streamControl,
     mempoolStreamControl,
@@ -86,12 +85,10 @@ export default async function renderComponent(token,use_eap, components, history
         const componentObject = new ComponentConstructor(widgetFrame.frame, historyDataSource, subscriptionDataSource)
         componentObject.init(widgetFrame)
 
-        const data = getBaseClass(ComponentConstructor, componentObject.config);
-        data.unshift({['WidgetConfig']: serialize(WidgetConfig)});
         widgetFrame.mempoolControlButton.onclick = mempoolStreamControl(subscriptionDataSource, widgetFrame)
         widgetFrame.switchButton.onclick = switchDataset(widgetFrame, historyDataSource, subscriptionDataSource)
         widgetFrame.streamControlButton.onclick = streamControl(subscriptionDataSource, widgetFrame)
-        widgetFrame.getHistoryAPIButton.onclick = getAPIButton(widgetFrame, data, variables, historyQueryID, subscriptionQueryID, subscriptionDataSource)
+        widgetFrame.getHistoryAPIButton.onclick = getAPIButton(widgetFrame, historyQueryParams?.query, subscriptionQueryParams?.query, variables, endpoint_url)
     })
 
     historyDataSource && await historyDataSource.changeVariables()
