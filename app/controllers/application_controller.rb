@@ -1,6 +1,5 @@
 class ApplicationController < ActionController::Base
   around_action :store_request_for_logging
-  around_action :cache_sitemap_response, if: :sitemap_index_request?
   before_action :get_session_streaming_token, :set_locale, :set_theme, :set_date, :set_feed
   before_action :set_sitemap_url_options, if: :sitemap_request?
 
@@ -137,10 +136,6 @@ class ApplicationController < ActionController::Base
     controller_name.in?(%w[sitemap sitemaps])
   end
 
-  def sitemap_index_request?
-    sitemap_request? && action_name == "index"
-  end
-
   def set_sitemap_url_options
     Rails.application.routes.default_url_options.merge!(
       host: CANONICAL_HOST,
@@ -151,24 +146,6 @@ class ApplicationController < ActionController::Base
 
   def canonical_port
     CANONICAL_PROTOCOL == "https" ? 443 : 80
-  end
-
-  def cache_sitemap_response
-    cache_key = ["sitemap", "v1", controller_path, params[:blockchain], params[:locale]].compact.join("/")
-    if (cached = Rails.cache.read(cache_key))
-      render plain: cached["body"], content_type: cached["content_type"], layout: false
-      return
-    end
-
-    yield
-
-    return unless response.successful? && response.body.present?
-
-    Rails.cache.write(
-      cache_key,
-      { "body" => response.body, "content_type" => response.media_type },
-      expires_in: 24.hours
-    )
   end
 
   # def get_streaming_access_token
