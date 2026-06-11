@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+
+export PATH="/opt/homebrew/opt/ruby@3.4/bin:/opt/homebrew/lib/ruby/gems/3.4.0/bin:${PATH}"
+export RAILS_ENV=development
+
+if [[ ! -d node_modules ]]; then
+  echo "Installing JavaScript dependencies..."
+  yarn install
+fi
+
+if [[ ! -f public/packs/manifest.json ]]; then
+  echo "Compiling frontend assets (first run may take a few minutes)..."
+  bundle exec rails shakapacker:compile
+fi
+
+echo "Starting Bitquery Explorer at http://localhost:${PORT:-3000}"
+exec bundle exec rails server -b 0.0.0.0 -p "${PORT:-3000}"

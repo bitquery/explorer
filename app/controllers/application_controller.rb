@@ -1,9 +1,15 @@
 class ApplicationController < ActionController::Base
   around_action :store_request_for_logging
+  around_action :cache_sitemap_response, if: :sitemap_index_request?
   before_action :get_session_streaming_token, :set_locale, :set_theme, :set_date, :set_feed
+  before_action :set_sitemap_url_options, if: :sitemap_request?
 
   def default_url_options
-    {locale: (I18n.locale == I18n.default_locale) ? nil : I18n.locale}
+    opts = { locale: (I18n.locale == I18n.default_locale) ? nil : I18n.locale }
+    if sitemap_request?
+      opts.merge!(host: CANONICAL_HOST, protocol: CANONICAL_PROTOCOL, port: canonical_port)
+    end
+    opts
   end
 
   def innovation_in_blockchain?
@@ -117,9 +123,52 @@ class ApplicationController < ActionController::Base
   def get_session_streaming_token
     token = StreamingTokenService.get
     payload = StreamingTokenService.payload
-  
+
+    session["streaming_access_token"] = token
     @streaming_access_token = token
     @streaming_token_time_live = payload&.dig(:expires_at)
+  end
+
+  def streaming_authorization_header
+    StreamingTokenService.get
+  end
+
+  def sitemap_request?
+    controller_name.in?(%w[sitemap sitemaps])
+  end
+
+  def sitemap_index_request?
+    sitemap_request? && action_name == "index"
+  end
+
+  def set_sitemap_url_options
+    Rails.application.routes.default_url_options.merge!(
+      host: CANONICAL_HOST,
+      protocol: CANONICAL_PROTOCOL,
+      port: canonical_port
+    )
+  end
+
+  def canonical_port
+    CANONICAL_PROTOCOL == "https" ? 443 : 80
+  end
+
+  def cache_sitemap_response
+    cache_key = ["sitemap", "v1", controller_path, params[:blockchain], params[:locale]].compact.join("/")
+    if (cached = Rails.cache.read(cache_key))
+      render plain: cached["body"], content_type: cached["content_type"], layout: false
+      return
+    end
+
+    yield
+
+    return unless response.successful? && response.body.present?
+
+    Rails.cache.write(
+      cache_key,
+      { "body" => response.body, "content_type" => response.media_type },
+      expires_in: 24.hours
+    )
   end
 
   # def get_streaming_access_token
