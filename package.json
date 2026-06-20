@@ -60,7 +60,7 @@
     "webpack-assets-manifest": "5",
     "webpack-bundle-analyzer": "^4.10.2",
     "webpack-cli": "4",
-    "webpack-dev-server": "4",
+    "webpack-dev-server": "5",
     "webpack-merge": "5",
     "webpack-sources": "^3.2.3"
   },
