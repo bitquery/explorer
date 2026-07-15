@@ -1,0 +1,16 @@
+<link rel="canonical" href="<%= canonical_page_url %>">
+<meta name="robots" content="<%= robots_meta_content %>">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="https://www.gstatic.com">
+<link rel="dns-prefetch" href="https://streaming.bitquery.io">
+<% if @breadcrumbs&.any? %>
+  <script type="application/ld+json"><%= breadcrumb_json_ld.html_safe %></script>
+<% end %>
+<% if controller_name == 'home' && action_name == 'index' %>
+  <script type="application/ld+json"><%= website_json_ld.html_safe %></script>
+<% end %>
+<% if page_h1_text.present? && !content_for?(:visible_h1) %>
+  <h1 class="sr-only"><%= strip_tags(page_h1_text.to_s) %></h1>
+<% end %>
