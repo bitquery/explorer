@@ -9,6 +9,6 @@ class UtilityController < ApplicationController
   end
   
   def errors
-    render layout: 'application'
+    render 'utility/errors', formats: [:html], layout: 'application', status: :not_found
   end
 end
