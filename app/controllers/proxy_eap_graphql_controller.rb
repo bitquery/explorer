@@ -13,7 +13,7 @@ class ProxyEapGraphqlController < ApplicationController
                            { 'Content-Type' => 'application/json',
                              'Accept' => 'application/json',
                              'X-API-KEY' => api_key,
-                             'Authorization' => session['streaming_access_token'] })
+                             'Authorization' => streaming_authorization_header })
 
       unless res.is_a?(Net::HTTPSuccess)
         Rails.logger.error "EAP GraphQL failed with status #{res.code}: #{res.body}"

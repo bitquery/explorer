@@ -682,6 +682,15 @@ Rails.application.routes.draw do
     get "proxy_dbcode/:dashbord_url", to: "proxy_dbcode#index", defaults: { format: :json }
 
     get "platform/:action", controller: "home"
+
+    # Home page category tabs link to /smart_contract, /bitcoin, etc.
+    %w[smart_contract bitcoin cosmos ripple utility testnet cardano graph offchain].each do |action|
+      get action, to: "home##{action}"
+    end
+
+    # Common mistaken explorer URLs
+    get ":blockchain/network/:action", to: redirect("/%{blockchain}/%{action}")
+
     # Disabled GraphQL UI routes
     # get "graphql(/:param)" => "utility#graphql"
     # get "graphql/reset(/:token)" => "utility#graphql"

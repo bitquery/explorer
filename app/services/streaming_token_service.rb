@@ -8,9 +8,18 @@ class StreamingTokenService
         return payload[:token]
       end
   
+      static_token = ENV["BITQUERY_ACCESS_TOKEN"].to_s
+      unless static_token.empty?
+        token = static_token.start_with?("Bearer ") ? static_token : "Bearer #{static_token}"
+        data = { token: token, expires_at: 1.year.from_now }
+        Rails.cache.write(KEY, data, expires_in: 1.year, race_condition_ttl: 10)
+        Rails.logger.info "[StreamingToken] STATIC token from BITQUERY_ACCESS_TOKEN"
+        return token
+      end
+
       cid = ENV["GRAPHQL_CLIENT_ID"]; csec = ENV["GRAPHQL_CLIENT_SECRET"]
       if cid.to_s.empty? || csec.to_s.empty?
-        Rails.logger.error "[StreamingToken] MISSING ENV GRAPHQL_CLIENT_ID/SECRET"
+        Rails.logger.error "[StreamingToken] MISSING ENV GRAPHQL_CLIENT_ID/SECRET or BITQUERY_ACCESS_TOKEN"
         return payload&.dig(:token)
       end
   
