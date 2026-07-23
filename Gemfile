@@ -1,14 +1,14 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '~> 3.3.4'
+ruby '~> 3.4.0'
 
 # gem 'turbo-rails', '~> 2.0.6'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.1.3.4'
+gem 'rails', '~> 8.1.0'
 # Use Puma as the app server
-gem 'puma', '~> 6.4.3'
+gem 'puma', '~> 7.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
@@ -17,8 +17,7 @@ gem 'shakapacker', '~> 8.0.1'
 # gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.12.0'
-# Use Redis adapter to run Action Cable in production
-# gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.0'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -31,14 +30,14 @@ gem 'feedjira', '~> 3.2.3'
 
 gem 'rack-attack'
 # Logger
-gem 'bitquery_logger', git: 'https://github.com/bitquery/bitquery_logger.git', tag: 'v0.7.9' # , path: '../bitquery_logger'
-gem 'exception_notification'
-gem 'exception_notification-rake', '~> 0.3.1'
+gem 'bitquery_logger', path: 'vendor/bitquery_logger'
+gem 'exception_notification', '~> 5.0'
 gem 'lograge'
 gem 'logstash-event'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1.18.3', require: false
+gem 'csv'
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.

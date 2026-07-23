@@ -11,7 +11,7 @@ class ProxyGraphqlController < ApplicationController
                          { 'Content-Type' => 'application/json',
                            'Accept' => 'application/json',
                            'X-API-KEY' => api_key,
-                           'Authorization' => session['streaming_access_token'] })
+                           'Authorization' => streaming_authorization_header })
 
     respond_to do |format|
       format.json do

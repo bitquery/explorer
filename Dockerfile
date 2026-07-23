@@ -1,4 +1,4 @@
-FROM ruby:3.3.4-alpine AS builder
+FROM ruby:3.4.9-alpine AS builder
 
 WORKDIR /app
 ENV RAILS_ENV="production" \
@@ -32,7 +32,7 @@ RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rails shakapacker:compile && \
 RUN yarn install --production && \
     yarn cache clean
 
-FROM ruby:3.3.4-alpine AS runner
+FROM ruby:3.4.9-alpine AS runner
 
 WORKDIR /app
 

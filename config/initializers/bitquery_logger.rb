@@ -15,8 +15,6 @@ ExceptionNotification.configure do |config|
   # config.ignore_crawlers %w{Googlebot bingbot}
 end
 
-ExceptionNotifier::Rake.configure
-
 Rails.application.config.middleware.use ExceptionNotification::Rack,
                                         bitquery: {}
 
