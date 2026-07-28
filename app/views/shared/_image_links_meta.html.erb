@@ -9,7 +9,7 @@
 <meta property="og:title" content="<%= content_for?(:title) ? yield(:title) : 'Bitquery Blockchain Explorer' %>" />
 <meta property="og:type" content="article" />
 <meta property="og:description" content="<%= content_for?(:description) ? yield(:description) : 'Bitquery is analytical engine for blockchains' %>" />
-<meta property="og:url" content="<%= request.original_url %>" />
+<meta property="og:url" content="<%= canonical_url %>" />
 
 <link rel="image_src" href="<%= image_path 'bitqueryLogoicon.png' %>">
 <meta name="twitter:card" content="summary_large_image" />
