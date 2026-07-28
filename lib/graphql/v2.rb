@@ -62,9 +62,13 @@ module Graphql
       raw_body = response.body.to_s
       begin
         resp = JSON.parse(raw_body, object_class: OpenStruct)
-      rescue JSON::ParserError => e
-        empty_evm = OpenStruct.new(calls: [], token: [])
-        return OpenStruct.new(data: OpenStruct.new(EVM: empty_evm), errors: [])
+      rescue JSON::ParserError
+        # Do not fabricate a response shape here. The previous placeholder
+        # carried :calls while callers read :events, so an unparseable body --
+        # which is what an auth failure returns -- surfaced as
+        # "undefined method `empty?' for nil" deep inside a controller and
+        # became a 500. Raising lets callers degrade on their own terms.
+        raise "GraphQL response body is not JSON (HTTP #{response.code})"
       end
 
       BitqueryLogger.extra_context(errors: resp.errors&.map(&:message))
