@@ -11,7 +11,7 @@
       graphs.init('<%= proxy_graphql_path %>', '<%= BITQUERY_IDE_API %>/querytransfer', csrfToken);
 
       const componentProperties = {
-        bitqueryAPI: window.bitqueryAPI = '<%= BITQUERY_IDE_API %>'
+        bitqueryAPI: window.bitqueryAPI = '<%= ide_api_base_url %>'
       };
     </script>
     <%= render partial: 'shared/navbar', locals: { bitquery_feed_item: @bitquery_feed_item } %>

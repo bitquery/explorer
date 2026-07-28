@@ -32,25 +32,52 @@ module Ethereum
     def load_evm_data
       cache_key = ["ethereum", "evm_data", @network[:streaming], @address]
 
-      Rails.cache.fetch(cache_key, expires_in: 1.day) do
-        data = safe_fetch_evm(REALTIME_QUERY)
+      cached = Rails.cache.read(cache_key)
+      return cached if cached
 
-        if data.events.empty? && data.token.empty?
-          data = safe_fetch_evm(ARCHIVE_QUERY)
-        end
+      data, complete = fetch_evm_data
 
-        data
-      end
+      # Never cache a failed lookup. Writing it would pin a transient auth or
+      # upstream outage to this address for a full day.
+      Rails.cache.write(cache_key, data, expires_in: 1.day) if complete
+
+      data
     end
 
+    def fetch_evm_data
+      data, complete = safe_fetch_evm(REALTIME_QUERY)
+
+      return [data, complete] unless complete
+      return [data, complete] if data.events.any? || data.token.any?
+
+      safe_fetch_evm(ARCHIVE_QUERY)
+    end
+
+    # Returns [data, complete]. When complete is false the lookup failed and
+    # the page renders without token/event detail rather than returning 5xx --
+    # sustained 5xx on entity pages is read by search engines as a signal to
+    # drop the URL.
     def safe_fetch_evm(query)
-      fetch_evm(query)
-    rescue JSON::ParserError, Net::ReadTimeout, StandardError => e
+      [normalize_evm(fetch_evm(query)), true]
+    rescue StandardError => e
       BitqueryLogger.error("[AddressController] GraphQL fetch error: #{e.class}: #{e.message}")
+      [empty_evm, false]
+    end
+
+    # Coerce whatever comes back into the shape this controller relies on, so a
+    # missing or differently-shaped field cannot raise during rendering.
+    def normalize_evm(evm)
+      events = evm&.events
+      token  = evm&.token
+
       OpenStruct.new(
-        events: [],
-        token: []
+        events: events.is_a?(Array) ? events : [],
+        token:  token.is_a?(Array) ? token : []
       )
+    end
+
+    def empty_evm
+      OpenStruct.new(events: [], token: [])
     end
 
     def fetch_evm(query)
