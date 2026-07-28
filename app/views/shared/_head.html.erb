@@ -11,7 +11,8 @@
   <% end %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <meta http-equiv="origin-trial" content="AphgWW7JZWyF1dROumdjRuj/SjNlm1hu2JGHUxdeA5S8G/AAVT1xxG6wa3FH/YtcBzRGr9Wa0ulWnetSEAtzQgMAAABceyJvcmlnaW4iOiJodHRwczovL2V4cGxvcmVyLmJpdHF1ZXJ5LmlvOjQ0MyIsImZlYXR1cmUiOiJNdXRhdGlvbkV2ZW50cyIsImV4cGlyeSI6MTc0NzE4MDc5OX0=">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= favicon_link_tag ('bitqueryLogoicon.svg')%>
@@ -20,17 +21,22 @@
   <%#= javascript_include_tag 'datafeeds/udf/dist/bundle' %>
   <%= stylesheet_pack_tag 'application', media: 'all' %>
   <%= javascript_pack_tag 'application' %>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5.19.1"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.0.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.15.1"></script>
-  <script src="https://cdn.jsdelivr.net/gh/bitquery/widgets-runtime@v1.0/dataSource.js"></script>
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <%# defer: these are ~2.4MB of third-party JavaScript and none of it is
+      needed to paint the page. Every consumer reads these globals either from
+      a <script type="module"> (deferred by spec) or from inside
+      $(document).ready(), both of which run after deferred scripts, so
+      execution order is preserved. %>
+  <script defer src="https://cdn.jsdelivr.net/npm/vega@5.19.1"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vega-lite@5.0.0"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/vega-embed@6.15.1"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/bitquery/widgets-runtime@v1.0/dataSource.js"></script>
+  <script defer type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/graphs@v1.0.29/dist/graphs.min.css">
-  <script src="https://cdn.jsdelivr.net/gh/bitquery/graphs@v1.0.36/dist/graphs.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/bitquery/graphs@v1.0.36/dist/graphs.min.js"></script>
   <%#= stylesheet_pack_tag 'graphs', media: 'all' %>
   <%#= javascript_pack_tag 'graphs' %>
   <link rel="stylesheet" media="all" href="https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.3.25/dist/assets/css/widgets.css">
-  <script src="https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.3.25/dist/widgets.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/bitquery/widgets@v1.3.25/dist/widgets.js"></script>
   <%#= '<link rel="stylesheet" media="all" href="http://localhost:63342/widgets/dist/assets/css/widgets.css?_rnd=1231241">'.html_safe %>
   <%#= '<script src="http://localhost:63342/widgets/dist/widgets.js?_rnd=1231241"></script>'.html_safe %>
   <%#= stylesheet_pack_tag 'assets/css/widgets', media: 'all' %>
