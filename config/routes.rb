@@ -681,6 +681,14 @@ Rails.application.routes.draw do
 
     get "proxy_dbcode/:dashbord_url", to: "proxy_dbcode#index", defaults: { format: :json }
 
+    # ProxyGraphqlIdeController existed with no route, so it was unreachable.
+    # ide.bitquery.io only sends access-control-allow-origin for the deployed
+    # explorer origin, so a browser on any other host has its query-config
+    # fetch blocked and every widget renders "Failed to load data". Fetching
+    # server-side sends no Origin, so the proxy sidesteps CORS.
+    get "proxy_graphql_ide/getquery/:queryid", to: "proxy_graphql_ide#getquery",
+                                               defaults: { format: :json }
+
     get "platform/:action", controller: "home"
     # Disabled GraphQL UI routes
     # get "graphql(/:param)" => "utility#graphql"
