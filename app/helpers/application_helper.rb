@@ -4,6 +4,20 @@ module ApplicationHelper
     "#{BITQUERY_IMAGES}/#{name}"
   end
 
+  # Base URL the browser uses to load saved query configurations.
+  #
+  # ide.bitquery.io returns access-control-allow-origin only for the deployed
+  # explorer origin, so on any other host the browser blocks the response,
+  # getQueryParams throws, and every widget renders "Failed to load data".
+  # Outside production this goes through the server-side proxy instead, which
+  # sends no Origin and so is not subject to CORS. Production is unchanged and
+  # still talks to the API directly.
+  def ide_api_base_url
+    return BITQUERY_IDE_API if Rails.env.production?
+
+    '/proxy_graphql_ide'
+  end
+
   def image_pack_path(path)
     resolve_path_to_image path
   end
