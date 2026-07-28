@@ -20,6 +20,12 @@
   <%= csp_meta_tag %>
   <%= favicon_link_tag ('bitqueryLogoicon.svg')%>
   <%= render partial: 'shared/image_links_meta' %>
+  <%# to_json, not JSON.generate: Rails escapes <, > and & to unicode escapes,
+      so a breadcrumb name carrying "</script>" cannot break out of the tag.
+      Breadcrumb names include user-supplied addresses and hashes. %>
+  <% structured_data_documents(breadcrumbs: @breadcrumbs).each do |document| %>
+    <script type="application/ld+json"><%= document.to_json.html_safe %></script>
+  <% end %>
   <%#= javascript_include_tag 'charting_library/charting_library.standalone' %>
   <%#= javascript_include_tag 'datafeeds/udf/dist/bundle' %>
   <%= stylesheet_pack_tag 'application', media: 'all' %>
