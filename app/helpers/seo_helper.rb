@@ -17,14 +17,27 @@ module SeoHelper
 
   INDEXABLE_ENTITY_ACTION = 'show'.freeze
 
+  # Scheme and host every absolute URL on the page is built from.
+  def canonical_origin
+    (EXPLORER_URL.presence || request.base_url).to_s.chomp('/')
+  end
+
   # Absolute, query-free URL for the current page. Query strings here are
   # display state -- date ranges, theme -- never distinct content.
   def canonical_url
-    origin = EXPLORER_URL.presence || request.base_url
-    path   = request.path.chomp('/')
-    path   = '/' if path.empty?
+    path = request.path.chomp('/')
+    path = '/' if path.empty?
 
-    "#{origin.to_s.chomp('/')}#{path}"
+    "#{canonical_origin}#{path}"
+  end
+
+  # Turns a relative path from a breadcrumb or link into an absolute URL on the
+  # canonical origin. Returns nil for anything that is not usable.
+  def absolute_canonical_url(path)
+    return nil if path.blank?
+    return path if path.to_s.start_with?('http://', 'https://')
+
+    "#{canonical_origin}/#{path.to_s.delete_prefix('/')}"
   end
 
   def entity_tab_page?
