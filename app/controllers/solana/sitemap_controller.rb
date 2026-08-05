@@ -35,20 +35,21 @@ module Solana
     WINDOW = 30.minutes
 
     def index
-      response = Graphql::V1.query_with_retry(
+      @response = Graphql::V1.query_with_retry(
         QUERY,
         variables: { network: @network[:network], from: WINDOW.ago.utc.iso8601 },
         context: { authorization: @streaming_access_token }
       ).data
 
-      @addresses = collect_addresses(response)
-      @block_heights = response.blocks.blocks.filter_map(&:height)
+      @addresses = collect_addresses(@response)
+      @block_heights = @response.blocks.blocks.map(&:height).compact_blank
     end
 
     private
 
     # The top transfer counterparty on Solana is an unnamed system account that
-    # comes back as "", which would emit a bare /solana/address/ URL.
+    # comes back as "", which would emit a bare /solana/address/ URL. A blank
+    # segment matches no route and falls through to the catch-all error page.
     def collect_addresses(response)
       senders = response.senders.transfers.map { |t| t.sender&.address }
       receivers = response.receivers.transfers.map { |t| t.receiver&.address }
